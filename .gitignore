@@ -1,1 +1,3 @@
 *.cache
+/YanZhiwei.DotNet2.Utilities/obj
+/YanZhiwei.DotNet3.5.Utilities/obj
