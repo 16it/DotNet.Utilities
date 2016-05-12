@@ -50,6 +50,18 @@
     <Reference Include="DevExpress.XtraGrid.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraPrinting.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DotNet.SQLite.Utilities, Version=1.0.5976.32668, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet.SQLite.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNet2.Interfaces, Version=1.0.5976.32668, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet2.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNet2.Utilities, Version=1.0.5976.32670, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet2.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -122,16 +134,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\YanZhiwei.DotNet.SQLite.Utilities\YanZhiwei.DotNet.SQLite.Utilities.csproj">
-      <Project>{c109cadd-ecf5-4897-83aa-c1eccce8ebc7}</Project>
-      <Name>YanZhiwei.DotNet.SQLite.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
-      <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
-      <Name>YanZhiwei.DotNet2.Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="DLL\DotNet.SQLite.Utilities.dll" />
+    <Content Include="DLL\DotNet.SQLite.Utilities.xml" />
+    <Content Include="DLL\DotNet2.Interfaces.dll" />
+    <Content Include="DLL\DotNet2.Utilities.dll" />
+    <Content Include="DLL\DotNet2.Utilities.xml" />
     <Content Include="DLL\System.Data.SQLite.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
