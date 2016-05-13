@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace YanZhiwei.DotNet4.TS.TPLLearn
+namespace YanZhiwei.DotNet4.LearningNote.TPLLearn
 {
     public class TaskLearn
     {

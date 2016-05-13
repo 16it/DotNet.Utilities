@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("YanZhiwei.DotNet4.TS")]
+[assembly: AssemblyTitle("YanZhiwei.DotNet4.LearningNote")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("YanZhiwei.DotNet4.TS")]
+[assembly: AssemblyProduct("YanZhiwei.DotNet4.LearningNote")]
 [assembly: AssemblyCopyright("Copyright © YanZhiwei  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

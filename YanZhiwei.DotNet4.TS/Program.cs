@@ -1,7 +1,7 @@
 ﻿using System;
-using YanZhiwei.DotNet4.TS.TPLLearn;
+using YanZhiwei.DotNet4.LearningNote.TPLLearn;
 
-namespace YanZhiwei.DotNet4.TS
+namespace YanZhiwei.DotNet4.LearningNote
 {
     internal class Program
     {

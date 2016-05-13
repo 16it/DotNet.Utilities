@@ -78,7 +78,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet2.LearningN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet3.5.LearningNote", "YanZhiwei.DotNet3.5.TS\YanZhiwei.DotNet3.5.LearningNote.csproj", "{6E2A0861-B52A-43A1-8E4B-7B6E5EA2E679}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.TS", "YanZhiwei.DotNet4.TS\YanZhiwei.DotNet4.TS.csproj", "{1F1172A1-DFCD-4347-952D-75366B8F68D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.LearningNote", "YanZhiwei.DotNet4.TS\YanZhiwei.DotNet4.LearningNote.csproj", "{1F1172A1-DFCD-4347-952D-75366B8F68D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.JavaScript.TS", "YanZhiwei.JavaScript.TS\YanZhiwei.JavaScript.TS.csproj", "{DDA33B03-6D8F-4E36-9DAC-2473F98EA25C}"
 EndProject

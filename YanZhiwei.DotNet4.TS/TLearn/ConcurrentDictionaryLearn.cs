@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace YanZhiwei.DotNet4.TS
+namespace YanZhiwei.DotNet4.LearningNote
 {
     public class ConcurrentDictionaryLearn
     {
