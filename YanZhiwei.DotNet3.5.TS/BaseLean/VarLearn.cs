@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet3._5.TS.BaseLean
+﻿namespace YanZhiwei.DotNet3._5.LearningNote.BaseLean
 {
     public class VarLearn
     {

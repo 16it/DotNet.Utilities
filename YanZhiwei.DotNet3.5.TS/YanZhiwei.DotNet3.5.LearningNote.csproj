@@ -7,8 +7,8 @@
     <ProjectGuid>{6E2A0861-B52A-43A1-8E4B-7B6E5EA2E679}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.DotNet3._5.Learn</RootNamespace>
-    <AssemblyName>YanZhiwei.DotNet3.5.Learn</AssemblyName>
+    <RootNamespace>YanZhiwei.DotNet3._5.LearningNote</RootNamespace>
+    <AssemblyName>DotNet3.5.LearningNote</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

@@ -76,7 +76,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.LearningNote", "Y
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet2.LearningNote", "YanZhiwei.DotNet2.TS\YanZhiwei.DotNet2.LearningNote.csproj", "{C09F1CBB-20E9-4164-8249-9DBF9EDF9615}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet3.5.TS", "YanZhiwei.DotNet3.5.TS\YanZhiwei.DotNet3.5.TS.csproj", "{6E2A0861-B52A-43A1-8E4B-7B6E5EA2E679}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet3.5.LearningNote", "YanZhiwei.DotNet3.5.TS\YanZhiwei.DotNet3.5.LearningNote.csproj", "{6E2A0861-B52A-43A1-8E4B-7B6E5EA2E679}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.TS", "YanZhiwei.DotNet4.TS\YanZhiwei.DotNet4.TS.csproj", "{1F1172A1-DFCD-4347-952D-75366B8F68D6}"
 EndProject

@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet3._5.TS
+﻿namespace YanZhiwei.DotNet3._5.LearningNote
 {
     internal class Program
     {
