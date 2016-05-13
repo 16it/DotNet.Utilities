@@ -1,7 +1,7 @@
 ﻿using Ninject;
 using System;
 
-namespace YanZhiwei.Ninject.TS
+namespace YanZhiwei.DotNet.Ninject.LearningNote
 {
     internal class Program
     {

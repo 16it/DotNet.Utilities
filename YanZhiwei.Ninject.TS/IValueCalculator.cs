@@ -1,5 +1,5 @@
-﻿using YanZhiwei.Ninject.TS.Models;
-namespace YanZhiwei.Ninject.TS
+﻿using YanZhiwei.DotNet.Ninject.LearningNote.Models;
+namespace YanZhiwei.DotNet.Ninject.LearningNote
 {
     public interface IValueCalculator
     {

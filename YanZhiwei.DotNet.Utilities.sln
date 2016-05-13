@@ -128,7 +128,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.5.Utiliti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.EF.Utilities", "YanZhiwei.DotNet.EF.Utilities\YanZhiwei.DotNet.EF.Utilities.csproj", "{9ACF5E7B-908C-4693-A348-BBC50170AECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.Ninject.TS", "YanZhiwei.Ninject.TS\YanZhiwei.Ninject.TS.csproj", "{064FB11A-4520-4867-A933-6A3297575961}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Ninject.LearningNote", "YanZhiwei.Ninject.TS\YanZhiwei.DotNet.Ninject.LearningNote.csproj", "{064FB11A-4520-4867-A933-6A3297575961}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Ninject.Utilities", "YanZhiwei.DotNet.Ninject.Utilities\YanZhiwei.DotNet.Ninject.Utilities.csproj", "{1CB4F41B-4780-4568-A3E2-F4B50EB26B2C}"
 EndProject

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YanZhiwei.Ninject.TS
+namespace YanZhiwei.DotNet.Ninject.LearningNote
 {
     public class LimitShoppingCart : ShoppingCart
     {

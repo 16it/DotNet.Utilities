@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.Ninject.TS
+﻿namespace YanZhiwei.DotNet.Ninject.LearningNote
 {
     public class DefaultDiscountHelper : IDiscountHelper
     {

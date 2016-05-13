@@ -7,8 +7,8 @@
     <ProjectGuid>{064FB11A-4520-4867-A933-6A3297575961}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.Ninject.TS</RootNamespace>
-    <AssemblyName>YanZhiwei.Ninject.TS</AssemblyName>
+    <RootNamespace>YanZhiwei.Ninject.LearningNote</RootNamespace>
+    <AssemblyName>Ninject.LearningNote</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using YanZhiwei.Ninject.TS.Models;
+using YanZhiwei.DotNet.Ninject.LearningNote.Models;
 
-namespace YanZhiwei.Ninject.TS
+namespace YanZhiwei.DotNet.Ninject.LearningNote
 {
     public class LinqValueCalculator2 : IValueCalculator
     {
