@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 
-namespace YanZhiwei.DotNet2.TS.TLearn
+namespace YanZhiwei.DotNet2.LearningNote.TLearn
 {
     public class ThreadLearn_02
     {

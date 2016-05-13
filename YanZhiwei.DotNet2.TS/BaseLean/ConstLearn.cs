@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YanZhiwei.DotNet2.TS.BaseLean
+namespace YanZhiwei.DotNet2.LearningNote.BaseLean
 {
     public class ConstLearn
     {

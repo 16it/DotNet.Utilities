@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet2.TS.DesignPatternLearn
+﻿namespace YanZhiwei.DotNet2.LearningNote.DesignPatternLearn
 {
     internal class SingletonLearn_02
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YanZhiwei.DotNet2.TS.DesignPatternLearn
+namespace YanZhiwei.DotNet2.LearningNote.DesignPatternLearn
 {
     /// <summary>
     /// 宠物追踪器

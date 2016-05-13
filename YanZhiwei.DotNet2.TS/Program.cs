@@ -1,7 +1,7 @@
 ﻿using System;
-using YanZhiwei.DotNet2.TS.BaseLean;
+using YanZhiwei.DotNet2.LearningNote.BaseLean;
 
-namespace YanZhiwei.DotNet2.TS
+namespace YanZhiwei.DotNet2.LearningNote
 {
     internal class Program
     {

@@ -72,9 +72,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVC", "MVC", "{BFEBED5B-138
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5", "5", "{B40B3606-69DB-4B1C-A31C-283D5CBCE64A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.TrainingSeries", "YanZhiwei.TrainingSeries", "{AE5D3AD8-C351-4DF0-8861-E769F63387B0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.LearningNote", "YanZhiwei.LearningNote", "{AE5D3AD8-C351-4DF0-8861-E769F63387B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet2.TS", "YanZhiwei.DotNet2.TS\YanZhiwei.DotNet2.TS.csproj", "{C09F1CBB-20E9-4164-8249-9DBF9EDF9615}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet2.LearningNote", "YanZhiwei.DotNet2.TS\YanZhiwei.DotNet2.LearningNote.csproj", "{C09F1CBB-20E9-4164-8249-9DBF9EDF9615}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet3.5.TS", "YanZhiwei.DotNet3.5.TS\YanZhiwei.DotNet3.5.TS.csproj", "{6E2A0861-B52A-43A1-8E4B-7B6E5EA2E679}"
 EndProject
