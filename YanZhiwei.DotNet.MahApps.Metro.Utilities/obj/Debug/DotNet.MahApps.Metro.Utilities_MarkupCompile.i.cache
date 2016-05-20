@@ -4,7 +4,7 @@
 library
 C#
 .cs
-D:\Source\VSTS\DotNet.Utilities\YanZhiwei.DotNet.MahApps.Metro.Utilities\obj\Debug\
+d:\Source\Repos\DotNet.Utilities\YanZhiwei.DotNet.MahApps.Metro.Utilities\obj\Debug\
 YanZhiwei.DotNet.MahApps.Metro.Utilities
 none
 false
@@ -12,8 +12,8 @@ DEBUG;TRACE
 
 1-1853255964
 51654993541
-4-1050493627
-221638973145
+4-553659901
+221986080737
 Resources\Icons.xaml;
 
 False
