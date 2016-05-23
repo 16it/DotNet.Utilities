@@ -12,6 +12,10 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                 //ProcessHelperExample.ExecBatCommand();
                 //FileHelperExample.CopyLocalBigFile();
                 // ObjectIdExample.Demo();
+                ConsoleApplicationHelper.DetectShutdown(() =>
+                {
+                    Console.WriteLine("DetectShutdown");
+                });
                 ConsoleApplicationHelper.DetectKeyPress(input =>
                 {
                     Console.WriteLine("input:" + input);
