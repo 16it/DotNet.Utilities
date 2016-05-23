@@ -267,6 +267,7 @@
     </Compile>
     <Compile Include="WinForm\ApplicationHelper.cs" />
     <Compile Include="WinForm\AutoSizeFormHelper.cs" />
+    <Compile Include="WinForm\ConsoleApplicationHelper.cs" />
     <Compile Include="WinForm\Core\MessageBoxTimeOut.cs" />
     <Compile Include="WinForm\Core\TreeViewSerializer.cs" />
     <Compile Include="WinForm\BindingSourceHelper.cs" />
