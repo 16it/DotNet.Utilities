@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>YanZhiwei.DotNet.QQWry.Utilities</RootNamespace>
-    <AssemblyName>YanZhiwei.DotNet.QQWry.Utilities</AssemblyName>
+    <AssemblyName>DotNet.QQWry.Utilities</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

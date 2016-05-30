@@ -1,296 +1,248 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using YanZhiwei.DotNet2.Utilities.Common;
-
-namespace YanZhiwei.DotNet.QQWry.Utilities
+﻿namespace YanZhiwei.DotNet.QQWry.Utilities
 {
+    using System;
+    using System.IO;
+    using System.Text;
+
+    using YanZhiwei.DotNet2.Utilities.Common;
+
     /// <summary>
     /// QQwry纯真IP数据库辅助类
     /// </summary>
     /// 时间：2016-05-27 11:14
     /// 备注：
-    public class QQWryLocator
+    internal class QQWryLocator
     {
-        ///// <summary>
-        ///// QQwry纯真IP数据库路径
-        ///// </summary>
-        ///// 时间：2016-05-27 11:17
-        ///// 备注：
-        //public readonly string QQWryPath = null;
+        #region Fields
 
-        //public QQWryLocator(string qqWryPath)
-        //{
-        //    ValidateHelper.Begin().NotNullOrEmpty(qqWryPath, "QQwry纯真IP数据库路径").IsFilePath(qqWryPath, "QQwry纯真IP数据库路径");
-        //    QQWryPath = qqWryPath;
-        //}
+        /// <summary>
+        /// 有效Ip数据库记录行数
+        /// </summary>
+        /// 时间：2016/5/30 22:26
+        /// 备注：
+        public readonly long qqWryRecCount = 0;
 
-        //private long GetQQWryCount()
-        //{
-        //    byte[] data = null;
-        //    using (FileStream fileStream = new FileStream(QQWryPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-        //    {
-        //        data = new byte[fileStream.Length];
-        //        fileStream.Read(data, 0, data.Length);
-        //    }
-        //    byte[] array = new byte[8];
-        //    Array.Copy(data, 0, array, 0, 8);
-        //    long _startIpOffset = (long)((int)array[0] + (int)array[1] * 256 + (int)array[2] * 256 * 256 + (int)array[3] * 256 * 256 * 256);
-        //    long _lastIpOffset = (long)((int)array[4] + (int)array[5] * 256 + (int)array[6] * 256 * 256 + (int)array[7] * 256 * 256 * 256);
-        //    long ipCount = Convert.ToInt64((double)(_lastIpOffset - _startIpOffset) / 7.0);
-        //    return ipCount;
-        //}
+        private long lastIpOffset;
+        private byte[] qqWryData;
+        private long startIpOffset;
 
-        private byte[] data;
+        #endregion Fields
 
-        private Regex regex = new Regex("(((\\d{1,2})|(1\\d{2})|(2[0-4]\\d)|(25[0-5]))\\.){3}((\\d{1,2})|(1\\d{2})|(2[0-4]\\d)|(25[0-5]))");
+        #region Constructors
 
-        private long firstStartIpOffset;
-
-        private long lastStartIpOffset;
-
-        private long ipCount;
-
-        public long Count
-        {
-            get
-            {
-                return this.ipCount;
-            }
-        }
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dataPath">QQwry纯真IP数据库路径</param>
+        /// 时间：2016/5/30 22:26
+        /// 备注：
         public QQWryLocator(string dataPath)
         {
-            using (FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                this.data = new byte[fileStream.Length];
-                fileStream.Read(this.data, 0, this.data.Length);
-            }
-            byte[] array = new byte[8];
-            Array.Copy(this.data, 0, array, 0, 8);
-            this.firstStartIpOffset = (long)((int)array[0] + (int)array[1] * 256 + (int)array[2] * 256 * 256 + (int)array[3] * 256 * 256 * 256);
-            this.lastStartIpOffset = (long)((int)array[4] + (int)array[5] * 256 + (int)array[6] * 256 * 256 + (int)array[7] * 256 * 256 * 256);
-            this.ipCount = Convert.ToInt64((double)(this.lastStartIpOffset - this.firstStartIpOffset) / 7.0);
-            if (this.ipCount <= 1L)
-            {
-                throw new ArgumentException("ip FileDataError");
-            }
+            ValidateHelper.Begin().NotNullOrEmpty(dataPath, "QQwry纯真IP数据库路径").IsFilePath(dataPath, "QQwry纯真IP数据库");
+
+            qqWryRecCount = LoadQQWryData(dataPath);
+            ValidateHelper.Begin().CheckLessThan<long>(qqWryRecCount, "非QQwry纯真IP数据库", 1, false);
         }
 
-        private static long IpToInt(string ip)
-        {
-            char[] separator = new char[]
-            {
-                '.'
-            };
-            if (ip.Split(separator).Length == 3)
-            {
-                ip += ".0";
-            }
-            string[] array = ip.Split(separator);
-            long num = long.Parse(array[0]) * 256L * 256L * 256L;
-            long num2 = long.Parse(array[1]) * 256L * 256L;
-            long num3 = long.Parse(array[2]) * 256L;
-            long num4 = long.Parse(array[3]);
-            return num + num2 + num3 + num4;
-        }
+        #endregion Constructors
 
-        private static string IntToIP(long ip_Int)
-        {
-            long num = (ip_Int & (long)((ulong)-16777216)) >> 24;
-            if (num < 0L)
-            {
-                num += 256L;
-            }
-            long num2 = (ip_Int & 16711680L) >> 16;
-            if (num2 < 0L)
-            {
-                num2 += 256L;
-            }
-            long num3 = (ip_Int & 65280L) >> 8;
-            if (num3 < 0L)
-            {
-                num3 += 256L;
-            }
-            long num4 = ip_Int & 255L;
-            if (num4 < 0L)
-            {
-                num4 += 256L;
-            }
-            return string.Concat(new string[]
-            {
-                num.ToString(),
-                ".",
-                num2.ToString(),
-                ".",
-                num3.ToString(),
-                ".",
-                num4.ToString()
-            });
-        }
+        #region Methods
 
         public IPLocation Query(string ip)
         {
-            if (!this.regex.Match(ip).Success)
+            ValidateHelper.Begin().IsIp(ip, "IP地址格式");
+            IPLocation _ipLocation = new IPLocation() { IP = ip };
+            long _convertIpValue = ParseIpString(ip);
+            if ((_convertIpValue >= ParseIpString("127.0.0.1") && (_convertIpValue <= ParseIpString("127.255.255.255"))))
             {
-                throw new ArgumentException("IP格式错误");
-            }
-            IPLocation iPLocation = new IPLocation
-            {
-                IP = ip
-            };
-            long num = QQWryLocator.IpToInt(ip);
-            if (num >= QQWryLocator.IpToInt("127.0.0.1") && num <= QQWryLocator.IpToInt("127.255.255.255"))
-            {
-                iPLocation.Country = "本机内部环回地址";
-                iPLocation.Local = "";
-            }
-            else if ((num >= QQWryLocator.IpToInt("0.0.0.0") && num <= QQWryLocator.IpToInt("2.255.255.255")) || (num >= QQWryLocator.IpToInt("64.0.0.0") && num <= QQWryLocator.IpToInt("126.255.255.255")) || (num >= QQWryLocator.IpToInt("58.0.0.0") && num <= QQWryLocator.IpToInt("60.255.255.255")))
-            {
-                iPLocation.Country = "网络保留地址";
-                iPLocation.Local = "";
-            }
-            long num2 = this.ipCount;
-            long num3 = 0L;
-            long endIpOff = 0L;
-            int countryFlag = 0;
-            long startIp;
-            while (num3 < num2 - 1L)
-            {
-                long num4 = (num2 + num3) / 2L;
-                startIp = this.GetStartIp(num4, out endIpOff);
-                if (num == startIp)
-                {
-                    num3 = num4;
-                    break;
-                }
-                if (num > startIp)
-                {
-                    num3 = num4;
-                }
-                else
-                {
-                    num2 = num4;
-                }
-            }
-            startIp = this.GetStartIp(num3, out endIpOff);
-            long endIp = this.GetEndIp(endIpOff, out countryFlag);
-            if (startIp <= num && endIp >= num)
-            {
-                string local;
-                iPLocation.Country = this.GetCountry(endIpOff, countryFlag, out local);
-                iPLocation.Local = local;
+                _ipLocation.Country = "本机内部环回地址";
+                _ipLocation.Local = string.Empty;
             }
             else
             {
-                iPLocation.Country = "未知";
-                iPLocation.Local = "";
+                if ((((_convertIpValue >= ParseIpString("0.0.0.0")) && (_convertIpValue <= ParseIpString("2.255.255.255"))) || ((_convertIpValue >= ParseIpString("64.0.0.0")) && (_convertIpValue <= ParseIpString("126.255.255.255")))) ||
+                ((_convertIpValue >= ParseIpString("58.0.0.0")) && (_convertIpValue <= ParseIpString("60.255.255.255"))))
+                {
+                    _ipLocation.Country = "网络保留地址";
+                    _ipLocation.Local = string.Empty;
+                }
             }
-            return iPLocation;
+            long _rightIndex = qqWryRecCount;
+            long _leftIndex = 0L;
+            long _middleIndex = 0L;
+            long _startIp = 0L;
+            long _endIpOff = 0L;
+            long _endIp = 0L;
+            int _countryFlag = 0;
+            while (_leftIndex < (_rightIndex - 1L))
+            {
+                _middleIndex = (_rightIndex + _leftIndex) / 2L;
+                _startIp = GetStartIp(_middleIndex, out _endIpOff);
+                if (_convertIpValue == _startIp)
+                {
+                    _leftIndex = _middleIndex;
+                    break;
+                }
+                if (_convertIpValue > _startIp)
+                {
+                    _leftIndex = _middleIndex;
+                }
+                else
+                {
+                    _rightIndex = _middleIndex;
+                }
+            }
+            _startIp = GetStartIp(_leftIndex, out _endIpOff);
+            _endIp = GetEndIp(_endIpOff, out _countryFlag);
+            if ((_startIp <= _convertIpValue) && (_endIp >= _convertIpValue))
+            {
+                string _local;
+                _ipLocation.Country = GetCountry(_endIpOff, _countryFlag, out _local);
+                _ipLocation.Local = _local;
+            }
+            else
+            {
+                _ipLocation.Country = "未知";
+                _ipLocation.Local = string.Empty;
+            }
+            return _ipLocation;
         }
 
-        private long GetStartIp(long left, out long endIpOff)
+        private static long ParseIpString(string ip)
         {
-            long sourceIndex = this.firstStartIpOffset + left * 7L;
-            byte[] array = new byte[7];
-            Array.Copy(this.data, sourceIndex, array, 0L, 7L);
-            endIpOff = Convert.ToInt64(array[4].ToString()) + Convert.ToInt64(array[5].ToString()) * 256L + Convert.ToInt64(array[6].ToString()) * 256L * 256L;
-            return Convert.ToInt64(array[0].ToString()) + Convert.ToInt64(array[1].ToString()) * 256L + Convert.ToInt64(array[2].ToString()) * 256L * 256L + Convert.ToInt64(array[3].ToString()) * 256L * 256L * 256L;
-        }
-
-        private long GetEndIp(long endIpOff, out int countryFlag)
-        {
-            byte[] array = new byte[5];
-            Array.Copy(this.data, endIpOff, array, 0L, 5L);
-            countryFlag = (int)array[4];
-            return Convert.ToInt64(array[0].ToString()) + Convert.ToInt64(array[1].ToString()) * 256L + Convert.ToInt64(array[2].ToString()) * 256L * 256L + Convert.ToInt64(array[3].ToString()) * 256L * 256L * 256L;
+            char[] _array = new char[] { '.' };
+            if (ip.Split(_array).Length == 3)
+            {
+                ip = ip + ".0";
+            }
+            string[] _ipArray = ip.Split(_array);
+            long _ipAddres1 = ((long.Parse(_ipArray[0]) * 0x100L) * 0x100L) * 0x100L,
+                 _ipAddres2 = (long.Parse(_ipArray[1]) * 0x100L) * 0x100L,
+                 _ipAddres3 = long.Parse(_ipArray[2]) * 0x100L,
+                  _ipAddres4 = long.Parse(_ipArray[3]);
+            return (((_ipAddres1 + _ipAddres2) + _ipAddres3) + _ipAddres4);
         }
 
         private string GetCountry(long endIpOff, int countryFlag, out string local)
         {
-            long num = endIpOff + 4L;
-            string flagStr;
+            string _country = string.Empty;
+            long _offset = endIpOff + 4L;
             switch (countryFlag)
             {
                 case 1:
                 case 2:
-                    flagStr = this.GetFlagStr(ref num, ref countryFlag, ref endIpOff);
-                    num = endIpOff + 8L;
-                    local = ((1 == countryFlag) ? "" : this.GetFlagStr(ref num, ref countryFlag, ref endIpOff));
+                    _country = GetFlagString(ref _offset, ref countryFlag, ref endIpOff);
+                    _offset = endIpOff + 8L;
+                    local = (1 == countryFlag) ? "" : GetFlagString(ref _offset, ref countryFlag, ref endIpOff);
                     break;
+
                 default:
-                    flagStr = this.GetFlagStr(ref num, ref countryFlag, ref endIpOff);
-                    local = this.GetFlagStr(ref num, ref countryFlag, ref endIpOff);
+                    _country = GetFlagString(ref _offset, ref countryFlag, ref endIpOff);
+                    local = GetFlagString(ref _offset, ref countryFlag, ref endIpOff);
                     break;
             }
-            return flagStr;
+            return _country;
         }
 
-        private string GetFlagStr(ref long offset, ref int countryFlag, ref long endIpOff)
+        private long GetEndIp(long endIpOff, out int countryFlag)
         {
-            byte[] array = new byte[3];
+            byte[] _buffer = new byte[5];
+            Array.Copy(qqWryData, endIpOff, _buffer, 0, 5);
+            countryFlag = _buffer[4];
+            return ((Convert.ToInt64(_buffer[0].ToString()) + (Convert.ToInt64(_buffer[1].ToString()) * 0x100L)) + ((Convert.ToInt64(_buffer[2].ToString()) * 0x100L) * 0x100L)) + (((Convert.ToInt64(_buffer[3].ToString()) * 0x100L) * 0x100L) * 0x100L);
+        }
+
+        private string GetFlagString(ref long offset, ref int countryFlag, ref long endIpOff)
+        {
+            int _flag = 0;
+            byte[] _buffer = new byte[3];
+
             while (true)
             {
-                long num = offset;
-                byte[] arg_19_0 = this.data;
-                long expr_13 = num;
-                num = expr_13 + 1L;
-                int num2 = arg_19_0[(int)(checked((IntPtr)expr_13))];
-                if (num2 != 1 && num2 != 2)
+                long _forwardOffset = offset;
+                _flag = qqWryData[_forwardOffset++];
+                if (_flag != 1 && _flag != 2)
                 {
                     break;
                 }
-                Array.Copy(this.data, num, array, 0L, 3L);
-                num += 3L;
-                if (num2 == 2)
+                Array.Copy(qqWryData, _forwardOffset, _buffer, 0, 3);
+                _forwardOffset += 3;
+                if (_flag == 2)
                 {
                     countryFlag = 2;
                     endIpOff = offset - 4L;
                 }
-                offset = Convert.ToInt64(array[0].ToString()) + Convert.ToInt64(array[1].ToString()) * 256L + Convert.ToInt64(array[2].ToString()) * 256L * 256L;
+                offset = (Convert.ToInt64(_buffer[0].ToString()) + (Convert.ToInt64(_buffer[1].ToString()) * 0x100L)) + ((Convert.ToInt64(_buffer[2].ToString()) * 0x100L) * 0x100L);
             }
             if (offset < 12L)
             {
-                return "";
+                return string.Empty;
             }
-            return this.GetStr(ref offset);
+            return GetFlagString(ref offset);
         }
 
-        private string GetStr(ref long offset)
+        private string GetFlagString(ref long offset)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            byte[] array = new byte[2];
-            Encoding encoding = Encoding.GetEncoding("GB2312");
+            byte _lowByte = 0;
+            byte _highByte = 0;
+            StringBuilder _builder = new StringBuilder();
+            byte[] _data = new byte[2];
+            Encoding _encoding = Encoding.GetEncoding("GB2312");
             while (true)
             {
-                byte[] arg_30_0 = this.data;
-                long num;
-                offset = (num = offset) + 1L;
-                byte b = arg_30_0[(int)(checked((IntPtr)num))];
-                if (b == 0)
+                _lowByte = qqWryData[offset++];
+                if (_lowByte == 0)
                 {
-                    break;
+                    return _builder.ToString();
                 }
-                if (b > 127)
+                if (_lowByte > 0x7f)
                 {
-                    byte[] arg_54_0 = this.data;
-                    long num2;
-                    offset = (num2 = offset) + 1L;
-                    byte b2 = arg_54_0[(int)(checked((IntPtr)num2))];
-                    array[0] = b;
-                    array[1] = b2;
-                    if (b2 == 0)
+                    _highByte = qqWryData[offset++];
+                    _data[0] = _lowByte;
+                    _data[1] = _highByte;
+                    if (_highByte == 0)
                     {
-                        goto Block_3;
+                        return _builder.ToString();
                     }
-                    stringBuilder.Append(encoding.GetString(array));
+                    _builder.Append(_encoding.GetString(_data));
                 }
                 else
                 {
-                    stringBuilder.Append((char)b);
+                    _builder.Append((char)_lowByte);
                 }
             }
-            return stringBuilder.ToString();
         }
+
+        private long GetStartIp(long left, out long endIpOff)
+        {
+            long _leftOffset = startIpOffset + (left * 7L);
+            byte[] _buffer = new byte[7];
+            Array.Copy(qqWryData, _leftOffset, _buffer, 0, 7);
+            endIpOff = (Convert.ToInt64(_buffer[4].ToString()) + (Convert.ToInt64(_buffer[5].ToString()) * 0x100L)) + ((Convert.ToInt64(_buffer[6].ToString()) * 0x100L) * 0x100L);
+            return ((Convert.ToInt64(_buffer[0].ToString()) + (Convert.ToInt64(_buffer[1].ToString()) * 0x100L)) + ((Convert.ToInt64(_buffer[2].ToString()) * 0x100L) * 0x100L)) + (((Convert.ToInt64(_buffer[3].ToString()) * 0x100L) * 0x100L) * 0x100L);
+        }
+
+        /// <summary>
+        /// 加载QQwry纯真IP数据库
+        /// </summary>
+        /// <param name="dataPath">QQwry纯真IP数据库路径</param>
+        /// <returns></returns>
+        /// 时间：2016/5/30 22:23
+        /// 备注：
+        private long LoadQQWryData(string dataPath)
+        {
+            using (FileStream stream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                qqWryData = new byte[stream.Length];
+                stream.Read(qqWryData, 0, qqWryData.Length);
+            }
+            byte[] _buffer = new byte[8];
+            Array.Copy(qqWryData, 0, _buffer, 0, 8);
+            startIpOffset = ((_buffer[0] + (_buffer[1] * 0x100)) + ((_buffer[2] * 0x100) * 0x100)) + (((_buffer[3] * 0x100) * 0x100) * 0x100);
+            lastIpOffset = ((_buffer[4] + (_buffer[5] * 0x100)) + ((_buffer[6] * 0x100) * 0x100)) + (((_buffer[7] * 0x100) * 0x100) * 0x100);
+            return Convert.ToInt64((double)(((double)(lastIpOffset - startIpOffset)) / 7.0));
+        }
+
+        #endregion Methods
     }
 }
