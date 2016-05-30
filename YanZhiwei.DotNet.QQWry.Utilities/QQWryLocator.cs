@@ -11,7 +11,7 @@
     /// </summary>
     /// 时间：2016-05-27 11:14
     /// 备注：
-    internal class QQWryLocator
+    public class QQWryLocator
     {
         #region Fields
 
@@ -41,15 +41,23 @@
             ValidateHelper.Begin().NotNullOrEmpty(dataPath, "QQwry纯真IP数据库路径").IsFilePath(dataPath, "QQwry纯真IP数据库");
 
             qqWryRecCount = LoadQQWryData(dataPath);
-            ValidateHelper.Begin().CheckLessThan<long>(qqWryRecCount, "非QQwry纯真IP数据库", 1, false);
+            ValidateHelper.Begin().CheckGreaterThan<long>(qqWryRecCount, "非QQwry纯真IP数据库", 1, true);
         }
 
         #endregion Constructors
 
         #region Methods
 
+        /// <summary>
+        /// 查询IP地址信息
+        /// </summary>
+        /// <param name="ip">Ip地址</param>
+        /// <returns>ip地址信息</returns>
+        /// 时间：2016/5/30 23:00
+        /// 备注：
         public IPLocation Query(string ip)
         {
+            ip = ip.Trim();
             ValidateHelper.Begin().IsIp(ip, "IP地址格式");
             IPLocation _ipLocation = new IPLocation() { IP = ip };
             long _convertIpValue = ParseIpString(ip);
