@@ -52,6 +52,22 @@
         }
 
         /// <summary>
+        /// 把Uint(2个字节)类型转化为字节数组（可高低位反转）
+        /// </summary>
+        /// <param name="value">UShort类型</param>
+        /// <param name="reverse">是不是需要把得到的字节数组反转</param>
+        /// <returns></returns>
+        public static byte[] ConvertUIntToBytes(ushort value, bool reverse)
+        {
+            byte[] _data = BitConverter.GetBytes(value);
+            if (reverse)
+            {
+                Array.Reverse(_data);
+            }
+            return _data;
+        }
+
+        /// <summary>
         /// 获取高位
         /// <para>eg: 0x0A==>10101101==>1010</para>
         /// <para>eg: Assert.AreEqual(0x0A, ByteHelper.GetHigh(0xAD));</para>
@@ -125,7 +141,6 @@
             }
             return null;
         }
-
         /// <summary>
         /// 将带符号的十六进制字符串转成成Byte数组
         /// <para>
