@@ -66,6 +66,18 @@
         }
 
         /// <summary>
+        /// 转换为byte
+        /// </summary>
+        /// <param name="bits">需要操的在BitArray</param>
+        /// <returns>byte</returns>
+        /// 时间：2016/6/7 15:21
+        /// 备注：
+        public static byte ToByte(this BitArray bits)
+        {
+            return bits.ToBytes()[0];
+        }
+
+        /// <summary>
         /// 转成成byte数组
         /// </summary>
         /// <param name="bits">需要操的在BitArray</param>
@@ -96,6 +108,11 @@
             }
 
             return _bytes;
+        }
+
+        private static BitArray CheckedBitArray(BitArray bits)
+        {
+            r
         }
 
         #endregion Methods
