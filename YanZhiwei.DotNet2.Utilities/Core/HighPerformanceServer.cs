@@ -1,12 +1,14 @@
-﻿using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-using YanZhiwei.DotNet2.Utilities.Enums;
-using YanZhiwei.DotNet2.Utilities.Models;
-
-namespace YanZhiwei.DotNet2.Utilities.Core
+﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using System;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Threading;
+
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Models;
+
     /// <summary>
     /// Socket 服务
     /// </summary>
@@ -14,43 +16,15 @@ namespace YanZhiwei.DotNet2.Utilities.Core
     /// 备注：
     public sealed class HighPerformanceServer
     {
+        #region Fields
+
         private int currentConnections = 0;
-        private Socket listener;
         private EndPoint ipeSender;
+        private Socket listener;
 
-        /// <summary>
-        /// 端口
-        /// </summary>
-        public ushort Port { get; set; }
+        #endregion Fields
 
-        /// <summary>
-        /// 当前连接数
-        /// </summary>
-        public int CurrentConnections { get { return currentConnections; } }
-
-        /// <summary>
-        /// 最大连接数
-        /// </summary>
-        public int MaxQueuedConnections { get; set; }
-
-        /// <summary>
-        /// IPEndPoint
-        /// </summary>
-        public IPEndPoint Endpoint { get; set; }
-
-        /// <summary>
-        /// 连接类型
-        /// </summary>
-        public ServerType Type { get; set; }
-
-        /// <summary>
-        /// 默认构造函数
-        /// </summary>
-        /// 时间：2016/6/7 11:35
-        /// 备注：
-        private HighPerformanceServer()
-        {
-        }
+        #region Constructors
 
         /// <summary>
         /// 构造函数
@@ -59,7 +33,8 @@ namespace YanZhiwei.DotNet2.Utilities.Core
         /// <param name="ipAddress">ip地址</param>
         /// 时间：2016/6/7 11:35
         /// 备注：
-        public HighPerformanceServer(ServerType type, string ipAddress) : this(type, ipAddress, 9888)
+        public HighPerformanceServer(ServerType type, string ipAddress)
+            : this(type, ipAddress, 9888)
         {
         }
 
@@ -77,107 +52,156 @@ namespace YanZhiwei.DotNet2.Utilities.Core
         }
 
         /// <summary>
-        /// Initializes the specified server.
+        /// 默认构造函数
         /// </summary>
-        /// <param name="server">The server.</param>
-        /// <param name="ipAddress">The ip address.</param>
-        /// <param name="port">The port.</param>
-        /// 时间：2016/6/7 11:37
+        /// 时间：2016/6/7 11:35
         /// 备注：
-        /// <exception cref="ArgumentException">
-        /// The argument 'Port' is not valid. Please select a value greater than 100.
-        /// or
-        /// The argument 'IpAddress' is not valid
-        /// or
-        /// The argument 'ServerType' is not valid
-        /// </exception>
-        private void Init(ServerType server, string ipAddress, ushort port)
+        private HighPerformanceServer()
         {
-            IPAddress ip;
-            // Check the IpAddress to make sure that it is valid
-            if (!String.IsNullOrEmpty(ipAddress) && IPAddress.TryParse(ipAddress, out ip))
-            {
-                this.Endpoint = new IPEndPoint(ip, port);
-                // Make sure that the port is greater than 100 as not to conflict with any other programs
-                if (port < 100)
-                {
-                    throw new ArgumentException("The argument 'Port' is not valid. Please select a value greater than 100.");
-                }
-                else
-                {
-                    this.Port = port;
-                }
-            }
-            else
-            {
-                throw new ArgumentException("The argument 'IpAddress' is not valid");
-            }
-            // We never want a ServerType of None, but we include it as it is recommended by FXCop.
-            if (server != ServerType.None)
-            {
-                this.Type = server;
-            }
-            else
-            {
-                throw new ArgumentException("The argument 'ServerType' is not valid");
-            }
         }
 
-        public event EventHandler<EventArgs> OnServerStart;
+        #endregion Constructors
 
-        public event EventHandler<EventArgs> OnServerStarted;
+        #region Events
 
-        public event EventHandler<EventArgs> OnServerStopping;
-
-        public event EventHandler<EventArgs> OnServerStoped;
-
+        /// <summary>
+        /// 终端已经连接事件
+        /// </summary>
+        /// 时间：2016/6/7 22:47
+        /// 备注：
         public event EventHandler<EventArgs> OnClientConnected;
 
-        public event EventHandler<EventArgs> OnClientDisconnecting;
-
+        /// <summary>
+        /// 终端已经断开连接事件
+        /// </summary>
+        /// 时间：2016/6/7 22:48
+        /// 备注：
         public event EventHandler<EventArgs> OnClientDisconnected;
 
+        /// <summary>
+        /// 终端正在断开连接事件
+        /// </summary>
+        /// 时间：2016/6/7 22:48
+        /// 备注：
+        public event EventHandler<EventArgs> OnClientDisconnecting;
+
+        /// <summary>
+        /// 数据接收事件
+        /// </summary>
+        /// 时间：2016/6/7 22:48
+        /// 备注：
         public event EventHandler<EventArgs> OnDataReceived;
 
+        /// <summary>
+        /// 服务启动事件
+        /// </summary>
+        /// 时间：2016/6/7 22:46
+        /// 备注：
+        public event EventHandler<EventArgs> OnServerStart;
+
+        /// <summary>
+        /// 服务启动完成事件
+        /// </summary>
+        /// 时间：2016/6/7 22:46
+        /// 备注：
+        public event EventHandler<EventArgs> OnServerStarted;
+
+        /// <summary>
+        /// 服务已经停止事件
+        /// </summary>
+        /// 时间：2016/6/7 22:47
+        /// 备注：
+        public event EventHandler<EventArgs> OnServerStoped;
+
+        /// <summary>
+        /// 服务正在停止事件
+        /// </summary>
+        /// 时间：2016/6/7 22:46
+        /// 备注：
+        public event EventHandler<EventArgs> OnServerStopping;
+
+        #endregion Events
+
+        #region Properties
+
+        /// <summary>
+        /// 当前连接数
+        /// </summary>
+        public int CurrentConnections
+        {
+            get { return currentConnections; }
+        }
+
+        /// <summary>
+        /// IPEndPoint
+        /// </summary>
+        public IPEndPoint Endpoint
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// 最大连接数
+        /// </summary>
+        public int MaxQueuedConnections
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// 端口
+        /// </summary>
+        public ushort Port
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// 连接类型
+        /// </summary>
+        public ServerType Type
+        {
+            get; set;
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// 启动服务
+        /// </summary>
+        /// 时间：2016/6/7 22:54
+        /// 备注：
+        /// <exception cref="System.InvalidOperationException">未能成功创建Socket服务类型。</exception>
         public void Start()
         {
-            // Tell anything that is listening that we have starting to work
             if (OnServerStart != null)
             {
                 OnServerStart(this, null);
             }
 
-            // Get either a TCP or UDP socket depending on what we specified when we created the class
             listener = GetCorrectSocket();
 
             if (listener != null)
             {
-                // Bind the socket to the endpoint
                 listener.Bind(this.Endpoint);
-
-                // TODO :: Add throttleling (using SEMAPHORE's)
 
                 if (this.Type == ServerType.TCP)
                 {
-                    // Start listening to the socket, accepting any backlog
                     listener.Listen(this.MaxQueuedConnections);
 
-                    // Use the BeginAccept to accept new clients
                     listener.BeginAccept(new AsyncCallback(ClientConnected), listener);
                 }
                 else if (this.Type == ServerType.UDP)
                 {
-                    // So we can buffer and store information, create a new information class
-                    SocketConnectionInfo connection = new SocketConnectionInfo();
-                    connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
-                    connection.Socket = listener;
-                    // Setup the IPEndpoint
+                    SocketConnectionInfo _connection = new SocketConnectionInfo();
+                    _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
+                    _connection.Socket = listener;
                     ipeSender = new IPEndPoint(IPAddress.Any, this.Port);
-                    // Start recieving from the client
-                    listener.BeginReceiveFrom(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), connection);
+                    listener.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
                 }
 
-                // Tell anything that is listening that we have started to work
                 if (OnServerStarted != null)
                 {
                     OnServerStarted(this, null);
@@ -185,9 +209,164 @@ namespace YanZhiwei.DotNet2.Utilities.Core
             }
             else
             {
-                // There was an error creating the correct socket
-                throw new InvalidOperationException("Could not create the correct sever socket type.");
+                throw new InvalidOperationException("未能成功创建Socket服务类型。");
             }
+        }
+
+        /// <summary>
+        /// 停止服务
+        /// </summary>
+        /// 时间：2016/6/7 22:54
+        /// 备注：
+        public void Stop()
+        {
+            if (OnServerStopping != null)
+            {
+                OnServerStopping(this, null);
+            }
+
+            if (OnServerStoped != null)
+            {
+                OnServerStoped(this, null);
+            }
+        }
+
+        /// <summary>
+        /// 处理终端异步连接
+        /// </summary>
+        /// <param name="asyncResult">IAsyncResult</param>
+        /// 时间：2016/6/7 22:54
+        /// 备注：
+        internal void ClientConnected(IAsyncResult asyncResult)
+        {
+            Interlocked.Increment(ref currentConnections);
+
+            SocketConnectionInfo _connection = new SocketConnectionInfo();
+            _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
+
+            Socket _asyncListener = (Socket)asyncResult.AsyncState;
+            Socket _asyncClient = _asyncListener.EndAccept(asyncResult);
+            _connection.Socket = _asyncClient;
+
+            if (OnClientConnected != null)
+            {
+                OnClientConnected(this, null);
+            }
+
+            if (this.Type == ServerType.TCP)
+            {
+                _asyncClient.BeginReceive(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), _connection);
+            }
+            else if (this.Type == ServerType.UDP)
+            {
+                _asyncClient.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
+            }
+
+            listener.BeginAccept(new AsyncCallback(ClientConnected), listener);
+        }
+
+        internal void ClientDisconnected(IAsyncResult asyncResult)
+        {
+            SocketConnectionInfo _sci = (SocketConnectionInfo)asyncResult;
+            _sci.Socket.EndDisconnect(asyncResult);
+            if (OnClientDisconnected != null)
+            {
+                OnClientDisconnected(this, null);
+            }
+        }
+
+        /// <summary>
+        /// 处理数据异步接收
+        /// </summary>
+        /// <param name="asyncResult">IAsyncResult</param>
+        /// 时间：2016/6/7 22:56
+        /// 备注：
+        internal void DataReceived(IAsyncResult asyncResult)
+        {
+            try
+            {
+                SocketConnectionInfo _connection = (SocketConnectionInfo)asyncResult.AsyncState;
+                int _bytesRead;
+
+                if (this.Type == ServerType.UDP)
+                {
+                    _bytesRead = _connection.Socket.EndReceiveFrom(asyncResult, ref ipeSender);
+                }
+                else if (this.Type == ServerType.TCP)
+                {
+                    _bytesRead = _connection.Socket.EndReceive(asyncResult);
+                }
+                else
+                {
+                    _bytesRead = 0;
+                }
+
+                _connection.BytesRead += _bytesRead;
+                if (IsSocketConnected(_connection.Socket))
+                {
+                    if (_bytesRead == 0 || (_bytesRead > 0 && _bytesRead < SocketConnectionInfo.BufferSize))
+                    {
+                        byte[] _buffer = _connection.Buffer;
+                        int _totalBytesRead = _connection.BytesRead;
+                        _connection = new SocketConnectionInfo();
+                        _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
+                        _connection.Socket = ((SocketConnectionInfo)asyncResult.AsyncState).Socket;
+
+                        if (this.Type == ServerType.UDP)
+                        {
+                            _connection.Socket.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
+                        }
+                        else if (this.Type == ServerType.TCP)
+                        {
+                            _connection.Socket.BeginReceive(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), _connection);
+                        }
+
+                        if (_totalBytesRead < _buffer.Length)
+                        {
+                            Array.Resize<byte>(ref _buffer, _totalBytesRead);
+                        }
+                        if (OnDataReceived != null)
+                        {
+                            OnDataReceived(_buffer, null);
+                        }
+                        _buffer = null;
+                    }
+                    else
+                    {
+
+                        Array.Resize<Byte>(ref _connection.Buffer, _connection.Buffer.Length + SocketConnectionInfo.BufferSize);
+                        if (this.Type == ServerType.UDP)
+                        {
+                            _connection.Socket.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
+                        }
+                        else if (this.Type == ServerType.TCP)
+                        {
+                            _connection.Socket.BeginReceive(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), _connection);
+                        }
+                    }
+                }
+                else if (_connection.BytesRead > 0)
+                {
+                    Array.Resize<byte>(ref _connection.Buffer, _connection.BytesRead);
+                    if (OnDataReceived != null)
+                    {
+                        OnDataReceived(_connection.Buffer, null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        internal void DisconnectClient(SocketConnectionInfo connection)
+        {
+            if (OnClientDisconnecting != null)
+            {
+                OnClientDisconnecting(this, null);
+            }
+            connection.Socket.BeginDisconnect(true, new AsyncCallback(ClientDisconnected), connection);
         }
 
         internal Socket GetCorrectSocket()
@@ -206,165 +385,36 @@ namespace YanZhiwei.DotNet2.Utilities.Core
             }
         }
 
-        public void Stop()
-        {
-            if (OnServerStopping != null)
-            {
-                OnServerStopping(this, null);
-            }
-
-            if (OnServerStoped != null)
-            {
-                OnServerStoped(this, null);
-            }
-        }
-
-        internal void ClientConnected(IAsyncResult asyncResult)
-        {
-            // Increment our ConcurrentConnections counter
-            Interlocked.Increment(ref currentConnections);
-
-            // So we can buffer and store information, create a new information class
-            SocketConnectionInfo connection = new SocketConnectionInfo();
-            connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
-
-            // We want to end the async event as soon as possible
-            Socket asyncListener = (Socket)asyncResult.AsyncState;
-            Socket asyncClient = asyncListener.EndAccept(asyncResult);
-
-            // Set the SocketConnectionInformations socket to the current client
-            connection.Socket = asyncClient;
-
-            // Tell anyone that's listening that we have a new client connected
-            if (OnClientConnected != null)
-            {
-                OnClientConnected(this, null);
-            }
-
-            // TODO :: Add throttleling (using SEMAPHORE's)
-
-            // Begin recieving the data from the client
-            if (this.Type == ServerType.TCP)
-            {
-                asyncClient.BeginReceive(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), connection);
-            }
-            else if (this.Type == ServerType.UDP)
-            {
-                asyncClient.BeginReceiveFrom(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), connection);
-            }
-            // Now we have begun recieving data from this client,
-            // we can now accept a new client
-            listener.BeginAccept(new AsyncCallback(ClientConnected), listener);
-        }
-
-        internal void DataReceived(IAsyncResult asyncResult)
-        {
-            try
-            {
-                SocketConnectionInfo connection = (SocketConnectionInfo)asyncResult.AsyncState;
-                int bytesRead;
-                // End the correct async process
-                if (this.Type == ServerType.UDP)
-                {
-                    bytesRead = connection.Socket.EndReceiveFrom(asyncResult, ref ipeSender);
-                }
-                else if (this.Type == ServerType.TCP)
-                {
-                    bytesRead = connection.Socket.EndReceive(asyncResult);
-                }
-                else
-                {
-                    bytesRead = 0;
-                }
-                // Increment the counter of BytesRead
-                connection.BytesRead += bytesRead;
-                // Check to see whether the socket is connected or not...
-                if (IsSocketConnected(connection.Socket))
-                {
-                    // If we have read no more bytes, raise the data received event
-                    if (bytesRead == 0 || (bytesRead > 0 && bytesRead < SocketConnectionInfo.BufferSize))
-                    {
-                        byte[] buffer = connection.Buffer;
-                        int totalBytesRead = connection.BytesRead;
-                        // Setup the connection info again ready for another packet
-                        connection = new SocketConnectionInfo();
-                        connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
-                        connection.Socket = ((SocketConnectionInfo)asyncResult.AsyncState).Socket;
-                        // Fire off the receive event as quickly as possible, then we can process the data...
-                        if (this.Type == ServerType.UDP)
-                        {
-                            connection.Socket.BeginReceiveFrom(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), connection);
-                        }
-                        else if (this.Type == ServerType.TCP)
-                        {
-                            connection.Socket.BeginReceive(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), connection);
-                        }
-                        // Remove any extra data
-                        if (totalBytesRead < buffer.Length)
-                        {
-                            Array.Resize<Byte>(ref buffer, totalBytesRead);
-                        }
-                        // Now raise the event, sender will contain the buffer for now
-                        if (OnDataReceived != null)
-                        {
-                            OnDataReceived(buffer, null);
-                        }
-                        buffer = null;
-                    }
-                    else
-                    {
-                        // Resize the array ready for the next chunk of data
-                        Array.Resize<Byte>(ref connection.Buffer, connection.Buffer.Length + SocketConnectionInfo.BufferSize);
-                        // Fire off the receive event again, with the bigger buffer
-                        if (this.Type == ServerType.UDP)
-                        {
-                            connection.Socket.BeginReceiveFrom(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), connection);
-                        }
-                        else if (this.Type == ServerType.TCP)
-                        {
-                            connection.Socket.BeginReceive(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), connection);
-                        }
-                    }
-                }
-                else if (connection.BytesRead > 0)
-                {
-                    // We still have data
-                    Array.Resize<Byte>(ref connection.Buffer, connection.BytesRead);
-                    // call the event
-                    if (OnDataReceived != null)
-                    {
-                        OnDataReceived(connection.Buffer, null);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
         internal bool IsSocketConnected(Socket socket)
         {
             return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0);
         }
 
-        internal void DisconnectClient(SocketConnectionInfo connection)
+        /// <summary>
+        /// 参数初始化
+        /// </summary>
+        /// <param name="server">ServerType</param>
+        /// <param name="ipAddress">Ip地址</param>
+        /// <param name="port">端口</param>
+        /// 时间：2016/6/7 22:45
+        /// 备注：
+        /// <exception cref="System.ArgumentException">未能识别的Ip地址。</exception>
+        private void Init(ServerType server, string ipAddress, ushort port)
         {
-            if (OnClientDisconnecting != null)
+            ValidateHelper.Begin().NotNullOrEmpty(ipAddress, "Ip地址").IsIp(ipAddress, "Ip地址");
+            IPAddress _ipAddress;
+
+            if (IPAddress.TryParse(ipAddress, out _ipAddress))
             {
-                OnClientDisconnecting(this, null);
+                this.Endpoint = new IPEndPoint(_ipAddress, port);
             }
-            connection.Socket.BeginDisconnect(true, new AsyncCallback(ClientDisconnected), connection);
+            else {
+                throw new ArgumentException("未能识别的Ip地址。");
+            }
+            this.Type = server;
+            this.Port = port;
         }
 
-        internal void ClientDisconnected(IAsyncResult asyncResult)
-        {
-            SocketConnectionInfo sci = (SocketConnectionInfo)asyncResult;
-            sci.Socket.EndDisconnect(asyncResult);
-            if (OnClientDisconnected != null)
-            {
-                OnClientDisconnected(this, null);
-            }
-        }
+        #endregion Methods
     }
 }
