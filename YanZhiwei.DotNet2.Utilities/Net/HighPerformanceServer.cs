@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using YanZhiwei.DotNet2.Utilities.Enums;
 using YanZhiwei.DotNet2.Utilities.Models;
 

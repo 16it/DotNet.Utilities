@@ -110,10 +110,6 @@
             return _bytes;
         }
 
-        private static BitArray CheckedBitArray(BitArray bits)
-        {
-            r
-        }
 
         #endregion Methods
     }
