@@ -108,6 +108,7 @@
     <Compile Include="Enums\SerialPortBaudRates.cs" />
     <Compile Include="Enums\SerialPortDatabits.cs" />
     <Compile Include="Enums\SetWaterPosition.cs" />
+    <Compile Include="Enums\ServerType.cs" />
     <Compile Include="Models\EnumTitleAttribute.cs" />
     <Compile Include="Models\ExifMetadata.cs" />
     <Compile Include="Models\ExifMetadataDetail.cs" />
@@ -115,7 +116,9 @@
     <Compile Include="Models\PageResult.cs" />
     <Compile Include="Models\PerformanceParams.cs" />
     <Compile Include="Models\SmtpServer.cs" />
+    <Compile Include="Models\SocketConnectionInfo.cs" />
     <Compile Include="Models\SortCondition.cs" />
+    <Compile Include="Net\HighPerformanceServer.cs" />
     <Compile Include="ValidateCode\AnimatedGifEncoder.cs" />
     <Compile Include="ValidateCode\LZWEncoder.cs" />
     <Compile Include="ValidateCode\NeuQuant.cs" />
@@ -359,6 +362,7 @@
     <Content Include="nuget 命令.txt" />
     <Content Include="SQL\Sql Server\proc_DataPage.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
