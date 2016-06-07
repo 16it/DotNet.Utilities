@@ -75,6 +75,7 @@
     <Compile Include="Core\Disposable.cs" />
     <Compile Include="Core\DynamicBuilder.cs" />
     <Compile Include="Core\FrameworkException.cs" />
+    <Compile Include="Core\HighPerformanceServer.cs" />
     <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\OperationResult.cs" />
     <Compile Include="Core\PagedList.cs" />
@@ -118,7 +119,6 @@
     <Compile Include="Models\SmtpServer.cs" />
     <Compile Include="Models\SocketConnectionInfo.cs" />
     <Compile Include="Models\SortCondition.cs" />
-    <Compile Include="Net\HighPerformanceServer.cs" />
     <Compile Include="ValidateCode\AnimatedGifEncoder.cs" />
     <Compile Include="ValidateCode\LZWEncoder.cs" />
     <Compile Include="ValidateCode\NeuQuant.cs" />

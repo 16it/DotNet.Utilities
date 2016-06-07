@@ -5,8 +5,13 @@ using System.Threading;
 using YanZhiwei.DotNet2.Utilities.Enums;
 using YanZhiwei.DotNet2.Utilities.Models;
 
-namespace YanZhiwei.DotNet2.Utilities.Net
+namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    /// <summary>
+    /// Socket 服务
+    /// </summary>
+    /// 时间：2016/6/7 22:38
+    /// 备注：
     public sealed class HighPerformanceServer
     {
         private int currentConnections = 0;
