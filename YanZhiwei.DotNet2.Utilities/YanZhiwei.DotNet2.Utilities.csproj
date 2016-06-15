@@ -71,6 +71,7 @@
     <Compile Include="Core\BuilderKey.cs" />
     <Compile Include="Core\BusinessException.cs" />
     <Compile Include="Core\BusinessFactory.cs" />
+    <Compile Include="Core\ByteArrayBuilder.cs" />
     <Compile Include="Core\ConfigSettings.cs" />
     <Compile Include="Core\Disposable.cs" />
     <Compile Include="Core\DynamicBuilder.cs" />
