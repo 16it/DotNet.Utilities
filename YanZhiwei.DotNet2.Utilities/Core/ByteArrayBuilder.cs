@@ -1,8 +1,9 @@
-﻿using System;
-using System.IO;
-
-namespace YanZhiwei.DotNet2.Utilities.Core
+﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using Common;
+    using System;
+    using System.IO;
+
     /// <summary>
     /// Byte数组构建器
     /// </summary>
@@ -10,10 +11,7 @@ namespace YanZhiwei.DotNet2.Utilities.Core
     /// 备注：
     public class ByteArrayBuilder : IDisposable
     {
-        /// <summary>
-        /// True
-        /// </summary>
-        private const byte streamTrue = (byte)1;
+        #region Fields
 
         /// <summary>
         /// False
@@ -21,17 +19,18 @@ namespace YanZhiwei.DotNet2.Utilities.Core
         private const byte streamFalse = (byte)0;
 
         /// <summary>
+        /// True
+        /// </summary>
+        private const byte streamTrue = (byte)1;
+
+        /// <summary>
         /// MemoryStream
         /// </summary>
         private MemoryStream store = new MemoryStream();
 
-        /// <summary>
-        /// 当前Byte数组长度
-        /// </summary>
-        public int Length
-        {
-            get { return (int)store.Length; }
-        }
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// 默认构造函数
@@ -66,6 +65,31 @@ namespace YanZhiwei.DotNet2.Utilities.Core
             store = new MemoryStream(Convert.FromBase64String(base64));
         }
 
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// 当前Byte数组长度
+        /// </summary>
+        public int Length
+        {
+            get { return (int)store.Length; }
+        }
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// 附加byte数组类型数值
+        /// </summary>
+        /// <param name="b">byte数组类型数值</param>
+        public void Append(byte[] b)
+        {
+            store.Write(b, 0, b.Length);
+        }
+
         /// <summary>
         /// 附加一个bool数值
         /// </summary>
@@ -78,332 +102,70 @@ namespace YanZhiwei.DotNet2.Utilities.Core
         }
 
         /// <summary>
-        /// Adds a byte to an array
+        /// 附加byte类型数值
         /// </summary>
-        /// <param name="b">Value to append to existing builder data</param>
+        /// <param name="b">byte类型数值</param>
         public void Append(byte b)
         {
             store.WriteByte(b);
         }
 
         /// <summary>
-        /// Adds an array of bytes to an array
+        /// 附加int类型数值
         /// </summary>
-        /// <param name="b">Value to append to existing builder data</param>
-        /// <param name="addLength">
-        /// If true, the length is added before the value.
-        /// This allows extraction of individual elements back to the original input form.
-        /// </param>
-        public void Append(byte[] b, bool addLength = true)
-        {
-            if (addLength) Append(b.Length);
-            AddBytes(b);
-        }
-
-        /// <summary>
-        /// Adds a char to an array
-        /// </summary>
-        /// <param name="c">Value to append to existing builder data</param>
-        public void Append(char c)
-        {
-            store.WriteByte((byte)c);
-        }
-
-        /// <summary>
-        /// Adds an array of characters to an array
-        /// </summary>
-        /// <param name="c">Value to append to existing builder data</param>
-        /// <param name="addLength">
-        /// If true, the length is added before the value.
-        /// This allows extraction of individual elements back to the original input form.
-        /// </param>
-        public void Append(char[] c, bool addLength = true)
-        {
-            if (addLength) Append(c.Length);
-            Append(System.Text.Encoding.Unicode.GetBytes(c));
-        }
-
-        /// <summary>
-        /// Adds a DateTime to an array
-        /// </summary>
-        /// <param name="dt">Value to append to existing builder data</param>
-        public void Append(DateTime dt)
-        {
-            Append(dt.Ticks);
-        }
-
-        /// <summary>
-        /// Adds a decimal value to an array
-        /// </summary>
-        /// <param name="d">Value to append to existing builder data</param>
-        public void Append(decimal d)
-        {
-            // GetBits always returns four ints.
-            // We store them in a specific order so that they can be recovered later.
-            int[] bits = decimal.GetBits(d);
-            Append(bits[0]);
-            Append(bits[1]);
-            Append(bits[2]);
-            Append(bits[3]);
-        }
-
-        /// <summary>
-        /// Adds a double to an array
-        /// </summary>
-        /// <param name="d">Value to append to existing builder data</param>
-        public void Append(double d)
-        {
-            AddBytes(BitConverter.GetBytes(d));
-        }
-
-        /// <summary>
-        /// Adds a float to an array
-        /// </summary>
-        /// <param name="f">Value to append to existing builder data</param>
-        public void Append(float f)
-        {
-            AddBytes(BitConverter.GetBytes(f));
-        }
-
-        /// <summary>
-        /// Adds a Guid to an array
-        /// </summary>
-        /// <param name="g">Value to append to existing builder data</param>
-        public void Append(Guid g)
-        {
-            Append(g.ToByteArray());
-        }
-
-        /// <summary>
-        /// Adds an integer to an array
-        /// </summary>
-        /// <param name="i">Value to append to existing builder data</param>
+        /// <param name="i">int类型数值</param>
         public void Append(int i)
         {
-            AddBytes(BitConverter.GetBytes(i));
+            Append(BitConverter.GetBytes(i));
         }
 
         /// <summary>
-        /// Adds a long integer to an array
+        /// 附加long类型数值
         /// </summary>
-        /// <param name="l">Value to append to existing builder data</param>
+        /// <param name="l">long类型数值</param>
         public void Append(long l)
         {
-            AddBytes(BitConverter.GetBytes(l));
+            Append(BitConverter.GetBytes(l));
         }
 
         /// <summary>
-        /// Adds a short integer to an array
+        /// 附加int类型数值
         /// </summary>
-        /// <param name="i">Value to append to existing builder data</param>
+        /// <param name="i">int类型数值</param>
         public void Append(short i)
         {
-            AddBytes(BitConverter.GetBytes(i));
+            Append(BitConverter.GetBytes(i));
         }
 
         /// <summary>
-        /// Adds a string to an array
+        /// 附加uint类型数值
         /// </summary>
-        /// <param name="s">Value to append to existing builder data</param>
-        /// <param name="addLength">
-        /// If true, the length is added before the value.
-        /// This allows extraction of individual elements back to the original input form.
-        /// </param>
-        public void Append(string s, bool addLength = true)
-        {
-            byte[] data = System.Text.Encoding.Unicode.GetBytes(s);
-            if (addLength) Append(data.Length);
-            AddBytes(data);
-        }
-
-        /// <summary>
-        /// Adds an unsigned integer to an array
-        /// </summary>
-        /// <param name="ui">Value to append to existing builder data</param>
+        /// <param name="ui">uint类型数值</param>
         public void Append(uint ui)
         {
-            AddBytes(BitConverter.GetBytes(ui));
+            Append(BitConverter.GetBytes(ui));
         }
 
         /// <summary>
-        /// Adds a unsigned long integer to an array
+        /// 附加ulong类型数值
         /// </summary>
-        /// <param name="ul">Value to append to existing builder data</param>
+        /// <param name="ul">ulong类型数值</param>
         public void Append(ulong ul)
         {
-            AddBytes(BitConverter.GetBytes(ul));
+            Append(BitConverter.GetBytes(ul));
         }
 
         /// <summary>
-        /// Adds a unsigned short integer to an array
+        /// 附加ushort类型数值
         /// </summary>
-        /// <param name="us">Value to append to existing builder data</param>
+        /// <param name="us">ushort类型数值</param>
         public void Append(ushort us)
         {
-            AddBytes(BitConverter.GetBytes(us));
+            Append(BitConverter.GetBytes(us));
         }
 
         /// <summary>
-        /// Gets a bool from an array
-        /// </summary>
-        /// <returns></returns>
-        public bool GetBool()
-        {
-            return store.ReadByte() == streamTrue;
-        }
-
-        /// <summary>
-        /// Gets a byte from an array
-        /// </summary>
-        /// <returns></returns>
-        public byte GetByte()
-        {
-            return (byte)store.ReadByte();
-        }
-
-        /// <summary>
-        /// Gets an array of bytes from an array
-        /// </summary>
-        /// <returns></returns>
-        public byte[] GetByteArray()
-        {
-            int length = GetInt();
-            return GetBytes(length);
-        }
-
-        /// <summary>
-        /// Gets a char from an array
-        /// </summary>
-        /// <returns></returns>
-        public char GetChar()
-        {
-            return (char)store.ReadByte();
-        }
-
-        /// <summary>
-        /// Gets an array of characters from an array
-        /// </summary>
-        /// <returns></returns>
-        public char[] GetCharArray()
-        {
-            int length = GetInt();
-            return System.Text.Encoding.Unicode.GetChars(GetBytes(length));
-        }
-
-        /// <summary>
-        /// Gets a DateTime value from an array
-        /// </summary>
-        /// <returns></returns>
-        public DateTime GetDateTime()
-        {
-            return new DateTime(GetLong());
-        }
-
-        /// <summary>
-        /// Gets a decimal value from an array
-        /// </summary>
-        /// <returns></returns>
-        public decimal GetDecimal()
-        {
-            // GetBits always returns four ints.
-            // We store them in a specific order so that they can be recovered later.
-            int[] bits = new int[] { GetInt(), GetInt(), GetInt(), GetInt() };
-            return new decimal(bits);
-        }
-
-        /// <summary>
-        /// Gets a double from an array
-        /// </summary>
-        /// <returns></returns>
-        public double GetDouble()
-        {
-            return BitConverter.ToDouble(GetBytes(8), 0);
-        }
-
-        /// <summary>
-        /// Gets a float from an array
-        /// </summary>
-        /// <returns></returns>
-        public float GetFloat()
-        {
-            return BitConverter.ToSingle(GetBytes(4), 0);
-        }
-
-        /// <summary>
-        /// Gets a Guid from an array
-        /// </summary>
-        /// <returns></returns>
-        public Guid GetGuid()
-        {
-            return new Guid(GetByteArray());
-        }
-
-        /// <summary>
-        /// Gets an integer from an array
-        /// </summary>
-        /// <returns></returns>
-        public int GetInt()
-        {
-            return BitConverter.ToInt32(GetBytes(4), 0);
-        }
-
-        /// <summary>
-        /// Gets a long integer from an array
-        /// </summary>
-        /// <returns></returns>
-        public long GetLong()
-        {
-            return BitConverter.ToInt64(GetBytes(8), 0);
-        }
-
-        /// <summary>
-        /// Gets a short integer from an array
-        /// </summary>
-        /// <returns></returns>
-        public short GetShort()
-        {
-            return BitConverter.ToInt16(GetBytes(2), 0);
-        }
-
-        /// <summary>
-        /// Gets a string from an array
-        /// </summary>
-        /// <returns></returns>
-        public string GetString()
-        {
-            int length = GetInt();
-            return System.Text.Encoding.Unicode.GetString(GetBytes(length));
-        }
-
-        /// <summary>
-        /// Gets an unsigned integer from an array
-        /// </summary>
-        /// <returns></returns>
-        public uint GetUint()
-        {
-            return BitConverter.ToUInt32(GetBytes(4), 0);
-        }
-
-        /// <summary>
-        /// Gets a unsigned long integer from an array
-        /// </summary>
-        /// <returns></returns>
-        public ulong GetUlong()
-        {
-            return BitConverter.ToUInt64(GetBytes(8), 0);
-        }
-
-        /// <summary>
-        /// Gets a unsigned short integer from an array
-        /// </summary>
-        /// <returns></returns>
-        public ushort GetUshort()
-        {
-            return BitConverter.ToUInt16(GetBytes(2), 0);
-        }
-
-        /// <summary>
-        /// Clear all content from the builder
+        /// 清除
         /// </summary>
         public void Clear()
         {
@@ -413,31 +175,22 @@ namespace YanZhiwei.DotNet2.Utilities.Core
         }
 
         /// <summary>
-        /// Rewind the builder ready to read data
+        /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        public void Rewind()
+        /// 时间：2016/6/20 15:01
+        /// 备注：
+        public void Dispose()
         {
-            store.Seek(0, SeekOrigin.Begin);
+            store.Close();
+            store.Dispose();
         }
 
         /// <summary>
-        /// Set an absolute position in the builder.
-        /// **WARNING**
-        /// If you add any variable size objects to the builder, the results of
-        /// reading after a Seek to a non-zero value are unpredictable.
-        /// A builder does not store just objects - for some it stores additional
-        /// information as well.
+        /// 转换为数组
         /// </summary>
-        /// <param name="position"></param>
-        public void Seek(int position)
-        {
-            store.Seek((long)position, SeekOrigin.Begin);
-        }
-
-        /// <summary>
-        /// Returns the builder as an array of bytes
-        /// </summary>
-        /// <returns></returns>
+        /// <returns>数组</returns>
+        /// 时间：2016/6/20 15:01
+        /// 备注：
         public byte[] ToArray()
         {
             byte[] data = new byte[Length];
@@ -446,49 +199,18 @@ namespace YanZhiwei.DotNet2.Utilities.Core
         }
 
         /// <summary>
-        /// Returns a text based (Base64) string version of the current content
+        /// 返回带空格的十六进制字符串
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// 时间：2016/6/20 14:59
+        /// 备注：
         public override string ToString()
         {
-            return Convert.ToBase64String(ToArray());
+            return ByteHelper.ToHexStringWithBlank(ToArray());
         }
 
-        /// <summary>
-        /// Add a string of raw bytes to the store
-        /// </summary>
-        /// <param name="b"></param>
-        private void AddBytes(byte[] b)
-        {
-            store.Write(b, 0, b.Length);
-        }
-
-        /// <summary>
-        /// Reads a specific number of bytes from the store
-        /// </summary>
-        /// <param name="length"></param>
-        /// <returns></returns>
-        private byte[] GetBytes(int length)
-        {
-            byte[] data = new byte[length];
-            if (length > 0)
-            {
-                int read = store.Read(data, 0, length);
-                if (read != length)
-                {
-                    throw new ApplicationException("Buffer did not contain " + length + " bytes");
-                }
-            }
-            return data;
-        }
-
-        /// <summary>
-        /// Dispose of this builder and it's resources
-        /// </summary>
-        public void Dispose()
-        {
-            store.Close();
-            store.Dispose();
-        }
+        #endregion Methods
     }
 }

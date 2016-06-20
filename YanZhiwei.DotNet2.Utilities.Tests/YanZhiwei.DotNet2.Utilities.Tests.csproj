@@ -62,6 +62,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Core\ByteArrayBuilderTests.cs" />
     <Compile Include="WebForm\AspNetHelperTests.cs" />
     <Compile Include="Common\AppSettingsHelperTests.cs" />
     <Compile Include="Common\ArrayHelperTests.cs" />
