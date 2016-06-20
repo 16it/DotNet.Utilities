@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet3._5.Utilities.Enums
+﻿namespace YanZhiwei.DotNet3._5.Utilities.Enum
 {
     /// <summary>
     /// 路径存储类型
