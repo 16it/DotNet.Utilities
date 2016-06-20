@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{46E9AB40-59A4-41A2-8274-348AD97A49D1}</ProjectGuid>
+    <ProjectGuid>{30104AC9-1C35-468D-8E43-8309E5B9CBE3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>YanZhiwei.DotNet.Core.Cache</RootNamespace>
