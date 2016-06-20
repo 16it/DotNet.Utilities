@@ -2,7 +2,7 @@
 {
     using System.Text.RegularExpressions;
 
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// Html Tag 帮助类

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using YanZhiwei.DotNet2.Utilities.Models;
+using YanZhiwei.DotNet2.Utilities.Model;
 
 namespace YanZhiwei.DotNet2.Utilities.Common.Tests
 {

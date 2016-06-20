@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using YanZhiwei.DotNet2.Utilities.Models;
+using YanZhiwei.DotNet2.Utilities.Model;
 
 namespace YanZhiwei.DotNet4.Utilities.Models
 {

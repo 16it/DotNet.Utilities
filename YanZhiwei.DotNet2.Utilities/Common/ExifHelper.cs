@@ -5,7 +5,7 @@
     using System.Drawing.Imaging;
     using System.Text;
 
-    using YanZhiwei.DotNet2.Utilities.Models;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// 获取照片Exif信息

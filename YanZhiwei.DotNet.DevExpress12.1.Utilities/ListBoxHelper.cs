@@ -7,7 +7,7 @@
     using DevExpress.XtraEditors;
 
     using YanZhiwei.DotNet2.Utilities.Common;
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// ListBox帮助类

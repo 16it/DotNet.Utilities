@@ -2,7 +2,7 @@
 {
     using System;
 
-    using YanZhiwei.DotNet2.Utilities.Models;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// 火星坐标系 (GCJ-02)与百度坐标系 (BD-09) 转换帮助类

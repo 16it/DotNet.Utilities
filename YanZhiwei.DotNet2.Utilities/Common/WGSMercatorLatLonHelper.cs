@@ -2,7 +2,7 @@
 {
     using System;
 
-    using YanZhiwei.DotNet2.Utilities.Models;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// 墨卡托坐标与GS-84转换 帮助类

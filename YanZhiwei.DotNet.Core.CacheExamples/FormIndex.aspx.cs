@@ -4,7 +4,7 @@ using YanZhiwei.DotNet.Core.Cache;
 using YanZhiwei.DotNet4.Core.CacheProvider;
 using YanZhiwei.DotNet.Core.Cache.Examples;
 using YanZhiwei.DotNet.Core.Log;
-using YanZhiwei.DotNet2.Utilities.Models;
+using YanZhiwei.DotNet2.Utilities.Model;
 
 namespace YanZhiwei.DotNet.Core.CacheExamples
 {

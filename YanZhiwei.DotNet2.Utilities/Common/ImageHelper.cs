@@ -7,7 +7,7 @@
     using System.IO;
     using System.Runtime.InteropServices;
 
-    using Enums;
+    using Enum;
 
     /// <summary>
     ///Image帮助类

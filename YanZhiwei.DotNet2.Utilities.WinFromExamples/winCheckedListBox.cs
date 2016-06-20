@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using YanZhiwei.DotNet2.Utilities.Models;
+using YanZhiwei.DotNet2.Utilities.Model;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples

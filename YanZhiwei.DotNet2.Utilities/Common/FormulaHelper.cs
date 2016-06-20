@@ -2,7 +2,7 @@
 {
     using System;
 
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// 公式计算帮助类

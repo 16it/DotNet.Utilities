@@ -6,8 +6,8 @@
     using System.Threading;
 
     using YanZhiwei.DotNet2.Utilities.Common;
-    using YanZhiwei.DotNet2.Utilities.Enums;
-    using YanZhiwei.DotNet2.Utilities.Models;
+    using YanZhiwei.DotNet2.Utilities.Enum;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// Socket 服务

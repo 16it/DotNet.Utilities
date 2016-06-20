@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// Sql Server数据库分页脚本

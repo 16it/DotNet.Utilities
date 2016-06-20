@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// 业务操作结果信息类，对操作结果进行封装

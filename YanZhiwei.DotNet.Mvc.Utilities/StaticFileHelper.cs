@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet2.Utilities.Enums;
+using YanZhiwei.DotNet2.Utilities.Enum;
 
 namespace YanZhiwei.DotNet.Mvc.Utilities
 {

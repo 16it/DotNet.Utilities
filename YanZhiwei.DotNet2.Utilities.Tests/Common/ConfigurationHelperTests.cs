@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using YanZhiwei.DotNet2.Utilities.Enums;
+using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.Tests.Model;
 
 namespace YanZhiwei.DotNet2.Utilities.Common.Tests

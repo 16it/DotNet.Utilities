@@ -2,7 +2,7 @@
 {
     using System;
 
-    using YanZhiwei.DotNet2.Utilities.Models;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// 地图操作 帮助类

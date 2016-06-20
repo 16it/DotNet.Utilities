@@ -4,7 +4,7 @@
     using System.IO;
     using System.Web.Configuration;
 
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// Configuration 帮助类

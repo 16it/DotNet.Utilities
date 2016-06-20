@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using YanZhiwei.DotNet2.Utilities.Enums;
+using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet3._5.Utilities.WebForm.Core;
 
 namespace YanZhiwei.DotNet3._5.Utilities.WebFormExamples

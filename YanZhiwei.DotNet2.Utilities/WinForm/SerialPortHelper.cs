@@ -4,7 +4,7 @@
     using System.IO.Ports;
 
     using YanZhiwei.DotNet2.Utilities.Common;
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// 串口操作帮助类

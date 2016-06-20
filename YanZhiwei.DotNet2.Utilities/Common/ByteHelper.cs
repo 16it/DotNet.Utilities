@@ -3,7 +3,7 @@
     using System;
     using System.Text;
 
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     ///byte 帮助类

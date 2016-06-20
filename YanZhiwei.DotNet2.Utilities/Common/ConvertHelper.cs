@@ -5,7 +5,7 @@
     using System.Data;
     using System.Globalization;
 
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// 转换帮助类

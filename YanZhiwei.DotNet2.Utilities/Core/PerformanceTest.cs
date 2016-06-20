@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Threading;
 
-    using YanZhiwei.DotNet2.Utilities.Models;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// 程序性能测试类
