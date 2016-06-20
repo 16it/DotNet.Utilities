@@ -49,7 +49,7 @@
     <Compile Include="CacheHelper.cs" />
     <Compile Include="ICacheProvider.cs" />
     <Compile Include="LocalCacheProvider.cs" />
-    <Compile Include="Models\WrapCacheConfigItem.cs" />
+    <Compile Include="Model\WrapCacheConfigItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

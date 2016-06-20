@@ -5,7 +5,7 @@
     using System.Text.RegularExpressions;
     using System.Web;
 
-    using YanZhiwei.DotNet.Core.Cache.Models;
+    using YanZhiwei.DotNet.Core.Cache.Model;
 
     /// <summary>
     /// 缓存帮助

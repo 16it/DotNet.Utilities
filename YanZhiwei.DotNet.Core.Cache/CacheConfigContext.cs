@@ -8,7 +8,7 @@
     using System.Reflection;
     using System.Text.RegularExpressions;
 
-    using YanZhiwei.DotNet.Core.Cache.Models;
+    using YanZhiwei.DotNet.Core.Cache.Model;
     using YanZhiwei.DotNet.Core.Model;
 
     /// <summary>
