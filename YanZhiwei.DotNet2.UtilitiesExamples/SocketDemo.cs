@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using YanZhiwei.DotNet2.Utilities.Core;
-using YanZhiwei.DotNet2.Utilities.Models;
+using YanZhiwei.DotNet2.Utilities.Model;
 
 namespace YanZhiwei.DotNet2.UtilitiesExamples
 {

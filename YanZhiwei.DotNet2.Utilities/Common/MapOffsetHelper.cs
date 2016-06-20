@@ -3,7 +3,7 @@
     using System.Collections;
 
     using YanZhiwei.DotNet2.Utilities.Core;
-    using YanZhiwei.DotNet2.Utilities.Models;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// 地图纠偏 帮助类

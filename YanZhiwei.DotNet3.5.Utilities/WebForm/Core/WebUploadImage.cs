@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
     using DotNet2.Utilities.Common;
-    using DotNet2.Utilities.Enums;
+    using DotNet2.Utilities.Enum;
     using Model;
     using System;
     using System.Collections.Generic;

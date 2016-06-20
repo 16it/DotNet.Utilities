@@ -6,7 +6,7 @@
     using System.Threading;
     using System.Windows.Forms;
 
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// Application 帮助类

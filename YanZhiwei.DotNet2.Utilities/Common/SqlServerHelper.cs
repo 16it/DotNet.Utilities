@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
-    using Enums;
+    using Enum;
     using System;
     using System.Collections.Generic;
     using System.Data;

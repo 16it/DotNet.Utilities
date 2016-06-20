@@ -11,7 +11,7 @@
 
     using Common;
 
-    using Enums;
+    using Enum;
 
     /// <summary>
     ///  GridView 帮助类

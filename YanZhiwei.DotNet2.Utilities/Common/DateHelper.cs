@@ -3,7 +3,7 @@
     using System;
     using System.Globalization;
 
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// Date 帮助类

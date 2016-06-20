@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using YanZhiwei.DotNet2.Utilities.Enums;
+using YanZhiwei.DotNet2.Utilities.Enum;
 
 namespace YanZhiwei.DotNet2.Utilities.Core
 {

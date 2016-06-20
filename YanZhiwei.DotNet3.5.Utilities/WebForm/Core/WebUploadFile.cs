@@ -7,7 +7,7 @@
     using System.Web;
 
     using YanZhiwei.DotNet2.Utilities.Common;
-    using YanZhiwei.DotNet3._5.Utilities.Enums;
+    using YanZhiwei.DotNet3._5.Utilities.Enum;
     using YanZhiwei.DotNet3._5.Utilities.Model;
 
     /// <summary>

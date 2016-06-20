@@ -1,6 +1,6 @@
 ﻿using System;
 using YanZhiwei.DotNet2.Utilities.Core;
-using YanZhiwei.DotNet2.Utilities.Enums;
+using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet2.UtilitiesExamples

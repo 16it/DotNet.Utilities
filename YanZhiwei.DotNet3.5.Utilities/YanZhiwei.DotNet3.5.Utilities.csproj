@@ -79,7 +79,7 @@
     <Compile Include="Core\ExpressionTranslator.cs" />
     <Compile Include="Core\ExpressionVisitor.cs" />
     <Compile Include="Core\Locker.cs" />
-    <Compile Include="Enums\UploadFileSaveType.cs" />
+    <Compile Include="Enum\UploadFileSaveType.cs" />
     <Compile Include="Model\DataTablePageResult.cs" />
     <Compile Include="Model\UploadFileMessage.cs" />
     <Compile Include="Model\UploadFileConfig.cs" />

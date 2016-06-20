@@ -12,6 +12,19 @@
         #region Methods
 
         /// <summary>
+        /// 集合包含忽略大小写比对
+        /// </summary>
+        /// <param name="items">String类型集合</param>
+        /// <param name="data">需要判断字符串</param>
+        /// <returns>是否包含</returns>
+        /// 时间：2016/6/16 11:03
+        /// 备注：
+        public static bool ContainsIgnoreCase(this IEnumerable<string> items, string data)
+        {
+            return items.Contains(data, StringComparer.CurrentCultureIgnoreCase);
+        }
+
+        /// <summary>
         /// 判断IEnumerable是否是空
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
@@ -27,7 +40,6 @@
             }
             return _result;
         }
-
         /// <summary>
         /// 如果等于NULL则返回默认初始化集合
         /// </summary>
@@ -82,6 +94,7 @@
             _result.UnionWith(source);
             return _result;
         }
+
         /// <summary>
         /// 递归扩展
         /// <para>

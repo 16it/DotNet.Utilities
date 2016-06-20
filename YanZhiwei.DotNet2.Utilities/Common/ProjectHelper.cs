@@ -3,7 +3,7 @@
     using System;
     using System.Reflection;
 
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
     using YanZhiwei.DotNet2.Utilities.WinForm;
 
     /// <summary>

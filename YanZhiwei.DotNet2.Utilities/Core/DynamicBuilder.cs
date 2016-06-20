@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Reflection;
 using System.Reflection.Emit;
-using YanZhiwei.DotNet2.Utilities.Enums;
+using YanZhiwei.DotNet2.Utilities.Enum;
 
 namespace YanZhiwei.DotNet2.Utilities.Core
 {

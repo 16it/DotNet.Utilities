@@ -6,7 +6,7 @@
     using System.Threading;
 
     using YanZhiwei.DotNet2.Utilities.Core;
-    using YanZhiwei.DotNet2.Utilities.Enums;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// 日志帮助类

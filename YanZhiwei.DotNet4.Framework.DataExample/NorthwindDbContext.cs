@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using YanZhiwei.DotNet.Core.Log.Examples;
+using YanZhiwei.DotNet.Core.LogExamples;
 using YanZhiwei.DotNet4.Framework.Data;
 using YanZhiwei.DotNet4.Framework.Data.Example.Contract;
 

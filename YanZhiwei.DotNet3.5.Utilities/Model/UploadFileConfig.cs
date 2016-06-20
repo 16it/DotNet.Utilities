@@ -1,4 +1,4 @@
-﻿using YanZhiwei.DotNet3._5.Utilities.Enums;
+﻿using YanZhiwei.DotNet3._5.Utilities.Enum;
 
 namespace YanZhiwei.DotNet3._5.Utilities.Model
 {

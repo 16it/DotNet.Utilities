@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Windows.Forms;
 
-    using YanZhiwei.DotNet2.Utilities.Models;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// 窗体控件自适应大小

@@ -2,7 +2,7 @@
 {
     using System;
 
-    using YanZhiwei.DotNet2.Utilities.Models;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// 地球坐标系 (WGS-84) 到火星坐标系 (GCJ-02) 的转换 帮助类
