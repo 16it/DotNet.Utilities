@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet4.Utilities.Models
+﻿namespace YanZhiwei.DotNet4.Utilities.Model
 {
     using System;
 

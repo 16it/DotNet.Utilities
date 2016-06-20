@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using YanZhiwei.DotNet2.Utilities.Model;
 using YanZhiwei.DotNet4.Utilities.Core;
-using YanZhiwei.DotNet4.Utilities.Models;
+using YanZhiwei.DotNet4.Utilities.Model;
 
 namespace YanZhiwei.DotNet4.Utilities.Common
 {

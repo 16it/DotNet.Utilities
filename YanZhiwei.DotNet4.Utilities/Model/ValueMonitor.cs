@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace YanZhiwei.DotNet4.Utilities.Models
+namespace YanZhiwei.DotNet4.Utilities.Model
 {
     /// <summary>
     /// 数值改变委托

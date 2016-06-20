@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using YanZhiwei.DotNet2.Utilities.Model;
 
-namespace YanZhiwei.DotNet4.Utilities.Models
+namespace YanZhiwei.DotNet4.Utilities.Model
 {
     /// <summary>
     /// 支持泛型的列表字段排序条件

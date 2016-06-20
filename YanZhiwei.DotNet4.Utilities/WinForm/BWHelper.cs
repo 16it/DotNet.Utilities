@@ -7,7 +7,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using YanZhiwei.DotNet4.Utilities.Models;
+    using YanZhiwei.DotNet4.Utilities.Model;
 
     /// <summary>
     /// BackgroundWorker 帮助类

@@ -4,7 +4,7 @@
     using System.Collections.Concurrent;
 
     using YanZhiwei.DotNet2.Utilities.Common;
-    using YanZhiwei.DotNet4.Utilities.Models;
+    using YanZhiwei.DotNet4.Utilities.Model;
 
     /// <summary>
     /// ConcurrentBag 数据操作通知增强类
