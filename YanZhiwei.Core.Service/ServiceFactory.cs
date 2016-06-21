@@ -1,5 +1,4 @@
-﻿using YanZhiwei.DotNet.Core.Cache;
-using YanZhiwei.DotNet3._5.Utilities.Common;
+﻿using YanZhiwei.DotNet3._5.Utilities.Common;
 
 namespace YanZhiwei.DotNet.Core.Service
 {
