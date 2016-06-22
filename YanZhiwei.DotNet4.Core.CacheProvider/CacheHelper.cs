@@ -22,15 +22,14 @@ namespace YanZhiwei.DotNet4.Core.CacheProvider
         public static TSource[] ToCacheArray<TSource>(this IQueryable<TSource> source)
         {
             string _key = GetKey(source.Expression);
-            WrapCacheConfigItem _cacheConfig = CacheConfigContext.GetCurrentWrapCacheConfigItem(_key);
-            TSource[] result = _cacheConfig.CacheProvider.Get<TSource[]>(_key);
-            if (result != null)
+            TSource[] _result = (TSource[])DotNet.Core.Cache.CacheHelper.Get(_key);
+            if (_result != null)
             {
-                return result;
+                return _result;
             }
-            result = source.ToArray();
-            _cacheConfig.CacheProvider.Set(_key, result, _cacheConfig.CacheConfigItem.Minitus, _cacheConfig.CacheConfigItem.IsAbsoluteExpiration, null);
-            return result;
+            _result = source.ToArray();
+            DotNet.Core.Cache.CacheHelper.Set(_key, _result);
+            return _result;
         }
 
         /// <summary>
@@ -42,14 +41,13 @@ namespace YanZhiwei.DotNet4.Core.CacheProvider
         public static List<TSource> ToCacheList<TSource>(this IQueryable<TSource> source)
         {
             string _key = GetKey(source.Expression);
-            WrapCacheConfigItem _cacheConfig = CacheConfigContext.GetCurrentWrapCacheConfigItem(_key);
-            List<TSource> _result = _cacheConfig.CacheProvider.Get<List<TSource>>(_key);
+            List<TSource> _result = (List<TSource>)DotNet.Core.Cache.CacheHelper.Get(_key);
             if (_result != null)
             {
                 return _result;
             }
             _result = source.ToList();
-            _cacheConfig.CacheProvider.Set(_key, _result, _cacheConfig.CacheConfigItem.Minitus, _cacheConfig.CacheConfigItem.IsAbsoluteExpiration, null);
+            DotNet.Core.Cache.CacheHelper.Set(_key, _result);
             return _result;
         }
 
@@ -68,16 +66,16 @@ namespace YanZhiwei.DotNet4.Core.CacheProvider
             PageCondition pageCondition,
             Expression<Func<TEntity, TResult>> selector)
         {
-            string key = GetKey(source, predicate, pageCondition, selector);
-            WrapCacheConfigItem _cacheConfig = CacheConfigContext.GetCurrentWrapCacheConfigItem(key);
-            PageResult<TResult> result = _cacheConfig.CacheProvider.Get<PageResult<TResult>>(key);
-            if (result != null)
+            string _key = GetKey(source, predicate, pageCondition, selector);
+
+            PageResult<TResult> _result = (PageResult<TResult>)DotNet.Core.Cache.CacheHelper.Get(_key);
+            if (_result != null)
             {
-                return result;
+                return _result;
             }
-            result = source.ToPage(predicate, pageCondition, selector);
-            _cacheConfig.CacheProvider.Set(key, result, _cacheConfig.CacheConfigItem.Minitus, _cacheConfig.CacheConfigItem.IsAbsoluteExpiration, null);
-            return result;
+            _result = source.ToPage(predicate, pageCondition, selector);
+            DotNet.Core.Cache.CacheHelper.Set(_key, _result);
+            return _result;
         }
 
         private static string GetKey<TEntity, TResult>(IQueryable<TEntity> source,
