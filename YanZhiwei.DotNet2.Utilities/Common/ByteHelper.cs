@@ -207,7 +207,50 @@
         }
 
         /// <summary>
-        /// 把Uint(2个字节)类型转化为字节数组
+        /// 把uint转换成字节数组
+        /// <para>uint _data = 255;</para>
+        ///<para> CollectionAssert.AreEqual(new byte[4] { 0xff, 0x00, 0x00, 0x00 }, ByteHelper.ToBytes(_data, false));</para>
+        /// <para> CollectionAssert.AreEqual(new byte[4] { 0x00, 0x00, 0x00, 0xff }, ByteHelper.ToBytes(_data, true));</para>
+        /// </summary>
+        /// <param name="value">uint</param>
+        /// <param name="reverse">是不是需要把得到的字节数组反转</param>
+        /// <returns>Byte数组</returns>
+        /// 时间：2016/6/22 9:35
+        /// 备注：
+        public static byte[] ToBytes(this uint value, bool reverse)
+        {
+            byte[] _data = BitConverter.GetBytes(value);
+            if (reverse)
+            {
+                Array.Reverse(_data);
+            }
+            return _data;
+        }
+
+        /// <summary>
+        /// 把ulong转换成字节数组
+        /// <para> ulong _data2 = 255;</para>
+        ///<para> CollectionAssert.AreEqual(new byte[8] { 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }, ByteHelper.ToBytes(_data2, false));</para>
+        /// <para> CollectionAssert.AreEqual(new byte[8] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff }, ByteHelper.ToBytes(_data2, true));</para>
+        /// </summary>
+        /// </summary>
+        /// <param name="value">ulong</param>
+        /// <param name="reverse">if set to <c>true</c> [reverse].</param>
+        /// <returns></returns>
+        /// 时间：2016/6/22 9:46
+        /// 备注：
+        public static byte[] ToBytes(this ulong value, bool reverse)
+        {
+            byte[] _data = BitConverter.GetBytes(value);
+            if (reverse)
+            {
+                Array.Reverse(_data);
+            }
+            return _data;
+        }
+
+        /// <summary>
+        /// 把ushort(2个字节)类型转化为字节数组
         ///  <para>eg: CollectionAssert.AreEqual(new byte[2] { 0x01, 0x02 }, ByteHelper.ToBytes(258));</para>
         /// </summary>
         /// <param name="value">UShort类型</param>
@@ -216,19 +259,6 @@
         {
             return value.ToBytes(true);
         }
-
-        ///// <summary>
-        ///// 将int转换成byte数组
-        ///// <para>eg: CollectionAssert.AreEqual(new byte[2] { 0x01, 0x02 }, ByteHelper.ToBytes(258));</para>
-        ///// </summary>
-        ///// <param name="value">The value.</param>
-        ///// <returns></returns>
-        //public static byte[] ToBytes(this int value)
-        //{
-        //    string _hex = HexHelper.ToHexString(value);
-        //    byte[] _bytes = ParseHexString(_hex);
-        //    return _bytes;
-        //}
 
         /// <summary>
         /// 将int转换成byte数组，并保持特定数组长度

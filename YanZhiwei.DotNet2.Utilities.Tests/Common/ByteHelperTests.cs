@@ -60,6 +60,13 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         {
             CollectionAssert.AreEqual(new byte[2] { 0x01, 0x02 }, ByteHelper.ToBytes(258));
             CollectionAssert.AreEqual(new byte[2] { 0x08, 0x00 }, ByteHelper.ToBytes(8, 2));
+            uint _data = 255;
+            CollectionAssert.AreEqual(new byte[4] { 0xff, 0x00, 0x00, 0x00 }, ByteHelper.ToBytes(_data, false));
+            CollectionAssert.AreEqual(new byte[4] { 0x00, 0x00, 0x00, 0xff }, ByteHelper.ToBytes(_data, true));
+
+            ulong _data2 = 255;
+            CollectionAssert.AreEqual(new byte[8] { 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }, ByteHelper.ToBytes(_data2, false));
+            CollectionAssert.AreEqual(new byte[8] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff }, ByteHelper.ToBytes(_data2, true));
         }
 
         [TestMethod()]
