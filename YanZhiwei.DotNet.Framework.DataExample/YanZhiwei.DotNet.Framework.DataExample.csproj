@@ -66,6 +66,18 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Cache\YanZhiwei.DotNet.Core.Cache.csproj">
+      <Project>{30104ac9-1c35-468d-8e43-8309e5b9cbe3}</Project>
+      <Name>YanZhiwei.DotNet.Core.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.ConfigExamples\YanZhiwei.DotNet.Core.ConfigExamples.csproj">
+      <Project>{aeebc79f-a8ba-41f9-b029-dfd40977a0d4}</Project>
+      <Name>YanZhiwei.DotNet.Core.ConfigExamples</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Model\YanZhiwei.DotNet.Core.Model.csproj">
+      <Project>{26fc1441-a657-4d9d-8813-a52dac3387d7}</Project>
+      <Name>YanZhiwei.DotNet.Core.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.Framework.Data\YanZhiwei.DotNet.Framework.Data.csproj">
       <Project>{24493a90-535f-4a92-b206-69039d40529a}</Project>
       <Name>YanZhiwei.DotNet.Framework.Data</Name>
@@ -78,6 +90,11 @@
       <Project>{5cd641fa-33ba-4fa3-9df4-97a0c2e53e14}</Project>
       <Name>YanZhiwei.DotNet.Framework.Contract</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\CacheConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
