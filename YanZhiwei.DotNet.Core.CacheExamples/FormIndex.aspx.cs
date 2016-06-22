@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using YanZhiwei.DotNet.Core.Cache;
-using YanZhiwei.DotNet4.Core.CacheProvider;
 using YanZhiwei.DotNet.Core.Cache.Examples;
 using YanZhiwei.DotNet.Core.Log;
 using YanZhiwei.DotNet2.Utilities.Model;
+using YanZhiwei.DotNet4.Core.CacheProvider;
 
 namespace YanZhiwei.DotNet.Core.CacheExamples
 {
@@ -52,6 +51,10 @@ namespace YanZhiwei.DotNet.Core.CacheExamples
                                                                     );
                 Products[] _productList = _productPageResult.Data;
             }
+        }
+
+        protected void Button6_Click(object sender, EventArgs e)
+        {
         }
     }
 }

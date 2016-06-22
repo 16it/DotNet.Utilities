@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FormIndex.aspx.cs" Inherits="YanZhiwei.DotNet.Core.Cache.Examples.FormIndex" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FormIndex.aspx.cs" Inherits="YanZhiwei.DotNet.Core.CacheExamples.FormIndex" %>
 
 <!DOCTYPE html>
 
@@ -15,6 +15,7 @@
             <asp:Button ID="Button5" runat="server" Text="ToPageCache" OnClick="Button5_Click" />
             <asp:Button ID="Button3" runat="server" Text="Log Text Set" OnClick="Button3_Click" />
             <asp:Button ID="Button4" runat="server" Text="Log Db Set" OnClick="Button4_Click" />
+            <asp:Button ID="Button6" runat="server" Text="Cache Event" OnClick="Button6_Click"/>
         </div>
     </form>
 </body>

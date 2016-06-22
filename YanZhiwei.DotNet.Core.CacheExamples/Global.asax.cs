@@ -1,11 +1,16 @@
 ﻿using System;
-using YanZhiwei.DotNet.Core.Cache;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.SessionState;
 using YanZhiwei.DotNet.Core.ConfigExamples;
 
-namespace YanZhiwei.DotNet.Core.CacheExamples
+namespace YanZhiwei.DotNet.Core.Cache.Examples
 {
     public class Global : System.Web.HttpApplication
     {
+
         protected void Application_Start(object sender, EventArgs e)
         {
             CacheConfigContext.SetCacheConfig(CachedConfigContext.Current.CacheConfig);
@@ -13,26 +18,32 @@ namespace YanZhiwei.DotNet.Core.CacheExamples
 
         protected void Session_Start(object sender, EventArgs e)
         {
+
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
+
         }
 
         protected void Application_Error(object sender, EventArgs e)
         {
+
         }
 
         protected void Session_End(object sender, EventArgs e)
         {
+
         }
 
         protected void Application_End(object sender, EventArgs e)
         {
+
         }
     }
 }
