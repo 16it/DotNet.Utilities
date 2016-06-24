@@ -17,9 +17,9 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
             DateTime _start = new DateTime(2009, 12, 9, 10, 0, 0); //10 o'clock
             DateTime _end = new DateTime(2009, 12, 10, 12, 0, 0); //12 o'clock
             DateTime _now = new DateTime(2009, 12, 10, 11, 0, 0);
-            Assert.IsTrue(_now.InRange(_start, _end, true));
+            Assert.IsTrue(CheckHelper.InRange(_now, _start, _end, true));
             _now = new DateTime(2009, 12, 10, 12, 0, 0);
-            Assert.IsFalse(_now.InRange(_start, _end, false));
+            Assert.IsFalse(CheckHelper.InRange(_now, _start, _end, false));
         }
 
         [TestMethod()]

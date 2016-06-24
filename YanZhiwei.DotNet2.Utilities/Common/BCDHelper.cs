@@ -72,7 +72,7 @@
         public static byte[] Parse8421BCDNumber(this int bcdNumber, bool isLittleEndian)
         {
             string _bcdString = bcdNumber.ToString();
-            if (!_bcdString.IsBinaryCodedDecimal())
+            if (!CheckHelper.IsBinaryCodedDecimal(_bcdString))
             {
                 _bcdString = _bcdString.PadLeft(_bcdString.Length + 1, '0');
             }
@@ -91,7 +91,7 @@
         public static byte[] Parse8421BCDString(this string bcdString, bool isLittleEndian)
         {
             byte[] _bytes = null;
-            if (bcdString.IsBinaryCodedDecimal())
+            if (CheckHelper.IsBinaryCodedDecimal(bcdString))
             {
                 char[] _chars = bcdString.ToCharArray();
                 int _len = _chars.Length / 2;
