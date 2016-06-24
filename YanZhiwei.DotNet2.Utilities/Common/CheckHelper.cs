@@ -20,7 +20,7 @@
         /// <param name="minValue">范围最小值</param>
         /// <param name="maxValue">范围最大值</param>
         /// <returns>是否在某个范围</returns>
-        public static bool InRange(this string data, int minValue, int maxValue)
+        public static bool InRange(string data, int minValue, int maxValue)
         {
             bool _result = false;
             int _number = -1;
@@ -41,7 +41,7 @@
         /// <returns></returns>
         /// 创建时间:2015-06-30 16:52
         /// 备注说明:<c>null</c>
-        public static bool InRange(this DateTime date, DateTime startTime, DateTime endTime, bool includeEq)
+        public static bool InRange(DateTime date, DateTime startTime, DateTime endTime, bool includeEq)
         {
             bool _result = false;
             if (includeEq)
@@ -88,7 +88,7 @@
         /// </summary>
         /// <param name="data">验证字符串</param>
         /// <returns>否是BCD字符串</returns>
-        public static bool IsBinaryCodedDecimal(this string data)
+        public static bool IsBinaryCodedDecimal(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.BinaryCodedDecimal);
         }
@@ -98,7 +98,7 @@
         /// </summary>
         /// <param name="data">数据</param>
         /// <returns>布尔类型</returns>
-        public static bool IsBool(this object data)
+        public static bool IsBool(object data)
         {
             switch (data.ToString().Trim().ToLower())
             {
@@ -130,7 +130,7 @@
         /// </summary>
         /// <param name="data">验证字符串</param>
         /// <returns>是否是中文</returns>
-        public static bool IsChinses(this string data)
+        public static bool IsChinses(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.IntCheck);
         }
@@ -141,7 +141,7 @@
         /// </summary>
         /// <param name="data">需要判断字符串</param>
         /// <returns>是否是日期格式</returns>
-        public static bool IsDate(this string data)
+        public static bool IsDate(string data)
         {
             if (String.IsNullOrEmpty(data)) return false;
             if (RegexHelper.IsMatch(data, RegexPattern.DateCheck))
@@ -162,7 +162,7 @@
         /// </summary>
         /// <param name="data">验证字符串</param>
         /// <returns>是否是email</returns>
-        public static bool IsEmail(this string data)
+        public static bool IsEmail(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.EmailCheck);
         }
@@ -172,7 +172,7 @@
         /// </summary>
         /// <param name="data">需要判断项</param>
         /// <returns>是否是偶数</returns>
-        public static bool IsEven(this int data)
+        public static bool IsEven(int data)
         {
             return ((data & 1) == 0);
         }
@@ -183,7 +183,7 @@
         /// </summary>
         /// <param name="data">验证字符串</param>
         /// <returns>是否是文件路径</returns>
-        public static bool IsFilePath(this string data)
+        public static bool IsFilePath(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.FileCheck);
         }
@@ -258,7 +258,7 @@
         /// 是否是整数
         /// </summary>
         /// <returns>Validation</returns>
-        public static bool IsInt(this string data)
+        public static bool IsInt(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.IntCheck);
         }
@@ -297,20 +297,19 @@
         /// </summary>
         /// <param name="data">需要检测到IP</param>
         /// <returns>Validation</returns>
-        public static bool IsIp4Address(this string data)
+        public static bool IsIp4Address(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.IpCheck);
         }
 
         /// <summary>
-        /// 判断纬度是否合法
+        /// 判断是否是合法纬度
         /// </summary>
-        /// <param name="data">纬度</param>
+        /// <param name="data">需要判断的纬度</param>
         /// <returns>是否合法</returns>
-        public static bool IsLatitude(this double data)
+        public static bool IsLatitude(decimal data)
         {
-            if (data < -90 || data > 90) return false;
-            return true;
+            return !(data < -90 || data > 90);
         }
 
         /// <summary>
@@ -332,7 +331,7 @@
              * 做网关的服务器有一个网关（服务器/路由器）的IP地址,其它内网电脑的IP可根据它来随意设置,前提是IP前三个数要跟它一样,第四个可从0-255中任选但要跟服务器的IP不同
              */
             bool _result = false;
-            if (!string.IsNullOrEmpty(ipAddress) && ipAddress.IsIp4Address())
+            if (!string.IsNullOrEmpty(ipAddress) && IsIp4Address(ipAddress))
             {
                 if (ipAddress.StartsWith("192.168.") || ipAddress.StartsWith("172.") || ipAddress.StartsWith("10."))
                 {
@@ -343,14 +342,13 @@
         }
 
         /// <summary>
-        /// 判断经度是否合法
+        /// 判断是否是合法经度
         /// </summary>
-        /// <param name="data">经度</param>
+        /// <param name="data">需要判断的经度</param>
         /// <returns>是否合法</returns>
-        public static bool IsLongitude(this double data)
+        public static bool IsLongitude(decimal data)
         {
-            if (data < -180 || data > 180) return false;
-            return true;
+            return !(data < -180 || data > 180);
         }
 
         /// <summary>
@@ -359,7 +357,7 @@
         /// </summary>
         /// <param name="data">判断字符串</param>
         /// <returns>是否是数字</returns>
-        public static bool IsNumber(this string data)
+        public static bool IsNumber(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.NumberCheck);
         }
@@ -369,7 +367,7 @@
         /// </summary>
         /// <param name="data">需要判断项</param>
         /// <returns>是否是奇数</returns>
-        public static bool IsOdd(this int data)
+        public static bool IsOdd(int data)
         {
             return ((data & 1) == 1);
         }
@@ -379,7 +377,7 @@
         /// </summary>
         /// <param name="data">验证字符串</param>
         /// <returns>是否是邮政编码</returns>
-        public static bool IsPoseCode(this string data)
+        public static bool IsPoseCode(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.PostCodeCheck);
         }
@@ -414,7 +412,7 @@
         /// </summary>
         /// <param name="data">验证字符串</param>
         /// <returns>是否是URL</returns>
-        public static bool IsURL(this string data)
+        public static bool IsURL(string data)
         {
             return RegexHelper.IsMatch(data, RegexPattern.URLCheck);
         }
@@ -424,7 +422,7 @@
         /// </summary>
         /// <param name="port">端口号</param>
         /// <returns>端口号是否正确</returns>
-        public static bool IsValidPort(this string port)
+        public static bool IsValidPort(string port)
         {
             bool _result = false;
             int _minPORT = 0, _maxPORT = 65535;
