@@ -282,6 +282,21 @@
         }
 
         /// <summary>
+        /// 移除Json字符串诸如“{”,“}”符号
+        /// </summary>
+        /// <param name="jsonString">Json字符串</param>
+        /// <returns>Json字符串</returns>
+        /// 时间：2016/6/29 16:31
+        /// 备注：
+        public static string RemoveJsonStringSymbol(string jsonString)
+        {
+            if (string.IsNullOrEmpty(jsonString))
+            {
+                return jsonString.Replace("{", "").Replace("}", "").Replace("\"", "");
+            }
+            return jsonString;
+        }
+        /// <summary>
         /// 字符串逆转
         /// <para>eg:StringHelper.Reverse("YanZhiwei");</para>
         /// </summary>
