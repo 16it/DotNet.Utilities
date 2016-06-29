@@ -1,21 +1,24 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Data;
-using System.IO;
-
-namespace YanZhiwei.DotNet.Newtonsoft.Json.Utilities
+﻿namespace YanZhiwei.DotNet.Newtonsoft.Json.Utilities
 {
+    using global::Newtonsoft.Json;
+    using System;
+    using System.Data;
+    using System.IO;
+
+
+
     /// <summary>
     /// Json 辅助类
     /// </summary>
     public sealed class JsonHelper
     {
+        #region Methods
+
         /*
          * 参考：
          * 1.http://weblog.west-wind.com/posts/2008/Sep/03/DataTable-JSON-Serialization-in-JSONNET-and-JavaScriptSerializer
          * 2.http://blog.prabir.me/posts/json-in-classical-web-services-asmx
          */
-
         /// <summary>
         /// 反序列化Json数据格式
         /// </summary>
@@ -43,9 +46,11 @@ namespace YanZhiwei.DotNet.Newtonsoft.Json.Utilities
 
         /// <summary>
         /// 序列化数据为Json数据格式.
+        /// <para>说明 [JsonProperty("姓名")]重命名属性名称</para>
+        /// <para>说明 [JsonIgnore]忽略属性</para>
         /// </summary>
         /// <param name="value">需要序列化对象</param>
-        /// <returns>Json</returns>
+        /// <returns>Jsonz字符串</returns>
         public static string Serialize(object value)
         {
             Type _type = value.GetType();
@@ -71,8 +76,6 @@ namespace YanZhiwei.DotNet.Newtonsoft.Json.Utilities
             }
         }
 
-        #region 私有方法
-
         private static void JsonInitialize(JsonSerializer jsonSerializer)
         {
             if (jsonSerializer != null)
@@ -84,6 +87,6 @@ namespace YanZhiwei.DotNet.Newtonsoft.Json.Utilities
             }
         }
 
-        #endregion 私有方法
+        #endregion Methods
     }
 }
