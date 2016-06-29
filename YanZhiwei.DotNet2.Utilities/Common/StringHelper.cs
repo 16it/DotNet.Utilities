@@ -290,7 +290,7 @@
         /// 备注：
         public static string RemoveJsonStringSymbol(string jsonString)
         {
-            if (string.IsNullOrEmpty(jsonString))
+            if (!string.IsNullOrEmpty(jsonString))
             {
                 return jsonString.Replace("{", "").Replace("}", "").Replace("\"", "");
             }
