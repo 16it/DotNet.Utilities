@@ -1,6 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using System.Collections;
-using YanZhiwei.DotNet3._5.Utilities.WPF;
+using YanZhiwei.DotNet3._5.Utilities.XAML;
 namespace YanZhiwei.DotNet.MahApps.Metro0.Utilities
 {
     /// <summary>

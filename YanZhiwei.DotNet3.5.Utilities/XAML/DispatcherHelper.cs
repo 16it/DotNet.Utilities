@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet3._5.Utilities.WPF
+﻿namespace YanZhiwei.DotNet3._5.Utilities.XAML
 {
     using System;
     using System.Windows.Threading;
