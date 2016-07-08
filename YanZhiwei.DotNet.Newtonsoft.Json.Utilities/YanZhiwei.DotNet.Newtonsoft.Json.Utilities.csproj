@@ -52,6 +52,7 @@
     <Compile Include="DataSetConverter.cs" />
     <Compile Include="DataTableConverter.cs" />
     <Compile Include="JsonHelper.cs" />
+    <Compile Include="LimitPropsContractResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
