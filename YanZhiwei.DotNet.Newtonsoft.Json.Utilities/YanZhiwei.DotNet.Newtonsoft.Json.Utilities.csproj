@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChinaDateTimeConverter.cs" />
     <Compile Include="DataRowConverter.cs" />
     <Compile Include="DataSetConverter.cs" />
     <Compile Include="DataTableConverter.cs" />
