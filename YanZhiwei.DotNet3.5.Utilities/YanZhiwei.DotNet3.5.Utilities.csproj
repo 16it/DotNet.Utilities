@@ -73,6 +73,7 @@
     <Compile Include="Common\GuidHelper.cs" />
     <Compile Include="Common\IDataReaderHelper.cs" />
     <Compile Include="Common\PageHelper.cs" />
+    <Compile Include="Common\RecursiveSelectHelper.cs" />
     <Compile Include="Common\TypeHelper.cs" />
     <Compile Include="Common\WcfServiceProxy.cs" />
     <Compile Include="Core\ExpressionEvaluator.cs" />

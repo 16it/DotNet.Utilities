@@ -59,6 +59,7 @@
     <Compile Include="Common\DistinctHelperTests.cs" />
     <Compile Include="Common\EnumerableHelperTests.cs" />
     <Compile Include="Common\RecursiveJoinHelperTests.cs" />
+    <Compile Include="Common\RecursiveSelectHelperTests.cs" />
     <Compile Include="Common\ScriptSerializerHelperTests.cs" />
     <Compile Include="Common\WhereIfHelperTests.cs" />
     <Compile Include="Model\DeepNodeData.cs" />
