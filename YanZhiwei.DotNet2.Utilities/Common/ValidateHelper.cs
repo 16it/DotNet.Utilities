@@ -326,14 +326,16 @@
         }
 
         /// <summary>
-        /// Checks the specified filter method.
+        /// 自定义参数检查
         /// </summary>
-        /// <typeparam name="TException">The type of the exception.</typeparam>
-        /// <param name="validation">The validation.</param>
-        /// <param name="filterMethod">The filter method.</param>
-        /// <param name="message">The message.</param>
+        /// <typeparam name="TException">泛型</typeparam>
+        /// <param name="validation">Validation</param>
+        /// <param name="filterMethod">委托</param>
+        /// <param name="message">自定义错误消息</param>
         /// <returns>Validation</returns>
-        private static Validation Check<TException>(this Validation validation, Func<bool> filterMethod, string message)
+        /// 时间：2016/7/19 11:37
+        /// 备注：
+        public static Validation Check<TException>(this Validation validation, Func<bool> filterMethod, string message)
             where TException : Exception
         {
             if (filterMethod())
