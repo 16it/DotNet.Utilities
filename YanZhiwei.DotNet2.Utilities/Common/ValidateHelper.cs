@@ -110,9 +110,9 @@
         /// <param name="max">最大值</param>
         /// <param name="argumentName">参数名称</param>
         /// <returns>Validation</returns>
-        public static Validation InRange(this Validation validation, string data, int min, int max, string argumentName)
+        public static Validation InRange(this Validation validation, int data, int min, int max, string argumentName)
         {
-            return Check<ArgumentOutOfRangeException>(validation, () => CheckHelper.InRange(data, min, max), string.Format(Resource.ParameterCheck_Between, min, max));
+            return Check<ArgumentOutOfRangeException>(validation, () => data >= min && data <= max, string.Format(Resource.ParameterCheck_Between, argumentName,min, max));
         }
 
         /// <summary>
