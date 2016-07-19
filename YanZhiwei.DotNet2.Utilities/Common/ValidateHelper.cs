@@ -37,6 +37,30 @@
         }
 
         /// <summary>
+        /// 自定义参数检查
+        /// </summary>
+        /// <typeparam name="TException">泛型</typeparam>
+        /// <param name="validation">Validation</param>
+        /// <param name="filterMethod">委托</param>
+        /// <param name="message">自定义错误消息</param>
+        /// <returns>Validation</returns>
+        /// 时间：2016/7/19 11:37
+        /// 备注：
+        public static Validation Check<TException>(this Validation validation, Func<bool> filterMethod, string message)
+            where TException : Exception
+        {
+            if (filterMethod())
+            {
+                return validation ?? new Validation() { IsValid = true };
+            }
+            else
+            {
+                TException _exception = (TException)Activator.CreateInstance(typeof(TException), message);
+                throw _exception;
+            }
+        }
+
+        /// <summary>
         /// 检查指定路径的文件夹必须存在，否则抛出<see cref="DirectoryNotFoundException"/>异常。
         /// </summary>
         /// <param name="validation">Validation</param>
@@ -324,31 +348,6 @@
         {
             return Check<ArgumentException>(validation, () => Regex.IsMatch(input, pattern), string.Format(Resource.ParameterCheck_Match, input, argumentName));
         }
-
-        /// <summary>
-        /// 自定义参数检查
-        /// </summary>
-        /// <typeparam name="TException">泛型</typeparam>
-        /// <param name="validation">Validation</param>
-        /// <param name="filterMethod">委托</param>
-        /// <param name="message">自定义错误消息</param>
-        /// <returns>Validation</returns>
-        /// 时间：2016/7/19 11:37
-        /// 备注：
-        public static Validation Check<TException>(this Validation validation, Func<bool> filterMethod, string message)
-            where TException : Exception
-        {
-            if (filterMethod())
-            {
-                return validation ?? new Validation() { IsValid = true };
-            }
-            else
-            {
-                TException _exception = (TException)Activator.CreateInstance(typeof(TException), message);
-                throw _exception;
-            }
-        }
-
         #endregion Methods
     }
 }
