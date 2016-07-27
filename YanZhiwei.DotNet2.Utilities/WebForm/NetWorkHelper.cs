@@ -32,11 +32,11 @@
         }
 
         /// <summary>
-        /// 获取访客ip4地址
+        /// 获取访客外网ip4地址
         /// </summary>
         /// <param name="request">HttpRequest</param>
         /// <returns>ip地址</returns>
-        public static string GetVisitorIp4(this HttpRequest request)
+        public static string GetExtranetIP4Address(this HttpRequest request)
         {
             string _ip4address;
             _ip4address = request.ServerVariables["HTTP_X_FORWARDED_FOR"];
