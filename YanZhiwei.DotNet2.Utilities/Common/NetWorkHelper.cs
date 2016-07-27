@@ -5,6 +5,8 @@
     using System.Net;
     using System.Net.NetworkInformation;
     using System.Net.Sockets;
+    using System.Runtime.InteropServices;
+    using System.Text;
 
     /// <summary>
     /// NetWork帮助类
@@ -12,11 +14,6 @@
     public static class NetWorkHelper
     {
         #region Methods
-
-        /*
-         * 参考：
-         * 1. http://www.cnblogs.com/feiyun126/archive/2013/02/20/2918247.html
-         */
 
         /// <summary>
         /// 获取本机名
@@ -47,9 +44,9 @@
         /// 根据网卡类型来获取mac地址
         /// </summary>
         /// <param name="networkType">网卡类型</param>
-        /// <param name="macAddressFormatHanlder">格式化获取到的mac地址</param>
+        /// <param name="getMacAddrFactory">格式化获取到的mac地址</param>
         /// <returns>获取到的mac地址</returns>
-        public static string GetMacAddress(NetworkInterfaceType networkType, Func<string, string> macAddressFormatHanlder)
+        public static string GetMacAddress(NetworkInterfaceType networkType, Func<string, string> getMacAddrFactory)
         {
             string _mac = string.Empty;
             NetworkInterface[] _networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
@@ -65,9 +62,9 @@
                 }
             }
 
-            if (macAddressFormatHanlder != null)
+            if (getMacAddrFactory != null)
             {
-                _mac = macAddressFormatHanlder(_mac);
+                _mac = getMacAddrFactory(_mac);
             }
 
             return _mac;
@@ -85,9 +82,9 @@
         /// Dormant 网络接口不处于传输数据包的状态；它正等待外部事件。
         /// NotPresent 由于缺少组件（通常为硬件组件），网络接口无法传输数据包。
         /// LowerLayerDown 网络接口无法传输数据包，因为它运行在一个或多个其他接口之上，而这些“低层”接口中至少有一个已关闭。
-        /// <param name="macAddressFormatHanlder">格式化获取到的mac地址</param>
+        /// <param name="getMacAddrFactory">格式化获取到的mac地址</param>
         /// <returns>获取到的mac地址</returns>
-        public static string GetMacAddress(NetworkInterfaceType networkType, OperationalStatus status, Func<string, string> macAddressFormatHanlder)
+        public static string GetMacAddress(NetworkInterfaceType networkType, OperationalStatus status, Func<string, string> getMacAddrFactory)
         {
             string _mac = string.Empty;
             NetworkInterface[] _networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
@@ -108,9 +105,9 @@
                 }
             }
 
-            if (macAddressFormatHanlder != null)
+            if (getMacAddrFactory != null)
             {
-                _mac = macAddressFormatHanlder(_mac);
+                _mac = getMacAddrFactory(_mac);
             }
 
             return _mac;
@@ -119,9 +116,9 @@
         /// <summary>
         /// 获取读到的第一个mac地址
         /// </summary>
-        /// <param name="macAddressFormatHanlder">委托</param>
+        /// <param name="getMacAddrFactory">委托</param>
         /// <returns>mac地址</returns>
-        public static string GetMacAddress(Func<string, string> macAddressFormatHanlder)
+        public static string GetMacAddress(Func<string, string> getMacAddrFactory)
         {
             string _mac = string.Empty;
             NetworkInterface[] _networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
@@ -134,12 +131,50 @@
                 }
             }
 
-            if (macAddressFormatHanlder != null)
+            if (getMacAddrFactory != null)
             {
-                _mac = macAddressFormatHanlder(_mac);
+                _mac = getMacAddrFactory(_mac);
             }
 
             return _mac;
+        }
+
+        /// <summary>
+        /// 通过ARP方式获取MAC地址
+        /// </summary>
+        /// <param name="ip">当前IP地址</param>
+        /// <returns>MAC地址</returns>
+        /// 时间：2016/7/27 13:42
+        /// 备注：
+        public static string GetMacAddressByARP(string ip)
+        {
+            StringBuilder _builder = new StringBuilder();
+            try
+            {
+                int _ipAddress = inet_addr(ip);
+                long _macInfo = new long();
+                long _length = 6;
+                SendARP(_ipAddress, 0, ref _macInfo, ref _length);
+                string _temp = Convert.ToString(_macInfo, 16).PadLeft(12, '0').ToUpper();
+                int _x = 12;
+                for (int i = 0; i < 6; i++)
+                {
+                    if (i == 5)
+                    {
+                        _builder.Append(_temp.Substring(_x - 2, 2));
+                    }
+                    else
+                    {
+                        _builder.Append(_temp.Substring(_x - 2, 2) + "-");
+                    }
+                    _x -= 2;
+                }
+                return _builder.ToString();
+            }
+            catch
+            {
+                return _builder.ToString();
+            }
         }
 
         /// <summary>
@@ -183,6 +218,12 @@
 
             return _inUse;
         }
+
+        [DllImport("Ws2_32.dll")]
+        private static extern int inet_addr(string ip);
+
+        [DllImport("Iphlpapi.dll")]
+        private static extern int SendARP(int dest, int host, ref long mac, ref long length);
 
         #endregion Methods
     }
