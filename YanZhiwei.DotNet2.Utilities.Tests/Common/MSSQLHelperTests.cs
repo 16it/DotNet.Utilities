@@ -70,7 +70,7 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         [TestMethod()]
         public void BatchInertTest()
         {
-            DataTable _db = DataHelper.CreateTable("PName,PAge|int,PAddress");
+            DataTable _db = DataTableHelper.CreateTable("PName,PAge|int,PAddress");
             Random _rd = new Random();
             for (int i = 0; i < 300; i++)
             {

@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="Common\AttributeHelper.cs" />
     <Compile Include="Common\ComparisonHelper.cs" />
-    <Compile Include="Common\DataHelper.cs" />
+    <Compile Include="Common\DataBaseHelper.cs" />
     <Compile Include="Common\DataSetHelper.cs" />
     <Compile Include="Common\DataTableHelper.cs" />
     <Compile Include="Common\DbParameterHelper.cs" />

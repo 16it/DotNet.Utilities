@@ -1,14 +1,8 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Data;
     using System.Data.SqlClient;
-    using System.IO;
-    using System.Reflection;
-    using System.Text;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -16,7 +10,7 @@
     /// </summary>
     /// 时间：2016-02-25 12:00
     /// 备注：
-    public static class DataHelper
+    public static class DataBaseHelper
     {
         #region Methods
 
@@ -44,37 +38,6 @@
         public static string CreateSqlServerConnectString(string server, string datatabase)
         {
             return string.Format(@"Server={0}; Database={1}; Integrated Security=True;", server, datatabase);
-        }
-
-        /// <summary>
-        /// 创建Datatable，规范：列名|列类型,列名|列类型,列名|列类型
-        /// <para>举例：CustomeName|string,Gender|bool,Address</para>
-        /// </summary>
-        /// <param name="columnsInfo">创建表的字符串规则信息</param>
-        /// <returns>DataTable</returns>
-        public static DataTable CreateTable(string columnsInfo)
-        {
-            DataTable _dtNew = new DataTable();
-            string[] _columnsList = columnsInfo.Split(',');
-            string _columnName;
-            string _columnType;
-            string[] _singleColumnInfo;
-            foreach (string s in _columnsList)
-            {
-                _singleColumnInfo = s.Split('|');
-                _columnName = _singleColumnInfo[0];
-                if (_singleColumnInfo.Length == 2)
-                {
-                    _columnType = _singleColumnInfo[1];
-                    _dtNew.Columns.Add(new DataColumn(_columnName, Type.GetType(TransColumnType(_columnType))));
-                }
-                else
-                {
-                    _dtNew.Columns.Add(new DataColumn(_columnName));
-                }
-            }
-
-            return _dtNew;
         }
 
         /// <summary>
@@ -150,78 +113,28 @@
                 data = data.Replace("xp_", "x p_");
                 data = data.Replace("sp_", "s p_");
                 data = data.Replace("0x", "0 x");
-            }
-
-            return data;
-        }
-
-        /// <summary>
-        /// SQL注入筛选
-        /// </summary>
-        /// <param name="str">sql语句</param>
-        /// <returns>SQL注入筛选</returns>
-        public static string FilterSqlInjection(this string str)
-        {
-            if (!string.IsNullOrEmpty(str))
-            {
-                str = str.Replace(";", string.Empty);
-                str = str.Replace("'", string.Empty);
-                str = str.Replace("&", string.Empty);
-                str = str.Replace("%20", string.Empty);
-                str = str.Replace("-", string.Empty);
-                str = str.Replace("=", string.Empty);
-                str = str.Replace("==", string.Empty);
-                str = str.Replace("<", string.Empty);
-                str = str.Replace(">", string.Empty);
-                str = str.Replace("%", string.Empty);
-                str = str.Replace(" or", string.Empty);
-                str = str.Replace("or ", string.Empty);
-                str = str.Replace(" and", string.Empty);
-                str = str.Replace("and ", string.Empty);
-                str = str.Replace(" not", string.Empty);
-                str = str.Replace("not ", string.Empty);
-                str = str.Replace("!", string.Empty);
-                str = str.Replace("{", string.Empty);
-                str = str.Replace("}", string.Empty);
-                str = str.Replace("[", string.Empty);
-                str = str.Replace("]", string.Empty);
-                str = str.Replace("(", string.Empty);
-                str = str.Replace(")", string.Empty);
-                str = str.Replace("|", string.Empty);
-                str = str.Replace("_", string.Empty);
-            }
-
-            return str;
-        }
-
-        /// <summary>
-        /// 过滤字符串【HTML标记，敏感SQL操作关键，特殊字符】
-        /// </summary>
-        /// <param name="data">字符串</param>
-        /// <returns>处理后的字符串</returns>
-        public static string FilterString(this string data)
-        {
-            if (!string.IsNullOrEmpty(data))
-            {
-                data = FilterHtmlTag(data);
-                data = FilterUnSafeSQL(data);
-                data = FilterSpecial(data);
-            }
-
-            return data;
-        }
-
-        /// <summary>
-        /// 过滤SQL不安全的字符串
-        /// </summary>
-        /// <param name="data">字符串</param>
-        /// <returns>过滤后的字符串</returns>
-        public static string FilterUnSafeSQL(this string data)
-        {
-            if (!string.IsNullOrEmpty(data))
-            {
+                data = data.Replace(";", string.Empty);
                 data = data.Replace("'", string.Empty);
-                data = data.Replace("\"", string.Empty);
+                data = data.Replace("%20", string.Empty);
+                data = data.Replace("-", string.Empty);
+                data = data.Replace("=", string.Empty);
+                data = data.Replace("==", string.Empty);
+                data = data.Replace("%", string.Empty);
+                data = data.Replace(" or", string.Empty);
+                data = data.Replace("or ", string.Empty);
+                data = data.Replace(" and", string.Empty);
+                data = data.Replace("and ", string.Empty);
+                data = data.Replace(" not", string.Empty);
+                data = data.Replace("not ", string.Empty);
+                data = data.Replace("!", string.Empty);
+                data = data.Replace("{", string.Empty);
+                data = data.Replace("}", string.Empty);
+                data = data.Replace("[", string.Empty);
+                data = data.Replace("]", string.Empty);
+                data = data.Replace("(", string.Empty);
+                data = data.Replace(")", string.Empty);
+                data = data.Replace("|", string.Empty);
+                data = data.Replace("_", string.Empty);
                 data = data.Replace("&", "&amp");
                 data = data.Replace("<", "&lt");
                 data = data.Replace(">", "&gt");
@@ -245,6 +158,22 @@
                 data = Regex.Replace(data, "delete", string.Empty, RegexOptions.IgnoreCase);
                 data = Regex.Replace(data, "drop", string.Empty, RegexOptions.IgnoreCase);
                 data = Regex.Replace(data, "script", string.Empty, RegexOptions.IgnoreCase);
+            }
+
+            return data;
+        }
+
+        /// <summary>
+        /// 过滤字符串【HTML标记，敏感SQL操作关键，特殊字符】
+        /// </summary>
+        /// <param name="data">字符串</param>
+        /// <returns>处理后的字符串</returns>
+        public static string FilterString(this string data)
+        {
+            if (!string.IsNullOrEmpty(data))
+            {
+                data = FilterHtmlTag(data);
+                data = FilterSpecial(data);
             }
 
             return data;
@@ -374,219 +303,6 @@
             }
 
             return _dic;
-        }
-
-        /// <summary>
-        /// 将LIST集合转换对应的DataTable
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="data">集合</param>
-        /// <returns>将LIST集合转换对应的DataTable</returns>
-        public static DataTable ParseList<T>(this List<T> data)
-        {
-            PropertyDescriptorCollection _props = TypeDescriptor.GetProperties(typeof(T));
-            DataTable _table = new DataTable();
-            _table = CreateColumns(_props, _table);
-            _table = FillRow(data, _props, _table);
-            return _table;
-        }
-
-        /// <summary>
-        /// 将DataTable导出到CSV.
-        /// </summary>
-        /// <param name="table">DataTable</param>
-        /// <param name="fullSavePath">保存路径</param>
-        /// <param name="tableheader">标题信息</param>
-        /// <param name="columname">列名称『eg:姓名,年龄』</param>
-        /// <returns>导出成功true;导出失败false</returns>
-        public static bool ToCSV(this DataTable table, string fullSavePath, string tableheader, string columname)
-        {
-            //------------------------------------------------------------------------------------
-            try
-            {
-                string _bufferLine = string.Empty;
-                using (StreamWriter _writerObj = new StreamWriter(fullSavePath, false, Encoding.UTF8))
-                {
-                    if (!string.IsNullOrEmpty(tableheader))
-                    {
-                        _writerObj.WriteLine(tableheader);
-                    }
-
-                    if (!string.IsNullOrEmpty(columname))
-                    {
-                        _writerObj.WriteLine(columname);
-                    }
-
-                    for (int i = 0; i < table.Rows.Count; i++)
-                    {
-                        _bufferLine = string.Empty;
-                        for (int j = 0; j < table.Columns.Count; j++)
-                        {
-                            if (j > 0)
-                            {
-                                _bufferLine += ",";
-                            }
-
-                            _bufferLine += table.Rows[i][j].ToString();
-                        }
-
-                        _writerObj.WriteLine(_bufferLine);
-                    }
-
-                    return true;
-                }
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 将IDataReader转换成List
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="dataReader">IDataReader</param>
-        /// <returns>集合</returns>
-        public static List<T> ToEntitys<T>(this IDataReader dataReader)
-            where T : new()
-        {
-            if (dataReader == null)
-            {
-                return null;
-            }
-
-            Type _type = typeof(T);
-            Hashtable _tProperties = new Hashtable();
-            PropertyInfo[] _tPropertiesCache = _type.GetProperties();
-            foreach (PropertyInfo info in _tPropertiesCache)
-            {
-                _tProperties[info.Name.ToUpper()] = info;
-            }
-
-            List<T> _entitys = new List<T>();
-            while (dataReader.Read())
-            {
-                T _entity = new T();
-                for (int index = 0; index < dataReader.FieldCount; index++)
-                {
-                    PropertyInfo _rProperty = (PropertyInfo)_tProperties[dataReader.GetName(index).ToUpper()];
-                    if ((_rProperty == null) || !_rProperty.CanWrite)
-                    {
-                        continue;
-                    }
-
-                    object _rValue = dataReader.GetValue(index);
-                    Type _rType = _rValue.GetType();
-                    if (_rType == typeof(Guid))
-                    {
-                        _rProperty.SetValue(_entity, _rValue == DBNull.Value ? null : _rValue.ToString(), null);
-                    }
-                    else
-                    {
-                        _rProperty.SetValue(_entity, _rValue == DBNull.Value ? null : _rValue, null);
-                    }
-                }
-
-                _entitys.Add(_entity);
-            }
-
-            dataReader.Close();
-            return _entitys;
-        }
-
-        /// <summary>
-        /// 创建列
-        /// </summary>
-        /// <param name="property">属性</param>
-        /// <param name="dataTable">DataTable</param>
-        /// <returns>DataTable</returns>：
-        private static DataTable CreateColumns(PropertyDescriptorCollection property, DataTable dataTable)
-        {
-            if (dataTable != null && property != null)
-            {
-                for (int i = 0; i < property.Count; i++)
-                {
-                    PropertyDescriptor prop = property[i];
-                    dataTable.Columns.Add(prop.Name, prop.PropertyType);
-                }
-            }
-
-            return dataTable;
-        }
-
-        /// <summary>
-        /// 填充数据.
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="data">集合数据</param>
-        /// <param name="property">属性</param>
-        /// <param name="dataTable">DataTable</param>
-        /// <returns>DataTable</returns>
-        private static DataTable FillRow<T>(IList<T> data, PropertyDescriptorCollection property, DataTable dataTable)
-        {
-            object[] _values = new object[property.Count];
-            foreach (T item in data)
-            {
-                for (int i = 0; i < _values.Length; i++)
-                {
-                    _values[i] = property[i].GetValue(item);
-                }
-
-                dataTable.Rows.Add(_values);
-            }
-
-            return dataTable;
-        }
-
-        /// <summary>
-        /// 转义数据类型
-        /// </summary>
-        /// <param name="columnType">列类型</param>
-        /// <returns>转义后实际数据类型</returns>
-        private static string TransColumnType(string columnType)
-        {
-            string _currentType = string.Empty;
-            switch (columnType.ToLower())
-            {
-                case "int":
-                    _currentType = "System.Int32";
-                    break;
-
-                case "string":
-                    _currentType = "System.String";
-                    break;
-
-                case "decimal":
-                    _currentType = "System.Decimal";
-                    break;
-
-                case "double":
-                    _currentType = "System.Double";
-                    break;
-
-                case "dateTime":
-                    _currentType = "System.DateTime";
-                    break;
-
-                case "bool":
-                    _currentType = "System.Boolean";
-                    break;
-
-                case "image":
-                    _currentType = "System.Byte[]";
-                    break;
-
-                case "object":
-                    _currentType = "System.Object";
-                    break;
-
-                default:
-                    _currentType = "System.String";
-                    break;
-            }
-
-            return _currentType;
         }
 
         #endregion Methods
