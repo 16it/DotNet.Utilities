@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/bootstrap/easyui.css" rel="stylesheet" />
+    <link href="~/Content/themes/icon.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/jquery.easyui-1.4.5.min.js"></script>
+    <script src="~/Scripts/locale/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/jsUtils.js"></script>
+    <script src="~/Scripts/easyuiUtils.js"></script>
+    <script src="~/Scripts/page/login.js"></script>
+    <title>用户登录</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Login.init();
+          
+        });
+    </script>
+</head>
+<body>
+    <div id="loginDialog" style="padding: 15px; text-align: center">
+        <form id="loginFrm" method="post">
+            <table class="tableForm" style="width: 100%">
+                <tr>
+                    <th>
+                        用户名称
+                    </th>
+                    <td>
+                        <input type="text" id="txtName" name="loginName" class="easyui-validatebox textbox" style="width:170px;height:22px;" data-options="prompt:'UserName',required:true,validType:'length[2,20]'" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        用户密码
+                    </th>
+                    <td>
+                        <input type="password" id="txtPwd" name="loginPwd" class="easyui-validatebox textbox" style="width: 170px; height: 22px;" data-options="prompt:'Password',required:true" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        &nbsp; &nbsp;验证码
+                    </th>
+                    <td>
+                        <input type="text" class="easyui-validatebox textbox" name="loginVerificationCode" id="txtValidateCode" style="width: 90px; height: 22px; vertical-align: middle;" />
+                        <img id="imgValiCode" style="vertical-align: middle;" src="@Url.Action("GetValidatorGraphics", "Login")" tit title="看不清？点击更换图片。" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
