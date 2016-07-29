@@ -25,7 +25,7 @@
         {
             ValidateHelper.Begin().NotNull(request, "HttpRequest");
             RequestClientInfo _clientInfo = new RequestClientInfo();
-            _clientInfo.OSVersion = GetOsVersion(request);
+            //  _clientInfo.OSVersion = GetOsVersion(request);
             _clientInfo.BrowserVersion = GetBrowserVersion(request);
             _clientInfo.ComputerName = GetComputerName(request);
             _clientInfo.Ip4Address = GetIP4Address(request);
@@ -72,10 +72,12 @@
                 return "Windows 2003";
             else if (_agent.IndexOf("NT 6.0") > 0)
                 return "Windows Vista";
-            else if (_agent.IndexOf("NT 7.0") > 0)
+            else if (_agent.IndexOf("NT 6.1") > 0)
                 return "Windows 7";
-            else if (_agent.IndexOf("NT 8.0") > 0)
+            else if (_agent.IndexOf("NT 6.2") > 0)
                 return "Windows 8";
+            else if (_agent.IndexOf("NT 6.3") > 0)
+                return "Windows 8.1";
             else if (_agent.IndexOf("NT 10.0") > 0)
                 return "Windows 10";
             else if (_agent.IndexOf("WindowsCE") > 0)
@@ -100,7 +102,7 @@
                 return "Linux";
             else if (_agent.IndexOf("Windows") > 0)
                 return "Windows";
-            return "未知类型";
+            return _agent;
         }
 
         #endregion Methods
