@@ -53,6 +53,10 @@
     <Compile Include="ServiceHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Cache\YanZhiwei.DotNet.Core.Cache.csproj">
+      <Project>{30104AC9-1C35-468D-8E43-8309E5B9CBE3}</Project>
+      <Name>YanZhiwei.DotNet.Core.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.Core.Config\YanZhiwei.DotNet.Core.Config.csproj">
       <Project>{6dabf7b8-c072-43cd-8876-3d2aaedb7a43}</Project>
       <Name>YanZhiwei.DotNet.Core.Config</Name>

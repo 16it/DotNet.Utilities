@@ -9,6 +9,7 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.UI.Controllers
         // GET: Login
         public ActionResult Index()
         {
+            //ServiceContext.Current.AdminPanelService.UserLogin()
             return View();
         }
 

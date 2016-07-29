@@ -9,17 +9,12 @@ namespace YanZhiwei.DotNet.Core.Service
         /// <summary>
         /// 暂时使用引用服务方式，可以改造成注入，或使用WCF服务方式
         /// </summary>
-        public readonly ServiceFactory serviceFactory = null;
-
-        public ServiceHelper(ServiceFactory serviceFactory)
-        {
-            this.serviceFactory = serviceFactory;
-        }
+        public static ServiceFactory serviceFactory = new RefServiceFactory();
 
         /// <summary>
         /// 创建服务根据BLL接口
         /// </summary>
-        public T CreateService<T>() where T : class
+        public static T CreateService<T>() where T : class
         {
             var service = serviceFactory.CreateService<T>();
 

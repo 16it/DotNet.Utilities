@@ -538,6 +538,7 @@
     <Content Include="DLL\DotNet3.5.Utilities.XML" />
     <Content Include="DLL\DotNet4.Framework.Data.dll" />
     <Content Include="DLL\DotNet4.Framework.Data.XML" />
+    <Content Include="DLL\Framework.Mvc.dll" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -637,6 +638,24 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet.MVC.AdminPanel.BLL\YanZhiwei.DotNet.MVC.AdminPanel.BLL.csproj">
+      <Project>{6383cb0f-cffc-4e90-9a48-6b7e918cef28}</Project>
+      <Name>YanZhiwei.DotNet.MVC.AdminPanel.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.MVC.AdminPanel.Contract\YanZhiwei.DotNet.MVC.AdminPanel.Contract.csproj">
+      <Project>{f7ba49a4-b048-4c17-ba36-c9166f44118f}</Project>
+      <Name>YanZhiwei.DotNet.MVC.AdminPanel.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.MVC.AdminPanel.DAL\YanZhiwei.DotNet.MVC.AdminPanel.DAL.csproj">
+      <Project>{70983eca-133d-496e-8848-a5582a64d3a3}</Project>
+      <Name>YanZhiwei.DotNet.MVC.AdminPanel.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.MVC.AdminPanel\YanZhiwei.DotNet.MVC.AdminPanel.csproj">
+      <Project>{07b9c0ac-b7bc-4ef0-b8fa-74e82efe04de}</Project>
+      <Name>YanZhiwei.DotNet.MVC.AdminPanel</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
