@@ -48,6 +48,26 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotNet.Core.Cache, Version=1.0.6054.29387, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet.Core.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNet.Core.Config, Version=1.0.6053.31444, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet.Core.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNet.Core.Model, Version=1.0.6053.31442, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet.Core.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNet.Framework.Contract, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet.Framework.Contract.dll</HintPath>
+    </Reference>
     <Reference Include="DotNet2.Interfaces, Version=1.0.6053.28411, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\DotNet2.Interfaces.dll</HintPath>
@@ -55,6 +75,22 @@
     <Reference Include="DotNet2.Utilities, Version=1.0.6053.28411, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLL\DotNet2.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNet3.5.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet3.5.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNet3.5.Utilities, Version=1.0.6053.31499, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet3.5.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNet4.Framework.Data, Version=1.0.6053.31661, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\DotNet4.Framework.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Framework.Mvc, Version=1.0.6054.28061, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Framework.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -190,6 +226,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config\CacheConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\DaoConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\themes\black\accordion.css" />
@@ -526,6 +568,7 @@
     <Content Include="Content\themes\metro\validatebox.css" />
     <Content Include="Content\themes\metro\window.css" />
     <Content Include="Content\themes\mobile.css" />
+    <Content Include="DLL\DotNet.Core.Cache.dll" />
     <Content Include="DLL\DotNet.Core.Config.dll" />
     <Content Include="DLL\DotNet.Core.Config.XML" />
     <Content Include="DLL\DotNet.Core.Model.dll" />
@@ -644,6 +687,10 @@
       <Project>{6383cb0f-cffc-4e90-9a48-6b7e918cef28}</Project>
       <Name>YanZhiwei.DotNet.MVC.AdminPanel.BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.MVC.AdminPanel.Config\YanZhiwei.DotNet.MVC.AdminPanel.Config.csproj">
+      <Project>{27FDA857-5C98-4A87-85DF-B2F85313EAAA}</Project>
+      <Name>YanZhiwei.DotNet.MVC.AdminPanel.Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.MVC.AdminPanel.Contract\YanZhiwei.DotNet.MVC.AdminPanel.Contract.csproj">
       <Project>{f7ba49a4-b048-4c17-ba36-c9166f44118f}</Project>
       <Name>YanZhiwei.DotNet.MVC.AdminPanel.Contract</Name>
@@ -655,6 +702,10 @@
     <ProjectReference Include="..\YanZhiwei.DotNet.MVC.AdminPanel\YanZhiwei.DotNet.MVC.AdminPanel.csproj">
       <Project>{07b9c0ac-b7bc-4ef0-b8fa-74e82efe04de}</Project>
       <Name>YanZhiwei.DotNet.MVC.AdminPanel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.Framework.Common\YanZhiwei.DotNet.Framework.Contract.csproj">
+      <Project>{5CD641FA-33BA-4FA3-9DF4-97A0C2E53E14}</Project>
+      <Name>YanZhiwei.DotNet.Framework.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

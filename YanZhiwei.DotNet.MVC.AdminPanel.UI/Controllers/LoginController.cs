@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
+using YanZhiwei.DotNet.MVC.AdminPanel.Contract.Model;
+using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.ValidateCode;
 using YanZhiwei.DotNet2.Utilities.WebForm.Core;
 
@@ -9,8 +12,38 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.UI.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            //ServiceContext.Current.AdminPanelService.UserLogin()
+            //
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult UserLogin(User item)
+        {
+            try
+            {
+                User _finded = ServiceContext.Current.AdminPanelService.UserLogin(item);
+                if (_finded != null)
+                {
+                    if (!_finded.IsAble.Value)
+                    {
+                        return Content("用户已被禁用，请您联系管理员");
+                    }
+                    else
+                    {
+                        CookieManger.Save("UserID", MD5EncryptHelper.ToRandomMD5(_finded.ID.ToString()).ToString());
+
+                        return Content("OK");
+                    }
+                }
+                else
+                {
+                    return Content("用户名称或者密码错误！");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Content("登录异常," + ex.Message);
+            }
         }
 
         /// <summary>

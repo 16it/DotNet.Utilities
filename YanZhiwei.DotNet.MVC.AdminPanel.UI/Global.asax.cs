@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using YanZhiwei.DotNet.Core.Cache;
+using YanZhiwei.DotNet.MVC.AdminPanel.Config;
 
 namespace YanZhiwei.DotNet.MVC.AdminPanel.UI
 {
@@ -16,6 +18,7 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.UI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            CacheConfigContext.SetCacheConfig(CachedConfigContext.Current.CacheConfig);
         }
     }
 }

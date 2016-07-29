@@ -37,7 +37,20 @@ var Login = function () {
             _userName = $('#txtName').val(),
             _userPwd = $('#txtPwd').val();
         if (checkedValidateCode(_validateCode)) {
-            console.log('ok');
+            var _postData = {
+                AccountName: _userName,
+                Password: _userPwd
+            };
+            //异步实现登录功能
+            $.post("/Login/UserLogin", _postData, function (data) {
+                if (data === "OK") {
+                    window.location.href = "/Home/Index";
+                }
+                else {
+                    alert(data);
+                    window.location.href = "/Login/Index/";
+                }
+            });
         }
     }
     var checkedValidateCode = function (validateCode) {

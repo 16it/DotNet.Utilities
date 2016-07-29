@@ -4,6 +4,6 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.Contract
 {
     public interface IAdminPanelService
     {
-        bool UserLogin(User item);
+        User UserLogin(User item);
     }
 }

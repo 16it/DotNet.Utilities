@@ -1,5 +1,6 @@
 ﻿using System.Web.Caching;
 using YanZhiwei.DotNet.Core.Config;
+using YanZhiwei.DotNet.Core.Model;
 using YanZhiwei.DotNet.MVC.AdminPanel.Config.Model;
 using YanZhiwei.DotNet2.Utilities.WebForm.Core;
 
@@ -30,6 +31,14 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.Config
             get
             {
                 return this.Get<DaoConfig>();
+            }
+        }
+
+        public CacheConfig CacheConfig
+        {
+            get
+            {
+                return this.Get<CacheConfig>();
             }
         }
     }
