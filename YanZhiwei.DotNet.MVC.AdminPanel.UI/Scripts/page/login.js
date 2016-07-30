@@ -73,6 +73,9 @@ var Login = function () {
     return {
         init: function () {
             hanlderUISubscribe();
+            $('#txtName').val('admin');
+            $('#txtPwd').val('admin');
+            $('#txtValidateCode').val(jsUtils.cookie.read('ValidatorCode'));
         }
     }
 }();

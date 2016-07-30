@@ -13,10 +13,10 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.BLL
         {
             using (var dbContext = new AdminPanelDbContext())
             {
-                Guid _password = MD5EncryptHelper.ToRandomMD5(item.Password);
+                string _password = "d44fcf2c65c1e3b75878cd4e2c913d77";// MD5EncryptHelper.ToRandomMD5(item.Password);
                 return dbContext.Users.Where(c =>
                 string.Compare(c.AccountName, item.AccountName, true) == 0
-                && c.Password == _password.ToString()).FirstOrDefault();
+                && string.Compare(c.Password, _password, true) == 0).FirstOrDefault();
             }
         }
     }
