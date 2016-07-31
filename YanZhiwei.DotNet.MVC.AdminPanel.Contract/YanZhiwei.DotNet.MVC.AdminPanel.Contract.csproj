@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="IAdminPanelService.cs" />
     <Compile Include="Model\User.cs" />
+    <Compile Include="Model\UserMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

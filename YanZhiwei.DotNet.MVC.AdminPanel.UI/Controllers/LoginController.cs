@@ -30,7 +30,7 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.UI.Controllers
                     }
                     else
                     {
-                        CookieManger.Save("UserID", MD5EncryptHelper.ToRandomMD5(_finded.ID.ToString()).ToString());
+                        CookieManger.Save("UserID",_finded.ID.ToString());
 
                         return Content("OK");
                     }
