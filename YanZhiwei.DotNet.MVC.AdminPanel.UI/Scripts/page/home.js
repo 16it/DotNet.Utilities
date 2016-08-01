@@ -8,21 +8,42 @@ var Home = function () {
             animate: false
         });
 
-        $.post("/Home/GetTreeByEasyui", { "id": "0" }, function (data) {
-            if (data == "0") {
-                window.location.href = '/Login/Index';
-            }
-
-            $.each(data, function (i, e) {
-                var id = e.id;
-                $('#RightAccordion').accordion('add', {
-                    title: e.text,
-                    content: "<ul id='tree" + id + "' ></ul>",
-                    selected: true,
-                    iconCls: e.iconCls
-                });
+        $.post("/Home/GetTreeByEasyui", { "id": "0" },
+    function (data) {
+        if (data == "0") {
+            window.location.href = '/Login/Index';
+        }
+        $.each(data, function (i, e) {
+            var id = e.id;
+            $('#RightAccordion').accordion('add', {
+                title: e.text,
+                content: "<ul id='tree" + id + "' ></ul>",
+                selected: true,
+                iconCls: e.iconCls
             });
-        }, "json");
+            $.parser.parse();
+            //获取二级以下目录 含2级
+            $.post("/Home/GetTreeByEasyui?id=" + id, function (data) {
+                $("#tree" + id).tree({
+                    data: data,
+                    onBeforeExpand: function (node, param) {
+                        $("#tree" + id).tree('options').url = "/Home/GetTreeByEasyui?id=" + node.id;
+                    },
+                    onClick: function (node) {
+                        if (node.state == 'closed') {
+                            $(this).tree('expand', node.target);
+                        } else if (node.state == 'open') {
+                            $(this).tree('collapse', node.target);
+                            var tabTitle = node.text;
+                            var url = node.attributes;
+                            var icon = node.iconCls;
+                            addTab(tabTitle, url, icon);
+                        }
+                    }
+                });
+            }, 'json');
+        });
+    }, "json");
     }
 
     return {
