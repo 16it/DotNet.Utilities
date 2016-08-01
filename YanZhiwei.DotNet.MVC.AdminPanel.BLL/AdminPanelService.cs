@@ -32,7 +32,7 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.BLL
                                 m.Sort; ";
                 DbParameter[] _paramter = new DbParameter[1];
                 _paramter[0] = new SqlParameter("@Id", id);
-                return dbContext.SqlQuery<UserMenu>(_sql, _paramter);
+                return dbContext.SqlQuery<UserMenu>(_sql, _paramter).ToList();
             }
         }
 
@@ -48,7 +48,7 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.BLL
         {
             using (var dbContext = new AdminPanelDbContext())
             {
-                string _password = "d44fcf2c65c1e3b75878cd4e2c913d77";// MD5EncryptHelper.ToRandomMD5(item.Password);
+                string _password = "21232F297A57A5A743894A0E4A801F";// MD5EncryptHelper.ToRandomMD5(item.Password);
                 return dbContext.Users.Where(c =>
                 string.Compare(c.AccountName, item.AccountName, true) == 0
                 && string.Compare(c.Password, _password, true) == 0).FirstOrDefault();
