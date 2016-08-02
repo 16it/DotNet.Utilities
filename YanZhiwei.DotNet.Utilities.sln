@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Tools", "YanZhiwei.DotNet.Tools", "{E7041928-FF2F-44AF-AB91-7427819415C5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Plugins", "YanZhiwei.DotNet.Plugins", "{E7041928-FF2F-44AF-AB91-7427819415C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet2.Utilities", "YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj", "{2868748D-6FEC-4423-8254-BC366507C589}"
 EndProject
