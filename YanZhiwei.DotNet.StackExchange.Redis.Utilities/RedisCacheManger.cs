@@ -105,6 +105,7 @@
                 Redis.Expire(listId, secondsTimeOut);
             }
             var _redisList = _typeClient.Lists[listId];
+            
             _redisList.Add(item);
             _typeClient.Save();
         }
@@ -232,5 +233,207 @@
         }
 
         #endregion Methods
+
+        /// <summary>
+        /// 根据id删除
+        /// </summary>
+        /// <param name="keyId"></param>
+        /// <returns></returns>
+        public void Delete<T>(string keyId)
+        {
+            IRedisTypedClient<T> _search = Redis.As<T>();
+            T _finded = _search.GetById(keyId);
+            if (_finded != null)
+            {
+                _search.DeleteById(keyId);
+            }
+        }
+
+        /// <summary>
+        /// 通过Key,Id获得泛型值
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public T GetEntity<T>(string key, long id)
+        {
+            IRedisTypedClient<T> _search = Redis.As<T>();
+            string entityname = typeof(T).Name;
+            key = string.Format("{0}:{1}:{2}", key, entityname, id);
+            return _search.GetValue(key);
+        }
+
+        /// <summary>
+        /// 获得泛型类型T的所有值
+        /// </summary>
+        /// <returns></returns>
+        public List<T> GetEntitys<T>()
+        {
+            IRedisTypedClient<T> _search = Redis.As<T>();
+            return _search.GetAll().ToList();
+        }
+
+        /// <summary>
+        /// 通过ket获得泛型类型的所有值
+        /// </summary>
+        /// <param name="keyId"></param>
+        /// <returns></returns>
+        public List<T> GetEntitys<T>(string keyId)
+        {
+            string entityname = typeof(T).Name;
+            keyId = string.Format("{0}:{1}:{2}", keyId, entityname, "*");
+            var search = Redis.SearchKeys(keyId).ToList();
+            List<T> entitys = Redis.GetValues<T>(search);
+            return entitys;
+        }
+
+        /// <summary>
+        /// 通过key获得string类型
+        /// </summary>
+        /// <param name="keyId"></param>
+        /// <returns></returns>
+        public string GetKey(string keyId)
+        {
+            if (Redis.ContainsKey(keyId))
+                return Redis.Get<string>(keyId);
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// 获得泛型类型的下一个序列
+        /// </summary>
+        /// <returns></returns>
+        public long GetNextSequence<T>()
+        {
+            var entity = Redis.As<T>();
+            return entity.GetNextSequence();
+        }
+
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <param name="keyId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public List<T> GetPagedList<T>(string keyId, int start, int end)
+        {
+            string entityname = typeof(T).Name;
+            string ids = string.Format("{0}:{1}", "ids", entityname);
+            var search = Redis.GetRangeFromSortedList(ids, start, end);
+
+            for (int i = 0; i < search.Count; i++)
+            {
+                string s = search[i];
+                search[i] = string.Format("{0}:{1}:{2}", keyId, entityname, s);
+            }
+            List<T> entitys = Redis.GetValues<T>(search);
+            return entitys;
+        }
+
+        /// <summary>
+        /// 通过Id搜索
+        /// </summary>
+        /// <param name="keyId"></param>
+        /// <returns></returns>
+        public T SearchEneitys<T>(string keyId)
+        {
+            var entity = Redis.As<T>();
+            return entity.GetById(keyId);
+        }
+
+        /// <summary>
+        /// 搜索实体
+        /// </summary>
+        /// <param name=""></param>
+        /// <param name="keySelector"></param>
+        /// <returns></returns>
+        public IEnumerable<T> SearchEntitys<T>(Func<T, bool> keySelector)
+        {
+            var entity = Redis.As<T>();
+            return entity.GetAll().Where(keySelector);
+        }
+
+        /// <summary>
+        /// 根据key Set存储
+        /// </summary>
+        /// <param name="keyid"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public void SetEntity<T>(string keyid, T val)
+        {
+            var entitys = Redis.As<T>();
+
+            long id = (long)val.GetType().GetProperty("Id").GetValue(val, null);
+            string entityname = typeof(T).Name.ToLower();
+            keyid = string.Format("{0}:{1}:{2}", keyid, entityname, id);
+            entitys.SetValue(keyid, val);
+        }
+
+        /// <summary>
+        /// 存储值为string类型
+        /// </summary>
+        /// <param name="keyId"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public void SetKey(string keyId, string value)
+        {
+            if (Redis.ContainsKey(keyId))
+            {
+                Redis.Del(keyId);
+            }
+            Redis.Add<string>(keyId, value);
+        }
+
+        /// <summary>
+        /// store 泛型类型数组
+        /// </summary>
+        /// <param name="vals"></param>
+        /// <returns></returns>
+        public void StoreEntity<T>(T[] vals)
+        {
+            var entity = Redis.As<T>();
+            entity.StoreAll(vals);
+        }
+
+        /// <summary>
+        /// store泛型类型列表
+        /// </summary>
+        /// <param name="vals"></param>
+        /// <returns></returns>
+        public void StoreEntity<T>(List<T> vals)
+        {
+            var entity = Redis.As<T>();
+            entity.StoreAll(vals);
+        }
+
+        /// <summary>
+        /// store 泛型值
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public void StroteEntity<T>(T value)
+        {
+            var entity = Redis.As<T>();
+            entity.Store(value);
+        }
+
+        /// <summary>
+        /// 通过key更新
+        /// </summary>
+        /// <param name="keyId"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public void UpdateEntity<T>(string keyId, T val)
+        {
+            var entitys = Redis.As<T>();
+            //获得id
+            long id = (long)val.GetType().GetProperty("Id").GetValue(val, null);
+            string entityname = typeof(T).Name;
+            keyId = string.Format("{0}:{1}:{2}", keyId, entityname, id);
+
+            entitys.SetValue(keyId, val);
+        }
     }
 }
