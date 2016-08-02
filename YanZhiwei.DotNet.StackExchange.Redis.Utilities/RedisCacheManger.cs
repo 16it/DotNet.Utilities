@@ -1,16 +1,15 @@
 ﻿namespace YanZhiwei.DotNet.StackExchange.Redis.Utilities
 {
+    using ServiceStack.Redis;
+    using ServiceStack.Redis.Generic;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using ServiceStack.Redis;
-    using ServiceStack.Redis.Generic;
-
     /// <summary>
-    /// Redis 帮助类
+    /// Redis缓存帮助类
     /// </summary>
-    public class RedisHelper : IDisposable
+    public class RedisCacheManger : IDisposable
     {
         #region Fields
 
@@ -35,7 +34,7 @@
         /// 构造函数
         /// </summary>
         /// <param name="openPooledRedis">是否开启缓冲池</param>
-        public RedisHelper(bool openPooledRedis = false)
+        public RedisCacheManger(bool openPooledRedis = false)
         {
             if (openPooledRedis)
             {
