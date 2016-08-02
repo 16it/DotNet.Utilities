@@ -101,7 +101,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.SharpZipLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.iTextSharp.Utilities", "YanZhiwei.DotNet.iTextSharp.Utilities\YanZhiwei.DotNet.iTextSharp.Utilities.csproj", "{A7719F17-BF21-406E-99C2-0B82068D80CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AutoMapper.Utilities", "YanZhiwei.DotNet.AutoMapper.Utilities\YanZhiwei.DotNet.AutoMapper.Utilities.csproj", "{07A361C0-A808-4971-A453-3EDC2969612C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AutoMapperPlugin", "YanZhiwei.DotNet.AutoMapper.Utilities\YanZhiwei.DotNet.AutoMapperPlugin.csproj", "{07A361C0-A808-4971-A453-3EDC2969612C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.Core.CacheProvider", "YanZhiwei.DotNet4.Core.CacheProvider\YanZhiwei.DotNet4.Core.CacheProvider.csproj", "{96634A6B-1565-419A-A438-20F47F586A55}"
 EndProject

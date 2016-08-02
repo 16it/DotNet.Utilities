@@ -1,6 +1,6 @@
-﻿namespace YanZhiwei.DotNet.AutoMapper.Utilities
+﻿namespace YanZhiwei.DotNet.AutoMapperPlugin
 {
-    using global::AutoMapper;
+    using AutoMapper;
     using System.Collections.Generic;
     using System.Data;
 
