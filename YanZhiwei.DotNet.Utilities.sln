@@ -203,7 +203,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.MVC.AdminP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.MVC.AdminPanel", "YanZhiwei.DotNet.MVC.AdminPanel\YanZhiwei.DotNet.MVC.AdminPanel.csproj", "{07B9C0AC-B7BC-4EF0-B8FA-74E82EFE04DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AutoMapper.Utilities", "YanZhiwei.DotNet.AutoMapperPlugin\YanZhiwei.DotNet.AutoMapper.Utilities.csproj", "{07A361C0-A808-4971-A453-3EDC2969612C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AutoMapper.Utilities", "YanZhiwei.DotNet.AutoMapper.Utilities\YanZhiwei.DotNet.AutoMapper.Utilities.csproj", "{07A361C0-A808-4971-A453-3EDC2969612C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
