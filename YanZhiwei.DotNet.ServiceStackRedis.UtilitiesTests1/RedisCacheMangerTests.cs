@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ServiceStack.Redis;
 
 namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities.Tests
 {
@@ -14,6 +15,14 @@ namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities.Tests
     [TestClass()]
     public class RedisCacheMangerTests
     {
+        readonly RedisClient redis = new RedisClient("localhost");
+        
+        [TestInitialize]
+        public void OnBeforeEachTest()
+        {
+            redis.FlushAll();
+        }
+        
         [TestMethod()]
         public void RedisCacheMangerTest()
         {
