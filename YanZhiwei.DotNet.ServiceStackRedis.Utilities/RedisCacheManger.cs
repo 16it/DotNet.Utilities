@@ -184,7 +184,8 @@
             
             for(int i = 0; i < hash.Count; i++)
             {
-                RedisClient.SetEntryInHash(hash[i], _prop.GetValue(item, null).ToString(), value[i].ToLower());
+                string _key = _prop.GetValue(item, null).ToString();
+                RedisClient.SetEntryInHash(hash[i], _key, value[i].ToLower());
             }
             
             RedisClient.As<T>().Store(item);
