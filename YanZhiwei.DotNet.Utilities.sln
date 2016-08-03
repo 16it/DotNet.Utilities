@@ -89,7 +89,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Dapper.Uti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Dapper.UtilitiesTests", "YanZhiwei.DotNet.Dapper.UtilitiesTests\YanZhiwei.DotNet.Dapper.UtilitiesTests.csproj", "{12FDD0B1-EE2D-46F0-8F3E-58197B47742E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.StackExchange.Redis.Utilities", "YanZhiwei.DotNet.StackExchange.Redis.Utilities\YanZhiwei.DotNet.StackExchange.Redis.Utilities.csproj", "{257A6886-11F3-404C-97A3-207440117EDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.Utilities", "YanZhiwei.DotNet.StackExchange.Redis.Utilities\YanZhiwei.DotNet.ServiceStackRedis.Utilities.csproj", "{257A6886-11F3-404C-97A3-207440117EDC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Service", "YanZhiwei.Core.Service\YanZhiwei.DotNet.Core.Service.csproj", "{BC9420F6-A104-415E-A1ED-EF4EAB593833}"
 EndProject

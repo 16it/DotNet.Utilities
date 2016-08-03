@@ -7,8 +7,8 @@
     <ProjectGuid>{257A6886-11F3-404C-97A3-207440117EDC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.DotNet.StackExchange.Redis.Utilities</RootNamespace>
-    <AssemblyName>DotNet.StackExchange.Redis.Utilities</AssemblyName>
+    <RootNamespace>YanZhiwei.DotNet.ServiceStackRedis.Utilities</RootNamespace>
+    <AssemblyName>DotNet.ServiceStackRedis.Utilities</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -26,7 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\DotNet.StackExchange.Redis.Utilities.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\DotNet.ServiceStackRedis.Utilities.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

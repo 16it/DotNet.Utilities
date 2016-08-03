@@ -1,13 +1,12 @@
-﻿namespace YanZhiwei.DotNet.StackExchange.Redis.Utilities
+﻿namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities
 {
+    using ServiceStack.Redis;
+    using ServiceStack.Redis.Generic;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    
-    using ServiceStack.Redis;
-    using ServiceStack.Redis.Generic;
     
     /// <summary>
     /// 基于ServiceStack.Redis 缓存帮助类
