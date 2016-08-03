@@ -49,10 +49,6 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="ServiceStack.Common, Version=4.0.60.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Common.4.0.60\lib\net40\ServiceStack.Common.dll</HintPath>
       <Private>True</Private>
@@ -97,12 +93,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.DotNet.Newtonsoft.Json.Utilities\YanZhiwei.DotNet.Newtonsoft.Json.Utilities.csproj">
-      <Project>{17020b01-dddb-4060-9b17-e4439cdc8c9a}</Project>
-      <Name>YanZhiwei.DotNet.Newtonsoft.Json.Utilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Redis.txt" />
