@@ -20,11 +20,12 @@ namespace YanZhiwei.DotNet2.Utilities.Common
         /// 备注：
         public static DbParameter HanlderNull(this DbParameter paramter)
         {
-            if (paramter != null)
+            if(paramter != null)
             {
-                if (paramter.Value == null)
+                if(paramter.Value == null)
                     paramter.Value = DBNull.Value;
             }
+            
             return paramter;
         }
     }

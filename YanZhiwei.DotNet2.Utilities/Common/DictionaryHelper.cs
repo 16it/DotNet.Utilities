@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System.Collections.Generic;
-
+    
     /// <summary>
     /// Dictionary 帮助类
     /// </summary>
@@ -10,7 +10,7 @@
     public static class DictionaryHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 创建或修改
         /// </summary>
@@ -22,7 +22,7 @@
         /// <returns>Dictionary</returns>
         public static Dictionary<TKey, TValue> AddOrReplace<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
         {
-            if (!dict.ContainsKey(key))
+            if(!dict.ContainsKey(key))
             {
                 dict.Add(key, value);
             }
@@ -30,10 +30,10 @@
             {
                 dict[key] = value;
             }
-
+            
             return dict;
         }
-
+        
         /// <summary>
         /// 添加范围
         /// </summary>
@@ -45,17 +45,17 @@
         /// <returns>Dictionary</returns>
         public static Dictionary<TKey, TValue> AddRange<TKey, TValue>(this Dictionary<TKey, TValue> dict, IEnumerable<KeyValuePair<TKey, TValue>> values, bool replaceExisted)
         {
-            foreach (var item in values)
+            foreach(var item in values)
             {
-                if (dict.ContainsKey(item.Key) == false || replaceExisted)
+                if(dict.ContainsKey(item.Key) == false || replaceExisted)
                 {
                     dict[item.Key] = item.Value;
                 }
             }
-
+            
             return dict;
         }
-
+        
         /// <summary>
         /// Gets the value.
         /// </summary>
@@ -71,7 +71,7 @@
         {
             return dict.ContainsKey(key) ? dict[key] : defaultValue;
         }
-
+        
         /// <summary>
         /// Tries the add.
         /// </summary>
@@ -85,14 +85,14 @@
         /// 备注说明:<c>null</c>
         public static Dictionary<TKey, TValue> TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
         {
-            if (dict.ContainsKey(key) == false)
+            if(dict.ContainsKey(key) == false)
             {
                 dict.Add(key, value);
             }
-
+            
             return dict;
         }
-
+        
         #endregion Methods
     }
 }

@@ -4,22 +4,22 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
-
+    
     using YanZhiwei.DotNet2.Utilities.Model;
-
+    
     /// <summary>
     /// 地图纠偏数据帮助类
     /// </summary>
     public class MapOffsetDataHelper
     {
         #region Fields
-
+        
         private string offsetFullPath = string.Empty;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -28,11 +28,11 @@
         {
             offsetFullPath = path;
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 获取纠偏数据集合
         /// </summary>
@@ -43,7 +43,7 @@
             GetOffsetData(c => _mapCoordArrayList.Add(c));
             return _mapCoordArrayList;
         }
-
+        
         /// <summary>
         /// 获取纠偏数据集合
         /// </summary>
@@ -54,15 +54,16 @@
             GetOffsetData(c => _mapCoordList.Add(c));
             return _mapCoordList;
         }
-
+        
         private void GetOffsetData(Action<MapCoord> mapCoordHanlder)
         {
-            using (FileStream stream = new FileStream(offsetFullPath, FileMode.OpenOrCreate, FileAccess.Read))
+            using(FileStream stream = new FileStream(offsetFullPath, FileMode.OpenOrCreate, FileAccess.Read))
             {
-                using (BinaryReader reader = new BinaryReader(stream))
+                using(BinaryReader reader = new BinaryReader(stream))
                 {
                     int _size = (int)stream.Length / 8;
-                    for (int i = 0; i < _size; i++)
+                    
+                    for(int i = 0; i < _size; i++)
                     {
                         byte[] _source = reader.ReadBytes(8);
                         MapCoord _coord = ToCoord(_source);
@@ -71,7 +72,7 @@
                 }
             }
         }
-
+        
         /// <summary>
         /// 将字节转化为具体的数据对象
         /// </summary>
@@ -92,7 +93,7 @@
             _coord.Y_off = BitConverter.ToInt16(_b4, 0);
             return _coord;
         }
-
+        
         #endregion Methods
     }
 }

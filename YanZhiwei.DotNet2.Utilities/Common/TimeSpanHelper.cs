@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-
+    
     /// <summary>
     /// TimeSpan帮助类
     /// </summary>
@@ -10,7 +10,7 @@
     public static class TimeSpanHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 添加小时
         /// </summary>
@@ -21,7 +21,7 @@
         {
             return ts.Add(new TimeSpan(hours, 0, 0));
         }
-
+        
         /// <summary>
         /// 添加分钟
         /// </summary>
@@ -32,7 +32,7 @@
         {
             return ts.Add(new TimeSpan(0, minutes, 0));
         }
-
+        
         /// <summary>
         /// 添加秒
         /// </summary>
@@ -43,7 +43,7 @@
         {
             return ts.Add(new TimeSpan(0, 0, seconds));
         }
-
+        
         /// <summary>
         /// 格式化时间
         /// <para>eg: Assert.AreEqual("14:01", TimeSpanHelper.FormatTime(new TimeSpan(14, 1, 2)));</para>
@@ -52,7 +52,7 @@
         /// <returns>格式化后的字符串</returns>
         public static string FormatTime(this TimeSpan timefield)
         {
-            if (timefield.Hours == 0 && timefield.Minutes == 0)
+            if(timefield.Hours == 0 && timefield.Minutes == 0)
             {
                 return "24:00";
             }
@@ -61,7 +61,7 @@
                 return timefield.Hours.ToString().PadLeft(2, '0') + ":" + timefield.Minutes.ToString().PadLeft(2, '0');
             }
         }
-
+        
         /// <summary>
         /// 将时间字符串转换成TimeSpan
         /// <para>eg: Assert.AreEqual(new TimeSpan(12, 12, 0), TimeSpanHelper.ParseTimeString("12:12:00"));</para>
@@ -76,7 +76,7 @@
             TimeSpan.TryParse(timeString, out _timeSpan);
             return _timeSpan;
         }
-
+        
         /// <summary>
         /// 将日期设置为今天
         /// </summary>
@@ -89,7 +89,7 @@
             DateTime _now = DateTime.Now;
             return new TimeSpan(_now.Day, ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds);
         }
-
+        
         #endregion Methods
     }
 }

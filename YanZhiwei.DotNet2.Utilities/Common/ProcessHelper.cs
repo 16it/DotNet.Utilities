@@ -3,14 +3,14 @@
     using System;
     using System.Diagnostics;
     using System.IO;
-
+    
     /// <summary>
     /// Process 帮助类
     /// </summary>
     public class ProcessHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 动态执行一系列控制台命令
         /// <para>eg: ProcessHelper.ExecBatCommand(cmd =></para>
@@ -24,6 +24,7 @@
         public static void ExecBatCommand(Action<Action<string>> inputAction)
         {
             Process _process = null;
+            
             try
             {
                 _process = new Process();
@@ -36,30 +37,28 @@
                 _process.OutputDataReceived += (sender, e) => Console.WriteLine(e.Data);
                 _process.ErrorDataReceived += (sender, e) => Console.WriteLine(e.Data);
                 _process.Start();
-
-                using (StreamWriter writer = _process.StandardInput)
+                using(StreamWriter writer = _process.StandardInput)
                 {
                     writer.AutoFlush = true;
                     _process.BeginOutputReadLine();
                     inputAction(value => writer.WriteLine(value));
                 }
-
                 _process.WaitForExit();
             }
             finally
             {
-                if (_process != null && !_process.HasExited)
+                if(_process != null && !_process.HasExited)
                 {
                     _process.Kill();
                 }
-
-                if (_process != null)
+                
+                if(_process != null)
                 {
                     _process.Close();
                 }
             }
         }
-
+        
         #endregion Methods
     }
 }

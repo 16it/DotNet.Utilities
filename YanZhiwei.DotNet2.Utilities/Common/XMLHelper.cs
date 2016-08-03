@@ -5,28 +5,28 @@
     using System.IO;
     using System.Text;
     using System.Xml;
-
+    
     /// <summary>
     /// XML操作帮助类
     /// </summary>
     public class XMLHelper
     {
         #region Fields
-
+        
         /// <summary>
         /// XmlDocument 对象
         /// </summary>
         private XmlDocument xmldoc;
-
+        
         /// <summary>
         /// xml 路径
         /// </summary>
         private string xmlPath = null;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -37,9 +37,10 @@
         {
             xmldoc = new XmlDocument();
             xmlPath = path;
-            if (!File.Exists(path))
+            
+            if(!File.Exists(path))
             {
-                if (FileHelper.CreatePath(path))
+                if(FileHelper.CreatePath(path))
                 {
                     XmlDeclaration _xmldecl;
                     _xmldecl = xmldoc.CreateXmlDeclaration(version, encoding.BodyName, null);
@@ -55,7 +56,7 @@
                 xmldoc.Load(path);
             }
         }
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -67,9 +68,10 @@
         {
             xmldoc = new XmlDocument();
             xmlPath = path;
-            if (!File.Exists(path))
+            
+            if(!File.Exists(path))
             {
-                if (FileHelper.CreatePath(path))
+                if(FileHelper.CreatePath(path))
                 {
                     XmlDeclaration _xmldecl;
                     _xmldecl = xmldoc.CreateXmlDeclaration(version, encoding.BodyName, null);
@@ -87,11 +89,11 @@
                 xmldoc.Load(path);
             }
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 创建一个子元素
         /// </summary>
@@ -104,7 +106,7 @@
             parentElement.AppendChild(_childElement);
             return _childElement;
         }
-
+        
         /// <summary>
         /// 创建一个子元素
         /// </summary>
@@ -119,7 +121,7 @@
             parentElement.AppendChild(_childElement);
             return _childElement;
         }
-
+        
         /// <summary>
         /// 创建一个子元素
         /// </summary>
@@ -132,29 +134,32 @@
         public XmlElement CreateChildElement(XmlElement parentElement, string elementName, string xpath, Action<XmlElement> setAttributeHanlder, Action<XmlElement> updateAttributeHanlder)
         {
             XmlNode _finded = xmldoc.SelectSingleNode(xpath);
-            if (_finded == null)
+            
+            if(_finded == null)
             {
                 XmlElement _childElement = xmldoc.CreateElement(elementName);
-                if (setAttributeHanlder != null)
+                
+                if(setAttributeHanlder != null)
                 {
                     setAttributeHanlder(_childElement);
                 }
-
+                
                 parentElement.AppendChild(_childElement);
                 return _childElement;
             }
             else
             {
                 XmlElement _childElement = (XmlElement)_finded;
-                if (updateAttributeHanlder != null)
+                
+                if(updateAttributeHanlder != null)
                 {
                     updateAttributeHanlder(_childElement);
                 }
-
+                
                 return _childElement;
             }
         }
-
+        
         /// <summary>
         /// 创建XML 文档树的根
         /// </summary>
@@ -166,7 +171,7 @@
             xmldoc.AppendChild(_parentElement);
             return _parentElement;
         }
-
+        
         /// <summary>
         /// 创建XML文档树的根
         /// </summary>
@@ -177,7 +182,8 @@
         {
             XmlElement _parentElement = null;
             XmlNode _findedNode = xmldoc.SelectSingleNode(xpath);
-            if (_findedNode != null)
+            
+            if(_findedNode != null)
             {
                 _parentElement = (XmlElement)_findedNode;
             }
@@ -185,10 +191,10 @@
             {
                 _parentElement = CreateDocumentElement(elementName);
             }
-
+            
             return _parentElement;
         }
-
+        
         /// <summary>
         /// 创建父元素
         /// </summary>
@@ -201,29 +207,32 @@
         public XmlElement CreateParentElement(XmlElement xmlDocument, string elementName, string xpath, Action<XmlElement> setAttributeHanlder, Action<XmlElement> updateAttributeHanlder)
         {
             XmlNode _finded = xmldoc.SelectSingleNode(xpath);
-            if (_finded == null)
+            
+            if(_finded == null)
             {
                 XmlElement _parentElement = xmldoc.CreateElement(string.Empty, elementName, string.Empty);
-                if (setAttributeHanlder != null)
+                
+                if(setAttributeHanlder != null)
                 {
                     setAttributeHanlder(_parentElement);
                 }
-
+                
                 xmldoc.DocumentElement.AppendChild(_parentElement);
                 return _parentElement;
             }
             else
             {
                 XmlElement _findedElement = (XmlElement)_finded;
-                if (updateAttributeHanlder != null)
+                
+                if(updateAttributeHanlder != null)
                 {
                     updateAttributeHanlder(_findedElement);
                 }
-
+                
                 return _findedElement;
             }
         }
-
+        
         /// <summary>
         /// 保存XML
         /// </summary>
@@ -231,7 +240,7 @@
         {
             xmldoc.Save(xmlPath);
         }
-
+        
         /// <summary>
         /// 节点筛选
         /// </summary>
@@ -241,7 +250,7 @@
         {
             return xmldoc.SelectNodes(xpath);
         }
-
+        
         /// <summary>
         /// 节点筛选
         /// </summary>
@@ -251,17 +260,18 @@
         public bool SelectSingleNode(string xpath, Action<XmlElement> updateNodeHanlder)
         {
             XmlElement _findedNode = (XmlElement)xmldoc.SelectSingleNode(xpath);
-            if (_findedNode != null)
+            
+            if(_findedNode != null)
             {
-                if (updateNodeHanlder != null)
+                if(updateNodeHanlder != null)
                 {
                     updateNodeHanlder(_findedNode);
                 }
             }
-
+            
             return _findedNode != null;
         }
-
+        
         /// <summary>
         /// 节点筛选
         /// </summary>
@@ -272,21 +282,21 @@
             XmlElement _findedNode = (XmlElement)xmldoc.SelectSingleNode(xpath);
             return _findedNode != null;
         }
-
+        
         /// <summary>
         /// 将xml内容转换字符串输出
         /// </summary>
         /// <returns>字符串XML内容</returns>
         public string ShowXml()
         {
-            if (xmldoc != null)
+            if(xmldoc != null)
             {
                 return xmldoc.OuterXml;
             }
-
+            
             return string.Empty;
         }
-
+        
         /// <summary>
         /// 将XML文件读取返回成DataSet
         /// </summary>
@@ -295,19 +305,19 @@
         {
             try
             {
-                using (XmlNodeReader xmlReader = new XmlNodeReader(xmldoc))
+                using(XmlNodeReader xmlReader = new XmlNodeReader(xmldoc))
                 {
                     DataSet _dataSet = new DataSet();
                     _dataSet.ReadXml(xmlReader);
                     return _dataSet;
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 return null;
             }
         }
-
+        
         #endregion Methods
     }
 }

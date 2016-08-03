@@ -5,14 +5,14 @@
     using System.IO;
     using System.Text;
     using System.Xml;
-
+    
     /// <summary>
     /// XML 辅助类
     /// </summary>
     public static class XMLOpHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 格式化xml内容显示
         /// </summary>
@@ -21,9 +21,9 @@
         /// <returns>string</returns>
         public static string FormatXml(string xmlString, Encoding encoding)
         {
-            using (MemoryStream stream = new MemoryStream())
+            using(MemoryStream stream = new MemoryStream())
             {
-                using (XmlTextWriter writer = new XmlTextWriter(stream, null))
+                using(XmlTextWriter writer = new XmlTextWriter(stream, null))
                 {
                     XmlDocument _xDoc = new XmlDocument();
                     writer.Formatting = Formatting.Indented;
@@ -33,7 +33,7 @@
                 }
             }
         }
-
+        
         /// <summary>
         /// 将XML文件读取返回成DataSet
         /// </summary>
@@ -50,12 +50,12 @@
                 _dataSet.ReadXml(_xmlReader);
                 return _dataSet;
             }
-            catch (Exception)
+            catch(Exception)
             {
                 return null;
             }
         }
-
+        
         #endregion Methods
     }
 }

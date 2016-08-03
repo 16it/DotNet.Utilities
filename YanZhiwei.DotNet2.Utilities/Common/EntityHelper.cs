@@ -4,14 +4,14 @@
     using System.IO;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
-
+    
     /// <summary>
     /// OBJECT帮助类
     /// </summary>
     public static class EntityHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 对象深拷贝
         /// </summary>
@@ -19,7 +19,7 @@
         /// <param name="obj">Object</param>
         /// <returns>Object</returns>
         public static T DeepClone<T>(this T obj)
-            where T : class
+        where T : class
         {
             /*
              *相关知识：
@@ -48,25 +48,25 @@
              *深复制： 须实现 ICloneable接口中的Clone方法，且需要需要克隆的对象加上[Serializable]特性
              *以上参考：http://www.cnblogs.com/huangting2009/archive/2009/03/13/1410634.html
              */
-            if (!typeof(T).IsSerializable)
+            if(!typeof(T).IsSerializable)
             {
                 throw new ArgumentException(string.Format("该类型:{0}不支持序列化", typeof(T).FullName), "obj");
             }
-
-            if (obj == null)
+            
+            if(obj == null)
             {
                 return default(T);
             }
-
+            
             IFormatter _formatter = new BinaryFormatter();
-            using (Stream stream = new MemoryStream())
+            using(Stream stream = new MemoryStream())
             {
                 _formatter.Serialize(stream, obj);
                 stream.Seek(0, SeekOrigin.Begin);
                 return (T)_formatter.Deserialize(stream);
             }
         }
-
+        
         /// <summary>
         /// 对象值比较
         /// </summary>
@@ -77,16 +77,16 @@
         /// 日期：2015-09-16 13:58
         /// 备注：
         public static bool ValueEqual<T>(T obj1, T obj2)
-            where T : class
+        where T : class
         {
-            if (null == obj1 || null == obj2)
+            if(null == obj1 || null == obj2)
             {
                 return false;
             }
-
+            
             return obj1.ParseModel().Equals(obj2.ParseModel());
         }
-
+        
         #endregion Methods
     }
 }

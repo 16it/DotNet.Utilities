@@ -1,16 +1,16 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-
+    
     using YanZhiwei.DotNet2.Utilities.Model;
-
+    
     /// <summary>
     /// 墨卡托坐标与GS-84转换 帮助类
     /// </summary>
     public class WGSMercatorLatLonHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 将墨卡托坐标转换成地球坐标(WGS-84)
         /// </summary>
@@ -26,7 +26,7 @@
             _wgsPoint.LatY = _latY;
             return _wgsPoint;
         }
-
+        
         /// <summary>
         /// 将地球坐标(WGS-84)转换成墨卡托坐标
         /// </summary>
@@ -42,7 +42,7 @@
             _mercatorPoint.LatY = _latY;
             return _mercatorPoint;
         }
-
+        
         #endregion Methods
     }
 }

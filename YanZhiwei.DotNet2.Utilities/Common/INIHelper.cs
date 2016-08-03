@@ -6,7 +6,7 @@
     using System.Reflection;
     using System.Runtime.InteropServices;
     using System.Text;
-
+    
     /// <summary>
     /// INI工具类
     ///<para>参考:</para>
@@ -14,18 +14,18 @@
     public class INIHelper
     {
         #region Fields
-
+        
         private static string FilePath = null;
-
+        
         /// <summary>
         /// 当读取不到值得时候缺省值
         /// </summary>
         private static string ReadDefaultValue = string.Empty;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -34,24 +34,25 @@
         {
             FilePath = filePath;
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 检查INI文件路径是否存在
         /// </summary>
         /// <returns>是否存在</returns>
         public bool Exist()
         {
-            if (!string.IsNullOrEmpty(FilePath))
+            if(!string.IsNullOrEmpty(FilePath))
             {
                 return File.Exists(FilePath);
             }
+            
             return false;
         }
-
+        
         /// <summary>
         /// 读取INI
         /// </summary>
@@ -64,7 +65,7 @@
             GetPrivateProfileString(Section, Key, ReadDefaultValue, _valueBuilder, 500, FilePath);
             return _valueBuilder.ToString();
         }
-
+        
         /// <summary>
         /// 读取INI
         /// </summary>
@@ -78,7 +79,7 @@
             GetPrivateProfileString(Section, Key, defaultValue, _valueBuilder, 500, FilePath);
             return _valueBuilder.ToString();
         }
-
+        
         /// <summary>
         /// 写入INI
         /// eg:_iniHelper.WriteValue("测试", "Name", "YanZhiwei");
@@ -90,7 +91,7 @@
         {
             WritePrivateProfileString(Section, Key, Value, FilePath);
         }
-
+        
         /// <summary>
         /// 将对象保存在ini
         /// </summary>
@@ -98,18 +99,20 @@
         /// <param name="Section">段落名称</param>
         /// <param name="t">类型</param>
         public void WriteValue<T>(string Section, T t)
-            where T : class
+        where T : class
         {
             IDictionary<string, string> _property = ReflectHelper.ToDictionary<T>();
-            foreach (KeyValuePair<string, string> entry in _property)
+            
+            foreach(KeyValuePair<string, string> entry in _property)
             {
                 object _value = typeof(T).InvokeMember(entry.Key, BindingFlags.GetProperty, null, t, null);
                 Trace.WriteLine(_value);
-                if (_value != null)
+                
+                if(_value != null)
                     WriteValue(Section, entry.Value, _value.ToString());
             }
         }
-
+        
         /// <summary>
         /// 声明INI文件的读操作函数
         /// </summary>
@@ -122,7 +125,7 @@
         /// <returns></returns>
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
-
+        
         /// <summary>
         /// 声明INI文件的写操作函数
         /// </summary>
@@ -133,17 +136,17 @@
         /// <returns></returns>
         [DllImport("kernel32")]
         private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
-
+        
         #endregion Methods
-
+        
         #region Other
-
+        
         /*
          * 参考：
          * 1. http://www.cnblogs.com/leelike/archive/2011/01/27/1946061.html
          * 2. http://www.cnblogs.com/zzyyll2/archive/2007/11/06/950584.html
          */
-
+        
         #endregion Other
     }
 }

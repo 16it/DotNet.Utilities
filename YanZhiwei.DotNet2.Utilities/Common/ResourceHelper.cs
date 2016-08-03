@@ -2,14 +2,14 @@
 {
     using System.IO;
     using System.Reflection;
-
+    
     /// <summary>
     /// 资源文件操作帮助类
     /// </summary>
     public class ResourceHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 将嵌入的资源写入到本地
         /// </summary>
@@ -19,13 +19,12 @@
         public static bool WriteFile(string resourceName, string filename)
         {
             bool _result = false;
-
             Assembly _curCall = Assembly.GetCallingAssembly();
-            using (Stream stream = _curCall.GetManifestResourceStream(resourceName))
+            using(Stream stream = _curCall.GetManifestResourceStream(resourceName))
             {
-                if (stream != null)
+                if(stream != null)
                 {
-                    using (FileStream fs = new FileStream(filename, FileMode.Create))
+                    using(FileStream fs = new FileStream(filename, FileMode.Create))
                     {
                         byte[] _byte = new byte[stream.Length];
                         stream.Read(_byte, 0, _byte.Length);
@@ -34,10 +33,9 @@
                     }
                 }
             }
-
             return _result;
         }
-
+        
         #endregion Methods
     }
 }

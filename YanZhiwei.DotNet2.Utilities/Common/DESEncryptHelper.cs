@@ -4,7 +4,7 @@
     using System.IO;
     using System.Security.Cryptography;
     using System.Text;
-
+    
     /// <summary>
     /// DES(Data Encryption Standard)
     /// DES使用的密钥key为8字节，初始向量IV也是8字节。
@@ -12,26 +12,26 @@
     public class DESEncryptHelper
     {
         #region Fields
-
+        
         /// <summary>
         /// 默认加密Key
         /// </summary>
         private const string key = "DotNet2.Utilities";
-
+        
         /// <summary>
         /// 默认向量
         /// </summary>
         private static byte[] iv = { 0x21, 0x45, 0x65, 0x87, 0x09, 0xBA, 0xDC, 0xEF };
-
+        
         /// <summary>
         /// The DES
         /// </summary>
         private DES des = null;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -43,7 +43,7 @@
             des.Key = key;
             des.IV = iv;
         }
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -59,11 +59,11 @@
             des.Key = Encoding.UTF8.GetBytes(key.Substring(0, 8));
             des.IV = iv;
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 生成DES
         /// </summary>
@@ -72,7 +72,7 @@
         {
             return CreateDES(string.Empty);
         }
-
+        
         /// <summary>
         /// 根据KEY生成DES
         /// </summary>
@@ -82,7 +82,8 @@
         {
             DES _des = new DESCryptoServiceProvider();
             DESCryptoServiceProvider _desCrypto = (DESCryptoServiceProvider)DESCryptoServiceProvider.Create();
-            if (!string.IsNullOrEmpty(key))
+            
+            if(!string.IsNullOrEmpty(key))
             {
                 MD5 _md5 = new MD5CryptoServiceProvider();
                 _des.Key = ArrayHelper.Copy<byte>(_md5.ComputeHash(Encoding.UTF8.GetBytes(key)), 0, 8);
@@ -91,11 +92,11 @@
             {
                 _des.Key = _desCrypto.Key;
             }
-
+            
             _des.IV = _des.IV;
             return _des;
         }
-
+        
         /// <summary>
         /// 采用默认向量，Key解密
         /// </summary>
@@ -106,7 +107,7 @@
             DESEncryptHelper _helper = new DESEncryptHelper(key, iv);
             return _helper.DecryptString(text);
         }
-
+        
         /// <summary>
         /// 采用默认向量,KEY加密
         /// </summary>
@@ -117,7 +118,7 @@
             DESEncryptHelper _helper = new DESEncryptHelper(key, iv);
             return _helper.EncryptString(text);
         }
-
+        
         /// <summary>
         /// 解密字符串
         /// </summary>
@@ -126,26 +127,23 @@
         public string DecryptString(string text)
         {
             byte[] _decryptedData = Convert.FromBase64String(text);
-
-            using (MemoryStream ms = new MemoryStream())
+            using(MemoryStream ms = new MemoryStream())
             {
                 try
                 {
                     CryptoStream _cryptoStream = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write);
-
                     _cryptoStream.Write(_decryptedData, 0, _decryptedData.Length);
-
                     _cryptoStream.FlushFinalBlock();
                 }
                 catch
                 {
                     return "N/A";
                 }
-
+                
                 return Encoding.UTF8.GetString(ms.ToArray());
             }
         }
-
+        
         /// <summary>
         /// 加密字符串
         /// </summary>
@@ -154,17 +152,15 @@
         public string EncryptString(string text)
         {
             byte[] _encryptedData = Encoding.UTF8.GetBytes(text);
-
-            using (MemoryStream ms = new MemoryStream())
+            using(MemoryStream ms = new MemoryStream())
             {
                 CryptoStream _cryptoStream = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
-
                 _cryptoStream.Write(_encryptedData, 0, _encryptedData.Length);
                 _cryptoStream.FlushFinalBlock();
                 return Convert.ToBase64String(ms.ToArray());
             }
         }
-
+        
         #endregion Methods
     }
 }

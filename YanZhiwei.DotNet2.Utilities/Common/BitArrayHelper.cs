@@ -2,14 +2,14 @@
 {
     using System.Collections;
     using System.Text;
-
+    
     /// <summary>
     /// BitArray 帮助类
     /// </summary>
     public static class BitArrayHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 逆序
         /// </summary>
@@ -19,16 +19,17 @@
         {
             int _length = bits.Length;
             int _mid = _length / 2;
-            for (int i = 0; i < _mid; i++)
+            
+            for(int i = 0; i < _mid; i++)
             {
                 bool _bit = bits[i];
                 bits[i] = bits[_length - i - 1];
                 bits[_length - i - 1] = _bit;
             }
-
+            
             return bits;
         }
-
+        
         /// <summary>
         /// 转换成十六进制字符串
         /// </summary>
@@ -39,9 +40,10 @@
         public static string ToBinaryString(this BitArray bits, char trueValue, char falseValue)
         {
             StringBuilder _builder = new StringBuilder();
-            for (int i = 0; i < bits.Length; i++)
+            
+            for(int i = 0; i < bits.Length; i++)
             {
-                if (bits[i])
+                if(bits[i])
                 {
                     _builder.Append(trueValue);
                 }
@@ -50,11 +52,11 @@
                     _builder.Append(falseValue);
                 }
             }
-
+            
             string _bitArrayString = _builder.ToString();
             return _bitArrayString;
         }
-
+        
         /// <summary>
         /// 转成是十六进制字符串
         /// </summary>
@@ -64,7 +66,7 @@
         {
             return bits.ToBinaryString('1', '0');
         }
-
+        
         /// <summary>
         /// 转换为byte
         /// </summary>
@@ -76,7 +78,7 @@
         {
             return bits.ToBytes()[0];
         }
-
+        
         /// <summary>
         /// 转成成byte数组
         /// </summary>
@@ -85,32 +87,35 @@
         public static byte[] ToBytes(this BitArray bits)
         {
             int _length = bits.Count / 8;
-            if (bits.Count % 8 != 0)
+            
+            if(bits.Count % 8 != 0)
             {
                 _length++;
             }
-
+            
             byte[] _bytes = new byte[_length];
             int _byteIndex = 0, _bitIndex = 0;
-            for (int i = 0; i < bits.Count; i++)
+            
+            for(int i = 0; i < bits.Count; i++)
             {
-                if (bits[i])
+                if(bits[i])
                 {
                     _bytes[_byteIndex] |= (byte)(1 << (7 - _bitIndex));
                 }
-
+                
                 _bitIndex++;
-                if (_bitIndex == 8)
+                
+                if(_bitIndex == 8)
                 {
                     _bitIndex = 0;
                     _byteIndex++;
                 }
             }
-
+            
             return _bytes;
         }
-
-
+        
+        
         #endregion Methods
     }
 }

@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-
+    
     /// <summary>
     /// Array 帮助类
     /// </summary>
     public static class ArrayHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 向数组中中添加新元素
         /// <para>eg: CollectionAssert.AreEqual(new int[6] { 1, 2, 3, 4, 5, 6 }, ArrayHelper.Add(new int[5] { 1, 2, 3, 4, 5 }, 6));</para>
@@ -24,7 +24,7 @@
             data[_count] = item;
             return data;
         }
-
+        
         /// <summary>
         /// 向数组中添加新数组；
         /// <para>
@@ -44,7 +44,7 @@
             addArray.CopyTo(sourceArray, _count);
             return sourceArray;
         }
-
+        
         /// <summary>
         /// 清空数组
         /// <para>
@@ -59,7 +59,7 @@
         {
             Array.Clear(data, 0, data.Length);
         }
-
+        
         /// <summary>
         /// 清除特定索引数据
         /// </summary>
@@ -70,7 +70,7 @@
         {
             Array.Clear(data, index, 1);
         }
-
+        
         /// <summary>
         /// 复制数组
         /// <para>
@@ -85,17 +85,17 @@
         /// <returns>数组</returns>
         public static T[] Copy<T>(this T[] data, int startIndex, int endIndex)
         {
-            if (startIndex < endIndex)
+            if(startIndex < endIndex)
             {
                 int _len = endIndex - startIndex;
                 T[] _destination = new T[_len];
                 Array.Copy(data, startIndex, _destination, 0, _len);
                 return _destination;
             }
-
+            
             return data;
         }
-
+        
         /// <summary>
         /// 动态添加
         /// <para>eg:  CollectionAssert.AreEqual(new int[6] { 1, 2, 3, 4, 5, 6 }, ArrayHelper.DynamicAdd(new int[5] { 1, 2, 3, 4, 5 }, 6));</para>
@@ -108,17 +108,17 @@
         /// 备注：
         public static T[] DynamicAdd<T>(this T[] target, T item)
         {
-            if (target == null)
+            if(target == null)
             {
                 return target;
             }
-
+            
             T[] result = new T[target.Length + 1];
             target.CopyTo(result, 0);
             result[target.Length] = item;
             return result;
         }
-
+        
         /// <summary>
         /// 判断数组的值是否相等
         /// <para> eg: Assert.IsTrue(ArrayHelper.EqualValue(new int[5] { 1, 2, 3, 4, 5 }, new int[5] { 1, 2, 3, 4, 5 }));
@@ -130,27 +130,27 @@
         /// <returns>是否相等</returns>
         public static bool EqualValue<T>(this T[] source, T[] compare)
         {
-            if (source == null || compare == null)
+            if(source == null || compare == null)
             {
                 return false;
             }
-
-            if (source.Length != compare.Length)
+            
+            if(source.Length != compare.Length)
             {
                 return false;
             }
-
-            for (int i = 0; i < source.Length; i++)
+            
+            for(int i = 0; i < source.Length; i++)
             {
-                if (!source[i].Equals(compare[i]))
+                if(!source[i].Equals(compare[i]))
                 {
                     return false;
                 }
             }
-
+            
             return true;
         }
-
+        
         /// <summary>
         /// 判断数组是否是空还是NULL
         /// <para>eg:Assert.IsTrue(ArrayHelper.IsNullOrEmpty(new int[0]));</para>
@@ -159,14 +159,14 @@
         /// <returns>是否是空或者NULL</returns>
         public static bool IsNullOrEmpty(this Array data)
         {
-            if (data == null || data.Length == 0)
+            if(data == null || data.Length == 0)
             {
                 return true;
             }
-
+            
             return false;
         }
-
+        
         /// <summary>
         /// 引用类型数组值比较
         /// </summary>
@@ -175,31 +175,35 @@
         /// <param name="array2">数组二</param>
         /// <returns>值是否相等</returns>
         public static bool ReferenceTypeValueEqual<T>(this T[] array1, T[] array2)
-            where T : class, IComparable<T>
+        where T : class, IComparable<T>
         {
             bool _resut = false;
-            if (array1 != null && array2 != null)
+            
+            if(array1 != null && array2 != null)
             {
                 _resut = array1.Length == array2.Length;
-                if (_resut)
+                
+                if(_resut)
                 {
                     array1.BubbleSort<T>();
                     array2.BubbleSort<T>();
                     int _length = array1.Length;
-                    for (int i = 0; i < _length; i++)
+                    
+                    for(int i = 0; i < _length; i++)
                     {
                         _resut = EntityHelper.ValueEqual(array1[i], array2[i]);
-                        if (!_resut)
+                        
+                        if(!_resut)
                         {
                             break;
                         }
                     }
                 }
             }
-
+            
             return _resut;
         }
-
+        
         /// <summary>
         /// 重新设置数组大小
         /// <para>eg: CollectionAssert.AreEqual(new int[5] { 1, 2, 3, 0, 0 }, ArrayHelper.Resize(new int[3] { 1, 2, 3 }, 5)); </para>
@@ -210,16 +214,17 @@
         /// <returns>数组</returns>
         public static T[] Resize<T>(this T[] data, int targetNumber)
         {
-            if (data != null)
+            if(data != null)
             {
                 int _nowLength = data.Length;
-                if (_nowLength < targetNumber)
+                
+                if(_nowLength < targetNumber)
                 {
                     T[] _completeArray = new T[targetNumber];
                     data.CopyTo(_completeArray, 0);
                     return _completeArray;
                 }
-
+                
                 return data;
             }
             else
@@ -227,7 +232,7 @@
                 return new T[targetNumber];
             }
         }
-
+        
         /// <summary>
         /// 给定索引是否在数组索引内
         /// <para>
@@ -244,7 +249,7 @@
         {
             return index >= 0 && index < data.Length;
         }
-
+        
         #endregion Methods
     }
 }

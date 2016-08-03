@@ -3,7 +3,7 @@
     using System;
     using System.Security.Cryptography;
     using System.Text;
-
+    
     /// <summary>
     /// MD5加密帮助类
     /// </summary>
@@ -12,7 +12,7 @@
     public static class MD5EncryptHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 验证随机加密的MD5
         /// </summary>
@@ -25,22 +25,24 @@
         {
             byte[] _array = rmd5.ToByteArray();
             byte _randomKey = _array[0];
-            using (var md5Provider = new MD5CryptoServiceProvider())
+            using(var md5Provider = new MD5CryptoServiceProvider())
             {
                 data += _randomKey;
                 byte[] _bytes = Encoding.UTF8.GetBytes(data);
                 byte[] _hash = md5Provider.ComputeHash(_bytes);
-                for (int i = 1; i < 16; i++)
+                
+                for(int i = 1; i < 16; i++)
                 {
-                    if (_hash[i] != _array[i])
+                    if(_hash[i] != _array[i])
                     {
                         return false;
                     }
                 }
+                
                 return true;
             }
         }
-
+        
         /// <summary>
         /// 生成随机加密的
         /// </summary>
@@ -50,8 +52,7 @@
         /// 备注：
         public static Guid ToRandomMD5(this string data)
         {
-            using (MD5CryptoServiceProvider md5Provider = new MD5CryptoServiceProvider())
-
+            using(MD5CryptoServiceProvider md5Provider = new MD5CryptoServiceProvider())
             {
                 //生成256以内的随机数
                 byte _randomKey = (byte)Math.Abs(new object().GetHashCode() % 256);
@@ -62,7 +63,7 @@
                 return new Guid(_hash);
             }
         }
-
+        
         #endregion Methods
     }
 }

@@ -3,7 +3,7 @@
     using System;
     using System.Data;
     using System.IO;
-
+    
     /// <summary>
     /// IDataReader 帮助类
     /// </summary>
@@ -12,7 +12,7 @@
     public static class IDataReaderHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 从IDataReader获取值
         /// </summary>
@@ -28,7 +28,7 @@
             bool _result = reader[columnName] != DBNull.Value;
             return _result == true ? (T)reader[columnName] : failValue;
         }
-
+        
         /// <summary>
         /// 从IDataReader获取值
         /// </summary>
@@ -42,7 +42,7 @@
         {
             return GetValueOrDefault<T>(reader, columnName, default(T));
         }
-
+        
         /// <summary>
         /// 从IDataReader获取值
         /// </summary>
@@ -57,14 +57,16 @@
         {
             T _returnValue = defaultValue;
             object _columnValue = reader[columnName];
-            if (!(_columnValue is DBNull))
+            
+            if(!(_columnValue is DBNull))
             {
                 Type _returnType = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
                 _returnValue = (T)Convert.ChangeType(_columnValue, _returnType);
             }
+            
             return _returnValue;
         }
-
+        
         /// <summary>
         /// 保存文件
         /// </summary>
@@ -76,29 +78,32 @@
         /// 备注：
         public static void SaveFile(this IDataReader reader, int columnIndex, string saveFilePath, int bufferSize)
         {
-            if (bufferSize < 0)
+            if(bufferSize < 0)
                 bufferSize = 65536;
-            using (reader)
+                
+            using(reader)
             {
                 byte[] _buffer = new byte[bufferSize];
                 int _offset = 0;
-                using (FileStream tmpfile = File.Create(saveFilePath))
+                using(FileStream tmpfile = File.Create(saveFilePath))
                 {
-                    if (reader.Read())
+                    if(reader.Read())
                     {
                         int _datasize = (int)reader.GetBytes(columnIndex, _offset, _buffer, 0, bufferSize);
-                        while (_datasize == bufferSize)
+                        
+                        while(_datasize == bufferSize)
                         {
                             tmpfile.Write(_buffer, 0, _datasize);
                             _offset += bufferSize;
                             _datasize = (int)reader.GetBytes(columnIndex, _offset, _buffer, 0, bufferSize);
                         }
+                        
                         tmpfile.Write(_buffer, 0, _datasize);
                     }
                 }
             }
         }
-
+        
         /// <summary>
         /// 保存文件
         /// </summary>
@@ -111,7 +116,7 @@
         {
             SaveFile(reader, index, saveFilePath, 65536);
         }
-
+        
         #endregion Methods
     }
 }

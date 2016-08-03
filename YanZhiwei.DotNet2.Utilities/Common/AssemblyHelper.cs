@@ -3,28 +3,28 @@
     using System;
     using System.IO;
     using System.Reflection;
-
+    
     /// <summary>
     /// Assembly 帮助类
     /// </summary>
     public class AssemblyHelper
     {
         #region Fields
-
+        
         /// <summary>
         /// Assembly对象
         /// </summary>
         private Assembly assembly = null;
-
+        
         /// <summary>
         /// 程序集路径
         /// </summary>
         private string filePath = string.Empty;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyHelper"/> class.
         /// </summary>
@@ -32,24 +32,24 @@
         {
             assembly = Assembly.GetExecutingAssembly();
         }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyHelper"/> class.
         /// </summary>
         /// <param name="path">The path.</param>
         public AssemblyHelper(string path)
         {
-            if (File.Exists(path))
+            if(File.Exists(path))
             {
                 assembly = Assembly.LoadFile(path);
                 filePath = path;
             }
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 获取程序集显示名称
         /// </summary>
@@ -58,20 +58,20 @@
         {
             return assembly.FullName.ToString();
         }
-
+        
         /// <summary>
         /// 获取编译日期
         /// </summary>
         /// <returns>编译日期</returns>
         public DateTime GetBuildDateTime()
         {
-            if (File.Exists(filePath))
+            if(File.Exists(filePath))
             {
                 const int _peHeaderOffset = 60,
                           _linkerTimestampOffset = 8;
                 byte[] _buffer = new byte[2048];
                 Stream _readerStream = null;
-
+                
                 try
                 {
                     _readerStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
@@ -79,12 +79,12 @@
                 }
                 finally
                 {
-                    if (_readerStream != null)
+                    if(_readerStream != null)
                     {
                         _readerStream.Close();
                     }
                 }
-
+                
                 int _position = BitConverter.ToInt32(_buffer, _peHeaderOffset);
                 int _since1970 = BitConverter.ToInt32(_buffer, _position + _linkerTimestampOffset);
                 DateTime _builderDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -97,14 +97,14 @@
                 return new DateTime();
             }
         }
-
+        
         /// <summary>
         /// 获取根据实际编译版本信息
         /// </summary>
         /// <returns>实际编译版本信息</returns>
         public DateTime GetBuildDateTimeByVersion()
         {
-            if (File.Exists(filePath))
+            if(File.Exists(filePath))
             {
                 Version _version = assembly.GetName().Version;
                 return new DateTime(2000, 01, 01).AddDays(_version.Build).AddSeconds(_version.Revision * 2);
@@ -114,7 +114,7 @@
                 return new DateTime();
             }
         }
-
+        
         /// <summary>
         /// 获取公司名称信息
         /// </summary>
@@ -125,7 +125,7 @@
             GetAssemblyCommon<AssemblyCompanyAttribute>(_ass => _company = _ass.Company);
             return _company;
         }
-
+        
         /// <summary>
         /// 获取版权信息
         /// </summary>
@@ -136,7 +136,7 @@
             GetAssemblyCommon<AssemblyCopyrightAttribute>(_ass => _copyright = _ass.Copyright);
             return _copyright;
         }
-
+        
         /// <summary>
         /// 获取说明信息
         /// </summary>
@@ -147,7 +147,7 @@
             GetAssemblyCommon<AssemblyDescriptionAttribute>(_ass => _description = _ass.Description);
             return _description;
         }
-
+        
         /// <summary>
         /// 获取产品名称信息
         /// </summary>
@@ -158,7 +158,7 @@
             GetAssemblyCommon<AssemblyProductAttribute>(_ass => _product = _ass.Product);
             return _product;
         }
-
+        
         /// <summary>
         /// 获取文件名
         /// </summary>
@@ -167,14 +167,15 @@
         {
             string _title = string.Empty;
             GetAssemblyCommon<AssemblyTitleAttribute>(_ass => _title = _ass.Title);
-            if (string.IsNullOrEmpty(_title))
+            
+            if(string.IsNullOrEmpty(_title))
             {
                 _title = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
             }
-
+            
             return _title;
         }
-
+        
         /// <summary>
         /// 获取主版本号，次版本号；
         /// </summary>
@@ -183,7 +184,7 @@
         {
             return assembly.GetName().Version.ToString();
         }
-
+        
         /// <summary>
         /// 获取程序集信息
         /// </summary>
@@ -192,19 +193,20 @@
         /// 时间：2015-09-09 15:56
         /// 备注：
         private void GetAssemblyCommon<T>(Action<T> assemblyFacotry)
-            where T : Attribute
+        where T : Attribute
         {
-            if (assembly != null)
+            if(assembly != null)
             {
                 object[] _attributes = assembly.GetCustomAttributes(typeof(T), false);
-                if (_attributes.Length > 0)
+                
+                if(_attributes.Length > 0)
                 {
                     T _attribute = (T)_attributes[0];
                     assemblyFacotry(_attribute);
                 }
             }
         }
-
+        
         #endregion Methods
     }
 }

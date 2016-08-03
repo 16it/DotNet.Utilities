@@ -1,16 +1,16 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-
+    
     using YanZhiwei.DotNet2.Utilities.Model;
-
+    
     /// <summary>
     /// 火星坐标系 (GCJ-02)与百度坐标系 (BD-09) 转换帮助类
     /// </summary>
     public class BDGCJLatLonHelper
     {
         #region Fields
-
+        
         /*
          *参考：
          *BD09坐标系：即百度坐标系，GCJ02坐标系经加密后的坐标系。
@@ -21,11 +21,11 @@
         /// 时间：2015-09-14 9:07
         /// 备注：
         private const double pi = 3.14159265358979324 * 3000.0 / 180.0;
-
+        
         #endregion Fields
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 将BD-09坐标转换成GCJ-02坐标
         /// </summary>
@@ -41,7 +41,7 @@
             _gcjPoint.LatY = _z * Math.Sin(_theta);
             return _gcjPoint;
         }
-
+        
         /// <summary>
         /// 将GCJ-02坐标转换成BD-09坐标
         /// </summary>
@@ -57,7 +57,7 @@
             _bdPoint.LatY = _z * Math.Cos(_theta) + 0.006;
             return _bdPoint;
         }
-
+        
         #endregion Methods
     }
 }

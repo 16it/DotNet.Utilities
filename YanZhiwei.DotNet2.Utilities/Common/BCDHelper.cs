@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System.Text;
-
+    
     /// <summary>
     /// BCD码帮助类
     /// </summary>
     public static class BCDHelper
     {
         #region Methods
-
+        
         /*
          *知识：
          *1.BCD码（二到十进制编码）
@@ -30,7 +30,7 @@
           如：56的压缩型8421 BCD码是0101 0110；
           非压缩型BCD码：一个字节可存放一个一位十进制数，其中高字节为0，低字节的低四位存放个位。
           如：5的非压缩型BCD码是0000 0101，必须存放在一个字节中，56的非压缩型BCD码是*********** ***********，必须存放在一个字中。
-
+        
          *1.3 编码过程，将数字69进行BCD编码（注：BCD编码低位在前，后面将不再注释）。
          *1.3.1 将6，9分别转换成二进制表示：6（00000110）9（00001001），大家可以看到，最大的数字9也只要4个位，在传输过程中白白浪费了4个位；
          *1.3.2 将69合并为一个字节，分别取6，9二进制编码的低4位，按照低位在前的原则，将9的低四位放前面6的低四位放后面得出新的字节二进制编码是10010110；
@@ -47,7 +47,7 @@
          *
          *
          */
-
+        
         /// <summary>
         /// 转为bcd码Byte描述
         /// 其中高四位存放十位数字，低四位存放个位数字。
@@ -62,7 +62,7 @@
             bcdNumber /= 10;
             return _bcd;
         }
-
+        
         /// <summary>
         /// Int转为bcd码Byte数组描述
         /// </summary>
@@ -72,14 +72,15 @@
         public static byte[] Parse8421BCDNumber(this int bcdNumber, bool isLittleEndian)
         {
             string _bcdString = bcdNumber.ToString();
-            if (!CheckHelper.IsBinaryCodedDecimal(_bcdString))
+            
+            if(!CheckHelper.IsBinaryCodedDecimal(_bcdString))
             {
                 _bcdString = _bcdString.PadLeft(_bcdString.Length + 1, '0');
             }
-
+            
             return Parse8421BCDString(_bcdString, isLittleEndian);
         }
-
+        
         /// <summary>
         /// 字符串转为bcd码Byte数组描述
         /// <para>eg:CollectionAssert.AreEqual(new byte[2] { 0x01, 0x10 }, BCDHelper.ToBinaryCodedDecimal("0110", false));</para>
@@ -91,14 +92,16 @@
         public static byte[] Parse8421BCDString(this string bcdString, bool isLittleEndian)
         {
             byte[] _bytes = null;
-            if (CheckHelper.IsBinaryCodedDecimal(bcdString))
+            
+            if(CheckHelper.IsBinaryCodedDecimal(bcdString))
             {
                 char[] _chars = bcdString.ToCharArray();
                 int _len = _chars.Length / 2;
                 _bytes = new byte[_len];
-                if (isLittleEndian)
+                
+                if(isLittleEndian)
                 {
-                    for (int i = 0; i < _len; i++)
+                    for(int i = 0; i < _len; i++)
                     {
                         byte _highNibble = byte.Parse(_chars[2 * (_len - 1) - 2 * i].ToString());
                         byte _lowNibble = byte.Parse(_chars[2 * (_len - 1) - 2 * i + 1].ToString());
@@ -107,7 +110,7 @@
                 }
                 else
                 {
-                    for (int i = 0; i < _len; i++)
+                    for(int i = 0; i < _len; i++)
                     {
                         byte _highNibble = byte.Parse(_chars[2 * i].ToString());
                         byte _lowNibble = byte.Parse(_chars[2 * i + 1].ToString());
@@ -115,10 +118,10 @@
                     }
                 }
             }
-
+            
             return _bytes;
         }
-
+        
         /// <summary>
         /// 将byte数组转为BCD字符串描述
         /// <para>eg: Assert.AreEqual("1001", BCDHelper.ToBinaryCodedDecimal(new byte[2] { 0x01, 0x10 }, true));</para>
@@ -130,9 +133,10 @@
         public static string To8421BCDString(this byte[] data, bool isLittleEndian)
         {
             StringBuilder _builder = new StringBuilder(data.Length * 2);
-            if (isLittleEndian)
+            
+            if(isLittleEndian)
             {
-                for (int i = data.Length - 1; i >= 0; i--)
+                for(int i = data.Length - 1; i >= 0; i--)
                 {
                     byte _bcdByte = data[i];
                     int _idHigh = _bcdByte >> 4;
@@ -142,7 +146,7 @@
             }
             else
             {
-                for (int i = 0; i < data.Length; i++)
+                for(int i = 0; i < data.Length; i++)
                 {
                     byte _bcdByte = data[i];
                     int _idHigh = _bcdByte >> 4;
@@ -150,10 +154,10 @@
                     _builder.Append(string.Format("{0}{1}", _idHigh, _idLow));
                 }
             }
-
+            
             return _builder.ToString();
         }
-
+        
         /// <summary>
         ///将byte数组转为BCD字符串描述
         /// </summary>
@@ -169,7 +173,7 @@
             byte[] _array = ArrayHelper.Copy(data, startIndex, endIndex);
             return To8421BCDString(_array, isLittleEndian);
         }
-
+        
         #endregion Methods
     }
 }

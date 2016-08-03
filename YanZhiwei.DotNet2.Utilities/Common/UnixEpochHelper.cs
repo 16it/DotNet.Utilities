@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-
+    
     /// <summary>
     /// Unix 时间戳 帮助类
     /// </summary>
     public class UnixEpochHelper
     {
         #region Fields
-
+        
         /*
          *参考：
          *1. http://stackoverflow.com/questions/7983441/unix-time-conversions-in-c-sharp
@@ -24,11 +24,11 @@
         /// Unix 时间戳
         /// </summary>
         public static readonly DateTime UnixEpochUtcValue;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// Initializes the <see cref="UnixEpochHelper"/> class.
         /// </summary>
@@ -36,11 +36,11 @@
         {
             UnixEpochUtcValue = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 将Unix时间戳转换成DateTime
         /// </summary>
@@ -50,7 +50,7 @@
         {
             return UnixEpochUtcValue.AddMilliseconds(millis);
         }
-
+        
         /// <summary>
         /// 获取当前时间Unix时间戳【毫秒】
         /// </summary>
@@ -59,7 +59,7 @@
         {
             return (long)(DateTime.UtcNow - UnixEpochUtcValue).TotalMilliseconds;
         }
-
+        
         #endregion Methods
     }
 }

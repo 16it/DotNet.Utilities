@@ -1,16 +1,16 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-
+    
     using YanZhiwei.DotNet2.Utilities.Core;
-
+    
     /// <summary>
     /// 检查 帮助类
     /// </summary>
     public static class CheckHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 判断字符串是否在某个范围
         /// <para>eg:CheckHelper.InRange("2", 1, 5);==>true</para>
@@ -24,13 +24,15 @@
         {
             bool _result = false;
             int _number = -1;
-            if (int.TryParse(data, out _number))
+            
+            if(int.TryParse(data, out _number))
             {
                 _result = (_number >= minValue && _number <= maxValue);
             }
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 判断时间是否在时间范围内
         /// </summary>
@@ -44,23 +46,25 @@
         public static bool InRange(DateTime date, DateTime startTime, DateTime endTime, bool includeEq)
         {
             bool _result = false;
-            if (includeEq)
+            
+            if(includeEq)
             {
-                if ((date >= startTime) && (date <= endTime))
+                if((date >= startTime) && (date <= endTime))
                 {
                     _result = true;
                 }
             }
             else
             {
-                if ((date > startTime) && (date < endTime))
+                if((date > startTime) && (date < endTime))
                 {
                     _result = true;
                 }
             }
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 是否是Base64
         /// </summary>
@@ -70,7 +74,7 @@
         {
             return (data.Length % 4) == 0 && RegexHelper.IsMatch(data, RegexPattern.Base64Check);
         }
-
+        
         /// <summary>
         /// 是否是Bigint类型
         /// </summary>
@@ -82,7 +86,7 @@
             number = -1;
             return long.TryParse(value, out number);
         }
-
+        
         /// <summary>
         /// 判断是否是BCD字符串
         /// </summary>
@@ -92,7 +96,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.BinaryCodedDecimal);
         }
-
+        
         /// <summary>
         /// 是否是布尔类型
         /// </summary>
@@ -100,31 +104,31 @@
         /// <returns>布尔类型</returns>
         public static bool IsBool(object data)
         {
-            switch (data.ToString().Trim().ToLower())
+            switch(data.ToString().Trim().ToLower())
             {
                 case "0":
                     return false;
-
+                    
                 case "1":
                     return true;
-
+                    
                 case "是":
                     return true;
-
+                    
                 case "否":
                     return false;
-
+                    
                 case "yes":
                     return true;
-
+                    
                 case "no":
                     return false;
-
+                    
                 default:
                     return false;
             }
         }
-
+        
         /// <summary>
         /// 是否是中文
         /// </summary>
@@ -134,7 +138,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.IntCheck);
         }
-
+        
         /// <summary>
         /// 是否是日期格式
         /// <para>eg:CheckHelper.IsDate("2014年12月12日");==>true</para>
@@ -143,8 +147,9 @@
         /// <returns>是否是日期格式</returns>
         public static bool IsDate(string data)
         {
-            if (String.IsNullOrEmpty(data)) return false;
-            if (RegexHelper.IsMatch(data, RegexPattern.DateCheck))
+            if(String.IsNullOrEmpty(data)) return false;
+            
+            if(RegexHelper.IsMatch(data, RegexPattern.DateCheck))
             {
                 data = data.Replace("年", "-");
                 data = data.Replace("月", "-");
@@ -153,9 +158,10 @@
                 DateTime _date;
                 return DateTime.TryParse(data, out _date);
             }
+            
             return false;
         }
-
+        
         /// <summary>
         /// 验证是否是email
         /// <para>eg:CheckHelper.IsEmail("Yan.Zhiwei@hotmail.com");==true</para>
@@ -166,7 +172,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.EmailCheck);
         }
-
+        
         /// <summary>
         /// 是否是偶数
         /// </summary>
@@ -176,7 +182,7 @@
         {
             return ((data & 1) == 0);
         }
-
+        
         /// <summary>
         /// 验证是否是文件路径
         /// <para>eg:CheckHelper.IsFilePath(@"C:\alipay\log.txt");==>true</para>
@@ -187,7 +193,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.FileCheck);
         }
-
+        
         /// <summary>
         /// 是否是十六进制字符串
         /// </summary>
@@ -197,7 +203,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.HexStringCheck);
         }
-
+        
         /// <summary>
         /// 是否是身份证号码
         /// </summary>
@@ -207,7 +213,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.IdCardCheck);
         }
-
+        
         /// <summary>
         /// 判断图片byte[]是否合法
         /// </summary>
@@ -215,18 +221,21 @@
         /// <returns>是否合法</returns>
         public static bool IsImageFormat(byte[] data)
         {
-            if (data == null || data.Length < 4)
+            if(data == null || data.Length < 4)
             {
                 return false;
             }
+            
             string _fileClass = "";
             int _len = data.Length;
+            
             try
             {
                 _fileClass = data[0].ToString();
                 _fileClass += data[1].ToString();
                 _fileClass = _fileClass.Trim();
-                if (_fileClass == "7173" || _fileClass == "13780")//7173:gif;13780:PNG;
+                
+                if(_fileClass == "7173" || _fileClass == "13780") //7173:gif;13780:PNG;
                 {
                     return true;
                 }
@@ -237,8 +246,9 @@
                     _jpg[1] = 0xd8;
                     _jpg[2] = 0xff;
                     _jpg[3] = 0xd9;
-                    if (data[0] == _jpg[0] && data[1] == _jpg[1]
-                        && data[_len - 2] == _jpg[2] && data[_len - 1] == _jpg[3])
+                    
+                    if(data[0] == _jpg[0] && data[1] == _jpg[1]
+                            && data[_len - 2] == _jpg[2] && data[_len - 1] == _jpg[3])
                     {
                         return true;
                     }
@@ -248,12 +258,12 @@
                     }
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 return false;
             }
         }
-
+        
         /// <summary>
         /// 是否是整数
         /// </summary>
@@ -262,7 +272,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.IntCheck);
         }
-
+        
         /// <summary>
         /// 判断是否是合法的IP4,IP6地址
         /// <para>eg: Assert.IsTrue(CheckHelper.IsIp46Address("192.168.1.1:8060"));</para>
@@ -273,25 +283,29 @@
         public static bool IsIp46Address(string data)
         {
             bool _result = false;
-            if (!string.IsNullOrEmpty(data))
+            
+            if(!string.IsNullOrEmpty(data))
             {
                 UriHostNameType _hostType = Uri.CheckHostName(data);
-                if (_hostType == UriHostNameType.Unknown)//譬如 "192.168.1.1:8060"或者[2001:0DB8:02de::0e13]:9010
+                
+                if(_hostType == UriHostNameType.Unknown) //譬如 "192.168.1.1:8060"或者[2001:0DB8:02de::0e13]:9010
                 {
                     Uri _url;
-                    if (Uri.TryCreate(string.Format("http://{0}", data), UriKind.Absolute, out _url))
+                    
+                    if(Uri.TryCreate(string.Format("http://{0}", data), UriKind.Absolute, out _url))
                     {
                         _result = true;
                     }
                 }
-                else if (_hostType == UriHostNameType.IPv4 || _hostType == UriHostNameType.IPv6)
+                else if(_hostType == UriHostNameType.IPv4 || _hostType == UriHostNameType.IPv6)
                 {
                     _result = true;
                 }
             }
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 是否是IP
         /// </summary>
@@ -301,7 +315,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.IpCheck);
         }
-
+        
         /// <summary>
         /// 判断是否是合法纬度
         /// </summary>
@@ -311,7 +325,7 @@
         {
             return !(data < -90 || data > 90);
         }
-
+        
         /// <summary>
         /// 是否是内网IP
         /// </summary>
@@ -331,16 +345,18 @@
              * 做网关的服务器有一个网关（服务器/路由器）的IP地址,其它内网电脑的IP可根据它来随意设置,前提是IP前三个数要跟它一样,第四个可从0-255中任选但要跟服务器的IP不同
              */
             bool _result = false;
-            if (!string.IsNullOrEmpty(ipAddress) && IsIp4Address(ipAddress))
+            
+            if(!string.IsNullOrEmpty(ipAddress) && IsIp4Address(ipAddress))
             {
-                if (ipAddress.StartsWith("192.168.") || ipAddress.StartsWith("172.") || ipAddress.StartsWith("10."))
+                if(ipAddress.StartsWith("192.168.") || ipAddress.StartsWith("172.") || ipAddress.StartsWith("10."))
                 {
                     _result = true;
                 }
             }
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 判断是否是合法经度
         /// </summary>
@@ -350,7 +366,7 @@
         {
             return !(data < -180 || data > 180);
         }
-
+        
         /// <summary>
         /// 是否是数字
         /// <para>eg:CheckHelper.IsNumber("abc");==>false</para>
@@ -361,7 +377,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.NumberCheck);
         }
-
+        
         /// <summary>
         /// 是否是奇数
         /// </summary>
@@ -371,7 +387,7 @@
         {
             return ((data & 1) == 1);
         }
-
+        
         /// <summary>
         /// 验证是否是邮政编码
         /// </summary>
@@ -381,7 +397,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.PostCodeCheck);
         }
-
+        
         /// <summary>
         /// 是否是Smallint类型
         /// </summary>
@@ -393,7 +409,7 @@
             number = -1;
             return short.TryParse(value, out number);
         }
-
+        
         /// <summary>
         /// 是否是Tinyint
         /// </summary>
@@ -405,7 +421,7 @@
             number = 0;
             return byte.TryParse(value, out number);
         }
-
+        
         /// <summary>
         /// 验证是否是URL
         /// <para>eg:CheckHelper.IsURL("www.cnblogs.com/yan-zhiwei");==>true</para>
@@ -416,7 +432,7 @@
         {
             return RegexHelper.IsMatch(data, RegexPattern.URLCheck);
         }
-
+        
         /// <summary>
         /// 检查设置的端口号是否正确
         /// </summary>
@@ -427,13 +443,15 @@
             bool _result = false;
             int _minPORT = 0, _maxPORT = 65535;
             int _portValue = -1;
-            if (int.TryParse(port, out _portValue))
+            
+            if(int.TryParse(port, out _portValue))
             {
                 _result = !((_portValue < _minPORT) || (_portValue > _maxPORT));
             }
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 验证非空
         /// </summary>
@@ -443,7 +461,7 @@
         {
             return !(data == null);
         }
-
+        
         #endregion Methods
     }
 }

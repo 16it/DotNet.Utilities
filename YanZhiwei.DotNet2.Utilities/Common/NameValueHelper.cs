@@ -2,14 +2,14 @@
 {
     using System;
     using System.Collections.Specialized;
-
+    
     /// <summary>
     /// NameValueCollection帮助类
     /// </summary>
     public static class NameValueHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 针对NameValueCollection的键值判断
         /// </summary>
@@ -20,18 +20,20 @@
         public static bool Check(this NameValueCollection collection, string key, string expect)
         {
             bool _result = false;
-            if (collection != null && !string.IsNullOrEmpty(key))
+            
+            if(collection != null && !string.IsNullOrEmpty(key))
             {
                 string _value = collection[key];
-                if (!string.IsNullOrEmpty(_value))
+                
+                if(!string.IsNullOrEmpty(_value))
                 {
                     _result = _value.Equals(expect);
                 }
             }
-
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 针对NameValueCollection的键值判断
         /// <para>eg: _modulesettings.JudgedEqual("EmergencyControl", "1", result => { return result == true ? BarItemVisibility.Always : BarItemVisibility.Never; });</para>
@@ -49,7 +51,7 @@
             _instance = checkedHanlder(_result);
             return _instance;
         }
-
+        
         /// <summary>
         /// 针对String类型的等于判断
         /// <para>eg: _modulesettings["WeekSchedule"].JudgedEqual("1", result => ItemVisibilityRule(result));</para>
@@ -66,7 +68,7 @@
             _instance = checkedHanlder(_result);
             return _instance;
         }
-
+        
         #endregion Methods
     }
 }

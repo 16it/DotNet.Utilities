@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System.Data;
-
+    
     /// <summary>
     /// DataSet 帮助类
     /// </summary>
@@ -10,7 +10,7 @@
     public static class DataSetHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 判断DataSet是否是NULL或者没有DataTable
         /// </summary>
@@ -22,7 +22,7 @@
         {
             return dataset == null || dataset.Tables.Count == 0;
         }
-
+        
         #endregion Methods
     }
 }

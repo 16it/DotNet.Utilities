@@ -1,16 +1,16 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System.Collections.Generic;
-
+    
     using YanZhiwei.DotNet2.Utilities.Core;
-
+    
     /// <summary>
     /// Enumerable 帮助类
     /// </summary>
     public static class IEnumerableHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 线程安全【上锁】
         ///<para> eg: foreach(var item in someList.AsLocked(someLock))</para>
@@ -27,7 +27,7 @@
             */
             return new ThreadSafeEnumerableHelper<T>(source, syncObject);
         }
-
+        
         ///// <summary>
         /////获取总数
         ///// </summary>
@@ -43,7 +43,7 @@
         //        _count = _c.Count;
         //    return _count;
         //}
-
+        
         #endregion Methods
     }
 }

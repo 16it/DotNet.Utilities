@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System.Text;
-
+    
     /// <summary>
     /// ASCII 帮助类
     /// </summary>
     public static class ASCIIHelper
     {
         #region Methods
-
+        
         /*
          * 知识：
          * ASCII是基于拉丁字母的一套电脑编码系统。它主要用于显示现代英语和其他西欧语言。它是现今最通用的单字节编码系统，并等同于国际标准ISO/IEC 646。
@@ -32,7 +32,7 @@
             byte[] _array = new byte[] { asciiCode };
             return _asciiEncoding.GetString(_array)[0];
         }
-
+        
         /// <summary>
         /// To the ASCII.
         /// </summary>
@@ -44,7 +44,7 @@
             char[] _array = new char[1] { data };
             return (int)_asciiEncoding.GetBytes(_array)[0];
         }
-
+        
         /// <summary>
         /// To the ASCII.
         /// </summary>
@@ -53,14 +53,15 @@
         public static byte[] ToASCII(this string data)
         {
             byte[] _asciiBytes = null;
-            if (!string.IsNullOrEmpty(data))
+            
+            if(!string.IsNullOrEmpty(data))
             {
                 _asciiBytes = Encoding.ASCII.GetBytes(data);
             }
-
+            
             return _asciiBytes;
         }
-
+        
         #endregion Methods
     }
 }

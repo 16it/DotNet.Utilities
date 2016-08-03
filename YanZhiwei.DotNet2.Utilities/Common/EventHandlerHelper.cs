@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-
+    
     /// <summary>
     /// EventHandler 帮助类
     /// </summary>
     public static class EventHandlerHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 触发事件
         /// </summary>
@@ -19,12 +19,12 @@
         /// 备注：
         public static void Raise(this EventHandler handler, object sender, EventArgs e)
         {
-            if (handler != null)
+            if(handler != null)
             {
                 handler(sender, e);
             }
         }
-
+        
         /// <summary>
         /// 触发事件
         /// </summary>
@@ -34,12 +34,12 @@
         /// 备注：
         public static void RaiseEvent(this EventHandler eventHanlder, object sender)
         {
-            if (eventHanlder != null)
+            if(eventHanlder != null)
             {
                 eventHanlder(sender, null);
             }
         }
-
+        
         /// <summary>
         /// 触发事件
         /// </summary>
@@ -49,14 +49,14 @@
         /// 日期：2015-09-16 14:02
         /// 备注：
         public static void RaiseEvent<TEventArgs>(this EventHandler<TEventArgs> eventHanlder, object sender)
-            where TEventArgs : EventArgs
+        where TEventArgs : EventArgs
         {
-            if (eventHanlder != null)
+            if(eventHanlder != null)
             {
                 eventHanlder(sender, Activator.CreateInstance<TEventArgs>());
             }
         }
-
+        
         /// <summary>
         /// 触发事件
         /// </summary>
@@ -67,14 +67,14 @@
         /// 日期：2015-09-16 14:02
         /// 备注：
         public static void RaiseEvent<TEventArgs>(this EventHandler<TEventArgs> eventHanlder, object sender, TEventArgs e)
-            where TEventArgs : EventArgs
+        where TEventArgs : EventArgs
         {
-            if (eventHanlder != null)
+            if(eventHanlder != null)
             {
                 eventHanlder(sender, e);
             }
         }
-
+        
         #endregion Methods
     }
 }
