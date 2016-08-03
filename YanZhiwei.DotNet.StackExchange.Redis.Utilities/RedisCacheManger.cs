@@ -5,10 +5,10 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-
+    
     using ServiceStack.Redis;
     using ServiceStack.Redis.Generic;
-
+    
     /// <summary>
     /// 基于ServiceStack.Redis 缓存帮助类
     /// </summary>
@@ -17,16 +17,16 @@
     public class RedisCacheManger
     {
         #region Fields
-
+        
         /// <summary>
         /// IRedisClient
         /// </summary>
         public readonly IRedisClient RedisClient;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -35,11 +35,11 @@
         {
             RedisClient = redisClient;
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 删除缓存
         /// </summary>
@@ -50,7 +50,7 @@
             IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
             _typedclient.Delete(item);
         }
-
+        
         /// <summary>
         /// 删除所有缓存
         /// </summary>
@@ -61,7 +61,24 @@
             IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
             _typedclient.DeleteAll();
         }
-
+        
+        /// <summary>
+        /// 根据Id删除
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="id">KeyId</param>
+        /// 时间：2016/8/3 14:20
+        /// 备注：
+        public void DeleteById<T>(string id)
+        {
+            T _finded = Get<T>(id);
+            
+            if(_finded != null)
+            {
+                Delete<T>(_finded);
+            }
+        }
+        
         /// <summary>
         /// 根据keyId取值
         /// </summary>
@@ -73,7 +90,7 @@
             IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
             return _typedclient.GetById(id.ToLower());
         }
-
+        
         /// <summary>
         /// 获取所有
         /// </summary>
@@ -84,7 +101,7 @@
             IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
             return _typedclient.GetAll();
         }
-
+        
         /// <summary>
         /// 条件获取
         /// </summary>
@@ -96,7 +113,7 @@
             IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
             return _typedclient.GetAll().Where(keySelector);
         }
-
+        
         /// <summary>
         /// 依据HashId条件查询
         /// </summary>
@@ -111,7 +128,7 @@
             var _ids = _filtered.Select(c => c.Key);
             return RedisClient.As<T>().GetByIds(_ids).AsQueryable().Where(keySelector);
         }
-
+        
         /// <summary>
         /// 依据HashId获取数据
         /// </summary>
@@ -125,7 +142,7 @@
             var _ids = _filtered.Select(c => c.Key);
             return RedisClient.As<T>().GetByIds(_ids).AsQueryable();
         }
-
+        
         /// <summary>
         /// 设置缓存
         /// </summary>
@@ -136,7 +153,7 @@
             IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
             _typedclient.Store(item);
         }
-
+        
         /// <summary>
         /// 设置Hash类型缓存
         /// </summary>
@@ -152,7 +169,7 @@
             RedisClient.SetEntryInHash(hash, _prop.GetValue(item, null).ToString(), value.ToLower());
             RedisClient.As<T>().Store(item);
         }
-
+        
         /// <summary>
         /// 设置Hash类型缓存
         /// </summary>
@@ -165,15 +182,15 @@
         {
             Type _type = item.GetType();
             PropertyInfo _prop = _type.GetProperty(keyName);
-
+            
             for(int i = 0; i < hash.Count; i++)
             {
                 RedisClient.SetEntryInHash(hash[i], _prop.GetValue(item, null).ToString(), value[i].ToLower());
             }
-
+            
             RedisClient.As<T>().Store(item);
         }
-
+        
         /// <summary>
         /// 设置集合缓存
         /// </summary>
@@ -184,7 +201,7 @@
             var typedclient = RedisClient.As<T>();
             typedclient.StoreAll(listItems);
         }
-
+        
         /// <summary>
         /// 设置Hash集合缓存
         /// </summary>
@@ -203,7 +220,7 @@
                 RedisClient.As<T>().StoreAll(list);
             }
         }
-
+        
         /// <summary>
         /// 设置Hash集合缓存
         /// </summary>
@@ -218,26 +235,26 @@
             {
                 Type _type = item.GetType();
                 PropertyInfo _prop = _type.GetProperty(keyName);
-
+                
                 for(int i = 0; i < hash.Count; i++)
                 {
                     RedisClient.SetEntryInHash(hash[i], _prop.GetValue(item, null).ToString(), value[i].ToLower());
                 }
-
+                
                 RedisClient.As<T>().StoreAll(list);
             }
         }
-
+        
         #endregion Methods
-
+        
         #region Other
-
+        
         //public long PublishMessage(string channel, object item)
         //{
         //    var ret = _redisClient.PublishMessage(channel, JsonConvert.SerializeObject(item));
         //    return ret;
         //}
-
+        
         #endregion Other
     }
 }
