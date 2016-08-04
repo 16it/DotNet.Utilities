@@ -13,7 +13,7 @@
     /// </summary>
     /// 时间：2016/8/3 13:32
     /// 备注：
-    public class RedisCacheManger
+    public class RedisCacheManger : IDisposable
     {
         #region Fields
         
@@ -115,6 +115,19 @@
         }
         
         /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// 时间：2016/8/4 15:54
+        /// 备注：
+        public void Dispose()
+        {
+            if(RedisClient != null)
+            {
+                RedisClient.Dispose();
+            }
+        }
+        
+        /// <summary>
         /// 根据keyId取值
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
@@ -140,6 +153,7 @@
                 return typedclient.GetAll();
             }
         }
+        
         /// <summary>
         /// 条件获取
         /// </summary>
@@ -181,6 +195,22 @@
             var _filtered = RedisClient.GetAllEntriesFromHash(hashId).Where(c => c.Value.Equals(dataKey, StringComparison.InvariantCultureIgnoreCase));
             var _ids = _filtered.Select(c => c.Key);
             return RedisClient.As<T>().GetByIds(_ids).AsQueryable();
+        }
+        
+        /// <summary>
+        ///  同步将内存数据存储到硬盘
+        /// </summary>
+        public void Save()
+        {
+            RedisClient.Save();
+        }
+        
+        /// <summary>
+        /// 异步将内存数据存储到硬盘
+        /// </summary>
+        public void SaveAsync()
+        {
+            RedisClient.SaveAsync();
         }
         
         /// <summary>
