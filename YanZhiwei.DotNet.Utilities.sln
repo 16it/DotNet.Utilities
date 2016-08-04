@@ -149,8 +149,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Newtonsoft
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.RestSharpExamples", "YanZhiwei.DotNet.RestSharpExamples\YanZhiwei.DotNet.RestSharpExamples.csproj", "{1D74C2F2-1F1A-4030-B3FE-4BEA2FC3F4EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStack.RedisExamples", "YanZhiwei.DotNet.ServiceStack.RedisExamples\YanZhiwei.DotNet.ServiceStack.RedisExamples.csproj", "{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet2.Utilities.WebFormExamples", "YanZhiwei.DotNet2.Utilities.WebFormExamples\YanZhiwei.DotNet2.Utilities.WebFormExamples.csproj", "{63258C5D-E680-4BA8-A921-7725BF250B0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet2.Utilities.WinFormExamples", "YanZhiwei.DotNet2.Utilities.WinFromExamples\YanZhiwei.DotNet2.Utilities.WinFormExamples.csproj", "{24F6D3B4-6D77-4A9A-AA9B-239844E45EE9}"
@@ -205,7 +203,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AutoMapper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.Utilities", "YanZhiwei.DotNet.ServiceStackRedis.Utilities\YanZhiwei.DotNet.ServiceStackRedis.Utilities.csproj", "{257A6886-11F3-404C-97A3-207440117EDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests1", "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests1\YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests1.csproj", "{AAB96696-3CCC-4F85-8EA8-8CCB12251891}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests", "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests1\YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests.csproj", "{AAB96696-3CCC-4F85-8EA8-8CCB12251891}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1033,22 +1031,6 @@ Global
 		{1D74C2F2-1F1A-4030-B3FE-4BEA2FC3F4EB}.Release|x64.Build.0 = Release|Any CPU
 		{1D74C2F2-1F1A-4030-B3FE-4BEA2FC3F4EB}.Release|x86.ActiveCfg = Release|Any CPU
 		{1D74C2F2-1F1A-4030-B3FE-4BEA2FC3F4EB}.Release|x86.Build.0 = Release|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Debug|ARM.Build.0 = Debug|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Debug|x64.Build.0 = Debug|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Debug|x86.Build.0 = Debug|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Release|ARM.ActiveCfg = Release|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Release|ARM.Build.0 = Release|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Release|x64.ActiveCfg = Release|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Release|x64.Build.0 = Release|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Release|x86.ActiveCfg = Release|Any CPU
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86}.Release|x86.Build.0 = Release|Any CPU
 		{63258C5D-E680-4BA8-A921-7725BF250B0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{63258C5D-E680-4BA8-A921-7725BF250B0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63258C5D-E680-4BA8-A921-7725BF250B0E}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -1485,7 +1467,6 @@ Global
 		{D14C6A27-9199-4D7B-B25E-F57EFBADA79F} = {2BF92C47-311B-46B2-B536-CBD597257243}
 		{644DBC7D-A617-45CE-8966-C447379AA50F} = {2BF92C47-311B-46B2-B536-CBD597257243}
 		{1D74C2F2-1F1A-4030-B3FE-4BEA2FC3F4EB} = {2BF92C47-311B-46B2-B536-CBD597257243}
-		{2F87F5DF-0A71-4E95-BA27-36CD2F997A86} = {2BF92C47-311B-46B2-B536-CBD597257243}
 		{63258C5D-E680-4BA8-A921-7725BF250B0E} = {2BF92C47-311B-46B2-B536-CBD597257243}
 		{24F6D3B4-6D77-4A9A-AA9B-239844E45EE9} = {2BF92C47-311B-46B2-B536-CBD597257243}
 		{4A36069F-06B0-44D7-9C26-61D547AA159B} = {2BF92C47-311B-46B2-B536-CBD597257243}
