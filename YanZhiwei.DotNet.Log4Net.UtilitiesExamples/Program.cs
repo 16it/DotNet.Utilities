@@ -10,35 +10,21 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
         {
             try
             {
-                Console.WriteLine(DateTime.Now.ToLongTimeString());
-                Log4NetHelper.SetLogger("AdoNetLogger");
-
-                while (true)
-                {
-                    Thread.Sleep(5000);
-                    Console.WriteLine(DateTime.Now.ToLongTimeString());
-                    Log4NetHelper.WriteDebug("Debug 你好");
-                    Log4NetHelper.WriteError("ERROR");
-                    Log4NetHelper.WriteFatal("Fatal");
-                    Log4NetHelper.WriteWarn("Warn");
-                    Log4NetHelper.WriteInfo("Info");
-                }
-
-                //Console.WriteLine(DateTime.Now.ToLongTimeString());
-                //ConsoleLogHelper.WriteDebug("Debug");
-                //ConsoleLogHelper.WriteDebug("Debug");
-                //ConsoleLogHelper.WriteError("ERROR");
-                //ConsoleLogHelper.WriteFatal("Fatal");
-                //ConsoleLogHelper.WriteWarn("Warn");
-                //ConsoleLogHelper.WriteInfo("Info");
+                Console.WriteLine("开始：" + DateTime.Now.ToLongTimeString());
+                Log4NetHelper.WriteDebug("Debug 你好");
+                Log4NetHelper.WriteError("ERROR");
+                Log4NetHelper.WriteFatal("Fatal");
+                Log4NetHelper.WriteWarn("Warn");
+                Log4NetHelper.WriteInfo("Info");
+                Console.WriteLine("end....");
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
             finally
             {
-                Console.WriteLine(DateTime.Now.ToLongTimeString());
+                Console.WriteLine("结束：" + DateTime.Now.ToLongTimeString());
                 Console.ReadLine();
             }
         }
