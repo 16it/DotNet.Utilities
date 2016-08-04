@@ -13,7 +13,7 @@
     /// </summary>
     /// 时间：2016/8/3 13:32
     /// 备注：
-    public class RedisCacheManger
+    public class RedisHelper
     {
         #region Fields
         
@@ -30,7 +30,7 @@
         /// 构造函数
         /// </summary>
         /// <param name="redisClient">IRedisClient</param>
-        public RedisCacheManger(IRedisClient redisClient)
+        public RedisHelper(IRedisClient redisClient)
         {
             RedisClient = redisClient;
         }
@@ -117,13 +117,13 @@
         /// 依据HashId条件查询
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <param name="hash">HashId</param>
-        /// <param name="value">关键码值</param>
+        /// <param name="hashId">HashId</param>
+        /// <param name="dataKey">关键码值</param>
         /// <param name="keySelector">条件委托</param>
         /// <returns>IQueryable</returns>
-        public IQueryable<T> GetAll<T>(string hash, string value, Expression<Func<T, bool>> keySelector)
+        public IQueryable<T> GetAll<T>(string hashId, string dataKey, Expression<Func<T, bool>> keySelector)
         {
-            var _filtered = RedisClient.GetAllEntriesFromHash(hash).Where(c => c.Value.Equals(value, StringComparison.InvariantCultureIgnoreCase));
+            var _filtered = RedisClient.GetAllEntriesFromHash(hashId).Where(c => c.Value.Equals(dataKey, StringComparison.InvariantCultureIgnoreCase));
             var _ids = _filtered.Select(c => c.Key);
             return RedisClient.As<T>().GetByIds(_ids).AsQueryable().Where(keySelector);
         }
@@ -132,12 +132,12 @@
         /// 依据HashId获取数据
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <param name="hash">HashId</param>
-        /// <param name="value">关键码值</param>
+        /// <param name="hashId">HashId</param>
+        /// <param name="dataKey">关键码值</param>
         /// <returns>IQueryable</returns>
-        public IQueryable<T> GetAll<T>(string hash, string value)
+        public IQueryable<T> GetAll<T>(string hashId, string dataKey)
         {
-            var _filtered = RedisClient.GetAllEntriesFromHash(hash).Where(c => c.Value.Equals(value, StringComparison.InvariantCultureIgnoreCase));
+            var _filtered = RedisClient.GetAllEntriesFromHash(hashId).Where(c => c.Value.Equals(dataKey, StringComparison.InvariantCultureIgnoreCase));
             var _ids = _filtered.Select(c => c.Key);
             return RedisClient.As<T>().GetByIds(_ids).AsQueryable();
         }
@@ -158,36 +158,14 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="item">缓存项</param>
-        /// <param name="hash">HashId</param>
-        /// <param name="value">关键码值</param>
+        /// <param name="hashId">HashId</param>
+        /// <param name="dataKey">关键码值</param>
         /// <param name="keyName">关键码值属性</param>
-        public void Set<T>(T item, string hash, string value, string keyName)
+        public void Set<T>(T item, string hashId, string dataKey, string keyName)
         {
             Type _type = item.GetType();
             PropertyInfo _prop = _type.GetProperty(keyName);
-            RedisClient.SetEntryInHash(hash, _prop.GetValue(item, null).ToString(), value.ToLower());
-            RedisClient.As<T>().Store(item);
-        }
-        
-        /// <summary>
-        /// 设置Hash类型缓存
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="item">缓存项</param>
-        /// <param name="hash">HashId</param>
-        /// <param name="value">关键码值</param>
-        /// <param name="keyName">关键码值属性</param>
-        public void Set<T>(T item, List<string> hash, List<string> value, string keyName)
-        {
-            Type _type = item.GetType();
-            PropertyInfo _prop = _type.GetProperty(keyName);
-            
-            for(int i = 0; i < hash.Count; i++)
-            {
-                string _key = _prop.GetValue(item, null).ToString();
-                RedisClient.SetEntryInHash(hash[i], _key, value[i].ToLower());
-            }
-            
+            RedisClient.SetEntryInHash(hashId, _prop.GetValue(item, null).ToString(), dataKey.ToLower());
             RedisClient.As<T>().Store(item);
         }
         
@@ -202,57 +180,75 @@
             typedclient.StoreAll(listItems);
         }
         
-        /// <summary>
-        /// 设置Hash集合缓存
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="list">集合</param>
-        /// <param name="hash">HashId</param>
-        /// <param name="value">关键码值</param>
-        /// <param name="keyName">关键码值属性</param>
-        public void SetAll<T>(List<T> list, string hash, string value, string keyName)
-        {
-            foreach(var item in list)
-            {
-                Type _type = item.GetType();
-                PropertyInfo _prop = _type.GetProperty(keyName);
-                RedisClient.SetEntryInHash(hash, _prop.GetValue(item, null).ToString(), value.ToLower());
-                RedisClient.As<T>().StoreAll(list);
-            }
-        }
-        
-        /// <summary>
-        /// 设置Hash集合缓存
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="list">集合</param>
-        /// <param name="hash">HashId</param>
-        /// <param name="value">关键码值</param>
-        /// <param name="keyName">关键码值属性</param>
-        public void SetAll<T>(List<T> list, List<string> hash, List<string> value, string keyName)
-        {
-            foreach(var item in list)
-            {
-                Type _type = item.GetType();
-                PropertyInfo _prop = _type.GetProperty(keyName);
-                
-                for(int i = 0; i < hash.Count; i++)
-                {
-                    RedisClient.SetEntryInHash(hash[i], _prop.GetValue(item, null).ToString(), value[i].ToLower());
-                }
-                
-                RedisClient.As<T>().StoreAll(list);
-            }
-        }
-        
         #endregion Methods
         
         #region Other
+        
+        ///// <summary>
+        ///// 设置Hash集合缓存
+        ///// </summary>
+        ///// <typeparam name="T">泛型</typeparam>
+        ///// <param name="list">集合</param>
+        ///// <param name="hash">HashId</param>
+        ///// <param name="value">关键码值</param>
+        ///// <param name="keyName">关键码值属性</param>
+        //public void SetAll<T>(List<T> list, string hash, string value, string keyName)
+        //{
+        //    foreach(var item in list)
+        //    {
+        //        Type _type = item.GetType();
+        //        PropertyInfo _prop = _type.GetProperty(keyName);
+        //        RedisClient.SetEntryInHash(hash, _prop.GetValue(item, null).ToString(), value.ToLower());
+        //        RedisClient.As<T>().StoreAll(list);
+        //    }
+        //}
+        
+        ///// <summary>
+        ///// 设置Hash集合缓存
+        ///// </summary>
+        ///// <typeparam name="T">泛型</typeparam>
+        ///// <param name="list">集合</param>
+        ///// <param name="hash">HashId</param>
+        ///// <param name="value">关键码值</param>
+        ///// <param name="keyName">关键码值属性</param>
+        //public void SetAll<T>(List<T> list, List<string> hash, List<string> value, string keyName)
+        //{
+        //    foreach(var item in list)
+        //    {
+        //        Type _type = item.GetType();
+        //        PropertyInfo _prop = _type.GetProperty(keyName);
+        //        for(int i = 0; i < hash.Count; i++)
+        //        {
+        //            RedisClient.SetEntryInHash(hash[i], _prop.GetValue(item, null).ToString(), value[i].ToLower());
+        //        }
+        //        RedisClient.As<T>().StoreAll(list);
+        //    }
+        //}
         
         //public long PublishMessage(string channel, object item)
         //{
         //    var ret = _redisClient.PublishMessage(channel, JsonConvert.SerializeObject(item));
         //    return ret;
+        //}
+        
+        ///// <summary>
+        ///// 设置Hash类型缓存
+        ///// </summary>
+        ///// <typeparam name="T">泛型</typeparam>
+        ///// <param name="item">缓存项</param>
+        ///// <param name="hash">HashId</param>
+        ///// <param name="value">关键码值</param>
+        ///// <param name="keyName">关键码值属性</param>
+        //public void Set<T>(T item, List<string> hash, List<string> value, string keyName)
+        //{
+        //    Type _type = item.GetType();
+        //    PropertyInfo _prop = _type.GetProperty(keyName);
+        //    for(int i = 0; i < hash.Count; i++)
+        //    {
+        //        string _key = _prop.GetValue(item, null).ToString();
+        //        RedisClient.SetEntryInHash(hash[i], _key, value[i].ToLower());
+        //    }
+        //    RedisClient.As<T>().Store(item);
         //}
         
         #endregion Other
