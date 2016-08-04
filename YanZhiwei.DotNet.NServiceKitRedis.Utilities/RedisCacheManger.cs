@@ -13,7 +13,7 @@ namespace YanZhiwei.DotNet.NServiceKitRedis.Utilities
     /// </summary>
     /// 时间：2016/8/3 13:32
     /// 备注：
-    public class RedisHelper
+    public class RedisCacheManger
     {
         #region Fields
         
@@ -30,7 +30,7 @@ namespace YanZhiwei.DotNet.NServiceKitRedis.Utilities
         /// 构造函数
         /// </summary>
         /// <param name="redisClient">IRedisClient</param>
-        public RedisHelper(IRedisClient redisClient)
+        public RedisCacheManger(IRedisClient redisClient)
         {
             RedisClient = redisClient;
         }
