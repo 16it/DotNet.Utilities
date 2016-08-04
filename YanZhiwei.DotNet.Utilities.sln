@@ -203,7 +203,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AutoMapper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.Utilities", "YanZhiwei.DotNet.ServiceStackRedis.Utilities\YanZhiwei.DotNet.ServiceStackRedis.Utilities.csproj", "{257A6886-11F3-404C-97A3-207440117EDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests", "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests1\YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests.csproj", "{AAB96696-3CCC-4F85-8EA8-8CCB12251891}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests", "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests\YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests.csproj", "{AAB96696-3CCC-4F85-8EA8-8CCB12251891}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
