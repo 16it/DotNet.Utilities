@@ -46,12 +46,19 @@ namespace YanZhiwei.DotNet.NServiceKitRedis.Utilities
         /// <param name="item">缓存项</param>
         public void Delete<T>(T item)
         {
-            using(IRedisTypedClient<T> _typedclient = RedisClient.As<T>())
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
-                _typedclient.Delete(item);
+                typedclient.Delete(item);
             }
         }
         
+        public bool ContainsKey<T>(string key)
+        {
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                return typedclient.ContainsKey(key);
+            }
+        }
         /// <summary>
         /// 删除所有缓存
         /// </summary>
@@ -59,9 +66,9 @@ namespace YanZhiwei.DotNet.NServiceKitRedis.Utilities
         /// <param name="item">缓存项</param>
         public void DeleteAll<T>(T item)
         {
-            using(IRedisTypedClient<T> _typedclient = RedisClient.As<T>())
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
-                _typedclient.DeleteAll();
+                typedclient.DeleteAll();
             }
         }
         
@@ -90,9 +97,9 @@ namespace YanZhiwei.DotNet.NServiceKitRedis.Utilities
         /// <returns>泛型</returns>
         public T Get<T>(string id)
         {
-            using(IRedisTypedClient<T> _typedclient = RedisClient.As<T>())
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
-                return _typedclient.GetById(id.ToLower());
+                return typedclient.GetById(id.ToLower());
             }
         }
         
@@ -103,9 +110,9 @@ namespace YanZhiwei.DotNet.NServiceKitRedis.Utilities
         /// <returns>集合</returns>
         public IList<T> GetAll<T>()
         {
-            using(IRedisTypedClient<T> _typedclient = RedisClient.As<T>())
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
-                return _typedclient.GetAll();
+                return typedclient.GetAll();
             }
         }
         
@@ -117,9 +124,9 @@ namespace YanZhiwei.DotNet.NServiceKitRedis.Utilities
         /// <returns>集合</returns>
         public IEnumerable<T> GetAll<T>(Func<T, bool> keySelector)
         {
-            using(IRedisTypedClient<T> _typedclient = RedisClient.As<T>())
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
-                return _typedclient.GetAll().Where(keySelector);
+                return typedclient.GetAll().Where(keySelector);
             }
         }
         
@@ -159,9 +166,9 @@ namespace YanZhiwei.DotNet.NServiceKitRedis.Utilities
         /// <param name="item">缓存项</param>
         public void Set<T>(T item)
         {
-            using(IRedisTypedClient<T> _typedclient = RedisClient.As<T>())
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
-                _typedclient.Store(item);
+                typedclient.Store(item);
             }
         }
         
@@ -188,9 +195,9 @@ namespace YanZhiwei.DotNet.NServiceKitRedis.Utilities
         /// <param name="listItems">泛型集合</param>
         public void SetAll<T>(List<T> listItems)
         {
-            using(IRedisTypedClient<T> _typedclient = RedisClient.As<T>())
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
-                _typedclient.StoreAll(listItems);
+                typedclient.StoreAll(listItems);
             }
         }
         
