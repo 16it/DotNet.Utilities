@@ -205,6 +205,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceSta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests", "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests\YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests.csproj", "{AAB96696-3CCC-4F85-8EA8-8CCB12251891}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.NServiceKitRedis.Utilities", "YanZhiwei.DotNet.NServiceKitRedis.Utilities\YanZhiwei.DotNet.NServiceKitRedis.Utilities.csproj", "{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1399,6 +1401,22 @@ Global
 		{AAB96696-3CCC-4F85-8EA8-8CCB12251891}.Release|x64.Build.0 = Release|Any CPU
 		{AAB96696-3CCC-4F85-8EA8-8CCB12251891}.Release|x86.ActiveCfg = Release|Any CPU
 		{AAB96696-3CCC-4F85-8EA8-8CCB12251891}.Release|x86.Build.0 = Release|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Debug|x64.Build.0 = Debug|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Debug|x86.Build.0 = Debug|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Release|ARM.Build.0 = Release|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Release|x64.ActiveCfg = Release|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Release|x64.Build.0 = Release|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Release|x86.ActiveCfg = Release|Any CPU
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1495,5 +1513,6 @@ Global
 		{07A361C0-A808-4971-A453-3EDC2969612C} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{257A6886-11F3-404C-97A3-207440117EDC} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{AAB96696-3CCC-4F85-8EA8-8CCB12251891} = {0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}
+		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 	EndGlobalSection
 EndGlobal

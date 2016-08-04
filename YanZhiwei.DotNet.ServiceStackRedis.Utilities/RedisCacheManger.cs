@@ -13,7 +13,7 @@
     /// </summary>
     /// 时间：2016/8/3 13:32
     /// 备注：
-    public class RedisHelper
+    public class RedisCacheManger
     {
         #region Fields
         
@@ -30,7 +30,7 @@
         /// 构造函数
         /// </summary>
         /// <param name="redisClient">IRedisClient</param>
-        public RedisHelper(IRedisClient redisClient)
+        public RedisCacheManger(IRedisClient redisClient)
         {
             RedisClient = redisClient;
         }
@@ -176,8 +176,8 @@
         /// <param name="listItems">泛型集合</param>
         public void SetAll<T>(List<T> listItems)
         {
-            var typedclient = RedisClient.As<T>();
-            typedclient.StoreAll(listItems);
+            IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
+            _typedclient.StoreAll(listItems);
         }
         
         #endregion Methods
