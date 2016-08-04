@@ -40,14 +40,48 @@
         #region Methods
         
         /// <summary>
+        /// 判断TypeName是否存在
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <returns>是否存在</returns>
+        /// 时间：2016/8/4 15:38
+        /// 备注：
+        public bool Contains<T>() where T : class
+        {
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                return typedclient.TypeIdsSet.Count > 0;
+            }
+        }
+        
+        /// <summary>
+        /// 判断KEY是否存在
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="id">KeyId</param>
+        /// <returns></returns>
+        /// 时间：2016/8/4 15:17
+        /// 备注：
+        public bool ContainsKey<T>(string id) where T : class
+        {
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                string _key = string.Format("urn:{0}:{1}", typeof(T).Name.ToLower(), id);
+                return typedclient.ContainsKey(_key);
+            }
+        }
+        
+        /// <summary>
         /// 删除缓存
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="item">缓存项</param>
         public void Delete<T>(T item)
         {
-            IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
-            _typedclient.Delete(item);
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                typedclient.Delete(item);
+            }
         }
         
         /// <summary>
@@ -57,8 +91,10 @@
         /// <param name="item">缓存项</param>
         public void DeleteAll<T>(T item)
         {
-            IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
-            _typedclient.DeleteAll();
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                typedclient.DeleteAll();
+            }
         }
         
         /// <summary>
@@ -86,8 +122,10 @@
         /// <returns>泛型</returns>
         public T Get<T>(string id)
         {
-            IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
-            return _typedclient.GetById(id.ToLower());
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                return typedclient.GetById(id.ToLower());
+            }
         }
         
         /// <summary>
@@ -97,10 +135,11 @@
         /// <returns>集合</returns>
         public IList<T> GetAll<T>()
         {
-            IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
-            return _typedclient.GetAll();
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                return typedclient.GetAll();
+            }
         }
-        
         /// <summary>
         /// 条件获取
         /// </summary>
@@ -109,8 +148,10 @@
         /// <returns>集合</returns>
         public IEnumerable<T> GetAll<T>(Func<T, bool> keySelector)
         {
-            IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
-            return _typedclient.GetAll().Where(keySelector);
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                return typedclient.GetAll().Where(keySelector);
+            }
         }
         
         /// <summary>
@@ -149,8 +190,10 @@
         /// <param name="item">缓存项</param>
         public void Set<T>(T item)
         {
-            IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
-            _typedclient.Store(item);
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                typedclient.Store(item);
+            }
         }
         
         /// <summary>
@@ -169,8 +212,6 @@
             RedisClient.As<T>().Store(item);
         }
         
-        
-        
         /// <summary>
         /// 设置集合缓存
         /// </summary>
@@ -178,8 +219,10 @@
         /// <param name="listItems">泛型集合</param>
         public void SetAll<T>(List<T> listItems)
         {
-            IRedisTypedClient<T> _typedclient = RedisClient.As<T>();
-            _typedclient.StoreAll(listItems);
+            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            {
+                typedclient.StoreAll(listItems);
+            }
         }
         
         #endregion Methods
