@@ -11,7 +11,7 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
             try
             {
                 Console.WriteLine("开始：" + DateTime.Now.ToLongTimeString());
-                Log4NetHelper.SetLogger("FileLogger");
+                Log4NetHelper.SetLogger("AdoNetLogger");
                 Log4NetHelper.WriteDebug("Debug 你好");
                 Log4NetHelper.WriteError("ERROR");
                 Log4NetHelper.WriteFatal("Fatal");
