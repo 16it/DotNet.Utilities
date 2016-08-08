@@ -61,6 +61,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="CookieMangerDemo.aspx" />
     <Content Include="ExecutePageQuery.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="packages.config" />
@@ -96,6 +97,13 @@
     </Compile>
     <Compile Include="CacheDemo.aspx.designer.cs">
       <DependentUpon>CacheDemo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CookieMangerDemo.aspx.cs">
+      <DependentUpon>CookieMangerDemo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CookieMangerDemo.aspx.designer.cs">
+      <DependentUpon>CookieMangerDemo.aspx</DependentUpon>
     </Compile>
     <Compile Include="ExecutePageQuery.aspx.cs">
       <DependentUpon>ExecutePageQuery.aspx</DependentUpon>
