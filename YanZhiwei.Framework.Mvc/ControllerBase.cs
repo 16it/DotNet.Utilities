@@ -52,7 +52,6 @@
                     QueryData = (Request == null) ? null : Request.QueryString,
                     RouteData = (Request == null || Request.RequestContext == null || Request.RequestContext.RouteData == null) ? null : Request.RequestContext.RouteData.Values
                 };
-
                 return exceptionContext;
             }
         }
@@ -69,8 +68,10 @@
         public ContentResult Back(string notice)
         {
             var content = new StringBuilder("<script>");
-            if (!string.IsNullOrEmpty(notice))
+
+            if(!string.IsNullOrEmpty(notice))
                 content.AppendFormat("alert('{0}');", notice);
+
             content.Append("history.go(-1)</script>");
             return this.Content(content.ToString());
         }
@@ -103,10 +104,13 @@
         public ContentResult PageReturn(string msg, string url = null)
         {
             var content = new StringBuilder("<script type='text/javascript'>");
-            if (!string.IsNullOrEmpty(msg))
+
+            if(!string.IsNullOrEmpty(msg))
                 content.AppendFormat("alert('{0}');", msg);
-            if (string.IsNullOrWhiteSpace(url))
+
+            if(string.IsNullOrWhiteSpace(url))
                 url = Request.Url.ToString();
+
             content.Append("window.location.href='" + url + "'</script>");
             return this.Content(content.ToString());
         }
@@ -144,7 +148,7 @@
         {
             var content = "<meta http-equiv='refresh' content='1;url=" + redirect + "' /><body style='margin-top:0px;color:red;font-size:24px;'>" + notice + "</body>";
 
-            if (isAlert)
+            if(isAlert)
                 content = string.Format("<script>alert('{0}'); window.location.href='{1}'</script>", notice, redirect);
 
             return this.Content(content);
@@ -156,7 +160,7 @@
         /// <param name="filterContext"></param>
         public virtual void UpdateOperater(ActionExecutingContext filterContext)
         {
-            if (this.Operater == null)
+            if(this.Operater == null)
                 return;
 
             ServiceCallContext.Current.Operater = this.Operater;
@@ -172,7 +176,7 @@
         /// 备注：
         protected ContentResult JsonP(string callback, object data)
         {
-            var json = SerializationHelper.JsonSerialize(data);
+            var json = SerializeHelper.JsonSerialize(data);
             return this.Content(string.Format("{0}({1})", callback, json));
         }
 
@@ -195,7 +199,8 @@
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
-            if (!filterContext.RequestContext.HttpContext.Request.IsAjaxRequest() && !filterContext.IsChildAction)
+
+            if(!filterContext.RequestContext.HttpContext.Request.IsAjaxRequest() && !filterContext.IsChildAction)
                 RenderViewData();
 
             this.ClearOperater();
@@ -211,7 +216,6 @@
         {
             this.UpdateOperater(filterContext);
             base.OnActionExecuting(filterContext);
-
             //在方法执行前，附加上PageSize值
             filterContext.ActionParameters.Values.Where(v => v is BusinessRequest).ToList().ForEach(v => ((BusinessRequest)v).PageSize = this.PageSize);
         }
@@ -224,7 +228,6 @@
         {
             base.OnException(filterContext);
             var e = filterContext.Exception;
-
             LogException(e, this.WebExceptionContext);
         }
 

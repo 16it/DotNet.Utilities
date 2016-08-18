@@ -10,10 +10,9 @@ namespace YanZhiwei.DotNet.Core.ConfigExamples
             try
             {
                 ConfigContext _configContext = new ConfigContext();
-
+                var _config = CachedConfigContext.Current.CacheConfig;
                 //CacheConfig _cacheConfig = new CacheConfig();
                 //_cacheConfig.ClusteredByIndex = true;
-
                 //_cacheConfig.CacheConfigItems = new CacheConfigItem[1];
                 //_cacheConfig.CacheConfigItems[0] = new CacheConfigItem();
                 //_cacheConfig.CacheConfigItems[0].Desc = "ASC";
@@ -21,7 +20,6 @@ namespace YanZhiwei.DotNet.Core.ConfigExamples
                 //_cacheConfig.CacheConfigItems[0].Minitus = 5;
                 //_cacheConfig.CacheConfigItems[0].Priority = 1;
                 //_cacheConfig.CacheConfigItems[0].ProviderName = "YanZhiwei.DotNet.Core.Config";
-
                 //_cacheConfig.CacheProviderItems = new CacheProviderItem[2];
                 //_cacheConfig.CacheProviderItems[0] = new CacheProviderItem();
                 //_cacheConfig.CacheProviderItems[0].Desc = "ASC";
@@ -29,13 +27,10 @@ namespace YanZhiwei.DotNet.Core.ConfigExamples
                 //_cacheConfig.CacheProviderItems[1] = new CacheProviderItem();
                 //_cacheConfig.CacheProviderItems[1].Desc = "DES";
                 //_cacheConfig.CacheProviderItems[1].Type = "YanZhiwei.DotNet.Core.Config.Examples";
-
                 //_cacheConfig.UpdateNodeList<CacheProviderItem>(_cacheConfig.CacheProviderItems);
                 //_configContext.Save<CacheConfig>(_cacheConfig, "A");
                 //var _cacheConfigA = _configContext.Get<CacheConfig>("A");
-
                 //var _cacheConfigB = CachedConfigContext.Current.Get<CacheConfig>("A");
-
                 //CabInComeConfig _cabInComeConfig = new CabInComeConfig();
                 //_cabInComeConfig.ClusteredByIndex = false;
                 //_cabInComeConfig.CacheConfigItems = new CabInComeConfigItem[1];
@@ -48,13 +43,12 @@ namespace YanZhiwei.DotNet.Core.ConfigExamples
                 //_cabInComeConfig.CacheConfigItems[0].CurrentMinValue = 1;
                 //_cabInComeConfig.CacheConfigItems[0].KeyId = _keyId;
                 //_configContext.Save<CabInComeConfig>(_cabInComeConfig);
-
-                var _cacheConfigC = CachedConfigContext.Current.CabInComeConfig;
-                _cacheConfigC.CacheConfigItems[0].CurrentMaxValue = 30;
-                _configContext.Save(_cacheConfigC);
-                _cacheConfigC = CachedConfigContext.Current.CabInComeConfig;
+                //var _cacheConfigC = CachedConfigContext.Current.CabInComeConfig;
+                //_cacheConfigC.CacheConfigItems[0].CurrentMaxValue = 30;
+                //_configContext.Save(_cacheConfigC);
+                //_cacheConfigC = CachedConfigContext.Current.CabInComeConfig;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

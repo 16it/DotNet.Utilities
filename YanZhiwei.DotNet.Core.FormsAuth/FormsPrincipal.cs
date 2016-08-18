@@ -18,14 +18,10 @@
         where T : class, new()
     {
         #region Fields
-
         private IIdentity identity;
         private T userExtData;
-
         #endregion Fields
-
         #region Constructors
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -38,11 +34,8 @@
             identity = new FormsIdentity(ticket);
             userExtData = userData;
         }
-
         #endregion Constructors
-
         #region Properties
-
         /// <summary>
         /// 获取当前用户的标识。
         /// </summary>
@@ -55,7 +48,6 @@
                 return identity;
             }
         }
-
         /// <summary>
         /// 用户数据
         /// </summary>
@@ -66,11 +58,8 @@
                 return userExtData;
             }
         }
-
         #endregion Properties
-
         #region Methods
-
         /// <summary>
         /// 用户权限初始化
         /// </summary>
@@ -80,17 +69,19 @@
         public static void AddPermission(string[] roles)
         {
             HttpContext _context = HttpContext.Current;
-            if (!_context.Request.IsAuthenticated) return;
-            if (HttpContext.Current.User.Identity is FormsIdentity)
+
+            if(!_context.Request.IsAuthenticated) return;
+
+            if(HttpContext.Current.User.Identity is FormsIdentity)
             {
                 FormsPrincipal<T> _curPrincipal = ParsePrincipal();
-                if (_curPrincipal != null)
+
+                if(_curPrincipal != null)
                 {
                     HttpContext.Current.User = new GenericPrincipal(_curPrincipal.Identity, roles);
                 }
             }
         }
-
         /// <summary>
         ///  获取web.config中cookie超时时间，若获取失败，则返回-1
         /// </summary>
@@ -100,24 +91,26 @@
         public static int GetCookieTimeout()
         {
             int _defaultTimeout = 0;
+
             try
             {
                 XmlDocument _webConfig = new XmlDocument();
                 _webConfig.Load(HttpContext.Current.Server.MapPath(@"~\web.config"));
                 XmlNode _node = _webConfig.SelectSingleNode("/configuration/system.web/authentication/forms");
-                if (_node != null && _node.Attributes["timeout"] != null)
+
+                if(_node != null && _node.Attributes["timeout"] != null)
                 {
-                    if (!int.TryParse(_node.Attributes["timeout"].Value, out _defaultTimeout))
+                    if(!int.TryParse(_node.Attributes["timeout"].Value, out _defaultTimeout))
                         _defaultTimeout = -1;
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 _defaultTimeout = -1;
             }
+
             return _defaultTimeout;
         }
-
         /// <summary>
         /// 将用户数据转换为FormsPrincipal
         /// </summary>
@@ -129,31 +122,33 @@
         public static FormsPrincipal<T> ParsePrincipal()
         {
             HttpContext _context = HttpContext.Current;
-
             FormsIdentity _identity = (FormsIdentity)_context.User.Identity;
             FormsAuthenticationTicket _ticket = _identity.Ticket;
-            if (!FormsAuthentication.CookiesSupported)
+
+            if(!FormsAuthentication.CookiesSupported)
             {
                 _ticket = FormsAuthentication.Decrypt(_identity.Ticket.Name);
             }
             else
             {
                 HttpCookie _cookie = _context.Request.Cookies[FormsAuthentication.FormsCookieName];
-                if (_cookie == null || string.IsNullOrEmpty(_cookie.Value))
+
+                if(_cookie == null || string.IsNullOrEmpty(_cookie.Value))
                     return null;
+
                 _ticket = FormsAuthentication.Decrypt(_cookie.Value);
             }
 
             T _userData = null;
-            if (_ticket != null && !string.IsNullOrEmpty(_ticket.UserData))
+
+            if(_ticket != null && !string.IsNullOrEmpty(_ticket.UserData))
                 _userData = _ticket.UserData.JsonDeserialize<T>();
 
-            if (_ticket != null && _userData != null)
+            if(_ticket != null && _userData != null)
                 return new FormsPrincipal<T>(_ticket, _userData);
 
             return null;
         }
-
         /// <summary>
         /// 根据ReturnUrl来页面跳转
         /// </summary>
@@ -162,10 +157,10 @@
         public static void Redirect()
         {
             string _returnUrl = HttpContext.Current.Request.QueryString["ReturnUrl"];
-            if (string.IsNullOrEmpty(_returnUrl) == false)
+
+            if(string.IsNullOrEmpty(_returnUrl) == false)
                 HttpContext.Current.Response.Redirect(_returnUrl);
         }
-
         /// <summary>
         ///跳转到web.config中defaultUrl配置连接
         /// </summary>
@@ -177,7 +172,6 @@
         {
             HttpContext.Current.Response.Redirect(FormsAuthentication.GetRedirectUrl(userName, persistentCookie));
         }
-
         /// <summary>
         /// 跳转到web.config中defaultUrl配置连接
         /// </summary>
@@ -188,7 +182,6 @@
         {
             HttpContext.Current.Response.Redirect(FormsAuthentication.GetRedirectUrl(userName, true));
         }
-
         /// <summary>
         ///根据HttpContext对象设置用户标识对象
         /// </summary>
@@ -198,10 +191,9 @@
         {
             FormsPrincipal<T> _user = ParsePrincipal();
 
-            if (_user != null)
+            if(_user != null)
                 HttpContext.Current.User = _user;
         }
-
         /// <summary>
         /// 用户登录
         /// </summary>
@@ -214,15 +206,13 @@
         public static void SignIn(string userName, T userData, int expiration, bool persistentCookie)
         {
             //序列化用户数据
-            string _userDbJsonString = SerializationHelper.JsonSerialize<T>(userData);
-
+            string _userDbJsonString = SerializeHelper.JsonSerialize<T>(userData);
             //创建票据
             FormsAuthenticationTicket _ticket = new FormsAuthenticationTicket(
                 2, userName, DateTime.Now, DateTime.Now.AddMinutes(expiration), persistentCookie, _userDbJsonString);
-
             string _encryptTicket = FormsAuthentication.Encrypt(_ticket);//加密票据
 
-            if (!FormsAuthentication.CookiesSupported)//如果应用程序已配置为支持无 Cookie 的 Forms 身份验证，则返回 true；否则返回 false。
+            if(!FormsAuthentication.CookiesSupported) //如果应用程序已配置为支持无 Cookie 的 Forms 身份验证，则返回 true；否则返回 false。
             {
                 FormsAuthentication.SetAuthCookie(_encryptTicket, persistentCookie);//将验证信息,存放在Uri中
             }
@@ -234,13 +224,14 @@
                 _cookie.Secure = FormsAuthentication.RequireSSL;
                 _cookie.Domain = FormsAuthentication.CookieDomain;
                 _cookie.Path = FormsAuthentication.FormsCookiePath;
-                if (expiration > 0)
+
+                if(expiration > 0)
                     _cookie.Expires = DateTime.Now.AddMinutes(expiration);
+
                 _context.Response.Cookies.Remove(_cookie.Name);
                 _context.Response.Cookies.Add(_cookie);
             }
         }
-
         /// <summary>
         /// 用户登录
         /// </summary>
@@ -253,7 +244,6 @@
         {
             SignIn(userName, userData, expiration, true);
         }
-
         /// <summary>
         /// 用户登录
         /// </summary>
@@ -265,7 +255,6 @@
         {
             SignIn(userName, userData, 20);
         }
-
         /// <summary>
         /// 登出
         /// </summary>
@@ -275,7 +264,6 @@
         {
             FormsAuthentication.SignOut();
         }
-
         /// <summary>
         /// 用户是否在角色里面
         /// </summary>
@@ -287,12 +275,12 @@
         public bool IsInRole(string role)
         {
             IPrincipal principal = userExtData as IPrincipal;
-            if (principal == null)
+
+            if(principal == null)
                 throw new NotImplementedException();
             else
                 return principal.IsInRole(role);
         }
-
         #endregion Methods
     }
 }

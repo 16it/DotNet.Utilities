@@ -36,7 +36,10 @@
         /// </summary>
         public override T this[string key]
         {
-            get { return Get(key); }
+            get
+            {
+                return Get(key);
+            }
         }
 
         #endregion Indexers
@@ -49,16 +52,17 @@
         /// <returns>CookiesManager</returns>
         public static CookiesManager<T> GetInstance()
         {
-            if (instance == null)
+            if(instance == null)
             {
-                lock (lockObj)
+                lock(lockObj)
                 {
-                    if (instance == null)
+                    if(instance == null)
                     {
                         instance = new CookiesManager<T>();
                     }
                 }
             }
+
             return instance;
         }
 
@@ -81,19 +85,21 @@
         public void Add(string key, T value, int cookiesDurationInSeconds)
         {
             HttpResponse _response = HttpContext.Current.Response;
-            if (_response != null)
+
+            if(_response != null)
             {
                 HttpCookie _cookie = _response.Cookies[key];
-                if (_cookie != null)
+
+                if(_cookie != null)
                 {
-                    if (typeof(T) == typeof(string))
+                    if(typeof(T) == typeof(string))
                     {
                         string _setValue = value.ToString();
                         Add(key, cookiesDurationInSeconds, _cookie, _setValue, _response);
                     }
                     else
                     {
-                        string _setValue = SerializationHelper.JsonSerialize<T>(value);
+                        string _setValue = SerializeHelper.JsonSerialize<T>(value);
                         Add(key, cookiesDurationInSeconds, _cookie, _setValue, _response);
                     }
                 }
@@ -118,15 +124,17 @@
         public override T Get(string key)
         {
             string _value = string.Empty;
-            if (context.Request.Cookies[key] != null)
+
+            if(context.Request.Cookies[key] != null)
                 _value = context.Request.Cookies[key].Value;
-            if (typeof(T) == typeof(string))
+
+            if(typeof(T) == typeof(string))
             {
                 return (T)Convert.ChangeType(_value, typeof(T));
             }
             else
             {
-                return (T)SerializationHelper.JsonDeserialize(_value);
+                return SerializeHelper.JsonDeserialize<T>(_value);
             }
         }
 
@@ -137,7 +145,8 @@
         public override IEnumerable<string> GetAllKey()
         {
             List<string> _allKeyList = context.Request.Cookies.AllKeys.ToList();
-            foreach (var key in _allKeyList)
+
+            foreach(var key in _allKeyList)
             {
                 yield return key;
             }
@@ -150,13 +159,15 @@
         public override void Remove(string key)
         {
             HttpRequest _request = HttpContext.Current.Request;
-            if (_request != null)
+
+            if(_request != null)
             {
                 HttpCookie _cookie = _request.Cookies[key];
                 _cookie.Expires = DateTime.Now.AddDays(-1);
-                if (_cookie != null)
+
+                if(_cookie != null)
                 {
-                    if (!string.IsNullOrEmpty(key) && _cookie.HasKeys)
+                    if(!string.IsNullOrEmpty(key) && _cookie.HasKeys)
                         _cookie.Values.Remove(key);
                     else
                         _request.Cookies.Remove(key);
@@ -169,7 +180,7 @@
         /// </summary>
         public override void RemoveAll()
         {
-            foreach (var key in GetAllKey())
+            foreach(var key in GetAllKey())
             {
                 Remove(key);
             }
@@ -182,7 +193,8 @@
         public override void RemoveAll(Func<string, bool> keySelector)
         {
             List<string> _removeList = GetAllKey().Where(keySelector).ToList();
-            foreach (var key in _removeList)
+
+            foreach(var key in _removeList)
             {
                 Remove(key);
             }
@@ -198,13 +210,14 @@
         /// <param name="response">HttpResponse</param>
         private void Add(string key, int cookiesDurationInSeconds, HttpCookie cookie, string setValue, HttpResponse response)
         {
-            if (!string.IsNullOrEmpty(key) && cookie.HasKeys)
+            if(!string.IsNullOrEmpty(key) && cookie.HasKeys)
                 cookie.Values.Set(key, setValue);
-            else
-                if (!string.IsNullOrEmpty(setValue))
+            else if(!string.IsNullOrEmpty(setValue))
                 cookie.Value = setValue;
-            if (cookiesDurationInSeconds > 0)
+
+            if(cookiesDurationInSeconds > 0)
                 cookie.Expires = DateTime.Now.AddSeconds(cookiesDurationInSeconds);
+
             response.SetCookie(cookie);
         }
 

@@ -100,7 +100,7 @@
     <Compile Include="Common\ExpressionHelper.cs" />
     <Compile Include="Common\IPropertyChangedHelper.cs" />
     <Compile Include="Common\RecursiveJoinHelper.cs" />
-    <Compile Include="Common\SerializationHelper.cs" />
+    <Compile Include="Common\SerializeHelper.cs" />
     <Compile Include="Core\Job.cs" />
     <Compile Include="Core\JobScheduler.cs" />
     <Compile Include="Common\UserAgentHelper.cs" />

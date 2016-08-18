@@ -27,8 +27,8 @@
         public static string CreateFilePath(this HttpContext context, string file)
         {
             string _fullPath = @"http://" + context.Request.Url.Authority
-                + (context.Request.ApplicationPath == "/" ? "/" : context.Request.ApplicationPath + "/")
-                + file;
+                               + (context.Request.ApplicationPath == "/" ? "/" : context.Request.ApplicationPath + "/")
+                               + file;
             return _fullPath;
         }
 
@@ -48,7 +48,7 @@
             _jsonResult.StatusCode = (int)statusCode;
             _jsonResult.Message = obj;
             _jsonResult.ErrorCode = errorCode;
-            string _jsonString = SerializationHelper.JsonSerialize<JsonResult>(_jsonResult);
+            string _jsonString = SerializeHelper.JsonSerialize<JsonResult>(_jsonResult);
             context.Response.Write(_jsonString);
             context.ApplicationInstance.CompleteRequest();
         }

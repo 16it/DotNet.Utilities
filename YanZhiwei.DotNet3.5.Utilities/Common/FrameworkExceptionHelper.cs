@@ -23,8 +23,7 @@
         public static string ParseInnerDataToJsonString(this FrameworkException frameworkException)
         {
             ValidateHelper.Begin().NotNull(frameworkException, "FrameworkException");
-
-            return SerializationHelper.JsonSerialize(frameworkException.InnerException.Data);
+            return SerializeHelper.JsonSerialize(frameworkException.InnerException.Data);
         }
 
         #endregion Methods

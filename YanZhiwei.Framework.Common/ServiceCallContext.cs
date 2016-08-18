@@ -38,7 +38,7 @@
         {
             get
             {
-                if (CallContext.GetData(callContextKey) == null)
+                if(CallContext.GetData(callContextKey) == null)
                 {
                     CallContext.SetData(callContextKey, new ServiceCallContext());
                 }
@@ -58,11 +58,11 @@
         {
             get
             {
-                return SerializationHelper.JsonDeserialize<Operater>(this["__Operater"].ToString());
+                return DotNet3._5.Utilities.Common.SerializeHelper.JsonDeserialize<Operater>(this["__Operater"].ToString());
             }
             set
             {
-                this["__Operater"] = SerializationHelper.JsonSerialize<Operater>(value);
+                this["__Operater"] = DotNet3._5.Utilities.Common.SerializeHelper.JsonSerialize<Operater>(value);
             }
         }
 
