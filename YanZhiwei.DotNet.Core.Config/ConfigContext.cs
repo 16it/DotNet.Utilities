@@ -1,9 +1,8 @@
 ﻿namespace YanZhiwei.DotNet.Core.Config
 {
+    using DotNet3._5.Utilities.Common;
+    using Model;
     using System;
-
-    using YanZhiwei.DotNet.Core.Model;
-    using YanZhiwei.DotNet3._5.Utilities.Common;
 
     /// <summary>
     /// 配置上下文
@@ -15,8 +14,7 @@
         /// <summary>
         /// 默认以文件形式存取配置
         /// </summary>
-        public ConfigContext()
-        : this(new FileConfigService())
+        public ConfigContext() : this(new FileConfigService())
         {
         }
 
@@ -52,13 +50,46 @@
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="index">分区索引</param>
         /// <returns>配置对象</returns>
-        public virtual T Get<T>(string index = null)
-        where T : ConfigFileBase, new()
+        public virtual T Get<T>(string index) where T : ConfigFileBase, new()
         {
             T _result = new T();
-            VilidateClusteredByIndex(_result, index);
+            CheckedClusteredByIndex(_result, index);
             _result = this.GetConfigFile<T>(index);
             return _result;
+        }
+
+        /// <summary>
+        /// 根据分区索引获取配置对象
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <returns>配置对象</returns>
+        public virtual T Get<T>() where T : ConfigFileBase, new()
+        {
+            return Get<T>();
+        }
+
+        /// <summary>
+        /// 保存配置文件
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="configFile">配置文件类型</param>
+        /// <param name="index">分区索引</param>
+        public void Save<T>(T configFile, string index) where T : ConfigFileBase
+        {
+            CheckedClusteredByIndex(configFile, index);
+            configFile.Save();
+            string _fileName = GetConfigFileName<T>(index);
+            ConfigService.SaveConfig(_fileName, SerializeHelper.XmlSerialize(configFile));
+        }
+
+        /// <summary>
+        /// 保存配置文件
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="configFile">配置文件类型</param>
+        public void Save<T>(T configFile) where T : ConfigFileBase
+        {
+            Save<T>(configFile, null);
         }
 
         /// <summary>
@@ -67,7 +98,7 @@
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="index">分区索引</param>
         /// <returns>配置文件名称</returns>
-        public virtual string GetConfigFileName<T>(string index = null)
+        protected string GetConfigFileName<T>(string index)
         {
             string _fileName = typeof(T).Name;
 
@@ -78,18 +109,13 @@
         }
 
         /// <summary>
-        /// 保存配置文件
+        /// 获取配置文件名称，非全路径
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <param name="configFile">配置文件类型</param>
-        /// <param name="index">分区索引</param>
-        public void Save<T>(T configFile, string index = null)
-        where T : ConfigFileBase
+        /// <returns>配置文件名称</returns>
+        protected string GetConfigFileName<T>()
         {
-            VilidateClusteredByIndex(configFile, index);
-            configFile.Save();
-            string _fileName = GetConfigFileName<T>(index);
-            ConfigService.SaveConfig(_fileName, SerializeHelper.XmlSerialize(configFile));
+            return GetConfigFileName<T>(null);
         }
 
         /// <summary>
@@ -98,21 +124,13 @@
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="configFile">ConfigFileBase</param>
         /// <param name="index">分区索引</param>
-        public virtual void VilidateClusteredByIndex<T>(T configFile, string index)
-        where T : ConfigFileBase
+        private void CheckedClusteredByIndex<T>(T configFile, string index) where T : ConfigFileBase
         {
             if(configFile.ClusteredByIndex && string.IsNullOrEmpty(index))
                 throw new Exception("未能提供配置文件的分区索引！");
         }
 
-        /// <summary>
-        /// 获取配置对象
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="index">分区索引</param>
-        /// <returns>配置对象</returns>
-        private T GetConfigFile<T>(string index = null)
-        where T : ConfigFileBase, new()
+        private T GetConfigFile<T>(string index = null) where T : ConfigFileBase, new()
         {
             T _result = new T();
             string _fileName = this.GetConfigFileName<T>(index);
@@ -135,6 +153,11 @@
             }
 
             return _result;
+        }
+
+        private T GetConfigFile<T>() where T : ConfigFileBase, new()
+        {
+            return GetConfigFile<T>(null);
         }
 
         #endregion Methods
