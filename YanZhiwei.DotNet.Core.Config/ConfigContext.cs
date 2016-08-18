@@ -126,7 +126,7 @@
             {
                 try
                 {
-                    _result = (T)SerializeHelper.XmlDeserialize(typeof(T), _content);
+                    _result = SerializeHelper.XmlDeserialize<T>(_content);
                 }
                 catch
                 {
