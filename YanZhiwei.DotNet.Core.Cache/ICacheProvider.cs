@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// 缓存接口
+    /// 缓存提供者接口
     /// </summary>
     public interface ICacheProvider
     {
@@ -45,13 +45,6 @@
         /// <param name="isAbsoluteExpiration">是否绝对时间</param>
         /// <param name="onRemoveFacotry">委托</param>
         void Set(string key, object value, int minutes, bool isAbsoluteExpiration, Action<string, object, string> onRemoveFacotry);
-
-        ///// <summary>
-        ///// 获取缓存对象
-        ///// </summary>
-        ///// <param name="regionName">缓存区域名称</param>
-        ///// <returns></returns>
-        //ICache GetCache(string regionName);
 
         #endregion Methods
     }

@@ -18,13 +18,21 @@
         /// </summary>
         /// <param name="keyRegex">缓存键的正则表达式</param>
         /// <param name="moduleRegex">模块正则表达式</param>
-        public static void Clear(string keyRegex = ".*", string moduleRegex = ".*")
+        public static void Clear(string keyRegex, string moduleRegex)
         {
             if(!Regex.IsMatch(CacheConfigContext.ModuleName, moduleRegex, RegexOptions.IgnoreCase))
                 return;
 
             foreach(var cacheProviders in CacheConfigContext.CacheProviders.Values)
                 cacheProviders.Clear(keyRegex);
+        }
+
+        /// <summary>
+        /// 移除所有缓存
+        /// </summary>
+        public static void Clear()
+        {
+            Clear(".*", ".*");
         }
 
         /// <summary>
@@ -44,7 +52,7 @@
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="key">键</param>
         /// <param name="getRealDataFactory">委托</param>
-        /// <returns></returns>
+        /// <returns>对象</returns>
         public static T Get<T>(string key, Func<T> getRealDataFactory)
         {
             Func<T> _getDataFromCache = new Func<T>(() =>
@@ -57,7 +65,9 @@
                     _data = getRealDataFactory();
 
                     if(_data != null)
+                    {
                         Set(key, _data);
+                    }
                 }
                 else
                 {
@@ -74,12 +84,12 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="key">Key.</param>
-        /// <param name="id">分支Key</param>
+        /// <param name="branchKey">分支Key</param>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns>泛型</returns>
-        public static T Get<T>(string key, int id, Func<int, T> getRealDataFactory)
+        public static T Get<T>(string key, int branchKey, Func<int, T> getRealDataFactory)
         {
-            return Get<T, int>(key, id, getRealDataFactory);
+            return Get<T, int>(key, branchKey, getRealDataFactory);
         }
 
         /// <summary>
@@ -87,12 +97,12 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="key">Key.</param>
-        /// <param name="id">分支Key</param>
+        /// <param name="branchKey">分支Key</param>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns>泛型</returns>
-        public static T Get<T>(string key, string id, Func<string, T> getRealDataFactory)
+        public static T Get<T>(string key, string branchKey, Func<string, T> getRealDataFactory)
         {
-            return Get<T, string>(key, id, getRealDataFactory);
+            return Get<T, string>(key, branchKey, getRealDataFactory);
         }
 
         /// <summary>
@@ -114,12 +124,12 @@
         /// <typeparam name="F">泛型</typeparam>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="key">Key.</param>
-        /// <param name="id">分支Key</param>
+        /// <param name="branchKey">分支Key</param>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns>泛型</returns>
-        public static F Get<F, T>(string key, T id, Func<T, F> getRealDataFactory)
+        public static F Get<F, T>(string key, T branchKey, Func<T, F> getRealDataFactory)
         {
-            key = string.Format("{0}_{1}", key, id);
+            key = string.Format("{0}_{1}", key, branchKey);
             Func<F> _getDataFromCache = new Func<F>(() =>
             {
                 F _data = default(F);
@@ -127,10 +137,12 @@
 
                 if(_cacheData == null)
                 {
-                    _data = getRealDataFactory(id);
+                    _data = getRealDataFactory(branchKey);
 
                     if(_data != null)
+                    {
                         Set(key, _data);
+                    }
                 }
                 else
                 {
@@ -178,8 +190,7 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <returns>泛型</returns>
-        public static T GetItem<T>()
-        where T : new()
+        public static T GetItem<T>() where T : new()
         {
             return GetItem<T>(typeof(T).ToString(), () => new T());
         }
