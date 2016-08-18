@@ -12,8 +12,6 @@
         /// </summary>
         /// <param name="filename">配置文件</param>
         /// <returns>字符串</returns>
-        /// 时间：2015-12-30 17:05
-        /// 备注：
         string GetConfig(string filename);
 
         /// <summary>

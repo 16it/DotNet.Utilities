@@ -26,13 +26,11 @@
         /// </summary>
         /// <param name="fileName">配置文件</param>
         /// <returns>配置内容</returns>
-        /// 时间：2015-12-30 17:07
-        /// 备注：
         public string GetConfig(string fileName)
         {
-        
             string _configPath = GetFilePath(fileName);
-            if (!File.Exists(_configPath))
+
+            if(!File.Exists(_configPath))
                 return null;
             else
                 return File.ReadAllText(_configPath);
@@ -43,12 +41,11 @@
         /// </summary>
         /// <param name="fileName">配置文件名称</param>
         /// <returns>配置文件路径</returns>
-        /// 时间：2015-12-30 17:11
-        /// 备注：
         public string GetFilePath(string fileName)
         {
-            if (!Directory.Exists(configFolder))
+            if(!Directory.Exists(configFolder))
                 Directory.CreateDirectory(configFolder);
+
             string _configPath = string.Format(@"{0}\{1}.xml", configFolder, fileName);
             return _configPath;
         }
@@ -58,8 +55,6 @@
         /// </summary>
         /// <param name="fileName">配置文件</param>
         /// <param name="content">内容</param>
-        /// 时间：2015-12-30 17:11
-        /// 备注：
         public void SaveConfig(string fileName, string content)
         {
             string _configPath = GetFilePath(fileName);
