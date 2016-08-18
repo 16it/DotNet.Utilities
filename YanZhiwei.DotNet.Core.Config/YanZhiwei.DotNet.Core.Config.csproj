@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachedConfigContext.cs" />
     <Compile Include="ConfigContext.cs" />
     <Compile Include="FileConfigService.cs" />
     <Compile Include="IConfigService.cs" />

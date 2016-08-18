@@ -5,8 +5,6 @@
     /// <summary>
     /// 缓存项
     /// </summary>
-    /// 时间：2015-12-31 14:24
-    /// 备注：
     public class WrapCacheConfigItem
     {
         #region Properties
@@ -16,7 +14,8 @@
         /// </summary>
         public CacheConfigItem CacheConfigItem
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -24,7 +23,8 @@
         /// </summary>
         public ICacheProvider CacheProvider
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -32,7 +32,8 @@
         /// </summary>
         public CacheProviderItem CacheProviderItem
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties

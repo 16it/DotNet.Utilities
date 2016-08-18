@@ -65,7 +65,7 @@
         /// <returns>配置对象</returns>
         public virtual T Get<T>() where T : ConfigFileBase, new()
         {
-            return Get<T>();
+            return Get<T>(null);
         }
 
         /// <summary>

@@ -1,11 +1,12 @@
 ﻿using System.Web.Caching;
-using YanZhiwei.DotNet.Core.Config;
-using YanZhiwei.DotNet.Core.ConfigExamples.Models;
 using YanZhiwei.DotNet.Core.Model;
 using YanZhiwei.DotNet2.Utilities.WebForm.Core;
 
-namespace YanZhiwei.DotNet.Core.ConfigExamples
+namespace YanZhiwei.DotNet.Core.Config
 {
+    /// <summary>
+    /// CachedConfigContext
+    /// </summary>
     public class CachedConfigContext : ConfigContext
     {
         /// <summary>
@@ -16,40 +17,32 @@ namespace YanZhiwei.DotNet.Core.ConfigExamples
             string _fileName = this.GetConfigFileName<T>(index),
                    _key = "ConfigFile_" + _fileName;
             object _content = CacheManger.Get(_key);
-            if (_content != null)
+
+            if(_content != null)
             {
                 return (T)_content;
             }
-            else {
+            else
+            {
                 T _value = base.Get<T>(index);
                 CacheManger.Set(_key, _value, new CacheDependency(ConfigService.GetFilePath(_fileName)));
                 return _value;
             }
         }
 
+        /// <summary>
+        /// CachedConfigContext
+        /// </summary>
         public static CachedConfigContext Current = new CachedConfigContext();
 
+        /// <summary>
+        /// 缓存配置项
+        /// </summary>
         public CacheConfig CacheConfig
         {
             get
             {
                 return this.Get<CacheConfig>();
-            }
-        }
-
-        public DaoConfig DaoConfig
-        {
-            get
-            {
-                return this.Get<DaoConfig>();
-            }
-        }
-
-        public CabInComeConfig CabInComeConfig
-        {
-            get
-            {
-                return this.Get<CabInComeConfig>();
             }
         }
     }

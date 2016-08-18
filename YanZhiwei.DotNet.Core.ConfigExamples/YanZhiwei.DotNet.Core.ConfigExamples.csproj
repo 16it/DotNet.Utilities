@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachedConfigContext.cs" />
     <Compile Include="Models\CabInComeConfig.cs" />
     <Compile Include="Models\CabInComeConfigItem.cs" />
     <Compile Include="Models\DaoConfig.cs" />
@@ -73,6 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\CacheConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\DaoConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -53,6 +53,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Config\YanZhiwei.DotNet.Core.Config.csproj">
+      <Project>{6DABF7B8-C072-43CD-8876-3D2AAEDB7A43}</Project>
+      <Name>YanZhiwei.DotNet.Core.Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.Core.Model\YanZhiwei.DotNet.Core.Model.csproj">
       <Project>{26fc1441-a657-4d9d-8813-a52dac3387d7}</Project>
       <Name>YanZhiwei.DotNet.Core.Model</Name>

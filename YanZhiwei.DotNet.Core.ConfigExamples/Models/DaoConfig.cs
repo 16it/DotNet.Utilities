@@ -15,11 +15,35 @@ namespace YanZhiwei.DotNet.Core.ConfigExamples.Models
 
         #region 序列化属性
 
-        public String Account { get; set; }
-        public String Log { get; set; }
-        public String Cms { get; set; }
-        public String Crm { get; set; }
-        public String OA { get; set; }
+        public string Account
+        {
+            get;
+            set;
+        }
+
+        public string Log
+        {
+            get;
+            set;
+        }
+
+        public string Cms
+        {
+            get;
+            set;
+        }
+
+        public string Crm
+        {
+            get;
+            set;
+        }
+
+        public string OA
+        {
+            get;
+            set;
+        }
 
         #endregion 序列化属性
     }

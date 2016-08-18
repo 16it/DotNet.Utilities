@@ -1,5 +1,6 @@
 ﻿using System;
 using YanZhiwei.DotNet.Core.Config;
+using YanZhiwei.DotNet.Core.ConfigExamples.Models;
 
 namespace YanZhiwei.DotNet.Core.ConfigExamples
 {
@@ -11,6 +12,7 @@ namespace YanZhiwei.DotNet.Core.ConfigExamples
             {
                 ConfigContext _configContext = new ConfigContext();
                 var _config = CachedConfigContext.Current.CacheConfig;
+                var _daoConfig = CachedConfigContext.Current.Get<DaoConfig>();
                 //CacheConfig _cacheConfig = new CacheConfig();
                 //_cacheConfig.ClusteredByIndex = true;
                 //_cacheConfig.CacheConfigItems = new CacheConfigItem[1];

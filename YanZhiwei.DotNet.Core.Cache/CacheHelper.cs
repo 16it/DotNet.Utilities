@@ -1,33 +1,16 @@
 ﻿namespace YanZhiwei.DotNet.Core.Cache
 {
+    using Model;
     using System;
     using System.Collections;
     using System.Text.RegularExpressions;
     using System.Web;
-
-    using YanZhiwei.DotNet.Core.Cache.Model;
 
     /// <summary>
     /// 缓存帮助
     /// </summary>
     public class CacheHelper
     {
-        #region Constructors
-
-        ///// <summary>
-        ///// 构造函数
-        ///// </summary>
-        ///// <param name="cacheConfig">CacheConfig</param>
-        ///// 时间：2015-12-31 15:54
-        ///// 备注：
-        //public CacheHelper(CacheConfig cacheConfig)
-        //{
-        //    ValidateHelper.Begin().NotNull(cacheConfig, "缓存配置项");
-        //    CacheConfigContext.CacheConfig = cacheConfig;
-        //}
-
-        #endregion Constructors
-
         #region Methods
 
         /// <summary>
@@ -35,14 +18,12 @@
         /// </summary>
         /// <param name="keyRegex">缓存键的正则表达式</param>
         /// <param name="moduleRegex">模块正则表达式</param>
-        /// 时间：2015-12-31 15:56
-        /// 备注：
         public static void Clear(string keyRegex = ".*", string moduleRegex = ".*")
         {
-            if (!Regex.IsMatch(CacheConfigContext.ModuleName, moduleRegex, RegexOptions.IgnoreCase))
+            if(!Regex.IsMatch(CacheConfigContext.ModuleName, moduleRegex, RegexOptions.IgnoreCase))
                 return;
 
-            foreach (var cacheProviders in CacheConfigContext.CacheProviders.Values)
+            foreach(var cacheProviders in CacheConfigContext.CacheProviders.Values)
                 cacheProviders.Clear(keyRegex);
         }
 
@@ -51,8 +32,6 @@
         /// </summary>
         /// <param name="key">键</param>
         /// <returns>值</returns>
-        /// 时间：2015-12-31 15:55
-        /// 备注：
         public static object Get(string key)
         {
             WrapCacheConfigItem _cacheConfig = CacheConfigContext.GetCurrentWrapCacheConfigItem(key);
@@ -66,19 +45,18 @@
         /// <param name="key">键</param>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns></returns>
-        /// 时间：2015-12-31 15:57
-        /// 备注：
         public static T Get<T>(string key, Func<T> getRealDataFactory)
         {
             Func<T> _getDataFromCache = new Func<T>(() =>
             {
                 T _data = default(T);
                 object _cacheData = Get(key);
-                if (_cacheData == null)
+
+                if(_cacheData == null)
                 {
                     _data = getRealDataFactory();
 
-                    if (_data != null)
+                    if(_data != null)
                         Set(key, _data);
                 }
                 else
@@ -88,7 +66,6 @@
 
                 return _data;
             });
-
             return GetItem<T>(key, _getDataFromCache);
         }
 
@@ -100,8 +77,6 @@
         /// <param name="id">分支Key</param>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns>泛型</returns>
-        /// 时间：2015-12-31 15:59
-        /// 备注：
         public static T Get<T>(string key, int id, Func<int, T> getRealDataFactory)
         {
             return Get<T, int>(key, id, getRealDataFactory);
@@ -115,8 +90,6 @@
         /// <param name="id">分支Key</param>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns>泛型</returns>
-        /// 时间：2015-12-31 15:59
-        /// 备注：
         public static T Get<T>(string key, string id, Func<string, T> getRealDataFactory)
         {
             return Get<T, string>(key, id, getRealDataFactory);
@@ -130,8 +103,6 @@
         /// <param name="branchKey">分支Key</param>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns>泛型</returns>
-        /// 时间：2015-12-31 15:59
-        /// 备注：
         public static T Get<T>(string key, string branchKey, Func<T> getRealDataFactory)
         {
             return Get<T, string>(key, branchKey, id => getRealDataFactory());
@@ -146,21 +117,19 @@
         /// <param name="id">分支Key</param>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns>泛型</returns>
-        /// 时间：2015-12-31 15:59
-        /// 备注：
         public static F Get<F, T>(string key, T id, Func<T, F> getRealDataFactory)
         {
             key = string.Format("{0}_{1}", key, id);
-
             Func<F> _getDataFromCache = new Func<F>(() =>
             {
                 F _data = default(F);
                 object _cacheData = Get(key);
-                if (_cacheData == null)
+
+                if(_cacheData == null)
                 {
                     _data = getRealDataFactory(id);
 
-                    if (_data != null)
+                    if(_data != null)
                         Set(key, _data);
                 }
                 else
@@ -170,7 +139,6 @@
 
                 return _data;
             });
-
             return GetItem<F>(key, _getDataFromCache);
         }
 
@@ -182,23 +150,24 @@
         /// <param name="key">Key</param>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns>泛型</returns>
-        /// 时间：2015-12-31 16:10
-        /// 备注：
         public static T GetItem<T>(string key, Func<T> getRealDataFactory)
         {
-            if (HttpContext.Current == null)
+            if(HttpContext.Current == null)
                 return getRealDataFactory();
 
             IDictionary _httpContextItems = HttpContext.Current.Items;
-            if (_httpContextItems.Contains(key))
+
+            if(_httpContextItems.Contains(key))
             {
                 return (T)_httpContextItems[key];
             }
             else
             {
                 var data = getRealDataFactory();
-                if (data != null)
+
+                if(data != null)
                     _httpContextItems[key] = data;
+
                 return data;
             }
         }
@@ -209,10 +178,8 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <returns>泛型</returns>
-        /// 时间：2015-12-31 16:12
-        /// 备注：
         public static T GetItem<T>()
-            where T : new()
+        where T : new()
         {
             return GetItem<T>(typeof(T).ToString(), () => new T());
         }
@@ -224,8 +191,6 @@
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="getRealDataFactory">委托</param>
         /// <returns>泛型</returns>
-        /// 时间：2015-12-31 16:12
-        /// 备注：
         public static T GetItem<T>(Func<T> getRealDataFactory)
         {
             return GetItem<T>(typeof(T).ToString(), getRealDataFactory);
@@ -235,8 +200,6 @@
         /// 移除
         /// </summary>
         /// <param name="key">键</param>
-        /// 时间：2015-12-31 15:56
-        /// 备注：
         public static void Remove(string key)
         {
             WrapCacheConfigItem _cacheConfig = CacheConfigContext.GetCurrentWrapCacheConfigItem(key);
@@ -248,8 +211,6 @@
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        /// 时间：2015-12-31 15:55
-        /// 备注：
         public static void Set(string key, object value)
         {
             WrapCacheConfigItem _cacheConfig = CacheConfigContext.GetCurrentWrapCacheConfigItem(key);

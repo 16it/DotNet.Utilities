@@ -1,6 +1,9 @@
 ﻿namespace YanZhiwei.DotNet.Core.Cache
 {
+    using Config;
+    using Core.Model;
     using DotNet2.Utilities.Common;
+    using Model;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -8,14 +11,9 @@
     using System.Reflection;
     using System.Text.RegularExpressions;
 
-    using YanZhiwei.DotNet.Core.Cache.Model;
-    using YanZhiwei.DotNet.Core.Model;
-
     /// <summary>
     /// 缓存配置上下文
     /// </summary>
-    /// 时间：2015-12-31 15:50
-    /// 备注：
     public class CacheConfigContext
     {
         #region Fields
@@ -23,9 +21,7 @@
         /// <summary>
         /// 读写锁对象
         /// </summary>
-        /// 时间：2015-12-31 15:50
-        /// 备注：
-        private static readonly object lockObj = new object();
+        private static readonly object syncObject = new object();
 
         /// <summary>
         /// 首次加载所有的CacheProviders
@@ -56,15 +52,15 @@
         {
             get
             {
-                if (moduleName == null)
+                if(moduleName == null)
                 {
-                    lock (lockObj)
+                    lock(syncObject)
                     {
-                        if (moduleName == null)
+                        if(moduleName == null)
                         {
                             Assembly _entryAssembly = Assembly.GetEntryAssembly();
 
-                            if (_entryAssembly != null)
+                            if(_entryAssembly != null)
                             {
                                 moduleName = _entryAssembly.FullName;
                             }
@@ -85,7 +81,10 @@
         /// </summary>
         internal static CacheConfig CacheConfig
         {
-            get; set;
+            get
+            {
+                return CachedConfigContext.Current.CacheConfig;
+            }
         }
 
         /// <summary>
@@ -95,15 +94,15 @@
         {
             get
             {
-                if (cacheProviders == null)
+                if(cacheProviders == null)
                 {
-                    lock (lockObj)
+                    lock(syncObject)
                     {
-                        if (cacheProviders == null)
+                        if(cacheProviders == null)
                         {
                             cacheProviders = new Dictionary<string, ICacheProvider>();
 
-                            foreach (var i in CacheConfig.CacheProviderItems)
+                            foreach(var i in CacheConfig.CacheProviderItems)
                             {
                                 cacheProviders.Add(i.Name, (ICacheProvider)Activator.CreateInstance(Type.GetType(i.Type)));
                             }
@@ -122,21 +121,20 @@
         {
             get
             {
-                if (wrapCacheConfigItems == null)
+                if(wrapCacheConfigItems == null)
                 {
-                    lock (lockObj)
+                    lock(syncObject)
                     {
-                        if (wrapCacheConfigItems == null)
+                        if(wrapCacheConfigItems == null)
                         {
                             wrapCacheConfigItems = new List<WrapCacheConfigItem>();
 
-                            foreach (var i in CacheConfig.CacheConfigItems)
+                            foreach(var i in CacheConfig.CacheConfigItems)
                             {
                                 WrapCacheConfigItem _cacheWrapConfigItem = new WrapCacheConfigItem();
                                 _cacheWrapConfigItem.CacheConfigItem = i;
                                 _cacheWrapConfigItem.CacheProviderItem = CacheConfig.CacheProviderItems.SingleOrDefault(c => c.Name == i.ProviderName);
                                 _cacheWrapConfigItem.CacheProvider = CacheProviders[i.ProviderName];
-
                                 wrapCacheConfigItems.Add(_cacheWrapConfigItem);
                             }
                         }
@@ -145,18 +143,6 @@
 
                 return wrapCacheConfigItems;
             }
-        }
-
-        /// <summary>
-        /// 设置缓存配置
-        /// </summary>
-        /// <param name="cacheConfig">CacheConfig</param>
-        /// 时间：2016-03-21 11:09
-        /// 备注：
-        public static void SetCacheConfig(CacheConfig cacheConfig)
-        {
-            ValidateHelper.Begin().NotNull(cacheConfig, "CacheConfig缓存配置项");
-            CacheConfig = cacheConfig;
         }
 
         #endregion Properties
@@ -168,28 +154,24 @@
         /// </summary>
         /// <param name="key">根据Key获取缓存配置项</param>
         /// <returns>缓存配置项</returns>
-        /// 时间：2015-12-31 15:52
-        /// 备注：
         /// <exception cref="System.Exception"></exception>
         public static WrapCacheConfigItem GetCurrentWrapCacheConfigItem(string key)
         {
-            if (wrapCacheConfigItemDic == null)
+            if(wrapCacheConfigItemDic == null)
                 wrapCacheConfigItemDic = new Dictionary<string, WrapCacheConfigItem>();
 
-            if (wrapCacheConfigItemDic.ContainsKey(key))
+            if(wrapCacheConfigItemDic.ContainsKey(key))
                 return wrapCacheConfigItemDic[key];
 
             WrapCacheConfigItem _currentWrapCacheConfigItem = WrapCacheConfigItems.Where(i =>
-                Regex.IsMatch(ModuleName, i.CacheConfigItem.ModuleRegex, RegexOptions.IgnoreCase) &&
-                Regex.IsMatch(key, i.CacheConfigItem.KeyRegex, RegexOptions.IgnoreCase))
-                .OrderByDescending(i => i.CacheConfigItem.Priority).FirstOrDefault();
+                    Regex.IsMatch(ModuleName, i.CacheConfigItem.ModuleRegex, RegexOptions.IgnoreCase) &&
+                    Regex.IsMatch(key, i.CacheConfigItem.KeyRegex, RegexOptions.IgnoreCase))
+                    .OrderByDescending(i => i.CacheConfigItem.Priority).FirstOrDefault();
+            ValidateHelper.Begin().NotNull(_currentWrapCacheConfigItem, string.Format("依据'{0}'获取缓存配置项异常！", key));
 
-            if (_currentWrapCacheConfigItem == null)
-                throw new Exception(string.Format("依据'{0}'获取缓存配置项异常！", key));
-
-            lock (lockObj)
+            lock(syncObject)
             {
-                if (!wrapCacheConfigItemDic.ContainsKey(key))
+                if(!wrapCacheConfigItemDic.ContainsKey(key))
                     wrapCacheConfigItemDic.Add(key, _currentWrapCacheConfigItem);
             }
 
