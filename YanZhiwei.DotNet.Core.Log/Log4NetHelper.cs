@@ -1,8 +1,9 @@
 ﻿namespace YanZhiwei.DotNet.Core.Log
 {
+    using Config;
+    using DotNet2.Utilities.Common;
     using log4net;
     using log4net.Config;
-    using Newtonsoft.Json.Utilities;
     using System;
     using System.IO;
     using System.Text;
@@ -10,35 +11,19 @@
     /// <summary>
     /// Log4Net日志记录
     /// </summary>
-    /// 时间：2016-01-04 11:13
-    /// 备注：
     public class Log4NetHelper
     {
         #region Constructors
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="logNetConnectString">Log4Net数据库存储连接字符串</param>
-        /// <param name="logNetXmlConfig">Log4Net XML配置</param>
-        public Log4NetHelper(string logNetConnectString, string logNetXmlConfig)
+        static Log4NetHelper()
         {
-            if(string.IsNullOrEmpty(logNetXmlConfig))
-                throw new ArgumentNullException("请初始化Log4Net XML配置内容！");
-
-            if(!string.IsNullOrEmpty(logNetConnectString))
-                logNetXmlConfig = logNetXmlConfig.Replace("{connectionString}", logNetConnectString);
-
-            MemoryStream _ms = new MemoryStream(Encoding.UTF8.GetBytes(logNetXmlConfig));
-            XmlConfigurator.Configure(_ms);
-        }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="logNetXmlConfig">Log4Net XML配置</param>
-        public Log4NetHelper(string logNetXmlConfig) : this(string.Empty, logNetXmlConfig)
-        {
+            string _log4NetXmlConfg = CachedConfigContext.Current.ConfigService.GetConfig("Log4net");
+            ValidateHelper.Begin().NotNullOrEmpty(_log4NetXmlConfg, "log4net配置文件");
+            //using(MemoryStream ms = new MemoryStream(Encoding.Default.GetBytes(_log4NetXmlConfg)))
+            //{
+            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(_log4NetXmlConfg));
+            XmlConfigurator.Configure(ms);
+            // }
         }
 
         #endregion Constructors
@@ -51,7 +36,7 @@
         /// <param name="loggerType">日志类型</param>
         /// <param name="message">日志内容</param>
         /// <param name="ex">Exception</param>
-        public void Debug(LoggerType loggerType, object message, Exception ex = null)
+        public static void Debug(LoggerType loggerType, object message, Exception ex)
         {
             ILog _logger = LogManager.GetLogger(loggerType.ToString());
 
@@ -62,12 +47,22 @@
         }
 
         /// <summary>
+        /// Debug记录
+        /// </summary>
+        /// <param name="loggerType">日志类型</param>
+        /// <param name="message">日志内容</param>
+        public static void Debug(LoggerType loggerType, object message)
+        {
+            Debug(loggerType, message, null);
+        }
+
+        /// <summary>
         /// Error记录
         /// </summary>
         /// <param name="loggerType">日志类型</param>
         /// <param name="message">日志内容</param>
         /// <param name="ex">Exception</param>
-        public void Error(LoggerType loggerType, object message, Exception ex = null)
+        public static void Error(LoggerType loggerType, object message, Exception ex)
         {
             var _logger = LogManager.GetLogger(loggerType.ToString());
 
@@ -78,12 +73,22 @@
         }
 
         /// <summary>
+        /// Error记录
+        /// </summary>
+        /// <param name="loggerType">日志类型</param>
+        /// <param name="message">日志内容</param>
+        public static void Error(LoggerType loggerType, object message)
+        {
+            Error(loggerType, message, null);
+        }
+
+        /// <summary>
         /// Fatal记录
         /// </summary>
         /// <param name="loggerType">日志类型</param>
         /// <param name="message">日志内容</param>
         /// <param name="ex">Exception</param>
-        public void Fatal(LoggerType loggerType, object message, Exception ex = null)
+        public static void Fatal(LoggerType loggerType, object message, Exception ex)
         {
             var _logger = LogManager.GetLogger(loggerType.ToString());
 
@@ -94,12 +99,22 @@
         }
 
         /// <summary>
+        /// Fatal记录
+        /// </summary>
+        /// <param name="loggerType">日志类型</param>
+        /// <param name="message">日志内容</param>
+        public static void Fatal(LoggerType loggerType, object message)
+        {
+            Fatal(loggerType, message, null);
+        }
+
+        /// <summary>
         /// Info记录
         /// </summary>
         /// <param name="loggerType">日志类型</param>
         /// <param name="message">日志内容</param>
         /// <param name="ex">Exception</param>
-        public void Info(LoggerType loggerType, object message, Exception ex = null)
+        public static void Info(LoggerType loggerType, object message, Exception ex)
         {
             var _logger = LogManager.GetLogger(loggerType.ToString());
 
@@ -110,23 +125,39 @@
         }
 
         /// <summary>
+        /// Info记录
+        /// </summary>
+        /// <param name="loggerType">日志类型</param>
+        /// <param name="message">日志内容</param>
+        public static void Info(LoggerType loggerType, object message)
+        {
+            Info(loggerType, message, null);
+        }
+
+        /// <summary>
         /// Warn记录
         /// </summary>
         /// <param name="loggerType">日志类型</param>
         /// <param name="message">日志内容</param>
         /// <param name="ex">Exception</param>
-        public void Warn(LoggerType loggerType, object message, Exception ex)
+        public static void Warn(LoggerType loggerType, object message, Exception ex)
         {
             var _logger = LogManager.GetLogger(loggerType.ToString());
 
             if(ex != null)
-            {
                 _logger.Warn(SerializeObject(message), ex);
-            }
             else
-            {
                 _logger.Warn(SerializeObject(message));
-            }
+        }
+
+        /// <summary>
+        /// Warn记录
+        /// </summary>
+        /// <param name="loggerType">日志类型</param>
+        /// <param name="message">日志内容</param>
+        public static void Warn(LoggerType loggerType, object message)
+        {
+            Warn(loggerType, message, null);
         }
 
         /// <summary>
@@ -134,7 +165,7 @@
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns>Json字符串</returns>
-        private object SerializeObject(object message)
+        private static object SerializeObject(object message)
         {
             if(message is string || message == null)
             {
@@ -142,7 +173,7 @@
             }
             else
             {
-                return JsonHelper.Serialize(message);
+                return Newtonsoft.Json.Utilities.JsonHelper.Serialize(message);
             }
         }
 

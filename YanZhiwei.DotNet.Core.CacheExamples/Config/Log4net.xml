@@ -1,39 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <log4net>
 
+  <!-- WebExceptionLog -->
   <logger name="WebExceptionLog">
     <level value="ALL" />
     <appender-ref ref="AdoNetAppender" />
   </logger>
-
+  <!-- WinExceptionLog -->
   <logger name="WinExceptionLog">
     <level value="ALL" />
     <appender-ref ref="RollingFileAppender" />
   </logger>
-
+  <!-- ServiceExceptionLog -->
   <logger name="ServiceExceptionLog">
     <level value="ALL" />
     <appender-ref ref="AdoNetAppender" />
   </logger>
 
+  <!--使用Rolling方式记录日志按照日来记录日志-->
   <appender name="RollingFileAppender" type="log4net.Appender.RollingFileAppender">
+    <!--文件名,可以相对路径,也可以绝对路径,这里只给定了文件夹-->
     <file value=".\log\\" />
+    <!--是否增加文件-->
     <appendToFile value="true" />
     <maxSizeRollBackups value="5" />
+    <!--日志追加类型,Date为按日期增加文件,Size为按大小-->
     <rollingStyle value="Date" />
+    <!--最小锁定模型以允许多个进程可以写入同一个文件,解决文件独占问题-->
     <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+    <!--最大文件大小-->
     <maximumFileSize value="10MB" />
+    <!--文件命名格式,非日期参数化要进行转义,如自定义文件后缀-->
     <datePattern value="yyyyMM\\yyyy-MM-dd&quot;.log&quot;" />
+    <!--是否固定文件名-->
     <staticLogFileName value="false" />
     <layout type="log4net.Layout.PatternLayout">
       <conversionPattern value="---------------------------------------------------%newline发生时间：%date %newline事件级别：%-5level %newline事件来源：%logger%newline日志内容：%message%newline" />
     </layout>
   </appender>
 
+  <!--使用AdoNetAppender方式记录日志按照日来记录日志-->
   <appender name="AdoNetAppender" type="log4net.Appender.AdoNetAppender">
     <bufferSize value="1" />
     <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-    <connectionString value="{connectionString}" />
+    <connectionString value="DATABASE=Sample;SERVER=.\SQLEXPRESS;UID=sa;PWD=sasa;Connect Timeout=15;" />
     <commandText value="INSERT INTO [Log4Net] ([Date],[Host],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @host, @thread, @log_level, @logger, @message, @exception)" />
     <parameter>
       <parameterName value="@log_date" />
@@ -87,5 +97,36 @@
       <size value="4000" />
       <layout type="log4net.Layout.ExceptionLayout" />
     </parameter>
+  </appender>
+  <!--使用ConsoleAppender方式记录日志按照日来记录日志-->
+  <appender name="ColoredConsoleAppender" type="log4net.Appender.ColoredConsoleAppender">
+    <mapping>
+      <level value="INFO" />
+      <foreColor value="White, HighIntensity" />
+      <backColor value="Green" />
+    </mapping>
+    <mapping>
+      <level value="DEBUG" />
+      <foreColor value="White, HighIntensity" />
+      <backColor value="Blue" />
+    </mapping>
+    <mapping>
+      <level value="WARN" />
+      <foreColor value="Yellow, HighIntensity" />
+      <backColor value="Purple" />
+    </mapping>
+    <mapping>
+      <level value="ERROR" />
+      <foreColor value="Yellow, HighIntensity" />
+      <backColor value="Red" />
+    </mapping>
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="---------------------------------------------------%newline发生时间：%date %newline事件级别：%-5level%newline事件来源：%logger%newline事件行号：%line%newline日志内容：%message%newline" />
+    </layout>
+  </appender>
+  <appender name="UdpAppender" type="log4net.Appender.UdpAppender">
+    <remoteAddress value="127.0.0.1" />
+    <remotePort value="7071" />
+    <layout type="log4net.Layout.XmlLayoutSchemaLog4j" />
   </appender>
 </log4net>

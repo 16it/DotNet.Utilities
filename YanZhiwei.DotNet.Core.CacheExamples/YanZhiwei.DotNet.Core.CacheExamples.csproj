@@ -52,6 +52,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -96,7 +100,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppLogHelper.cs" />
     <Compile Include="FormIndex.aspx.cs">
       <DependentUpon>FormIndex.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -163,6 +166,10 @@
     <ProjectReference Include="..\YanZhiwei.DotNet.Core.Model\YanZhiwei.DotNet.Core.Model.csproj">
       <Project>{26fc1441-a657-4d9d-8813-a52dac3387d7}</Project>
       <Name>YanZhiwei.DotNet.Core.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Newtonsoft.Json.Utilities\YanZhiwei.DotNet.Newtonsoft.Json.Utilities.csproj">
+      <Project>{17020b01-dddb-4060-9b17-e4439cdc8c9a}</Project>
+      <Name>YanZhiwei.DotNet.Newtonsoft.Json.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
