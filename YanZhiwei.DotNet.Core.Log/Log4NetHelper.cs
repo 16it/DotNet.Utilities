@@ -19,11 +19,10 @@
         {
             string _log4NetXmlConfg = CachedConfigContext.Current.ConfigService.GetConfig("Log4net");
             ValidateHelper.Begin().NotNullOrEmpty(_log4NetXmlConfg, "log4net配置文件");
-            //using(MemoryStream ms = new MemoryStream(Encoding.Default.GetBytes(_log4NetXmlConfg)))
-            //{
-            MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(_log4NetXmlConfg));
-            XmlConfigurator.Configure(ms);
-            // }
+            using(MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(_log4NetXmlConfg)))
+            {
+                XmlConfigurator.Configure(ms);
+            }
         }
 
         #endregion Constructors
