@@ -1,67 +1,49 @@
 ﻿using Castle.DynamicProxy;
-using System;
-using YanZhiwei.DotNet2.Utilities.Core;
 
 namespace YanZhiwei.DotNet.Core.Service
 {
+    /// <summary>
+    /// ServiceHelper
+    /// </summary>
     public class ServiceHelper
     {
         /// <summary>
+        /// 默认引用服务方式
+        /// </summary>
+        public ServiceHelper() : this(new RefServiceFactory())
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="pageContentConfigService">IConfigService</param>
+        public ServiceHelper(ServiceFactory service)
+        {
+            serviceFactory = service;
+        }
+
+        /// <summary>
         /// 暂时使用引用服务方式，可以改造成注入，或使用WCF服务方式
         /// </summary>
-        public static ServiceFactory serviceFactory = new RefServiceFactory();
+        private ServiceFactory serviceFactory
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// 创建服务根据BLL接口
         /// </summary>
-        public static T CreateService<T>() where T : class
+        public T CreateService<T, F>()
+        where T : class
+            where F : IInterceptor, new()
         {
-            var service = serviceFactory.CreateService<T>();
-
-            //拦截，可以写日志....
-            var generator = new ProxyGenerator();
-            var dynamicProxy = generator.CreateInterfaceProxyWithTargetInterface<T>(
-                service, new InvokeInterceptor());
-
-            return dynamicProxy;
-        }
-    }
-
-    internal class InvokeInterceptor : IInterceptor
-    {
-        public InvokeInterceptor()
-        {
-        }
-
-        /// <summary>
-        /// 拦截方法
-        /// </summary>
-        /// <param name="invocation"></param>
-        public void Intercept(IInvocation invocation)
-        {
-            try
-            {
-                invocation.Proceed();
-            }
-            catch (Exception exception)
-            {
-                if (exception is BusinessException)
-                    throw;
-
-                var message = new
-                {
-                    exception = exception.Message,
-                    exceptionContext = new
-                    {
-                        method = invocation.Method.ToString(),
-                        arguments = invocation.Arguments,
-                        returnValue = invocation.ReturnValue
-                    }
-                };
-
-                //   Log4NetHelper.Error(LoggerType.ServiceExceptionLog, message, exception);
-                throw;
-            }
+            var _service = serviceFactory.CreateService<T>();
+            ProxyGenerator _generator = new ProxyGenerator();
+            T _dynamicProxy = _generator.CreateInterfaceProxyWithTargetInterface<T>(
+                                  _service, new F());
+            return _dynamicProxy;
         }
     }
 }
