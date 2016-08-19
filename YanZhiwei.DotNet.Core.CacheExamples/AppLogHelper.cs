@@ -1,4 +1,5 @@
-﻿using YanZhiwei.DotNet.Core.ConfigExamples;
+﻿using YanZhiwei.DotNet.Core.Config;
+using YanZhiwei.DotNet.Core.ConfigExamples;
 using YanZhiwei.DotNet.Core.Log;
 
 namespace YanZhiwei.DotNet.Core.CacheExamples

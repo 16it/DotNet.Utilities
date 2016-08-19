@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using YanZhiwei.DotNet.Log4Net.Utilities;
 
 namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples

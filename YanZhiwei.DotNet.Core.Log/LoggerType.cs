@@ -5,8 +5,6 @@
     /// <summary>
     /// 日志类型
     /// </summary>
-    /// 时间：2016-01-04 9:54
-    /// 备注：
     public enum LoggerType
     {
         /// <summary>

@@ -5,8 +5,6 @@
     using System.Data;
     using System.IO;
 
-
-
     /// <summary>
     /// Json 辅助类
     /// </summary>
@@ -19,6 +17,7 @@
          * 1.http://weblog.west-wind.com/posts/2008/Sep/03/DataTable-JSON-Serialization-in-JSONNET-and-JavaScriptSerializer
          * 2.http://blog.prabir.me/posts/json-in-classical-web-services-asmx
          */
+
         /// <summary>
         /// 反序列化Json数据格式
         /// </summary>
@@ -28,19 +27,21 @@
         public static T Deserialize<T>(string jsonText)
         {
             T _jsonResult = default(T);
-            if (!string.IsNullOrEmpty(jsonText))
+
+            if(!string.IsNullOrEmpty(jsonText))
             {
                 JsonSerializer _json = new JsonSerializer();
                 JsonInitialize(_json);
-                using (StringReader reader = new StringReader(jsonText))
+                using(StringReader reader = new StringReader(jsonText))
                 {
-                    using (JsonTextReader jsonReader = new JsonTextReader(reader))
+                    using(JsonTextReader jsonReader = new JsonTextReader(reader))
                     {
                         _jsonResult = _json.Deserialize<T>(jsonReader);
                         //  _jsonResult = _json.Deserialize(jsonReader, typeof(T));
                     }
                 }
             }
+
             return _jsonResult;
         }
 
@@ -57,16 +58,18 @@
             JsonSerializer _json = new JsonSerializer();
             JsonInitialize(_json);
 
-            if (_type == typeof(DataRow))
+            if(_type == typeof(DataRow))
                 _json.Converters.Add(new DataRowConverter());
-            if (_type == typeof(DataTable))
+
+            if(_type == typeof(DataTable))
                 _json.Converters.Add(new DataTableConverter());
-            if (_type == typeof(DataSet))
+
+            if(_type == typeof(DataSet))
                 _json.Converters.Add(new DataSetConverter());
 
-            using (StringWriter writer = new StringWriter())
+            using(StringWriter writer = new StringWriter())
             {
-                using (JsonTextWriter jsonWriter = new JsonTextWriter(writer))
+                using(JsonTextWriter jsonWriter = new JsonTextWriter(writer))
                 {
                     jsonWriter.Formatting = Formatting.None;
                     jsonWriter.QuoteChar = '"';
@@ -78,7 +81,7 @@
 
         private static void JsonInitialize(JsonSerializer jsonSerializer)
         {
-            if (jsonSerializer != null)
+            if(jsonSerializer != null)
             {
                 jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
                 jsonSerializer.ObjectCreationHandling = ObjectCreationHandling.Replace;
