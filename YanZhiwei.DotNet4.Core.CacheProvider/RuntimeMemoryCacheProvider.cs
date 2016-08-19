@@ -1,32 +1,39 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Text.RegularExpressions;
-using YanZhiwei.DotNet.Core.Cache;
-using YanZhiwei.DotNet2.Utilities.Common;
-
-namespace YanZhiwei.DotNet4.Core.CacheProvider
+﻿namespace YanZhiwei.DotNet4.Core.CacheProvider
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.Caching;
+    using System.Text.RegularExpressions;
+
+    using YanZhiwei.DotNet.Core.Cache;
+    using YanZhiwei.DotNet2.Utilities.Common;
+
     /// <summary>
     /// RuntimeMemoryCache 辅助类
     /// </summary>
-    /// 时间：2016-03-17 16:14
-    /// 备注：
     public class RuntimeMemoryCacheProvider : ICacheProvider
     {
+        #region Fields
+
         private readonly ObjectCache objectCache;
+
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        /// 时间：2016-03-17 16:04
-        /// 备注：
         public RuntimeMemoryCacheProvider()
         {
             objectCache = MemoryCache.Default;
         }
+
+        #endregion Constructors
+
+        #region Methods
 
         /// <summary>
         /// 清除缓存
@@ -36,12 +43,14 @@ namespace YanZhiwei.DotNet4.Core.CacheProvider
         {
             List<string> _keys = new List<string>();
             List<string> _cacheKeys = objectCache.Select(m => m.Key).ToList();
-            foreach (string key in _cacheKeys)
+
+            foreach(string key in _cacheKeys)
             {
-                if (Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
+                if(Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
                     _keys.Add(key);
             }
-            for (int i = 0; i < _keys.Count; i++)
+
+            for(int i = 0; i < _keys.Count; i++)
             {
                 objectCache.Remove(_keys[i]);
             }
@@ -59,15 +68,19 @@ namespace YanZhiwei.DotNet4.Core.CacheProvider
             CheckedParamter(key);
             string _cacheKey = GetCacheKey(key);
             object _value = objectCache.Get(_cacheKey);
-            if (_value == null)
+
+            if(_value == null)
             {
                 return null;
             }
+
             DictionaryEntry _entry = (DictionaryEntry)_value;
-            if (!key.Equals(_entry.Key))
+
+            if(!key.Equals(_entry.Key))
             {
                 return null;
             }
+
             return _entry.Value;
         }
 
@@ -86,8 +99,6 @@ namespace YanZhiwei.DotNet4.Core.CacheProvider
         /// 移除缓存
         /// </summary>
         /// <param name="key">键</param>
-        /// 时间：2015-12-31 13:32
-        /// 备注：
         public virtual void Remove(string key)
         {
             CheckedParamter(key);
@@ -103,21 +114,28 @@ namespace YanZhiwei.DotNet4.Core.CacheProvider
         /// <param name="minutes">分钟</param>
         /// <param name="isAbsoluteExpiration">是否绝对时间</param>
         /// <param name="onRemoveFacotry">委托</param>
-        /// 时间：2015-12-31 13:12
-        /// 备注：
         public virtual void Set(string key, object value, int minutes, bool isAbsoluteExpiration, Action<string, object, string> onRemoveFacotry)
         {
             CheckedParamter(key, value);
             string _cacheKey = GetCacheKey(key);
             DictionaryEntry _entry = new DictionaryEntry(key, value);
             CacheItemPolicy _policy = null;
-            if (isAbsoluteExpiration)
+
+            if(isAbsoluteExpiration)
             {
-                _policy = new CacheItemPolicy() { AbsoluteExpiration = DateTime.Now.AddMinutes(minutes) };
+                _policy = new CacheItemPolicy()
+                {
+                    AbsoluteExpiration = DateTime.Now.AddMinutes(minutes)
+                };
             }
-            else {
-                _policy = new CacheItemPolicy() { SlidingExpiration = TimeSpan.FromMinutes(minutes) };
+            else
+            {
+                _policy = new CacheItemPolicy()
+                {
+                    SlidingExpiration = TimeSpan.FromMinutes(minutes)
+                };
             }
+
             objectCache.Set(_cacheKey, _entry, _policy);
         }
 
@@ -135,5 +153,7 @@ namespace YanZhiwei.DotNet4.Core.CacheProvider
         {
             return string.Concat(string.Empty, ":", key, "@", key.GetHashCode());
         }
+
+        #endregion Methods
     }
 }

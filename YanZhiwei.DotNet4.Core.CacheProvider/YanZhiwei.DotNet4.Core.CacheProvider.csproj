@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheHelper.cs" />
+    <Compile Include="RuntimeMemoryCacheHelper.cs" />
     <Compile Include="RuntimeMemoryCacheProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
