@@ -203,6 +203,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.NServiceKi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.Utilities", "YanZhiwei.DotNet.ServiceStackRedis.Utilities\YanZhiwei.DotNet.ServiceStackRedis.Utilities.csproj", "{4F22490B-CEA8-4AEB-BDC7-4B9FD6743F7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Upload", "YanZhiwei.DotNet.Core.Upload\YanZhiwei.DotNet.Core.Upload.csproj", "{904679D2-53C3-4753-B3A8-13B41FE54CD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1387,6 +1389,22 @@ Global
 		{4F22490B-CEA8-4AEB-BDC7-4B9FD6743F7A}.Release|x64.Build.0 = Release|Any CPU
 		{4F22490B-CEA8-4AEB-BDC7-4B9FD6743F7A}.Release|x86.ActiveCfg = Release|Any CPU
 		{4F22490B-CEA8-4AEB-BDC7-4B9FD6743F7A}.Release|x86.Build.0 = Release|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Debug|x64.Build.0 = Debug|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Debug|x86.Build.0 = Debug|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|ARM.Build.0 = Release|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|x64.ActiveCfg = Release|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|x64.Build.0 = Release|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|x86.ActiveCfg = Release|Any CPU
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1482,5 +1500,6 @@ Global
 		{07A361C0-A808-4971-A453-3EDC2969612C} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{4F22490B-CEA8-4AEB-BDC7-4B9FD6743F7A} = {E7041928-FF2F-44AF-AB91-7427819415C5}
+		{904679D2-53C3-4753-B3A8-13B41FE54CD8} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 	EndGlobalSection
 EndGlobal

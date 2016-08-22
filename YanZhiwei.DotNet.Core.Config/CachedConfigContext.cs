@@ -17,7 +17,7 @@ namespace YanZhiwei.DotNet.Core.Config
             string _fileName = this.GetConfigFileName<T>(index),
                    _key = "ConfigFile_" + _fileName;
             object _content = CacheManger.Get(_key);
-
+            
             if(_content != null)
             {
                 return (T)_content;
@@ -29,12 +29,12 @@ namespace YanZhiwei.DotNet.Core.Config
                 return _value;
             }
         }
-
+        
         /// <summary>
         /// CachedConfigContext
         /// </summary>
         public static CachedConfigContext Current = new CachedConfigContext();
-
+        
         /// <summary>
         /// 缓存配置项
         /// </summary>
@@ -43,6 +43,17 @@ namespace YanZhiwei.DotNet.Core.Config
             get
             {
                 return this.Get<CacheConfig>();
+            }
+        }
+        
+        /// <summary>
+        /// 文件上传配置项
+        /// </summary>
+        public UploadConfig UploadConfig
+        {
+            get
+            {
+                return this.Get<UploadConfig>();
             }
         }
     }
