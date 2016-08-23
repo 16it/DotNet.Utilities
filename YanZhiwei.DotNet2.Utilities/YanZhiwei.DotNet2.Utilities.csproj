@@ -253,7 +253,7 @@
     <Compile Include="Common\RegexHelper.cs" />
     <Compile Include="Common\SectionHelper.cs" />
     <Compile Include="Common\SerializeHelper.cs" />
-    <Compile Include="Common\SerialPortHelper.cs" />
+    <Compile Include="Core\SerialPortMaster.cs" />
     <Compile Include="Common\StringHelper.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>

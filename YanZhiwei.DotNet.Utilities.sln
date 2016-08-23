@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Office11.U
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Tests", "YanZhiwei.DotNet.Tests", "{0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.Examples", "YanZhiwei.Examples", "{2BF92C47-311B-46B2-B536-CBD597257243}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Examples", "YanZhiwei.DotNet.Examples", "{2BF92C47-311B-46B2-B536-CBD597257243}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Newtonsoft.Json.Utilities", "YanZhiwei.DotNet.Newtonsoft.Json.Utilities\YanZhiwei.DotNet.Newtonsoft.Json.Utilities.csproj", "{17020B01-DDDB-4060-9B17-E4439CDC8C9A}"
 EndProject
@@ -204,6 +204,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.Utilities", "YanZhiwei.DotNet.ServiceStackRedis.Utilities\YanZhiwei.DotNet.ServiceStackRedis.Utilities.csproj", "{4F22490B-CEA8-4AEB-BDC7-4B9FD6743F7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Upload", "YanZhiwei.DotNet.Core.Upload\YanZhiwei.DotNet.Core.Upload.csproj", "{904679D2-53C3-4753-B3A8-13B41FE54CD8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Templates", "YanZhiwei.DotNet.Templates", "{C552D541-3440-4B4C-9853-A90F407A5381}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.SerialPortTemplate", "YanZhiwei.DotNet.SerialPortTemplate\YanZhiwei.DotNet.SerialPortTemplate.csproj", "{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1405,6 +1409,22 @@ Global
 		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|x64.Build.0 = Release|Any CPU
 		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|x86.ActiveCfg = Release|Any CPU
 		{904679D2-53C3-4753-B3A8-13B41FE54CD8}.Release|x86.Build.0 = Release|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Debug|ARM.Build.0 = Debug|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Debug|x64.Build.0 = Debug|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Debug|x86.Build.0 = Debug|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Release|ARM.ActiveCfg = Release|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Release|ARM.Build.0 = Release|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Release|x64.ActiveCfg = Release|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Release|x64.Build.0 = Release|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1501,5 +1521,6 @@ Global
 		{B91ECC1F-35AC-40FF-B459-50FF9B8AB688} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{4F22490B-CEA8-4AEB-BDC7-4B9FD6743F7A} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{904679D2-53C3-4753-B3A8-13B41FE54CD8} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
+		{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1} = {C552D541-3440-4B4C-9853-A90F407A5381}
 	EndGlobalSection
 EndGlobal

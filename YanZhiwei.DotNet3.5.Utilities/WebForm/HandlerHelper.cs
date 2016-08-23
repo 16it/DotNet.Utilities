@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm
 {
+    using System;
     using System.Net;
     using System.Web;
 
@@ -21,7 +22,7 @@
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="file">The file.eg:"images/1616/LampGroup/lampGroup.jpg"</param>
-        /// <returns></returns>
+        /// <returns>文件路径</returns>
         /// 创建时间:2015-06-09 11:15
         /// 备注说明:<c>null</c>
         public static string CreateFilePath(this HttpContext context, string file)
@@ -67,6 +68,67 @@
             CreateResponse(context, obj, statusCode, 0);
         }
 
-        #endregion Methods
+        /// <summary>
+        /// 自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。
+        /// </summary>
+        /// <param name="context">HttpContext</param>
+        /// 时间：2016/8/23 9:05
+        /// 备注：
+        public static void Set304Cache(this HttpContext context)
+        {
+            context.Response.Cache.SetCacheability(HttpCacheability.Public);
+            context.Response.Cache.SetLastModified(DateTime.UtcNow);
+            context.Response.AddHeader("If-Modified-Since", DateTime.UtcNow.ToString());
+            int _maxDay = 86400 * 14; // 14 Day
+            context.Response.Cache.SetExpires(DateTime.Now.AddSeconds(_maxDay));
+            context.Response.Cache.SetMaxAge(new TimeSpan(0, 0, _maxDay));
+            context.Response.CacheControl = "private";
+            context.Response.Cache.SetValidUntilExpires(true);
+        }
+
+        /// <summary>
+        /// 获取图片类型contentType
+        /// </summary>
+        /// <param name="ext">文件后缀</param>
+        /// <returns>contentType</returns>
+        /// 时间：2016/8/23 9:31
+        /// 备注：
+        public static string GetImageContentType(string ext)
+        {
+            string _contentType = null;
+
+            switch(ext.ToLower())
+            {
+                case "gif":
+                    _contentType = "image/gif";
+                    break;
+
+                case "jpg":
+                case "jpe":
+                case "jpeg":
+                    _contentType = "image/jpeg";
+                    break;
+
+                case "bmp":
+                    _contentType = "image/bmp";
+                    break;
+
+                case "tif":
+                case "tiff":
+                    _contentType = "image/tiff";
+                    break;
+
+                case "eps":
+                    _contentType = "application/postscript";
+                    break;
+
+                default:
+                    break;
+            }
+
+            return _contentType;
+        }
     }
+
+    #endregion Methods
 }

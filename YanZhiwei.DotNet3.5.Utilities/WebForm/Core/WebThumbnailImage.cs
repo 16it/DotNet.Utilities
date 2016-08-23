@@ -8,7 +8,7 @@ using YanZhiwei.DotNet3._5.Utilities.Enum;
 namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
     /// <summary>
-    /// 生成水印
+    /// 生成缩略图
     /// </summary>
     public class WebThumbnailImage
     {
@@ -26,7 +26,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
         {
             MakeThumbnail(originalImagePath, thumbnailPath, width, height, mode, isaddwatermark, ImagePosition.Default, null, quality);
         }
-        
+
         /// <summary>
         /// 生成缩略图
         /// </summary>
@@ -48,20 +48,20 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
             int y = 0;
             int _ow = _originalImage.Width;
             int _oh = _originalImage.Height;
-            
+
             switch(mode)
             {
                 case "HW"://指定高宽缩放（可能变形）
                     break;
-                    
+
                 case "W"://指定宽，高按比例
                     _toheight = _originalImage.Height * width / _originalImage.Width;
                     break;
-                    
+
                 case "H"://指定高，宽按比例
                     _towidth = _originalImage.Width * height / _originalImage.Height;
                     break;
-                    
+
                 case "Cut"://指定高宽裁减（不变形）
                     if(_originalImage.Width >= _towidth && _originalImage.Height >= _toheight)
                     {
@@ -87,9 +87,9 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
                         _ow = _towidth;
                         _oh = _toheight;
                     }
-                    
+
                     break;
-                    
+
                 case "Fit"://不超出尺寸，比它小就不截了，不留白，大就缩小到最佳尺寸，主要为手机用
                     if(_originalImage.Width > _towidth && _originalImage.Height > _toheight)
                     {
@@ -113,13 +113,13 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
                         _ow = _towidth;
                         _oh = _toheight;
                     }
-                    
+
                     break;
-                    
+
                 default:
                     break;
             }
-            
+
             //新建一个bmp图片
             Image _bitmap = new Bitmap(_towidth, _toheight);
             //新建一个画板
@@ -136,13 +136,13 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
             _graphics.DrawImage(_originalImage, new Rectangle(0, 0, _towidth, _toheight),
                                 new Rectangle(x, y, _ow, _oh),
                                 GraphicsUnit.Pixel);
-                                
+
             //加图片水印
             if(isaddwatermark)
             {
                 if(string.IsNullOrEmpty(waterImage))
                     waterImage = "watermarker.png";
-                    
+
                 Image _copyImage = Image.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, waterImage));
                 int _xPosOfWm;
                 int _yPosOfWm;
@@ -150,38 +150,38 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
                 int _wmWidth = _copyImage.Width;
                 int _phHeight = _toheight;
                 int _phWidth = _towidth;
-                
+
                 switch(imagePosition)
                 {
                     case ImagePosition.LeftBottom:
                         _xPosOfWm = 70;
                         _yPosOfWm = _phHeight - _wmHeight - 70;
                         break;
-                        
+
                     case ImagePosition.LeftTop:
                         _xPosOfWm = 70;
                         _yPosOfWm = 0 - 70;
                         break;
-                        
+
                     case ImagePosition.RightTop:
                         _xPosOfWm = _phWidth - _wmWidth - 70;
                         _yPosOfWm = 0 - 70;
                         break;
-                        
+
                     case ImagePosition.RigthBottom:
                         _xPosOfWm = _phWidth - _wmWidth - 70;
                         _yPosOfWm = _phHeight - _wmHeight - 70;
                         break;
-                        
+
                     default:
                         _xPosOfWm = 10;
                         _yPosOfWm = 0;
                         break;
                 }
-                
+
                 _graphics.DrawImage(_copyImage, new Rectangle(_xPosOfWm, _yPosOfWm, _copyImage.Width, _copyImage.Height), 0, 0, _copyImage.Width, _copyImage.Height, GraphicsUnit.Pixel);
             }
-            
+
             // 以下代码为保存图片时,设置压缩质量
             EncoderParameters _encoderParams = new EncoderParameters();
             long[] _qualityArray = new long[1];
@@ -191,7 +191,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
             //获得包含有关内置图像编码解码器的信息的ImageCodecInfo 对象.
             ImageCodecInfo[] _arrayICI = ImageCodecInfo.GetImageEncoders();
             ImageCodecInfo _jpegICI = null;
-            
+
             for(int i = 0; i < _arrayICI.Length; i++)
             {
                 if(_arrayICI[i].FormatDescription.Equals("JPEG"))
@@ -201,7 +201,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
                     break;
                 }
             }
-            
+
             try
             {
                 if(_jpegICI != null)
