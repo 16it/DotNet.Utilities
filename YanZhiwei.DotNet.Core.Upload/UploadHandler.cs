@@ -13,13 +13,14 @@ namespace YanZhiwei.DotNet.Core.Upload
     public abstract class UploadHandler : IHttpHandler
     {
         /// <summary>
-        /// IsReusable
+        /// 允许上传文件后缀
+        /// <para>txt, rar, zip, jpg, jpeg, gif, png, swf</para>
         /// </summary>
-        public bool IsReusable
+        public virtual string[] AllowExt
         {
             get
             {
-                return false;
+                return new string[] { "txt", "rar", "zip", "jpg", "jpeg", "gif", "png", "swf" };
             }
         }
         
@@ -35,13 +36,25 @@ namespace YanZhiwei.DotNet.Core.Upload
         }
         
         /// <summary>
-        /// 上传路径
+        /// 运行上传图片后缀
+        /// <para>jpg,jpeg,gif,png</para>
         /// </summary>
-        public string UploadPath
+        public virtual string[] ImageExt
         {
             get
             {
-                return UploadConfigContext.UploadPath;
+                return new string[] { "jpg", "jpeg", "gif", "png" };
+            }
+        }
+        
+        /// <summary>
+        /// IsReusable
+        /// </summary>
+        public bool IsReusable
+        {
+            get
+            {
+                return false;
             }
         }
         
@@ -58,26 +71,13 @@ namespace YanZhiwei.DotNet.Core.Upload
         }
         
         /// <summary>
-        /// 允许上传文件后缀
-        /// <para>txt, rar, zip, jpg, jpeg, gif, png, swf</para>
+        /// 上传路径
         /// </summary>
-        public virtual string[] AllowExt
+        public string UploadPath
         {
             get
             {
-                return new string[] { "txt", "rar", "zip", "jpg", "jpeg", "gif", "png", "swf" };
-            }
-        }
-        
-        /// <summary>
-        /// 运行上传图片后缀
-        /// <para>jpg,jpeg,gif,png</para>
-        /// </summary>
-        public virtual string[] ImageExt
-        {
-            get
-            {
-                return new string[] { "jpg", "jpeg", "gif", "png" };
+                return UploadConfigContext.UploadPath;
             }
         }
         
@@ -97,11 +97,10 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// <param name="filePath">文件路径</param>
         public abstract void OnUploaded(HttpContext context, string filePath);
         
-        private static string CombinePaths(params string[] paths)
-        {
-            return paths.Aggregate(Path.Combine);
-        }
-        
+        /// <summary>
+        /// 请求入口
+        /// </summary>
+        /// <param name="context">HttpContext</param>
         public void ProcessRequest(HttpContext context)
         {
             context.Response.Charset = "UTF-8";
@@ -201,6 +200,11 @@ namespace YanZhiwei.DotNet.Core.Upload
             _fileBuffer = null;
             context.Response.Write(this.GetResult(_localFileName, _filePath, _errMessage));
             context.Response.End();
+        }
+        
+        private static string CombinePaths(params string[] paths)
+        {
+            return paths.Aggregate(Path.Combine);
         }
     }
 }
