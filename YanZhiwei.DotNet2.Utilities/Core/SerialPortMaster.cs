@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using Common;
     using System;
     using System.IO.Ports;
 
@@ -129,18 +130,18 @@
                     int i = 0;
                     stopBits = new string[_stopBitses.Length - 1];
 
-                    foreach(string st in _stopBitses)
+                    foreach(string item in _stopBitses)
                     {
-                        if(string.Compare(st, "None", true) == 0)
+                        if(string.Compare(item, "None", true) == 0)
                             continue;
-                        else if(string.Compare(st, "One", true) == 0)
+                        else if(string.Compare(item, "One", true) == 0)
                             stopBits[i] = "1";
-                        else if(string.Compare(st, "Two", true) == 0)
+                        else if(string.Compare(item, "Two", true) == 0)
                             stopBits[i] = "2";
-                        else if(string.Compare(st, "OnePointFive", true) == 0)
+                        else if(string.Compare(item, "OnePointFive", true) == 0)
                             stopBits[i] = "1.5";
                         else
-                            stopBits[i] = st;
+                            stopBits[i] = item;
 
                         i++;
                     }
@@ -166,6 +167,19 @@
         }
 
         /// <summary>
+        /// 串口发送数据
+        /// </summary>
+        /// <param name="serialPort">SerialPort</param>
+        /// <param name="data">二进制数据</param>
+        /// 时间：2016/8/24 15:37
+        /// 备注：
+        public static void SendData(this SerialPort serialPort, byte[] data)
+        {
+            ValidateHelper.Begin().NotNull(serialPort, "串口").Check<ArgumentException>(() => !serialPort.IsOpen, "串口尚未打开！").NotNull(data, "串口发送数据");
+            serialPort.Write(data, 0, data.Length);
+        }
+
+        /// <summary>
         /// 打开串口
         /// </summary>
         /// <param name="serialPort">串口</param>
@@ -176,20 +190,14 @@
         /// <param name="stopBit">停止位</param>
         public static void Open(this SerialPort serialPort, string portName, string dateBits, string bondRate, string parity, string stopBit)
         {
-            int _bondRate = -1, _dateBits = -1;
-
-            if(!int.TryParse(bondRate, out _bondRate))
-                throw new ArgumentException("bondRate");
-
-            if(!int.TryParse(dateBits, out _dateBits))
-                throw new ArgumentException("dateBits");
+            ValidateHelper.Begin().IsInt(bondRate, "波特率").IsInt(dateBits, "数据位");
 
             if(serialPort.IsOpen)
                 serialPort.Close();
 
             serialPort.PortName = portName;
-            serialPort.BaudRate = _bondRate;
-            serialPort.DataBits = _dateBits;
+            serialPort.BaudRate = bondRate.ToInt32OrDefault(9600);
+            serialPort.DataBits = dateBits.ToInt32OrDefault(8);
 
             switch(stopBit)
             {
