@@ -11,6 +11,7 @@
     using Microsoft.Win32;
     
     using YanZhiwei.DotNet2.Utilities.Core;
+    using Model;
     
     /// <summary>
     /// 文件以及文件夹操作帮助类
@@ -39,6 +40,15 @@
         #endregion Fields
         
         #region Methods
+        
+        /// <summary>
+        /// _lopens the specified lp path name.
+        /// </summary>
+        /// <param name="lpPathName">Name of the lp path.</param>
+        /// <param name="iReadWrite">The i read write.</param>
+        /// <returns>IntPtr</returns>
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr _lopen(string lpPathName, int iReadWrite);
         
         /// <summary>
         /// 修改文件路径后缀名
@@ -508,6 +518,31 @@
             return _fileName;
         }
         
+        
+        /// <summary>
+        /// 获取文件信息
+        /// </summary>
+        /// <param name="filepath">文件路径</param>
+        /// <param name="regexString">需要匹配的正则表达式</param>
+        /// <returns>文件信息</returns>
+        public static UploadFileInfo GetFileInfo(string filepath, string regexString)
+        {
+            ValidateHelper.Begin().NotNullOrEmpty(filepath, "文件路径").IsFilePath(filepath, "文件路径").NotNullOrEmpty(regexString, "正则表达式");
+            Match _uploadfolder = Regex.Match(filepath, regexString, RegexOptions.IgnoreCase);
+            
+            if(_uploadfolder.Success)
+            {
+                UploadFileInfo _fileInfo = new UploadFileInfo();
+                _fileInfo.Root = _uploadfolder.Groups[1].Value;
+                _fileInfo.Folder = _uploadfolder.Groups[2].Value;
+                _fileInfo.SubFolder = _uploadfolder.Groups[3].Value;
+                _fileInfo.FileName = _uploadfolder.Groups[4].Value;
+                _fileInfo.FileNameExt = _uploadfolder.Groups[5].Value;
+                return _fileInfo;
+            }
+            
+            return null;
+        }
         /// <summary>
         /// 从路径中获取文件名称（包括后缀）
         /// <para>eg:FileHelper.GetFileName(@"C:\yanzhiwei.docx");==>yanzhiwei.docx</para>
@@ -715,7 +750,7 @@
                 string _path = _pathQueue.Dequeue();
                 DirectorySecurity _pathSecurity = new DirectorySecurity(_path, AccessControlSections.Access);
                 
-                if(!_pathSecurity.AreAccessRulesProtected) //文件夹权限是否可访问
+                if(!_pathSecurity.AreAccessRulesProtected)               //文件夹权限是否可访问
                 {
                     DirectoryInfo _directoryInfo = new DirectoryInfo(_path);
                     
@@ -788,15 +823,6 @@
         {
             File.WriteAllBytes(filePath, bytes);
         }
-        /// <summary>
-        /// _lopens the specified lp path name.
-        /// </summary>
-        /// <param name="lpPathName">Name of the lp path.</param>
-        /// <param name="iReadWrite">The i read write.</param>
-        /// <returns>IntPtr</returns>
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr _lopen(string lpPathName, int iReadWrite);
-        
         #endregion Methods
     }
 }
