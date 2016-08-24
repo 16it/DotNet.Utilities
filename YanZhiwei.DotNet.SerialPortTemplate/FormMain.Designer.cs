@@ -384,7 +384,7 @@
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = ".DotNet.SerialPortTemplate";
+            this.Text = "DotNet.SerialPortTemplate";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuFunction.ResumeLayout(false);
             this.menuFunction.PerformLayout();
