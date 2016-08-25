@@ -2,7 +2,7 @@
 {
     using System;
     
-    using YanZhiwei.DotNet2.Utilities.Core;
+    using Core;
     
     /// <summary>
     /// 检查 帮助类

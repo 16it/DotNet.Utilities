@@ -32,8 +32,8 @@
         /// <returns>合并byte</returns>
         public static int Combine(byte b1, byte b2)
         {
-            int combined = b1 << 8 | b2;
-            return combined;
+            int _combined = b1 << 8 | b2;
+            return _combined;
         }
         
         /// <summary>
@@ -46,9 +46,9 @@
         /// <returns></returns>
         public static int Combine(byte b1, byte b2, byte b3)
         {
-            int combined = b1 << 8 | b2;
-            combined = combined << 8 | b3;
-            return combined;
+            int _combined = b1 << 8 | b2;
+            _combined = _combined << 8 | b3;
+            return _combined;
         }
         
         /// <summary>
@@ -116,19 +116,14 @@
         /// <returns></returns>
         public static byte[] ParseHexString(this string hexString)
         {
-            if(!string.IsNullOrEmpty(hexString))
-            {
-                hexString = hexString.Replace(" ", "");
-                int _hexLen = hexString.Length;
-                byte[] _bytes = new byte[_hexLen / 2];
-                
-                for(int i = 0; i < _hexLen; i += 2)
-                    _bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-                    
-                return _bytes;
-            }
+            hexString = hexString.Replace(" ", "");
+            int _hexLen = hexString.Length;
+            byte[] _bytes = new byte[_hexLen / 2];
             
-            return null;
+            for(int i = 0; i < _hexLen; i += 2)
+                _bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
+                
+            return _bytes;
         }
         
         /// <summary>
@@ -425,12 +420,12 @@
         
         private static string ToHexStringByLoop(byte[] bytes)
         {
-            StringBuilder _hex = new StringBuilder(bytes.Length * 2);
+            StringBuilder _buuilder = new StringBuilder(bytes.Length * 2);
             
             foreach(byte b in bytes)
-                _hex.AppendFormat("{0:X2}", b);
+                _buuilder.AppendFormat("{0:X2}", b);
                 
-            return _hex.ToString();
+            return _buuilder.ToString();
         }
         
         #endregion Methods

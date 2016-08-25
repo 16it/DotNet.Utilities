@@ -17,12 +17,7 @@
         /// <returns>解码后的字符串</returns>
         public static string ParseBase64String(this string data)
         {
-            if(!string.IsNullOrEmpty(data))
-            {
-                return Encoding.UTF8.GetString(Convert.FromBase64String(data));
-            }
-            
-            return data;
+            return Encoding.UTF8.GetString(Convert.FromBase64String(data));
         }
         
         /// <summary>
@@ -32,12 +27,7 @@
         /// <returns>Base64字符串</returns>
         public static string ToBase64String(this string data)
         {
-            if(!string.IsNullOrEmpty(data))
-            {
-                return Convert.ToBase64String(Encoding.UTF8.GetBytes(data));
-            }
-            
-            return data;
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(data));
         }
         
         #endregion Methods

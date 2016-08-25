@@ -1,5 +1,6 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
+    using Common;
     using System;
     using System.IO;
     using System.Reflection;
@@ -7,7 +8,7 @@
     /// <summary>
     /// Assembly 帮助类
     /// </summary>
-    public class AssemblyHelper
+    public class AssemblyOperator
     {
         #region Fields
         
@@ -26,24 +27,24 @@
         #region Constructors
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyHelper"/> class.
+        /// Initializes a new instance of the <see cref="AssemblyOperator"/> class.
         /// </summary>
-        public AssemblyHelper()
+        public AssemblyOperator()
         {
             assembly = Assembly.GetExecutingAssembly();
         }
         
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyHelper"/> class.
+        /// Initializes a new instance of the <see cref="AssemblyOperator"/> class.
         /// </summary>
         /// <param name="path">The path.</param>
-        public AssemblyHelper(string path)
+        public AssemblyOperator(string path)
         {
-            if(File.Exists(path))
-            {
-                assembly = Assembly.LoadFile(path);
-                filePath = path;
-            }
+            ValidateHelper.Begin().NotNullOrEmpty(path, "Exe或DLL文件")
+            .IsFilePath(path, "Exe或DLL文件")
+            .CheckFileExists(path, "Exe或DLL文件");
+            filePath = path;
+            assembly = Assembly.LoadFile(path);
         }
         
         #endregion Constructors
@@ -65,36 +66,18 @@
         /// <returns>编译日期</returns>
         public DateTime GetBuildDateTime()
         {
-            if(File.Exists(filePath))
+            int _peHeaderOffset = 60,
+                _linkerTimestampOffset = 8;
+            using(Stream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
-                const int _peHeaderOffset = 60,
-                          _linkerTimestampOffset = 8;
                 byte[] _buffer = new byte[2048];
-                Stream _readerStream = null;
-                
-                try
-                {
-                    _readerStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-                    _readerStream.Read(_buffer, 0, 2048);
-                }
-                finally
-                {
-                    if(_readerStream != null)
-                    {
-                        _readerStream.Close();
-                    }
-                }
-                
+                stream.Read(_buffer, 0, 2048);
                 int _position = BitConverter.ToInt32(_buffer, _peHeaderOffset);
                 int _since1970 = BitConverter.ToInt32(_buffer, _position + _linkerTimestampOffset);
                 DateTime _builderDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                 _builderDate = _builderDate.AddSeconds(_since1970);
                 _builderDate = _builderDate.ToLocalTime();
                 return _builderDate;
-            }
-            else
-            {
-                return new DateTime();
             }
         }
         
@@ -104,15 +87,8 @@
         /// <returns>实际编译版本信息</returns>
         public DateTime GetBuildDateTimeByVersion()
         {
-            if(File.Exists(filePath))
-            {
-                Version _version = assembly.GetName().Version;
-                return new DateTime(2000, 01, 01).AddDays(_version.Build).AddSeconds(_version.Revision * 2);
-            }
-            else
-            {
-                return new DateTime();
-            }
+            Version _version = assembly.GetName().Version;
+            return new DateTime(2000, 01, 01).AddDays(_version.Build).AddSeconds(_version.Revision * 2);
         }
         
         /// <summary>

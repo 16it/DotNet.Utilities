@@ -64,12 +64,12 @@
   <ItemGroup>
     <Compile Include="Common\ModelHelperTests.cs" />
     <Compile Include="Core\ByteArrayBuilderTests.cs" />
+    <Compile Include="Operator\AssemblyOperatorTests.cs" />
     <Compile Include="Operator\ConfigFileOperatorTests.cs" />
     <Compile Include="Operator\INIOperatorTests.cs" />
     <Compile Include="WebForm\AspNetHelperTests.cs" />
     <Compile Include="Common\ArrayHelperTests.cs" />
     <Compile Include="Common\ASCIIHelperTests.cs" />
-    <Compile Include="Common\AssemblyHelperTests.cs" />
     <Compile Include="Common\Base64HelperTests.cs" />
     <Compile Include="Common\BCDHelperTests.cs" />
     <Compile Include="Common\BitArrayHelperTests.cs" />

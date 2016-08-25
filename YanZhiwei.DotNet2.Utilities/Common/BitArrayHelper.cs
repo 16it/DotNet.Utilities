@@ -53,8 +53,7 @@
                 }
             }
             
-            string _bitArrayString = _builder.ToString();
-            return _bitArrayString;
+            return _builder.ToString();
         }
         
         /// <summary>
