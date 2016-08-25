@@ -1,4 +1,6 @@
-﻿namespace YanZhiwei.DotNet.Core.FormsAuthExamples.Model
+﻿using System;
+
+namespace YanZhiwei.DotNet.Core.FormsAuthExamples.Model
 {
     /// <summary>
     /// 用户信息

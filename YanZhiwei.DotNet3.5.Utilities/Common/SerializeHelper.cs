@@ -88,7 +88,7 @@
         {
             CheckedDeserializeString(deserializeString);
             JavaScriptSerializer _jsonHelper = new JavaScriptSerializer();
-            return (T)_jsonHelper.DeserializeObject(deserializeString);
+            return _jsonHelper.Deserialize<T>(deserializeString);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@
         /// <returns>Json字符串</returns>
         public static string JsonSerialize<T>(T serializeData)
         {
-            return JsonSerialize<T>(serializeData);
+            return JsonSerialize<T>(serializeData, null);
         }
 
         /// <summary>

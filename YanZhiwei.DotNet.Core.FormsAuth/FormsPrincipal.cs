@@ -6,7 +6,7 @@
     using System.Web.Security;
     using System.Xml;
 
-    using YanZhiwei.DotNet3._5.Utilities.Common;
+    using DotNet3._5.Utilities.Common;
 
     /// <summary>
     ///  Form验证帮助类
@@ -212,7 +212,7 @@
                 2, userName, DateTime.Now, DateTime.Now.AddMinutes(expiration), persistentCookie, _userDbJsonString);
             string _encryptTicket = FormsAuthentication.Encrypt(_ticket);//加密票据
 
-            if(!FormsAuthentication.CookiesSupported)    //如果应用程序已配置为支持无 Cookie 的 Forms 身份验证，则返回 true；否则返回 false。
+            if(!FormsAuthentication.CookiesSupported)       //如果应用程序已配置为支持无 Cookie 的 Forms 身份验证，则返回 true；否则返回 false。
             {
                 FormsAuthentication.SetAuthCookie(_encryptTicket, persistentCookie);//将验证信息,存放在Uri中
             }
