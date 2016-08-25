@@ -10,9 +10,12 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         public void GetQueryLocationTest()
         {
             GeoPoint _geoPointExpected = new GeoPoint(11521, 3412);
-            GeoPoint _geoPointActual = MapHelper.GetQueryLocation(new LatLngPoint() { LonX = 115.21212, LatY = 34.121 });
+            GeoPoint _geoPointActual = MapHelper.GetQueryLocation(new LatLngPoint()
+            {
+                LonX = 115.21212, LatY = 34.121
+            });
             bool _expected = true;
-            bool _actual = EntityHelper.ValueEqual(_geoPointExpected, _geoPointActual);
+            bool _actual = ModelHelper.CompletelyEqual(_geoPointExpected, _geoPointActual);
             Assert.AreEqual(_expected, _actual);
         }
     }

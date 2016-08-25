@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AttributeHelper.cs" />
+    <Compile Include="Common\BinaryFileHelper.cs" />
     <Compile Include="Common\ComparisonHelper.cs" />
     <Compile Include="Common\DataBaseHelper.cs" />
     <Compile Include="Common\DataSetHelper.cs" />
@@ -243,7 +244,7 @@
     <Compile Include="Model\Validation.cs" />
     <Compile Include="Common\SqlServerHelper.cs" />
     <Compile Include="Common\NetWorkHelper.cs" />
-    <Compile Include="Common\EntityHelper.cs" />
+    <Compile Include="Common\ModelHelper.cs" />
     <Compile Include="Common\OLEDBExcelHelper.cs" />
     <Compile Include="Common\PinyingHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -253,7 +254,7 @@
     <Compile Include="Common\ReflectHelper.cs" />
     <Compile Include="Common\RegexHelper.cs" />
     <Compile Include="Common\SectionHelper.cs" />
-    <Compile Include="Common\SerializeHelper.cs" />
+    <Compile Include="Common\XMLFileHelper.cs" />
     <Compile Include="Core\SerialPortMaster.cs" />
     <Compile Include="Common\StringHelper.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>

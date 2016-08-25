@@ -2,23 +2,45 @@
 {
     using System;
     using System.IO;
+    using System.Reflection;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
-    
+    using System.Text;
+
     /// <summary>
-    /// OBJECT帮助类
+    /// 实体类帮助类
     /// </summary>
-    public static class EntityHelper
+    public static class ModelHelper
     {
         #region Methods
-        
+
+        /// <summary>
+        /// 实体类数值内容比较
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="model">实体类对象</param>
+        /// <param name="othModel">实体类对象</param>
+        /// <returns>是否数值内容比较</returns>
+        /// 时间：2016/8/25 13:32
+        /// 备注：
+        public static bool CompletelyEqual<T>(T model, T othModel)
+        where T : class
+        {
+            if(null == model || null == othModel)
+            {
+                return false;
+            }
+
+            return SerializeToString(model).Equals(SerializeToString(othModel));
+        }
+
         /// <summary>
         /// 对象深拷贝
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <param name="obj">Object</param>
-        /// <returns>Object</returns>
-        public static T DeepClone<T>(this T obj)
+        /// <param name="model">实体类对象</param>
+        /// <returns>对象</returns>
+        public static T DeepCopy<T>(T model)
         where T : class
         {
             /*
@@ -48,45 +70,43 @@
              *深复制： 须实现 ICloneable接口中的Clone方法，且需要需要克隆的对象加上[Serializable]特性
              *以上参考：http://www.cnblogs.com/huangting2009/archive/2009/03/13/1410634.html
              */
-            if(!typeof(T).IsSerializable)
-            {
-                throw new ArgumentException(string.Format("该类型:{0}不支持序列化", typeof(T).FullName), "obj");
-            }
-            
-            if(obj == null)
-            {
-                return default(T);
-            }
-            
+
+            ValidateHelper.Begin().NotNull(model, "需要深拷贝对象").Check<ArgumentException>(() => !typeof(T).IsSerializable, string.Format("该类型:{0}不支持序列化", typeof(T).FullName));
+
             IFormatter _formatter = new BinaryFormatter();
             using(Stream stream = new MemoryStream())
             {
-                _formatter.Serialize(stream, obj);
+                _formatter.Serialize(stream, model);
                 stream.Seek(0, SeekOrigin.Begin);
                 return (T)_formatter.Deserialize(stream);
             }
         }
-        
+
         /// <summary>
-        /// 对象值比较
+        /// 将对象序列化成字符串
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <param name="obj1">The obj1.</param>
-        /// <param name="obj2">The obj2.</param>
-        /// <returns>值是否相等</returns>
-        /// 日期：2015-09-16 13:58
+        /// <param name="model">实体类对象</param>
+        /// <returns>字符串</returns>
+        /// 时间：2016/8/25 13:25
         /// 备注：
-        public static bool ValueEqual<T>(T obj1, T obj2)
+        public static string SerializeToString<T>(T model)
         where T : class
         {
-            if(null == obj1 || null == obj2)
+            ValidateHelper.Begin().NotNull(model, "需要序列化对象");
+            Type _type = model.GetType();
+            FieldInfo[] _fields = _type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+            StringBuilder _builder = new StringBuilder();
+
+            foreach(FieldInfo field in _fields)
             {
-                return false;
+                object _value = field.GetValue(model);
+                _builder.Append(field.Name + ":" + _value + ";");
             }
-            
-            return obj1.ParseModel().Equals(obj2.ParseModel());
+
+            return _builder.ToString();
         }
-        
+
         #endregion Methods
     }
 }
