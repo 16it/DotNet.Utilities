@@ -1,7 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Runtime.Serialization;
@@ -109,25 +108,35 @@
         }
 
         /// <summary>
-        /// 将字典转化为字典
+        /// 引用类型数组值比较
         /// </summary>
-        /// <typeparam name="T">实体类</typeparam>
-        /// <returns>IDictionary</returns>
-        public static IDictionary<string, string> ToDictionary<T>(T model)
-        where T : class
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="sourceArray">数组一.</param>
+        /// <param name="compareArray">数组二</param>
+        /// <returns>值是否相等</returns>
+        public static bool CompletelyEqual<T>(T[] sourceArray, T[] compareArray) where T : class, IComparable<T>
         {
-            ValidateHelper.Begin().NotNull(model, "需要处理的对象");
-            IDictionary<string, string> _dic = new Dictionary<string, string>();
-            Type _type = typeof(T);
-            FieldInfo[] _fieldArray = _type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+            ValidateHelper.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(compareArray, "被比较的数组");
+            bool _resut = sourceArray.Length == compareArray.Length;
 
-            foreach(FieldInfo item in _fieldArray)
+            if(_resut)
             {
-                object _fieldValue = item.GetValue(model);
-                _dic.Add(item.Name, _fieldValue.ToStringOrDefault(string.Empty));
+                sourceArray.BubbleSort<T>();
+                compareArray.BubbleSort<T>();
+                int _length = sourceArray.Length;
+
+                for(int i = 0; i < _length; i++)
+                {
+                    _resut = CompletelyEqual(sourceArray[i], compareArray[i]);
+
+                    if(!_resut)
+                    {
+                        break;
+                    }
+                }
             }
 
-            return _dic;
+            return _resut;
         }
 
         #endregion Methods
