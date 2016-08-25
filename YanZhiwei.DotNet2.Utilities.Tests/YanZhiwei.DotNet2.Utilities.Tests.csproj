@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Core\ByteArrayBuilderTests.cs" />
     <Compile Include="Operator\ConfigFileOperatorTests.cs" />
+    <Compile Include="Operator\INIOperatorTests.cs" />
     <Compile Include="WebForm\AspNetHelperTests.cs" />
     <Compile Include="Common\ArrayHelperTests.cs" />
     <Compile Include="Common\ASCIIHelperTests.cs" />

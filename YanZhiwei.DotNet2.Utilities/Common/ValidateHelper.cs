@@ -49,7 +49,7 @@
         public static Validation Check<TException>(this Validation validation, Func<bool> checkedFactory, string message)
         where TException : Exception
         {
-            if(!checkedFactory())
+            if(checkedFactory())
             {
                 return validation ?? new Validation()
                 {

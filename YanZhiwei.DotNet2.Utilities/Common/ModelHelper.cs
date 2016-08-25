@@ -72,7 +72,7 @@
              *以上参考：http://www.cnblogs.com/huangting2009/archive/2009/03/13/1410634.html
              */
 
-            ValidateHelper.Begin().NotNull(model, "需要深拷贝对象").Check<ArgumentException>(() => !typeof(T).IsSerializable, string.Format("该类型:{0}不支持序列化", typeof(T).FullName));
+            ValidateHelper.Begin().NotNull(model, "需要深拷贝对象").Check<ArgumentException>(() => typeof(T).IsSerializable, string.Format("该类型:{0}不支持序列化", typeof(T).FullName));
 
             IFormatter _formatter = new BinaryFormatter();
             using(Stream stream = new MemoryStream())

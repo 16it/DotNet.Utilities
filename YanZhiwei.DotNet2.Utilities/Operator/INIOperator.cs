@@ -1,7 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
     using Common;
-    using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Text;
 
@@ -22,7 +21,7 @@
         /// 备注：
         public INIOperator(string path)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(path, "INI文件").IsFilePath(path, "INI文件").CheckFileExists(path, "INI文件");
+            FileHelper.CreatePath(path);
             filePath = path;
         }
 
@@ -38,11 +37,6 @@
             StringBuilder _builder = new StringBuilder(500);
             GetPrivateProfileString(section, key, string.Empty, _builder, 500, filePath);
             return _builder.ToString();
-        }
-
-        private void CheckedINIParamter(string section, string key)
-        {
-            ValidateHelper.Begin().NotNullOrEmpty(section, "INI段落").NotNullOrEmpty(key, "INI段落对应KEY");
         }
 
         /// <summary>
@@ -74,23 +68,6 @@
         }
 
         /// <summary>
-        /// 将对象保存在ini
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="section">段落名称</param>
-        /// <param name="model">实体类对象</param>
-        public void Write<T>(string section, T model)
-        where T : class
-        {
-            IDictionary<string, string> _dic = ModelHelper.ToDictionary<T>(model);
-
-            foreach(KeyValuePair<string, string> item in _dic)
-            {
-                Write(section, item.Key, item.Value);
-            }
-        }
-
-        /// <summary>
         /// 声明INI文件的读操作函数
         /// </summary>
         /// <param name="section">段落名称</param>
@@ -113,5 +90,10 @@
         /// <returns></returns>
         [DllImport("kernel32")]
         private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
+
+        private void CheckedINIParamter(string section, string key)
+        {
+            ValidateHelper.Begin().NotNullOrEmpty(section, "INI段落").NotNullOrEmpty(key, "INI段落对应KEY");
+        }
     }
 }

@@ -6,6 +6,7 @@
     using System.Runtime.Serialization.Formatters.Binary;
 
     using Core;
+    using Common;
 
     /// <summary>
     /// 二进制文件序列化与反序列化

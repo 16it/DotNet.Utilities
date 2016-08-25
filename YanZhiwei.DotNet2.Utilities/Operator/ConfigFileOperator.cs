@@ -81,9 +81,8 @@
         /// <summary>
         /// 添加或修改appSettings
         /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="value">The value.</param>
-        /// <returns>是否添加或者修改成功</returns>
+        /// <param name="key">键</param>
+        /// <param name="value">值</param>
         public void AddOrUpdateSetting(string key, string value)
         {
             KeyValueConfigurationElement _key = config.AppSettings.Settings[key];
@@ -149,7 +148,7 @@
 
         private void CheckedConfigFile()
         {
-            ValidateHelper.Begin().Check<ArgumentNullException>(() => !config.HasFile, "config文件不存在。");
+            ValidateHelper.Begin().Check<ArgumentNullException>(() => config.HasFile, "config文件不存在。");
         }
 
         #endregion Methods

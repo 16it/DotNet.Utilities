@@ -175,7 +175,7 @@
         /// 备注：
         public static void SendData(this SerialPort serialPort, byte[] data)
         {
-            ValidateHelper.Begin().NotNull(serialPort, "串口").Check<ArgumentException>(() => !serialPort.IsOpen, "串口尚未打开！").NotNull(data, "串口发送数据");
+            ValidateHelper.Begin().NotNull(serialPort, "串口").Check<ArgumentException>(() => serialPort.IsOpen, "串口尚未打开！").NotNull(data, "串口发送数据");
             serialPort.Write(data, 0, data.Length);
         }
 
