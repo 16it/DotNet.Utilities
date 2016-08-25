@@ -7,11 +7,13 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace YanZhiwei.DotNet3._5.Utilities.WebFormExamples {
-    
-    
-    public partial class WebUploadFileDemo {
-        
+namespace YanZhiwei.DotNet3._5.Utilities.WebFormExamples
+{
+
+
+    public partial class WebUploadFileDemo
+    {
+
         /// <summary>
         /// Label1 控件。
         /// </summary>

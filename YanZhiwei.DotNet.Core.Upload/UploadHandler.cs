@@ -23,7 +23,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                 return new string[] { "txt", "rar", "zip", "jpg", "jpeg", "gif", "png", "swf" };
             }
         }
-        
+
         /// <summary>
         /// 文件名称
         /// </summary>
@@ -34,7 +34,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                 return "filedata";
             }
         }
-        
+
         /// <summary>
         /// 运行上传图片后缀
         /// <para>jpg,jpeg,gif,png</para>
@@ -46,10 +46,13 @@ namespace YanZhiwei.DotNet.Core.Upload
                 return new string[] { "jpg", "jpeg", "gif", "png" };
             }
         }
-        
+
         /// <summary>
-        /// IsReusable
+        /// Gets a value indicating whether this instance is reusable.
         /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is reusable; otherwise, <c>false</c>.
+        /// </value>
         public bool IsReusable
         {
             get
@@ -57,7 +60,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                 return false;
             }
         }
-        
+
         /// <summary>
         /// 最大文件大小，10M
         /// </summary>
@@ -69,7 +72,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                 return 10971520;
             }
         }
-        
+
         /// <summary>
         /// 上传路径
         /// </summary>
@@ -80,7 +83,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                 return UploadConfigContext.UploadPath;
             }
         }
-        
+
         /// <summary>
         /// 处理上传结果抽象方法
         /// </summary>
@@ -89,18 +92,18 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// <param name="err">错误信息</param>
         /// <returns>响应字符串</returns>
         public abstract string GetResult(string localFileName, string uploadFilePath, string err);
-        
+
         /// <summary>
         ///上传文件完成抽象方法
         /// </summary>
         /// <param name="context">HttpContext</param>
         /// <param name="filePath">文件路径</param>
         public abstract void OnUploaded(HttpContext context, string filePath);
-        
+
         /// <summary>
-        /// 请求入口
+        /// Processes the request.
         /// </summary>
-        /// <param name="context">HttpContext</param>
+        /// <param name="context">The context.</param>
         public void ProcessRequest(HttpContext context)
         {
             context.Response.Charset = "UTF-8";
@@ -111,7 +114,7 @@ namespace YanZhiwei.DotNet.Core.Upload
             string _fileFolder = string.Empty;
             string _filePath = string.Empty; ;
             var disposition = context.Request.ServerVariables["HTTP_CONTENT_DISPOSITION"];
-            
+
             if(disposition != null)
             {
                 // HTML5上传
@@ -133,9 +136,9 @@ namespace YanZhiwei.DotNet.Core.Upload
                     _filecollection = null;
                 }
             }
-            
+
             string _fileExt = _localFileName.Substring(_localFileName.LastIndexOf('.') + 1).ToLower();
-            
+
             if(_fileBuffer.Length == 0)
             {
                 _errMessage = "无数据提交";
@@ -153,23 +156,23 @@ namespace YanZhiwei.DotNet.Core.Upload
                 string _folder = context.Request["subfolder"] ?? "default";
                 UploadFolder _uploadFolderConfig = UploadConfigContext.UploadConfig.UploadFolders.FirstOrDefault(u => string.Equals(_folder, u.Path, StringComparison.OrdinalIgnoreCase));
                 DirType _dirType = _uploadFolderConfig == null ? DirType.Day : _uploadFolderConfig.DirType;
-                
+
                 //根据配置里的DirType决定子文件夹的层次（月，天，扩展名）
                 switch(_dirType)
                 {
                     case DirType.Month:
                         _subFolder = "month_" + DateTime.Now.ToString("yyMM");
                         break;
-                        
+
                     case DirType.Ext:
                         _subFolder = "ext_" + _fileExt;
                         break;
-                        
+
                     case DirType.Day:
                         _subFolder = "day_" + DateTime.Now.ToString("yyMMdd");
                         break;
                 }
-                
+
                 //fileFolder = Path.Combine(UploadConfigContext.UploadPath,
                 //                          folder,
                 //                          subFolder
@@ -180,28 +183,28 @@ namespace YanZhiwei.DotNet.Core.Upload
                 _filePath = Path.Combine(_fileFolder,
                                          string.Format("{0}{1}.{2}", DateTime.Now.ToString("yyyyMMddhhmmss"), new Random(DateTime.Now.Millisecond).Next(10000), _fileExt)
                                         );
-                                        
+
                 if(!Directory.Exists(_fileFolder))
                     Directory.CreateDirectory(_fileFolder);
-                    
+
                 using(FileStream fs = new FileStream(_filePath, FileMode.Create, FileAccess.Write))
                 {
                     fs.Write(_fileBuffer, 0, _fileBuffer.Length);
                     fs.Flush();
                 }
-                
+
                 //是图片，即使生成对应尺寸
                 if(ImageExt.Contains(_fileExt))
                     ThumbnailService.HandleImmediateThumbnail(_filePath);
-                    
+
                 this.OnUploaded(context, _filePath);
             }
-            
+
             _fileBuffer = null;
             context.Response.Write(this.GetResult(_localFileName, _filePath, _errMessage));
             context.Response.End();
         }
-        
+
         private static string CombinePaths(params string[] paths)
         {
             return paths.Aggregate(Path.Combine);

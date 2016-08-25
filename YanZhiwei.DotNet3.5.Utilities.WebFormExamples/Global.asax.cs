@@ -1,10 +1,16 @@
 ﻿using System;
-using YanZhiwei.DotNet3._5.Utilities.WebForm.Core;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.SessionState;
+using YanZhiwei.DotNet.Core.FormsAuth;
 
 namespace YanZhiwei.DotNet3._5.Utilities.WebFormExamples
 {
     public class Global : System.Web.HttpApplication
     {
+
         protected void Application_Start(object sender, EventArgs e)
         {
         }
@@ -19,8 +25,6 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebFormExamples
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
-        
-            // FormsPrincipal<UserInfo>.SetUserInfo();
         }
 
         protected void Application_Error(object sender, EventArgs e)

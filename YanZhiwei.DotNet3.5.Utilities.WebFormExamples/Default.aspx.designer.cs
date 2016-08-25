@@ -7,11 +7,13 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace YanZhiwei.DotNet3._5.Utilities.WebFormExamples {
-    
-    
-    public partial class _Default {
-        
+namespace YanZhiwei.DotNet3._5.Utilities.WebFormExamples
+{
+
+
+    public partial class _Default
+    {
+
         /// <summary>
         /// form1 控件。
         /// </summary>

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebUploadFileDemo.aspx.cs" Inherits="YanZhiwei.DotNet3._5.Utilities.WebForm.Examples.WebUploadFileDemo" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebUploadFileDemo.aspx.cs" Inherits="YanZhiwei.DotNet3._5.Utilities.WebFormExamples.WebUploadFileDemo" %>
 
 &nbsp;
 

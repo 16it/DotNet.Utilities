@@ -67,7 +67,6 @@
     <Content Include="Img.jpg" />
     <Content Include="ValidateImg.aspx" />
     <Content Include="ValidateImgDemo.aspx" />
-    <Content Include="Web.config" />
     <Content Include="WebUploadFileDemo.aspx" />
     <Content Include="WebUploadImageDemo.aspx" />
   </ItemGroup>
@@ -118,14 +117,10 @@
     <Folder Include="上传\2015-12-17\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.FormsAuth\YanZhiwei.DotNet.Core.FormsAuth.csproj">
+      <Project>{050EAD96-E37B-4A43-AD4C-5374682B5C5D}</Project>
+      <Name>YanZhiwei.DotNet.Core.FormsAuth</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748D-6FEC-4423-8254-BC366507C589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>

@@ -8,9 +8,11 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <a href="WebUploadFileDemo.aspx">WebUploadFileDemo.aspx</a>
-    </div>
+        <div>
+            <a href="WebUploadFileDemo.aspx">WebUploadFileDemo.aspx</a><br />
+            <a href="WebUploadImageDemo.aspx">WebUploadImageDemo.aspx</a><br />
+            <a href="ValidateImgDemo.aspx">ValidateImgDemo.aspx</a>
+        </div>
     </form>
 </body>
 </html>
