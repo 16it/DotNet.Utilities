@@ -331,26 +331,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Documents\Common\.NET REACTOR 使用手册.pdf" />
-    <None Include="Documents\Common\.NET：如何让线程支持超时？.pdf" />
-    <None Include="Documents\Common\C# 4.0 新特性之并行运算%28Parallel%29.pdf" />
-    <None Include="Documents\Common\C#的Enum中Flags的用法.pdf" />
-    <None Include="Documents\Common\CSharp.docx" />
-    <None Include="Documents\Common\Enum in C# .pdf" />
-    <None Include="Documents\Common\Exif文件格式描述.pdf" />
-    <None Include="Documents\Common\Exif.pdf" />
-    <None Include="Documents\Common\常见dotNet加密保护工具分析介绍.pdf" />
-    <None Include="Documents\Common\浅谈Asp.net中使用“充血模型”.pdf" />
-    <None Include="Documents\JavaScript\jQuery Datatable 自定义列.pdf" />
-    <None Include="Documents\JavaScript\Js 闭包.pdf" />
-    <None Include="Documents\JavaScript\Js中new的运行机制.pdf" />
-    <None Include="Documents\JavaScript\Js作用域和this关键字.pdf" />
-    <None Include="Documents\JavaScript\Js原型和原型链.pdf" />
-    <None Include="Documents\JavaScript\Js的call与apply.pdf" />
-    <None Include="Documents\JavaScript\初探传说中的setImmediate函数.pdf" />
-    <None Include="Documents\SQL Server\SQL Server.docx" />
-    <None Include="Documents\WebForm\ASP.NET IHttpHandler.pdf" />
-    <None Include="Documents\WebForm\Web Service 身份验证.pdf" />
     <None Include="Resources\Loading.gif" />
     <None Include="Settings.StyleCop" />
   </ItemGroup>
@@ -361,8 +341,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Documents\Python\PyCharm.txt" />
-    <Content Include="Documents\WebForm\各浏览器Cookie大小，个数限制.txt" />
     <Content Include="nuget 命令.txt" />
     <Content Include="SQL\Sql Server\proc_DataPage.sql" />
   </ItemGroup>
