@@ -62,7 +62,7 @@
             ValidateHelper.Begin().IsFilePath(filePath, "Sql Server备份路径");
             bool _result = false;
             //创建连接对象
-            SqlServerHelper _sqlHelper = new SqlServerHelper(ConnectString);
+            SqlServerDataOperator _sqlHelper = new SqlServerDataOperator(ConnectString);
             DropBackupDevice(_sqlHelper);
             CreateBackupDevice(_sqlHelper, filePath);
 
@@ -75,13 +75,14 @@
                 _sqlHelper.ExecuteNonQuery(_sql, _paramters);
                 _result = false;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 ex.Data.Add("filePath", filePath);
                 ex.Data.Add("ConnectString", ConnectString);
                 ex.Data.Add("BackUpDataBase", BackUpDataBase);
                 throw new FrameworkException(string.Format("备份数据库{0}失败。", BackUpDataBase), ex);
             }
+
             return _result;
         }
 
@@ -97,7 +98,7 @@
         {
             ValidateHelper.Begin().IsFilePath(filePath, "Sql Server备份路径").NotNullOrEmpty(restoreDbName, "还原数据库名称");
             bool _result = false;
-            SqlServerHelper _sqlHelper = new SqlServerHelper(ConnectString);
+            SqlServerDataOperator _sqlHelper = new SqlServerDataOperator(ConnectString);
             string _sql = @" use master ;
                 declare @s varchar(8000);
                 select @s=isnull(@s,'')+' kill '+rtrim(spID) from master..sysprocesses where dbid=db_id(@dbid);
@@ -106,17 +107,19 @@
             _paramters[0] = new SqlParameter("@dbid", restoreDbName);
             _paramters[1] = new SqlParameter("@database", restoreDbName);
             _paramters[2] = new SqlParameter("@filepath", filePath);
+
             try
             {
                 _sqlHelper.ExecuteNonQuery(_sql, _paramters);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 ex.Data.Add("filePath", filePath);
                 ex.Data.Add("ConnectString", ConnectString);
                 ex.Data.Add("BackUpDataBase", BackUpDataBase);
                 throw new FrameworkException(string.Format("还原数据库{0}失败，可能该数据库正在使用。", restoreDbName), ex);
             }
+
             return _result;
         }
 
@@ -127,7 +130,7 @@
         /// <param name="filePath">备份路径</param>
         /// 时间：2016-02-24 16:05
         /// 备注：
-        private void CreateBackupDevice(SqlServerHelper sqlHelper, string filePath)
+        private void CreateBackupDevice(SqlServerDataOperator sqlHelper, string filePath)
         {
             try
             {
@@ -137,7 +140,7 @@
                 _paramters[2] = new SqlParameter("@physicalname", filePath);
                 sqlHelper.StoreExecuteNonQuery("sp_addumpdevice", _paramters);
             }
-            catch (Exception)
+            catch(Exception)
             {
             }
         }
@@ -148,7 +151,7 @@
         /// <param name="sqlHelper">SqlServerHelper</param>
         /// 时间：2016-02-24 16:00
         /// 备注：
-        private void DropBackupDevice(SqlServerHelper sqlHelper)
+        private void DropBackupDevice(SqlServerDataOperator sqlHelper)
         {
             try
             {
@@ -156,7 +159,7 @@
                 _paramters[0] = new SqlParameter("@logicalname", BackUpDataBase);
                 sqlHelper.StoreExecuteNonQuery("sp_dropdevice", _paramters);//删除备份设备
             }
-            catch (Exception)
+            catch(Exception)
             {
             }
         }

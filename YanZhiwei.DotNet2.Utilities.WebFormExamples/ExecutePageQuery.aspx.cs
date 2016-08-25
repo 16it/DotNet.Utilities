@@ -9,11 +9,11 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
 {
     public partial class ExecutePageQuery : System.Web.UI.Page
     {
-        private SqlServerHelper sqlHelper = new SqlServerHelper(@"server=YANZHIWEI-IT-PC\SQLEXPRESS;database=Northwind;uid=sa;pwd=sasa;");
+        private SqlServerDataOperator sqlHelper = new SqlServerDataOperator(@"server=YANZHIWEI-IT-PC\SQLEXPRESS;database=Northwind;uid=sa;pwd=sasa;");
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
+            if(!Page.IsPostBack)
             {
                 //string _sql = "select OrderID,CustomerID,OrderDate, ShipName,ShippedDate,ShipCity,ShipRegion,ShipCountry from [Orders]";
                 //GridView1.DataSource = sqlHelper.ExecuteDataTable(_sql, null);

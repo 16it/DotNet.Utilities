@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\IPagedList.cs" />
-    <Compile Include="DataAccess\ISQLHelper.cs" />
+    <Compile Include="IPagedList.cs" />
+    <Compile Include="IDataOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,12 +10,11 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
 {
     public partial class GridViewDemo : System.Web.UI.Page
     {
-        private SqlServerHelper sqlHelper = new SqlServerHelper(@"server=YANZHIWEI-IT-PC\SQLEXPRESS;database=Northwind;uid=sa;pwd=sasa;");
+        private SqlServerDataOperator sqlHelper = new SqlServerDataOperator(@"server=YANZHIWEI-IT-PC\SQLEXPRESS;database=Northwind;uid=sa;pwd=sasa;");
 
         protected override void OnInit(EventArgs e)
         {
             SetDataPager(gvPage, btnPFirst, btnPNext, btnPPre, btnPLast, drpPShowCount, () => InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderWay.Asc, string.Empty, 1, drpPShowCount.Text.ToIntOrDefault(10)));
-
             gvDemo.SetOwnDataPager(10, PagerButtons.Numeric, gv => LoadProductListView(gv));
             gvDemo.SetPagerTemplate(gv => LoadProductListView(gv));
             gvDemo.SetColumnOrderBy((gv, orderByColumnName, orderWay) =>
@@ -31,7 +30,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
+            if(!Page.IsPostBack)
             {
                 gvDemo.AllowPaging = true;
                 gvDemo.InitializeColumnOrderBy("ProductID", OrderWay.Desc);
@@ -50,13 +49,15 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
         private void DataPagerAction(object sender, EventArgs e, GridView gridView)
         {
             Button _button = sender as Button;
-            if (_button != null)
+
+            if(_button != null)
             {
                 string _cmdName = _button.CommandName;
                 int _pageIndex = Convert.ToInt32(gridView.Attributes["PageIndex"]),
                     _pageCount = Convert.ToInt32(gridView.Attributes["PageCount"]),
                     _pageSize = Convert.ToInt32(gridView.Attributes["PageSize"]);
-                switch (_cmdName)
+
+                switch(_cmdName)
                 {
                     case "next":
                         _pageIndex++;
@@ -74,6 +75,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                         _pageIndex = 1;
                         break;
                 }
+
                 InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderWay.Asc, string.Empty, _pageIndex, 10);
             }
         }
@@ -89,7 +91,8 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             lblPCount.Text = _pageResult.Item2.ToString();
             lblPCurIndexValue.Text = pageIndex.ToString();
             lblPTotalCountValue.Text = _pageResult.Item3.ToString();
-            if (pageIndex == 1)//当前页是否为首页
+
+            if(pageIndex == 1) //当前页是否为首页
             {
                 btnPFirst.Enabled = false;
                 btnPPre.Enabled = false;
@@ -99,7 +102,8 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPFirst.Enabled = true;
                 btnPPre.Enabled = true;
             }
-            if (pageIndex == _pageResult.Item2)//当前页是否为尾页
+
+            if(pageIndex == _pageResult.Item2) //当前页是否为尾页
             {
                 btnPNext.Enabled = false;
                 btnPLast.Enabled = false;
@@ -109,6 +113,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPNext.Enabled = true;
                 btnPLast.Enabled = true;
             }
+
             gridView.Attributes["PageIndex"] = pageIndex.ToString();
             gridView.Attributes["PageCount"] = _pageResult.Item2.ToString();
             gridView.Attributes["PageSize"] = pageSize.ToString();
@@ -125,7 +130,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 _dataView.Sort = string.Format("{0} {1}", orderByColumnName, orderWay);
                 girdView.SetDataSource(_dataView);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 ClientScriptHelper.Alert(ex.Message.Trim());
             }
@@ -139,7 +144,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 DataTable _table = sqlHelper.ExecuteDataTable(_sql, null);
                 girdView.SetDataSource(_table);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 ClientScriptHelper.Alert(ex.Message.Trim());
             }
@@ -151,7 +156,8 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             lblPCount.Text = _pageResult.Item2.ToString();
             lblPCurIndexValue.Text = pageIndex.ToString();
             lblPTotalCountValue.Text = _pageResult.Item3.ToString();
-            if (pageIndex == 1)//当前页是否为首页
+
+            if(pageIndex == 1) //当前页是否为首页
             {
                 btnPFirst.Enabled = false;
                 btnPPre.Enabled = false;
@@ -161,7 +167,8 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPFirst.Enabled = true;
                 btnPPre.Enabled = true;
             }
-            if (pageIndex == _pageResult.Item2)//当前页是否为尾页
+
+            if(pageIndex == _pageResult.Item2) //当前页是否为尾页
             {
                 btnPNext.Enabled = false;
                 btnPLast.Enabled = false;
@@ -171,6 +178,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPNext.Enabled = true;
                 btnPLast.Enabled = true;
             }
+
             gvPage.Attributes["PageIndex"] = pageIndex.ToString();
             gvPage.Attributes["PageCount"] = _pageResult.Item2.ToString();
             gvPage.Attributes["PageSize"] = pageSize.ToString();
@@ -183,14 +191,14 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             btnNext.CommandName = "next";
             btnPre.CommandName = "prev";
             btnLast.CommandName = "last";
-            if (!drpPageSize.AutoPostBack)
+
+            if(!drpPageSize.AutoPostBack)
                 drpPageSize.AutoPostBack = true;
 
             btnFirst.Click += (sender, e) => DataPagerAction(sender, e, gridView);
             btnNext.Click += (sender, e) => DataPagerAction(sender, e, gridView);
             btnPre.Click += (sender, e) => DataPagerAction(sender, e, gridView);
             btnLast.Click += (sender, e) => DataPagerAction(sender, e, gridView);
-
             drpPageSize.SelectedIndexChanged += (sender, e) =>
             {
                 finallyDataBindFactory();

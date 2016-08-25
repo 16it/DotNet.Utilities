@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet2.Interfaces.DataAccess
+﻿namespace YanZhiwei.DotNet2.Interfaces
 {
     /// <summary>
     /// 分页集合接口
@@ -14,7 +14,8 @@
         /// </summary>
         int CurrentPageIndex
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -22,7 +23,8 @@
         /// </summary>
         int PageSize
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -30,7 +32,8 @@
         /// </summary>
         int TotalItemCount
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties

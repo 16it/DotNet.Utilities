@@ -1,9 +1,8 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using Interfaces;
     using System;
     using System.Collections.Generic;
-
-    using YanZhiwei.DotNet2.Interfaces.DataAccess;
 
     /// <summary>
     /// 分页数据集合，用于后端返回分页好的集合及前端视图分页控件绑定
@@ -26,7 +25,8 @@
             PageSize = pageSize;
             TotalItemCount = items.Count;
             CurrentPageIndex = pageIndex;
-            for (int i = StartRecordIndex - 1; i < EndRecordIndex; i++)
+
+            for(int i = StartRecordIndex - 1; i < EndRecordIndex; i++)
             {
                 Add(items[i]);
             }
@@ -60,7 +60,8 @@
         /// 备注：
         public int CurrentPageIndex
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -70,7 +71,10 @@
         /// 备注：
         public int EndRecordIndex
         {
-            get { return TotalItemCount > CurrentPageIndex * PageSize ? CurrentPageIndex * PageSize : TotalItemCount; }
+            get
+            {
+                return TotalItemCount > CurrentPageIndex * PageSize ? CurrentPageIndex * PageSize : TotalItemCount;
+            }
         }
 
         /// <summary>
@@ -80,7 +84,8 @@
         /// 备注：
         public int ExtraCount
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -90,7 +95,8 @@
         /// 备注：
         public int PageSize
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -100,7 +106,10 @@
         /// 备注：
         public int StartRecordIndex
         {
-            get { return (CurrentPageIndex - 1) * PageSize + 1; }
+            get
+            {
+                return (CurrentPageIndex - 1) * PageSize + 1;
+            }
         }
 
         /// <summary>
@@ -110,7 +119,8 @@
         /// 备注：
         public int TotalItemCount
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -120,7 +130,10 @@
         /// 备注：
         public int TotalPageCount
         {
-            get { return (int)Math.Ceiling(TotalItemCount / (double)PageSize); }
+            get
+            {
+                return (int)Math.Ceiling(TotalItemCount / (double)PageSize);
+            }
         }
 
         #endregion Properties

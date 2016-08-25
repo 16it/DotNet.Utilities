@@ -7,12 +7,12 @@ namespace YanZhiwei.DotNet3._5.AutoMapper.Utilities.Tests
     [TestClass()]
     public class MapperHelperTests
     {
-        private SqlServerHelper sqlHelper = null;
+        private SqlServerDataOperator sqlHelper = null;
 
         [TestInitialize]
         public void Init()
         {
-            sqlHelper = new SqlServerHelper(@"Server=YANZHIWEI-IT-PC\SQLEXPRESS;DataBase=Northwind;User Id=sa;Password=sasa;");
+            sqlHelper = new SqlServerDataOperator(@"Server=YANZHIWEI-IT-PC\SQLEXPRESS;DataBase=Northwind;User Id=sa;Password=sasa;");
         }
 
         [TestMethod()]

@@ -2,14 +2,14 @@
 using System.Data;
 using System.Data.Common;
 
-namespace YanZhiwei.DotNet2.Interfaces.DataAccess
+namespace YanZhiwei.DotNet2.Interfaces
 {
     /// <summary>
     /// SQL操作接口
     /// </summary>
     /// 时间：2015-12-31 10:09
     /// 备注：
-    public interface ISQLHelper
+    public interface IDataOperator
     {
         /// <summary>
         /// ExecuteNonQuery

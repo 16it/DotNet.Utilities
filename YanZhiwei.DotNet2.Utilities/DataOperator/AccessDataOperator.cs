@@ -1,33 +1,30 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
-{
-    using Interfaces.DataAccess;
-    using System;
-    using System.Data;
-    using System.Data.Common;
-    using System.Data.OleDb;
+﻿using System;
+using System.Data;
+using System.Data.Common;
+using System.Data.OleDb;
+using YanZhiwei.DotNet2.Interfaces;
+using YanZhiwei.DotNet2.Utilities.Common;
 
+namespace YanZhiwei.DotNet2.Utilities.DataOperator
+{
     /// <summary>
-    /// Access 帮助类
+    /// Access 数据访问操作类
     /// </summary>
-    public sealed class AccessHelper : ISQLHelper
+    public sealed class AccessDataOperator : IDataOperator
     {
-        #region Fields
 
         /// <summary>
         /// 连接字符串
         /// </summary>
         private string connectString = string.Empty;
 
-        #endregion Fields
-
-        #region Constructors
-
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="path"> access路径 </param>
-        public AccessHelper(string path)
+        public AccessDataOperator(string path)
         {
+            CheckedAccessDBPath(path);
             connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path;
         }
 
@@ -36,14 +33,12 @@
         /// </summary>
         /// <param name="path">access路径</param>
         /// <param name="password">access密码</param>
-        public AccessHelper(string path, string password)
+        public AccessDataOperator(string path, string password)
         {
+            CheckedAccessDBPath(path);
+            ValidateHelper.Begin().NotNullOrEmpty(password, "Access数据库密码");
             connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Jet OLEDB:Database Password= " + password;
         }
-
-        #endregion Constructors
-
-        #region Methods
 
         /// <summary>
         /// ExecuteDataTable
@@ -53,6 +48,7 @@
         /// <returns>DataTable</returns>
         public DataTable ExecuteDataTable(string sql, DbParameter[] parameters)
         {
+            CheckedSql(sql);
             using(OleDbConnection sqlcon = new OleDbConnection(this.connectString))
             {
                 using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
@@ -80,6 +76,7 @@
         /// <returns>操作影响行数</returns>
         public int ExecuteNonQuery(string sql, DbParameter[] parameters)
         {
+            CheckedSql(sql);
             int _affectedRows = -1;
             using(OleDbConnection sqlcon = new OleDbConnection(this.connectString))
             {
@@ -105,15 +102,16 @@
         /// <returns>IDataReader</returns>
         public IDataReader ExecuteReader(string sql, DbParameter[] parameters)
         {
-            OleDbConnection sqlcon = new OleDbConnection(this.connectString);
-            using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
+            CheckedSql(sql);
+            OleDbConnection _sqlcon = new OleDbConnection(this.connectString);
+            using(OleDbCommand sqlcmd = new OleDbCommand(sql, _sqlcon))
             {
                 if(parameters != null)
                 {
                     sqlcmd.Parameters.AddRange(parameters);
                 }
 
-                sqlcon.Open();
+                _sqlcon.Open();
                 return sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
         }
@@ -126,6 +124,7 @@
         /// <returns>Object</returns>
         public object ExecuteScalar(string sql, DbParameter[] parameters)
         {
+            CheckedSql(sql);
             using(OleDbConnection sqlcon = new OleDbConnection(this.connectString))
             {
                 using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
@@ -152,6 +151,14 @@
             throw new NotImplementedException();
         }
 
-        #endregion Methods
+        private void CheckedAccessDBPath(string path)
+        {
+            ValidateHelper.Begin().NotNullOrEmpty(path, "Access数据库路径").CheckFileExists(path, "Access数据库路径");
+        }
+
+        private void CheckedSql(string sql)
+        {
+            ValidateHelper.Begin().NotNullOrEmpty(sql, "SQL语句");
+        }
     }
 }

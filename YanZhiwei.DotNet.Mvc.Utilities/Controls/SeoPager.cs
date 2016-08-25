@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
-using YanZhiwei.DotNet2.Interfaces.DataAccess;
+using YanZhiwei.DotNet2.Interfaces.IDataOperator;
 
 namespace YanZhiwei.DotNet.Mvc.Utilities.Controls
 {
@@ -15,34 +15,33 @@ namespace YanZhiwei.DotNet.Mvc.Utilities.Controls
         public static MvcHtmlString SeoPager(this HtmlHelper helper, IPagedList pagedList, string pageIndexParameterName = "id", int sectionSize = 20)
         {
             var sb = new StringBuilder();
-
             int pageCount = pagedList.TotalItemCount / pagedList.PageSize + (pagedList.TotalItemCount % pagedList.PageSize == 0 ? 0 : 1);
 
-            if (pageCount > 1)
+            if(pageCount > 1)
             {
                 var pages = new List<int>();
-                for (int i = 1; i <= pageCount; i++)
+
+                for(int i = 1; i <= pageCount; i++)
                     pages.Add(i);
 
                 var sections = pages.GroupBy(p => (p - 1) / sectionSize);
-
                 var currentSection = sections.Single(s => s.Key == (pagedList.CurrentPageIndex - 1) / sectionSize);
 
-                foreach (var p in currentSection)
+                foreach(var p in currentSection)
                 {
-                    if (p == pagedList.CurrentPageIndex)
+                    if(p == pagedList.CurrentPageIndex)
                         sb.AppendFormat("<span>{0}</span>", p);
                     else
                         sb.AppendFormat("<a href=\"{1}\">{0}</a>", p, PrepearRouteUrl(helper, pageIndexParameterName, p));
                 }
 
-                if (sections.Count() > 1)
+                if(sections.Count() > 1)
                 {
                     sb.Append("<br/>");
 
-                    foreach (var s in sections)
+                    foreach(var s in sections)
                     {
-                        if (s.Key == currentSection.Key)
+                        if(s.Key == currentSection.Key)
                             sb.AppendFormat("<span>{0}-{1}</span>", s.First(), s.Last());
                         else
                             sb.AppendFormat("<a href=\"{2}\">{0}-{1}</a>", s.First(), s.Last(), PrepearRouteUrl(helper, pageIndexParameterName, s.First()));

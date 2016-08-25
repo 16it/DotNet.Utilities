@@ -10,13 +10,13 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
     [TestClass()]
     public class MSSQLHelperTests
     {
-        private SqlServerHelper SqlHelper = null;
+        private SqlServerDataOperator SqlHelper = null;
 
         [TestInitialize]
         public void InitConnection()
         {
             string _sqlConnectString = @"server=YANZHIWEI-IT-PC\SQLEXPRESS;database=Sample;uid=sa;pwd=sasa;";
-            SqlHelper = new SqlServerHelper(_sqlConnectString);
+            SqlHelper = new SqlServerDataOperator(_sqlConnectString);
         }
 
         [TestCleanup]
@@ -31,11 +31,12 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         {
             string _sql = "insert into [Person](PName,PAge,PAddress) values(@pname,@page,@paddress)";
             int _actual = SqlHelper.ExecuteNonQuery(_sql,
-                                      new DbParameter[3] {
-                                          new SqlParameter("@pname","YanZhiwei"),
-                                          new SqlParameter("@page",18),
-                                          new SqlParameter("@paddress","zhuzhou")
-                                      });
+                                                    new DbParameter[3]
+            {
+                new SqlParameter("@pname", "YanZhiwei"),
+                new SqlParameter("@page", 18),
+                new SqlParameter("@paddress", "zhuzhou")
+            });
             Assert.IsTrue(_actual >= 1);
         }
 
@@ -72,7 +73,8 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         {
             DataTable _db = DataTableHelper.CreateTable("PName,PAge|int,PAddress");
             Random _rd = new Random();
-            for (int i = 0; i < 300; i++)
+
+            for(int i = 0; i < 300; i++)
             {
                 DataRow _row = _db.NewRow();
                 _row["PName"] = "YanZhiwei" + i;
@@ -80,6 +82,7 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
                 _row["PAddress"] = "shanghai" + i;
                 _db.Rows.Add(_row);
             }
+
             int _actual = SqlHelper.BatchInert("Person", _db, 300);
             Assert.AreEqual(_actual, 300);
         }
@@ -99,28 +102,29 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         [TestMethod()]
         public void ExecuteNonQueryTest1()
         {
-            using (SqlServerTransaction tranObj = SqlHelper.BeginTranscation())
+            using(SqlServerTransaction tranObj = SqlHelper.BeginTranscation())
             {
                 try
                 {
                     string _sql = "insert into [Person](PName,PAge,PAddress) values(@pname,@page,@paddress)";
                     SqlHelper.ExecuteNonQuery(tranObj, _sql,
-                                               new DbParameter[3] {
-                                          new SqlParameter("@pname","YanZhiwei"),
-                                          new SqlParameter("@page",18),
-                                          new SqlParameter("@paddress","zhuzhou")
-                                               });
+                                              new DbParameter[3]
+                    {
+                        new SqlParameter("@pname", "YanZhiwei"),
+                        new SqlParameter("@page", 18),
+                        new SqlParameter("@paddress", "zhuzhou")
+                    });
                     throw new Exception("test");
-
                     SqlHelper.ExecuteNonQuery(tranObj, _sql,
-                                              new DbParameter[3] {
-                                          new SqlParameter("@pname","YanZhiwei2"),
-                                          new SqlParameter("@page",19),
-                                          new SqlParameter("@paddress","zhuzhou2")
-                                              });
+                                              new DbParameter[3]
+                    {
+                        new SqlParameter("@pname", "YanZhiwei2"),
+                        new SqlParameter("@page", 19),
+                        new SqlParameter("@paddress", "zhuzhou2")
+                    });
                     tranObj.CommitTransaction();
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
                     tranObj.RollbackTransaction();
                 }

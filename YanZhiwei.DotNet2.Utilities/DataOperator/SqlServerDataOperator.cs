@@ -1,27 +1,22 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Core;
     using Enum;
+    using Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
     using System.Data.SqlClient;
-    using YanZhiwei.DotNet2.Interfaces.DataAccess;
-    using YanZhiwei.DotNet2.Utilities.Core;
-    
+
     /// <summary>
     /// Sql Server帮助类
     /// </summary>
-    public class SqlServerHelper : ISQLHelper
+    public class SqlServerDataOperator : IDataOperator
     {
-        #region Fields
-        
+
         private static string connectionString = string.Empty;
-        
-        #endregion Fields
-        
-        #region Constructors
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -29,28 +24,24 @@
         /// <example>eg:server=YANZHIWEI-PC\SQLEXPRESS;database=db;uid=sa;pwd=sasa;</example>
         /// <example>eg:Server= localhost; Database= employeedetails; Integrated Security=True;</example>
         /// </param>
-        public SqlServerHelper(string sqlServerConnectString)
+        public SqlServerDataOperator(string sqlServerConnectString)
         {
             ValidateHelper.Begin().NotNullOrEmpty(sqlServerConnectString, "Sql Server连接字符串");
             connectionString = sqlServerConnectString;
         }
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="sqlConnectionStringBuilder">SqlConnectionStringBuilder</param>
         /// 时间：2016-02-26 10:31
         /// 备注：
-        public SqlServerHelper(SqlConnectionStringBuilder sqlConnectionStringBuilder)
+        public SqlServerDataOperator(SqlConnectionStringBuilder sqlConnectionStringBuilder)
         {
             ValidateHelper.Begin().NotNull(sqlConnectionStringBuilder, "SqlConnectionStringBuilder");
             connectionString = sqlConnectionStringBuilder.ConnectionString;
         }
-        
-        #endregion Constructors
-        
-        #region Methods
-        
+
         /// <summary>
         /// 批量插入
         /// <para>eg:int _actual = SqlHelper.BatchInert("Person", _db, 300);</para>
@@ -62,7 +53,7 @@
         public int BatchInert(string desTable, DataTable dataTable, int batchSize)
         {
             ValidateHelper.Begin().NotNullOrEmpty(desTable, "数据库目标表").NotNull(dataTable, "需要插入的表").CheckGreaterThan<int>(batchSize, "批量插入数量", 0, false);
-            
+
             try
             {
                 using(SqlBulkCopy sbc = new SqlBulkCopy(connectionString, SqlBulkCopyOptions.UseInternalTransaction)
@@ -75,7 +66,7 @@
                 {
                     foreach(DataColumn column in dataTable.Columns)
                         sbc.ColumnMappings.Add(column.ColumnName, column.ColumnName);
-                        
+
                     sbc.WriteToServer(dataTable);
                 }
                 return dataTable.Rows.Count;
@@ -89,7 +80,7 @@
                 throw new FrameworkException(_sqlExMessage, ex);
             }
         }
-        
+
         /// <summary>
         /// 开启事务
         /// </summary>
@@ -98,7 +89,7 @@
         {
             return new SqlServerTransaction(connectionString) { };
         }
-        
+
         /// <summary>
         /// ExecuteDataSet
         /// </summary>
@@ -116,7 +107,7 @@
                     {
                         if(parameters != null)
                             sqlcmd.Parameters.AddRange(parameters);
-                            
+
                         using(SqlDataAdapter _sqldap = new SqlDataAdapter(sqlcmd))
                         {
                             DataSet _dataset = new DataSet();
@@ -131,7 +122,7 @@
                 throw CreateFrameworkException(sql, parameters, ex);
             }
         }
-        
+
         /// <summary>
         /// ExecuteDataTable
         /// <para>eg:string _sql = "select * from dbo.Person where PName=@pname";</para>
@@ -151,7 +142,7 @@
                     {
                         if(parameters != null)
                             sqlcmd.Parameters.AddRange(parameters);
-                            
+
                         using(SqlDataAdapter _sqldap = new SqlDataAdapter(sqlcmd))
                         {
                             DataTable _datatable = new DataTable();
@@ -166,7 +157,7 @@
                 throw CreateFrameworkException(sql, parameters, ex);
             }
         }
-        
+
         /// <summary>
         /// 执行sql语句，返回影响行数
         ///<para>eg: string _sql = "insert into [Person](PName,PAge,PAddress) values(@pname,@page,@paddress)";</para>
@@ -183,7 +174,7 @@
         public int ExecuteNonQuery(string sql, DbParameter[] parameters)
         {
             int _affectedRows = -1;
-            
+
             try
             {
                 CheckedSqlParamter(sql);
@@ -194,7 +185,7 @@
                     {
                         if(parameters != null)
                             sqlcmd.Parameters.AddRange(parameters);
-                            
+
                         _affectedRows = sqlcmd.ExecuteNonQuery();
                     }
                 }
@@ -203,10 +194,10 @@
             {
                 throw CreateFrameworkException(sql, parameters, ex);
             }
-            
+
             return _affectedRows;
         }
-        
+
         /// <summary>
         /// 执行sql语句，返回影响行数 带事务
         /// </summary>
@@ -222,20 +213,20 @@
             CheckedSqlParamter(sql);
             DbTransaction _sqlTranscation = dbTranscaion.TransactionObj;
             DbConnection _sqlConnection = _sqlTranscation.Connection;
-            
+
             try
             {
                 if(_sqlConnection.State != ConnectionState.Open)
                     _sqlConnection.Open();
-                    
+
                 using(DbCommand sqlCmd = new SqlCommand(sql))
                 {
                     sqlCmd.Connection = _sqlConnection;
                     sqlCmd.Transaction = _sqlTranscation;
-                    
+
                     if(parameters != null)
                         sqlCmd.Parameters.AddRange(parameters);
-                        
+
                     _affectedRows = sqlCmd.ExecuteNonQuery();
                 }
             }
@@ -243,10 +234,10 @@
             {
                 throw CreateFrameworkException(sql, parameters, ex);
             }
-            
+
             return _affectedRows;
         }
-        
+
         /// <summary>
         /// 获取分页数据，利用RowNumber()方式
         /// </summary>
@@ -264,11 +255,11 @@
         {
             string _sql = SqlServerPageScript.CreateSqlByRowNumber(tableName, fields, orderField, sqlWhere, orderBy, pageSize, pageIndex);
             int _totalPage = 0, _totalCount = 0;
-            
+
             try
             {
                 DataSet _result = ExecuteDataSet(_sql, null);
-                
+
                 if(!_result.IsNullOrEmpty())
                 {
                     if(!_result.Tables[0].IsNullOrEmpty() && !_result.Tables[1].IsNullOrEmpty())
@@ -293,10 +284,10 @@
                 ex.Data.Add("pageIndex", pageIndex);
                 throw new FrameworkException(_sqlExMessage, ex);
             }
-            
+
             return Tuple.Create(new DataTable(), _totalPage, _totalCount);
         }
-        
+
         /// <summary>
         /// ExecuteReader
         /// <para>eg:string _sql = "select * from dbo.Person where PName=@pname";</para>
@@ -315,7 +306,7 @@
                 {
                     if(parameters != null)
                         sqlcmd.Parameters.AddRange(parameters);
-                        
+
                     sqlcon.Open();
                     return sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
                 }
@@ -325,7 +316,7 @@
                 throw CreateFrameworkException(sql, parameters, ex);
             }
         }
-        
+
         /// <summary>
         /// ExecuteReader
         /// <para>eg:string _sql = "select * from dbo.Person where PName=@pname";</para>
@@ -347,12 +338,12 @@
                     {
                         if(parameters != null)
                             sqlcmd.Parameters.AddRange(parameters);
-                            
+
                         sqlcon.Open();
                         using(IDataReader reader = sqlcmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
                             DynamicBuilder.Build _buildFrom = DynamicBuilder.CreateBuilder(reader, typeof(T), DBTypeName.SqlServer);
-                            
+
                             while(reader.Read())
                             {
                                 _result.Add((T)_buildFrom(reader));
@@ -367,7 +358,7 @@
                 throw CreateFrameworkException(sql, parameters, ex);
             }
         }
-        
+
         /// <summary>
         /// 通过ExecuteReader方式获取实体类
         /// </summary>
@@ -381,7 +372,7 @@
         where T : class
         {
             T _result = default(T);
-            
+
             try
             {
                 CheckedSqlParamter(sql);
@@ -391,12 +382,12 @@
                     {
                         if(parameters != null)
                             sqlcmd.Parameters.AddRange(parameters);
-                            
+
                         sqlcon.Open();
                         using(IDataReader reader = sqlcmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
                             DynamicBuilder.Build _buildFrom = DynamicBuilder.CreateBuilder(reader, typeof(T), DBTypeName.SqlServer);
-                            
+
                             while(reader.Read())
                             {
                                 _result = (T)_buildFrom(reader);
@@ -409,10 +400,10 @@
             {
                 throw CreateFrameworkException(sql, parameters, ex);
             }
-            
+
             return _result;
         }
-        
+
         /// <summary>
         /// ExecuteScalar
         /// <para>eg:string _sql = "select PAge from dbo.Person where PName=@pname";</para>
@@ -432,7 +423,7 @@
                     {
                         if(parameters != null)
                             sqlcmd.Parameters.AddRange(parameters);
-                            
+
                         sqlcon.Open();
                         return sqlcmd.ExecuteScalar();
                     }
@@ -443,7 +434,7 @@
                 throw CreateFrameworkException(sql, parameters, ex);
             }
         }
-        
+
         /// <summary>
         /// ExecuteReader——存储过程
         /// <para>eg:SqlParameter _parameter = new SqlParameter("@pName", SqlDbType.NVarChar);</para>>
@@ -466,10 +457,10 @@
                     sqlcmd.Connection = _sqlcon;
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     sqlcmd.CommandText = proName;
-                    
+
                     if(parameters != null)
                         sqlcmd.Parameters.AddRange(parameters);
-                        
+
                     _sqlcon.Open();
                     return sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
                 }
@@ -479,7 +470,7 @@
                 throw CreateFrameworkException(proName, parameters, ex);
             }
         }
-        
+
         /// <summary>
         /// ExecuteDataTable——存储过程
         /// </summary>
@@ -500,18 +491,18 @@
                         sqlcmd.Connection = sqlcon;
                         sqlcmd.CommandType = CommandType.StoredProcedure;
                         sqlcmd.CommandText = proName;
-                        
+
                         if(parameters != null)
                             sqlcmd.Parameters.AddRange(parameters);
-                            
+
                         using(SqlDataAdapter sqldap = new SqlDataAdapter(sqlcmd))
                         {
                             DataTable _table = new DataTable();
                             sqldap.Fill(_table);
-                            
+
                             if(outputParamterFacotry != null)
                                 outputParamterFacotry(sqlcmd.Parameters);
-                                
+
                             return _table;
                         }
                     }
@@ -522,7 +513,7 @@
                 throw CreateFrameworkException(proName, parameters, ex);
             }
         }
-        
+
         /// <summary>
         /// 执行sql语句，返回影响行数——存储过程
         /// </summary>
@@ -544,10 +535,10 @@
                         sqlcmd.Connection = sqlcon;
                         sqlcmd.CommandType = CommandType.StoredProcedure;
                         sqlcmd.CommandText = proName;
-                        
+
                         if(parameters != null)
                             sqlcmd.Parameters.AddRange(parameters);
-                            
+
                         _affectedRows = sqlcmd.ExecuteNonQuery();
                     }
                 }
@@ -558,7 +549,7 @@
                 throw CreateFrameworkException(proName, parameters, ex);
             }
         }
-        
+
         /// <summary>
         /// 存储过程数据分页
         /// </summary>
@@ -596,32 +587,31 @@
             });
             return Tuple.Create(_table, _totalPage, _totalCount);
         }
-        
+
         private void CheckedSqlParamter(string sql)
         {
             ValidateHelper.Begin().NotNullOrEmpty(sql, "sql语句");
         }
-        
+
         private void CheckedStoreNameParameter(string proName)
         {
             ValidateHelper.Begin().NotNullOrEmpty(proName, "存储过程名称");
         }
-        
+
         private FrameworkException CreateFrameworkException(string sql, DbParameter[] parameters, SqlException ex)
         {
             string _sqlExMessage = ex.GetSqlExceptionMessage();
             ex.Data.Add("sqlServerConnectString", connectionString);
             ex.Data.Add("sql", sql);
-            
+
             if(parameters != null)
             {
                 foreach(DbParameter paramter in parameters)
                     ex.Data.Add(paramter.ParameterName, paramter.Value);
             }
-            
+
             return new FrameworkException(_sqlExMessage, ex);
         }
-        
-        #endregion Methods
+
     }
 }
