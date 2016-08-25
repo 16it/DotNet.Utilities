@@ -133,9 +133,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Documents\WCF\WCF.docx" />
-    <None Include="Documents\WCF\手动配置WCF宿主的.config文件遇到的几种错误.pdf" />
-    <None Include="Documents\WCF\服务器×××上的MSDTC不可用解决办法.pdf" />
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup />

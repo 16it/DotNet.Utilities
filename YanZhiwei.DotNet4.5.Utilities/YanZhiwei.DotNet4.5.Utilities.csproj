@@ -47,11 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <None Include="Documents\EF\C# 如何保证对象线程内唯一：数据槽（CallContext）.pdf" />
-    <None Include="Documents\MVC\MVC.docx" />
-    <None Include="Documents\MVC\MVC5.docx" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
