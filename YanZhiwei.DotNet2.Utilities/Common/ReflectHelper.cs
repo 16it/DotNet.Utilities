@@ -4,14 +4,14 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reflection;
-    
+
     /// <summary>
     /// 反射帮助类
     /// </summary>
     public static class ReflectHelper
     {
         #region Fields
-        
+
         /// <summary>
         /// 方法或属性搜索标志
         /// </summary>
@@ -19,11 +19,11 @@
         /// 备注：
         private static BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Public |
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
-                
+
         #endregion Fields
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 利用反射来判断对象是否包含某个属性
         /// </summary>
@@ -39,10 +39,10 @@
                 PropertyInfo _findedPropertyInfo = instance.GetType().GetProperty(propertyName);
                 return _findedPropertyInfo != null;
             }
-            
+
             return false;
         }
-        
+
         /// <summary>
         /// 反射创建对象
         /// </summary>
@@ -60,7 +60,7 @@
             object _getType = Activator.CreateInstance(_loadType, true);//根据类型创建实例
             return (T)_getType;//类型转换并返回
         }
-        
+
         /// <summary>
         /// 获取实体类[DisplayName]以及本身Name
         /// </summary>
@@ -72,16 +72,16 @@
             IDictionary<string, string> _fields = new Dictionary<string, string>();
             PropertyInfo[] _properties = typeof(T).GetProperties();
             int _properityCnt = _properties.Length;
-            
+
             foreach(PropertyInfo property in _properties)
             {
                 object[] _attribute = property.GetCustomAttributes(typeof(DisplayNameAttribute), false);
                 _fields.Add(property.Name, _attribute.Length == 0 ? property.Name : ((DisplayNameAttribute)_attribute[0]).DisplayName);
             }
-            
+
             return _fields;
         }
-        
+
         /// <summary>
         /// 获取值
         /// </summary>
@@ -97,7 +97,7 @@
             FieldInfo _fi = obj.GetType().GetField(name, bindingFlags);
             return _fi.GetValue(obj);
         }
-        
+
         /// <summary>
         /// 反射调用方法
         /// </summary>
@@ -112,7 +112,7 @@
             _objReturn = _type.InvokeMember(methodName, bindingFlags | BindingFlags.InvokeMethod, null, obj, args);
             return _objReturn;
         }
-        
+
         /// <summary>
         /// 反射设置值
         /// </summary>
@@ -126,28 +126,7 @@
             FieldInfo _fi = obj.GetType().GetField(name, bindingFlags);
             _fi.SetValue(obj, value);
         }
-        
-        /// <summary>
-        /// 获取实体类[DisplayName]以及本身Name
-        /// </summary>
-        /// <typeparam name="T">实体类</typeparam>
-        /// <returns>IDictionary</returns>
-        public static IDictionary<string, string> ToDictionary<T>()
-        where T : class
-        {
-            IDictionary<string, string> _fields = new Dictionary<string, string>();
-            PropertyInfo[] _properties = typeof(T).GetProperties();
-            int _properityCnt = _properties.Length;
-            
-            foreach(PropertyInfo property in _properties)
-            {
-                object[] _attribute = property.GetCustomAttributes(typeof(DisplayNameAttribute), false);
-                _fields.Add(property.Name, _attribute.Length == 0 ? property.Name : ((DisplayNameAttribute)_attribute[0]).DisplayName);
-            }
-            
-            return _fields;
-        }
-        
+
         #endregion Methods
     }
 }

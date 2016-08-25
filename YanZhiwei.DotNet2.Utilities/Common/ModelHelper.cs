@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
     using System.Runtime.Serialization;
@@ -94,7 +95,7 @@
         where T : class
         {
             ValidateHelper.Begin().NotNull(model, "需要序列化对象");
-            Type _type = model.GetType();
+            Type _type = typeof(T);
             FieldInfo[] _fields = _type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
             StringBuilder _builder = new StringBuilder();
 
@@ -105,6 +106,28 @@
             }
 
             return _builder.ToString();
+        }
+
+        /// <summary>
+        /// 将字典转化为字典
+        /// </summary>
+        /// <typeparam name="T">实体类</typeparam>
+        /// <returns>IDictionary</returns>
+        public static IDictionary<string, string> ToDictionary<T>(T model)
+        where T : class
+        {
+            ValidateHelper.Begin().NotNull(model, "需要处理的对象");
+            IDictionary<string, string> _dic = new Dictionary<string, string>();
+            Type _type = typeof(T);
+            FieldInfo[] _fieldArray = _type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+
+            foreach(FieldInfo item in _fieldArray)
+            {
+                object _fieldValue = item.GetValue(model);
+                _dic.Add(item.Name, _fieldValue.ToStringOrDefault(string.Empty));
+            }
+
+            return _dic;
         }
 
         #endregion Methods

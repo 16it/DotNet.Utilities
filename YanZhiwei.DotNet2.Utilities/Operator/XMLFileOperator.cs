@@ -1,5 +1,6 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
+    using Common;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
@@ -11,7 +12,7 @@
     /// </summary>
     /// 时间：2016/8/25 13:12
     /// 备注：
-    public static class XMLFileHelper
+    public static class XMLFileOperator
     {
         #region Methods
 

@@ -1,18 +1,18 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters.Binary;
 
-    using YanZhiwei.DotNet2.Utilities.Core;
+    using Core;
 
     /// <summary>
     /// 二进制文件序列化与反序列化
     /// </summary>
     /// 时间：2016/8/25 11:47
     /// 备注：
-    public class BinaryFileHelper
+    public class BinaryFileOperator
     {
         #region Methods
 

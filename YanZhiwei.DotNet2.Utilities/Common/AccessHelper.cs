@@ -1,37 +1,36 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Interfaces.DataAccess;
     using System;
     using System.Data;
     using System.Data.Common;
     using System.Data.OleDb;
-    
-    using YanZhiwei.DotNet2.Interfaces.DataAccess;
-    
+
     /// <summary>
     /// Access 帮助类
     /// </summary>
     public sealed class AccessHelper : ISQLHelper
     {
         #region Fields
-        
+
         /// <summary>
         /// 连接字符串
         /// </summary>
         private string connectString = string.Empty;
-        
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="path"> access路径 </param>
         public AccessHelper(string path)
         {
-            this.connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path;
+            connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path;
         }
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -39,13 +38,13 @@
         /// <param name="password">access密码</param>
         public AccessHelper(string path, string password)
         {
-            this.connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Jet OLEDB:Database Password= " + password;
+            connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Jet OLEDB:Database Password= " + password;
         }
-        
+
         #endregion Constructors
-        
+
         #region Methods
-        
+
         /// <summary>
         /// ExecuteDataTable
         /// </summary>
@@ -54,25 +53,25 @@
         /// <returns>DataTable</returns>
         public DataTable ExecuteDataTable(string sql, DbParameter[] parameters)
         {
-            using(OleDbConnection _sqlcon = new OleDbConnection(this.connectString))
+            using(OleDbConnection sqlcon = new OleDbConnection(this.connectString))
             {
-                using(OleDbCommand _sqlcmd = new OleDbCommand(sql, _sqlcon))
+                using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
                 {
                     if(parameters != null)
                     {
-                        _sqlcmd.Parameters.AddRange(parameters);
+                        sqlcmd.Parameters.AddRange(parameters);
                     }
-                    
-                    using(OleDbDataAdapter _sqldap = new OleDbDataAdapter(_sqlcmd))
+
+                    using(OleDbDataAdapter sqldap = new OleDbDataAdapter(sqlcmd))
                     {
-                        DataTable _dt = new DataTable();
-                        _sqldap.Fill(_dt);
-                        return _dt;
+                        DataTable _table = new DataTable();
+                        sqldap.Fill(_table);
+                        return _table;
                     }
                 }
             }
         }
-        
+
         /// <summary>
         /// ExecuteNonQuery
         /// </summary>
@@ -91,13 +90,13 @@
                     {
                         sqlcmd.Parameters.AddRange(parameters);
                     }
-                    
+
                     _affectedRows = sqlcmd.ExecuteNonQuery();
                 }
             }
             return _affectedRows;
         }
-        
+
         /// <summary>
         /// ExecuteReader
         /// </summary>
@@ -106,19 +105,19 @@
         /// <returns>IDataReader</returns>
         public IDataReader ExecuteReader(string sql, DbParameter[] parameters)
         {
-            OleDbConnection _sqlcon = new OleDbConnection(this.connectString);
-            using(OleDbCommand _sqlcmd = new OleDbCommand(sql, _sqlcon))
+            OleDbConnection sqlcon = new OleDbConnection(this.connectString);
+            using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
             {
                 if(parameters != null)
                 {
-                    _sqlcmd.Parameters.AddRange(parameters);
+                    sqlcmd.Parameters.AddRange(parameters);
                 }
-                
-                _sqlcon.Open();
-                return _sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                sqlcon.Open();
+                return sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
         }
-        
+
         /// <summary>
         /// ExecuteScalar
         /// </summary>
@@ -127,21 +126,21 @@
         /// <returns>Object</returns>
         public object ExecuteScalar(string sql, DbParameter[] parameters)
         {
-            using(OleDbConnection _sqlcon = new OleDbConnection(this.connectString))
+            using(OleDbConnection sqlcon = new OleDbConnection(this.connectString))
             {
-                using(OleDbCommand _sqlcmd = new OleDbCommand(sql, _sqlcon))
+                using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
                 {
                     if(parameters != null)
                     {
-                        _sqlcmd.Parameters.AddRange(parameters);
+                        sqlcmd.Parameters.AddRange(parameters);
                     }
-                    
-                    _sqlcon.Open();
-                    return _sqlcmd.ExecuteScalar();
+
+                    sqlcon.Open();
+                    return sqlcmd.ExecuteScalar();
                 }
             }
         }
-        
+
         /// <summary>
         /// ExecuteReader 存储过程
         /// </summary>
@@ -152,7 +151,7 @@
         {
             throw new NotImplementedException();
         }
-        
+
         #endregion Methods
     }
 }

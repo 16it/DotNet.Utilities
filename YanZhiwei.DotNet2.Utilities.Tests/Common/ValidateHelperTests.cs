@@ -10,7 +10,7 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void InRangeTest()
         {
-            ValidateHelper.Begin().InRange("2", 3, 8, "2");
+            ValidateHelper.Begin().InRange(2, 3, 8, "2");
         }
 
         [TestMethod()]

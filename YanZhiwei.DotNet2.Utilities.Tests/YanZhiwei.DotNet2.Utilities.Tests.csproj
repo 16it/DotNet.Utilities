@@ -63,8 +63,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Core\ByteArrayBuilderTests.cs" />
+    <Compile Include="Operator\ConfigFileOperatorTests.cs" />
     <Compile Include="WebForm\AspNetHelperTests.cs" />
-    <Compile Include="Common\AppSettingsHelperTests.cs" />
     <Compile Include="Common\ArrayHelperTests.cs" />
     <Compile Include="Common\ASCIIHelperTests.cs" />
     <Compile Include="Common\AssemblyHelperTests.cs" />
@@ -73,7 +73,6 @@
     <Compile Include="Common\BitArrayHelperTests.cs" />
     <Compile Include="Common\ByteHelperTests.cs" />
     <Compile Include="Common\CheckHelperTests.cs" />
-    <Compile Include="Common\ConfigurationHelperTests.cs" />
     <Compile Include="Common\ConvertHelperTests.cs" />
     <Compile Include="Common\CSVHelperTests.cs" />
     <Compile Include="Common\DateHelperTests.cs" />

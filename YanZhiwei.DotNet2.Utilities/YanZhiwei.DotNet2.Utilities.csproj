@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AttributeHelper.cs" />
-    <Compile Include="Common\BinaryFileHelper.cs" />
+    <Compile Include="Operator\BinaryFileOperator.cs" />
     <Compile Include="Common\ComparisonHelper.cs" />
     <Compile Include="Common\DataBaseHelper.cs" />
     <Compile Include="Common\DataSetHelper.cs" />
@@ -123,6 +123,7 @@
     <Compile Include="Model\SmtpServer.cs" />
     <Compile Include="Model\SocketConnectionInfo.cs" />
     <Compile Include="Model\SortCondition.cs" />
+    <Compile Include="Operator\ConfigFileOperator.cs" />
     <Compile Include="ValidateCode\AnimatedGifEncoder.cs" />
     <Compile Include="ValidateCode\LZWEncoder.cs" />
     <Compile Include="ValidateCode\NeuQuant.cs" />
@@ -170,12 +171,10 @@
     <Compile Include="Common\BitArrayHelper.cs" />
     <Compile Include="Common\BitHelper.cs" />
     <Compile Include="Common\CheckHelper.cs" />
-    <Compile Include="Common\AppSettingsHelper.cs" />
     <Compile Include="Common\ArrayHelper.cs" />
     <Compile Include="Core\BindList.cs" />
     <Compile Include="Common\ByteHelper.cs" />
     <Compile Include="Common\AccessHelper.cs" />
-    <Compile Include="Common\ConfigurationHelper.cs" />
     <Compile Include="Common\ConvertHelper.cs" />
     <Compile Include="Common\DebugHelper.cs" />
     <Compile Include="Common\DictionaryHelper.cs" />
@@ -193,7 +192,7 @@
     <Compile Include="Common\HexHelper.cs" />
     <Compile Include="Common\IListHelper.cs" />
     <Compile Include="Common\ImageHelper.cs" />
-    <Compile Include="Common\INIHelper.cs" />
+    <Compile Include="Operator\INIOperator.cs" />
     <Compile Include="Common\JsonHelper.cs" />
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="Common\ProcessHelper.cs" />
@@ -254,7 +253,7 @@
     <Compile Include="Common\ReflectHelper.cs" />
     <Compile Include="Common\RegexHelper.cs" />
     <Compile Include="Common\SectionHelper.cs" />
-    <Compile Include="Common\XMLFileHelper.cs" />
+    <Compile Include="Operator\XMLFileOperator.cs" />
     <Compile Include="Core\SerialPortMaster.cs" />
     <Compile Include="Common\StringHelper.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
