@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.WinForm;
-using YanZhiwei.DotNet2.Utilities.WinForm.Core;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
@@ -105,6 +104,7 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
             get;
             set;
         }
+
         public bool Gender
         {
             get;
