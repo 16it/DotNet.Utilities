@@ -1,5 +1,4 @@
-﻿using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+﻿using YanZhiwei.DotNet2.Utilities.Operator;
 
 namespace YanZhiwei.DotNet2.Utilities.Model
 {
@@ -22,7 +21,7 @@ namespace YanZhiwei.DotNet2.Utilities.Model
         /// <param name="pageSize"> 页大小 </param>
         public PageCondition(int pageIndex, int pageSize)
         {
-            ValidateHelper.Begin().CheckGreaterThan<int>(pageIndex, "页索引", 0, false).CheckGreaterThan<int>(pageSize, "页大小", 0, false);
+            ValidateOperator.Begin().CheckGreaterThan<int>(pageIndex, "页索引", 0, false).CheckGreaterThan<int>(pageSize, "页大小", 0, false);
             PageIndex = pageIndex;
             PageSize = pageSize;
             SortConditions = new SortCondition[] { };

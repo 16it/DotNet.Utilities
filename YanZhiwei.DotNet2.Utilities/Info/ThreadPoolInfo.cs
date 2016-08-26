@@ -1,11 +1,11 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.Info
 {
     using System.Threading;
 
     /// <summary>
-    ///  ThreadPool 帮助类
+    ///  ThreadPool 信息
     /// </summary>
-    public class ThreadPoolHelper
+    public class ThreadPoolInfo
     {
         #region Properties
 

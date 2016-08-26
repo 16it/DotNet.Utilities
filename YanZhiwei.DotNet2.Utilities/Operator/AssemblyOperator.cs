@@ -40,7 +40,7 @@
         /// <param name="path">The path.</param>
         public AssemblyOperator(string path)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(path, "Exe或DLL文件")
+            ValidateOperator.Begin().NotNullOrEmpty(path, "Exe或DLL文件")
             .IsFilePath(path, "Exe或DLL文件")
             .CheckFileExists(path, "Exe或DLL文件");
             filePath = path;

@@ -1,8 +1,8 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WebForm
 {
     using Common;
-    using DataOperator;
     using Model;
+    using Operator;
     using System.Net;
     using System.Web;
 
@@ -24,7 +24,7 @@
         /// 备注：
         public static RequestClientInfo GetClientInfo(HttpRequest request)
         {
-            ValidateHelper.Begin().NotNull(request, "HttpRequest");
+            ValidateOperator.Begin().NotNull(request, "HttpRequest");
             RequestClientInfo _clientInfo = new RequestClientInfo();
             //  _clientInfo.OSVersion = GetOsVersion(request);
             _clientInfo.BrowserVersion = GetBrowserVersion(request);

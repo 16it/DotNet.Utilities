@@ -1,10 +1,8 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WebForm
 {
-    using Common;
+    using Operator;
     using System;
     using System.Web;
-
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// 超链接帮助类
@@ -39,7 +37,7 @@
         /// <returns>新的连接</returns>
         public static string AddParameter(this string url, string paramName, string value)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(paramName, "超链接参数名称").NotNullOrEmpty(value, "超链接参数名称数值");
+            ValidateOperator.Begin().NotNullOrEmpty(paramName, "超链接参数名称").NotNullOrEmpty(value, "超链接参数名称数值");
             Uri _hyperlinkUri = new Uri(url);
 
             if(string.IsNullOrEmpty(_hyperlinkUri.Query))
@@ -86,7 +84,7 @@
         /// <returns>更新后的链接</returns>
         public static string UpdateParameter(this string url, string paramName, string value)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(url, "超链接").IsURL(url, "超链接").NotNullOrEmpty(paramName, "超链接参数名称").NotNullOrEmpty(value, "超链接参数名称数值");
+            ValidateOperator.Begin().NotNullOrEmpty(url, "超链接").IsURL(url, "超链接").NotNullOrEmpty(paramName, "超链接参数名称").NotNullOrEmpty(value, "超链接参数名称数值");
             string _keyWord = paramName + "=";
             int _index = url.IndexOf(_keyWord) + _keyWord.Length;
             int _index1 = url.IndexOf("&", _index);

@@ -20,8 +20,8 @@
         /// <para>cmd("exit 0");</para>
         /// <para> });</para>
         /// </summary>
-        /// <param name="inputAction">需要执行指令 </param>
-        public static void ExecBatCommand(Action<Action<string>> inputAction)
+        /// <param name="execFactory">委托 </param>
+        public static void ExecBatCommand(Action<Action<string>> execFactory)
         {
             Process _process = null;
 
@@ -41,7 +41,7 @@
                 {
                     writer.AutoFlush = true;
                     _process.BeginOutputReadLine();
-                    inputAction(value => writer.WriteLine(value));
+                    execFactory(value => writer.WriteLine(value));
                 }
                 _process.WaitForExit();
             }

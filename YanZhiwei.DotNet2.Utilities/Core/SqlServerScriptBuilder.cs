@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
     using Common;
+    using Operator;
     using System.Collections;
     using System.Text;
 
@@ -48,7 +49,7 @@
         /// 备注：
         public SqlServerScriptBuilder(string tableName, string primaryKey)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(tableName, "表名").NotNullOrEmpty(primaryKey, "主键");
+            ValidateOperator.Begin().NotNullOrEmpty(tableName, "表名").NotNullOrEmpty(primaryKey, "主键");
             this.TableName = tableName;
             this.PrimaryKey = primaryKey;
         }

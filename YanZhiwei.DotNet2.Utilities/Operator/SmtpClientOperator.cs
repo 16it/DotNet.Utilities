@@ -1,15 +1,14 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
+    using Model;
     using System;
     using System.Net.Mail;
     using System.Text;
 
-    using YanZhiwei.DotNet2.Utilities.Model;
-
     /// <summary>
     /// SmtpClient 帮助类
     /// </summary>
-    public class SmtpClientHelper
+    public class SmtpClientOperator
     {
         #region Fields
 
@@ -74,7 +73,7 @@
         /// <param name="attachmentsPathlist">附件</param>
         /// <param name="isbodyhtml">正文是否是html格式</param>
         /// <param name="mailPriority">优先级别</param>
-        public SmtpClientHelper(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, string[] mailCclist, string[] attachmentsPathlist, bool isbodyhtml, MailPriority mailPriority)
+        public SmtpClientOperator(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, string[] mailCclist, string[] attachmentsPathlist, bool isbodyhtml, MailPriority mailPriority)
         {
             this.stmpServer = stmpserver;
             this.nickName = nickname;
@@ -95,7 +94,7 @@
         /// <param name="mailsubject">标题</param>
         /// <param name="mailbody">正文</param>
         /// <param name="mailTolist">收件人</param>
-        public SmtpClientHelper(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist)
+        public SmtpClientOperator(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist)
         : this(stmpserver, nickname, mailsubject, mailbody, mailTolist, null, null, true, MailPriority.Normal)
         {
         }
@@ -109,7 +108,7 @@
         /// <param name="mailbody">正文</param>
         /// <param name="mailTolist">收件人</param>
         /// <param name="mailPriority">优先级别</param>
-        public SmtpClientHelper(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, MailPriority mailPriority)
+        public SmtpClientOperator(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, MailPriority mailPriority)
         : this(stmpserver, nickname, mailsubject, mailbody, mailTolist, null, null, true, mailPriority)
         {
         }
@@ -123,7 +122,7 @@
         /// <param name="mailbody">正文</param>
         /// <param name="mailTolist">收件人</param>
         /// <param name="attachmentsPathlist">附件</param>
-        public SmtpClientHelper(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, string[] attachmentsPathlist)
+        public SmtpClientOperator(SmtpServer stmpserver, string nickname, string mailsubject, string mailbody, string[] mailTolist, string[] attachmentsPathlist)
         : this(stmpserver, nickname, mailsubject, mailbody, mailTolist, null, attachmentsPathlist, true, MailPriority.Normal)
         {
         }
@@ -136,37 +135,18 @@
         /// 发送邮件
         /// </summary>
         /// <returns>发送返回状态</returns>
-        public Tuple<bool, string, Exception> Send()
+        public void Send()
         {
             MailAddress _mailAddress = new MailAddress(stmpServer.SendMail, nickName);
             MailMessage _mailMessage = new MailMessage();
-            InitSendBase(_mailAddress, _mailMessage);
+            InitBasicInfo(_mailAddress, _mailMessage);
             InitSendMailList(_mailMessage);
             InitSendCcList(_mailMessage);
-            Tuple<bool, string, Exception> _attrachResult = InitSendAttachFile(_mailMessage);
-
-            if(_attrachResult.Item1)
-            {
-                SmtpClient _smtpClient = new SmtpClient();
-                _smtpClient.Credentials = new System.Net.NetworkCredential(stmpServer.SendMail, stmpServer.SendMailPasswrod);//设置SMTP邮件服务器
-                _smtpClient.Host = stmpServer.Host;
-
-                try
-                {
-                    _smtpClient.Send(_mailMessage);
-                    return Tuple.Create<bool, string, Exception>(true, string.Empty, null);
-                }
-                catch(SmtpException ex)
-                {
-                    return Tuple.Create<bool, string, Exception>(false, "发送邮件时候发生错误.", ex);
-                }
-                catch(Exception ex)
-                {
-                    return Tuple.Create<bool, string, Exception>(false, "发送邮件时候发生错误.", ex);
-                }
-            }
-
-            return _attrachResult;
+            AttachFile(_mailMessage);
+            SmtpClient _smtpClient = new SmtpClient();
+            _smtpClient.Credentials = new System.Net.NetworkCredential(stmpServer.SendMail, stmpServer.SendMailPasswrod);//设置SMTP邮件服务器
+            _smtpClient.Host = stmpServer.Host;
+            _smtpClient.Send(_mailMessage);
         }
 
         /// <summary>
@@ -174,26 +154,17 @@
         /// </summary>
         /// <param name="mailMessage"></param>
         /// <returns></returns>
-        private Tuple<bool, string, Exception> InitSendAttachFile(MailMessage mailMessage)
+        private void AttachFile(MailMessage mailMessage)
         {
-            try
+            if(attachmentsPathList != null && attachmentsPathList.Length > 0)
             {
-                if(attachmentsPathList != null && attachmentsPathList.Length > 0)
+                Attachment _attachFile = null;
+
+                foreach(string path in attachmentsPathList)
                 {
-                    Attachment _attachFile = null;
-
-                    foreach(string path in attachmentsPathList)
-                    {
-                        _attachFile = new Attachment(path);
-                        mailMessage.Attachments.Add(_attachFile);
-                    }
+                    _attachFile = new Attachment(path);
+                    mailMessage.Attachments.Add(_attachFile);
                 }
-
-                return Tuple.Create<bool, string, Exception>(true, string.Empty, null);
-            }
-            catch(Exception ex)
-            {
-                return Tuple.Create<bool, string, Exception>(false, "添加邮件附件的时候发送错误.", ex);
             }
         }
 
@@ -202,7 +173,7 @@
         /// </summary>
         /// <param name="mailAddress">MailAddress</param>
         /// <param name="mailMessage">mailMessage</param>
-        private void InitSendBase(MailAddress mailAddress, MailMessage mailMessage)
+        private void InitBasicInfo(MailAddress mailAddress, MailMessage mailMessage)
         {
             //发件人地址
             mailMessage.From = mailAddress;
@@ -213,7 +184,7 @@
             //电子邮件正文
             mailMessage.Body = mailBody;
             //电子邮件正文的编码
-            mailMessage.BodyEncoding = Encoding.Default;
+            mailMessage.BodyEncoding = Encoding.UTF8;
             //邮件优先级
             mailMessage.Priority = priority;
             //是否HTML格式

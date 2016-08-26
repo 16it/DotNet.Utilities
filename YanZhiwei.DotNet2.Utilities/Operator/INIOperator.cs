@@ -94,7 +94,7 @@
 
         private void CheckedINIParamter(string section, string key)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(section, "INI段落").NotNullOrEmpty(key, "INI段落对应KEY");
+            ValidateOperator.Begin().NotNullOrEmpty(section, "INI段落").NotNullOrEmpty(key, "INI段落对应KEY");
         }
     }
 }

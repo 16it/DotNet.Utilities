@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
     using Common;
+    using Operator;
     using System;
     using System.Net;
     using System.Net.Sockets;
@@ -412,7 +413,7 @@
         /// <exception cref="System.ArgumentException">未能识别的Ip地址。</exception>
         private void Init(ServerType server, string ipAddress, ushort port)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(ipAddress, "Ip地址").IsIp(ipAddress, "Ip地址");
+            ValidateOperator.Begin().NotNullOrEmpty(ipAddress, "Ip地址").IsIp(ipAddress, "Ip地址");
             IPAddress _ipAddress;
 
             if(IPAddress.TryParse(ipAddress, out _ipAddress))

@@ -29,7 +29,7 @@
         public static IEnumerable<T> Deserialize<T>(string path)
         where T : class
         {
-            ValidateHelper.Begin().NotNullOrEmpty(path, "二进制文件").IsFilePath(path, "二进制文件").CheckFileExists(path, "二进制文件");
+            ValidateOperator.Begin().NotNullOrEmpty(path, "二进制文件").IsFilePath(path, "二进制文件").CheckFileExists(path, "二进制文件");
             IFormatter _formatter = new BinaryFormatter();
             _formatter.Binder = new UBinder();
             using(Stream _stream = new FileStream(path, FileMode.Open, FileAccess.Read))
@@ -49,7 +49,7 @@
         public static void Serialize<T>(IEnumerable<T> data, string path)
         where T : class
         {
-            ValidateHelper.Begin().NotNull(data, "需要序列化数据集合").NotNullOrEmpty(path, "二进制文件").IsFilePath(path, "二进制文件");
+            ValidateOperator.Begin().NotNull(data, "需要序列化数据集合").NotNullOrEmpty(path, "二进制文件").IsFilePath(path, "二进制文件");
             IFormatter _formatter = new BinaryFormatter();
             using(Stream stream = new FileStream(path, FileMode.Create, FileAccess.Write))
             {

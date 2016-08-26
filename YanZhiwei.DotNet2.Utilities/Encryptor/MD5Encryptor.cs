@@ -64,6 +64,36 @@
             }
         }
 
+        /// <summary>
+        /// 获取MD5加密字符串
+        /// <para>eg:StringHelper.ToMD5("YanZhiwei");==>"b07ec574a666d8e7582885ce334b4d00"</para>
+        /// </summary>
+        /// <param name="data">需要加密的字符串</param>
+        /// <returns>MD5加密的字符串</returns>
+        public static string ToMD5String(this string data)
+        {
+            /*参考
+             *1. http://www.dotblogs.com.tw/chhuang/archive/2008/05/17/4029.aspx
+             */
+            if(!string.IsNullOrEmpty(data))
+            {
+                MD5CryptoServiceProvider _md5 = new MD5CryptoServiceProvider();
+                byte[] _bytValue = Encoding.UTF8.GetBytes(data);
+                byte[] _bytHash = _md5.ComputeHash(_bytValue);
+                _md5.Clear();
+                StringBuilder _builder = new StringBuilder();
+
+                for(int i = 0; i < _bytHash.Length; i++)
+                {
+                    _builder.Append(_bytHash[i].ToString("X").PadLeft(2, '0'));
+                }
+
+                return _builder.ToString().ToLower();
+            }
+
+            return string.Empty;
+        }
+
         #endregion Methods
     }
 }

@@ -1,8 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Reflection;
 
     /// <summary>
@@ -28,19 +26,14 @@
         /// 利用反射来判断对象是否包含某个属性
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <param name="instance">object</param>
+        /// <param name="model">实体类对象</param>
         /// <param name="propertyName">需要判断的属性</param>
         /// <returns>是否包含</returns>
-        public static bool ContainProperty<T>(this T instance, string propertyName)
+        public static bool Contain<T>(T model, string propertyName)
         where T : class
         {
-            if(instance != null && !string.IsNullOrEmpty(propertyName))
-            {
-                PropertyInfo _findedPropertyInfo = instance.GetType().GetProperty(propertyName);
-                return _findedPropertyInfo != null;
-            }
-
-            return false;
+            PropertyInfo _findedPropertyInfo = model.GetType().GetProperty(propertyName);
+            return _findedPropertyInfo != null;
         }
 
         /// <summary>
@@ -62,54 +55,34 @@
         }
 
         /// <summary>
-        /// 获取实体类[DisplayName]以及本身Name
-        /// </summary>
-        /// <typeparam name="T">实体类</typeparam>
-        /// <returns>IDictionary</returns>
-        public static IDictionary<string, string> GetDisplayNames<T>()
-        where T : class
-        {
-            IDictionary<string, string> _fields = new Dictionary<string, string>();
-            PropertyInfo[] _properties = typeof(T).GetProperties();
-            int _properityCnt = _properties.Length;
-
-            foreach(PropertyInfo property in _properties)
-            {
-                object[] _attribute = property.GetCustomAttributes(typeof(DisplayNameAttribute), false);
-                _fields.Add(property.Name, _attribute.Length == 0 ? property.Name : ((DisplayNameAttribute)_attribute[0]).DisplayName);
-            }
-
-            return _fields;
-        }
-
-        /// <summary>
         /// 获取值
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <param name="obj">对象</param>
-        /// <param name="name">要获取值的名称</param>
+        /// <typeparam name="F">泛型</typeparam>
+        /// <param name="model">对象</param>
+        /// <param name="propertyName">要获取值的名称</param>
         /// <returns>反射获取到的值</returns>
         /// 日期：2015-10-10 9:07
         /// 备注：
-        public static object GetFieldValue<T>(T obj, string name)
+        public static F GetFieldValue<T, F>(T model, string propertyName)
         where T : class
         {
-            FieldInfo _fi = obj.GetType().GetField(name, bindingFlags);
-            return _fi.GetValue(obj);
+            FieldInfo _fi = model.GetType().GetField(propertyName, bindingFlags);
+            return (F)_fi.GetValue(model);
         }
 
         /// <summary>
         /// 反射调用方法
         /// </summary>
-        /// <param name="obj">需反射类型</param>
+        /// <param name="item">需反射类型</param>
         /// <param name="methodName">调用方法名称</param>
         /// <param name="args">参数</param>
         /// <returns>方法返回值</returns>
-        public static object InvokeMethod(object obj, string methodName, object[] args)
+        public static object InvokeMethod(object item, string methodName, object[] args)
         {
             object _objReturn = null;
-            Type _type = obj.GetType();
-            _objReturn = _type.InvokeMember(methodName, bindingFlags | BindingFlags.InvokeMethod, null, obj, args);
+            Type _type = item.GetType();
+            _objReturn = _type.InvokeMember(methodName, bindingFlags | BindingFlags.InvokeMethod, null, item, args);
             return _objReturn;
         }
 
@@ -117,14 +90,15 @@
         /// 反射设置值
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <param name="obj">操作对象</param>
+        /// <typeparam name="F">泛型</typeparam>
+        /// <param name="model">操作对象</param>
         /// <param name="name">名称</param>
-        /// <param name="value">值</param>
-        public static void SetFieldValue<T>(T obj, string name, object value)
+        /// <param name="fieldValue">值</param>
+        public static void SetFieldValue<T, F>(T model, string name, F fieldValue)
         where T : class
         {
-            FieldInfo _fi = obj.GetType().GetField(name, bindingFlags);
-            _fi.SetValue(obj, value);
+            FieldInfo _fi = model.GetType().GetField(name, bindingFlags);
+            _fi.SetValue(model, fieldValue);
         }
 
         #endregion Methods

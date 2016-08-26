@@ -1,5 +1,6 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
+    using Common;
     using System;
     using System.IO;
     using System.Text.RegularExpressions;
@@ -10,7 +11,7 @@
     /// <summary>
     /// 参数验证帮助类
     /// </summary>
-    public static class ValidateHelper
+    public static class ValidateOperator
     {
         #region Methods
 
@@ -315,6 +316,7 @@
         {
             return Check<ArgumentException>(validation, () => data != equalObj, string.Format(Resource.ParameterCheck_NotEqual, paramName, data));
         }
+
         /// <summary>
         /// 验证非空
         /// </summary>
@@ -351,6 +353,7 @@
         {
             return Check<ArgumentException>(validation, () => Regex.IsMatch(input, pattern), string.Format(Resource.ParameterCheck_Match, input, argumentName));
         }
+
         #endregion Methods
     }
 }

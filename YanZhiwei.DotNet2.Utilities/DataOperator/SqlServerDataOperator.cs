@@ -4,6 +4,7 @@
     using Core;
     using Enum;
     using Interfaces;
+    using Operator;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -27,7 +28,7 @@
         /// </param>
         public SqlServerDataOperator(string sqlServerConnectString)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(sqlServerConnectString, "Sql Server连接字符串");
+            ValidateOperator.Begin().NotNullOrEmpty(sqlServerConnectString, "Sql Server连接字符串");
             connectionString = sqlServerConnectString;
         }
 
@@ -39,7 +40,7 @@
         /// 备注：
         public SqlServerDataOperator(SqlConnectionStringBuilder sqlConnectionStringBuilder)
         {
-            ValidateHelper.Begin().NotNull(sqlConnectionStringBuilder, "SqlConnectionStringBuilder");
+            ValidateOperator.Begin().NotNull(sqlConnectionStringBuilder, "SqlConnectionStringBuilder");
             connectionString = sqlConnectionStringBuilder.ConnectionString;
         }
 
@@ -53,7 +54,7 @@
         /// <returns>影响行数</returns>
         public int BatchInert(string desTable, DataTable dataTable, int batchSize)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(desTable, "数据库目标表").NotNull(dataTable, "需要插入的表").CheckGreaterThan<int>(batchSize, "批量插入数量", 0, false);
+            ValidateOperator.Begin().NotNullOrEmpty(desTable, "数据库目标表").NotNull(dataTable, "需要插入的表").CheckGreaterThan<int>(batchSize, "批量插入数量", 0, false);
 
             try
             {
@@ -591,12 +592,12 @@
 
         private void CheckedSqlParamter(string sql)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(sql, "sql语句");
+            ValidateOperator.Begin().NotNullOrEmpty(sql, "sql语句");
         }
 
         private void CheckedStoreNameParameter(string proName)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(proName, "存储过程名称");
+            ValidateOperator.Begin().NotNullOrEmpty(proName, "存储过程名称");
         }
 
         private FrameworkException CreateFrameworkException(string sql, DbParameter[] parameters, SqlException ex)

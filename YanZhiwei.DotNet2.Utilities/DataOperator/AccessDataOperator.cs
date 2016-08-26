@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Data.OleDb;
 using YanZhiwei.DotNet2.Interfaces;
 using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.Operator;
 
 namespace YanZhiwei.DotNet2.Utilities.DataOperator
 {
@@ -35,7 +36,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator
         public AccessDataOperator(string path, string password)
         {
             CheckedAccessDBPath(path);
-            ValidateHelper.Begin().NotNullOrEmpty(password, "Access数据库密码");
+            ValidateOperator.Begin().NotNullOrEmpty(password, "Access数据库密码");
             connectString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Jet OLEDB:Database Password= " + password;
         }
 
@@ -152,12 +153,12 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator
 
         private void CheckedAccessDBPath(string path)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(path, "Access数据库路径").CheckFileExists(path, "Access数据库路径");
+            ValidateOperator.Begin().NotNullOrEmpty(path, "Access数据库路径").CheckFileExists(path, "Access数据库路径");
         }
 
         private void CheckedSql(string sql)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(sql, "SQL语句");
+            ValidateOperator.Begin().NotNullOrEmpty(sql, "SQL语句");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
     using Common;
+    using Operator;
     using System;
     using System.IO.Ports;
 
@@ -175,7 +176,7 @@
         /// 备注：
         public static void SendData(this SerialPort serialPort, byte[] data)
         {
-            ValidateHelper.Begin().NotNull(serialPort, "串口").Check<ArgumentException>(() => serialPort.IsOpen, "串口尚未打开！").NotNull(data, "串口发送数据");
+            ValidateOperator.Begin().NotNull(serialPort, "串口").Check<ArgumentException>(() => serialPort.IsOpen, "串口尚未打开！").NotNull(data, "串口发送数据");
             serialPort.Write(data, 0, data.Length);
         }
 
@@ -190,7 +191,7 @@
         /// <param name="stopBit">停止位</param>
         public static void Open(this SerialPort serialPort, string portName, string dateBits, string bondRate, string parity, string stopBit)
         {
-            ValidateHelper.Begin().IsInt(bondRate, "波特率").IsInt(dateBits, "数据位");
+            ValidateOperator.Begin().IsInt(bondRate, "波特率").IsInt(dateBits, "数据位");
 
             if(serialPort.IsOpen)
                 serialPort.Close();

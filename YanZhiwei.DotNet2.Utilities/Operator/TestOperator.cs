@@ -1,11 +1,11 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
     using System.Diagnostics;
 
     /// <summary>
     /// 运行时间测试帮助类
     /// </summary>
-    public class TestHelper
+    public class TestOperator
     {
         #region Fields
 
@@ -21,7 +21,7 @@
         /// <summary>
         /// 初始化
         /// </summary>
-        public TestHelper()
+        public TestOperator()
         {
             watch = new Stopwatch();
         }

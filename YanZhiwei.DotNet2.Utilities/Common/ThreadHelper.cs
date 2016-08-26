@@ -28,8 +28,8 @@
         /// 启动线程，自动忽略停止线程时触发的<see cref="ThreadAbortException"/>异常
         /// </summary>
         /// <param name="thread">线程</param>
-        /// <param name="failAction">引发非<see cref="ThreadAbortException"/>异常时执行的逻辑</param>
-        public static void StartAndIgnoreAbort(this Thread thread, Action<Exception> failAction)
+        /// <param name="failFactory">引发非<see cref="ThreadAbortException"/>委托</param>
+        public static void StartAndIgnoreAbort(this Thread thread, Action<Exception> failFactory)
         {
             try
             {
@@ -40,9 +40,9 @@
             }
             catch(Exception ex)
             {
-                if(failAction != null)
+                if(failFactory != null)
                 {
-                    failAction(ex);
+                    failFactory(ex);
                 }
             }
         }

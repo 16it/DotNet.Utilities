@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Operator;
     using System;
     using System.IO;
     using System.Reflection;
@@ -71,7 +72,7 @@
              *以上参考：http://www.cnblogs.com/huangting2009/archive/2009/03/13/1410634.html
              */
 
-            ValidateHelper.Begin().NotNull(model, "需要深拷贝对象").Check<ArgumentException>(() => typeof(T).IsSerializable, string.Format("该类型:{0}不支持序列化", typeof(T).FullName));
+            ValidateOperator.Begin().NotNull(model, "需要深拷贝对象").Check<ArgumentException>(() => typeof(T).IsSerializable, string.Format("该类型:{0}不支持序列化", typeof(T).FullName));
 
             IFormatter _formatter = new BinaryFormatter();
             using(Stream stream = new MemoryStream())
@@ -93,7 +94,7 @@
         public static string SerializeToString<T>(T model)
         where T : class
         {
-            ValidateHelper.Begin().NotNull(model, "需要序列化对象");
+            ValidateOperator.Begin().NotNull(model, "需要序列化对象");
             Type _type = typeof(T);
             FieldInfo[] _fields = _type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
             StringBuilder _builder = new StringBuilder();
@@ -116,7 +117,7 @@
         /// <returns>值是否相等</returns>
         public static bool CompletelyEqual<T>(T[] sourceArray, T[] compareArray) where T : class, IComparable<T>
         {
-            ValidateHelper.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(compareArray, "被比较的数组");
+            ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(compareArray, "被比较的数组");
             bool _resut = sourceArray.Length == compareArray.Length;
 
             if(_resut)

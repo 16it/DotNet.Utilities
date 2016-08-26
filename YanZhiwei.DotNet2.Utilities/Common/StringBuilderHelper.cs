@@ -15,14 +15,14 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="builder">StringBuilder</param>
-        /// <param name="predicate">条件委托</param>
+        /// <param name="appendFactory">条件委托</param>
         /// <param name="values">数值</param>
         /// <returns>StringBuilder</returns>
-        public static StringBuilder AppendIf<T>(this StringBuilder builder, Func<T, bool> predicate, params T[] values)
+        public static StringBuilder AppendIf<T>(this StringBuilder builder, Func<T, bool> appendFactory, params T[] values)
         {
             foreach(var value in values)
             {
-                if(predicate(value))
+                if(appendFactory(value))
                 {
                     builder.Append(value);
                 }

@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
     using Common;
+    using Operator;
     using System;
     using System.Data.SqlClient;
 
@@ -42,7 +43,7 @@
         /// 备注：
         public SqlServerDbBackUp(string connectString, string backUpDataBase)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(connectString, "Sql Server连接字符串").NotNullOrEmpty(backUpDataBase, "需要备份数据库");
+            ValidateOperator.Begin().NotNullOrEmpty(connectString, "Sql Server连接字符串").NotNullOrEmpty(backUpDataBase, "需要备份数据库");
             ConnectString = connectString;
             BackUpDataBase = backUpDataBase;
         }
@@ -60,7 +61,7 @@
         /// 备注：
         public bool DataBackup(string filePath)
         {
-            ValidateHelper.Begin().IsFilePath(filePath, "Sql Server备份路径");
+            ValidateOperator.Begin().IsFilePath(filePath, "Sql Server备份路径");
             bool _result = false;
             //创建连接对象
             SqlServerDataOperator _sqlHelper = new SqlServerDataOperator(ConnectString);
@@ -97,7 +98,7 @@
         /// 备注：
         public bool DataRestore(string filePath, string restoreDbName)
         {
-            ValidateHelper.Begin().IsFilePath(filePath, "Sql Server备份路径").NotNullOrEmpty(restoreDbName, "还原数据库名称");
+            ValidateOperator.Begin().IsFilePath(filePath, "Sql Server备份路径").NotNullOrEmpty(restoreDbName, "还原数据库名称");
             bool _result = false;
             SqlServerDataOperator _sqlHelper = new SqlServerDataOperator(ConnectString);
             string _sql = @" use master ;

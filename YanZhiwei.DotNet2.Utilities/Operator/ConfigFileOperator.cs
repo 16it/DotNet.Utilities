@@ -149,7 +149,7 @@
 
         private void CheckedConfigFile()
         {
-            ValidateHelper.Begin().Check<ArgumentNullException>(() => config.HasFile, "config文件不存在。");
+            ValidateOperator.Begin().Check<ArgumentNullException>(() => config.HasFile, "config文件不存在。");
         }
 
         #endregion Methods

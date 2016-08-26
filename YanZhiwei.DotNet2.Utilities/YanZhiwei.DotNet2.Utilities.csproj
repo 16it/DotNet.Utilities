@@ -93,7 +93,7 @@
     <Compile Include="Common\ExifHelper.cs" />
     <Compile Include="Common\IDataReaderHelper.cs" />
     <Compile Include="Common\ProjectHelper.cs" />
-    <Compile Include="Common\SmtpClientHelper.cs" />
+    <Compile Include="Operator\SmtpClientOperator.cs" />
     <Compile Include="Core\Singleton.cs" />
     <Compile Include="Core\SingletonDictionary.cs" />
     <Compile Include="Core\SingletonList.cs" />
@@ -200,9 +200,9 @@
     <Compile Include="Common\MapHelper.cs" />
     <Compile Include="Common\MapOffsetDataHelper.cs" />
     <Compile Include="Common\MapOffsetHelper.cs" />
-    <Compile Include="Common\TestHelper.cs" />
+    <Compile Include="Operator\TestOperator.cs" />
     <Compile Include="Common\ThreadHelper.cs" />
-    <Compile Include="Common\ThreadPoolHelper.cs" />
+    <Compile Include="Info\ThreadPoolInfo.cs" />
     <Compile Include="Common\TimeSpanHelper.cs" />
     <Compile Include="Common\UnixEpochHelper.cs" />
     <Compile Include="Common\WGSMercatorLatLonHelper.cs" />
@@ -250,7 +250,6 @@
     <Compile Include="Common\RandomHelper.cs" />
     <Compile Include="Common\ReflectHelper.cs" />
     <Compile Include="Common\RegexHelper.cs" />
-    <Compile Include="Common\SectionHelper.cs" />
     <Compile Include="Operator\XMLFileOperator.cs" />
     <Compile Include="Core\SerialPortMaster.cs" />
     <Compile Include="Common\StringHelper.cs">
@@ -262,7 +261,7 @@
     <Compile Include="Core\ThreadSafeList.cs" />
     <Compile Include="Core\ThreadSafeQueue.cs" />
     <Compile Include="Core\UBinder.cs" />
-    <Compile Include="Common\ValidateHelper.cs" />
+    <Compile Include="Operator\ValidateOperator.cs" />
     <Compile Include="Common\XMLHelper.cs" />
     <Compile Include="Core\RegexPattern.cs" />
     <Compile Include="Resource.Designer.cs">

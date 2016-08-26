@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
-    using System.Security.Cryptography;
     using System.Text;
 
     /// <summary>
@@ -55,28 +54,23 @@
         /// <returns>分割好的字符串</returns>
         public static string BuilderDelimiter(this string data, char delimiter)
         {
-            if(!string.IsNullOrEmpty(data))
+            char[] _chars = data.ToCharArray();
+            StringBuilder _builder = new StringBuilder();
+
+            foreach(char c in _chars)
             {
-                char[] _chars = data.ToCharArray();
-                StringBuilder _builder = new StringBuilder();
-
-                foreach(char c in _chars)
-                {
-                    _builder.AppendFormat("{0}{1}", c, delimiter);
-                }
-
-                string _resultStr = _builder.ToString();
-                int _invalid = _resultStr.LastIndexOf(delimiter);
-
-                if(_invalid != -1)
-                {
-                    _resultStr = _resultStr.Substring(0, _invalid);
-                }
-
-                return _resultStr;
+                _builder.AppendFormat("{0}{1}", c, delimiter);
             }
 
-            return string.Empty;
+            string _resultStr = _builder.ToString();
+            int _invalid = _resultStr.LastIndexOf(delimiter);
+
+            if(_invalid != -1)
+            {
+                _resultStr = _resultStr.Substring(0, _invalid);
+            }
+
+            return _resultStr;
         }
 
         /// <summary>
@@ -88,25 +82,19 @@
         public static string ClearBlanks(this string data)
         {
             int _length = data.Length;
+            StringBuilder _builder = new StringBuilder(_length);
 
-            if(_length > 0)
+            for(int i = 0; i < data.Length; i++)
             {
-                StringBuilder _builder = new StringBuilder(_length);
+                char _c = data[i];
 
-                for(int i = 0; i < data.Length; i++)
+                if(!char.IsWhiteSpace(_c))
                 {
-                    char _c = data[i];
-
-                    if(!char.IsWhiteSpace(_c))
-                    {
-                        _builder.Append(_c);
-                    }
+                    _builder.Append(_c);
                 }
-
-                return _builder.ToString();
             }
 
-            return data;
+            return _builder.ToString();
         }
 
         /// <summary>
@@ -301,13 +289,9 @@
         /// 备注：
         public static string RemoveJsonStringSymbol(string jsonString)
         {
-            if(!string.IsNullOrEmpty(jsonString))
-            {
-                return jsonString.Replace("{", "").Replace("}", "").Replace("\"", "");
-            }
-
-            return jsonString;
+            return jsonString.Replace("{", "").Replace("}", "").Replace("\"", "");
         }
+
         /// <summary>
         /// 字符串逆转
         /// <para>eg:StringHelper.Reverse("YanZhiwei");</para>
@@ -316,14 +300,9 @@
         /// <returns>逆转后的字符串</returns>
         public static string Reverse(this string data)
         {
-            if(!string.IsNullOrEmpty(data))
-            {
-                char[] _chars = data.ToCharArray();
-                Array.Reverse(_chars);
-                return new string(_chars);
-            }
-
-            return data;
+            char[] _chars = data.ToCharArray();
+            Array.Reverse(_chars);
+            return new string(_chars);
         }
 
         /// <summary>
@@ -333,14 +312,9 @@
         /// <returns>反转字符串</returns>
         public static string ReverseUsingArrayClass(this string data)
         {
-            if(!string.IsNullOrEmpty(data))
-            {
-                char[] _chars = data.ToCharArray();
-                Array.Reverse(_chars);
-                return new string(_chars);
-            }
-
-            return data;
+            char[] _chars = data.ToCharArray();
+            Array.Reverse(_chars);
+            return new string(_chars);
         }
 
         /// <summary>
@@ -350,20 +324,15 @@
         /// <returns>反转字符串</returns>
         public static string ReverseUsingCharacterBuffer(this string data)
         {
-            if(data.Length > 0)
+            char[] _charArray = new char[data.Length];
+            int _inputStrLength = data.Length - 1;
+
+            for(int i = 0; i <= _inputStrLength; i++)
             {
-                char[] _charArray = new char[data.Length];
-                int _inputStrLength = data.Length - 1;
-
-                for(int i = 0; i <= _inputStrLength; i++)
-                {
-                    _charArray[i] = data[_inputStrLength - i];
-                }
-
-                return new string(_charArray);
+                _charArray[i] = data[_inputStrLength - i];
             }
 
-            return data;
+            return new string(_charArray);
         }
 
         /// <summary>
@@ -373,26 +342,21 @@
         /// <returns>反转字符串</returns>
         public static string ReverseUsingStack(this string data)
         {
-            if(data.Length > 0)
+            Stack<char> _resultStack = new Stack<char>();
+
+            foreach(char c in data)
             {
-                Stack<char> _resultStack = new Stack<char>();
-
-                foreach(char c in data)
-                {
-                    _resultStack.Push(c);
-                }
-
-                StringBuilder _builder = new StringBuilder();
-
-                while(_resultStack.Count > 0)
-                {
-                    _builder.Append(_resultStack.Pop());
-                }
-
-                return _builder.ToString();
+                _resultStack.Push(c);
             }
 
-            return data;
+            StringBuilder _builder = new StringBuilder();
+
+            while(_resultStack.Count > 0)
+            {
+                _builder.Append(_resultStack.Pop());
+            }
+
+            return _builder.ToString();
         }
 
         /// <summary>
@@ -402,19 +366,14 @@
         /// <returns>反转字符串</returns>
         public static string ReverseUsingStringBuilder(this string data)
         {
-            if(data.Length > 0)
+            StringBuilder _builder = new StringBuilder(data.Length);
+
+            for(int i = data.Length - 1; i >= 0; i--)
             {
-                StringBuilder _builder = new StringBuilder(data.Length);
-
-                for(int i = data.Length - 1; i >= 0; i--)
-                {
-                    _builder.Append(data[i]);
-                }
-
-                return _builder.ToString();
+                _builder.Append(data[i]);
             }
 
-            return data;
+            return _builder.ToString();
         }
 
         /// <summary>
@@ -424,22 +383,17 @@
         /// <returns>反转字符串</returns>
         public static string ReverseUsingXOR(this string data)
         {
-            if(data.Length > 0)
+            char[] _charArray = data.ToCharArray();
+            int _length = data.Length - 1;
+
+            for(int i = 0; i < _length; i++, _length--)
             {
-                char[] _charArray = data.ToCharArray();
-                int _length = data.Length - 1;
-
-                for(int i = 0; i < _length; i++, _length--)
-                {
-                    _charArray[i] ^= _charArray[_length];
-                    _charArray[_length] ^= _charArray[i];
-                    _charArray[i] ^= _charArray[_length];
-                }
-
-                return new string(_charArray);
+                _charArray[i] ^= _charArray[_length];
+                _charArray[_length] ^= _charArray[i];
+                _charArray[i] ^= _charArray[_length];
             }
 
-            return data;
+            return new string(_charArray);
         }
 
         /// <summary>
@@ -452,14 +406,11 @@
         /// 备注：
         public static string SubString(this string data, char delimiter)
         {
-            if(!string.IsNullOrEmpty(data))
-            {
-                int _indexof = data.IndexOf(delimiter);
+            int _indexof = data.IndexOf(delimiter);
 
-                if(_indexof != -1)
-                {
-                    data = data.Substring(0, _indexof);
-                }
+            if(_indexof != -1)
+            {
+                data = data.Substring(0, _indexof);
             }
 
             return data;
@@ -473,47 +424,14 @@
         /// <returns>截取后的字符串</returns>
         public static string SubStringFromLast(this string data, char delimiter)
         {
-            if(!string.IsNullOrEmpty(data))
-            {
-                int _indexof = data.LastIndexOf(delimiter);
+            int _indexof = data.LastIndexOf(delimiter);
 
-                if(_indexof != -1)
-                {
-                    data = data.Substring(0, _indexof);
-                }
+            if(_indexof != -1)
+            {
+                data = data.Substring(0, _indexof);
             }
 
             return data;
-        }
-
-        /// <summary>
-        /// 获取MD5加密字符串
-        /// <para>eg:StringHelper.ToMD5("YanZhiwei");==>"b07ec574a666d8e7582885ce334b4d00"</para>
-        /// </summary>
-        /// <param name="data">需要加密的字符串</param>
-        /// <returns>MD5加密的字符串</returns>
-        public static string ToMD5String(this string data)
-        {
-            /*参考
-             *1. http://www.dotblogs.com.tw/chhuang/archive/2008/05/17/4029.aspx
-             */
-            if(!string.IsNullOrEmpty(data))
-            {
-                MD5CryptoServiceProvider _md5 = new MD5CryptoServiceProvider();
-                byte[] _bytValue = Encoding.UTF8.GetBytes(data);
-                byte[] _bytHash = _md5.ComputeHash(_bytValue);
-                _md5.Clear();
-                StringBuilder _builder = new StringBuilder();
-
-                for(int i = 0; i < _bytHash.Length; i++)
-                {
-                    _builder.Append(_bytHash[i].ToString("X").PadLeft(2, '0'));
-                }
-
-                return _builder.ToString().ToLower();
-            }
-
-            return string.Empty;
         }
 
         /// <summary>
@@ -533,12 +451,7 @@
         /// <returns>操作后的字符串</returns>
         public static string UpperFirstChar(this string data)
         {
-            if(!string.IsNullOrEmpty(data))
-            {
-                return data.ToUpper().Substring(0, 1) + data.Substring(1, data.Length - 1);
-            }
-
-            return data;
+            return data.ToUpper().Substring(0, 1) + data.Substring(1, data.Length - 1);
         }
 
         /// <summary>

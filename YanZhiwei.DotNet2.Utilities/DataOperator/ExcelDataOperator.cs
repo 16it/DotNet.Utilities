@@ -17,11 +17,11 @@
         private static readonly string xls = ".xls";
         private static readonly string xlsx = ".xlsx";
 
-        private static bool _X64Version = false;
+        private static bool x64Version = false;
 
-        private string _ExcelConnectString = string.Empty;
-        private string _ExcelExtension = string.Empty; //后缀
-        private string _ExcelPath = string.Empty; //路径
+        private string excelConnectString = string.Empty;
+        private string excelExt = string.Empty; //后缀
+        private string excelPath = string.Empty; //路径
 
         #endregion Fields
 
@@ -37,10 +37,10 @@
         public ExcelDataOperator(string excelPath, bool x64Version)
         {
             string _excelExtension = Path.GetExtension(excelPath);
-            _ExcelExtension = _excelExtension.ToLower();
-            _ExcelPath = excelPath;
-            _X64Version = x64Version;
-            _ExcelConnectString = BuilderConnectionString();
+            excelExt = _excelExtension.ToLower();
+            this.excelPath = excelPath;
+            ExcelDataOperator.x64Version = x64Version;
+            excelConnectString = BuilderConnectionString();
         }
 
         #endregion Constructors
@@ -54,7 +54,7 @@
         public DataSet ExecuteDataSet()
         {
             DataSet _excelDb = null;
-            using(OleDbConnection sqlcon = new OleDbConnection(_ExcelConnectString))
+            using(OleDbConnection sqlcon = new OleDbConnection(excelConnectString))
             {
                 try
                 {
@@ -100,23 +100,16 @@
         /// <returns>DataTable</returns>
         public DataTable ExecuteDataTable(string sql)
         {
-            using(OleDbConnection sqlcon = new OleDbConnection(_ExcelConnectString))
+            using(OleDbConnection sqlcon = new OleDbConnection(excelConnectString))
             {
-                try
+                using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
                 {
-                    using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
+                    using(OleDbDataAdapter sqldap = new OleDbDataAdapter(sqlcmd))
                     {
-                        using(OleDbDataAdapter sqldap = new OleDbDataAdapter(sqlcmd))
-                        {
-                            DataTable _dtResult = new DataTable();
-                            sqldap.Fill(_dtResult);
-                            return _dtResult;
-                        }
+                        DataTable _dtResult = new DataTable();
+                        sqldap.Fill(_dtResult);
+                        return _dtResult;
                     }
-                }
-                catch(Exception)
-                {
-                    return null;
                 }
             }
         }
@@ -130,19 +123,12 @@
         public int ExecuteNonQuery(string sql)
         {
             int _affectedRows = -1;
-            using(OleDbConnection sqlcon = new OleDbConnection(_ExcelConnectString))
+            using(OleDbConnection sqlcon = new OleDbConnection(excelConnectString))
             {
-                try
+                sqlcon.Open();
+                using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
                 {
-                    sqlcon.Open();
-                    using(OleDbCommand sqlcmd = new OleDbCommand(sql, sqlcon))
-                    {
-                        _affectedRows = sqlcmd.ExecuteNonQuery();
-                    }
-                }
-                catch(Exception)
-                {
-                    return -1;
+                    _affectedRows = sqlcmd.ExecuteNonQuery();
                 }
             }
             return _affectedRows;
@@ -155,34 +141,20 @@
         public string[] GetExcelSheetNames()
         {
             DataTable _schemaTable = null;
-            using(OleDbConnection sqlcon = new OleDbConnection(_ExcelConnectString))
+            using(OleDbConnection sqlcon = new OleDbConnection(excelConnectString))
             {
-                try
-                {
-                    sqlcon.Open();
-                    _schemaTable = sqlcon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                    String[] _excelSheets = new String[_schemaTable.Rows.Count];
-                    int i = 0;
+                sqlcon.Open();
+                _schemaTable = sqlcon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                String[] _excelSheets = new String[_schemaTable.Rows.Count];
+                int i = 0;
 
-                    foreach(DataRow row in _schemaTable.Rows)
-                    {
-                        _excelSheets[i] = row["TABLE_NAME"].ToString().Trim();
-                        i++;
-                    }
+                foreach(DataRow row in _schemaTable.Rows)
+                {
+                    _excelSheets[i] = row["TABLE_NAME"].ToString().Trim();
+                    i++;
+                }
 
-                    return _excelSheets;
-                }
-                catch(Exception)
-                {
-                    return null;
-                }
-                finally
-                {
-                    if(_schemaTable != null)
-                    {
-                        _schemaTable.Dispose();
-                    }
-                }
+                return _excelSheets;
             }
         }
 
@@ -194,20 +166,20 @@
         {
             Dictionary<string, string> _connectionParameter = new Dictionary<string, string>();
 
-            if(!_ExcelExtension.Equals(xlsx) && !_ExcelExtension.Equals(xls))
+            if(!excelExt.Equals(xlsx) && !excelExt.Equals(xls))
             {
                 throw new ArgumentException("excelPath");
             }
 
-            if(!_X64Version)
+            if(!x64Version)
             {
-                if(_ExcelExtension.Equals(xlsx))
+                if(excelExt.Equals(xlsx))
                 {
                     // XLSX - Excel 2007, 2010, 2012, 2013
                     _connectionParameter["Provider"] = "Microsoft.ACE.OLEDB.12.0;";
                     _connectionParameter["Extended Properties"] = "'Excel 12.0 XML;IMEX=1'";
                 }
-                else if(_ExcelExtension.Equals(xls))
+                else if(excelExt.Equals(xls))
                 {
                     // XLS - Excel 2003 and Older
                     _connectionParameter["Provider"] = "Microsoft.Jet.OLEDB.4.0";
@@ -220,7 +192,7 @@
                 _connectionParameter["Extended Properties"] = "'Excel 12.0 XML;IMEX=1'";
             }
 
-            _connectionParameter["Data Source"] = _ExcelPath;
+            _connectionParameter["Data Source"] = excelPath;
             StringBuilder _connectionString = new StringBuilder();
 
             foreach(KeyValuePair<string, string> parameter in _connectionParameter)

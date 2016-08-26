@@ -1,8 +1,7 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
 {
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
+    using DotNet2.Utilities.Operator;
     using YanZhiwei.DotNet2.Utilities.Core;
-    using DotNet2.Utilities.Common;
 
     /// <summary>
     /// FrameworkException辅助类
@@ -23,7 +22,7 @@
         /// 备注：
         public static string ParseInnerDataToJsonString(this FrameworkException frameworkException)
         {
-            ValidateHelper.Begin().NotNull(frameworkException, "FrameworkException");
+            ValidateOperator.Begin().NotNull(frameworkException, "FrameworkException");
             return SerializeHelper.JsonSerialize(frameworkException.InnerException.Data);
         }
 

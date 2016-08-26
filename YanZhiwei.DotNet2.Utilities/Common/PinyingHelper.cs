@@ -439,7 +439,7 @@
         /// <returns>拼音</returns>
         public static string GetPinyin(string chineseChars)
         {
-            byte[] _bytes = System.Text.Encoding.Default.GetBytes(chineseChars);
+            byte[] _bytes = Encoding.Default.GetBytes(chineseChars);
             int _value;
             StringBuilder _builder = new StringBuilder(chineseChars.Length * 4);
 

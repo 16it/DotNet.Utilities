@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.Operator;
 
 namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
@@ -11,14 +11,14 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void InRangeTest()
         {
-            ValidateHelper.Begin().InRange(2, 3, 8, "2");
+            ValidateOperator.Begin().InRange(2, 3, 8, "2");
         }
 
         [TestMethod()]
         [ExpectedException(typeof(ArgumentException))]
         public void IsNumberTest()
         {
-            ValidateHelper.Begin().IsNumber("yanzhiwei", "不是数字.");
+            ValidateOperator.Begin().IsNumber("yanzhiwei", "不是数字.");
         }
     }
 }

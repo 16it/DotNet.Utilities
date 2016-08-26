@@ -8,6 +8,7 @@
     using System.Runtime.InteropServices;
 
     using Enum;
+    using Operator;
 
     /// <summary>
     ///Image帮助类
@@ -39,7 +40,7 @@
              *2. http://blog.csdn.net/jiangxinyu/article/details/6222302
              *3. http://www.smokycogs.com/blog/image-processing-in-c-sharp-adjusting-the-brightness/
              */
-            ValidateHelper.Begin().InRange(brightnessValue, 0, 100, "图片亮度值");
+            ValidateOperator.Begin().InRange(brightnessValue, 0, 100, "图片亮度值");
             brightnessValue = 100 - brightnessValue;
             Bitmap _tempBitmap = image;
             float _finalValue = (float)brightnessValue / 255.0f;
@@ -561,7 +562,7 @@
         /// </summary>
         private static void CheckedAttachPngParamters(string watermarkImageFile, string sourceImageFile)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(watermarkImageFile, "水印图片路径")
+            ValidateOperator.Begin().NotNullOrEmpty(watermarkImageFile, "水印图片路径")
             .CheckFileExists(watermarkImageFile, "水印图片路径")
             .NotNullOrEmpty(sourceImageFile, "水印图片路径")
             .CheckFileExists(sourceImageFile, "需要添加水印文件的原图")

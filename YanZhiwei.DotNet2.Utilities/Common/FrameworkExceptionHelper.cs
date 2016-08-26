@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Operator;
     using System.Collections;
     using System.IO;
     using System.Xml;
@@ -25,7 +26,7 @@
         /// 备注：
         public static string ParseInnerDataToXmlString(this FrameworkException frameworkException)
         {
-            ValidateHelper.Begin().NotNull(frameworkException, "FrameworkException");
+            ValidateOperator.Begin().NotNull(frameworkException, "FrameworkException");
             string _xmlString = string.Empty;
 
             if(frameworkException.InnerException != null)

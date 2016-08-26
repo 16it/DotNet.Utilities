@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Operator;
     using System;
 
     /// <summary>
@@ -19,7 +20,7 @@
         /// <returns>数组</returns>
         public static T[] Add<T>(T[] sourceArray, T item)
         {
-            ValidateHelper.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(item, "需要添加数组项");
+            ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(item, "需要添加数组项");
             int _count = sourceArray.Length;
             Array.Resize<T>(ref sourceArray, _count + 1);
             sourceArray[_count] = item;
@@ -39,7 +40,7 @@
         /// <returns>数组</returns>
         public static T[] AddRange<T>(T[] sourceArray, T[] addArray)
         {
-            ValidateHelper.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(addArray, "被添加的数组");
+            ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(addArray, "被添加的数组");
             int _count = sourceArray.Length;
             int _addCount = addArray.Length;
             Array.Resize<T>(ref sourceArray, _count + _addCount);
@@ -59,7 +60,7 @@
         /// <param name="sourceArray">数组</param>
         public static void ClearAll(Array sourceArray)
         {
-            ValidateHelper.Begin().NotNull(sourceArray, "需要操作的数组");
+            ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组");
             Array.Clear(sourceArray, 0, sourceArray.Length);
         }
 
@@ -74,7 +75,7 @@
         /// <returns>是否相等</returns>
         public static bool CompletelyEqual<T>(this T[] sourceArray, T[] compareArray)
         {
-            ValidateHelper.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(compareArray, "被比较的数组");
+            ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(compareArray, "被比较的数组");
 
             if(sourceArray == null || compareArray == null)
             {
@@ -111,7 +112,7 @@
         /// <returns>数组</returns>
         public static T[] Copy<T>(T[] sourceArray, int startIndex, int endIndex)
         {
-            ValidateHelper.Begin().NotNull(sourceArray, "需要操作的数组")
+            ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组")
             .CheckGreaterThan<int>(startIndex, "复制起始索引", 0, true)
             .CheckGreaterThan<int>(endIndex, "复制结束索引", startIndex, false)
             .CheckLessThan<int>(endIndex, "复制结束索引", sourceArray.Length, true);

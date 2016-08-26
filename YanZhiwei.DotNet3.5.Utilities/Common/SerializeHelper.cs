@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
 {
     using DotNet2.Utilities.Common;
+    using DotNet2.Utilities.Operator;
     using System;
     using System.IO;
     using System.Runtime.Serialization;
@@ -24,7 +25,7 @@
         /// <returns>对象</returns>
         public static T BinaryDeserialize<T>(byte[] deserializeBuffer)
         {
-            ValidateHelper.Begin().NotNull(deserializeBuffer, "deserializeBuffer");
+            ValidateOperator.Begin().NotNull(deserializeBuffer, "deserializeBuffer");
             using(MemoryStream stream = new MemoryStream(deserializeBuffer))
             {
                 BinaryFormatter _binarySerializer = new BinaryFormatter();
@@ -180,7 +181,7 @@
         public static void XmlSerialize<T>(T serializeData, string filename)
         {
             CheckedSerializeData(serializeData);
-            ValidateHelper.Begin().IsFilePath(filename, "filename");
+            ValidateOperator.Begin().IsFilePath(filename, "filename");
             using(FileStream stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
             {
                 XmlSerializer _xmlSerializer = new XmlSerializer(serializeData.GetType());
@@ -226,12 +227,12 @@
 
         private static void CheckedDeserializeString(string deserializeString)
         {
-            ValidateHelper.Begin().NotNull(deserializeString, "deserializeString");
+            ValidateOperator.Begin().NotNull(deserializeString, "deserializeString");
         }
 
         private static void CheckedSerializeData<T>(T serializeData)
         {
-            ValidateHelper.Begin().NotNull(serializeData, "serializeData");
+            ValidateOperator.Begin().NotNull(serializeData, "serializeData");
         }
 
         #endregion Methods

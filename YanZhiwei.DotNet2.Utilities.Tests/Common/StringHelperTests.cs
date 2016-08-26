@@ -100,13 +100,6 @@ wei", _actual);
         }
 
         [TestMethod()]
-        public void ToMD5Test()
-        {
-            string _actual = StringHelper.ToMD5String("YanZhiwei");
-            Assert.AreEqual("b07ec574a666d8e7582885ce334b4d00", _actual);
-        }
-
-        [TestMethod()]
         public void ParseThousandthStringTest()
         {
             int _actual = StringHelper.ParseThousandthString("111,222,333");
