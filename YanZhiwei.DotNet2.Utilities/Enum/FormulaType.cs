@@ -5,7 +5,7 @@
     /// <summary>
     /// EnumFormula
     /// </summary>
-    public enum Formula
+    public enum FormulaType
     {
         /// <summary>
         /// 加号

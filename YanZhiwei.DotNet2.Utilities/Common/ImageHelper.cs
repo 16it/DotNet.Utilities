@@ -337,7 +337,7 @@
         /// <param name="height">缩略图高度</param>
         /// <param name="destfile">缩略图保存位置</param>
         /// <param name="cMode">裁剪模式</param>
-        public static void CreateSmallPhoto(string sourceImageFile, int width, int height, string destfile, ImageCutMode cMode)
+        public static void CreateSmallPhoto(string sourceImageFile, int width, int height, string destfile, ImageCutType cMode)
         {
             using(Image _sourceImg = Image.FromFile(sourceImageFile))
             {
@@ -352,18 +352,18 @@
 
                 switch(cMode)
                 {
-                    case ImageCutMode.CutWH://指定高宽缩放（可能变形）
+                    case ImageCutType.CutWH://指定高宽缩放（可能变形）
                         break;
 
-                    case ImageCutMode.CutW://指定宽，高按比例
+                    case ImageCutType.CutW://指定宽，高按比例
                         _toheight = _sourceImg.Height * width / _sourceImg.Width;
                         break;
 
-                    case ImageCutMode.CutH://指定高，宽按比例
+                    case ImageCutType.CutH://指定高，宽按比例
                         _towidth = _sourceImg.Width * height / _sourceImg.Height;
                         break;
 
-                    case ImageCutMode.CutNo: //缩放不剪裁
+                    case ImageCutType.CutNo: //缩放不剪裁
                         int maxSize = (width >= height ? width : height);
 
                         if(_sourceImg.Width >= _sourceImg.Height)
@@ -388,7 +388,7 @@
                 ImageFormat _imageFormat = _sourceImg.RawFormat;
                 Size _imageCutSize = new Size(width, height);
 
-                if(cMode != ImageCutMode.CutNo)
+                if(cMode != ImageCutType.CutNo)
                     _imageCutSize = CutRegion(width, height, _sourceImg);
 
                 using(Bitmap sourceBmp = new Bitmap(width, height))

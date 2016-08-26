@@ -96,33 +96,33 @@
             return Convert.ToDouble(formulaString);
         }
 
-        private static double CalculateExExpress(string formulaString, Formula ExpressType)
+        private static double CalculateExExpress(string formulaString, FormulaType ExpressType)
         {
             double _retValue = 0;
 
             switch(ExpressType)
             {
-                case Formula.Sin:
+                case FormulaType.Sin:
                     _retValue = Math.Sin(Convert.ToDouble(formulaString));
                     break;
 
-                case Formula.Cos:
+                case FormulaType.Cos:
                     _retValue = Math.Cos(Convert.ToDouble(formulaString));
                     break;
 
-                case Formula.Tan:
+                case FormulaType.Tan:
                     _retValue = Math.Tan(Convert.ToDouble(formulaString));
                     break;
 
-                case Formula.ATan:
+                case FormulaType.ATan:
                     _retValue = Math.Atan(Convert.ToDouble(formulaString));
                     break;
 
-                case Formula.Sqrt:
+                case FormulaType.Sqrt:
                     _retValue = Math.Sqrt(Convert.ToDouble(formulaString));
                     break;
 
-                case Formula.Pow:
+                case FormulaType.Pow:
                     _retValue = Math.Pow(Convert.ToDouble(formulaString), 2);
                     break;
             }
@@ -138,32 +138,32 @@
 
             if(formulaString.IndexOf("SIN") != -1)
             {
-                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("N") + 1, formulaString.Length - 1 - formulaString.IndexOf("N")), Formula.Sin).ToString();
+                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("N") + 1, formulaString.Length - 1 - formulaString.IndexOf("N")), FormulaType.Sin).ToString();
             }
 
             if(formulaString.IndexOf("COS") != -1)
             {
-                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("S") + 1, formulaString.Length - 1 - formulaString.IndexOf("S")), Formula.Cos).ToString();
+                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("S") + 1, formulaString.Length - 1 - formulaString.IndexOf("S")), FormulaType.Cos).ToString();
             }
 
             if(formulaString.IndexOf("TAN") != -1)
             {
-                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("N") + 1, formulaString.Length - 1 - formulaString.IndexOf("N")), Formula.Tan).ToString();
+                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("N") + 1, formulaString.Length - 1 - formulaString.IndexOf("N")), FormulaType.Tan).ToString();
             }
 
             if(formulaString.IndexOf("ATAN") != -1)
             {
-                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("N") + 1, formulaString.Length - 1 - formulaString.IndexOf("N")), Formula.ATan).ToString();
+                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("N") + 1, formulaString.Length - 1 - formulaString.IndexOf("N")), FormulaType.ATan).ToString();
             }
 
             if(formulaString.IndexOf("SQRT") != -1)
             {
-                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("T") + 1, formulaString.Length - 1 - formulaString.IndexOf("T")), Formula.Sqrt).ToString();
+                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("T") + 1, formulaString.Length - 1 - formulaString.IndexOf("T")), FormulaType.Sqrt).ToString();
             }
 
             if(formulaString.IndexOf("POW") != -1)
             {
-                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("W") + 1, formulaString.Length - 1 - formulaString.IndexOf("W")), Formula.Pow).ToString();
+                return CalculateExExpress(formulaString.Substring(formulaString.IndexOf("W") + 1, formulaString.Length - 1 - formulaString.IndexOf("W")), FormulaType.Pow).ToString();
             }
 
             return formulaString;

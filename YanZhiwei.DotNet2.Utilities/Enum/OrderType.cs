@@ -3,11 +3,11 @@
     #region Enumerations
 
     /// <summary>
-    /// 排序方向
+    /// 排序
     /// </summary>
-    /// 时间：2015-11-02 16:06
+    /// 时间：2016-01-05 11:45
     /// 备注：
-    public enum OrderWay
+    public enum OrderType
     {
         /// <summary>
         /// 降序

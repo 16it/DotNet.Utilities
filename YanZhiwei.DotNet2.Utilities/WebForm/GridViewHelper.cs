@@ -29,7 +29,7 @@
         /// <param name="defaultOrderWay">排序方式，降序或升序</param>
         /// 时间：2015-11-02 17:21
         /// 备注：在Page_Load方法中使用；
-        public static void InitializeColumnOrderBy(this GridView gridView, string orderColumnName, OrderWay defaultOrderWay)
+        public static void InitializeColumnOrderBy(this GridView gridView, string orderColumnName, OrderType defaultOrderWay)
         {
             if(!gridView.AllowSorting)
             {
@@ -47,24 +47,24 @@
         /// <param name="finallyDataBindFactory">最后数据绑定委托</param>
         /// 时间：2015-11-02 17:21
         /// 备注：在OnInit事件中使用；
-        public static void SetColumnOrderBy(this GridView gridView, Action<GridView, string, OrderWay> finallyDataBindFactory)
+        public static void SetColumnOrderBy(this GridView gridView, Action<GridView, string, OrderType> finallyDataBindFactory)
         {
             gridView.Sorting += (sender, e) =>
             {
                 GridView _gridView = sender as GridView;
                 string _sortExpression = e.SortExpression,
                        _orderWay = _gridView.Attributes["OrderWay"].ToString().Trim();
-                OrderWay _curOrderby = OrderWay.Asc;
+                OrderType _curOrderby = OrderType.Asc;
 
-                if(_orderWay == OrderWay.Desc.ToString())
+                if(_orderWay == OrderType.Desc.ToString())
                 {
-                    _gridView.Attributes["OrderWay"] = OrderWay.Asc.ToString();
-                    _curOrderby = OrderWay.Asc;
+                    _gridView.Attributes["OrderWay"] = OrderType.Asc.ToString();
+                    _curOrderby = OrderType.Asc;
                 }
-                else if(_orderWay == OrderWay.Asc.ToString())
+                else if(_orderWay == OrderType.Asc.ToString())
                 {
-                    _gridView.Attributes["OrderWay"] = OrderWay.Desc.ToString();
-                    _curOrderby = OrderWay.Desc;
+                    _gridView.Attributes["OrderWay"] = OrderType.Desc.ToString();
+                    _curOrderby = OrderType.Desc;
                 }
 
                 _gridView.Attributes["SortOrder"] = _sortExpression;

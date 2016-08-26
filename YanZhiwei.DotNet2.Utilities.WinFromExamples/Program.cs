@@ -17,20 +17,20 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
             Application.SetCompatibleTextRenderingDefault(false);
             ApplicationHelper.CapturedException((ex, mode) =>
             {
-                switch (mode)
+                switch(mode)
                 {
-                    case ExceptionMode.UnhandledException:
+                    case ExceptionType.Unhandled:
                         MessageBox.Show("发生未捕获的异常:" + ex.Message);
                         break;
 
-                    case ExceptionMode.ThreadException:
+                    case ExceptionType.Thread:
                         MessageBox.Show("发生线程异常:" + ex.Message);
                         break;
                 }
             });
             ApplicationHelper.ApplyOnlyOneInstance(t =>
             {
-                if (t)
+                if(t)
                 {
                     FormHelper.ShowLoginForm<winLogin, winMain>();
                 }

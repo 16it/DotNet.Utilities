@@ -11,9 +11,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
         {
             try
             {
-
-                HighPerformanceServer _socket = new HighPerformanceServer(ServerType.TCP, "127.0.0.1", 9998);
-              
+                HighPerformanceServer _socket = new HighPerformanceServer(TCPIPType.TCP, "127.0.0.1", 9998);
                 _socket.OnClientConnected += socket_OnClientConnected;
                 _socket.OnDataReceived += socket_OnDataReceived;
                 _socket.Start();
@@ -29,7 +27,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                     Console.WriteLine("input:" + input);
                 });
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine("Error:" + ex.Message);
             }

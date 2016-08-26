@@ -3,34 +3,39 @@
     #region Enumerations
 
     /// <summary>
-    /// 常用按钮
+    /// 时间差枚举
     /// </summary>
-    public enum Buttons
+    public enum DateType
     {
         /// <summary>
-        /// 关闭按钮
+        /// 年
         /// </summary>
-        Close,
+        year,
 
         /// <summary>
-        /// 返回按钮
+        /// 月
         /// </summary>
-        Back,
+        month,
 
         /// <summary>
-        /// 首页按钮
+        /// 日
         /// </summary>
-        Home,
+        day,
 
         /// <summary>
-        /// 注册按钮
+        /// 小时
         /// </summary>
-        Register,
+        hour,
 
         /// <summary>
-        /// 登陆按钮
+        /// 分钟
         /// </summary>
-        Login
+        minute,
+
+        /// <summary>
+        /// 秒
+        /// </summary>
+        second
     }
 
     #endregion Enumerations

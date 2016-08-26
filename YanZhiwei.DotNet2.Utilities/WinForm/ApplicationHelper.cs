@@ -40,24 +40,24 @@
         /// <para>在应用程序的主入口点Main方法使用</para>
         /// </summary>
         /// <param name="capturedHanlder">The captured hanlder.</param>
-        public static void CapturedException(Action<Exception, ExceptionMode> capturedHanlder)
+        public static void CapturedException(Action<Exception, ExceptionType> capturedHanlder)
         {
             try
             {
                 Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
                 Application.ThreadException += (sender, e) =>
                 {
-                    capturedHanlder(e.Exception, ExceptionMode.ThreadException);
+                    capturedHanlder(e.Exception, ExceptionType.Thread);
                 };
                 AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
                 {
                     Exception _ex = (Exception)e.ExceptionObject;
-                    capturedHanlder(_ex, ExceptionMode.UnhandledException);
+                    capturedHanlder(_ex, ExceptionType.Unhandled);
                 };
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                capturedHanlder(ex, ExceptionMode.UnhandledException);
+                capturedHanlder(ex, ExceptionType.Unhandled);
             }
         }
 
@@ -68,11 +68,11 @@
         /// <param name="mainForm">主窗口</param>
         /// <param name="closingHanlder">窗体正在关闭事件</param>
         public static void CapturedExit<T>(Form mainForm, Func<bool> closingHanlder)
-            where T : Form
+        where T : Form
         {
             mainForm.FormClosing += (sender, e) =>
             {
-                if (closingHanlder != null)
+                if(closingHanlder != null)
                 {
                     e.Cancel = !closingHanlder();
                 }

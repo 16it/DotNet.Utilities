@@ -20,11 +20,11 @@ namespace YanZhiwei.DotNet.SerialPortTemplate
             {
                 switch(mode)
                 {
-                    case ExceptionMode.UnhandledException:
+                    case ExceptionType.Unhandled:
                         Log4NetHelper.WriteFatal("发生未捕获的异常:" + ex.Message);
                         break;
 
-                    case ExceptionMode.ThreadException:
+                    case ExceptionType.Thread:
                         Log4NetHelper.WriteFatal("发生线程异常:" + ex.Message);
                         break;
                 }

@@ -3,8 +3,6 @@
     using Common;
     using System;
     using System.IO.Ports;
-
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
     using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>

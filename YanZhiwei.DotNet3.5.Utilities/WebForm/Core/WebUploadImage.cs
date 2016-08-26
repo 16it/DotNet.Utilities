@@ -143,7 +143,7 @@
         /// <param name="imgHeight">图片高度</param>
         /// <param name="cMode">剪切类型</param>
         /// <returns>返回上传信息</returns>
-        public UploadImageMessage FileCutSaveAs(HttpPostedFile postedFile, string savePath, int imgWidth, int imgHeight, ImageCutMode cMode)
+        public UploadImageMessage FileCutSaveAs(HttpPostedFile postedFile, string savePath, int imgWidth, int imgHeight, ImageCutType cMode)
         {
             UploadImageMessage _uploadImageMsg = new UploadImageMessage();
 
@@ -309,7 +309,7 @@
                         }
                         else
                         {
-                            ImageHelper.CreateSmallPhoto(_fullPath, Convert.ToInt32(_widthArray[i]), Convert.ToInt32(_heightArray[i]), _descFile, ImageCutMode.CutNo);
+                            ImageHelper.CreateSmallPhoto(_fullPath, Convert.ToInt32(_widthArray[i]), Convert.ToInt32(_heightArray[i]), _descFile, ImageCutType.CutNo);
                         }
                     }
                     else
@@ -320,7 +320,7 @@
                         }
                         else
                         {
-                            ImageHelper.CreateSmallPhoto(_fullPath, _sourceWidth, _sourceHeight, _descFile, ImageCutMode.CutNo);
+                            ImageHelper.CreateSmallPhoto(_fullPath, _sourceWidth, _sourceHeight, _descFile, ImageCutType.CutNo);
                         }
                     }
                 }

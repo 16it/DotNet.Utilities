@@ -35,7 +35,7 @@
         /// <param name="ipAddress">ip地址</param>
         /// 时间：2016/6/7 11:35
         /// 备注：
-        public HighPerformanceServer(ServerType type, string ipAddress)
+        public HighPerformanceServer(TCPIPType type, string ipAddress)
         : this(type, ipAddress, 9888)
         {
         }
@@ -48,7 +48,7 @@
         /// <param name="port">端口</param>
         /// 时间：2016/6/7 11:35
         /// 备注：
-        public HighPerformanceServer(ServerType type, string ipAddress, ushort port)
+        public HighPerformanceServer(TCPIPType type, string ipAddress, ushort port)
         {
             Init(type, ipAddress, port);
         }
@@ -167,7 +167,7 @@
         /// <summary>
         /// 连接类型
         /// </summary>
-        public ServerType Type
+        public TCPIPType Type
         {
             get;
             set;
@@ -196,12 +196,12 @@
             {
                 listener.Bind(this.Endpoint);
 
-                if(this.Type == ServerType.TCP)
+                if(this.Type == TCPIPType.TCP)
                 {
                     listener.Listen(this.MaxQueuedConnections);
                     listener.BeginAccept(new AsyncCallback(ClientConnected), listener);
                 }
-                else if(this.Type == ServerType.UDP)
+                else if(this.Type == TCPIPType.UDP)
                 {
                     SocketConnectionInfo _connection = new SocketConnectionInfo();
                     _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
@@ -259,11 +259,11 @@
                 OnClientConnected(this, null);
             }
 
-            if(this.Type == ServerType.TCP)
+            if(this.Type == TCPIPType.TCP)
             {
                 _asyncClient.BeginReceive(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), _connection);
             }
-            else if(this.Type == ServerType.UDP)
+            else if(this.Type == TCPIPType.UDP)
             {
                 _asyncClient.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
             }
@@ -295,11 +295,11 @@
                 SocketConnectionInfo _connection = (SocketConnectionInfo)asyncResult.AsyncState;
                 int _bytesRead;
 
-                if(this.Type == ServerType.UDP)
+                if(this.Type == TCPIPType.UDP)
                 {
                     _bytesRead = _connection.Socket.EndReceiveFrom(asyncResult, ref ipeSender);
                 }
-                else if(this.Type == ServerType.TCP)
+                else if(this.Type == TCPIPType.TCP)
                 {
                     _bytesRead = _connection.Socket.EndReceive(asyncResult);
                 }
@@ -320,11 +320,11 @@
                         _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
                         _connection.Socket = ((SocketConnectionInfo)asyncResult.AsyncState).Socket;
 
-                        if(this.Type == ServerType.UDP)
+                        if(this.Type == TCPIPType.UDP)
                         {
                             _connection.Socket.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
                         }
-                        else if(this.Type == ServerType.TCP)
+                        else if(this.Type == TCPIPType.TCP)
                         {
                             _connection.Socket.BeginReceive(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), _connection);
                         }
@@ -345,11 +345,11 @@
                     {
                         Array.Resize<Byte>(ref _connection.Buffer, _connection.Buffer.Length + SocketConnectionInfo.BufferSize);
 
-                        if(this.Type == ServerType.UDP)
+                        if(this.Type == TCPIPType.UDP)
                         {
                             _connection.Socket.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
                         }
-                        else if(this.Type == ServerType.TCP)
+                        else if(this.Type == TCPIPType.TCP)
                         {
                             _connection.Socket.BeginReceive(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), _connection);
                         }
@@ -383,11 +383,11 @@
 
         internal Socket GetCorrectSocket()
         {
-            if(this.Type == ServerType.TCP)
+            if(this.Type == TCPIPType.TCP)
             {
                 return new Socket(this.Endpoint.AddressFamily, System.Net.Sockets.SocketType.Stream, ProtocolType.Tcp);
             }
-            else if(this.Type == ServerType.UDP)
+            else if(this.Type == TCPIPType.UDP)
             {
                 return new Socket(this.Endpoint.AddressFamily, System.Net.Sockets.SocketType.Dgram, ProtocolType.Udp);
             }
@@ -411,7 +411,7 @@
         /// 时间：2016/6/7 22:45
         /// 备注：
         /// <exception cref="System.ArgumentException">未能识别的Ip地址。</exception>
-        private void Init(ServerType server, string ipAddress, ushort port)
+        private void Init(TCPIPType server, string ipAddress, ushort port)
         {
             ValidateOperator.Begin().NotNullOrEmpty(ipAddress, "Ip地址").IsIp(ipAddress, "Ip地址");
             IPAddress _ipAddress;

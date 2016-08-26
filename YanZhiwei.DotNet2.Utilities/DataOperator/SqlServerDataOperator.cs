@@ -253,7 +253,7 @@
         /// <returns>组元[DataTable,分页总数，记录总数]</returns>
         /// 时间：2016-01-05 13:21
         /// 备注：
-        public Tuple<DataTable, int, int> ExecutePageQuery(string tableName, string fields, string orderField, OrderBy orderBy, string sqlWhere, int pageSize, int pageIndex)
+        public Tuple<DataTable, int, int> ExecutePageQuery(string tableName, string fields, string orderField, OrderType orderBy, string sqlWhere, int pageSize, int pageIndex)
         {
             string _sql = SqlServerPageScript.CreateSqlByRowNumber(tableName, fields, orderField, sqlWhere, orderBy, pageSize, pageIndex);
             int _totalPage = 0, _totalCount = 0;
@@ -344,7 +344,7 @@
                         sqlcon.Open();
                         using(IDataReader reader = sqlcmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
-                            DynamicBuilder.Build _buildFrom = DynamicBuilder.CreateBuilder(reader, typeof(T), DBTypeName.SqlServer);
+                            DynamicBuilder.Build _buildFrom = DynamicBuilder.CreateBuilder(reader, typeof(T), DataBaseType.SqlServer);
 
                             while(reader.Read())
                             {
@@ -388,7 +388,7 @@
                         sqlcon.Open();
                         using(IDataReader reader = sqlcmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
-                            DynamicBuilder.Build _buildFrom = DynamicBuilder.CreateBuilder(reader, typeof(T), DBTypeName.SqlServer);
+                            DynamicBuilder.Build _buildFrom = DynamicBuilder.CreateBuilder(reader, typeof(T), DataBaseType.SqlServer);
 
                             while(reader.Read())
                             {

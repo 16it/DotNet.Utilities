@@ -204,33 +204,33 @@
         /// <param name="endTime">结束时间</param>
         /// <param name="part">时间差枚举</param>
         /// <returns>时间差</returns>
-        public static int GetDateDiff(this DateTime startTime, DateTime endTime, DatePart part)
+        public static int GetDateDiff(this DateTime startTime, DateTime endTime, DateType part)
         {
             int _resutl = 0;
 
             switch(part)
             {
-                case DatePart.year:
+                case DateType.year:
                     _resutl = endTime.Year - startTime.Year;
                     break;
 
-                case DatePart.month:
+                case DateType.month:
                     _resutl = (endTime.Year - startTime.Year) * 12 + (endTime.Month - startTime.Month);
                     break;
 
-                case DatePart.day:
+                case DateType.day:
                     _resutl = (int)(endTime - startTime).TotalDays;
                     break;
 
-                case DatePart.hour:
+                case DateType.hour:
                     _resutl = (int)(endTime - startTime).TotalHours;
                     break;
 
-                case DatePart.minute:
+                case DateType.minute:
                     _resutl = (int)(endTime - startTime).TotalMinutes;
                     break;
 
-                case DatePart.second:
+                case DateType.second:
                     _resutl = (int)(endTime - startTime).TotalSeconds;
                     break;
             }

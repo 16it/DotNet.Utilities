@@ -18,7 +18,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebFormExamples
                 _uploadImage.SetSmallImgWidth = "100,40,20";
                 //保存图片生成缩略图
                 //  var _message = _uploadImage.FileSaveAs(Request.Files[0], Server.MapPath("~/file/temp"));
-                var _message = _uploadImage.FileCutSaveAs(Request.Files[0], Server.MapPath("~/file/temp2"), 400, 300, ImageCutMode.CutWH);
+                var _message = _uploadImage.FileCutSaveAs(Request.Files[0], Server.MapPath("~/file/temp2"), 400, 300, ImageCutType.CutWH);
                 Label1.Text = _message.IsError == false ? "上传成功" : "上传失败" + _message.Message;
             }
         }

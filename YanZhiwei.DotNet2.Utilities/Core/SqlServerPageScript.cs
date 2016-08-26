@@ -22,19 +22,17 @@
         /// <param name="pSize">每页页数『需大于零』</param>
         /// <param name="pIndex">页数『从壹开始算』</param>
         /// <returns>生成分页sql脚本</returns>
-        public static string CreateSqlByRowNumber(string tableName, string columns, string orderColumn, string sqlWhere, OrderBy orderType, int pSize, int pIndex)
+        public static string CreateSqlByRowNumber(string tableName, string columns, string orderColumn, string sqlWhere, OrderType orderType, int pSize, int pIndex)
         {
             int _pageStart = pSize * (pIndex - 1) + 1;
             int _pageEnd = pSize * pIndex + 1;
-
             string _sql = string.Format("select * from  (select (ROW_NUMBER() over(order by {2} {3})) as ROWNUMBER,{1}  from {0})as tp where ROWNUMBER >= {4} and ROWNUMBER< {5} ",
-                                         tableName,
-                                         columns,
-                                         orderColumn,
-                                         orderType == OrderBy.Desc ? "desc" : "asc",
-                                         _pageStart,
-                                         _pageEnd);
-
+                                        tableName,
+                                        columns,
+                                        orderColumn,
+                                        orderType == OrderType.Desc ? "desc" : "asc",
+                                        _pageStart,
+                                        _pageEnd);
             _sql = CreateQueryWhereSql(_sql, sqlWhere);
             _sql = CreateQueryTotalSql(_sql, tableName);
             return _sql;
@@ -51,7 +49,7 @@
         /// <param name="pSize">每页页数『需大于零』</param>
         /// <param name="pIndex">页数『从壹开始算』</param>
         /// <returns>生成分页sql脚本</returns>
-        public static string CreateSqlByTopMax(string tableName, string columns, string orderColumn, string sqlWhere, OrderBy orderType, int pSize, int pIndex)
+        public static string CreateSqlByTopMax(string tableName, string columns, string orderColumn, string sqlWhere, OrderType orderType, int pSize, int pIndex)
         {
             /*
              *eg:
@@ -62,12 +60,12 @@
                   order by orderID asc
              */
             string _sql = string.Format("select top {4} {1} from {0} where {2}> ISNULL((select max ({2}) from (select top {5} {2} from {0} order by {2} {3}) as T),0) order by {2} {3}",
-                                         tableName,
-                                         columns,
-                                         orderColumn,
-                                         orderType == OrderBy.Desc ? "desc" : "asc",
-                                         pSize,
-                                         (pIndex - 1) * pSize);
+                                        tableName,
+                                        columns,
+                                        orderColumn,
+                                        orderType == OrderType.Desc ? "desc" : "asc",
+                                        pSize,
+                                        (pIndex - 1) * pSize);
             _sql = CreateQueryWhereSql(_sql, sqlWhere);
             _sql = CreateQueryTotalSql(_sql, tableName);
             return _sql;
@@ -84,7 +82,7 @@
         /// <param name="pSize">每页页数『需大于零』</param>
         /// <param name="pIndex">页数『从壹开始算』</param>
         /// <returns>生成分页sql脚本</returns>
-        public static string CreateSqlByTopNotIn(string tableName, string columns, string orderColumn, string sqlWhere, OrderBy orderType, int pSize, int pIndex)
+        public static string CreateSqlByTopNotIn(string tableName, string columns, string orderColumn, string sqlWhere, OrderType orderType, int pSize, int pIndex)
         {
             /*
              *eg:
@@ -93,12 +91,12 @@
              *3=> SELECT TOP 10 * FROM Orders WHERE (orderID NOT IN (SELECT TOP 20 orderID FROM Orders ORDER BY orderID)) ORDER BY orderID //在所有数据中，截去掉上一页数据(not in)，然后select top 10 即当前页数据
              */
             string _sql = string.Format("SELECT TOP {4} {1} FROM {0} WHERE ({2} NOT IN (SELECT TOP {5} {2} FROM {0} ORDER BY {2} {3})) ORDER BY {2} {3}",
-                                         tableName,
-                                         columns,
-                                         orderColumn,
-                                         orderType == OrderBy.Desc ? "desc" : "asc",
-                                         pSize,
-                                         (pIndex - 1) * pSize);
+                                        tableName,
+                                        columns,
+                                        orderColumn,
+                                        orderType == OrderType.Desc ? "desc" : "asc",
+                                        pSize,
+                                        (pIndex - 1) * pSize);
             _sql = CreateQueryWhereSql(_sql, sqlWhere);
             _sql = CreateQueryTotalSql(_sql, tableName);
             return _sql;
@@ -128,8 +126,9 @@
         /// 备注：
         private static string CreateQueryWhereSql(string sql, string sqlWhere)
         {
-            if (!string.IsNullOrEmpty(sqlWhere))
+            if(!string.IsNullOrEmpty(sqlWhere))
                 sql = string.Format("{0} and ( {1} )", sql, sqlWhere);
+
             return sql;
         }
 

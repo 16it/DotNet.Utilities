@@ -3,39 +3,29 @@
     #region Enumerations
 
     /// <summary>
-    /// 时间差枚举
+    /// 各个进制转换枚举
     /// </summary>
-    public enum DatePart
+    public enum HexadecimalType
     {
         /// <summary>
-        /// 年
+        /// 二进制
         /// </summary>
-        year,
+        Binary = 2,
 
         /// <summary>
-        /// 月
+        /// 八进制
         /// </summary>
-        month,
+        Octal = 8,
 
         /// <summary>
-        /// 日
+        /// 十进制
         /// </summary>
-        day,
+        Decimal = 10,
 
         /// <summary>
-        /// 小时
+        /// 十六进制
         /// </summary>
-        hour,
-
-        /// <summary>
-        /// 分钟
-        /// </summary>
-        minute,
-
-        /// <summary>
-        /// 秒
-        /// </summary>
-        second
+        Hexadecimal = 16
     }
 
     #endregion Enumerations

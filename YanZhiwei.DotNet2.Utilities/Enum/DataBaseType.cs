@@ -3,7 +3,7 @@
     /// <summary>
     /// 数据库类型
     /// </summary>
-    public enum DBTypeName
+    public enum DataBaseType
     {
         /// <summary>
         /// The SQL server

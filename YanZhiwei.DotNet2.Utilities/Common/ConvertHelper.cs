@@ -182,14 +182,14 @@
         /// <param name="from">原始进制</param>
         /// <param name="to">目标进制</param>
         /// <returns>转换结果；若转换失败返回"0"</returns>
-        public static string ToHexBinDecOct(this string data, Conversion from, Conversion to)
+        public static string ToHexBinDecOct(this string data, HexadecimalType from, HexadecimalType to)
         {
             try
             {
                 int _intValue = Convert.ToInt32(data, (int)from);
                 string _targetValue = Convert.ToString(_intValue, (int)to);
 
-                if(to == Conversion.Binary)
+                if(to == HexadecimalType.Binary)
                 {
                     _targetValue = StringHelper.ComplementLeftZero(_targetValue, 8);
                 }
