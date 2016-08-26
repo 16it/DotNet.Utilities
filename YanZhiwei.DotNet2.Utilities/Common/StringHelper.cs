@@ -6,14 +6,14 @@
     using System.Globalization;
     using System.Security.Cryptography;
     using System.Text;
-    
+
     /// <summary>
     /// string帮助类
     /// </summary>
     public static class StringHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 自增流水号
         /// <para>eg:abcd2-->abcd3</para>
@@ -30,22 +30,22 @@
              */
             int _numberIndex = 0;
             int _checkIndex = 1;
-            
+
             foreach(char c in data)
             {
                 if(!char.IsNumber(c))
                 {
                     _numberIndex = _checkIndex;
                 }
-                
+
                 _checkIndex++;
             }
-            
+
             string _numbers = (_numberIndex == data.Length) ? string.Empty : data.Substring(_numberIndex, data.Length - _numberIndex);
             string _seqNumber = string.IsNullOrEmpty(_numbers) ? string.Format("{0}1", data) : string.Format("{0}{1}", data.Remove(_numberIndex), (Convert.ToInt64(_numbers) + 1).ToString().PadLeft(data.Length - _numberIndex, '0'));
             return _seqNumber;
         }
-        
+
         /// <summary>
         /// 对字符串遍历分割
         /// <para>eg: StringHelper.BuilderDelimiter("Yan", '-');==>"Y-a-n"</para>
@@ -59,26 +59,26 @@
             {
                 char[] _chars = data.ToCharArray();
                 StringBuilder _builder = new StringBuilder();
-                
+
                 foreach(char c in _chars)
                 {
                     _builder.AppendFormat("{0}{1}", c, delimiter);
                 }
-                
+
                 string _resultStr = _builder.ToString();
                 int _invalid = _resultStr.LastIndexOf(delimiter);
-                
+
                 if(_invalid != -1)
                 {
                     _resultStr = _resultStr.Substring(0, _invalid);
                 }
-                
+
                 return _resultStr;
             }
-            
+
             return string.Empty;
         }
-        
+
         /// <summary>
         /// 清除字符串内空格
         /// <para>eg:StringHelper.ClearBlanks(" 11 22 33 44  ");==>11223344</para>
@@ -88,27 +88,27 @@
         public static string ClearBlanks(this string data)
         {
             int _length = data.Length;
-            
+
             if(_length > 0)
             {
                 StringBuilder _builder = new StringBuilder(_length);
-                
+
                 for(int i = 0; i < data.Length; i++)
                 {
                     char _c = data[i];
-                    
+
                     if(!char.IsWhiteSpace(_c))
                     {
                         _builder.Append(_c);
                     }
                 }
-                
+
                 return _builder.ToString();
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 补足位数_左边
         /// <para>eg:StringHelper.ComplementLeftZero("Yanzhiwei", 15);==>"000000Yanzhiwei"</para>
@@ -119,23 +119,23 @@
         public static string ComplementLeftZero(this string data, int targetLength)
         {
             int _curLength = data.Length;
-            
+
             if(_curLength < targetLength)
             {
                 StringBuilder _builder = new StringBuilder(targetLength);
-                
+
                 for(int i = 0; i < targetLength - data.Length; i++)
                 {
                     _builder.Append("0");
                 }
-                
+
                 _builder.Append(data);
                 return _builder.ToString();
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 补足位数_右边
         /// <para>eg:StringHelper.ComplementRigthZero("Yanzhiwei", 15);==>Yanzhiwei000000</para>
@@ -146,23 +146,23 @@
         public static string ComplementRigthZero(this string data, int targetLength)
         {
             int _curLength = data.Length;
-            
+
             if(_curLength < targetLength)
             {
                 StringBuilder _builder = new StringBuilder(targetLength);
                 _builder.Append(data);
-                
+
                 for(int i = 0; i < targetLength - data.Length; i++)
                 {
                     _builder.Append("0");
                 }
-                
+
                 return _builder.ToString();
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 为指定格式的字符串填充相应对象来生成字符串
         /// </summary>
@@ -173,7 +173,7 @@
         {
             return string.Format(CultureInfo.CurrentCulture, format, args);
         }
-        
+
         /// <summary>
         /// 截取字符串,超过最大长度则以'...'表示
         /// </summary>
@@ -198,7 +198,7 @@
                 }
             }
         }
-        
+
         /// <summary>
         /// 整除索引处加入符号
         /// </summary>
@@ -209,15 +209,15 @@
         public static string InsertCharAtDividedPosition(this string data, int count, string character)
         {
             int _index = 0;
-            
+
             while(++_index * count + (_index - 1) < data.Length)
             {
                 data = data.Insert(_index * count + (_index - 1), character);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// Determines whether [is null or empty].
         /// </summary>
@@ -227,7 +227,7 @@
         {
             return string.IsNullOrEmpty(data);
         }
-        
+
         /// <summary>
         /// 判断空引用和字符串中的每一个字符是否是空格
         /// </summary>
@@ -239,7 +239,7 @@
             {
                 return true;
             }
-            
+
             for(int i = 0; i < data.Length; i++)
             {
                 if(!char.IsWhiteSpace(data[i]))
@@ -247,10 +247,10 @@
                     return false;
                 }
             }
-            
+
             return true;
         }
-        
+
         /// <summary>
         /// 将字符串第一位置为小写
         /// </summary>
@@ -262,10 +262,10 @@
             {
                 return data.ToLower().Substring(0, 1) + data.Substring(1, data.Length - 1);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 将千分位字符串转换成数字
         /// <para>eg:StringHelper.ParseThousandthString("111,222,333");==>111222333</para>
@@ -275,7 +275,7 @@
         public static int ParseThousandthString(this string data)
         {
             int _value = -1;
-            
+
             if(!string.IsNullOrEmpty(data))
             {
                 try
@@ -288,10 +288,10 @@
                     Debug.WriteLine(string.Format("将千分位字符串{0}转换成数字异常，原因:{0}", data, ex.Message));
                 }
             }
-            
+
             return _value;
         }
-        
+
         /// <summary>
         /// 移除Json字符串诸如“{”,“}”符号
         /// </summary>
@@ -305,7 +305,7 @@
             {
                 return jsonString.Replace("{", "").Replace("}", "").Replace("\"", "");
             }
-            
+
             return jsonString;
         }
         /// <summary>
@@ -322,10 +322,10 @@
                 Array.Reverse(_chars);
                 return new string(_chars);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 利用Array.Reverse反转字符串
         /// </summary>
@@ -339,10 +339,10 @@
                 Array.Reverse(_chars);
                 return new string(_chars);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 利用遍历反转字符串
         /// </summary>
@@ -354,18 +354,18 @@
             {
                 char[] _charArray = new char[data.Length];
                 int _inputStrLength = data.Length - 1;
-                
+
                 for(int i = 0; i <= _inputStrLength; i++)
                 {
                     _charArray[i] = data[_inputStrLength - i];
                 }
-                
+
                 return new string(_charArray);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 利用Stack反转字符串
         /// </summary>
@@ -376,25 +376,25 @@
             if(data.Length > 0)
             {
                 Stack<char> _resultStack = new Stack<char>();
-                
+
                 foreach(char c in data)
                 {
                     _resultStack.Push(c);
                 }
-                
+
                 StringBuilder _builder = new StringBuilder();
-                
+
                 while(_resultStack.Count > 0)
                 {
                     _builder.Append(_resultStack.Pop());
                 }
-                
+
                 return _builder.ToString();
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 利用StringBuilder反转字符串
         /// </summary>
@@ -405,18 +405,18 @@
             if(data.Length > 0)
             {
                 StringBuilder _builder = new StringBuilder(data.Length);
-                
+
                 for(int i = data.Length - 1; i >= 0; i--)
                 {
                     _builder.Append(data[i]);
                 }
-                
+
                 return _builder.ToString();
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 利用XOR反转字符串
         /// </summary>
@@ -428,20 +428,20 @@
             {
                 char[] _charArray = data.ToCharArray();
                 int _length = data.Length - 1;
-                
+
                 for(int i = 0; i < _length; i++, _length--)
                 {
                     _charArray[i] ^= _charArray[_length];
                     _charArray[_length] ^= _charArray[i];
                     _charArray[i] ^= _charArray[_length];
                 }
-                
+
                 return new string(_charArray);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 按照符号截取字符串
         /// </summary>
@@ -455,16 +455,16 @@
             if(!string.IsNullOrEmpty(data))
             {
                 int _indexof = data.IndexOf(delimiter);
-                
+
                 if(_indexof != -1)
                 {
                     data = data.Substring(0, _indexof);
                 }
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 按照最后符号截取字符串
         /// </summary>
@@ -476,16 +476,16 @@
             if(!string.IsNullOrEmpty(data))
             {
                 int _indexof = data.LastIndexOf(delimiter);
-                
+
                 if(_indexof != -1)
                 {
                     data = data.Substring(0, _indexof);
                 }
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 获取MD5加密字符串
         /// <para>eg:StringHelper.ToMD5("YanZhiwei");==>"b07ec574a666d8e7582885ce334b4d00"</para>
@@ -504,18 +504,18 @@
                 byte[] _bytHash = _md5.ComputeHash(_bytValue);
                 _md5.Clear();
                 StringBuilder _builder = new StringBuilder();
-                
+
                 for(int i = 0; i < _bytHash.Length; i++)
                 {
                     _builder.Append(_bytHash[i].ToString("X").PadLeft(2, '0'));
                 }
-                
+
                 return _builder.ToString().ToLower();
             }
-            
+
             return string.Empty;
         }
-        
+
         /// <summary>
         ///  获取全局唯一值
         /// </summary>
@@ -524,7 +524,7 @@
         {
             return Guid.NewGuid().ToString().Replace("-", string.Empty);
         }
-        
+
         /// <summary>
         /// 将字符串第一位置为大写
         /// <para>eg:studentName==>StudentName</para>
@@ -537,10 +537,10 @@
             {
                 return data.ToUpper().Substring(0, 1) + data.Substring(1, data.Length - 1);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 文字换行
         /// <para>eg:StringHelper.WrapText("YanZhiwei", 3);==>"Yan\r\nZhi\r\nwei"</para>
@@ -551,23 +551,23 @@
         public static string WrapText(this string data, int maxWidth)
         {
             int _stringCount = data.Length;
-            
+
             if(maxWidth > 0 && _stringCount > maxWidth)
             {
                 StringBuilder _builderString = new StringBuilder(data);
                 int _breakCount = _builderString.Length / maxWidth;
-                
+
                 for(int i = 0; i < _breakCount; i++)
                 {
                     int _insertPosition = i * maxWidth;
-                    
+
                     if(_insertPosition != 0)
                     {
                         int _offset = (i - 1) * 2;
                         _builderString.Insert(_insertPosition + _offset, Environment.NewLine);
                     }
                 }
-                
+
                 return _builderString.ToString();
             }
             else
@@ -575,7 +575,7 @@
                 return data;
             }
         }
-        
+
         #endregion Methods
     }
 }

@@ -1,9 +1,8 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using Common;
     using System;
     using System.Text;
-
-    using YanZhiwei.DotNet2.Utilities.Common;
 
     /// <summary>
     /// 异常信息封装类
@@ -25,9 +24,10 @@
             ExceptionInfo = string.Empty;
             int _count = 0;
             string _appString = string.Empty;
-            while (ex != null)
+
+            while(ex != null)
             {
-                if (_count > 0)
+                if(_count > 0)
                 {
                     _appString += "    ";
                 }
@@ -37,12 +37,13 @@
                 _builder.AppendLine(_appString + "异常类型: " + ex.GetType().FullName);
                 _builder.AppendLine(_appString + "异常方法: " + (ex.TargetSite == null ? null : ex.TargetSite.Name));
                 _builder.AppendLine(_appString + "异常来源: " + ex.Source);
-                if (!isHideStackTrace && ex.StackTrace != null)
+
+                if(!isHideStackTrace && ex.StackTrace != null)
                 {
                     _builder.AppendLine(_appString + "异常堆栈: " + ex.StackTrace);
                 }
 
-                if (ex.InnerException != null)
+                if(ex.InnerException != null)
                 {
                     _builder.AppendLine(_appString + "内部异常: ");
                     _count++;

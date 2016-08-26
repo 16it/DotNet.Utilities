@@ -12,7 +12,6 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator
     /// </summary>
     public sealed class AccessDataOperator : IDataOperator
     {
-
         /// <summary>
         /// 连接字符串
         /// </summary>

@@ -1,9 +1,10 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WebForm
 {
+    using Common;
     using System;
     using System.Web;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// 超链接帮助类
@@ -40,7 +41,8 @@
         {
             ValidateHelper.Begin().NotNullOrEmpty(paramName, "超链接参数名称").NotNullOrEmpty(value, "超链接参数名称数值");
             Uri _hyperlinkUri = new Uri(url);
-            if (string.IsNullOrEmpty(_hyperlinkUri.Query))
+
+            if(string.IsNullOrEmpty(_hyperlinkUri.Query))
             {
                 string _urlEncode = HttpContext.Current.Server.UrlEncode(value);
                 return string.Concat(url, "?" + paramName + "=" + _urlEncode);
@@ -88,7 +90,8 @@
             string _keyWord = paramName + "=";
             int _index = url.IndexOf(_keyWord) + _keyWord.Length;
             int _index1 = url.IndexOf("&", _index);
-            if (_index1 == -1)
+
+            if(_index1 == -1)
             {
                 url = url.Remove(_index, url.Length - _index);
                 url = string.Concat(url, value);

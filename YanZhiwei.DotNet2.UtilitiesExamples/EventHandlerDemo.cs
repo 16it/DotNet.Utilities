@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 namespace YanZhiwei.DotNet2.UtilitiesExamples
 {
     internal class EventHandlerDemo
@@ -38,7 +38,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
             public void c_TrapOccurred(object sender, TrapInfoEventArgs e)
             {
                 Console.WriteLine("<Alert>: cauese/{0}, info/ {1}, ip/{2}, time/{3}",
-                    e.cause, e.info, e.ip, DateTime.Now.ToString());
+                                  e.cause, e.info, e.ip, DateTime.Now.ToString());
             }
         }
     }
@@ -65,7 +65,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
             handler.RaiseEvent(this, e);
             //if (handler != null)
             //{
-            //    handler(this, e); 
+            //    handler(this, e);
             //}
         }
 
@@ -74,15 +74,26 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
             Thread.Sleep(500);
             TrapInfoEventArgs args = new TrapInfoEventArgs();
             args.cause = "Shut Down";
-
             OnTrapOccurred(args);
         }
     }
 
     public class TrapInfoEventArgs : EventArgs
     {
-        public int info { get; set; }
-        public string ip { get; set; }
-        public string cause { get; set; }
+        public int info
+        {
+            get;
+            set;
+        }
+        public string ip
+        {
+            get;
+            set;
+        }
+        public string cause
+        {
+            get;
+            set;
+        }
     }
 }

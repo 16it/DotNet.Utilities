@@ -6,7 +6,7 @@
     public static class BitHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// Clears the bit.
         /// <para>eg:ByteHelper.ClearBit(24, 4);==>3</para>
@@ -18,7 +18,7 @@
         {
             return (byte)(data & (byte.MaxValue - (1 << index)));
         }
-        
+
         /// <summary>
         /// Gets the bit.
         /// <para>eg:ByteHelper.GetBit(8,3);==>1</para>
@@ -30,7 +30,7 @@
         {
             return ((data & (1 << index)) > 0) ? 1 : 0;
         }
-        
+
         /// <summary>
         /// Reverses the bit.
         /// <para>eg:ByteHelper.ReverseBit(24, 4);==>8</para>
@@ -42,7 +42,7 @@
         {
             return (byte)(data ^ (byte)(1 << index));
         }
-        
+
         /// <summary>
         /// Sets the bit.
         ///<para>eg: ByteHelper.SetBit(8, 4);==>24</para>
@@ -54,7 +54,7 @@
         {
             return (byte)(data | (1 << index));
         }
-        
+
         #endregion Methods
     }
 }

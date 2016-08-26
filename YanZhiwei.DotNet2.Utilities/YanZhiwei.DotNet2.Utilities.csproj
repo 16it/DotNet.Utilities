@@ -65,10 +65,9 @@
     <Compile Include="Common\DataSetHelper.cs" />
     <Compile Include="Common\DataTableHelper.cs" />
     <Compile Include="Common\DbParameterHelper.cs" />
-    <Compile Include="Common\EqualityHelper.cs" />
     <Compile Include="Common\FrameworkExceptionHelper.cs" />
     <Compile Include="Common\IDbCommandHelper.cs" />
-    <Compile Include="Common\MD5EncryptHelper.cs" />
+    <Compile Include="Encryptor\MD5Encryptor.cs" />
     <Compile Include="Core\AjaxResult.cs" />
     <Compile Include="Core\BuilderKey.cs" />
     <Compile Include="Core\BusinessException.cs" />
@@ -181,7 +180,7 @@
     <Compile Include="Common\GuidHelper.cs" />
     <Compile Include="Common\CSVHelper.cs" />
     <Compile Include="Common\DateHelper.cs" />
-    <Compile Include="Common\DESEncryptHelper.cs" />
+    <Compile Include="Encryptor\DESEncryptor.cs" />
     <Compile Include="Common\HtmlHelper.cs" />
     <Compile Include="Common\IEnumerableHelper.cs" />
     <Compile Include="Common\EnumHelper.cs" />
@@ -190,7 +189,6 @@
     <Compile Include="Common\FontHelper.cs" />
     <Compile Include="Common\FormulaHelper.cs" />
     <Compile Include="Common\HexHelper.cs" />
-    <Compile Include="Common\IListHelper.cs" />
     <Compile Include="Common\ImageHelper.cs" />
     <Compile Include="Operator\INIOperator.cs" />
     <Compile Include="Common\JsonHelper.cs" />
@@ -244,7 +242,7 @@
     <Compile Include="DataOperator\SqlServerDataOperator.cs" />
     <Compile Include="Common\NetWorkHelper.cs" />
     <Compile Include="Common\ModelHelper.cs" />
-    <Compile Include="Common\OLEDBExcelHelper.cs" />
+    <Compile Include="DataOperator\ExcelDataOperator.cs" />
     <Compile Include="Common\PinyingHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\MapOffsetComparer.cs" />

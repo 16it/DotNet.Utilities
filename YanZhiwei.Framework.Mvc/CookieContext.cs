@@ -3,7 +3,7 @@
     using System;
     using System.Web;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
     using YanZhiwei.DotNet2.Utilities.WebForm.Core;
     using YanZhiwei.DotNet4.Utilities.Common;
 
@@ -142,10 +142,8 @@
             get
             {
                 string _verifyCode = DESEncryptHelper.Encrypt(CookieManger.GetValue(KeyPrefix + "VerifyCode"));
-
                 //获取完CookieManger后马上过期，重新生成新的验证码
                 CookieManger.Save(KeyPrefix + "VerifyCode", DESEncryptHelper.Encrypt(DateTime.Now.Ticks.ToString()), 1);
-
                 return _verifyCode;
             }
             set
@@ -182,7 +180,7 @@
         /// <param name="expiresHours">过期时间，小时</param>
         public void Set(string key, string value, int expiresHours = 0)
         {
-            if (expiresHours > 0)
+            if(expiresHours > 0)
                 CookieManger.Save(KeyPrefix + key, value, expiresHours);
             else
                 CookieManger.Save(KeyPrefix + key, value);

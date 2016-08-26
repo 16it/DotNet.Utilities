@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using YanZhiwei.DotNet2.Utilities.Common;
 
-namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]
     public class ArrayHelperTests

@@ -2,7 +2,7 @@
 using System;
 using YanZhiwei.DotNet2.Utilities.Common;
 
-namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [Flags]
     public enum AreaMode
@@ -58,7 +58,6 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         [TestMethod()]
         public void InTest()
         {
-            
             Assert.IsTrue(AreaMode.CITY.In(AreaMode.CITYTOWN, AreaMode.CITY));
         }
 

@@ -1,11 +1,10 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using Common;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-
-    using YanZhiwei.DotNet2.Utilities.Common;
 
     /// <summary>
     /// 线程安全集合
@@ -19,6 +18,7 @@
          * 参考：
          * 1. http://www.codeproject.com/KB/cs/safe_enumerable.aspx
          */
+
         /// <summary>
         /// 集合
         /// </summary>
@@ -47,7 +47,7 @@
         /// <param name="data">IEnumerable</param>
         public ThreadSafeList(IEnumerable<T> data)
         {
-            innerList = IListHelper.ToList(data);
+            innerList = IEnumerableHelper.ToList(data);
         }
 
         #endregion Constructors
@@ -61,7 +61,7 @@
         {
             get
             {
-                lock (syncRoot)
+                lock(syncRoot)
                 {
                     return innerList.Count;
                 }
@@ -92,15 +92,14 @@
         {
             get
             {
-                lock (syncRoot)
+                lock(syncRoot)
                 {
                     return innerList[index];
                 }
             }
-
             set
             {
-                lock (syncRoot)
+                lock(syncRoot)
                 {
                     innerList[index] = value;
                 }
@@ -117,7 +116,7 @@
         /// <param name="item">数据项</param>
         public void Add(T item)
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 innerList.Add(item);
             }
@@ -131,10 +130,11 @@
         /// <param name="match">委托</param>
         public void Add(T t, Predicate<T> match)
         {
-            if (match != null)
+            if(match != null)
             {
                 T _finded = Find(match);
-                if (_finded != null)
+
+                if(_finded != null)
                 {
                     Remove(_finded);
                 }
@@ -150,13 +150,15 @@
         /// <param name="comparaer">IComparer</param>
         public void AddUniqueTF(IEnumerable<T> items, IComparer<T> comparaer)
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 innerList.Sort(comparaer);
-                foreach (T item in items)
+
+                foreach(T item in items)
                 {
                     int _result = innerList.BinarySearch(item, comparaer);
-                    if (_result < 0)
+
+                    if(_result < 0)
                     {
                         innerList.Add(item);
                     }
@@ -170,7 +172,7 @@
         /// <returns>ReadOnlyCollection</returns>
         public ReadOnlyCollection<T> AsReadOnly()
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 return new ReadOnlyCollection<T>(this);
             }
@@ -181,7 +183,7 @@
         /// </summary>
         public void Clear()
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 innerList.Clear();
             }
@@ -194,7 +196,7 @@
         /// <returns>是否包含</returns>
         public bool Contains(T item)
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 return innerList.Contains(item);
             }
@@ -207,7 +209,7 @@
         /// <param name="arrayIndex">开始位置</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 innerList.CopyTo(array, arrayIndex);
             }
@@ -220,13 +222,13 @@
         /// <returns>是否存在</returns>
         public bool Exists(Predicate<T> match)
         {
-            if (match != null)
+            if(match != null)
             {
-                lock (syncRoot)
+                lock(syncRoot)
                 {
-                    foreach (var item in innerList)
+                    foreach(var item in innerList)
                     {
-                        if (match(item))
+                        if(match(item))
                         {
                             return true;
                         }
@@ -244,9 +246,9 @@
         /// <returns>查找到项</returns>
         public T Find(Predicate<T> match)
         {
-            if (match != null)
+            if(match != null)
             {
-                lock (syncRoot)
+                lock(syncRoot)
                 {
                     return innerList.Find(match);
                 }
@@ -262,9 +264,9 @@
         /// <returns>查找到的集合</returns>
         public List<T> FindAll(Predicate<T> match)
         {
-            if (match != null)
+            if(match != null)
             {
-                lock (syncRoot)
+                lock(syncRoot)
                 {
                     return innerList.FindAll(match);
                 }
@@ -279,11 +281,11 @@
         /// <param name="action">委托</param>
         public void ForEach(Action<T> action)
         {
-            if (action != null)
+            if(action != null)
             {
-                lock (syncRoot)
+                lock(syncRoot)
                 {
-                    foreach (var item in innerList)
+                    foreach(var item in innerList)
                     {
                         action(item);
                     }
@@ -299,7 +301,7 @@
         /// </returns>
         public IEnumerator GetEnumerator()
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 return new ThreadSafeEnumerator<T>(innerList.GetEnumerator(), syncRoot);
             }
@@ -313,7 +315,7 @@
         /// </returns>
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 return new ThreadSafeEnumerator<T>(innerList.GetEnumerator(), syncRoot);
             }
@@ -326,7 +328,7 @@
         /// <returns>索引位置</returns>
         public int IndexOf(T item)
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 return innerList.IndexOf(item);
             }
@@ -339,7 +341,7 @@
         /// <param name="item">插入项</param>
         public void Insert(int index, T item)
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 innerList.Insert(index, item);
             }
@@ -352,7 +354,7 @@
         /// <returns>是否移除成功</returns>
         public bool Remove(T item)
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 return innerList.Remove(item);
             }
@@ -364,9 +366,9 @@
         /// <param name="match">Predicate委托</param>
         public void RemoveAll(Predicate<T> match)
         {
-            if (match != null)
+            if(match != null)
             {
-                lock (syncRoot)
+                lock(syncRoot)
                 {
                     innerList.RemoveAll(match);
                 }
@@ -379,7 +381,7 @@
         /// <param name="index">index</param>
         public void RemoveAt(int index)
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 innerList.RemoveAt(index);
             }
@@ -390,7 +392,7 @@
         /// </summary>
         public void TrimExcess()
         {
-            lock (syncRoot)
+            lock(syncRoot)
             {
                 innerList.TrimExcess();
             }

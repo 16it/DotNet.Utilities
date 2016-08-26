@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Model;
 using YanZhiwei.DotNet4.Utilities.Core;
 using YanZhiwei.DotNet4.Utilities.Model;
@@ -42,16 +42,19 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         {
             collection = collection as IList<T> ?? collection.ToList();
             ValidateHelper.Begin().NotNull(itemFormatFunc, "单个集合项的转换委托");
-            if (!collection.Any())
+
+            if(!collection.Any())
             {
                 return null;
             }
+
             StringBuilder sb = new StringBuilder();
             int i = 0;
             int count = collection.Count();
-            foreach (T t in collection)
+
+            foreach(T t in collection)
             {
-                if (i == count - 1)
+                if(i == count - 1)
                 {
                     sb.Append(itemFormatFunc(t));
                 }
@@ -59,8 +62,10 @@ namespace YanZhiwei.DotNet4.Utilities.Common
                 {
                     sb.Append(itemFormatFunc(t) + separetor);
                 }
+
                 i++;
             }
+
             return sb.ToString();
         }
 
@@ -88,7 +93,6 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         {
             ValidateHelper.Begin().NotNull(predicate, "查询条件");
             source = source as IList<T> ?? source.ToList();
-
             return condition ? source.Where(predicate) : source;
         }
 
@@ -104,7 +108,6 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         {
             ValidateHelper.Begin().NotNull(keySelector, "重复数据筛选条件");
             source = source as IList<T> ?? source.ToList();
-
             return source.GroupBy(keySelector).Select(group => group.First());
         }
 
@@ -117,8 +120,8 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="sortDirection">排序方向</param>
         /// <returns>排序后的数据集</returns>
         public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source,
-            string propertyName,
-            ListSortDirection sortDirection = ListSortDirection.Ascending)
+                string propertyName,
+                ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
             ValidateHelper.Begin().NotNullOrEmpty(propertyName, "排序属性名");
             return CollectionPropertySorter<T>.OrderBy(source, propertyName, sortDirection);
@@ -159,11 +162,10 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="sortDirection">排序方向</param>
         /// <returns></returns>
         public static IOrderedEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> source,
-            string propertyName,
-            ListSortDirection sortDirection = ListSortDirection.Ascending)
+                string propertyName,
+                ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
             ValidateHelper.Begin().NotNull(source, "要排序的数据集").NotNullOrEmpty(propertyName, "排序属性名");
-
             return CollectionPropertySorter<T>.ThenBy(source, propertyName, sortDirection);
         }
 

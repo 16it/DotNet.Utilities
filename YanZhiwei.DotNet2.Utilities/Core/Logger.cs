@@ -1,12 +1,13 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using Common;
     using System;
     using System.Data.SqlClient;
     using System.Diagnostics;
     using System.IO;
     using System.Text;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// 日志类
@@ -68,7 +69,7 @@
         {
             Trace.AutoFlush = true;
 
-            switch (Flag)
+            switch(Flag)
             {
                 case 1:
                     Trace.Listeners.Add(new ConsoleTraceListener());
@@ -146,16 +147,17 @@
         {
             get
             {
-                if (traceListener == null)
+                if(traceListener == null)
                 {
-                    if (string.IsNullOrEmpty(logFolder))
+                    if(string.IsNullOrEmpty(logFolder))
                     {
                         CreateLogFolder(DateTime.Now);
                     }
                     else
                     {
                         string _logPath = Logfullpath;
-                        if (!Directory.Exists(Path.GetDirectoryName(_logPath)))
+
+                        if(!Directory.Exists(Path.GetDirectoryName(_logPath)))
                         {
                             CreateLogFolder(DateTime.Now);
                         }
@@ -227,7 +229,7 @@
         /// <param name="message">The message.</param>
         private static void BeginTrace(string message)
         {
-            if (!string.IsNullOrEmpty(message))
+            if(!string.IsNullOrEmpty(message))
             {
                 CheckedLogPolicy();
                 Trace.WriteLine(string.Format("{0}：{1}{2}", DateTime.Now.FormatDate(1), message, Environment.NewLine));
@@ -241,7 +243,7 @@
         /// <param name="ex">The ex.</param>
         private static void BeginTraceError(string message, Exception ex)
         {
-            if (null != ex)
+            if(null != ex)
             {
                 CheckedLogPolicy();
                 StringBuilder _builder = new StringBuilder();
@@ -259,15 +261,16 @@
         /// <param name="parameter">The parameter.</param>
         private static void BeginTraceSql(string sql, params SqlParameter[] parameter)
         {
-            if (!string.IsNullOrEmpty(sql))
+            if(!string.IsNullOrEmpty(sql))
             {
                 CheckedLogPolicy();
                 StringBuilder _builder = new StringBuilder();
                 _builder.AppendFormat("{0}：{1}", DateTime.Now.FormatDate(1), sql);
                 _builder.AppendLine();
-                if (parameter != null)
+
+                if(parameter != null)
                 {
-                    foreach (SqlParameter param in parameter)
+                    foreach(SqlParameter param in parameter)
                     {
                         _builder.AppendFormat("{0}{1}={2}", logspace, param.ParameterName, param.Value).AppendLine();
                     }
@@ -285,16 +288,16 @@
         /// <param name="parameter">The parameter.</param>
         private static void BeginTraceSql(string message, string sql, params SqlParameter[] parameter)
         {
-            if (!string.IsNullOrEmpty(sql))
+            if(!string.IsNullOrEmpty(sql))
             {
                 CheckedLogPolicy();
-
                 StringBuilder _builder = new StringBuilder();
                 _builder.AppendFormat("{0}：{1}", DateTime.Now.FormatDate(1), message).AppendLine();
                 _builder.AppendFormat("{0}SQL：{1}", logspace, sql).AppendLine();
-                if (parameter != null)
+
+                if(parameter != null)
                 {
-                    foreach (SqlParameter param in parameter)
+                    foreach(SqlParameter param in parameter)
                     {
                         _builder.AppendFormat("{0}{1}={2}", logspace, param.ParameterName, param.Value).AppendLine();
                     }
@@ -310,7 +313,7 @@
         /// <param name="cmd">The command.</param>
         private static void BeginTraceSqlCommand(SqlCommand cmd)
         {
-            if (null != cmd)
+            if(null != cmd)
             {
                 SqlParameter[] _parameter = new SqlParameter[cmd.Parameters.Count];
                 cmd.Parameters.CopyTo(_parameter, 0);
@@ -323,13 +326,14 @@
         /// </summary>
         private static void CheckedLogPolicy()
         {
-            if (!DateTime.Now.IsDateEqual(logCurFileDate))
+            if(!DateTime.Now.IsDateEqual(logCurFileDate))
             {
                 DateTime _currentDate = DateTime.Now.Date;
                 CreateLogFolder(_currentDate);
                 logCurFileDate = _currentDate;
                 Trace.Flush();
-                if (traceListener != null)
+
+                if(traceListener != null)
                 {
                     Trace.Listeners.Remove(traceListener);
                 }
@@ -348,7 +352,8 @@
                 _month = date.Month;
             string _logFolder = string.Concat(_year, '\\', _month),
                    _logFullPath = Path.Combine(LogRootDirectory, _logFolder);
-            if (!Directory.Exists(_logFullPath))
+
+            if(!Directory.Exists(_logFullPath))
             {
                 Directory.CreateDirectory(_logFullPath);
             }

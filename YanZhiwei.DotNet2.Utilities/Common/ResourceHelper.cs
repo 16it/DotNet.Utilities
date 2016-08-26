@@ -2,14 +2,14 @@
 {
     using System.IO;
     using System.Reflection;
-    
+
     /// <summary>
     /// 资源文件操作帮助类
     /// </summary>
     public class ResourceHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 将嵌入的资源写入到本地
         /// </summary>
@@ -35,7 +35,7 @@
             }
             return _result;
         }
-        
+
         #endregion Methods
     }
 }

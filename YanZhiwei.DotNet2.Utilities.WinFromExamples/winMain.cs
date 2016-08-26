@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows.Forms;
 using YanZhiwei.DotNet.MyXls.Utilities;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 using YanZhiwei.DotNet2.Utilities.WinForm.Core;
 
@@ -26,8 +26,9 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
         {
             ApplicationHelper.CapturedExit<winMain>(this, () =>
             {
-                if (MessageBox.Show("确认退出？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if(MessageBox.Show("确认退出？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     return true;
+
                 return false;
             });
         }
@@ -94,7 +95,8 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
             _table.Columns.Add(new DataColumn("名称", typeof(string)));
             _table.Columns.Add(new DataColumn("年龄", typeof(int)));
             _table.Columns.Add(new DataColumn("出生", typeof(DateTime)));
-            for (int i = 0; i < 10; i++)
+
+            for(int i = 0; i < 10; i++)
             {
                 DataRow _row = _table.NewRow();
                 _row["名称"] = "churenyouzi" + i;
@@ -102,6 +104,7 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
                 _row["出生"] = DateTime.Now.AddYears(-20);
                 _table.Rows.Add(_row);
             }
+
             MyxlsHelper.ToExecel(_table, @"D:\myxlsTest.xls", "信息一览");
         }
     }

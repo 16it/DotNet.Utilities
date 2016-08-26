@@ -1,5 +1,6 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.DataOperator
 {
+    using Common;
     using Core;
     using Enum;
     using Interfaces;

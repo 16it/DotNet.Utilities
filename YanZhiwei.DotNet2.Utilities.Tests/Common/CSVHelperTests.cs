@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Data;
+using YanZhiwei.DotNet2.Utilities.Common;
 
-namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]
     public class CSVHelperTests
@@ -12,13 +13,14 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         [TestMethod()]
         public void ToCSVTest()
         {
-            for (Int16 i = 18; i < 28; i++)
+            for(Int16 i = 18; i < 28; i++)
             {
                 DataRow _person = TestTable.NewRow();
                 _person["Name"] = "YanZhiwei" + i;
                 _person["Age"] = i;
                 TestTable.Rows.Add(_person);
             }
+
             bool _expected = true;
             bool _actual = CSVHelper.ToCSV(TestTable, @"C:\Users\YanZh_000\Downloads\person.csv", "用户信息表", "名称,年龄");
             Assert.AreEqual(_expected, _actual);
@@ -37,14 +39,16 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         {
             DataTable _personInfoView = TestTable.Clone();
             DataTable _expected = TestTable.Clone();
-            for (Int16 i = 18; i < 28; i++)
+
+            for(Int16 i = 18; i < 28; i++)
             {
                 DataRow _person = _expected.NewRow();
                 _person["Name"] = "YanZhiwei" + i;
                 _person["Age"] = i;
                 _expected.Rows.Add(_person);
             }
-            DataTable _actual = CSVHelper.ImportToTable(_personInfoView, @"C:\Users\YanZh_000\Downloads\person.csv", 2);
+
+            DataTable _actual = CSVHelper.ToTable(_personInfoView, @"C:\Users\YanZh_000\Downloads\person.csv", 2);
             Assert.IsTrue(ResultSetComparer.AreIdenticalResultSets(_expected, _actual));
         }
 

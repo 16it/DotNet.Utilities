@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Concurrent;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
     using YanZhiwei.DotNet4.Utilities.Model;
 
     /// <summary>
@@ -35,8 +35,10 @@
         public new void Add(T item)
         {
             base.Add(item);
-
-            this.OnAdded.RaiseEvent(this, new ConBagChangEventArgs<T>() { Item = item, Count = base.Count });
+            this.OnAdded.RaiseEvent(this, new ConBagChangEventArgs<T>()
+            {
+                Item = item, Count = base.Count
+            });
         }
 
         #endregion Methods

@@ -4,28 +4,28 @@
     using System;
     using System.IO;
     using System.Reflection;
-    
+
     /// <summary>
     /// Assembly 帮助类
     /// </summary>
     public class AssemblyOperator
     {
         #region Fields
-        
+
         /// <summary>
         /// Assembly对象
         /// </summary>
         private Assembly assembly = null;
-        
+
         /// <summary>
         /// 程序集路径
         /// </summary>
         private string filePath = string.Empty;
-        
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyOperator"/> class.
         /// </summary>
@@ -33,7 +33,7 @@
         {
             assembly = Assembly.GetExecutingAssembly();
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyOperator"/> class.
         /// </summary>
@@ -46,11 +46,11 @@
             filePath = path;
             assembly = Assembly.LoadFile(path);
         }
-        
+
         #endregion Constructors
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 获取程序集显示名称
         /// </summary>
@@ -59,7 +59,7 @@
         {
             return assembly.FullName.ToString();
         }
-        
+
         /// <summary>
         /// 获取编译日期
         /// </summary>
@@ -80,7 +80,7 @@
                 return _builderDate;
             }
         }
-        
+
         /// <summary>
         /// 获取根据实际编译版本信息
         /// </summary>
@@ -90,7 +90,7 @@
             Version _version = assembly.GetName().Version;
             return new DateTime(2000, 01, 01).AddDays(_version.Build).AddSeconds(_version.Revision * 2);
         }
-        
+
         /// <summary>
         /// 获取公司名称信息
         /// </summary>
@@ -101,7 +101,7 @@
             GetAssemblyCommon<AssemblyCompanyAttribute>(_ass => _company = _ass.Company);
             return _company;
         }
-        
+
         /// <summary>
         /// 获取版权信息
         /// </summary>
@@ -112,7 +112,7 @@
             GetAssemblyCommon<AssemblyCopyrightAttribute>(_ass => _copyright = _ass.Copyright);
             return _copyright;
         }
-        
+
         /// <summary>
         /// 获取说明信息
         /// </summary>
@@ -123,7 +123,7 @@
             GetAssemblyCommon<AssemblyDescriptionAttribute>(_ass => _description = _ass.Description);
             return _description;
         }
-        
+
         /// <summary>
         /// 获取产品名称信息
         /// </summary>
@@ -134,7 +134,7 @@
             GetAssemblyCommon<AssemblyProductAttribute>(_ass => _product = _ass.Product);
             return _product;
         }
-        
+
         /// <summary>
         /// 获取文件名
         /// </summary>
@@ -143,15 +143,15 @@
         {
             string _title = string.Empty;
             GetAssemblyCommon<AssemblyTitleAttribute>(_ass => _title = _ass.Title);
-            
+
             if(string.IsNullOrEmpty(_title))
             {
                 _title = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
             }
-            
+
             return _title;
         }
-        
+
         /// <summary>
         /// 获取主版本号，次版本号；
         /// </summary>
@@ -160,7 +160,7 @@
         {
             return assembly.GetName().Version.ToString();
         }
-        
+
         /// <summary>
         /// 获取程序集信息
         /// </summary>
@@ -174,7 +174,7 @@
             if(assembly != null)
             {
                 object[] _attributes = assembly.GetCustomAttributes(typeof(T), false);
-                
+
                 if(_attributes.Length > 0)
                 {
                     T _attribute = (T)_attributes[0];
@@ -182,7 +182,7 @@
                 }
             }
         }
-        
+
         #endregion Methods
     }
 }

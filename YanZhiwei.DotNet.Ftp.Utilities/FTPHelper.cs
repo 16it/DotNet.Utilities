@@ -5,7 +5,7 @@
     using System.Net;
     using System.Net.FtpClient;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// Ftp辅助类
@@ -63,7 +63,7 @@
         /// <param name="strPassword">密码</param>
         public bool Connected()
         {
-            using (FtpClient ftp = new FtpClient())
+            using(FtpClient ftp = new FtpClient())
             {
                 ftp.Host = ServerHost;
                 ftp.Credentials = new NetworkCredential(UserName, UserPassword);
@@ -80,30 +80,28 @@
         public bool DownloadFile(string serverpath, string localpath)
         {
             ValidateHelper.Begin().NotNullOrEmpty(serverpath, "服务器路径，eg：'/Serverpath/'").NotNullOrEmpty(localpath, "本地保存路径");
-
             FtpClient _ftpClient = new FtpClient();
             _ftpClient.Host = ServerHost;
             _ftpClient.Credentials = new NetworkCredential(UserName, UserPassword);
             _ftpClient.Connect();
-
             string _descDirectory = localpath;
             List<string> _docFileName = new List<string>();
             bool _downloadStatus = false;
 
-            if (Directory.Exists(_descDirectory))
+            if(Directory.Exists(_descDirectory))
             {
                 #region 从FTP服务器下载文件
-
-                foreach (var ftpListItem in _ftpClient.GetListing(serverpath, FtpListOption.Modify | FtpListOption.Size))
+                foreach(var ftpListItem in _ftpClient.GetListing(serverpath, FtpListOption.Modify | FtpListOption.Size))
                 {
                     string _descPath = string.Format(@"{0}\{1}", _descDirectory, ftpListItem.Name);
-                    using (Stream ftpStream = _ftpClient.OpenRead(ftpListItem.FullName))
+                    using(Stream ftpStream = _ftpClient.OpenRead(ftpListItem.FullName))
                     {
-                        using (FileStream fileStream = File.Create(_descPath, (int)ftpStream.Length))
+                        using(FileStream fileStream = File.Create(_descPath, (int)ftpStream.Length))
                         {
                             var _buffer = new byte[200 * 1024];
                             int _count;
-                            while ((_count = ftpStream.Read(_buffer, 0, _buffer.Length)) > 0)
+
+                            while((_count = ftpStream.Read(_buffer, 0, _buffer.Length)) > 0)
                             {
                                 fileStream.Write(_buffer, 0, _count);
                             }
@@ -113,29 +111,30 @@
                 }
 
                 #endregion 从FTP服务器下载文件
-
                 #region 验证本地是否有该文件
-
                 string[] _files = Directory.GetFiles(localpath);
                 int _filenumber = 0;
-                foreach (string filename in _files)
+
+                foreach(string filename in _files)
                 {
-                    foreach (string strrecievefile in _docFileName)
+                    foreach(string strrecievefile in _docFileName)
                     {
-                        if (strrecievefile == Path.GetFileName(filename))
+                        if(strrecievefile == Path.GetFileName(filename))
                         {
                             _filenumber++;
                             break;
                         }
                     }
                 }
-                if (_filenumber == _docFileName.Count)
+
+                if(_filenumber == _docFileName.Count)
                 {
                     _downloadStatus = true;
                 }
 
                 #endregion 验证本地是否有该文件
             }
+
             return _downloadStatus;
         }
 

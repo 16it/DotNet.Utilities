@@ -1,7 +1,7 @@
 ﻿using System;
 using YanZhiwei.DotNet2.Utilities.WebForm.Core;
 using System.Web.Caching;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using System.Diagnostics;
 namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
 {
@@ -9,7 +9,6 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -18,19 +17,17 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             CacheManger.Set("time", DateTime.Now, null, DateTime.Now.AddSeconds(10), Cache.NoSlidingExpiration, CacheItemPriority.High, (key, value, reason) =>
             {
                 Debug.WriteLine("Set Cache By AbsoluteExpiration Expired:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                if (CacheItemRemovedReason.Expired == reason)
+
+                if(CacheItemRemovedReason.Expired == reason)
                 {
-
                 }
+
                 Debug.WriteLine("Contain Cache:" + CacheManger.Contain("time"));
-
             });
-
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-
             Debug.WriteLine("Set Cache By SlidingExpiration:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             CacheManger.Set("time", DateTime.Now, null, Cache.NoAbsoluteExpiration, new TimeSpan(0, 0, 0, 10, 0), ItemRemovedCallback);
         }
@@ -38,7 +35,6 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
         {
             Debug.WriteLine("Set Cache By SlidingExpiration Expired:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             CacheManger.Set(key, value, null, Cache.NoAbsoluteExpiration, new TimeSpan(0, 0, 0, 10, 0), CacheItemPriority.NotRemovable, ItemRemovedCallback);
-
         }
         private void WriteLog(string message)
         {

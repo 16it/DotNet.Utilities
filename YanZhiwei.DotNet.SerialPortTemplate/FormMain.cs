@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 using YanZhiwei.DotNet.Log4Net.Utilities;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Core;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 

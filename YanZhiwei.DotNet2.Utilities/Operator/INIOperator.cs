@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
     using Common;
+    using DataOperator;
     using System.Runtime.InteropServices;
     using System.Text;
 

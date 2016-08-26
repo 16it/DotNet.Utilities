@@ -6,7 +6,7 @@
     using DevExpress.Utils;
     using DevExpress.XtraEditors;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
     using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
@@ -24,8 +24,9 @@
         /// <returns>格式化后的颜色</returns>
         public static string FormatColor(string message, Color color)
         {
-            if (!string.IsNullOrEmpty(message))
+            if(!string.IsNullOrEmpty(message))
                 message = string.Format("<color={0}>{1}</color>", color.Name, message);
+
             return message;
         }
 
@@ -36,7 +37,7 @@
         /// <param name="message">插入内容</param>
         public static void InsertItemWithSelect(this ListBoxControl listbox, string message)
         {
-            if (!string.IsNullOrEmpty(message) && listbox != null)
+            if(!string.IsNullOrEmpty(message) && listbox != null)
             {
                 listbox.Items.Add(message);
                 listbox.SelectedIndex = listbox.Items.Count - 1;
@@ -53,10 +54,12 @@
         public static void ShowToolTip(this ListBoxControl listbox, MouseEventArgs e, ToolTipController toolTip, string title)
         {
             int _selectedIndex = listbox.IndexFromPoint(new Point(e.X, e.Y));
-            if (_selectedIndex != -1)
+
+            if(_selectedIndex != -1)
             {
                 object _itemContent = listbox.Items[_selectedIndex];
-                if (_itemContent != null)
+
+                if(_itemContent != null)
                 {
                     string _item = _itemContent.ToString();
                     _item = HtmlHelper.StripTags(_item, StripHtmlType.CharArray);

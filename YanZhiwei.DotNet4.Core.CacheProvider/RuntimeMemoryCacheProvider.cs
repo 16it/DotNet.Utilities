@@ -8,7 +8,7 @@
     using System.Text.RegularExpressions;
 
     using YanZhiwei.DotNet.Core.Cache;
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// RuntimeMemoryCache 辅助类

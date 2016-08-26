@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Model;
 
-namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]
     public class WGSGCJLatLonHelperTests
@@ -16,11 +17,13 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         {
             LatLngPoint _gcj02PointExpected = new LatLngPoint()
             {
-                LatY = 34.122340014975919, LonX = 115.20642637776433
+                LatY = 34.122340014975919,
+                LonX = 115.20642637776433
             };
             LatLngPoint _gcj02PointActual = WGSGCJLatLonHelper.GCJ02ToWGS84(new LatLngPoint()
             {
-                LonX = 115.21212, LatY = 34.121
+                LonX = 115.21212,
+                LatY = 34.121
             });
             bool _expected = true;
             bool _actual = ModelHelper.CompletelyEqual(_gcj02PointExpected, _gcj02PointActual);
@@ -32,11 +35,13 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         {
             LatLngPoint _gcj02PointExpected = new LatLngPoint()
             {
-                LatY = 34.119651841940737, LonX = 115.21780492356538
+                LatY = 34.119651841940737,
+                LonX = 115.21780492356538
             };
             LatLngPoint _gcj02PointActual = WGSGCJLatLonHelper.WGS84ToGCJ02(new LatLngPoint()
             {
-                LonX = 115.21212, LatY = 34.121
+                LonX = 115.21212,
+                LatY = 34.121
             });
             bool _expected = true;
             bool _actual = ModelHelper.CompletelyEqual(_gcj02PointExpected, _gcj02PointActual);

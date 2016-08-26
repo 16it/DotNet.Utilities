@@ -6,32 +6,32 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Runtime.InteropServices;
-    
+
     using Enum;
-    
+
     /// <summary>
     ///Image帮助类
     /// </summary>
     public static class ImageHelper
     {
         #region Fields
-        
+
         /// <summary>
         /// 图片允许的格式
         /// </summary>
         public const string AllowExt = ".jpeg|.jpg|.bmp|.gif|.png";
-        
+
         #endregion Fields
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 调节图片亮度值
         /// </summary>
-        /// <param name="Image">需要处理的图片</param>
-        /// <param name="Value">亮度值【0~100，其中0表示最暗，100表示最亮】</param>
+        /// <param name="image">需要处理的图片</param>
+        /// <param name="brightnessValue">亮度值【0~100，其中0表示最暗，100表示最亮】</param>
         /// <returns>调节好后的图片</returns>
-        public static Bitmap AdjustBrightness(this Bitmap Image, int Value)
+        public static Bitmap AdjustBrightness(this Bitmap image, int brightnessValue)
         {
             /*
              *参考：
@@ -39,33 +39,29 @@
              *2. http://blog.csdn.net/jiangxinyu/article/details/6222302
              *3. http://www.smokycogs.com/blog/image-processing-in-c-sharp-adjusting-the-brightness/
              */
-            if(Value >= 0 && Value <= 100)
+            ValidateHelper.Begin().InRange(brightnessValue, 0, 100, "图片亮度值");
+            brightnessValue = 100 - brightnessValue;
+            Bitmap _tempBitmap = image;
+            float _finalValue = (float)brightnessValue / 255.0f;
+            Bitmap _newBitmap = new Bitmap(_tempBitmap.Width, _tempBitmap.Height);
+            Graphics _newGraphics = Graphics.FromImage(_newBitmap);
+            float[][] _floatColorMatrix =
             {
-                Value = 100 - Value;
-                Bitmap _tempBitmap = Image;
-                float _finalValue = (float)Value / 255.0f;
-                Bitmap _newBitmap = new Bitmap(_tempBitmap.Width, _tempBitmap.Height);
-                Graphics _newGraphics = Graphics.FromImage(_newBitmap);
-                float[][] _floatColorMatrix =
-                {
-                    new float[] {1, 0, 0, 0, 0},
-                    new float[] {0, 1, 0, 0, 0},
-                    new float[] {0, 0, 1, 0, 0},
-                    new float[] {0, 0, 0, 1, 0},
-                    new float[] {_finalValue, _finalValue, _finalValue, 1, 1}
-                };
-                ColorMatrix _newColorMatrix = new ColorMatrix(_floatColorMatrix);
-                ImageAttributes _attributes = new ImageAttributes();
-                _attributes.SetColorMatrix(_newColorMatrix);
-                _newGraphics.DrawImage(_tempBitmap, new Rectangle(0, 0, _tempBitmap.Width, _tempBitmap.Height), 0, 0, _tempBitmap.Width, _tempBitmap.Height, GraphicsUnit.Pixel, _attributes);
-                _attributes.Dispose();
-                _newGraphics.Dispose();
-                return _newBitmap;
-            }
-            
-            return Image;
+                new float[] {1, 0, 0, 0, 0},
+                new float[] {0, 1, 0, 0, 0},
+                new float[] {0, 0, 1, 0, 0},
+                new float[] {0, 0, 0, 1, 0},
+                new float[] {_finalValue, _finalValue, _finalValue, 1, 1}
+            };
+            ColorMatrix _newColorMatrix = new ColorMatrix(_floatColorMatrix);
+            ImageAttributes _attributes = new ImageAttributes();
+            _attributes.SetColorMatrix(_newColorMatrix);
+            _newGraphics.DrawImage(_tempBitmap, new Rectangle(0, 0, _tempBitmap.Width, _tempBitmap.Height), 0, 0, _tempBitmap.Width, _tempBitmap.Height, GraphicsUnit.Pixel, _attributes);
+            _attributes.Dispose();
+            _newGraphics.Dispose();
+            return _newBitmap;
         }
-        
+
         ///<summary>
         /// 添加图片水印
         /// </summary>
@@ -101,7 +97,7 @@
             }
             File.Delete(_sourceFileTemp);
         }
-        
+
         /// <summary>
         /// 添加水印文字
         /// </summary>
@@ -134,14 +130,14 @@
             }
             File.Delete(_sourceFileTemp);
         }
-        
+
         /// <summary>
         /// 通过比较bitmap两者byte[]来判断是否相等
         /// </summary>
-        /// <param name="b1">Bitmap1</param>
-        /// <param name="b2">Bitmap2</param>
+        /// <param name="originalImage">原始图片</param>
+        /// <param name="compareImage">需要比较的图片</param>
         /// <returns>比较结果</returns>
-        public static bool CompareByArray(this Bitmap b1, Bitmap b2)
+        public static bool CompareByArray(this Bitmap originalImage, Bitmap compareImage)
         {
             /*
             *参考：
@@ -149,13 +145,13 @@
             */
             IntPtr _result = new IntPtr(-1);
             MemoryStream _ms = new MemoryStream();
-            
+
             try
             {
-                b1.Save(_ms, ImageFormat.Png);
+                originalImage.Save(_ms, ImageFormat.Png);
                 byte[] _b1Array = _ms.ToArray();
                 _ms.Position = 0;
-                b2.Save(_ms, ImageFormat.Png);
+                compareImage.Save(_ms, ImageFormat.Png);
                 byte[] _b2Array = _ms.ToArray();
                 _result = memcmp(_b1Array, _b2Array, new IntPtr(_b1Array.Length));
             }
@@ -163,17 +159,17 @@
             {
                 _ms.Close();
             }
-            
+
             return _result.ToInt32() == 0;
         }
-        
+
         /// <summary>
         /// 通过比较bitmap两者ToBase64String来判断是否相等
         /// </summary>
-        /// <param name="b1">Bitmap1</param>
-        /// <param name="b2">Bitmap2</param>
+        /// <param name="originalImage">原始图片</param>
+        /// <param name="compareImage">需要比较的图片</param>
         /// <returns>比较结果</returns>
-        public static bool CompareByBase64(this Bitmap b1, Bitmap b2)
+        public static bool CompareByBase64(this Bitmap originalImage, Bitmap compareImage)
         {
             /*
             *参考
@@ -181,84 +177,84 @@
             */
             string _b1Base64String, _b2Base64String;
             MemoryStream _ms = new MemoryStream();
-            
+
             try
             {
-                b1.Save(_ms, ImageFormat.Png);
+                originalImage.Save(_ms, ImageFormat.Png);
                 _b1Base64String = Convert.ToBase64String(_ms.ToArray());
                 _ms.Position = 0;
-                b2.Save(_ms, ImageFormat.Png);
+                compareImage.Save(_ms, ImageFormat.Png);
                 _b2Base64String = Convert.ToBase64String(_ms.ToArray());
             }
             finally
             {
                 _ms.Close();
             }
-            
+
             return _b1Base64String.Equals(_b2Base64String);
         }
-        
+
         /// <summary>
         /// 通过比较bitmap两者memcmp来判断是否相等
         /// </summary>
-        /// <param name="b1">Bitmap1</param>
-        /// <param name="b2">Bitmap2</param>
+        /// <param name="originalImage">原始图片</param>
+        /// <param name="compareImage">需要比较的图片</param>
         /// <returns>比较结果</returns>
-        public static bool CompareByMemCmp(this Bitmap b1, Bitmap b2)
+        public static bool CompareByMemCmp(this Bitmap originalImage, Bitmap compareImage)
         {
             /*
              *参考：
              *1. http://stackoverflow.com/questions/2031217/what-is-the-fastest-way-i-can-compare-two-equal-size-bitmaps-to-determine-whethe
              */
-            if((b1 == null) != (b2 == null)) return false;
-            
-            if(b1.Size != b2.Size) return false;
-            
-            BitmapData _bdata1 = b1.LockBits(new Rectangle(new Point(0, 0), b1.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            BitmapData _bdata2 = b2.LockBits(new Rectangle(new Point(0, 0), b2.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            
+            if((originalImage == null) != (compareImage == null)) return false;
+
+            if(originalImage.Size != compareImage.Size) return false;
+
+            BitmapData _bdata1 = originalImage.LockBits(new Rectangle(new Point(0, 0), originalImage.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            BitmapData _bdata2 = compareImage.LockBits(new Rectangle(new Point(0, 0), compareImage.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
             try
             {
                 IntPtr _bd1scan0 = _bdata1.Scan0;
                 IntPtr _bd2scan0 = _bdata2.Scan0;
                 int _stride = _bdata1.Stride;
-                int _len = _stride * b1.Height;
+                int _len = _stride * originalImage.Height;
                 return memcmp(_bd1scan0, _bd2scan0, _len) == 0;
             }
             finally
             {
-                b1.UnlockBits(_bdata1);
-                b2.UnlockBits(_bdata2);
+                originalImage.UnlockBits(_bdata1);
+                compareImage.UnlockBits(_bdata2);
             }
         }
-        
+
         /// <summary>
         /// 通过比较bitmap两者像素颜色来判断两者是否相等
         /// </summary>
-        /// <param name="b1">Bitmap1</param>
-        /// <param name="b2">Bitmap2</param>
+        /// <param name="originalImage">原始图片</param>
+        /// <param name="compareImage">需要比较的图片</param>
         /// <returns>比较结果</returns>
-        public static bool CompareByPixel(this Bitmap b1, Bitmap b2)
+        public static bool CompareByPixel(this Bitmap originalImage, Bitmap compareImage)
         {
             /*
              *参考：
              *1. http://blogs.msdn.com/b/domgreen/archive/2009/09/06/comparing-two-images-in-c.aspx
              */
             bool _flag = false;
-            
-            if(b1.Width == b2.Width && b1.Height == b2.Height)
+
+            if(originalImage.Width == compareImage.Width && originalImage.Height == compareImage.Height)
             {
                 _flag = true;
                 Color _pixel1;
                 Color _pixel2;
-                
-                for(int i = 0; i < b1.Width; i++)
+
+                for(int i = 0; i < originalImage.Width; i++)
                 {
-                    for(int j = 0; j < b1.Height; j++)
+                    for(int j = 0; j < originalImage.Height; j++)
                     {
-                        _pixel1 = b1.GetPixel(i, j);
-                        _pixel2 = b2.GetPixel(i, j);
-                        
+                        _pixel1 = originalImage.GetPixel(i, j);
+                        _pixel2 = compareImage.GetPixel(i, j);
+
                         if(_pixel1 != _pixel2)
                         {
                             _flag = false;
@@ -267,53 +263,50 @@
                     }
                 }
             }
-            
+
             return _flag;
         }
-        
+
         /// <summary>
         /// 将图片压缩到指定大小
         /// </summary>
-        /// <param name="FileName">待压缩图片</param>
+        /// <param name="originalImagePath">待压缩图片</param>
         /// <param name="size">期望压缩后的尺寸</param>
-        public static void CompressPhoto(string FileName, int size)
+        public static void CompressPhoto(string originalImagePath, int size)
         {
-            if(!File.Exists(FileName))
-                return;
-                
             int _count = 0;
-            FileInfo _imgFile = new FileInfo(FileName);
+            FileInfo _imgFile = new FileInfo(originalImagePath);
             long _imgLength = _imgFile.Length;
-            
+
             while(_imgLength > size * 1024 && _count < 10)
             {
                 string _directory = _imgFile.Directory.FullName;
-                string _tempFile = System.IO.Path.Combine(_directory, Guid.NewGuid().ToString() + "." + _imgFile.Extension);
+                string _tempFile = Path.Combine(_directory, Guid.NewGuid().ToString() + "." + _imgFile.Extension);
                 _imgFile.CopyTo(_tempFile, true);
-                KiSaveAsJPEG(_tempFile, FileName, 70);
-                
+                KiSaveAsJPEG(_tempFile, originalImagePath, 70);
+
                 try
                 {
                     File.Delete(_tempFile);
                 }
                 catch { }
-                
+
                 _count++;
-                _imgFile = new FileInfo(FileName);
+                _imgFile = new FileInfo(originalImagePath);
                 _imgLength = _imgFile.Length;
             }
         }
-        
+
         /// <summary>
         /// 生成缩略图，不加水印
         /// </summary>
-        /// <param name="sourceImageFile">源文件</param>
+        /// <param name="originalImagePath">源文件</param>
         /// <param name="width">缩略图宽度</param>
         /// <param name="height">缩略图高度</param>
         /// <param name="destfile">缩略图保存位置</param>
-        public static void CreateSmallPhoto(string sourceImageFile, int width, int height, string destfile)
+        public static void CreateSmallPhoto(string originalImagePath, int width, int height, string destfile)
         {
-            using(Image sourceImg = Image.FromFile(sourceImageFile))
+            using(Image sourceImg = Image.FromFile(originalImagePath))
             {
                 ImageFormat _imageFormat = sourceImg.RawFormat;
                 Size _imageCutSize = CutRegion(width, height, sourceImg);
@@ -334,7 +327,7 @@
                 }
             }
         }
-        
+
         /// <summary>
         /// 生成缩略图，不加水印
         /// </summary>
@@ -349,29 +342,29 @@
             {
                 if(width <= 0)
                     width = _sourceImg.Width;
-                    
+
                 if(height <= 0)
                     height = _sourceImg.Height;
-                    
+
                 int _towidth = width,
                     _toheight = height;
-                    
+
                 switch(cMode)
                 {
                     case ImageCutMode.CutWH://指定高宽缩放（可能变形）
                         break;
-                        
+
                     case ImageCutMode.CutW://指定宽，高按比例
                         _toheight = _sourceImg.Height * width / _sourceImg.Width;
                         break;
-                        
+
                     case ImageCutMode.CutH://指定高，宽按比例
                         _towidth = _sourceImg.Width * height / _sourceImg.Height;
                         break;
-                        
+
                     case ImageCutMode.CutNo: //缩放不剪裁
                         int maxSize = (width >= height ? width : height);
-                        
+
                         if(_sourceImg.Width >= _sourceImg.Height)
                         {
                             _towidth = maxSize;
@@ -382,21 +375,21 @@
                             _toheight = maxSize;
                             _towidth = _sourceImg.Width * maxSize / _sourceImg.Height;
                         }
-                        
+
                         break;
-                        
+
                     default:
                         break;
                 }
-                
+
                 width = _towidth;
                 height = _toheight;
                 ImageFormat _imageFormat = _sourceImg.RawFormat;
                 Size _imageCutSize = new Size(width, height);
-                
+
                 if(cMode != ImageCutMode.CutNo)
                     _imageCutSize = CutRegion(width, height, _sourceImg);
-                    
+
                 using(Bitmap sourceBmp = new Bitmap(width, height))
                 {
                     using(Graphics graphics = Graphics.FromImage(sourceBmp))
@@ -414,7 +407,7 @@
                 }
             }
         }
-        
+
         /// <summary>
         /// 获取图片格式
         /// </summary>
@@ -428,7 +421,7 @@
             ImageFormat _sourceImageFormat = _sourceImage.RawFormat;
             return _sourceImageFormat;
         }
-        
+
         /// <summary>
         /// 合并图片
         /// </summary>
@@ -445,12 +438,12 @@
             //创建要显示的图片对象,根据参数的个数设置宽度
             Bitmap _drawImage = new Bitmap(mergerImageWidth, mergerImageHeight);
             Graphics _graphics = Graphics.FromImage(_drawImage);
-            
+
             try
             {
                 //清除画布,背景设置为白色
                 _graphics.Clear(Color.White);
-                
+
                 for(int j = 0; j < _imageCount; j++)
                 {
                     _graphics.DrawImage(maps[j], j * imageX, imageY, maps[j].Width, maps[j].Height);
@@ -460,10 +453,10 @@
             {
                 _graphics.Dispose();
             }
-            
+
             return _drawImage;
         }
-        
+
         /// <summary>
         /// 将Base64字符串转换成Image
         /// </summary>
@@ -483,29 +476,29 @@
                 return _image;
             }
         }
-        
+
         /// <summary>
         /// byte[]转换成Image
         /// </summary>
-        /// <param name="byteArray">二进制图片流</param>
+        /// <param name="buffer">二进制图片流</param>
         /// <returns>Image</returns>
-        public static Image ParseByteArray(this byte[] byteArray)
+        public static Image ParseByteArray(this byte[] buffer)
         {
-            using(MemoryStream ms = new MemoryStream(byteArray))
+            using(MemoryStream ms = new MemoryStream(buffer))
             {
                 Image _saveImage = Image.FromStream(ms);
                 ms.Flush();
                 return _saveImage;
             }
         }
-        
+
         /// <summary>
         /// 将Image转换Base64字符串
         /// </summary>
-        /// <param name="image">Image</param>
+        /// <param name="sourceImageFile">图片文件</param>
         /// <param name="format">ImageFormat</param>
         /// <returns>Base64字符串</returns>
-        public static string ToBase64String(this Image image, ImageFormat format)
+        public static string ToBase64String(this Image sourceImageFile, ImageFormat format)
         {
             /*
              * 参考：
@@ -513,35 +506,35 @@
              */
             using(MemoryStream ms = new MemoryStream())
             {
-                image.Save(ms, format);
+                sourceImageFile.Save(ms, format);
                 byte[] _imageBytes = ms.ToArray();
                 string _base64String = Convert.ToBase64String(_imageBytes);
                 return _base64String;
             }
         }
-        
+
         /// <summary>
         /// 将.png,.bmp,.jpg类型图片转换成bitmap类型
         /// </summary>
-        /// <param name="path">图片路径</param>
+        /// <param name="sourceImageFile">图片路径</param>
         /// <returns>Bitmap</returns>
-        public static Bitmap ToBitmap(string path)
+        public static Bitmap ToBitmap(string sourceImageFile)
         {
-            return (Bitmap)Bitmap.FromFile(path, false);
+            return (Bitmap)Bitmap.FromFile(sourceImageFile, false);
         }
-        
+
         /// <summary>
         /// 将图片转换成byte数组
         /// </summary>
-        /// <param name="Image">Image</param>
+        /// <param name="sourceImageFile">图片文件</param>
         /// <param name="imageFormat">ImageFormat</param>
-        /// <returns>byte数组</returns>
-        public static byte[] ToBytes(this Image Image, ImageFormat imageFormat)
+        /// <returns>BYTE数组</returns>
+        public static byte[] ToBytes(this Image sourceImageFile, ImageFormat imageFormat)
         {
             byte[] _data = null;
             using(MemoryStream ms = new MemoryStream())
             {
-                using(Bitmap bitmap = new Bitmap(Image))
+                using(Bitmap bitmap = new Bitmap(sourceImageFile))
                 {
                     bitmap.Save(ms, imageFormat);
                     ms.Position = 0;
@@ -552,37 +545,29 @@
             }
             return _data;
         }
-        
+
         /// <summary>
         /// 将图片转换成byte数组
         /// </summary>
-        /// <param name="bitmap">Bitmap</param>
-        /// <returns></returns>
-        public static byte[] ToBytes(this Bitmap bitmap)
+        /// <param name="sourceImageFile">图片文件</param>
+        /// <returns>BYTE数组</returns>
+        public static byte[] ToBytes(this Bitmap sourceImageFile)
         {
-            return ToBytes(bitmap, bitmap.RawFormat);
+            return ToBytes(sourceImageFile, sourceImageFile.RawFormat);
         }
-        
+
         /// <summary>
         /// 检查添加图片水印参数
         /// </summary>
-        /// <param name="watermarkImageFile">水印png文件</param>
-        /// <param name="sourceImageFile">源文件</param>
-        /// <exception cref="System.ArgumentNullException">水印图片路径不能为空！</exception>
-        /// <exception cref="System.ArgumentException">
-        /// </exception>
         private static void CheckedAttachPngParamters(string watermarkImageFile, string sourceImageFile)
         {
-            if(string.IsNullOrEmpty(watermarkImageFile))
-                throw new ArgumentNullException("水印图片路径不能为空！");
-                
-            if(!File.Exists(watermarkImageFile))
-                throw new ArgumentException(string.Format("水印文件路径不正确，参数数值：{0}", watermarkImageFile));
-                
-            if(!File.Exists(sourceImageFile))
-                throw new ArgumentException(string.Format("需要添加水印文件的原图路径不正确，参数数值：{0}", sourceImageFile));
+            ValidateHelper.Begin().NotNullOrEmpty(watermarkImageFile, "水印图片路径")
+            .CheckFileExists(watermarkImageFile, "水印图片路径")
+            .NotNullOrEmpty(sourceImageFile, "水印图片路径")
+            .CheckFileExists(sourceImageFile, "需要添加水印文件的原图")
+            ;
         }
-        
+
         private static Size CreateImageSize(int width, int height, Image img)
         {
             double _w = 0.0,
@@ -591,7 +576,7 @@
                    _sh = Convert.ToDouble(img.Height),
                    _mw = Convert.ToDouble(width),
                    _mh = Convert.ToDouble(height);
-                   
+
             if(_sw < _mw && _sh < _mh)
             {
                 _w = _sw;
@@ -607,10 +592,10 @@
                 _h = height;
                 _w = (_h * _sw) / _sh;
             }
-            
+
             return new Size(Convert.ToInt32(_w), Convert.ToInt32(_h));
         }
-        
+
         /// <summary>
         /// 根据需要的图片尺寸，按比例剪裁原始图片
         /// </summary>
@@ -626,7 +611,7 @@
                    _nh = (double)height,
                    _pw = (double)img.Width,
                    _ph = (double)img.Height;
-                   
+
             if(_nw / _nh > _pw / _ph)
             {
                 _width = _pw;
@@ -642,10 +627,10 @@
                 _width = _pw;
                 _height = _ph;
             }
-            
+
             return new Size(Convert.ToInt32(_width), Convert.ToInt32(_height));
         }
-        
+
         /// <summary>
         /// 保存JPG时用
         /// </summary>
@@ -654,15 +639,15 @@
         private static ImageCodecInfo GetCodecInfo(string mimeType)
         {
             ImageCodecInfo[] CodecInfo = ImageCodecInfo.GetImageEncoders();
-            
+
             foreach(ImageCodecInfo ici in CodecInfo)
             {
                 if(ici.MimeType == mimeType) return ici;
             }
-            
+
             return null;
         }
-        
+
         /// <summary>
         /// 保存为JPEG格式，支持压缩质量选项
         /// </summary>
@@ -673,7 +658,7 @@
         private static bool KiSaveAsJPEG(string sourceFile, string fileName, int qty)
         {
             Bitmap _bmp = new Bitmap(sourceFile);
-            
+
             try
             {
                 EncoderParameter _p;
@@ -691,10 +676,10 @@
                 return false;
             }
         }
-        
+
         [DllImport("msvcrt.dll")]
         private static extern int memcmp(IntPtr b1, IntPtr b2, long count);
-        
+
         /// <summary>
         /// memcmp API
         /// </summary>
@@ -706,46 +691,46 @@
         /// 备注：
         [DllImport("msvcrt.dll")]
         private static extern IntPtr memcmp(byte[] b1, byte[] b2, IntPtr count);
-        
+
         private static void SetWaterMarkImagePosition(Graphics sourceG, Image sourceImage, int sourceImageWidth, int sourceImageHight, SetWaterPosition position)
         {
             Size _sourceSize = CreateImageSize(sourceImageWidth, sourceImageHight, sourceImage);
             int _nx = 0,
                 _ny = 0,
                 _padding = 10;
-                
+
             switch(position)
             {
                 case SetWaterPosition.center:
                     _nx = (sourceImageWidth - _sourceSize.Width) / 2;
                     _ny = (sourceImageHight - _sourceSize.Height) / 2;
                     break;
-                    
+
                 case SetWaterPosition.topLeft:
                     _nx = _padding;
                     _ny = _padding;
                     break;
-                    
+
                 case SetWaterPosition.topRight:
                     _nx = (sourceImageWidth - _sourceSize.Width) - _padding;
                     _ny = _padding;
                     break;
-                    
+
                 case SetWaterPosition.bottomLeft:
                     _nx = _padding;
                     _ny = (sourceImageHight - _sourceSize.Height) - _padding;
                     break;
-                    
+
                 default:
                     _nx = (sourceImageWidth - _sourceSize.Width) - _padding;
                     _ny = (sourceImageHight - _sourceSize.Height) - _padding;
                     break;
             }
-            
+
             sourceG.DrawImage(sourceImage, new Rectangle(_nx, _ny, _sourceSize.Width, _sourceSize.Height),
                               0, 0, sourceImage.Width, sourceImage.Height, GraphicsUnit.Pixel);
         }
-        
+
         /// <summary>
         /// 设置水印图片质量
         /// </summary>
@@ -764,7 +749,7 @@
             //获得包含有关内置图像编码解码器的信息的ImageCodecInfo 对象。
             ImageCodecInfo[] _arrayICI = ImageCodecInfo.GetImageEncoders();
             ImageCodecInfo _jpegICI = null;
-            
+
             for(int x = 0; x < _arrayICI.Length; x++)
             {
                 if(_arrayICI[x].FormatDescription.Equals("JPEG"))
@@ -773,7 +758,7 @@
                     break;
                 }
             }
-            
+
             if(_jpegICI != null)
             {
                 sourceBmp.Save(sourceImageFile, _jpegICI, _encoderParams);
@@ -783,13 +768,13 @@
                 sourceBmp.Save(sourceImageFile, sourceImageFormat);
             }
         }
-        
+
         private static void SetWaterMarkTextPosition(Graphics graphics, string text, Image _sourceImage, int _sourceImageWidth, int _sourceImageHight)
         {
             int[] _sizes = new int[] { 16, 14, 12, 10, 8, 6, 4 };
             Font _font = null;
             SizeF _crSize = new SizeF();
-            
+
             //通过循环这个数组，来选用不同的字体大小
             //如果它的大小小于图像的宽度，就选用这个大小的字体
             for(int i = 0; i < 7; i++)
@@ -797,11 +782,11 @@
                 //设置字体，这里是用arial，黑体
                 _font = new Font("arial", _sizes[i], FontStyle.Bold);
                 _crSize = graphics.MeasureString(text, _font);
-                
+
                 if((ushort)_crSize.Width < (ushort)_sourceImageWidth)
                     break;
             }
-            
+
             //因为图片的高度可能不尽相同, 所以定义了
             //从图片底部算起预留了5%的空间
             int _yPixlesFromBottom = (int)(_sourceImageHight * .08);
@@ -830,7 +815,7 @@
                                 new PointF(_xCenterOfImg, _yPosFromBottom),  //位置
                                 _format);
         }
-        
+
         #endregion Methods
     }
 }

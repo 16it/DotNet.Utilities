@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.Enum;
 
-namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]
     public class DateHelperTests
@@ -37,10 +37,8 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         public void ParseExactTest()
         {
             DateTime _actual = DateHelper.ParseDateTimeString("12:24", "HH:mm");
-             _actual = DateHelper.ParseDateTimeString("20040727", "yyyyMMdd");
+            _actual = DateHelper.ParseDateTimeString("20040727", "yyyyMMdd");
             Assert.Inconclusive(_actual.ToString("yyyy-MM-dd HH:mm:ss"));
         }
-
-
     }
 }

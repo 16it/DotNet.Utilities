@@ -19,7 +19,7 @@ namespace YanZhiwei.DotNet2.Utilities.Common
         {
             return new CommonComparer<TV>(keySelector);
         }
-        
+
         /// <summary>
         /// 创建指定对比委托<paramref name="keySelector"/>与结果二次比较器<paramref name="comparer"/>的实例
         /// </summary>
@@ -27,34 +27,34 @@ namespace YanZhiwei.DotNet2.Utilities.Common
         {
             return new CommonComparer<TV>(keySelector, comparer);
         }
-        
+
         #region Nested type: CommonComparer
-        
+
         private class CommonComparer<TV> : IComparer<T>
         {
             private readonly IComparer<TV> _comparer;
             private readonly Func<T, TV> _keySelector;
-            
+
             public CommonComparer(Func<T, TV> keySelector, IComparer<TV> comparer)
             {
                 _keySelector = keySelector;
                 _comparer = comparer;
             }
-            
+
             public CommonComparer(Func<T, TV> keySelector)
             : this(keySelector, Comparer<TV>.Default)
             { }
-            
+
             #region IComparer<T> Members
-            
+
             public int Compare(T x, T y)
             {
                 return _comparer.Compare(_keySelector(x), _keySelector(y));
             }
-            
+
             #endregion IComparer<T> Members
         }
-        
+
         #endregion Nested type: CommonComparer
     }
 }

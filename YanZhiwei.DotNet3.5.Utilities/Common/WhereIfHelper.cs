@@ -1,10 +1,11 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
 {
+    using DotNet2.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// WhereIf 帮助类

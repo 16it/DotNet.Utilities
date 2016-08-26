@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Web.UI;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.WebForm.Core;
 

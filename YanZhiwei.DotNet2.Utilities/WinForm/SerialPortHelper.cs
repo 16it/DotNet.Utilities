@@ -1,9 +1,10 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinForm
 {
+    using Common;
     using System;
     using System.IO.Ports;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
     using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
@@ -85,7 +86,7 @@
         /// </summary>
         public void Close()
         {
-            if (comport.IsOpen)
+            if(comport.IsOpen)
                 comport.Close();
         }
 
@@ -95,8 +96,9 @@
         /// <returns></returns>
         public void Open()
         {
-            if (!comport.IsOpen)
+            if(!comport.IsOpen)
                 comport.Close();
+
             comport.Open();
             comport.DiscardInBuffer();
             comport.DiscardOutBuffer();
@@ -109,7 +111,7 @@
         /// <returns>组元</returns>
         public Tuple<SerialPortState, string> Write(byte[] buffer)
         {
-            if (CheckedSerialPortOpen())
+            if(CheckedSerialPortOpen())
             {
                 try
                 {
@@ -117,11 +119,11 @@
                     string _hexString = ByteHelper.ToHexStringWithBlank(buffer);
                     return Tuple.Create(SerialPortState.SendSucceed, _hexString);
                 }
-                catch (TimeoutException ex)
+                catch(TimeoutException ex)
                 {
                     return Tuple.Create(SerialPortState.SendTimeout, ex.Message.Trim());
                 }
-                catch (Exception ex)
+                catch(Exception ex)
                 {
                     return Tuple.Create(SerialPortState.SendFailed, ex.Message.Trim());
                 }
@@ -144,11 +146,12 @@
         /// <param name="e"></param>
         private void Comport_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            lock (syncObj)
+            lock(syncObj)
             {
                 SerialPort _serialPort = sender as SerialPort;
                 byte[] _buffer = new byte[_serialPort.BytesToRead];
-                if (_buffer.Length > 0)
+
+                if(_buffer.Length > 0)
                 {
                     int _bufferCount = _serialPort.Read(_buffer, 0, _buffer.Length);//需要读取来自串口数据长度
                     byte[] _actualBuffer = ArrayHelper.Copy<byte>(_buffer, 0, _buffer.Length);//截取
@@ -159,7 +162,7 @@
 
         private void InitParityParameter(string parity)
         {
-            switch (parity)
+            switch(parity)
             {
                 case "偶":
                     comport.Parity = Parity.Even;
@@ -193,17 +196,19 @@
         /// <returns></returns>
         private SerialPort InitSerialPort()
         {
-            if (comport == null)
+            if(comport == null)
                 comport = new SerialPort();
-            if (!comport.IsOpen)
+
+            if(!comport.IsOpen)
                 comport.Close();
+
             comport.DataReceived += Comport_DataReceived;
             return comport;
         }
 
         private void InitStopBitParameter(string stopBit)
         {
-            switch (stopBit)
+            switch(stopBit)
             {
                 case "1":
                     comport.StopBits = StopBits.One;
@@ -225,7 +230,7 @@
 
         private void OnReceiveDataHanlderEvent(byte[] buffer)
         {
-            if (ReceiveDataHanlderEvent != null)
+            if(ReceiveDataHanlderEvent != null)
                 ReceiveDataHanlderEvent(buffer);
         }
 

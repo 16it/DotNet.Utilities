@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Enum;
 
-namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]
     public class ConvertHelperTests
@@ -11,84 +12,58 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         public void ToHexBinDecOctTest()
         {
             #region 十进制转换成十六进制测试
-
             string _testString = "15";
             string _expected = "f";
             string _actual = ConvertHelper.ToHexBinDecOct(_testString, Conversion.Decimal, Conversion.Hexadecimal);
             Assert.AreEqual(_expected, _actual);
-
             #endregion 十进制转换成十六进制测试
-
             #region 十进制转换二进制测试
-
             string _testString2 = "3";
             string _expected2 = "00000011";
             string _actual2 = ConvertHelper.ToHexBinDecOct(_testString2, Conversion.Decimal, Conversion.Binary);
             Assert.AreEqual(_expected2, _actual2);
-
             #endregion 十进制转换二进制测试
-
             #region 十进制转换八进制
-
             string _testString3 = "22";
             string _expected3 = "26";
             string _actual3 = ConvertHelper.ToHexBinDecOct(_testString3, Conversion.Decimal, Conversion.Octal);
             Assert.AreEqual(_expected3, _actual3);
-
             #endregion 十进制转换八进制
-
             #region 十六进制转换成十进制测试
-
             string _testString4 = "f";
             string _expected4 = "15";
             string _actual4 = ConvertHelper.ToHexBinDecOct(_testString4, Conversion.Hexadecimal, Conversion.Decimal);
             Assert.AreEqual(_expected4, _actual4);
-
             #endregion 十六进制转换成十进制测试
-
             #region 十六进制转换成二进制测试
-
             string _testString5 = "f";
             string _expected5 = "00001111";
             string _actual5 = ConvertHelper.ToHexBinDecOct(_testString5, Conversion.Hexadecimal, Conversion.Binary);
             Assert.AreEqual(_expected5, _actual5);
-
             #endregion 十六进制转换成二进制测试
-
             #region 十六进制转换成八进制测试
-
             string _testString6 = "f";
             string _expected6 = "17";
             string _actual6 = ConvertHelper.ToHexBinDecOct(_testString6, Conversion.Hexadecimal, Conversion.Octal);
             Assert.AreEqual(_expected6, _actual6);
-
             #endregion 十六进制转换成八进制测试
-
             #region 二进制转换十进制
-
             string _testString7 = "1111";
             string _expected7 = "15";
             string _actual7 = ConvertHelper.ToHexBinDecOct(_testString7, Conversion.Binary, Conversion.Decimal);
             Assert.AreEqual(_expected7, _actual7);
-
             #endregion 二进制转换十进制
-
             #region 二进制转换十六进制
-
             string _testString8 = "1111";
             string _expected8 = "f";
             string _actual8 = ConvertHelper.ToHexBinDecOct(_testString8, Conversion.Binary, Conversion.Hexadecimal);
             Assert.AreEqual(_expected8, _actual8);
-
             #endregion 二进制转换十六进制
-
             #region 二进制转换八进制
-
             string _testString9 = "1111";
             string _expected9 = "17";
             string _actual9 = ConvertHelper.ToHexBinDecOct(_testString9, Conversion.Binary, Conversion.Octal);
             Assert.AreEqual(_expected9, _actual9);
-
             #endregion 二进制转换八进制
         }
 

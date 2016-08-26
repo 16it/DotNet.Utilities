@@ -1,7 +1,7 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.IO;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 
 namespace YanZhiwei.DotNet.SharpZipLib.Utilities
 {
@@ -32,28 +32,29 @@ namespace YanZhiwei.DotNet.SharpZipLib.Utilities
         /// <param name="password">加密密码</param>
         /// <param name="comment">压缩文件描述</param>
         public static void MakeZipFile(string[] filenameToZip, string zipedfiledname, int compressionLevel,
-            string password, string comment)
+                                       string password, string comment)
         {
             File.Delete(zipedfiledname);
             FileStream _fileSream = File.Open(zipedfiledname, FileMode.Create);
             ZipOutputStream _newzipstream = new ZipOutputStream(_fileSream);
+
             try
             {
                 _newzipstream.SetLevel(compressionLevel);
 
-                if (!string.IsNullOrEmpty(password))
+                if(!string.IsNullOrEmpty(password))
                     _newzipstream.Password = password;
 
-                if (!string.IsNullOrEmpty(comment))
+                if(!string.IsNullOrEmpty(comment))
                     _newzipstream.SetComment(comment);
 
-                foreach (string filename in filenameToZip)
+                foreach(string filename in filenameToZip)
                 {
-                    if (string.IsNullOrEmpty(filename)) continue;
+                    if(string.IsNullOrEmpty(filename)) continue;
+
                     FileStream _newstream = File.OpenRead(filename);//打开预压缩文件
                     byte[] _setbuffer = new byte[_newstream.Length];
                     _newstream.Read(_setbuffer, 0, _setbuffer.Length);//读入文件
-
                     ZipEntry _newEntry = new ZipEntry(Path.GetFileName(filename));
                     _newEntry.Size = _newstream.Length;
                     _newstream.Close();
@@ -61,7 +62,7 @@ namespace YanZhiwei.DotNet.SharpZipLib.Utilities
                     _newzipstream.Write(_setbuffer, 0, _setbuffer.Length);
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 //出现异常
                 File.Delete(zipedfiledname);
@@ -99,42 +100,44 @@ namespace YanZhiwei.DotNet.SharpZipLib.Utilities
             FileStream _fileStream = File.OpenRead(zipfilename);
             ZipInputStream _zipStream = new ZipInputStream(_fileStream);
 
-            if (!string.IsNullOrEmpty(password))
+            if(!string.IsNullOrEmpty(password))
                 _zipStream.Password = password;
+
             try
             {
                 ZipEntry _zipEntry;
+
                 //获取Zip中单个File
-                while ((_zipEntry = _zipStream.GetNextEntry()) != null)
+                while((_zipEntry = _zipStream.GetNextEntry()) != null)
                 {
-                    if (string.IsNullOrEmpty(UnZipDir))
+                    if(string.IsNullOrEmpty(UnZipDir))
                         UnZipDir = FileHelper.GetExceptEx(zipfilename) + "\\";
-                    if (!Directory.Exists(UnZipDir))
+
+                    if(!Directory.Exists(UnZipDir))
                         Directory.CreateDirectory(UnZipDir);//创建目的目录
 
                     //获得目的目录信息
                     string _Driectoryname = Path.GetDirectoryName(UnZipDir);
                     string _pathname = Path.GetDirectoryName(_zipEntry.Name);//获得子级目录
                     string _filename = Path.GetFileName(_zipEntry.Name);//获得子集文件名
-
                     //处理文件盘符问题
                     _pathname = _pathname.Replace(":", "$");//处理当前压缩出现盘符问题
                     _Driectoryname = _Driectoryname + "\\" + _pathname;
-
                     //创建
                     Directory.CreateDirectory(_Driectoryname);
 
                     //解压指定子目录
-                    if (_filename != string.Empty)
+                    if(_filename != string.Empty)
                     {
                         FileStream _newstream = File.Create(_Driectoryname + "\\" + _filename);
                         int _size = 1024;
-
                         byte[] _bytes = new byte[_size];
-                        while (true)
+
+                        while(true)
                         {
                             _size = _zipStream.Read(_bytes, 0, _bytes.Length);
-                            if (_size > 0)
+
+                            if(_size > 0)
                             {
                                 //写入数据
                                 _newstream.Write(_bytes, 0, _size);

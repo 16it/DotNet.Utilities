@@ -1,9 +1,10 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using Common;
     using System;
     using System.Data.SqlClient;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// SqlServer 数据库备份和还原功能

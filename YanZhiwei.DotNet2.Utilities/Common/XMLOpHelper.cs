@@ -5,14 +5,14 @@
     using System.IO;
     using System.Text;
     using System.Xml;
-    
+
     /// <summary>
     /// XML 辅助类
     /// </summary>
     public static class XMLOpHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 格式化xml内容显示
         /// </summary>
@@ -33,7 +33,7 @@
                 }
             }
         }
-        
+
         /// <summary>
         /// 将XML文件读取返回成DataSet
         /// </summary>
@@ -55,7 +55,7 @@
                 return null;
             }
         }
-        
+
         #endregion Methods
     }
 }

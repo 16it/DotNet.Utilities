@@ -1,10 +1,9 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using Common;
     using System;
     using System.Diagnostics;
     using System.IO;
-
-    using YanZhiwei.DotNet2.Utilities.Common;
 
     /// <summary>
     /// TraceListener实现
@@ -56,18 +55,19 @@
         public override void Write(object obj, string category)
         {
             string _message = string.Empty;
-            if (!string.IsNullOrEmpty(category))
+
+            if(!string.IsNullOrEmpty(category))
             {
                 _message = category + ":";
             }
 
-            if (obj is Exception)
+            if(obj is Exception)
             {
                 var _ex = (Exception)obj;
                 _message += _ex.Message + Environment.NewLine;
                 _message += _ex.StackTrace;
             }
-            else if (null != obj)
+            else if(null != obj)
             {
                 _message += obj.ToString();
             }

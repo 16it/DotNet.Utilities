@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using YanZhiwei.DotNet.DevExpress12._1.Test.Model;
 using YanZhiwei.DotNet.DevExpress12._1.Utilities;
 using YanZhiwei.DotNet.DevExpress12._1.Utilities.Models;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 
 namespace YanZhiwei.DotNet.DevExpress12._1.Test
 {
@@ -25,7 +25,8 @@ namespace YanZhiwei.DotNet.DevExpress12._1.Test
             get
             {
                 List<Person> _personList = new List<Person>();
-                for (short i = 0; i < 10; i++)
+
+                for(short i = 0; i < 10; i++)
                 {
                     _personList.Add(new Person()
                     {
@@ -34,6 +35,7 @@ namespace YanZhiwei.DotNet.DevExpress12._1.Test
                         BrithDate = RandomHelper.NextTime()
                     });
                 }
+
                 return _personList;
             }
         }

@@ -25,7 +25,7 @@ namespace YanZhiwei.DotNet2.Utilities.Common
                 if(paramter.Value == null)
                     paramter.Value = DBNull.Value;
             }
-            
+
             return paramter;
         }
     }

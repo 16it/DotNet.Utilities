@@ -1,9 +1,10 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
+    using Common;
     using System.Collections;
     using System.Text;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// Sql Server 脚本创建
@@ -48,7 +49,6 @@
         public SqlServerScriptBuilder(string tableName, string primaryKey)
         {
             ValidateHelper.Begin().NotNullOrEmpty(tableName, "表名").NotNullOrEmpty(primaryKey, "主键");
-
             this.TableName = tableName;
             this.PrimaryKey = primaryKey;
         }
@@ -164,11 +164,13 @@
         private static StringBuilder CreateInsertNameSql(Hashtable sqlWhere)
         {
             StringBuilder _builder = new StringBuilder();
-            foreach (DictionaryEntry de in sqlWhere)
+
+            foreach(DictionaryEntry de in sqlWhere)
             {
                 string _key = de.Key.ToString().ToLower();
                 _builder.AppendFormat("{0},", _key);
             }
+
             _builder = _builder.RemoveLast(",");
             return _builder;
         }
@@ -176,11 +178,13 @@
         private static StringBuilder CreateInsertValueSql(Hashtable sqlWhere)
         {
             StringBuilder _builder = new StringBuilder();
-            foreach (DictionaryEntry de in sqlWhere)
+
+            foreach(DictionaryEntry de in sqlWhere)
             {
                 string _key = de.Key.ToString().ToLower();
                 _builder.AppendFormat("@{0},", _key);
             }
+
             _builder = _builder.RemoveLast(",");
             return _builder;
         }
@@ -188,11 +192,13 @@
         private static StringBuilder CreateUpdateSql(Hashtable sqlWhere)
         {
             StringBuilder _builder = new StringBuilder();
-            foreach (DictionaryEntry de in sqlWhere)
+
+            foreach(DictionaryEntry de in sqlWhere)
             {
                 string _key = de.Key.ToString().ToLower();
                 _builder.AppendFormat("{0}=@{1}, ", _key, _key);
             }
+
             _builder = _builder.RemoveLast(",");
             return _builder;
         }
@@ -200,11 +206,13 @@
         private static StringBuilder CreateWhereSql(Hashtable sqlWhere)
         {
             StringBuilder _builder = new StringBuilder();
-            foreach (DictionaryEntry de in sqlWhere)
+
+            foreach(DictionaryEntry de in sqlWhere)
             {
                 string _key = de.Key.ToString().ToLower();
                 _builder.AppendFormat("{0}=@{1} and ", _key, _key);
             }
+
             _builder = _builder.RemoveLast("and");
             return _builder;
         }

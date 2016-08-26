@@ -4,33 +4,33 @@
     using System.Collections.Generic;
     using System.DirectoryServices;
     using System.Text.RegularExpressions;
-    
+
     /// <summary>
     /// AD域帮助类
     /// </summary>
     public class ADDomainHelper
     {
         #region Fields
-        
+
         /// <summary>
         /// 域名称
         /// </summary>
         public readonly string ADDomian;
-        
+
         /// <summary>
         /// 用户名称
         /// </summary>
         public readonly string UserName;
-        
+
         /// <summary>
         /// 用户密码
         /// </summary>
         public readonly string UserPassword;
-        
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -43,11 +43,11 @@
             this.UserPassword = userPassword;
             this.ADDomian = domain;
         }
-        
+
         #endregion Constructors
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 取用户所对应的用户组
         /// </summary>
@@ -55,7 +55,7 @@
         public List<string> GetGroups()
         {
             List<string> _groups = new List<string>();
-            
+
             try
             {
                 DirectoryEntry _directoryEntity = new DirectoryEntry(string.Format("LDAP://{0}", this.ADDomian), this.UserName, this.UserPassword);
@@ -64,11 +64,11 @@
                 _searcher.PropertiesToLoad.Add("memberof");
                 _searcher.Filter = string.Format("sAMAccountName={0}", this.UserName);
                 SearchResult _seachResult = _searcher.FindOne();
-                
+
                 if(_seachResult != null)
                 {
                     ResultPropertyValueCollection _valueCollect = _seachResult.Properties["memberof"];
-                    
+
                     foreach(object group in _valueCollect)
                     {
                         string _group = group.ToString();
@@ -81,10 +81,10 @@
             {
                 _groups = null;
             }
-            
+
             return _groups;
         }
-        
+
         /// <summary>
         /// 登陆域
         /// </summary>
@@ -92,7 +92,7 @@
         public bool Login()
         {
             bool _result = false;
-            
+
             try
             {
                 DirectoryEntry _directoryEntity = new DirectoryEntry(string.Format("LDAP://{0}", this.ADDomian), this.UserName, this.UserPassword);
@@ -103,10 +103,10 @@
             {
                 _result = false;
             }
-            
+
             return _result;
         }
-        
+
         #endregion Methods
     }
 }

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Core;
 
 namespace YanZhiwei.DotNet4.Utilities.Core
@@ -30,8 +30,8 @@ namespace YanZhiwei.DotNet4.Utilities.Core
             dynamic expression = GetKeySelector(propertyName);
             dynamic keySelector = expression.Compile();
             return sortDirection == ListSortDirection.Ascending
-                ? Enumerable.OrderBy(source, keySelector)
-                : Enumerable.OrderByDescending(source, keySelector);
+                   ? Enumerable.OrderBy(source, keySelector)
+                   : Enumerable.OrderByDescending(source, keySelector);
         }
 
         /// <summary>
@@ -46,8 +46,8 @@ namespace YanZhiwei.DotNet4.Utilities.Core
             dynamic expression = GetKeySelector(propertyName);
             dynamic keySelector = expression.Compile();
             return sortDirection == ListSortDirection.Ascending
-                ? Enumerable.ThenBy(source, keySelector)
-                : Enumerable.ThenByDescending(source, keySelector);
+                   ? Enumerable.ThenBy(source, keySelector)
+                   : Enumerable.ThenByDescending(source, keySelector);
         }
 
         /// <summary>
@@ -62,8 +62,8 @@ namespace YanZhiwei.DotNet4.Utilities.Core
             ValidateHelper.Begin().NotNullOrEmpty(propertyName, "属性名称");
             dynamic keySelector = GetKeySelector(propertyName);
             return sortDirection == ListSortDirection.Ascending
-                ? Queryable.OrderBy(source, keySelector)
-                : Queryable.OrderByDescending(source, keySelector);
+                   ? Queryable.OrderBy(source, keySelector)
+                   : Queryable.OrderByDescending(source, keySelector);
         }
 
         /// <summary>
@@ -78,31 +78,37 @@ namespace YanZhiwei.DotNet4.Utilities.Core
             ValidateHelper.Begin().NotNullOrEmpty(propertyName, "属性名称");
             dynamic keySelector = GetKeySelector(propertyName);
             return sortDirection == ListSortDirection.Ascending
-                ? Queryable.ThenBy(source, keySelector)
-                : Queryable.ThenByDescending(source, keySelector);
+                   ? Queryable.ThenBy(source, keySelector)
+                   : Queryable.ThenByDescending(source, keySelector);
         }
 
         private static LambdaExpression GetKeySelector(string keyName)
         {
             Type type = typeof(T);
             string key = type.FullName + "." + keyName;
-            if (Cache.ContainsKey(key))
+
+            if(Cache.ContainsKey(key))
             {
                 return Cache[key];
             }
+
             ParameterExpression param = Expression.Parameter(type);
             string[] propertyNames = keyName.Split('.');
             Expression propertyAccess = param;
-            foreach (string propertyName in propertyNames)
+
+            foreach(string propertyName in propertyNames)
             {
                 PropertyInfo property = type.GetProperty(propertyName);
-                if (property == null)
+
+                if(property == null)
                 {
                     throw new FrameworkException(string.Format("查找类似 指定对象中不存在名称为{0}的属性。", propertyName));
                 }
+
                 type = property.PropertyType;
                 propertyAccess = Expression.MakeMemberAccess(propertyAccess, property);
             }
+
             LambdaExpression keySelector = Expression.Lambda(propertyAccess, param);
             Cache[key] = keySelector;
             return keySelector;

@@ -2,7 +2,7 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using YanZhiwei.DotNet.Core.RBAC.Model;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 
 namespace YanZhiwei.DotNet.Core.RBACExample.Admin
 {
@@ -10,7 +10,7 @@ namespace YanZhiwei.DotNet.Core.RBACExample.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
+            if(!Page.IsPostBack)
             {
                 BindRoleToView();
             }
@@ -36,7 +36,7 @@ namespace YanZhiwei.DotNet.Core.RBACExample.Admin
 
         protected void gvRole_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            if(e.Row.RowType == DataControlRowType.DataRow)
             {
                 e.Row.Cells[1].Text =
                     Convert.ToString(gvRole.PageSize * gvRole.PageIndex + e.Row.RowIndex + 1);
@@ -51,7 +51,8 @@ namespace YanZhiwei.DotNet.Core.RBACExample.Admin
         protected void lbDelete_Click(object sender, EventArgs e)
         {
             string _keys = txtKeys.Value.Trim();
-            if (CacheRBACContext.Current.DeleteRoleByCode(_keys.SubStringFromLast(',')))
+
+            if(CacheRBACContext.Current.DeleteRoleByCode(_keys.SubStringFromLast(',')))
             {
                 BindRoleToView();
                 txtKeys.Value = string.Empty;

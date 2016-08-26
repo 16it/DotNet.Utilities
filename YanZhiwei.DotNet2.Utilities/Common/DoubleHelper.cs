@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-    
+
     /// <summary>
     /// Double 帮助类
     /// </summary>
     public static class Double
     {
         #region Methods
-        
+
         /// <summary>
         /// 计算百分比(保持两位小数)
         /// </summary>
@@ -21,7 +21,7 @@
         {
             return Math.Round((double)(100 * value) / total, 2);
         }
-        
+
         /// <summary>
         /// 转换成钱表示形式（保持两位小数）
         /// </summary>
@@ -33,7 +33,7 @@
         {
             return Math.Round(data, 2);
         }
-        
+
         #endregion Methods
     }
 }

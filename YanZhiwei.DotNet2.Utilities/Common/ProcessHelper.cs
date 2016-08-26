@@ -3,14 +3,14 @@
     using System;
     using System.Diagnostics;
     using System.IO;
-    
+
     /// <summary>
     /// Process 帮助类
     /// </summary>
     public class ProcessHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 动态执行一系列控制台命令
         /// <para>eg: ProcessHelper.ExecBatCommand(cmd =></para>
@@ -24,7 +24,7 @@
         public static void ExecBatCommand(Action<Action<string>> inputAction)
         {
             Process _process = null;
-            
+
             try
             {
                 _process = new Process();
@@ -51,14 +51,14 @@
                 {
                     _process.Kill();
                 }
-                
+
                 if(_process != null)
                 {
                     _process.Close();
                 }
             }
         }
-        
+
         #endregion Methods
     }
 }

@@ -17,7 +17,7 @@
     using DevExpress.XtraTreeList.ViewInfo;
 
     using YanZhiwei.DotNet.DevExpress12._1.Utilities.Core;
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// Devexpress-TreeList帮助类
@@ -39,13 +39,16 @@
             tree.MouseClick += (sender, e) =>
             {
                 TreeList _curTree = sender as TreeList;
-                if (e.Button == MouseButtons.Right && Control.ModifierKeys == Keys.None && _curTree.State == TreeListState.Regular)
+
+                if(e.Button == MouseButtons.Right && Control.ModifierKeys == Keys.None && _curTree.State == TreeListState.Regular)
                 {
                     Point _point = new Point(Cursor.Position.X, Cursor.Position.Y);
                     TreeListHitInfo _hitInfo = _curTree.CalcHitInfo(e.Location);
-                    if (_hitInfo.HitInfoType == HitInfoType.Cell)
+
+                    if(_hitInfo.HitInfoType == HitInfoType.Cell)
                         _curTree.SetFocusedNode(_hitInfo.Node);
-                    if (attachMenuHanlder(_curTree.FocusedNode))
+
+                    if(attachMenuHanlder(_curTree.FocusedNode))
                         menu.ShowPopup(_point);
                 }
             };
@@ -59,8 +62,9 @@
         /// <returns>TreeListNode</returns>
         public static TreeListNode Check(this TreeListNode fucusedNode, Func<TreeListNode, bool> checkNodeHanlder)
         {
-            if (fucusedNode != null)
+            if(fucusedNode != null)
                 return checkNodeHanlder(fucusedNode) == true ? fucusedNode : null;
+
             return null;
         }
 
@@ -72,11 +76,12 @@
         /// <returns>TreeListNode</returns>
         public static TreeListNode CheckNull(this TreeListNode fucusedNode, Func<bool> checkNodeHanlder)
         {
-            if (fucusedNode == null)
+            if(fucusedNode == null)
             {
                 checkNodeHanlder();
                 return null;
             }
+
             return fucusedNode;
         }
 
@@ -88,11 +93,12 @@
         /// <returns>TreeListNode</returns>
         public static TreeListNode CheckNull(this TreeListNode fucusedNode, Action checkNodeHanlder)
         {
-            if (fucusedNode == null)
+            if(fucusedNode == null)
             {
                 checkNodeHanlder();
                 return null;
             }
+
             return fucusedNode;
         }
 
@@ -107,7 +113,8 @@
         {
             string _pathDB = FileHelper.ChangeFileType("xml");
             sourceTree.ExportToXml(_pathDB);
-            if (File.Exists(_pathDB))
+
+            if(File.Exists(_pathDB))
             {
                 TreeListViewState _treeState = new TreeListViewState(sourceTree);
                 _treeState.SaveState();
@@ -130,7 +137,8 @@
         {
             string _pathDB = FileHelper.ChangeFileType("xml");
             sourceTree.ExportToXml(_pathDB);
-            if (File.Exists(_pathDB))
+
+            if(File.Exists(_pathDB))
             {
                 TreeListViewState _treeState = new TreeListViewState(sourceTree, focusedNode);
                 _treeState.SaveState();
@@ -153,7 +161,8 @@
         {
             string _pathDB = FileHelper.ChangeFileType("xml");
             sourceTree.ExportToXml(_pathDB);
-            if (File.Exists(_pathDB))
+
+            if(File.Exists(_pathDB))
             {
                 TreeListViewState _treeState = new TreeListViewState(sourceTree, autoFocusedNode);
                 _treeState.SaveState();
@@ -169,13 +178,16 @@
         /// <returns>数组</returns>
         public static object[] CopyNode(this TreeListNode node)
         {
-            if (node != null)
+            if(node != null)
             {
                 object[] _values = new object[node.TreeList.Columns.Count];
-                for (int i = 0; i < node.TreeList.Columns.Count; i++)
+
+                for(int i = 0; i < node.TreeList.Columns.Count; i++)
                     _values[i] = node.GetValue(i);
+
                 return _values;
             }
+
             return null;
         }
 
@@ -231,20 +243,23 @@
         /// <param name="builderNodeTooltipHandler">委托</param>
         public static void CustomNodeTooltip(this TreeList tree, ToolTipControllerGetActiveObjectInfoEventArgs e, Func<TreeListNode, string> builderNodeTooltipHandler)
         {
-            if (e.SelectedControl is DevExpress.XtraTreeList.TreeList)
+            if(e.SelectedControl is DevExpress.XtraTreeList.TreeList)
             {
                 TreeList _tree = (TreeList)e.SelectedControl;
                 TreeListHitInfo _hit = _tree.CalcHitInfo(e.ControlMousePosition);
-                if (_hit.HitInfoType == HitInfoType.Cell)
+
+                if(_hit.HitInfoType == HitInfoType.Cell)
                 {
                     TreeListViewInfo _viewInfo = _tree.ViewInfo;
                     RowInfo _rowInfo = _viewInfo.GetRowInfoByPoint(e.ControlMousePosition);
                     CellInfo _cellInfo = _rowInfo.Cells[_hit.Column.VisibleIndex] as CellInfo;
                     EditHitInfo _editHitInfo = _cellInfo.EditorViewInfo.CalcHitInfo(e.ControlMousePosition);
-                    if (_editHitInfo.HitTest == EditHitTest.MaskBox)
+
+                    if(_editHitInfo.HitTest == EditHitTest.MaskBox)
                     {
                         string _toolTip = builderNodeTooltipHandler(_hit.Node);
-                        if (!string.IsNullOrEmpty(_toolTip))
+
+                        if(!string.IsNullOrEmpty(_toolTip))
                             e.Info = new ToolTipControlInfo(_cellInfo, _toolTip);
                     }
                 }
@@ -261,7 +276,7 @@
         /// <param name="e">CustomDrawNodeCheckBoxEventArgs</param>
         public static void DisabledCheckBox(this TreeListNode tree, Predicate<TreeListNode> conditionHanlder, CustomDrawNodeCheckBoxEventArgs e)
         {
-            if (conditionHanlder(e.Node))
+            if(conditionHanlder(e.Node))
             {
                 e.ObjectArgs.State = ObjectState.Disabled;
             }
@@ -277,7 +292,7 @@
         /// <param name="e">CheckNodeEventArgs</param>
         public static void DisabledSetCheckBox(this TreeListNode tree, Predicate<TreeListNode> conditionHanlder, CheckNodeEventArgs e)
         {
-            if (conditionHanlder(e.Node))
+            if(conditionHanlder(e.Node))
             {
                 e.CanCheck = false;
             }
@@ -290,7 +305,7 @@
         /// <param name="conditionHanlder">委托</param>
         public static void DownRecursiveNode(this TreeListNode node, Action<TreeListNode> conditionHanlder)
         {
-            foreach (TreeListNode _childNode in node.Nodes)
+            foreach(TreeListNode _childNode in node.Nodes)
             {
                 conditionHanlder(_childNode);
                 DownRecursiveNode(_childNode, conditionHanlder);
@@ -304,10 +319,11 @@
         /// <param name="conditionHanlder">委托</param>
         public static void DownRecursiveNode_Break(this TreeListNode node, Func<TreeListNode, bool> conditionHanlder)
         {
-            foreach (TreeListNode _childNode in node.Nodes)
+            foreach(TreeListNode _childNode in node.Nodes)
             {
-                if (!conditionHanlder(_childNode))
+                if(!conditionHanlder(_childNode))
                     break;
+
                 DownRecursiveNode_Break(_childNode, conditionHanlder);
             }
         }
@@ -319,10 +335,11 @@
         /// <param name="conditionHanlder">委托</param>
         public static void DownRecursiveNode_Continue(this TreeListNode node, Func<TreeListNode, bool> conditionHanlder)
         {
-            foreach (TreeListNode _childNode in node.Nodes)
+            foreach(TreeListNode _childNode in node.Nodes)
             {
-                if (!conditionHanlder(_childNode))
+                if(!conditionHanlder(_childNode))
                     continue;
+
                 DownRecursiveNode_Continue(_childNode, conditionHanlder);
             }
         }
@@ -334,10 +351,11 @@
         /// <param name="conditionHanlder">委托</param>
         public static void DownRecursiveTree(this TreeList tree, Action<TreeListNode> conditionHanlder)
         {
-            foreach (TreeListNode node in tree.Nodes)
+            foreach(TreeListNode node in tree.Nodes)
             {
                 conditionHanlder(node);
-                if (node.Nodes.Count > 0)
+
+                if(node.Nodes.Count > 0)
                 {
                     DownRecursiveNode(node, conditionHanlder);
                 }
@@ -354,10 +372,11 @@
         /// <param name="fc">FilterCondition</param>
         public static void Filter(this TreeList tree, FilterCondition fc)
         {
-            if (tree != null && fc != null)
+            if(tree != null && fc != null)
             {
-                if (!tree.OptionsBehavior.EnableFiltering)
+                if(!tree.OptionsBehavior.EnableFiltering)
                     tree.OptionsBehavior.EnableFiltering = true;
+
                 tree.FilterConditions.Clear();
                 tree.FilterConditions.Add(fc);
             }
@@ -375,15 +394,18 @@
         {
             string _fullPathInfo = string.Empty;
             _fullPathInfo = focusedNode.GetDisplayText(columnID);
-            while (focusedNode.ParentNode != null)
+
+            while(focusedNode.ParentNode != null)
             {
                 focusedNode = focusedNode.ParentNode;
-                if (compareNodeRule(focusedNode))
+
+                if(compareNodeRule(focusedNode))
                 {
                     string _nodeText = focusedNode.GetDisplayText(columnID).Trim();
                     _fullPathInfo = buildPathRule(_nodeText, _fullPathInfo);
                 }
             }
+
             return _fullPathInfo;
         }
 
@@ -398,12 +420,14 @@
         {
             string _fullPathInfo = string.Empty;
             _fullPathInfo = focusedNode.GetDisplayText(columnID);
-            while (focusedNode.ParentNode != null)
+
+            while(focusedNode.ParentNode != null)
             {
                 focusedNode = focusedNode.ParentNode;
                 string _nodeText = focusedNode.GetDisplayText(columnID).Trim();
                 _fullPathInfo = buildPathRule(_nodeText, _fullPathInfo);
             }
+
             return _fullPathInfo;
         }
 
@@ -417,23 +441,25 @@
         /// <returns>可能返回NULL;</returns>
         public static List<TreeListNode> GetDownRecursiveNodeListByCheckState(this TreeList tree, Predicate<TreeListNode> getRule, CheckState[] checkstate)
         {
-            if (tree != null)
+            if(tree != null)
             {
                 TreeListNode _rootNode = tree.Nodes[0];
-                if (_rootNode != null)
+
+                if(_rootNode != null)
                 {
                     List<TreeListNode> _checkedNodeList = new List<TreeListNode>();
                     _rootNode.DownRecursiveNode(n =>
                     {
-                        if (getRule(n))
+                        if(getRule(n))
                         {
-                            if (checkstate.Contains<CheckState>(n.CheckState))
+                            if(checkstate.Contains<CheckState>(n.CheckState))
                                 _checkedNodeList.Add(n);
                         }
                     });
                     return _checkedNodeList;
                 }
             }
+
             return null;
         }
 
@@ -449,9 +475,9 @@
             List<TreeListNode> _checkNodes = new List<TreeListNode>();
             tree.DownRecursiveTree((TreeListNode node) =>
             {
-                if (firstConditionHanlder(node))
+                if(firstConditionHanlder(node))
                 {
-                    if (secondConditionHanlder(node))
+                    if(secondConditionHanlder(node))
                         _checkNodes.Add(node);
                 }
             });
@@ -470,9 +496,9 @@
             List<TreeListNode> _checkNodes = new List<TreeListNode>();
             tree.DownRecursiveTree((TreeListNode node) =>
             {
-                if (GetNodesByStateRule(node))
+                if(GetNodesByStateRule(node))
                 {
-                    if (node.CheckState == state)
+                    if(node.CheckState == state)
                         _checkNodes.Add(node);
                 }
             });
@@ -489,15 +515,18 @@
         {
             TreeListNode _parentNode = node.ParentNode;//获取上一级父节点
             TreeListNode _conditonNode = null;
-            if (_parentNode != null)
+
+            if(_parentNode != null)
             {
-                if (conditionHanlder(_parentNode))//判断上一级父节点是否符合要求
+                if(conditionHanlder(_parentNode)) //判断上一级父节点是否符合要求
                 {
                     _conditonNode = _parentNode;
                 }
-                if (_conditonNode == null)//若没有找到符合要求的节点，递归继续
+
+                if(_conditonNode == null) //若没有找到符合要求的节点，递归继续
                     _conditonNode = GetParentNode(_parentNode, conditionHanlder);
             }
+
             return _conditonNode;
         }
 
@@ -511,23 +540,27 @@
         {
             TreeListNode _publicPNode = null;
             TreeListNode _findNode = node.GetParentNode(checkHanlder);//先获取到条件判断的自身父节点
-            if (_findNode != null)
+
+            if(_findNode != null)
             {
                 //开始向上递归
                 UpwardRecursiveNode(_findNode, n =>
                 {
                     TreeListNode _curpublicNode = n.ParentNode;//获取当前向上递归的父节点
-                    if (_curpublicNode != null)
+
+                    if(_curpublicNode != null)
                     {
-                        if (_curpublicNode.Nodes.Count > 1)//若有多个子节点，则是公共父节点
+                        if(_curpublicNode.Nodes.Count > 1) //若有多个子节点，则是公共父节点
                         {
                             _publicPNode = _curpublicNode;
                             return false;//跳出递归
                         }
                     }
+
                     return true;//继续递归
                 });
             }
+
             return _publicPNode;
         }
 
@@ -544,9 +577,10 @@
             DownRecursiveNode(node, n =>
             {
                 RowInfo _rowInfo = _tree.ViewInfo.RowsInfo[n];
-                if (_rowInfo != null)
+
+                if(_rowInfo != null)
                 {
-                    if (conditonHanlder(n))
+                    if(conditonHanlder(n))
                     {
                         _visibleChildNodes.Add(n);
                     }
@@ -575,14 +609,17 @@
         {
             List<TreeListNode> _visibleNodes = new List<TreeListNode>();
             RowsInfo _rowsInfo = treeList.ViewInfo.RowsInfo;
-            foreach (RowInfo ri in _rowsInfo.Rows)
+
+            foreach(RowInfo ri in _rowsInfo.Rows)
             {
                 TreeListNode _curNode = ri.Node;
-                if (conditonHanlder(_curNode))
+
+                if(conditonHanlder(_curNode))
                 {
                     _visibleNodes.Add(_curNode);
                 }
             }
+
             return _visibleNodes;
         }
 
@@ -609,7 +646,7 @@
         /// <param name="e">CustomDrawNodeCheckBoxEventArgs</param>
         public static void HideCheckBox(this TreeListNode tree, Predicate<TreeListNode> conditionHanlder, CustomDrawNodeCheckBoxEventArgs e)
         {
-            if (conditionHanlder(e.Node))
+            if(conditionHanlder(e.Node))
             {
                 e.Handled = true;
             }
@@ -633,10 +670,11 @@
         /// <param name="opreateRule">委托</param>
         public static void LoopTreeNodes(this TreeList tree, Action<TreeListNode> opreateRule)
         {
-            foreach (TreeListNode node in tree.Nodes)
+            foreach(TreeListNode node in tree.Nodes)
             {
                 opreateRule(node);
-                if (node.Nodes.Count > 0)
+
+                if(node.Nodes.Count > 0)
                 {
                     LoopTreeNodes(node, opreateRule);
                 }
@@ -650,7 +688,7 @@
         /// <param name="focusedNodeHanlder">委托</param>
         public static void SetFocusedNode(this TreeList tree, Predicate<TreeListNode> focusedNodeHanlder)
         {
-            if (tree != null && tree.Nodes.Count > 0)
+            if(tree != null && tree.Nodes.Count > 0)
             {
                 TreeListNode _root = tree.Nodes[0];
                 _root.DownRecursiveNode_Break(n => !focusedNodeHanlder(n));
@@ -671,7 +709,7 @@
         /// <param name="e">CustomDrawNodeCellEventArgs</param>
         public static void SetFocusedNodeBackColor(this TreeList tree, Color backColor1, Color backColor2, Color foreBrush, CustomDrawNodeCellEventArgs e)
         {
-            if (e.Node == tree.FocusedNode)
+            if(e.Node == tree.FocusedNode)
             {
                 Brush _backBrush, _foreBrush;
                 _backBrush = new LinearGradientBrush(e.Bounds, backColor1, backColor2, LinearGradientMode.Horizontal);
@@ -695,21 +733,26 @@
         public static void SyncMutexNodeCheckState(this TreeListNode node, CheckState checkState, Predicate<TreeListNode> checkHanlder)
         {
             TreeList _tree = node.TreeList;
-            if (checkHanlder(node))//当前节点符合互斥条件时候
+
+            if(checkHanlder(node)) //当前节点符合互斥条件时候
             {
                 _tree.DownRecursiveTree(n => n.CheckState = CheckState.Unchecked);
             }
             else
             {
                 TreeListNode _curParentNode = node.GetParentNode(checkHanlder);//获取符合互斥条件的父节点
-                if (_curParentNode == null) return;
+
+                if(_curParentNode == null) return;
+
                 TreeListNode _thePubleNode = node.GetPublicParentNode(checkHanlder);//获取符合互斥条件的公共父节点
-                if (_thePubleNode == null) return;
-                foreach (TreeListNode n in _thePubleNode.Nodes)
+
+                if(_thePubleNode == null) return;
+
+                foreach(TreeListNode n in _thePubleNode.Nodes)
                 {
-                    foreach (TreeListNode nc in n.Nodes)
+                    foreach(TreeListNode nc in n.Nodes)
                     {
-                        if (nc != _curParentNode)
+                        if(nc != _curParentNode)
                         {
                             nc.CheckState = CheckState.Unchecked;
                             nc.DownRecursiveNode(nr => nr.CheckState = CheckState.Unchecked);
@@ -717,6 +760,7 @@
                     }
                 }
             }
+
             node.SyncNodeCheckState(checkState);
             node.CheckState = checkState;
         }
@@ -743,9 +787,10 @@
         public static void UpwardRecursiveNode(this TreeListNode node, Predicate<TreeListNode> conditionHanlder)
         {
             TreeListNode _parentNode = node.ParentNode;
-            if (_parentNode != null)
+
+            if(_parentNode != null)
             {
-                if (conditionHanlder(_parentNode))
+                if(conditionHanlder(_parentNode))
                 {
                     UpwardRecursiveNode(_parentNode, conditionHanlder);
                 }
@@ -754,7 +799,7 @@
 
         private static void LoopTreeNodes(TreeListNode node, Action<TreeListNode> opreateRule)
         {
-            foreach (TreeListNode _childNode in node.Nodes)
+            foreach(TreeListNode _childNode in node.Nodes)
             {
                 opreateRule(_childNode);
                 LoopTreeNodes(_childNode, opreateRule);
@@ -763,7 +808,7 @@
 
         private static void SyncNodeCheckState_Child(TreeListNode node, CheckState check)
         {
-            if (node != null)
+            if(node != null)
             {
                 node.DownRecursiveNode(n => n.CheckState = check);
             }
@@ -771,19 +816,22 @@
 
         private static void SyncNodeCheckState_Parent(TreeListNode node, CheckState check)
         {
-            if (node.ParentNode != null)
+            if(node.ParentNode != null)
             {
                 bool _cked = false;
                 CheckState _ckState;
-                foreach (TreeListNode cn in node.ParentNode.Nodes)
+
+                foreach(TreeListNode cn in node.ParentNode.Nodes)
                 {
                     _ckState = cn.CheckState;
-                    if (check != _ckState)
+
+                    if(check != _ckState)
                     {
                         _cked = !_cked;
                         break;
                     }
                 }
+
                 node.ParentNode.CheckState = _cked ? CheckState.Indeterminate : check;
                 SyncNodeCheckState_Parent(node.ParentNode, check);
             }

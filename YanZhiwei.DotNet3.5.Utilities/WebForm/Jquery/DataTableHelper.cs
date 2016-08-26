@@ -29,12 +29,14 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Jquery
             string _iSortDir = context.Request["sSortDir_0"].ToStringOrDefault("desc");//升序还是降序
 
             DataTablePageResult _result = getDataFactory(_iDisplayLength, _iDisplayStart, _iSortCol, _iSortDir);
-            if (_result.ExecuteState != HttpStatusCode.OK)
+
+            if(_result.ExecuteState != HttpStatusCode.OK)
             {
                 _result.iTotalDisplayRecords = 0;
                 _result.iTotalRecords = 0;
                 _result.aaData = new List<T>();
             }
+
             context.CreateResponse(_result, _result.ExecuteState);
         }
     }

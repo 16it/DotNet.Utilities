@@ -1,13 +1,12 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinForm
 {
+    using Common;
     using Core;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
     using System.Windows.Forms;
-
-    using YanZhiwei.DotNet2.Utilities.Common;
 
     /// <summary>
     /// DataGrid 帮助类
@@ -33,12 +32,13 @@
             };
             dataGrid.CellClick += (sender, e) =>
             {
-                if (e.ColumnIndex == columnIndex)
+                if(e.ColumnIndex == columnIndex)
                 {
                     DataGridView _dataGrid = sender as DataGridView;
                     Rectangle _cellRectangle = _dataGrid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
                     datePicker.Location = _cellRectangle.Location;
                     datePicker.Width = _cellRectangle.Width;
+
                     try
                     {
                         datePicker.Value = _dataGrid.CurrentCell.Value.ToDateOrDefault(DateTime.Now);
@@ -47,6 +47,7 @@
                     {
                         datePicker.Value = DateTime.Now;
                     }
+
                     datePicker.Visible = true;
                 }
             };
@@ -67,7 +68,8 @@
             _checkedBox.OnCheckBoxClicked += (state) =>
             {
                 int _count = dataGrid.Rows.Count;
-                for (int i = 0; i < _count; i++)
+
+                for(int i = 0; i < _count; i++)
                 {
                     DataGridViewCheckBoxCell checkCell = (DataGridViewCheckBoxCell)dataGrid.Rows[i].Cells[columnIndex];
                     checkCell.Value = state;
@@ -82,11 +84,13 @@
         public static void AutoCellWidth(this DataGridView girdview)
         {
             int _columnSumWidth = 0;
-            for (int i = 0; i < girdview.Columns.Count; i++)
+
+            for(int i = 0; i < girdview.Columns.Count; i++)
             {
                 girdview.AutoResizeColumn(i, DataGridViewAutoSizeColumnMode.AllCells);
                 _columnSumWidth += girdview.Columns[i].Width;
             }
+
             girdview.AutoSizeColumnsMode = _columnSumWidth > girdview.Size.Width ? DataGridViewAutoSizeColumnsMode.DisplayedCells : DataGridViewAutoSizeColumnsMode.Fill;
         }
 
@@ -101,10 +105,10 @@
                 DataGridView _dataGrid = sender as DataGridView;
                 Rectangle _rectangle = new Rectangle(e.RowBounds.Location.X, e.RowBounds.Location.Y, _dataGrid.RowHeadersWidth, e.RowBounds.Height);
                 TextRenderer.DrawText(e.Graphics, (e.RowIndex + 1).ToString(),
-                    _dataGrid.RowHeadersDefaultCellStyle.Font,
-                    _rectangle,
-                    _dataGrid.RowHeadersDefaultCellStyle.ForeColor,
-                    TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
+                                      _dataGrid.RowHeadersDefaultCellStyle.Font,
+                                      _rectangle,
+                                      _dataGrid.RowHeadersDefaultCellStyle.ForeColor,
+                                      TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
             };
         }
 
@@ -115,14 +119,16 @@
         /// <param name="dataGrid">DataGridView对象</param>
         /// <param name="source">数据源</param>
         public static void DynamicBind<T>(this DataGridView dataGrid, IList<T> source)
-            where T : class
+        where T : class
         {
             BindingSource _source = null;
-            if (dataGrid.DataSource is BindingSource)
+
+            if(dataGrid.DataSource is BindingSource)
             {
                 _source = (BindingSource)dataGrid.DataSource;
                 _source.AllowNew = true;
-                foreach (T entity in source)
+
+                foreach(T entity in source)
                 {
                     _source.Add(entity);
                 }
@@ -145,10 +151,12 @@
         public static DataGridViewRow SelectedRow(this DataGridView dataGrid)
         {
             DataGridViewSelectedRowCollection _selectedRows = dataGrid.SelectedRows;
-            if (_selectedRows != null && _selectedRows.Count > 0)
+
+            if(_selectedRows != null && _selectedRows.Count > 0)
             {
                 return _selectedRows[0];
             }
+
             return null;
         }
 

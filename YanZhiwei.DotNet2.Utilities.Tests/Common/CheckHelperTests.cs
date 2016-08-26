@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using YanZhiwei.DotNet2.Utilities.Tests;
-using YanZhiwei.DotNet2.Utilities.Common;
 using System;
+using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.Tests;
 
-namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]
     public class CheckHelperTests
@@ -13,7 +13,6 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         {
             bool _actual = CheckHelper.InRange("2", 1, 5);
             Assert.IsTrue(_actual);
-
             DateTime _start = new DateTime(2009, 12, 9, 10, 0, 0); //10 o'clock
             DateTime _end = new DateTime(2009, 12, 10, 12, 0, 0); //12 o'clock
             DateTime _now = new DateTime(2009, 12, 10, 11, 0, 0);
@@ -126,7 +125,5 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
             Assert.IsTrue(CheckHelper.IsIp46Address("192.168.1.1:8060"));
             Assert.IsTrue(CheckHelper.IsIp46Address("[2001:0DB8:02de::0e13]:9010"));
         }
-
-
     }
 }

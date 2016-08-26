@@ -1,12 +1,11 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
+    using DotNet2.Utilities.Common;
     using System;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Web;
-
-    using YanZhiwei.DotNet2.Utilities.Common;
     using YanZhiwei.DotNet3._5.Utilities.Enum;
     using YanZhiwei.DotNet3._5.Utilities.Model;
 
@@ -85,16 +84,18 @@
         /// </summary>
         public void SetFileDirectory(string fileDirectory)
         {
-            if (fileDirectory == null)
+            if(fileDirectory == null)
             {
                 throw new ArgumentNullException("保存路径不能为空！");
             }
 
             bool _mapPath = Regex.IsMatch(fileDirectory, @"[a-z]\:\\", RegexOptions.IgnoreCase);
-            if (_mapPath)
+
+            if(_mapPath)
             {
                 fileDirectory = GetRelativePath(fileDirectory);
             }
+
             uploadFileSetting.FileDirectory = fileDirectory;
         }
 
@@ -152,16 +153,15 @@
         /// <param name="fileName">文件名称.</param>
         private void CheckingType(UploadFileMessage message, string fileName)
         {
-            if (uploadFileSetting.FileType != "*")
+            if(uploadFileSetting.FileType != "*")
             {
                 // 获取允许允许上传类型列表
                 string[] _typeList = uploadFileSetting.FileType.Split(',');
-
                 // 获取上传文件类型(小写)
                 string _type = Path.GetExtension(fileName).ToLowerInvariant(); ;
 
                 // 验证类型
-                if (_typeList.Contains(_type) == false)
+                if(_typeList.Contains(_type) == false)
                     this.AddUploadFileMessage(message, "文件类型非法!");
             }
         }
@@ -173,7 +173,7 @@
         /// <param name="postFile">HttpPostedFile</param>
         private void CheckSize(UploadFileMessage message, HttpPostedFile postFile)
         {
-            if (postFile.ContentLength / 1024.0 / 1024.0 > uploadFileSetting.MaxSizeM)
+            if(postFile.ContentLength / 1024.0 / 1024.0 > uploadFileSetting.MaxSizeM)
             {
                 AddUploadFileMessage(message, string.Format("对不起上传文件过大，不能超过{0}M！", uploadFileSetting.MaxSizeM));
             }
@@ -187,9 +187,10 @@
         private UploadFileMessage CommonSave(HttpPostedFile postFile)
         {
             UploadFileMessage _uploadFileMessage = new UploadFileMessage();
+
             try
             {
-                if (postFile == null || postFile.ContentLength == 0)
+                if(postFile == null || postFile.ContentLength == 0)
                 {
                     AddUploadFileMessage(_uploadFileMessage, "没有文件！");
                     return _uploadFileMessage;
@@ -197,22 +198,22 @@
 
                 //文件名
                 string _fileName = uploadFileSetting.IsUseOldFileName ? postFile.FileName : DateTime.Now.FormatDate(12) + Path.GetExtension(postFile.FileName);
-
                 //验证格式
                 this.CheckingType(_uploadFileMessage, postFile.FileName);
                 //验证大小
                 this.CheckSize(_uploadFileMessage, postFile);
 
-                if (_uploadFileMessage.HasError)
+                if(_uploadFileMessage.HasError)
                     return _uploadFileMessage;
 
                 string _webDir = string.Empty;
                 // 获取存储目录
                 string _directory = this.GetDirectory(ref _webDir),
                        _filePath = _directory + _fileName;
-                if (File.Exists(_filePath))
+
+                if(File.Exists(_filePath))
                 {
-                    if (uploadFileSetting.IsRenameSameFile)
+                    if(uploadFileSetting.IsRenameSameFile)
                     {
                         _filePath = _directory + DateTime.Now.FormatDate(12) + "-" + _fileName;
                     }
@@ -221,6 +222,7 @@
                         File.Delete(_filePath);
                     }
                 }
+
                 // 保存文件
                 postFile.SaveAs(_filePath);
                 _uploadFileMessage.FilePath = _filePath;
@@ -229,7 +231,7 @@
                 _uploadFileMessage.WebFilePath = _webDir + _fileName;
                 return _uploadFileMessage;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 AddUploadFileMessage(_uploadFileMessage, ex.Message);
                 return _uploadFileMessage;
@@ -245,18 +247,21 @@
         {
             // 存储目录
             string _directory = uploadFileSetting.FileDirectory;
-
             // 目录格式
             string _childDirectory = DateTime.Now.ToString("yyyy-MM/dd");
-            if (uploadFileSetting.PathSaveType == UploadFileSaveType.Code)
+
+            if(uploadFileSetting.PathSaveType == UploadFileSaveType.Code)
             {
                 _childDirectory = folderNumber;
             }
+
             webDir = _directory.TrimEnd('/') + "/" + _childDirectory + '/';
             string _dir = HttpContext.Current.Server.MapPath(webDir);
+
             // 创建目录
-            if (!Directory.Exists(_dir))
+            if(!Directory.Exists(_dir))
                 Directory.CreateDirectory(_dir);
+
             return _dir;
         }
 

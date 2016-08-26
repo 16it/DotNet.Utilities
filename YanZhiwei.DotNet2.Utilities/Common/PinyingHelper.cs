@@ -2,25 +2,25 @@
 {
     using System.Collections;
     using System.Text;
-    
+
     /// <summary>
     /// 汉字拼音帮助类
     /// </summary>
     public static class PinyingHelper
     {
         #region Fields
-        
+
         /// <summary>
         /// 拼音对应数值存储
         /// </summary>
         /// 日期：2015-10-09 17:23
         /// 备注：
         private static Hashtable pinyinHash;
-        
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         /// <summary>
         /// Initializes the <see cref="PinyingHelper"/> class.
         /// </summary>
@@ -427,11 +427,11 @@
             pinyinHash.Add(-10254, "zuo");
             pinyinHash.Add(-10247, "zz");
         }
-        
+
         #endregion Constructors
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 获得汉字的拼音，如果输入的是英文字符将原样输出，中文标点符号将被忽略
         /// </summary>
@@ -442,11 +442,11 @@
             byte[] _bytes = System.Text.Encoding.Default.GetBytes(chineseChars);
             int _value;
             StringBuilder _builder = new StringBuilder(chineseChars.Length * 4);
-            
+
             for(int i = 0; i < _bytes.Length; i++)
             {
                 _value = (int)_bytes[i];
-                
+
                 if(_value > 160)
                 {
                     _value = _value * 256 + _bytes[++i] - 65536;
@@ -457,10 +457,10 @@
                     _builder.Append((char)_value);
                 }
             }
-            
+
             return _builder.ToString();
         }
-        
+
         /// <summary>
         /// 获得汉字拼音的简写，即每一个汉字的拼音的首字母组成的串，如果输入的是英文字符将原样输出，中文标点符号将被忽略
         /// </summary>
@@ -471,21 +471,21 @@
             byte[] _bytes = Encoding.Default.GetBytes(chineseChars);
             int _value;
             StringBuilder _builder = new StringBuilder(chineseChars.Length * 4);
-            
+
             for(int i = 0; i < _bytes.Length; i++)
             {
                 _value = (int)_bytes[i];
-                
+
                 if(_value > 160)
                 {
                     _value = _value * 256 + _bytes[++i] - 65536;
                     string charPinyin = GetPinyin(_value);
-                    
+
                     if(!string.IsNullOrEmpty(charPinyin))
                     {
                         charPinyin = new string(charPinyin[0], 1);
                     }
-                    
+
                     _builder.Append(charPinyin);
                 }
                 else
@@ -493,10 +493,10 @@
                     _builder.Append((char)_value);
                 }
             }
-            
+
             return _builder.ToString();
         }
-        
+
         /// <summary>
         /// 获得汉字的拼音
         /// </summary>
@@ -508,15 +508,15 @@
             {
                 return string.Empty;
             }
-            
+
             while(!pinyinHash.ContainsKey(charValue))
             {
                 charValue--;
             }
-            
+
             return (string)pinyinHash[charValue];
         }
-        
+
         #endregion Methods
     }
 }

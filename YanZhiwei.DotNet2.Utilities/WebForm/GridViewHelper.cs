@@ -9,9 +9,10 @@
     using System.Web.UI;
     using System.Web.UI.WebControls;
 
-    using Common;
+    using DataOperator;
 
     using Enum;
+    using Common;
 
     /// <summary>
     ///  GridView 帮助类
@@ -30,10 +31,11 @@
         /// 备注：在Page_Load方法中使用；
         public static void InitializeColumnOrderBy(this GridView gridView, string orderColumnName, OrderWay defaultOrderWay)
         {
-            if (!gridView.AllowSorting)
+            if(!gridView.AllowSorting)
             {
                 gridView.AllowSorting = true;
             }
+
             gridView.Attributes["SortOrder"] = orderColumnName;
             gridView.Attributes["OrderWay"] = defaultOrderWay.ToString();
         }
@@ -53,12 +55,13 @@
                 string _sortExpression = e.SortExpression,
                        _orderWay = _gridView.Attributes["OrderWay"].ToString().Trim();
                 OrderWay _curOrderby = OrderWay.Asc;
-                if (_orderWay == OrderWay.Desc.ToString())
+
+                if(_orderWay == OrderWay.Desc.ToString())
                 {
                     _gridView.Attributes["OrderWay"] = OrderWay.Asc.ToString();
                     _curOrderby = OrderWay.Asc;
                 }
-                else if (_orderWay == OrderWay.Asc.ToString())
+                else if(_orderWay == OrderWay.Asc.ToString())
                 {
                     _gridView.Attributes["OrderWay"] = OrderWay.Desc.ToString();
                     _curOrderby = OrderWay.Desc;
@@ -93,7 +96,7 @@
         /// 备注：在OnInit事件中使用；
         public static void SetOwnDataPager(this GridView gridview, int pageSize, PagerButtons pagerStyle, Action<GridView> finallyDataBindFactory)
         {
-            if (!gridview.AllowPaging)
+            if(!gridview.AllowPaging)
             {
                 gridview.AllowPaging = true;
             }
@@ -136,7 +139,7 @@
             */
             gridView.RowCreated += (sender, e) =>
             {
-                if (e.Row.RowType == DataControlRowType.Pager)
+                if(e.Row.RowType == DataControlRowType.Pager)
                 {
                     GridView _gridView = sender as GridView;
                     PlaceHolder _phdPageNumber = e.Row.FindControl("phdPageNumber") as PlaceHolder;
@@ -145,7 +148,7 @@
                     DropDownList _drpShowCount = e.Row.FindControl("drpShowCount") as DropDownList;
                     LinkButton _lbtnPage;
                     _drpShowCount.SelectedValue = _gridView.PageSize.ToString();
-                    _drpShowCount.SelectedIndexChanged += delegate (object obj, EventArgs args)
+                    _drpShowCount.SelectedIndexChanged += delegate(object obj, EventArgs args)
                     {
                         _gridView.PageSize = Convert.ToInt16(_drpShowCount.SelectedValue);
                         finallyDataBindFactory(_gridView);
@@ -154,35 +157,38 @@
                     int _pageCount = _gridView.PageCount;
                     int _pageIndex = _gridView.PageIndex;
                     int _startIndex = (_pageIndex + 1 < _pageSize) ?
-                        0 : (_pageIndex + 1 + _pageSize / 2 >= _pageCount) ? _pageCount - _pageSize : _pageIndex - _pageSize / 2;
+                                      0 : (_pageIndex + 1 + _pageSize / 2 >= _pageCount) ? _pageCount - _pageSize : _pageIndex - _pageSize / 2;
                     int _endIndex = (_startIndex >= _pageCount - _pageSize) ? _pageCount : _startIndex + _pageSize;
-
                     _phdPageNumber.Controls.Add(new LiteralControl("&nbsp;&nbsp;"));
-                    for (int i = _startIndex; i < _endIndex; i++)
+
+                    for(int i = _startIndex; i < _endIndex; i++)
                     {
                         _lbtnPage = new LinkButton();
                         _lbtnPage.Text = (i + 1).ToString();
                         _lbtnPage.CommandName = "Page";
                         _lbtnPage.CommandArgument = (i + 1).ToString();
                         _lbtnPage.Font.Overline = false;
-                        if (i == _pageIndex)
+
+                        if(i == _pageIndex)
                             _lbtnPage.Font.Bold = true;
                         else
                             _lbtnPage.Font.Bold = false;
+
                         _phdPageNumber.Controls.Add(_lbtnPage);
                         _phdPageNumber.Controls.Add(new LiteralControl("&nbsp;"));
                     }
-                    _lbtnPrev.Click += delegate (object obj, EventArgs args)
+
+                    _lbtnPrev.Click += delegate(object obj, EventArgs args)
                     {
-                        if (_gridView.PageIndex > 0)
+                        if(_gridView.PageIndex > 0)
                         {
                             _gridView.PageIndex = _gridView.PageIndex - 1;
                             finallyDataBindFactory(_gridView);
                         }
                     };
-                    _lbtnNext.Click += delegate (object obj, EventArgs args)
+                    _lbtnNext.Click += delegate(object obj, EventArgs args)
                     {
-                        if (_gridView.PageIndex < _gridView.PageCount)
+                        if(_gridView.PageIndex < _gridView.PageCount)
                         {
                             _gridView.PageIndex = _gridView.PageIndex + 1;
                             finallyDataBindFactory(_gridView);
@@ -204,39 +210,44 @@
             DataTable _table = new DataTable();
             int _rowIndex = 0;
             List<string> cols = new List<string>();
-            if (!gridview.ShowHeader && gridview.Columns.Count == 0)
+
+            if(!gridview.ShowHeader && gridview.Columns.Count == 0)
             {
                 return _table;
             }
 
             GridViewRow _headerRow = gridview.HeaderRow;
             int _columnCount = _headerRow.Cells.Count;
-            for (int i = 0; i < _columnCount; i++)
+
+            for(int i = 0; i < _columnCount; i++)
             {
                 string text = GetCellText(_headerRow.Cells[i]);
                 cols.Add(text);
             }
 
-            foreach (GridViewRow r in gridview.Rows)
+            foreach(GridViewRow r in gridview.Rows)
             {
-                if (r.RowType == DataControlRowType.DataRow)
+                if(r.RowType == DataControlRowType.DataRow)
                 {
                     DataRow _row = _table.NewRow();
                     int j = 0;
-                    for (int i = 0; i < _columnCount; i++)
+
+                    for(int i = 0; i < _columnCount; i++)
                     {
                         string text = GetCellText(r.Cells[i]);
-                        if (!string.IsNullOrEmpty(text))
+
+                        if(!string.IsNullOrEmpty(text))
                         {
-                            if (_rowIndex == 0)
+                            if(_rowIndex == 0)
                             {
                                 string columnName = cols[i];
-                                if (string.IsNullOrEmpty(columnName))
+
+                                if(string.IsNullOrEmpty(columnName))
                                 {
                                     continue;
                                 }
 
-                                if (_table.Columns.Contains(columnName))
+                                if(_table.Columns.Contains(columnName))
                                 {
                                     continue;
                                 }
@@ -286,24 +297,26 @@
         private static string GetCellText(TableCell cell)
         {
             string text = cell.Text;
-            if (!string.IsNullOrEmpty(text))
+
+            if(!string.IsNullOrEmpty(text))
             {
                 return text;
             }
 
-            foreach (Control control in cell.Controls)
+            foreach(Control control in cell.Controls)
             {
-                if (control != null && control is IButtonControl)
+                if(control != null && control is IButtonControl)
                 {
                     IButtonControl btn = control as IButtonControl;
                     text = btn.Text.Replace("\r\n", string.Empty).Trim();
                     break;
                 }
 
-                if (control != null && control is ITextControl)
+                if(control != null && control is ITextControl)
                 {
                     LiteralControl lc = control as LiteralControl;
-                    if (lc != null)
+
+                    if(lc != null)
                     {
                         continue;
                     }
@@ -325,14 +338,15 @@
         private static void SetCellText(TableCell cell, int maxLen)
         {
             string text = cell.Text;
-            if (!string.IsNullOrEmpty(text))
+
+            if(!string.IsNullOrEmpty(text))
             {
                 cell.Text = StringHelper.GetFriendly(text, maxLen);
             }
 
-            foreach (Control control in cell.Controls)
+            foreach(Control control in cell.Controls)
             {
-                if (control != null && control is IButtonControl)
+                if(control != null && control is IButtonControl)
                 {
                     IButtonControl btn = control as IButtonControl;
                     text = btn.Text.Replace("\r\n", string.Empty).Trim();
@@ -340,17 +354,19 @@
                     break;
                 }
 
-                if (control != null && control is ITextControl)
+                if(control != null && control is ITextControl)
                 {
                     LiteralControl _lc = control as LiteralControl;
-                    if (_lc != null)
+
+                    if(_lc != null)
                     {
                         continue;
                     }
 
                     ITextControl _l = control as ITextControl;
                     text = _l.Text.Replace("\r\n", string.Empty).Trim();
-                    if (_l is DataBoundLiteralControl)
+
+                    if(_l is DataBoundLiteralControl)
                     {
                         cell.Text = StringHelper.GetFriendly(text, maxLen);
                         break;

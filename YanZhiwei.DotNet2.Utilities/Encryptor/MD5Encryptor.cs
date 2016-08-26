@@ -1,18 +1,18 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.Encryptor
 {
     using System;
     using System.Security.Cryptography;
     using System.Text;
-    
+
     /// <summary>
     /// MD5加密帮助类
     /// </summary>
     /// 时间：2015-11-06 9:22
     /// 备注：
-    public static class MD5EncryptHelper
+    public static class MD5Encryptor
     {
         #region Methods
-        
+
         /// <summary>
         /// 验证随机加密的MD5
         /// </summary>
@@ -30,7 +30,7 @@
                 data += _randomKey;
                 byte[] _bytes = Encoding.UTF8.GetBytes(data);
                 byte[] _hash = md5Provider.ComputeHash(_bytes);
-                
+
                 for(int i = 1; i < 16; i++)
                 {
                     if(_hash[i] != _array[i])
@@ -38,11 +38,11 @@
                         return false;
                     }
                 }
-                
+
                 return true;
             }
         }
-        
+
         /// <summary>
         /// 生成随机加密的
         /// </summary>
@@ -63,7 +63,7 @@
                 return new Guid(_hash);
             }
         }
-        
+
         #endregion Methods
     }
 }

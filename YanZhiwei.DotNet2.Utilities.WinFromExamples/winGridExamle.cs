@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 using YanZhiwei.DotNet2.Utilities.WinForm.Core;
 
@@ -21,18 +21,18 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
         private void button1_Click(object sender, EventArgs e)
         {
             List<Person> personList = new List<Person>();
-            for (byte i = 0; i < 200; i++)
+
+            for(byte i = 0; i < 200; i++)
             {
                 Person _person = new Person();
-
                 _person.Name = RandomHelper.NetxtString(4, false);
                 _person.Age = (byte)RandomHelper.NextNumber(1, 99);
                 _person.InsertTime = RandomHelper.NextDateTime();
                 _person.LoginDate = RandomHelper.NextDateTime().FormatDate(0);
                 _person.Gender = RandomHelper.NextBool();
-
                 personList.Add(_person);
             }
+
             dataGridView1.DynamicBind<Person>(personList);
         }
 
@@ -67,7 +67,6 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 
         private void button6_Click(object sender, EventArgs e)
         {
-          
         }
 
         //private void cbHeader_OnCheckBoxClicked(bool state)
@@ -83,13 +82,33 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 
     internal class Person
     {
-        public string Name { get; set; }
+        public string Name
+        {
+            get;
+            set;
+        }
 
-        public byte Age { get; set; }
+        public byte Age
+        {
+            get;
+            set;
+        }
 
-        public DateTime InsertTime { get; set; }
+        public DateTime InsertTime
+        {
+            get;
+            set;
+        }
 
-        public string LoginDate { get; set; }
-        public bool Gender { get; set; }
+        public string LoginDate
+        {
+            get;
+            set;
+        }
+        public bool Gender
+        {
+            get;
+            set;
+        }
     }
 }

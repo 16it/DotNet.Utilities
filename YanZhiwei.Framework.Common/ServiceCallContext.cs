@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Runtime.Remoting.Messaging;
 
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
     using YanZhiwei.DotNet3._5.Utilities.Common;
 
     /// <summary>

@@ -2,14 +2,14 @@
 {
     using System;
     using System.Text;
-    
+
     /// <summary>
     /// Exception帮助类
     /// </summary>
     public static class ExceptionHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 格式化异常消息
         /// </summary>
@@ -20,30 +20,30 @@
         public static string FormatMessage(this Exception ex, bool isHideStackTrace, string appString)
         {
             StringBuilder _builder = new StringBuilder();
-            
+
             while(ex != null)
             {
                 _builder.AppendLine(string.Format("{0}异常消息：{1}", appString, ex.Message));
                 _builder.AppendLine(string.Format("{0}异常类型：{1}", appString, ex.GetType().FullName));
                 _builder.AppendLine(string.Format("{0}异常方法：{1}", appString, ex.TargetSite == null ? null : ex.TargetSite.Name));
                 _builder.AppendLine(string.Format("{0}异常来源：{1}", appString, ex.Source));
-                
+
                 if(!isHideStackTrace && ex.StackTrace != null)
                 {
                     _builder.AppendLine(string.Format("{0}异常堆栈：{1}", appString, ex.StackTrace));
                 }
-                
+
                 if(ex.InnerException != null)
                 {
                     _builder.AppendLine(string.Format("{0}内部异常：", appString));
                 }
-                
+
                 ex = ex.InnerException;
             }
-            
+
             return _builder.ToString();
         }
-        
+
         /// <summary>
         /// 格式化异常消息
         /// </summary>
@@ -54,7 +54,7 @@
         {
             return FormatMessage(ex, isHideStackTrace, "  ");
         }
-        
+
         /// <summary>
         /// 获取innerException
         /// </summary>
@@ -68,10 +68,10 @@
             {
                 return ex;
             }
-            
+
             return ex.InnerException.GetOriginalException();
         }
-        
+
         /// <summary>
         /// 判断异常是哪个异常类型
         /// </summary>
@@ -94,7 +94,7 @@
                 return false;
             }
         }
-        
+
         #endregion Methods
     }
 }

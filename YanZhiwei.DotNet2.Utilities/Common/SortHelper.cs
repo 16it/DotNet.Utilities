@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-    
+
     /// <summary>
     /// 排序辅助类
     /// </summary>
     public static class SortHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 冒泡排序
         /// </summary>
@@ -20,7 +20,7 @@
             if(array != null)
             {
                 int _length = array.Length;
-                
+
                 for(int i = 0; i <= _length - 2; i++)
                 {
                     for(int j = _length - 1; j >= 1; j--)
@@ -35,7 +35,7 @@
                 }
             }
         }
-        
+
         #endregion Methods
     }
 }

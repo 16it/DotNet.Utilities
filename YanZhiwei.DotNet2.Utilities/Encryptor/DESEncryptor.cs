@@ -1,49 +1,51 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.Encryptor
 {
+    using Common;
+    using DataOperator;
     using System;
     using System.IO;
     using System.Security.Cryptography;
     using System.Text;
-    
+
     /// <summary>
     /// DES(Data Encryption Standard)
     /// DES使用的密钥key为8字节，初始向量IV也是8字节。
     /// </summary>
-    public class DESEncryptHelper
+    public class DESEncryptor
     {
         #region Fields
-        
+
         /// <summary>
         /// 默认加密Key
         /// </summary>
         private const string key = "DotNet2.Utilities";
-        
+
         /// <summary>
         /// 默认向量
         /// </summary>
         private static byte[] iv = { 0x21, 0x45, 0x65, 0x87, 0x09, 0xBA, 0xDC, 0xEF };
-        
+
         /// <summary>
         /// The DES
         /// </summary>
         private DES des = null;
-        
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="key">密钥</param>
         /// <param name="iv">向量</param>
-        public DESEncryptHelper(byte[] key, byte[] iv)
+        public DESEncryptor(byte[] key, byte[] iv)
         {
             des = new DESCryptoServiceProvider();
             des.Key = key;
             des.IV = iv;
         }
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -51,7 +53,7 @@
         /// <param name="iv">向量</param>
         /// 时间：2016-01-14 13:23
         /// 备注：
-        public DESEncryptHelper(string key, byte[] iv)
+        public DESEncryptor(string key, byte[] iv)
         {
             des = new DESCryptoServiceProvider();
             key = key.Substring(0, 8);
@@ -59,11 +61,11 @@
             des.Key = Encoding.UTF8.GetBytes(key.Substring(0, 8));
             des.IV = iv;
         }
-        
+
         #endregion Constructors
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 生成DES
         /// </summary>
@@ -72,7 +74,7 @@
         {
             return CreateDES(string.Empty);
         }
-        
+
         /// <summary>
         /// 根据KEY生成DES
         /// </summary>
@@ -82,7 +84,7 @@
         {
             DES _des = new DESCryptoServiceProvider();
             DESCryptoServiceProvider _desCrypto = (DESCryptoServiceProvider)DESCryptoServiceProvider.Create();
-            
+
             if(!string.IsNullOrEmpty(key))
             {
                 MD5 _md5 = new MD5CryptoServiceProvider();
@@ -92,11 +94,11 @@
             {
                 _des.Key = _desCrypto.Key;
             }
-            
+
             _des.IV = _des.IV;
             return _des;
         }
-        
+
         /// <summary>
         /// 采用默认向量，Key解密
         /// </summary>
@@ -104,10 +106,10 @@
         /// <returns>解密后的字符串</returns>
         public static string Decrypt(string text)
         {
-            DESEncryptHelper _helper = new DESEncryptHelper(key, iv);
+            DESEncryptor _helper = new DESEncryptor(key, iv);
             return _helper.DecryptString(text);
         }
-        
+
         /// <summary>
         /// 采用默认向量,KEY加密
         /// </summary>
@@ -115,10 +117,10 @@
         /// <returns>加密后的字符串</returns>
         public static string Encrypt(string text)
         {
-            DESEncryptHelper _helper = new DESEncryptHelper(key, iv);
+            DESEncryptor _helper = new DESEncryptor(key, iv);
             return _helper.EncryptString(text);
         }
-        
+
         /// <summary>
         /// 解密字符串
         /// </summary>
@@ -139,11 +141,11 @@
                 {
                     return "N/A";
                 }
-                
+
                 return Encoding.UTF8.GetString(ms.ToArray());
             }
         }
-        
+
         /// <summary>
         /// 加密字符串
         /// </summary>
@@ -160,7 +162,7 @@
                 return Convert.ToBase64String(ms.ToArray());
             }
         }
-        
+
         #endregion Methods
     }
 }

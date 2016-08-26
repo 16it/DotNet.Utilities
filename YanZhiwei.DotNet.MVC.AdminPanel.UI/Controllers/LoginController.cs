@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using YanZhiwei.DotNet.MVC.AdminPanel.Contract.Model;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.ValidateCode;
 using YanZhiwei.DotNet2.Utilities.WebForm.Core;
 
@@ -22,16 +22,16 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.UI.Controllers
             try
             {
                 User _finded = ServiceContext.Current.AdminPanelService.UserLogin(item);
-                if (_finded != null)
+
+                if(_finded != null)
                 {
-                    if (!_finded.IsAble.Value)
+                    if(!_finded.IsAble.Value)
                     {
                         return Content("用户已被禁用，请您联系管理员");
                     }
                     else
                     {
-                        CookieManger.Save("UserID",_finded.ID.ToString());
-
+                        CookieManger.Save("UserID", _finded.ID.ToString());
                         return Content("OK");
                     }
                 }
@@ -40,7 +40,7 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.UI.Controllers
                     return Content("用户名称或者密码错误！");
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return Content("登录异常," + ex.Message);
             }

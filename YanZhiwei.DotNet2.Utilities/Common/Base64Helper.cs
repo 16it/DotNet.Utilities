@@ -2,14 +2,14 @@
 {
     using System;
     using System.Text;
-    
+
     /// <summary>
     /// Base64帮助类
     /// </summary>
     public static class Base64Helper
     {
         #region Methods
-        
+
         /// <summary>
         /// Base64字符串解码
         /// </summary>
@@ -19,7 +19,7 @@
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(data));
         }
-        
+
         /// <summary>
         /// Base64字符串译码
         /// </summary>
@@ -29,7 +29,7 @@
         {
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(data));
         }
-        
+
         #endregion Methods
     }
 }

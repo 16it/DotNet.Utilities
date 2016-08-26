@@ -19,13 +19,13 @@ namespace YanZhiwei.DotNet2.Utilities.Common
         public static string GetGeneratedQuery(this IDbCommand cmd)
         {
             string _sql = cmd.CommandText;
-            
+
             for(int i = 0; i < cmd.Parameters.Count; i++)
             {
                 IDbDataParameter _parameter = cmd.Parameters[i] as IDbDataParameter;
                 _sql = _sql.Replace(_parameter.ParameterName, _parameter.Value.ToStringOrDefault(string.Empty));
             }
-            
+
             return _sql;
         }
     }

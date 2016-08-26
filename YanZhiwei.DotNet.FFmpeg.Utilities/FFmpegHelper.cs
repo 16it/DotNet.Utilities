@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 
 namespace YanZhiwei.DotNet.FFmpeg.Utilities
 {
@@ -39,7 +39,6 @@ namespace YanZhiwei.DotNet.FFmpeg.Utilities
         public Process SaveVideoStream(string videoStream, string savepath)
         {
             ValidateHelper.Begin().NotNullOrEmpty(videoStream, "视频流路径").NotNullOrEmpty(savepath, "视频流保存本地路径").IsFilePath(savepath, "视频流保存本地路径");
-
             Process _process = new Process();
             _process.StartInfo.FileName = FFmpegPath;
             _process.StartInfo.Arguments = string.Format(@"-i {0} -c copy {1}", videoStream, savepath);

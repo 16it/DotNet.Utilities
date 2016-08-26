@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Common
+﻿namespace YanZhiwei.DotNet2.Utilities.DataOperator
 {
     using System;
     using System.Collections.Generic;
@@ -6,27 +6,27 @@
     using System.Data.OleDb;
     using System.IO;
     using System.Text;
-    
+
     /// <summary>
     /// EXCEL 操作帮助类
     /// </summary>
-    public class OLEDBExcelHelper
+    public class ExcelDataOperator
     {
         #region Fields
-        
+
         private static readonly string xls = ".xls";
         private static readonly string xlsx = ".xlsx";
-        
+
         private static bool _X64Version = false;
-        
+
         private string _ExcelConnectString = string.Empty;
         private string _ExcelExtension = string.Empty; //后缀
         private string _ExcelPath = string.Empty; //路径
-        
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         //链接字符串
         //是否强制使用x64链接字符串，即xlsx形式
         /// <summary>
@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="excelPath">EXCEL路径</param>
         /// <param name="x64Version">是否是64位操作系统</param>
-        public OLEDBExcelHelper(string excelPath, bool x64Version)
+        public ExcelDataOperator(string excelPath, bool x64Version)
         {
             string _excelExtension = Path.GetExtension(excelPath);
             _ExcelExtension = _excelExtension.ToLower();
@@ -42,11 +42,11 @@
             _X64Version = x64Version;
             _ExcelConnectString = BuilderConnectionString();
         }
-        
+
         #endregion Constructors
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 获取excel所有sheet数据
         /// </summary>
@@ -60,12 +60,12 @@
                 {
                     sqlcon.Open();
                     DataTable _schemaTable = sqlcon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                    
+
                     if(_schemaTable != null)
                     {
                         int i = 0;
                         _excelDb = new DataSet();
-                        
+
                         foreach(DataRow row in _schemaTable.Rows)
                         {
                             string _sheetName = row["TABLE_NAME"].ToString().Trim();
@@ -91,7 +91,7 @@
             }
             return _excelDb;
         }
-        
+
         /// <summary>
         /// 读取sheet
         ///<para> eg:select * from [Sheet1$]</para>
@@ -120,7 +120,7 @@
                 }
             }
         }
-        
+
         /// <summary>
         /// Excel操作_添加，修改
         /// DELETE不支持
@@ -147,7 +147,7 @@
             }
             return _affectedRows;
         }
-        
+
         /// <summary>
         /// 获取EXCEL内sheet集合
         /// </summary>
@@ -163,13 +163,13 @@
                     _schemaTable = sqlcon.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
                     String[] _excelSheets = new String[_schemaTable.Rows.Count];
                     int i = 0;
-                    
+
                     foreach(DataRow row in _schemaTable.Rows)
                     {
                         _excelSheets[i] = row["TABLE_NAME"].ToString().Trim();
                         i++;
                     }
-                    
+
                     return _excelSheets;
                 }
                 catch(Exception)
@@ -185,7 +185,7 @@
                 }
             }
         }
-        
+
         /// <summary>
         /// 创建链接字符串
         /// </summary>
@@ -193,12 +193,12 @@
         private string BuilderConnectionString()
         {
             Dictionary<string, string> _connectionParameter = new Dictionary<string, string>();
-            
+
             if(!_ExcelExtension.Equals(xlsx) && !_ExcelExtension.Equals(xls))
             {
                 throw new ArgumentException("excelPath");
             }
-            
+
             if(!_X64Version)
             {
                 if(_ExcelExtension.Equals(xlsx))
@@ -219,10 +219,10 @@
                 _connectionParameter["Provider"] = "Microsoft.ACE.OLEDB.12.0;";
                 _connectionParameter["Extended Properties"] = "'Excel 12.0 XML;IMEX=1'";
             }
-            
+
             _connectionParameter["Data Source"] = _ExcelPath;
             StringBuilder _connectionString = new StringBuilder();
-            
+
             foreach(KeyValuePair<string, string> parameter in _connectionParameter)
             {
                 _connectionString.Append(parameter.Key);
@@ -230,10 +230,10 @@
                 _connectionString.Append(parameter.Value);
                 _connectionString.Append(';');
             }
-            
+
             return _connectionString.ToString();
         }
-        
+
         #endregion Methods
     }
 }

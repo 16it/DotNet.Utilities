@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.SessionState;
 using YanZhiwei.DotNet.WebForm.AdminPanel.Models;
 using YanZhiwei.DotNet.Core.FormsAuth;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet3._5.Utilities.WebForm;
 
 namespace YanZhiwei.DotNet.WebForm.AdminPanel.BackHandler
@@ -18,7 +18,6 @@ namespace YanZhiwei.DotNet.WebForm.AdminPanel.BackHandler
         {
             context.Response.ContentType = "application/json";
             string _action = context.Request["action"];
-
             HanlderLogin(context, _action);
         }
 
@@ -31,12 +30,13 @@ namespace YanZhiwei.DotNet.WebForm.AdminPanel.BackHandler
         /// 备注：
         private void HanlderLogin(HttpContext context, string action)
         {
-            if (string.Compare(action, "login", true) == 0)
+            if(string.Compare(action, "login", true) == 0)
             {
                 string _userName = context.Request["userName"],
                        _userPassword = context.Request["userPassword"],
                        _verifyCode = context.Request["verifyCode"];
-                if (CheckedVerifyCode(context, _verifyCode))
+
+                if(CheckedVerifyCode(context, _verifyCode))
                 {
                     try
                     {
@@ -46,7 +46,7 @@ namespace YanZhiwei.DotNet.WebForm.AdminPanel.BackHandler
                         FormsPrincipal<Base_UserInfo>.SignIn(_userName, userinfo);
                         context.CreateResponse("登陆成功.", HttpStatusCode.OK);
                     }
-                    catch (Exception ex)
+                    catch(Exception ex)
                     {
                         HanlderErrorRequest(context, ex, "登陆失败，请稍后重试。");
                     }
@@ -76,13 +76,15 @@ namespace YanZhiwei.DotNet.WebForm.AdminPanel.BackHandler
         /// 备注：
         private bool CheckedVerifyCode(HttpContext context, string verifyCode)
         {
-            if (string.Compare(verifyCode, context.Session["verifyCode"].ToStringOrDefault(""), true) == 0)
+            if(string.Compare(verifyCode, context.Session["verifyCode"].ToStringOrDefault(""), true) == 0)
             {
                 return true;
             }
-            else {
+            else
+            {
                 context.CreateResponse("验证码不正确.", HttpStatusCode.BadRequest, 1);
             }
+
             return false;
         }
 

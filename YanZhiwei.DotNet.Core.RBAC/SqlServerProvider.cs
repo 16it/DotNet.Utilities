@@ -7,7 +7,7 @@
     using System.Data.SqlClient;
 
     using YanZhiwei.DotNet.Core.RBAC.Model;
-    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.DataOperator;
     using YanZhiwei.DotNet2.Utilities.Core;
 
     /// <summary>

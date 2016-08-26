@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
     using Common;
+    using DataOperator;
     using System;
     using System.IO;
 
@@ -74,7 +75,10 @@
         /// </summary>
         public int Length
         {
-            get { return (int)store.Length; }
+            get
+            {
+                return (int)store.Length;
+            }
         }
 
         #endregion Properties

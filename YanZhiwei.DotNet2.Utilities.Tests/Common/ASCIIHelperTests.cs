@@ -1,8 +1,7 @@
-﻿
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using YanZhiwei.DotNet2.Utilities.Common;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]
     public class ASCIIHelperTests
@@ -12,7 +11,6 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
         {
             int _actual = ASCIIHelper.ToASCII('.');
             Assert.AreEqual(46, _actual);
-
             byte[] _actualArray = ASCIIHelper.ToASCII("Hello");
             CollectionAssert.AreEqual(new byte[5] { 72, 101, 108, 108, 111 }, _actualArray);
         }

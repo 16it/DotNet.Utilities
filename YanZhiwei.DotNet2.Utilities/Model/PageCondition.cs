@@ -1,4 +1,5 @@
 ﻿using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 
 namespace YanZhiwei.DotNet2.Utilities.Model
 {
@@ -11,7 +12,7 @@ namespace YanZhiwei.DotNet2.Utilities.Model
         /// 初始化一个 默认参数（第1页，每页20，排序条件为空）的分页查询条件信息类 的新实例
         /// </summary>
         public PageCondition()
-            : this(1, 20)
+        : this(1, 20)
         { }
 
         /// <summary>
@@ -30,21 +31,37 @@ namespace YanZhiwei.DotNet2.Utilities.Model
         /// <summary>
         /// 获取或设置 页索引
         /// </summary>
-        public int PageIndex { get; set; }
+        public int PageIndex
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// 获取或设置 页大小
         /// </summary>
-        public int PageSize { get; set; }
+        public int PageSize
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// 主键字段
         /// </summary>
-        public string PrimaryKeyField { get; set; }
+        public string PrimaryKeyField
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// 获取或设置 排序条件组
         /// </summary>
-        public SortCondition[] SortConditions { get; set; }
+        public SortCondition[] SortConditions
+        {
+            get;
+            set;
+        }
     }
 }

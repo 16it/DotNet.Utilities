@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 
 namespace YanZhiwei.DotNet2.Utilities.Core
 {
@@ -13,14 +14,10 @@ namespace YanZhiwei.DotNet2.Utilities.Core
         where T : class, new()
     {
         #region Fields
-
         private static Hashtable businessCache = new Hashtable();
         private static object lockObj = new object();
-
         #endregion Fields
-
         #region Properties
-
         /// <summary>
         /// 实例化
         /// </summary>
@@ -32,21 +29,22 @@ namespace YanZhiwei.DotNet2.Utilities.Core
             {
                 string _fullName = typeof(T).FullName;
                 T _business = (T)businessCache[_fullName];
-                if (_business == null)
+
+                if(_business == null)
                 {
-                    lock (lockObj)
+                    lock(lockObj)
                     {
-                        if (_business == null)
+                        if(_business == null)
                         {
                             _business = ReflectHelper.CreateInstance<T>(typeof(T).FullName, typeof(T).Assembly.FullName);
                             businessCache.Add(typeof(T).FullName, _business);
                         }
                     }
                 }
+
                 return _business;
             }
         }
-
         #endregion Properties
     }
 }

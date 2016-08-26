@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Enum;
 
 namespace YanZhiwei.DotNet.Mvc.Utilities
@@ -21,7 +21,7 @@ namespace YanZhiwei.DotNet.Mvc.Utilities
         public static string GetStaticServiceUri()
         {
             //使用本地图片，而不做资源分离，暂时取本地地址：
-            if (staticServiceUri == null)
+            if(staticServiceUri == null)
                 staticServiceUri = "http://" + HttpContext.Current.Request.Url.Authority;
 
             return staticServiceUri;
@@ -35,12 +35,12 @@ namespace YanZhiwei.DotNet.Mvc.Utilities
         /// <returns>静态文件</returns>
         public static string StaticFile(this UrlHelper helper, string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            if(string.IsNullOrWhiteSpace(path))
             {
                 return string.Empty;
             }
 
-            if (path.StartsWith("~"))
+            if(path.StartsWith("~"))
                 return helper.Content(path);
             else
                 return GetStaticServiceUri() + path;
@@ -50,11 +50,11 @@ namespace YanZhiwei.DotNet.Mvc.Utilities
         {
             AppSettingsHelper _appConfig = new AppSettingsHelper(ProgramMode.WebForm);
             var jsAndCssFileEdition = _appConfig.GetValue("JsAndCssFileEdition");// AppSettingsHelper.GetString("JsAndCssFileEdition");
-            if (string.IsNullOrEmpty(jsAndCssFileEdition))
+
+            if(string.IsNullOrEmpty(jsAndCssFileEdition))
                 jsAndCssFileEdition = Guid.NewGuid().ToString();
 
             path += string.Format("?v={0}", jsAndCssFileEdition);
-
             return helper.StaticFile(path);
         }
 
@@ -67,10 +67,10 @@ namespace YanZhiwei.DotNet.Mvc.Utilities
         /// <returns></returns>
         public static string ImageFile(this UrlHelper helper, string path, string size = null)
         {
-            if (string.IsNullOrEmpty(path))
+            if(string.IsNullOrEmpty(path))
                 return helper.StaticFile(@"/content/images/no_picture.jpg");
 
-            if (size == null)
+            if(size == null)
                 return helper.StaticFile(path);
 
             var ext = path.Substring(path.LastIndexOf('.'));

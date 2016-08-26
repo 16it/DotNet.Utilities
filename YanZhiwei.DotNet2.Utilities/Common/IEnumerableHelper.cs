@@ -1,16 +1,16 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System.Collections.Generic;
-    
+
     using YanZhiwei.DotNet2.Utilities.Core;
-    
+
     /// <summary>
     /// Enumerable 帮助类
     /// </summary>
     public static class IEnumerableHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 线程安全【上锁】
         ///<para> eg: foreach(var item in someList.AsLocked(someLock))</para>
@@ -27,23 +27,70 @@
             */
             return new ThreadSafeEnumerableHelper<T>(source, syncObject);
         }
-        
-        ///// <summary>
-        /////获取总数
-        ///// </summary>
-        ///// <typeparam name="T">泛型</typeparam>
-        ///// <param name="source">The source.</param>
-        ///// <returns>总数</returns>
-        //public static int Count<T>(this IEnumerable<T> source)
-        //    where T : class
-        //{
-        //    int _count = 0;
-        //    ICollection<T> _c = source as ICollection<T>;
-        //    if (_c != null)
-        //        _count = _c.Count;
-        //    return _count;
-        //}
-        
+
+        /// <summary>
+        /// 集合添加
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="self">本身集合</param>
+        /// <param name="list">需要添加集合</param>
+        public static void AddRange<T>(this IEnumerable<T> self, IEnumerable<T> list)
+        where T : class
+        {
+            ((List<T>)self).AddRange(list);
+        }
+
+        /// <summary>
+        /// 去重复集合添加
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="self">本身集合</param>
+        /// <param name="items">需要集合</param>
+        public static void AddUnique<T>(this List<T> self, IEnumerable<T> items)
+        where T : class
+        {
+            foreach(T item in items)
+            {
+                if(!self.Contains(item))
+                {
+                    self.Add(item);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 去重复集合添加
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="self">本身集合</param>
+        /// <param name="items">需要添加集合</param>
+        /// <param name="comparaer">IComparer</param>
+        public static void AddUnique<T>(this List<T> self, IEnumerable<T> items, IComparer<T> comparaer)
+        where T : class
+        {
+            self.Sort(comparaer);
+
+            foreach(T item in items)
+            {
+                int _result = self.BinarySearch(item, comparaer);//搜索前需要排序
+
+                if(_result < 0)
+                    self.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// 转换为List
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="self">需要转换的集合</param>
+        /// <returns>List</returns>
+        public static List<T> ToList<T>(IEnumerable<T> self)
+        {
+            List<T> _toList = new List<T>(self);
+            return _toList;
+        }
+
         #endregion Methods
     }
 }

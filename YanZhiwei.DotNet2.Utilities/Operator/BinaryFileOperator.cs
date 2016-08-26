@@ -6,6 +6,7 @@
     using System.Runtime.Serialization.Formatters.Binary;
 
     using Core;
+    using DataOperator;
     using Common;
 
     /// <summary>

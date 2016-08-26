@@ -4,14 +4,14 @@
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
-    
+
     /// <summary>
     /// 缩略图帮助类
     /// </summary>
     public class ThumbHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 生成缩略图
         /// </summary>
@@ -30,20 +30,20 @@
             int _y = 0;
             int _ow = _originalImage.Width;
             int _oh = _originalImage.Height;
-            
+
             switch(mode)
             {
                 case "HW"://指定高宽缩放（可能变形）
                     break;
-                    
+
                 case "W"://指定宽，高按比例
                     _toheight = _originalImage.Height * width / _originalImage.Width;
                     break;
-                    
+
                 case "H"://指定高，宽按比例
                     _towidth = _originalImage.Width * height / _originalImage.Height;
                     break;
-                    
+
                 case "Cut"://指定高宽裁减（不变形）
                     if((double)_originalImage.Width / (double)_originalImage.Height > (double)_towidth / (double)_toheight)
                     {
@@ -59,9 +59,9 @@
                         _x = 0;
                         _y = (_originalImage.Height - _oh) / 2;
                     }
-                    
+
                     break;
-                    
+
                 case "DB"://等比缩放（不变形，如果高大按高，宽大按宽缩放）
                     if((double)_originalImage.Width / (double)_towidth < (double)_originalImage.Height / (double)_toheight)
                     {
@@ -73,20 +73,20 @@
                         _towidth = width;
                         _toheight = _originalImage.Height * width / _originalImage.Width;
                     }
-                    
+
                     break;
-                    
+
                 default:
                     break;
             }
-            
+
             Image _bitmap = new Bitmap(_towidth, _toheight); //新建一个bmp图片
             Graphics _g = Graphics.FromImage(_bitmap); //新建一个画板
             _g.InterpolationMode = InterpolationMode.High; //设置高质量插值法
             _g.SmoothingMode = SmoothingMode.HighQuality; //设置高质量,低速度呈现平滑程度
             _g.Clear(Color.Transparent);  //清空画布并以透明背景色填充
             _g.DrawImage(_originalImage, new Rectangle(0, 0, _towidth, _toheight), new Rectangle(_x, _y, _ow, _oh), GraphicsUnit.Pixel); //在指定位置并且按指定大小绘制原图片的指定部分
-            
+
             try
             {
                 //保存缩略图
@@ -122,7 +122,7 @@
                 _g.Dispose();
             }
         }
-        
+
         #endregion Methods
     }
 }

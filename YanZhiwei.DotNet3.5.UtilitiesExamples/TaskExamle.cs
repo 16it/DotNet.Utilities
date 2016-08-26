@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet3._5.Interfaces;
 using YanZhiwei.DotNet3._5.Utilities.Core;
 using YanZhiwei.DotNet3._5.Utilities.Core.SchedulerType;
@@ -17,12 +17,10 @@ namespace YanZhiwei.DotNet3._5.Utilities.Examples
                 Console.WriteLine("最初计划执行时间：" + _schedule1.ExecutionTime);
                 Console.WriteLine("初始化执行时间于现在时间的时间刻度差 ：" + _schedule1.DueTime);
                 Console.WriteLine("循环的周期 ：" + _schedule1.Period);
-
                 ISchedule _schedule2 = new CycExecution(new TimeSpan(0, 0, 20));
                 Console.WriteLine("最初计划执行时间：" + _schedule2.ExecutionTime);
                 Console.WriteLine("初始化执行时间于现在时间的时间刻度差 ：" + _schedule2.DueTime);
                 Console.WriteLine("循环的周期 ：" + _schedule2.Period);
-
                 ISchedule _schedule3 = new ImmediateExecution();
                 Console.WriteLine("最初计划执行时间：" + _schedule2.ExecutionTime);
                 Console.WriteLine("初始化执行时间于现在时间的时间刻度差 ：" + _schedule2.DueTime);
@@ -34,14 +32,14 @@ namespace YanZhiwei.DotNet3._5.Utilities.Examples
                 },
                 _schedule3,
                 "YanZhiwei");
-
                 _task1.Start(DateTime.Now.FormatDate(1));
 
-                while (JobScheduler.Count > 0)
+                while(JobScheduler.Count > 0)
                 {
                     Thread.Sleep(1000);
                     Job cc = JobScheduler.Find("YanZhiwei");
-                    if (cc != null)
+
+                    if(cc != null)
                         Console.WriteLine("NextExecuteTime:" + cc.NextExecuteTime);
                 }
             }

@@ -1,5 +1,8 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Core;
+    using Microsoft.Win32;
+    using Model;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -7,40 +10,38 @@
     using System.Runtime.InteropServices;
     using System.Security.AccessControl;
     using System.Text.RegularExpressions;
-    
-    using Microsoft.Win32;
-    
-    using YanZhiwei.DotNet2.Utilities.Core;
-    using Model;
-    
+
     /// <summary>
     /// 文件以及文件夹操作帮助类
     /// </summary>
     public static class FileHelper
     {
         #region Fields
+
         /// <summary>
         /// The o f_ readwrite
         /// </summary>
         public const int OF_READWRITE = 2;
+
         /// <summary>
         /// The o f_ shar e_ den y_ none
         /// </summary>
         public const int OF_SHARE_DENY_NONE = 0x40;
-        
+
         /// <summary>
         /// 路径分割符
         /// </summary>
         public const string PATH_SPLIT_CHAR = "\\";
+
         /// <summary>
         /// The hfil e_ error
         /// </summary>
         public static readonly IntPtr HFILE_ERROR = new IntPtr(-1);
-        
+
         #endregion Fields
-        
+
         #region Methods
-        
+
         /// <summary>
         /// _lopens the specified lp path name.
         /// </summary>
@@ -49,7 +50,7 @@
         /// <returns>IntPtr</returns>
         [DllImport("kernel32.dll")]
         public static extern IntPtr _lopen(string lpPathName, int iReadWrite);
-        
+
         /// <summary>
         /// 修改文件路径后缀名
         /// <para>eg:FileHelper.CreateTempPath("jpg");</para>
@@ -61,7 +62,7 @@
             string _path = Path.GetTempFileName();
             return Path.ChangeExtension(_path, extension);
         }
-        
+
         /// <summary>
         /// 验证格式
         /// </summary>
@@ -72,7 +73,7 @@
         {
             bool _flag = false;
             string[] _array = allType.Split('|');
-            
+
             foreach(string temp in _array)
             {
                 if(temp.ToLower() == chkType.ToLower())
@@ -81,9 +82,10 @@
                     break;
                 }
             }
-            
+
             return _flag;
         }
+
         /// <summary>
         /// Closes the handle.
         /// </summary>
@@ -91,7 +93,7 @@
         /// <returns>bool</returns>：
         [DllImport("kernel32.dll")]
         public static extern bool CloseHandle(IntPtr hObject);
-        
+
         /// <summary>
         /// 复制指定目录的所有文件,不包含子目录及子目录中的文件
         /// </summary>
@@ -102,7 +104,7 @@
         {
             CopyFiles(sourceDir, targetDir, overWrite, false);
         }
-        
+
         /// <summary>
         /// 复制指定目录的所有文件
         /// </summary>
@@ -116,7 +118,7 @@
             foreach(string sourceFileName in Directory.GetFiles(sourceDir))
             {
                 string targetFileName = Path.Combine(targetDir, sourceFileName.Substring(sourceFileName.LastIndexOf(PATH_SPLIT_CHAR) + 1));
-                
+
                 if(File.Exists(targetFileName))
                 {
                     if(overWrite == true)
@@ -130,22 +132,22 @@
                     File.Copy(sourceFileName, targetFileName, overWrite);
                 }
             }
-            
+
             //复制子目录
             if(copySubDir)
             {
                 foreach(string sourceSubDir in Directory.GetDirectories(sourceDir))
                 {
                     string targetSubDir = Path.Combine(targetDir, sourceSubDir.Substring(sourceSubDir.LastIndexOf(PATH_SPLIT_CHAR) + 1));
-                    
+
                     if(!Directory.Exists(targetSubDir))
                         Directory.CreateDirectory(targetSubDir);
-                        
+
                     CopyFiles(sourceSubDir, targetSubDir, overWrite, true);
                 }
             }
         }
-        
+
         /// <summary>
         /// 复制指定目录的所有文件，并把复制的文件备份到备份目录中
         /// </summary>
@@ -160,12 +162,12 @@
             {
                 Directory.CreateDirectory(backDir);
             }
-            
+
             //复制当前目录文件
             foreach(string sourceFileName in Directory.GetFiles(sourceDir))
             {
                 string targetFileName = Path.Combine(targetDir, sourceFileName.Substring(sourceFileName.LastIndexOf(PATH_SPLIT_CHAR) + 1));
-                
+
                 if(File.Exists(targetFileName))
                 {
                     if(overWrite == true)
@@ -181,27 +183,27 @@
                     File.Copy(sourceFileName, targetFileName, overWrite);
                 }
             }
-            
+
             //复制子目录
             if(copySubDir)
             {
                 foreach(string sourceSubDir in Directory.GetDirectories(sourceDir))
                 {
                     string targetSubDir = Path.Combine(targetDir, sourceSubDir.Substring(sourceSubDir.LastIndexOf(PATH_SPLIT_CHAR) + 1));
-                    
+
                     if(!Directory.Exists(targetSubDir))
                         Directory.CreateDirectory(targetSubDir);
-                        
+
                     string backSubDir = Path.Combine(backDir, targetSubDir.Substring(targetSubDir.LastIndexOf(PATH_SPLIT_CHAR) + 1));
-                    
+
                     if(!Directory.Exists(backSubDir))
                         Directory.CreateDirectory(backSubDir);
-                        
+
                     CopyFiles(sourceSubDir, targetSubDir, overWrite, true, backSubDir);
                 }
             }
         }
-        
+
         /// <summary>
         /// 复制本机大文件
         /// <para>eg:FileHelper.CopyLocalBigFile(@"C:\Users\YanZh_000\Downloads\TheInterview.mp4", @"D:\The Interview(1080p).mp4", 1024 * 1024 * 5))</para>
@@ -224,18 +226,18 @@
             FileStream _fromFile = new FileStream(fromPath, FileMode.Open, FileAccess.Read);
             //已追加的方式 写入文件流
             FileStream _toFile = new FileStream(toPath, FileMode.Append, FileAccess.Write);
-            
+
             try
             {
                 //实际读取的文件长度
                 int _toCopyLength = 0;
-                
+
                 //如果每次读取的长度小于 源文件的长度 分段读取
                 if(eachReadLength < _fromFile.Length)
                 {
                     byte[] _buffer = new byte[eachReadLength];
                     long _copied = 0;
-                    
+
                     while(_copied <= _fromFile.Length - eachReadLength)
                     {
                         _toCopyLength = _fromFile.Read(_buffer, 0, eachReadLength);
@@ -246,7 +248,7 @@
                         _toFile.Position = _fromFile.Position;
                         _copied += _toCopyLength;
                     }
-                    
+
                     int _left = (int)(_fromFile.Length - _copied);
                     _toCopyLength = _fromFile.Read(_buffer, 0, _left);
                     _fromFile.Flush();
@@ -272,10 +274,10 @@
                 _fromFile.Close();
                 _toFile.Close();
             }
-            
+
             return _copyResult;
         }
-        
+
         /// <summary>
         /// 文件复制备份【同目录下】
         /// <para>eg:FileHelper.CopyToBak(TestFilePath);</para>
@@ -284,19 +286,19 @@
         public static bool CopyToBak(string filePath)
         {
             bool _result = true;
-            
+
             try
             {
                 int _fileCount = 0;
                 string _bakName = "";
-                
+
                 do
                 {
                     _fileCount++;
                     _bakName = string.Format("{0}.{1}.bak", filePath, _fileCount);
                 }
                 while(File.Exists(_bakName));
-                
+
                 File.Copy(filePath, _bakName);
                 File.Delete(filePath);
                 _result = true;
@@ -305,10 +307,10 @@
             {
                 _result = false;
             }
-            
+
             return _result;
         }
-        
+
         /// <summary>
         /// 创建指定目录
         /// </summary>
@@ -316,11 +318,11 @@
         public static void CreateDirectory(string targetDir)
         {
             DirectoryInfo dir = new DirectoryInfo(targetDir);
-            
+
             if(!dir.Exists)
                 dir.Create();
         }
-        
+
         /// <summary>
         /// 建立子目录
         /// </summary>
@@ -330,7 +332,7 @@
         {
             CreateDirectory(parentDir + PATH_SPLIT_CHAR + subDirName);
         }
-        
+
         /// <summary>
         /// 创建文件路径
         /// <para>eg:FileHelper.CreatePath(@"C:\aa\cc\dd\ee.xml");</para>
@@ -340,7 +342,7 @@
         public static bool CreatePath(string path)
         {
             bool _result = true;
-            
+
             if(!string.IsNullOrEmpty(path) && !File.Exists(path))
             {
                 try
@@ -355,10 +357,10 @@
                     _result = false;
                 }
             }
-            
+
             return _result;
         }
-        
+
         /// <summary>
         /// 根据现有路径创建临时文件路径
         /// </summary>
@@ -369,15 +371,12 @@
         /// <exception cref="System.ArgumentException"></exception>
         public static string CreateTempFilePath(this string filePath)
         {
-            if(!File.Exists(filePath))
-                throw new ArgumentException(string.Format("文件路径不合法，参数数值:{0}", filePath));
-                
             FileInfo _sourceFile = new FileInfo(filePath);
             string _sourceFileTemp = Path.Combine(_sourceFile.DirectoryName, Guid.NewGuid().ToString() + _sourceFile.Extension);
             _sourceFile.CopyTo(_sourceFileTemp);
             return _sourceFileTemp;
         }
-        
+
         /// <summary>
         /// 删除指定目录
         /// </summary>
@@ -385,14 +384,14 @@
         public static void DeleteDirectory(string targetDir)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(targetDir);
-            
+
             if(dirInfo.Exists)
             {
                 DeleteFiles(targetDir, true);
                 dirInfo.Delete(true);
             }
         }
-        
+
         /// <summary>
         /// 删除指定目录的所有文件，不包含子目录
         /// </summary>
@@ -401,7 +400,7 @@
         {
             DeleteFiles(targetDir, false);
         }
-        
+
         /// <summary>
         /// 删除指定目录的所有文件和子目录
         /// </summary>
@@ -414,11 +413,11 @@
                 File.SetAttributes(fileName, FileAttributes.Normal);
                 File.Delete(fileName);
             }
-            
+
             if(delSubDir)
             {
                 DirectoryInfo dir = new DirectoryInfo(targetDir);
-                
+
                 foreach(DirectoryInfo subDi in dir.GetDirectories())
                 {
                     DeleteFiles(subDi.FullName, true);
@@ -426,7 +425,7 @@
                 }
             }
         }
-        
+
         /// <summary>
         /// 删除指定目录的所有子目录,不包括对当前目录文件的删除
         /// </summary>
@@ -438,7 +437,7 @@
                 DeleteDirectory(subDir);
             }
         }
-        
+
         /// <summary>
         /// 文件是否被占用
         /// </summary>
@@ -448,16 +447,16 @@
         {
             if(!File.Exists(fileName))
                 return false;  //文件不存在
-                
+
             IntPtr _vHandle = _lopen(fileName, OF_READWRITE | OF_SHARE_DENY_NONE);
-            
+
             if(_vHandle == HFILE_ERROR)
                 return true;//文件被占用！
-                
+
             CloseHandle(_vHandle);
             return false;
         }
-        
+
         /// <summary>
         /// 获取除后缀外的路径
         /// <para>eg:FileHelper.GetExceptEx(@"C:\yanzhiwei.docx");==>"C:\yanzhiwei"</para>
@@ -468,16 +467,16 @@
         {
             Match _result = null;
             string _fileName = string.Empty;
-            
+
             if(!string.IsNullOrEmpty(path))
             {
                 if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
                     _fileName = _result.Result("${fpath}") + _result.Result("${fname}") + _result.Result("${namext}");
             }
-            
+
             return _fileName;
         }
-        
+
         /// <summary>
         /// 获取除文件外的路径
         /// <para>eg:FileHelper.GetExceptName(@"C:\yanzhiwei.docx");==>"C:\"</para>
@@ -488,16 +487,16 @@
         {
             Match _result = null;
             string _fileName = string.Empty;
-            
+
             if(!string.IsNullOrEmpty(path))
             {
                 if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
                     _fileName = _result.Result("${fpath}");
             }
-            
+
             return _fileName;
         }
-        
+
         /// <summary>
         /// 从路径中获取文件后缀
         /// <para>eg:FileHelper.GetFileEx(@"C:\yanzhiwei.docx");==>".docx"</para>
@@ -508,17 +507,16 @@
         {
             Match _result = null;
             string _fileName = string.Empty;
-            
+
             if(!string.IsNullOrEmpty(path))
             {
                 if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
                     _fileName = _result.Result("${suffix}");
             }
-            
+
             return _fileName;
         }
-        
-        
+
         /// <summary>
         /// 获取文件信息
         /// </summary>
@@ -529,7 +527,7 @@
         {
             ValidateHelper.Begin().NotNullOrEmpty(filepath, "文件路径").IsFilePath(filepath, "文件路径").NotNullOrEmpty(regexString, "正则表达式");
             Match _uploadfolder = Regex.Match(filepath, regexString, RegexOptions.IgnoreCase);
-            
+
             if(_uploadfolder.Success)
             {
                 UploadFileInfo _fileInfo = new UploadFileInfo();
@@ -540,9 +538,10 @@
                 _fileInfo.FileNameExt = _uploadfolder.Groups[5].Value;
                 return _fileInfo;
             }
-            
+
             return null;
         }
+
         /// <summary>
         /// 从路径中获取文件名称（包括后缀）
         /// <para>eg:FileHelper.GetFileName(@"C:\yanzhiwei.docx");==>yanzhiwei.docx</para>
@@ -553,16 +552,16 @@
         {
             Match _result = null;
             string _fileName = string.Empty;
-            
+
             if(!string.IsNullOrEmpty(path))
             {
                 if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
                     _fileName = _result.Result("${fname}") + _result.Result("${namext}") + _result.Result("${suffix}");
             }
-            
+
             return _fileName;
         }
-        
+
         /// <summary>
         /// 从路径中获取文件名称（不包括后缀）
         /// <para>eg:FileHelper.GetFileNameOnly(@"C:\yanzhiwei.docx");==>yanzhiwei</para>
@@ -573,16 +572,16 @@
         {
             Match _result = null;
             string _fileName = string.Empty;
-            
+
             if(!string.IsNullOrEmpty(path))
             {
                 if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
                     _fileName = _result.Result("${fname}") + _result.Result("${namext}");
             }
-            
+
             return _fileName;
         }
-        
+
         /// <summary>
         /// 获取文件大小—kb
         /// <para>eg:FileHelper.GetKBSize(TestFilePath);</para>
@@ -593,15 +592,15 @@
         {
             double _kb = 0;
             long _size = GetSize(filePath);
-            
+
             if(_size != 0)
             {
                 _kb = _size / 1024d;
             }
-            
+
             return _kb;
         }
-        
+
         /// <summary>
         /// 获取文件大小—mb
         /// <para>eg:FileHelper.GetMBSize(TestFilePath);</para>
@@ -612,15 +611,15 @@
         {
             double _mb = 0;
             long _size = GetSize(filePath);
-            
+
             if(_size != 0)
             {
                 _mb = _size / 1048576d;//1024*1024==1048576;
             }
-            
+
             return _mb;
         }
-        
+
         /// <summary>
         /// 获取文件大小—字节
         /// <para>eg:FileHelper.GetSize(TestFilePath);</para>
@@ -630,7 +629,7 @@
         public static long GetSize(string filePath)
         {
             long _size = 0;
-            
+
             try
             {
                 if(File.Exists(filePath))
@@ -646,10 +645,10 @@
                 _size = 0;
                 Debug.WriteLine(string.Format("获取文件大小异常，原因：{0}", ex.Message));
             }
-            
+
             return _size;
         }
-        
+
         /// <summary>
         /// 剪切指定目录的所有文件,不包含子目录
         /// </summary>
@@ -660,7 +659,7 @@
         {
             MoveFiles(sourceDir, targetDir, overWrite, false);
         }
-        
+
         /// <summary>
         /// 剪切指定目录的所有文件
         /// </summary>
@@ -674,7 +673,7 @@
             foreach(string sourceFileName in Directory.GetFiles(sourceDir))
             {
                 string targetFileName = Path.Combine(targetDir, sourceFileName.Substring(sourceFileName.LastIndexOf(PATH_SPLIT_CHAR) + 1));
-                
+
                 if(File.Exists(targetFileName))
                 {
                     if(overWrite == true)
@@ -689,22 +688,22 @@
                     File.Move(sourceFileName, targetFileName);
                 }
             }
-            
+
             if(moveSubDir)
             {
                 foreach(string sourceSubDir in Directory.GetDirectories(sourceDir))
                 {
                     string targetSubDir = Path.Combine(targetDir, sourceSubDir.Substring(sourceSubDir.LastIndexOf(PATH_SPLIT_CHAR) + 1));
-                    
+
                     if(!Directory.Exists(targetSubDir))
                         Directory.CreateDirectory(targetSubDir);
-                        
+
                     MoveFiles(sourceSubDir, targetSubDir, overWrite, true);
                     Directory.Delete(sourceSubDir);
                 }
             }
         }
-        
+
         /// <summary>
         /// 打开文件或者文件夹
         /// </summary>
@@ -713,7 +712,7 @@
         {
             Process.Start(path);
         }
-        
+
         /// <summary>
         /// 将文件转换成二进制数组
         /// <para>eg:FileHelper.ParseFile(@"C:\demo.txt");</para>
@@ -731,10 +730,10 @@
                     return _buffur;
                 }
             }
-            
+
             return null;
         }
-        
+
         /// <summary>
         /// 递归获取文件夹目录下文件
         /// </summary>
@@ -744,21 +743,21 @@
         {
             Queue<string> _pathQueue = new Queue<string>();
             _pathQueue.Enqueue(pathName);
-            
+
             while(_pathQueue.Count > 0)
             {
                 string _path = _pathQueue.Dequeue();
                 DirectorySecurity _pathSecurity = new DirectorySecurity(_path, AccessControlSections.Access);
-                
-                if(!_pathSecurity.AreAccessRulesProtected)               //文件夹权限是否可访问
+
+                if(!_pathSecurity.AreAccessRulesProtected)                 //文件夹权限是否可访问
                 {
                     DirectoryInfo _directoryInfo = new DirectoryInfo(_path);
-                    
+
                     foreach(DirectoryInfo diChild in _directoryInfo.GetDirectories())
                     {
                         _pathQueue.Enqueue(diChild.FullName);
                     }
-                    
+
                     foreach(FileInfo file in _directoryInfo.GetFiles())
                     {
                         fileHanlder(file);
@@ -766,7 +765,7 @@
                 }
             }
         }
-        
+
         /// <summary>
         /// 设置程序开机启动_注册表形式
         /// </summary>
@@ -789,11 +788,11 @@
              * 3. http://stackoverflow.com/questions/5089601/run-the-application-at-windows-startup
              */
             RegistryKey _reg = Registry.LocalMachine;
-            
+
             try
             {
                 RegistryKey _run = _reg.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
-                
+
                 if(set)
                 {
                     _run.SetValue(keyName, path);
@@ -802,7 +801,7 @@
                 {
                     Object _value = _run.GetValue(keyName);
                     Trace.WriteLine("StartupSet Finded :" + _value == null ? "Null" : _value);
-                    
+
                     if(_value != null)
                         _run.DeleteValue(keyName);
                 }
@@ -812,7 +811,7 @@
                 _reg.Close();
             }
         }
-        
+
         /// <summary>
         /// 将byte[]导出到文件
         /// <para>eg: FileHelper.ToFile(_bytes, _outputFilePath); </para>
@@ -823,6 +822,7 @@
         {
             File.WriteAllBytes(filePath, bytes);
         }
+
         #endregion Methods
     }
 }

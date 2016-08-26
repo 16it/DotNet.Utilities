@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System.Text.RegularExpressions;
-    
+
     /// <summary>
     /// 正则表达式帮助类
     /// </summary>
     public class RegexHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 正则表达式匹配，匹配返回true
         /// </summary>
@@ -21,7 +21,7 @@
         {
             return IsMatch(input, pattern, RegexOptions.IgnoreCase);
         }
-        
+
         /// <summary>
         /// 正则表达式匹配，匹配返回true
         /// </summary>
@@ -33,7 +33,7 @@
         {
             return Regex.IsMatch(input, pattern, options);
         }
-        
+
         /// <summary>
         /// 正则表达式匹配，匹配返回true
         /// </summary>
@@ -45,17 +45,17 @@
         {
             bool _checkResult = false;
             result = null;
-            
+
             if(!string.IsNullOrEmpty(input))
             {
                 Regex _regex = new Regex(pattern);
                 result = _regex.Match(input);
                 _checkResult = result.Success;
             }
-            
+
             return _checkResult;
         }
-        
+
         #endregion Methods
     }
 }

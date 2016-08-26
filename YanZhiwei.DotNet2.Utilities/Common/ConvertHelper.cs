@@ -4,16 +4,16 @@
     using System.ComponentModel;
     using System.Data;
     using System.Globalization;
-    
+
     using YanZhiwei.DotNet2.Utilities.Enum;
-    
+
     /// <summary>
     /// 转换帮助类
     /// </summary>
     public static class ConvertHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 转换成布尔类型
         /// </summary>
@@ -23,7 +23,7 @@
         public static bool ToBooleanOrDefault(this object data, bool errorValue)
         {
             bool _result = false;
-            
+
             if(data != null)
             {
                 if(bool.TryParse(data.ToString(), out _result))
@@ -31,10 +31,10 @@
                     return _result;
                 }
             }
-            
+
             return errorValue;
         }
-        
+
         /// <summary>
         /// 转换成Byte类型
         /// </summary>
@@ -46,16 +46,16 @@
             if(data != null)
             {
                 byte _result = 0;
-                
+
                 if(byte.TryParse(data.ToString(), out _result))
                 {
                     return _result;
                 }
             }
-            
+
             return errorValue;
         }
-        
+
         /// <summary>
         /// 转换为农历年
         /// </summary>
@@ -73,16 +73,16 @@
                 _day = _cnDate.GetDayOfMonth(date),
                 _leapMonth = _cnDate.GetLeapMonth(_year);
             string _month_cn = _months[_month];
-            
+
             if(_leapMonth > 0)
             {
                 _month_cn = _month == _leapMonth ? string.Format("闰{0}", _months[_month - 1]) : _month_cn;
                 _month_cn = _month > _leapMonth ? _months[_month - 1] : _month_cn;
             }
-            
+
             return string.Format("{0}年{1}{2}", year_cn, _month_cn, _days[_day]);
         }
-        
+
         /// <summary>
         /// 将阿拉伯数字转换中文日期数字
         /// </summary>
@@ -91,16 +91,16 @@
         public static string ToChineseDay(int data)
         {
             string _reulst = string.Empty;
-            
+
             if(!(data == 0 || data > 32))
             {
                 string[] _days = { "〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "廿十", "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十", "三十一" };
                 _reulst = _days[data];
             }
-            
+
             return _reulst;
         }
-        
+
         /// <summary>
         /// 将阿拉伯数字转换成中文月份数字
         /// <para>eg:ConvertHelper.ToChineseMonth(1)==> "一"</para>
@@ -110,16 +110,16 @@
         public static string ToChineseMonth(this int data)
         {
             string _result = string.Empty;
-            
+
             if(!(data == 0 || data > 12))
             {
                 string[] _months = { "〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二" };
                 _result = _months[data];
             }
-            
+
             return _result;
         }
-        
+
         /// <summary>
         /// 转换成日期
         /// </summary>
@@ -133,10 +133,10 @@
                 DateTime _result;
                 return DateTime.TryParse(data.ToString(), out _result) ? _result : errorValue;
             }
-            
+
             return errorValue;
         }
-        
+
         /// <summary>
         ///  转换成decimal类型
         /// </summary>
@@ -151,10 +151,10 @@
                 bool _parseResult = decimal.TryParse(data.ToString(), out _parsedecimalValue);
                 return _parseResult == true ? _parsedecimalValue : errorValue;
             }
-            
+
             return errorValue;
         }
-        
+
         /// <summary>
         /// 转换成double类型
         /// </summary>
@@ -169,10 +169,10 @@
                 bool _parseResult = double.TryParse(data.ToString(), out _parseIntValue);
                 return _parseResult == true ? _parseIntValue : errorValue;
             }
-            
+
             return errorValue;
         }
-        
+
         /// <summary>
         /// 二，八，十，十六进制互相转换
         /// 说明：
@@ -188,12 +188,12 @@
             {
                 int _intValue = Convert.ToInt32(data, (int)from);
                 string _targetValue = Convert.ToString(_intValue, (int)to);
-                
+
                 if(to == Conversion.Binary)
                 {
                     _targetValue = StringHelper.ComplementLeftZero(_targetValue, 8);
                 }
-                
+
                 return _targetValue;
             }
             catch
@@ -201,7 +201,7 @@
                 return "0";
             }
         }
-        
+
         /// <summary>
         /// 转换成Int类型
         /// </summary>
@@ -216,10 +216,10 @@
                 bool _parseResult = int.TryParse(data.ToString(), out _parseIntValue);
                 return _parseResult == true ? _parseIntValue : errorData;
             }
-            
+
             return errorData;
         }
-        
+
         /// <summary>
         /// 按照列名称获取Int值
         /// </summary>
@@ -236,10 +236,10 @@
                     int.TryParse(row[columnName].ToString(), out failValue);
                 }
             }
-            
+
             return failValue;
         }
-        
+
         /// <summary>
         /// 按照列索引获取Int值
         /// </summary>
@@ -256,10 +256,10 @@
                     int.TryParse(row[columnIndex].ToString(), out failValue);
                 }
             }
-            
+
             return failValue;
         }
-        
+
         /// <summary>
         /// 转换成Int32类型
         /// </summary>
@@ -274,10 +274,10 @@
                 bool _parseResult = int.TryParse(data.ToString(), out _parseIntValue);
                 return _parseResult == true ? _parseIntValue : errorValue;
             }
-            
+
             return errorValue;
         }
-        
+
         /// <summary>
         /// 转换成Int64类型
         /// </summary>
@@ -292,10 +292,10 @@
                 bool _parseResult = long.TryParse(data.ToString(), out _parseIntValue);
                 return _parseResult == true ? _parseIntValue : errorValue;
             }
-            
+
             return errorValue;
         }
-        
+
         /// <summary>
         /// 转换成Int16类型
         /// </summary>
@@ -310,10 +310,10 @@
                 bool _parseResult = short.TryParse(data.ToString(), out _parseIntValue);
                 return _parseResult == true ? _parseIntValue : errorData;
             }
-            
+
             return errorData;
         }
-        
+
         /// <summary>
         /// 转换成string类型
         /// </summary>
@@ -324,7 +324,7 @@
         {
             return data == null ? errorValue : data.ToString();
         }
-        
+
         /// <summary>
         /// 泛型数组转换为字符串
         /// </summary>
@@ -337,7 +337,7 @@
             string[] _array = Array.ConvertAll<T, string>(array, n => n.ToString());
             return string.Join(delimiter, _array);
         }
-        
+
         /// <summary>
         /// 将时间类型转换为字符串表述
         /// </summary>
@@ -351,10 +351,10 @@
             {
                 return data.ToString(formartString);
             }
-            
+
             return errorValue;
         }
-        
+
         /// <summary>
         /// 按照列名称获取Sting值
         /// </summary>
@@ -368,10 +368,10 @@
             {
                 failValue = row.IsNull(columnName) == true ? failValue : row[columnName].ToString();
             }
-            
+
             return failValue;
         }
-        
+
         /// <summary>
         /// 按照列索引获取Sting值
         /// </summary>
@@ -385,10 +385,10 @@
             {
                 failValue = row.IsNull(columnIndex) == true ? failValue : row[columnIndex].ToString().Trim();
             }
-            
+
             return failValue;
         }
-        
+
         /// <summary>
         /// 字符串类型转换
         /// </summary>
@@ -398,16 +398,16 @@
         public static T ToStringBase<T>(this string data)
         {
             T _result = default(T);
-            
+
             if(!string.IsNullOrEmpty(data))
             {
                 TypeConverter _convert = TypeDescriptor.GetConverter(typeof(T));
                 _result = (T)_convert.ConvertFrom(data);
             }
-            
+
             return _result;
         }
-        
+
         #endregion Methods
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WebForm
 {
     using Common;
+    using DataOperator;
     using Model;
     using System.Net;
     using System.Web;
@@ -48,60 +49,65 @@
         private static string GetIP4Address(HttpRequest request)
         {
             string _userHostAddress = request.UserHostAddress;
-            if (string.IsNullOrEmpty(_userHostAddress))
+
+            if(string.IsNullOrEmpty(_userHostAddress))
             {
                 _userHostAddress = request.ServerVariables["REMOTE_ADDR"];
             }
-            if (!string.IsNullOrEmpty(_userHostAddress) && CheckHelper.IsIp4Address(_userHostAddress))
+
+            if(!string.IsNullOrEmpty(_userHostAddress) && CheckHelper.IsIp4Address(_userHostAddress))
             {
                 return _userHostAddress;
             }
+
             return "127.0.0.1";
         }
 
         private static string GetOsVersion(HttpRequest request)
         {
             string _agent = request.ServerVariables["HTTP_USER_AGENT"];
-            if (_agent.IndexOf("NT 4.0") > 0)
+
+            if(_agent.IndexOf("NT 4.0") > 0)
                 return "Windows NT ";
-            else if (_agent.IndexOf("NT 5.0") > 0)
+            else if(_agent.IndexOf("NT 5.0") > 0)
                 return "Windows 2000";
-            else if (_agent.IndexOf("NT 5.1") > 0)
+            else if(_agent.IndexOf("NT 5.1") > 0)
                 return "Windows XP";
-            else if (_agent.IndexOf("NT 5.2") > 0)
+            else if(_agent.IndexOf("NT 5.2") > 0)
                 return "Windows 2003";
-            else if (_agent.IndexOf("NT 6.0") > 0)
+            else if(_agent.IndexOf("NT 6.0") > 0)
                 return "Windows Vista";
-            else if (_agent.IndexOf("NT 6.1") > 0)
+            else if(_agent.IndexOf("NT 6.1") > 0)
                 return "Windows 7";
-            else if (_agent.IndexOf("NT 6.2") > 0)
+            else if(_agent.IndexOf("NT 6.2") > 0)
                 return "Windows 8";
-            else if (_agent.IndexOf("NT 6.3") > 0)
+            else if(_agent.IndexOf("NT 6.3") > 0)
                 return "Windows 8.1";
-            else if (_agent.IndexOf("NT 10.0") > 0)
+            else if(_agent.IndexOf("NT 10.0") > 0)
                 return "Windows 10";
-            else if (_agent.IndexOf("WindowsCE") > 0)
+            else if(_agent.IndexOf("WindowsCE") > 0)
                 return "Windows CE";
-            else if (_agent.IndexOf("NT") > 0)
+            else if(_agent.IndexOf("NT") > 0)
                 return "Windows NT ";
-            else if (_agent.IndexOf("9x") > 0)
+            else if(_agent.IndexOf("9x") > 0)
                 return "Windows ME";
-            else if (_agent.IndexOf("98") > 0)
+            else if(_agent.IndexOf("98") > 0)
                 return "Windows 98";
-            else if (_agent.IndexOf("95") > 0)
+            else if(_agent.IndexOf("95") > 0)
                 return "Windows 95";
-            else if (_agent.IndexOf("Win32") > 0)
+            else if(_agent.IndexOf("Win32") > 0)
                 return "Win32";
-            else if (_agent.IndexOf("Linux") > 0)
+            else if(_agent.IndexOf("Linux") > 0)
                 return "Linux";
-            else if (_agent.IndexOf("SunOS") > 0)
+            else if(_agent.IndexOf("SunOS") > 0)
                 return "SunOS";
-            else if (_agent.IndexOf("Mac") > 0)
+            else if(_agent.IndexOf("Mac") > 0)
                 return "Mac";
-            else if (_agent.IndexOf("Linux") > 0)
+            else if(_agent.IndexOf("Linux") > 0)
                 return "Linux";
-            else if (_agent.IndexOf("Windows") > 0)
+            else if(_agent.IndexOf("Windows") > 0)
                 return "Windows";
+
             return _agent;
         }
 

@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-    
+
     /// <summary>
     /// RMB 帮助类
     /// </summary>
     public class RMBHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 将数字转换成人民币大小金额
         /// </summary>
@@ -30,20 +30,20 @@
             rmbValue = Math.Round(Math.Abs(rmbValue), 2);    //将num取绝对值并四舍五入取2位小数
             _tmp4 = ((long)(rmbValue * 100)).ToString();        //将num乘100并转换成字符串形式
             j = _tmp4.Length;      //找出最高位
-            
+
             if(j > 15)
             {
                 return "溢出";
             }
-            
+
             _pattern2 = _pattern2.Substring(15 - j);   //取出对应位数的str2的值。如：200.55,j为5所以str2=佰拾元角分
-            
+
             //循环取出每一位需要转换的值
             for(i = 0; i < j; i++)
             {
                 _tmp3 = _tmp4.Substring(i, 1);          //取出需转换的某一位的值
                 temp = Convert.ToInt32(_tmp3);      //转换为数字
-                
+
                 if(i != (j - 3) && i != (j - 7) && i != (j - 11) && i != (j - 15))
                 {
                     //当所取位数不为元、万、亿、万亿上的数字时
@@ -111,30 +111,30 @@
                         }
                     }
                 }
-                
+
                 if(i == (j - 11) || i == (j - 3))
                 {
                     //如果该位是亿位或元位，则必须写上
                     ch2 = _pattern2.Substring(i, 1);
                 }
-                
+
                 _tmp5 = _tmp5 + ch1 + ch2;
-                
+
                 if(i == j - 1 && _tmp3 == "0")
                 {
                     //最后一位（分）为0时，加上“整”
                     _tmp5 = _tmp5 + '整';
                 }
             }
-            
+
             if(rmbValue == 0)
             {
                 _tmp5 = "零元整";
             }
-            
+
             return _tmp5;
         }
-        
+
         #endregion Methods
     }
 }

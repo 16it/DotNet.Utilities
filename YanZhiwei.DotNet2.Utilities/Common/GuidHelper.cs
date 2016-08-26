@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-    
+
     /// <summary>
     /// GUID 帮助类
     /// </summary>
     public static class GuidHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 返回Guid用于数据库操作，特定的时间代码可以提高检索效率
         /// </summary>
@@ -29,7 +29,7 @@
             Array.Copy(_msecsArray, _msecsArray.Length - 4, _guidArray, _guidArray.Length - 4, 4);
             return new Guid(_guidArray);
         }
-        
+
         /// <summary>
         /// 格式化Guid
         /// <para>0==>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</para>
@@ -45,33 +45,33 @@
         public static string FormatGuid(this Guid guid, int guidMode)
         {
             string _formatString = string.Empty;
-            
+
             switch(guidMode)
             {
                 case 0:
                     _formatString = guid.ToString("N");//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     break;
-                    
+
                 case 1:
                     _formatString = guid.ToString("D");//xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
                     break;
-                    
+
                 case 2:
                     _formatString = guid.ToString("B");//{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}
                     break;
-                    
+
                 case 3:
                     _formatString = guid.ToString("P");//(xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
                     break;
-                    
+
                 default:
                     _formatString = guid.ToString();
                     break;
             }
-            
+
             return _formatString;
         }
-        
+
         /// <summary>
         /// 有效减少GUID作为数据库主键引起的索引碎片，提高主键索引效率
         /// </summary>
@@ -101,7 +101,7 @@
             _secuentialGuid[10] = _binDate[7];
             return new Guid(_secuentialGuid);
         }
-        
+
         /// <summary>
         /// 从SQL Server 返回的Guid中生成时间信息
         /// </summary>
@@ -125,7 +125,7 @@
             _date = _date.AddMilliseconds(_msecs * 3.333333);
             return _date;
         }
-        
+
         /// <summary>
         /// 将GUID转换成符合SQL Server的GUID
         /// </summary>
@@ -139,7 +139,7 @@
             Array.Reverse(_guid, 6, 2);
             return new Guid(_guid);
         }
-        
+
         #endregion Methods
     }
 }

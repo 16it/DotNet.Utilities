@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet4.Framework.Data
 {
     using DotNet.Framework.Contract;
-    using DotNet2.Utilities.Common;
+    using DotNet2.Utilities.DataOperator;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -79,10 +79,11 @@
         {
             get
             {
-                if (dbSet == null)
+                if(dbSet == null)
                 {
                     dbSet = database.Set<T>();
                 }
+
                 return dbSet ?? (dbSet = database.Set<T>());
             }
         }
@@ -102,12 +103,10 @@
             try
             {
                 ValidateHelper.Begin().NotNull(entity, "entity");
-
                 Entities.Remove(entity);
-
                 database.SaveChanges();
             }
-            catch (DbEntityValidationException dbEx)
+            catch(DbEntityValidationException dbEx)
             {
                 GetException(dbEx);
             }
@@ -124,11 +123,13 @@
             try
             {
                 ValidateHelper.Begin().NotNull(entities, "entities");
-                foreach (var entity in entities)
+
+                foreach(var entity in entities)
                     Entities.Remove(entity);
+
                 database.SaveChanges();
             }
-            catch (DbEntityValidationException dbEx)
+            catch(DbEntityValidationException dbEx)
             {
                 GetException(dbEx);
             }
@@ -160,7 +161,7 @@
                 Entities.Add(entity);
                 database.SaveChanges();
             }
-            catch (DbEntityValidationException dbEx)
+            catch(DbEntityValidationException dbEx)
             {
                 GetException(dbEx);
             }
@@ -178,12 +179,12 @@
             {
                 ValidateHelper.Begin().NotNull(entities, "entities");
 
-                foreach (var entity in entities)
+                foreach(var entity in entities)
                     Entities.Add(entity);
 
                 database.SaveChanges();
             }
-            catch (DbEntityValidationException dbEx)
+            catch(DbEntityValidationException dbEx)
             {
                 GetException(dbEx);
             }
@@ -202,7 +203,7 @@
                 ValidateHelper.Begin().NotNull(entity, "entity");
                 database.SaveChanges();
             }
-            catch (DbEntityValidationException dbEx)
+            catch(DbEntityValidationException dbEx)
             {
                 GetException(dbEx);
             }
@@ -219,13 +220,14 @@
         {
             StringBuilder _builder = new StringBuilder();
 
-            foreach (var validationErrors in dbEx.EntityValidationErrors)
+            foreach(var validationErrors in dbEx.EntityValidationErrors)
             {
-                foreach (var validationError in validationErrors.ValidationErrors)
+                foreach(var validationError in validationErrors.ValidationErrors)
                 {
                     _builder.AppendFormat("属性: {0} 错误: {1}{2}", validationError.PropertyName, validationError.ErrorMessage, Environment.NewLine);
                 }
             }
+
             throw new Exception(_builder.ToString(), dbEx);
         }
 

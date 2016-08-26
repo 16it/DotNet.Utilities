@@ -36,7 +36,8 @@
         /// </summary>
         public string SetAllowFormat
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -44,7 +45,8 @@
         /// </summary>
         public double SetAllowSize
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -52,7 +54,8 @@
         /// </summary>
         public bool SetCutImage
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -60,7 +63,8 @@
         /// </summary>
         public bool SetLimitWidth
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -68,7 +72,8 @@
         /// </summary>
         public int SetMaxWidth
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -76,7 +81,8 @@
         /// </summary>
         public int SetMinWidth
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -84,7 +90,8 @@
         /// </summary>
         public string SetPicWater
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -92,7 +99,8 @@
         /// </summary>
         public SetWaterPosition SetPositionWater
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -100,7 +108,8 @@
         /// </summary>
         public string SetSmallImgHeight
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -108,7 +117,8 @@
         /// </summary>
         public string SetSmallImgWidth
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -116,7 +126,8 @@
         /// </summary>
         public string SetWordWater
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -135,11 +146,13 @@
         public UploadImageMessage FileCutSaveAs(HttpPostedFile postedFile, string savePath, int imgWidth, int imgHeight, ImageCutMode cMode)
         {
             UploadImageMessage _uploadImageMsg = new UploadImageMessage();
+
             try
             {
                 //获取上传文件的扩展名
                 string _fileEx = Path.GetExtension(postedFile.FileName);
-                if (!FileHelper.CheckValidExt(SetAllowFormat, _fileEx))
+
+                if(!FileHelper.CheckValidExt(SetAllowFormat, _fileEx))
                 {
                     AddUploadImageMessage(_uploadImageMsg, 2);
                     return _uploadImageMsg;
@@ -148,12 +161,13 @@
                 //获取上传文件的大小
                 double _fileSize = postedFile.ContentLength / 1024.0 / 1024.0;
 
-                if (_fileSize > SetAllowSize)
+                if(_fileSize > SetAllowSize)
                 {
                     AddUploadImageMessage(_uploadImageMsg, 3);
                     return _uploadImageMsg;  //超过文件上传大小
                 }
-                if (!Directory.Exists(savePath))
+
+                if(!Directory.Exists(savePath))
                 {
                     Directory.CreateDirectory(savePath);
                 }
@@ -162,7 +176,6 @@
                        _fName = "s" + _newFileName + _fileEx,
                        _fullPath = Path.Combine(savePath, _fName);
                 postedFile.SaveAs(_fullPath);
-
                 string _cfileName = DateTime.Now.FormatDate(12),
                        _cfName = _cfileName + _fileEx;
                 _uploadImageMsg.IsError = false;
@@ -171,19 +184,21 @@
                 _uploadImageMsg.FilePath = _cFullPath;
                 _uploadImageMsg.WebPath = "/" + _cFullPath.Replace(HttpContext.Current.Server.MapPath("~/"), "").Replace("\\", "/");
                 ImageHelper.CreateSmallPhoto(_fullPath, imgWidth, imgHeight, _cFullPath, cMode);
+
                 //if (File.Exists(_fullPath))
                 //{
                 //    File.Delete(_fullPath);
                 //}
-                if (_fileSize > 100)
+                if(_fileSize > 100)
                 {
                     ImageHelper.CompressPhoto(_cFullPath, 100);
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 AddUploadImageMessage(_uploadImageMsg, ex.Message);
             }
+
             return _uploadImageMsg;
         }
 
@@ -196,9 +211,10 @@
         public UploadImageMessage FileSaveAs(HttpPostedFile postedFile, string savePath)
         {
             UploadImageMessage _uploadImageMsg = new UploadImageMessage();
+
             try
             {
-                if (string.IsNullOrEmpty(postedFile.FileName))
+                if(string.IsNullOrEmpty(postedFile.FileName))
                 {
                     AddUploadImageMessage(_uploadImageMsg, 4);
                     return _uploadImageMsg;
@@ -207,18 +223,22 @@
                 int _randomNumber = RandomHelper.NextNumber(1000, 9999);
                 string _fileName = DateTime.Now.FormatDate(12) + _randomNumber,
                        _fileEx = Path.GetExtension(postedFile.FileName);
-                if (!FileHelper.CheckValidExt(SetAllowFormat, _fileEx))
+
+                if(!FileHelper.CheckValidExt(SetAllowFormat, _fileEx))
                 {
                     AddUploadImageMessage(_uploadImageMsg, 2);
                     return _uploadImageMsg;
                 }
+
                 double _fileSize = postedFile.ContentLength / 1024.0 / 1024.0;
-                if (_fileSize > SetAllowSize)
+
+                if(_fileSize > SetAllowSize)
                 {
                     AddUploadImageMessage(_uploadImageMsg, 3);
                     return _uploadImageMsg;
                 }
-                if (!Directory.Exists(savePath))
+
+                if(!Directory.Exists(savePath))
                 {
                     Directory.CreateDirectory(savePath);
                 }
@@ -229,37 +249,36 @@
                 _uploadImageMsg.FilePath = _fullPath;
                 _uploadImageMsg.Size = _fileSize;
                 postedFile.SaveAs(_fullPath);
-
                 Bitmap _sourceBmp = new Bitmap(_fullPath);
                 int _sourceWidth = _sourceBmp.Width,
                     _sourceHeight = _sourceBmp.Height;
                 _sourceBmp.Dispose();
 
-                if (SetMinWidth > 0)
+                if(SetMinWidth > 0)
                 {
-                    if (_sourceWidth < SetMinWidth)
+                    if(_sourceWidth < SetMinWidth)
                     {
                         AddUploadImageMessage(_uploadImageMsg, 7);
                         return _uploadImageMsg;
                     }
                 }
 
-                if (SetLimitWidth && _sourceWidth > SetMaxWidth)
+                if(SetLimitWidth && _sourceWidth > SetMaxWidth)
                 {
                     int _width = SetMaxWidth;
                     int _height = _width * _sourceHeight / _sourceWidth;
-
                     string _tempFile = savePath + Guid.NewGuid().ToString() + _fileEx;
                     File.Move(_fullPath, _tempFile);
                     ImageHelper.CreateSmallPhoto(_tempFile, _width, _height, _fullPath);
                     File.Delete(_tempFile);
                 }
 
-                if (_fileEx.ToLower() != ".gif")
+                if(_fileEx.ToLower() != ".gif")
                 {
                     ImageHelper.CompressPhoto(_fullPath, 100);
                 }
-                if (string.IsNullOrEmpty(SetSmallImgWidth))
+
+                if(string.IsNullOrEmpty(SetSmallImgWidth))
                 {
                     _uploadImageMsg.Message = "上传成功,无缩略图";
                     return _uploadImageMsg;
@@ -267,51 +286,56 @@
 
                 string[] _widthArray = SetSmallImgWidth.Split(',');
                 string[] _heightArray = SetSmallImgHeight.Split(',');
-                if (_widthArray.Length != _heightArray.Length)
+
+                if(_widthArray.Length != _heightArray.Length)
                 {
                     AddUploadImageMessage(_uploadImageMsg, 6);
                     return _uploadImageMsg;
                 }
 
-                for (int i = 0; i < _widthArray.Length; i++)
+                for(int i = 0; i < _widthArray.Length; i++)
                 {
-                    if (Convert.ToInt32(_widthArray[i]) <= 0 || Convert.ToInt32(_heightArray[i]) <= 0)
+                    if(Convert.ToInt32(_widthArray[i]) <= 0 || Convert.ToInt32(_heightArray[i]) <= 0)
                         continue;
 
                     string _descFile = savePath.TrimEnd('\\') + '\\' + _fileName + "_" + i.ToString() + _fileEx;
 
                     //判断图片高宽是否大于生成高宽。否则用原图
-                    if (_sourceWidth > Convert.ToInt32(_widthArray[i]))
+                    if(_sourceWidth > Convert.ToInt32(_widthArray[i]))
                     {
-                        if (SetCutImage)
+                        if(SetCutImage)
                         {
                             ImageHelper.CreateSmallPhoto(_fullPath, Convert.ToInt32(_widthArray[i]), Convert.ToInt32(_heightArray[i]), _descFile);
                         }
-                        else {
+                        else
+                        {
                             ImageHelper.CreateSmallPhoto(_fullPath, Convert.ToInt32(_widthArray[i]), Convert.ToInt32(_heightArray[i]), _descFile, ImageCutMode.CutNo);
                         }
                     }
                     else
                     {
-                        if (SetCutImage)
+                        if(SetCutImage)
                         {
                             ImageHelper.CreateSmallPhoto(_fullPath, _sourceWidth, _sourceHeight, _descFile);
                         }
-                        else {
+                        else
+                        {
                             ImageHelper.CreateSmallPhoto(_fullPath, _sourceWidth, _sourceHeight, _descFile, ImageCutMode.CutNo);
                         }
                     }
                 }
 
-                if (!string.IsNullOrEmpty(SetPicWater))
+                if(!string.IsNullOrEmpty(SetPicWater))
                     ImageHelper.AttachPng(SetPicWater, _fullPath, SetWaterPosition.bottomRight);
-                if (!string.IsNullOrEmpty(SetWordWater))
+
+                if(!string.IsNullOrEmpty(SetWordWater))
                     ImageHelper.AttachText(SetWordWater, _fullPath);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 AddUploadImageMessage(_uploadImageMsg, ex.Message);
             }
+
             return _uploadImageMsg;
         }
 
@@ -344,16 +368,17 @@
         /// <returns></returns>
         private string GetCodeMessage(int code)
         {
-            Dictionary<int, string> _uploadImageCode = new Dictionary<int, string>(){
-            {0,"系统配置错误"},
-            {1,"上传图片成功"},
-            {2,string.Format( "对不起，上传格式错误！请上传{0}格式图片",SetAllowFormat)},
-            {3,string.Format("超过文件上传大小,不得超过{0}M",SetAllowSize)},
-            {4,"未上传文件"},
-            {5,""},
-            {6,"缩略图长度和宽度配置错误"},
-            {7,"检测图片宽度限制"}
-             };
+            Dictionary<int, string> _uploadImageCode = new Dictionary<int, string>()
+            {
+                {0, "系统配置错误"},
+                {1, "上传图片成功"},
+                {2, string.Format("对不起，上传格式错误！请上传{0}格式图片", SetAllowFormat)},
+                {3, string.Format("超过文件上传大小,不得超过{0}M", SetAllowSize)},
+                {4, "未上传文件"},
+                {5, ""},
+                {6, "缩略图长度和宽度配置错误"},
+                {7, "检测图片宽度限制"}
+            };
             return _uploadImageCode[code];
         }
 

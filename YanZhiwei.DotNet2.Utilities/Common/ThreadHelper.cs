@@ -2,14 +2,14 @@
 {
     using System;
     using System.Threading;
-    
+
     /// <summary>
     /// Thread 帮助类
     /// </summary>
     public static class ThreadHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 取消Thread.Sleep状态，继续线程
         /// </summary>
@@ -20,10 +20,10 @@
             {
                 return;
             }
-            
+
             thread.Interrupt();
         }
-        
+
         /// <summary>
         /// 启动线程，自动忽略停止线程时触发的<see cref="ThreadAbortException"/>异常
         /// </summary>
@@ -46,7 +46,7 @@
                 }
             }
         }
-        
+
         #endregion Methods
     }
 }

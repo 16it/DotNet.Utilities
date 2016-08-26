@@ -3,7 +3,7 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.DataOperator;
 
 namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
 {
@@ -41,7 +41,6 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
         public void ExecuteNonQueryTest()
         {
             #region ExecuteNonQuery 普通
-
             string _sql = @"INSERT INTO [dbo].[Products]
 		([ProductName]
 		,[CategoryID]
@@ -52,21 +51,16 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
 		,@CategoryID
 		,@UnitPrice
 		,@LastUpdate)";
-
             DbParameter[] _paramterList = new SqlParameter[4];
             _paramterList[0] = new SqlParameter("@ProductName", DateTime.Now.FormatDate(12));
             _paramterList[1] = new SqlParameter("@CategoryID", 7);
             _paramterList[2] = new SqlParameter("@UnitPrice", 10);
             _paramterList[3] = new SqlParameter("@LastUpdate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-
             sqlHelper.ExecuteNonQuery(_sql, _paramterList);
-
             #endregion ExecuteNonQuery 普通
-
             #region ExecuteNonQuery 事物 成功
-
             ClearProductTestDb();
-            using (LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
+            using(LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
             {
                 try
                 {
@@ -74,28 +68,23 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
                     tranObj.CommitTransaction();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     tranObj.RollbackTransaction();
                 }
             }
-
             _sql = "select UnitPrice from Products where ProductName=@ProductName";
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(22m, sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(33m, sqlHelper.ExecuteScalar(_sql, _paramterList));
             ClearProductTestDb();
-
             #endregion ExecuteNonQuery 事物 成功
-
             #region ExecuteNonQuery 事物 失败
-
             ClearProductTestDb();
-            using (LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
+            using(LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
             {
                 try
                 {
@@ -104,32 +93,27 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
                     tranObj.CommitTransaction();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     tranObj.RollbackTransaction();
                 }
             }
-
             _sql = "select UnitPrice from Products where ProductName=@ProductName";
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)));
             Assert.IsNull(sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)));
             Assert.IsNull(sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             #endregion ExecuteNonQuery 事物 失败
-
             #region ExecuteNonQuery 事物嵌套 成功
-
             ClearProductTestDb();
-            using (LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
+            using(LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
             {
                 try
                 {
                     AddProduct(tranObj, string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)), 22);
-                    using (LocalDbTransaction tranObjChild = sqlHelper.BeginTranscation())
+                    using(LocalDbTransaction tranObjChild = sqlHelper.BeginTranscation())
                     {
                         try
                         {
@@ -137,7 +121,7 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                             AddProduct(tranObjChild, string.Format("{0}_UnitTest_4", DateTime.Now.FormatDate(13)), 55);
                             tranObjChild.CommitTransaction();
                         }
-                        catch (Exception)
+                        catch(Exception)
                         {
                             tranObjChild.RollbackTransaction();
                         }
@@ -145,40 +129,33 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
                     tranObj.CommitTransaction();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     tranObj.RollbackTransaction();
                 }
             }
-
             _sql = "select UnitPrice from Products where ProductName=@ProductName";
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(22m, sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(33m, sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_3", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(44m, sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_4", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(55m, sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             #endregion ExecuteNonQuery 事物嵌套 成功
-
             #region ExecuteNonQuery 事物嵌套 子事物失败
-
             ClearProductTestDb();
-            using (LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
+            using(LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
             {
                 try
                 {
                     AddProduct(tranObj, string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)), 22);
-                    using (LocalDbTransaction tranObjChild = sqlHelper.BeginTranscation())
+                    using(LocalDbTransaction tranObjChild = sqlHelper.BeginTranscation())
                     {
                         try
                         {
@@ -187,7 +164,7 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                             AddProduct(tranObjChild, string.Format("{0}_UnitTest_4", DateTime.Now.FormatDate(13)), 55);
                             tranObjChild.CommitTransaction();
                         }
-                        catch (Exception)
+                        catch(Exception)
                         {
                             tranObjChild.RollbackTransaction();
                         }
@@ -195,40 +172,33 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
                     tranObj.CommitTransaction();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     tranObj.RollbackTransaction();
                 }
             }
-
             _sql = "select UnitPrice from Products where ProductName=@ProductName";
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(22m, sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(33m, sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_3", DateTime.Now.FormatDate(13)));
             Assert.IsNull(sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_4", DateTime.Now.FormatDate(13)));
             Assert.IsNull(sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             #endregion ExecuteNonQuery 事物嵌套 子事物失败
-
             #region ExecuteNonQuery 事物嵌套 主事物失败
-
             ClearProductTestDb();
-            using (LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
+            using(LocalDbTransaction tranObj = sqlHelper.BeginTranscation())
             {
                 try
                 {
                     AddProduct(tranObj, string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)), 22);
-                    using (LocalDbTransaction tranObjChild = sqlHelper.BeginTranscation())
+                    using(LocalDbTransaction tranObjChild = sqlHelper.BeginTranscation())
                     {
                         try
                         {
@@ -236,7 +206,7 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                             AddProduct(tranObjChild, string.Format("{0}_UnitTest_4", DateTime.Now.FormatDate(13)), 55);
                             tranObjChild.CommitTransaction();
                         }
-                        catch (Exception)
+                        catch(Exception)
                         {
                             tranObjChild.RollbackTransaction();
                         }
@@ -245,29 +215,24 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
                     tranObj.CommitTransaction();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     tranObj.RollbackTransaction();
                 }
             }
-
             _sql = "select UnitPrice from Products where ProductName=@ProductName";
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)));
             Assert.IsNull(sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)));
             Assert.IsNull(sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_3", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(44m, sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@ProductName", string.Format("{0}_UnitTest_4", DateTime.Now.FormatDate(13)));
             Assert.AreEqual(55m, sqlHelper.ExecuteScalar(_sql, _paramterList));
-
             #endregion ExecuteNonQuery 事物嵌套 主事物失败
         }
 
@@ -279,7 +244,6 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
 		,@CategoryID
 		,@UnitPrice
 		,@LastUpdate)";
-
             DbParameter[] _paramterList = new SqlParameter[4];
             _paramterList[0] = new SqlParameter("@ProductName", key);
             _paramterList[1] = new SqlParameter("@CategoryID", 7);
@@ -294,9 +258,9 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
             string _sql = "select Name from Customers where CustomerID=@CustomerID";
             DbParameter[] _paramterList = new SqlParameter[1];
             _paramterList[0] = new SqlParameter("@CustomerID", 1);
-            using (IDataReader reader = sqlHelper.ExecuteReader(_sql, _paramterList))
+            using(IDataReader reader = sqlHelper.ExecuteReader(_sql, _paramterList))
             {
-                while (reader.Read())
+                while(reader.Read())
                 {
                     Assert.AreEqual(reader["Name"], "Maria Anders");
                 }

@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet.Core.Log
 {
     using Config;
-    using DotNet2.Utilities.Common;
+    using DotNet2.Utilities.DataOperator;
     using log4net;
     using log4net.Config;
     using System;

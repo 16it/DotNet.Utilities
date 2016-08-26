@@ -4,7 +4,7 @@
     using System.Data;
     using System.Data.SqlClient;
     using System.Text.RegularExpressions;
-    
+
     /// <summary>
     /// 数据辅助操作类
     /// </summary>
@@ -13,7 +13,7 @@
     public static class DataBaseHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 创建Sql Server身份认证连接字符串
         /// </summary>
@@ -26,7 +26,7 @@
         {
             return string.Format(@"Server={0};DataBase={1};uid={2};pwd={3};", server, database, userName, password);
         }
-        
+
         /// <summary>
         /// 创建Sql Server Windows身份认证连接字符串
         /// </summary>
@@ -39,7 +39,7 @@
         {
             return string.Format(@"Server={0}; Database={1}; Integrated Security=True;", server, datatabase);
         }
-        
+
         /// <summary>
         /// 过滤HTML标记
         /// </summary>
@@ -66,10 +66,10 @@
                 data = Regex.Replace(data, @"&#(\d+);", string.Empty, RegexOptions.IgnoreCase);
                 data = Regex.Replace(data, "xp_cmdshell", string.Empty, RegexOptions.IgnoreCase);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 过滤特殊字符
         /// </summary>
@@ -91,10 +91,10 @@
                 data = data.Replace("*/", string.Empty);
                 data = data.Replace("\r\n", string.Empty);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 过滤SQL语句字符串中的注入脚本
         /// </summary>
@@ -159,10 +159,10 @@
                 data = Regex.Replace(data, "drop", string.Empty, RegexOptions.IgnoreCase);
                 data = Regex.Replace(data, "script", string.Empty, RegexOptions.IgnoreCase);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 过滤字符串【HTML标记，敏感SQL操作关键，特殊字符】
         /// </summary>
@@ -175,10 +175,10 @@
                 data = FilterHtmlTag(data);
                 data = FilterSpecial(data);
             }
-            
+
             return data;
         }
-        
+
         /// <summary>
         /// 由错误码返回指定的自定义SqlException异常信息
         /// </summary>
@@ -187,13 +187,13 @@
         public static string GetSqlExceptionMessage(this SqlException sqlException)
         {
             string _msg = GetSqlExceptionMessage(sqlException.Number);
-            
+
             if(string.IsNullOrEmpty(_msg))
                 _msg = sqlException.Message.Trim();
-                
+
             return _msg;
         }
-        
+
         /// <summary>
         /// 由错误码返回指定的自定义SqlException异常信息
         /// <para>DataHelper.GetSqlExceptionMessage(sqlEx.Number);</para>
@@ -203,53 +203,53 @@
         public static string GetSqlExceptionMessage(int number)
         {
             string _msg = string.Empty;
-            
+
             switch(number)
             {
                 case 2:
                     _msg = "连接数据库超时，请检查网络连接或者数据库服务器是否正常。";
                     break;
-                    
+
                 case 17:
                     _msg = "SqlServer服务不存在或拒绝访问。";
                     break;
-                    
+
                 case 17142:
                     _msg = "SqlServer服务已暂停，不能提供数据服务。";
                     break;
-                    
+
                 case 2812:
                     _msg = "指定存储过程不存在。";
                     break;
-                    
+
                 case 208:
                     _msg = "指定名称的表不存在。";
                     break;
-                    
+
                 case 4060: //数据库无效。
                     _msg = "所连接的数据库无效。";
                     break;
-                    
+
                 case 18456: //登录失败
                     _msg = "使用设定的用户名与密码登录数据库失败。";
                     break;
-                    
+
                 case 547:
                     _msg = "外键约束，无法保存数据的变更。";
                     break;
-                    
+
                 case 2627:
                     _msg = "主键重复，无法插入数据。";
                     break;
-                    
+
                 case 2601:
                     _msg = "未知错误。";
                     break;
             }
-            
+
             return _msg;
         }
-        
+
         /// <summary>
         /// DataTable的列求和
         /// </summary>
@@ -259,15 +259,15 @@
         public static object GetSumByColumn(this DataTable datatable, string sumColumnName)
         {
             object _result = null;
-            
+
             if(datatable != null && !string.IsNullOrEmpty(sumColumnName))
             {
                 _result = datatable.Compute("Sum(" + sumColumnName + ")", string.Empty);
             }
-            
+
             return _result;
         }
-        
+
         /// <summary>
         /// DataTable的group by sum计算
         /// <para>eg:eg:DBHelper.GroupByToSum(_dt, "CTLampType", "钠灯- 100W", "CTLastMonthCount");</para>
@@ -280,15 +280,15 @@
         public static object GetSumByGroup(this DataTable datatable, string gColumnName, string gValue, string sColumnName)
         {
             object _result = null;
-            
+
             if(datatable != null && !string.IsNullOrEmpty(gColumnName) && !string.IsNullOrEmpty(sColumnName))
             {
                 _result = datatable.Compute("Sum(" + sColumnName + ")", " " + gColumnName + "='" + gValue + "'");
             }
-            
+
             return _result;
         }
-        
+
         /// <summary>
         /// 将连接字符串转换成字典
         /// </summary>
@@ -298,21 +298,21 @@
         {
             string[] _groups = connectString.Split(';');
             IDictionary<string, string> _dic = new Dictionary<string, string>();
-            
+
             foreach(string group in _groups)
             {
                 string _groupOk = group.Trim();
-                
+
                 if(!string.IsNullOrEmpty(_groupOk))
                 {
                     string[] keyVal = _groupOk.Split('=');
                     _dic.Add(keyVal[0].Trim(), keyVal[1].Trim());
                 }
             }
-            
+
             return _dic;
         }
-        
+
         #endregion Methods
     }
 }
