@@ -11,7 +11,8 @@
     /// 备注：
     public class MessageBoxTimeOut
     {
-        #region Fields        
+        #region Fields
+
         /// <summary>
         /// The w m_ close
         /// </summary>
@@ -21,7 +22,8 @@
 
         #endregion Fields
 
-        #region Methods        
+        #region Methods
+
         /// <summary>
         /// Posts the message.
         /// </summary>
@@ -81,7 +83,8 @@
         private void KillMessageBox()
         {
             IntPtr _ptr = FindWindow(null, this.keyGuidId);
-            if (_ptr != IntPtr.Zero)
+
+            if(_ptr != IntPtr.Zero)
             {
                 PostMessage(_ptr, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
             }

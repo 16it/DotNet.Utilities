@@ -1,5 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WebForm
 {
+    using Common;
+    using Enum;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -8,11 +10,6 @@
     using System.Web;
     using System.Web.UI;
     using System.Web.UI.WebControls;
-
-    using DataOperator;
-
-    using Enum;
-    using Common;
 
     /// <summary>
     ///  GridView 帮助类

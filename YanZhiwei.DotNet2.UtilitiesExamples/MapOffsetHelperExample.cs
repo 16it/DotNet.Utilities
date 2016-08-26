@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Model;
 
 namespace YanZhiwei.DotNet2.UtilitiesExamples

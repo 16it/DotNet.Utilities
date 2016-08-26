@@ -4,8 +4,6 @@
     using System;
     using System.IO;
     using System.Text.RegularExpressions;
-
-    using YanZhiwei.DotNet2.Utilities.Core;
     using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>

@@ -1,9 +1,8 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
 {
+    using DotNet2.Utilities.Collection;
     using System.Collections.Generic;
     using System.Linq;
-
-    using YanZhiwei.DotNet2.Utilities.Core;
 
     /// <summary>
     /// 分页帮助类
@@ -26,8 +25,9 @@
         /// 备注：
         public static PagedList<T> ToPagedList<T>(this IQueryable<T> allItems, int pageIndex, int pageSize)
         {
-            if (pageIndex < 1)
+            if(pageIndex < 1)
                 pageIndex = 1;
+
             int _itemIndex = (pageIndex - 1) * pageSize;
             List<T> _pageOfItems = allItems.Skip(_itemIndex).Take(pageSize).ToList();
             int _totalItemCount = allItems.Count();

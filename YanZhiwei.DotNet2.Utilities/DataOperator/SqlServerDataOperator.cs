@@ -1,8 +1,10 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.DataOperator
 {
+    using Builder;
     using Common;
-    using Core;
+    using DataBase;
     using Enum;
+    using Exception;
     using Interfaces;
     using Operator;
     using System;
@@ -16,7 +18,6 @@
     /// </summary>
     public class SqlServerDataOperator : IDataOperator
     {
-
         private static string connectionString = string.Empty;
 
         /// <summary>
@@ -614,6 +615,5 @@
 
             return new FrameworkException(_sqlExMessage, ex);
         }
-
     }
 }

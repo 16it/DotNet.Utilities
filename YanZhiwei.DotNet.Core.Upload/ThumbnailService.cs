@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using YanZhiwei.DotNet.Core.Model;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Model;
 
 namespace YanZhiwei.DotNet.Core.Upload

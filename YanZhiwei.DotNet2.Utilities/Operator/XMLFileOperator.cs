@@ -1,7 +1,5 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
-    using Common;
-    using DataOperator;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;

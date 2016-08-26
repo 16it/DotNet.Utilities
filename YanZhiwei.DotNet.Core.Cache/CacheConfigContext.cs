@@ -2,7 +2,7 @@
 {
     using Config;
     using Core.Model;
-    using DotNet2.Utilities.DataOperator;
+    using DotNet2.Utilities.Operator;
     using Model;
     using System;
     using System.Collections.Generic;
@@ -167,7 +167,7 @@
                     Regex.IsMatch(ModuleName, i.CacheConfigItem.ModuleRegex, RegexOptions.IgnoreCase) &&
                     Regex.IsMatch(key, i.CacheConfigItem.KeyRegex, RegexOptions.IgnoreCase))
                     .OrderByDescending(i => i.CacheConfigItem.Priority).FirstOrDefault();
-            ValidateHelper.Begin().NotNull(_currentWrapCacheConfigItem, string.Format("依据'{0}'获取缓存配置项异常！", key));
+            ValidateOperator.Begin().NotNull(_currentWrapCacheConfigItem, string.Format("依据'{0}'获取缓存配置项异常！", key));
 
             lock(syncObject)
             {

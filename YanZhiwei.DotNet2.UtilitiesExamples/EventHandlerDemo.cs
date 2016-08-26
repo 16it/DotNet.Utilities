@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
+
 namespace YanZhiwei.DotNet2.UtilitiesExamples
 {
     internal class EventHandlerDemo
@@ -42,19 +43,23 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
             }
         }
     }
+
     public class DeMO
     {
         public event EventHandler TrapOccurred;
+
         protected virtual void OnTrapOccurred()
         {
             EventHandler handler = TrapOccurred;
             handler.RaiseEvent(this);
         }
+
         public void run()
         {
             OnTrapOccurred();
         }
     }
+
     public class trap
     {
         public event EventHandler<TrapInfoEventArgs> TrapOccurred;
@@ -85,11 +90,13 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
             get;
             set;
         }
+
         public string ip
         {
             get;
             set;
         }
+
         public string cause
         {
             get;

@@ -1,11 +1,10 @@
 ﻿namespace YanZhiwei.DotNet4.Framework.Data
 {
     using DotNet.Framework.Contract;
+    using DotNet2.Utilities.Collection;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
-
-    using YanZhiwei.DotNet2.Utilities.Core;
 
     /// <summary>
     /// 仓储接口
@@ -24,7 +23,7 @@
         /// 时间：2016-01-13 13:31
         /// 备注：
         void Delete<T>(T entity)
-            where T : ModelBase;
+        where T : ModelBase;
 
         /// <summary>
         /// 查找
@@ -35,7 +34,7 @@
         /// 时间：2016-01-13 13:32
         /// 备注：
         T Find<T>(params object[] keyValues)
-            where T : ModelBase;
+        where T : ModelBase;
 
         /// <summary>
         /// 查找全部
@@ -46,7 +45,7 @@
         /// 时间：2016-01-13 13:32
         /// 备注：
         List<T> FindAll<T>(Expression<Func<T, bool>> conditions = null)
-            where T : ModelBase;
+        where T : ModelBase;
 
         /// <summary>
         /// 分页查找
@@ -61,7 +60,7 @@
         /// 时间：2016-01-13 13:33
         /// 备注：
         PagedList<T> FindAllByPage<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex)
-            where T : ModelBase;
+        where T : ModelBase;
 
         /// <summary>
         /// 添加
@@ -72,7 +71,7 @@
         /// 时间：2016-01-13 13:31
         /// 备注：
         T Insert<T>(T entity)
-            where T : ModelBase;
+        where T : ModelBase;
 
         /// <summary>
         /// 更新
@@ -83,7 +82,7 @@
         /// 时间：2016-01-13 13:31
         /// 备注：
         T Update<T>(T entity)
-            where T : ModelBase;
+        where T : ModelBase;
 
         #endregion Methods
     }

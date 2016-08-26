@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Model;
+using YanZhiwei.DotNet2.Utilities.Operator;
 using YanZhiwei.DotNet4.Utilities.Core;
 using YanZhiwei.DotNet4.Utilities.Model;
 
@@ -41,7 +41,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         public static string ExpandAndToString<T>(this IEnumerable<T> collection, Func<T, string> itemFormatFunc, string separetor = ",")
         {
             collection = collection as IList<T> ?? collection.ToList();
-            ValidateHelper.Begin().NotNull(itemFormatFunc, "单个集合项的转换委托");
+            ValidateOperator.Begin().NotNull(itemFormatFunc, "单个集合项的转换委托");
 
             if(!collection.Any())
             {
@@ -91,7 +91,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <returns> 查询的结果 </returns>
         public static IEnumerable<T> WhereIf<T>(this IEnumerable<T> source, Func<T, bool> predicate, bool condition)
         {
-            ValidateHelper.Begin().NotNull(predicate, "查询条件");
+            ValidateOperator.Begin().NotNull(predicate, "查询条件");
             source = source as IList<T> ?? source.ToList();
             return condition ? source.Where(predicate) : source;
         }
@@ -106,7 +106,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <returns>不重复元素的集合</returns>
         public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector)
         {
-            ValidateHelper.Begin().NotNull(keySelector, "重复数据筛选条件");
+            ValidateOperator.Begin().NotNull(keySelector, "重复数据筛选条件");
             source = source as IList<T> ?? source.ToList();
             return source.GroupBy(keySelector).Select(group => group.First());
         }
@@ -123,7 +123,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
                 string propertyName,
                 ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(propertyName, "排序属性名");
+            ValidateOperator.Begin().NotNullOrEmpty(propertyName, "排序属性名");
             return CollectionPropertySorter<T>.OrderBy(source, propertyName, sortDirection);
         }
 
@@ -136,7 +136,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <returns></returns>
         public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, SortCondition sortCondition)
         {
-            ValidateHelper.Begin().NotNull(sortCondition, "列表字段排序条件");
+            ValidateOperator.Begin().NotNull(sortCondition, "列表字段排序条件");
             return source.OrderBy(sortCondition.SortField, sortCondition.ListSortDirection);
         }
 
@@ -149,7 +149,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <returns></returns>
         public static IOrderedEnumerable<T> OrderBy<T>(this IEnumerable<T> source, SortCondition<T> sortCondition)
         {
-            ValidateHelper.Begin().NotNull(sortCondition, "列表字段排序条件");
+            ValidateOperator.Begin().NotNull(sortCondition, "列表字段排序条件");
             return source.OrderBy(sortCondition.SortField, sortCondition.ListSortDirection);
         }
 
@@ -165,7 +165,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
                 string propertyName,
                 ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
-            ValidateHelper.Begin().NotNull(source, "要排序的数据集").NotNullOrEmpty(propertyName, "排序属性名");
+            ValidateOperator.Begin().NotNull(source, "要排序的数据集").NotNullOrEmpty(propertyName, "排序属性名");
             return CollectionPropertySorter<T>.ThenBy(source, propertyName, sortDirection);
         }
 
@@ -178,7 +178,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <returns></returns>
         public static IOrderedEnumerable<T> ThenBy<T>(this IOrderedEnumerable<T> source, SortCondition sortCondition)
         {
-            ValidateHelper.Begin().NotNull(source, "要排序的数据集").NotNull(sortCondition, "列表字段排序条件");
+            ValidateOperator.Begin().NotNull(source, "要排序的数据集").NotNull(sortCondition, "列表字段排序条件");
             return source.ThenBy(sortCondition.SortField, sortCondition.ListSortDirection);
         }
 

@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet.MyXls.Utilities
 {
+    using DotNet2.Utilities.Common;
     using org.in2bits.MyXls;
     using System;
     using System.Collections.Generic;

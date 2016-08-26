@@ -3,14 +3,14 @@
     using System;
     using System.Collections.Specialized;
     using System.Web;
-    
+
     /// <summary>
     /// cookie 帮助类
     /// </summary>
     public class CookieManger
     {
         #region Methods
-        
+
         /// <summary>
         /// 设置cookie （24小时过期）
         /// </summary>
@@ -20,7 +20,7 @@
         {
             AddValue(cookiename, cookievalue, DateTime.Now.AddDays(1));
         }
-        
+
         /// <summary>
         /// 设置cookie
         /// </summary>
@@ -30,16 +30,16 @@
         public static void AddValue(string cookiename, NameValueCollection cookievalue, DateTime expires)
         {
             HttpCookie _cookie = new HttpCookie(cookiename);
-            
+
             foreach(string key in cookievalue)
             {
                 _cookie.Values[key] = cookievalue[key];
             }
-            
+
             _cookie.Expires = expires;
             HttpContext.Current.Response.Cookies.Add(_cookie);
         }
-        
+
         /// <summary>
         /// 取Cookie
         /// </summary>
@@ -49,7 +49,7 @@
         {
             return HttpContext.Current.Request.Cookies[name];
         }
-        
+
         /// <summary>
         /// 取Cookie值
         /// </summary>
@@ -58,13 +58,17 @@
         public static string GetValue(string name)
         {
             var httpCookie = Get(name);
-            
+
             if(httpCookie != null)
-            { return httpCookie.Value; }
+            {
+                return httpCookie.Value;
+            }
             else
-            { return string.Empty; }
+            {
+                return string.Empty;
+            }
         }
-        
+
         /// <summary>
         /// 移除Cookie
         /// </summary>
@@ -73,7 +77,7 @@
         {
             Remove(CookieManger.Get(name));
         }
-        
+
         /// <summary>
         /// Removes the specified cookie.
         /// </summary>
@@ -86,7 +90,7 @@
                 Save(cookie, 0);
             }
         }
-        
+
         /// <summary>
         /// 保存Cookie
         /// </summary>
@@ -96,14 +100,16 @@
         public static void Save(string name, string value, int expiresHours = 0)
         {
             var httpCookie = Get(name);
-            
+
             if(httpCookie == null)
-            { httpCookie = Set(name); }
-            
+            {
+                httpCookie = Set(name);
+            }
+
             httpCookie.Value = value;
             Save(httpCookie, expiresHours);
         }
-        
+
         /// <summary>
         /// 保存Cookie
         /// </summary>
@@ -113,21 +119,25 @@
         {
             string domain = FetchHelper.ServerDomain;
             string urlHost = HttpContext.Current.Request.Url.Host.ToLower();
-            
+
             if(domain != urlHost)
-            { cookie.Domain = domain; }
-            
+            {
+                cookie.Domain = domain;
+            }
+
             if(expiresHours > 0)
-            { cookie.Expires = DateTime.Now.AddHours(expiresHours); }
-            
+            {
+                cookie.Expires = DateTime.Now.AddHours(expiresHours);
+            }
+
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
-        
+
         private static HttpCookie Set(string name)
         {
             return new HttpCookie(name);
         }
-        
+
         #endregion Methods
     }
 }

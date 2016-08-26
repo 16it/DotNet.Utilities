@@ -1,10 +1,9 @@
 ﻿namespace YanZhiwei.DotNet4.Utilities.Core
 {
+    using DotNet2.Utilities.Common;
     using System;
     using System.Collections.Concurrent;
-
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
-    using YanZhiwei.DotNet4.Utilities.Model;
+    using Model;
 
     /// <summary>
     /// ConcurrentBag 数据操作通知增强类
@@ -37,7 +36,8 @@
             base.Add(item);
             this.OnAdded.RaiseEvent(this, new ConBagChangEventArgs<T>()
             {
-                Item = item, Count = base.Count
+                Item = item,
+                Count = base.Count
             });
         }
 

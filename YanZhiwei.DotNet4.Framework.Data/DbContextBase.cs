@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet4.Framework.Data
 {
     using DotNet.Framework.Contract;
+    using DotNet2.Utilities.Collection;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -11,8 +12,6 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-
-    using YanZhiwei.DotNet2.Utilities.Core;
     using YanZhiwei.DotNet3._5.Utilities.Common;
 
     /// <summary>
@@ -43,7 +42,7 @@
         /// 时间：2016-01-14 10:58
         /// 备注：
         public DbContextBase(string connectionString, IAuditable auditLogger)
-            : this(connectionString)
+        : this(connectionString)
         {
             this.AuditLogger = auditLogger;
         }
@@ -57,7 +56,8 @@
         /// </summary>
         public IAuditable AuditLogger
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -70,7 +70,7 @@
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="entity">实体类</param>
         public void Delete<T>(T entity)
-            where T : ModelBase
+        where T : ModelBase
         {
             this.Entry<T>(entity).State = EntityState.Deleted;
             this.SaveChanges();
@@ -89,7 +89,8 @@
         public int ExecuteSqlCommand(string sql, bool doNotEnsureTransaction = false, int? timeout = null, params object[] parameters)
         {
             int? _previousTimeout = null;
-            if (timeout.HasValue)
+
+            if(timeout.HasValue)
             {
                 //store previous timeout
                 _previousTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout;
@@ -97,11 +98,11 @@
             }
 
             TransactionalBehavior _transactionalBehavior = doNotEnsureTransaction
-                ? TransactionalBehavior.DoNotEnsureTransaction
-                : TransactionalBehavior.EnsureTransaction;
+                    ? TransactionalBehavior.DoNotEnsureTransaction
+                    : TransactionalBehavior.EnsureTransaction;
             int _result = this.Database.ExecuteSqlCommand(_transactionalBehavior, sql, parameters);
 
-            if (timeout.HasValue)
+            if(timeout.HasValue)
             {
                 //Set previous timeout back
                 ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = _previousTimeout;
@@ -122,20 +123,21 @@
         /// 备注：
         /// <exception cref="System.ArgumentException">不支持的参数类型！</exception>
         public IList<T> ExecuteStoredProcedureList<T>(string commandText, params object[] parameters)
-            where T : ModelBase, new()
+        where T : ModelBase, new()
         {
-            if (parameters != null && parameters.Length > 0)
+            if(parameters != null && parameters.Length > 0)
             {
-                for (int i = 0; i <= parameters.Length - 1; i++)
+                for(int i = 0; i <= parameters.Length - 1; i++)
                 {
                     var p = parameters[i] as DbParameter;
-                    if (p == null)
+
+                    if(p == null)
                         throw new ArgumentException("不支持的参数类型！");
 
                     commandText += i == 0 ? " " : ", ";
-
                     commandText += "@" + p.ParameterName;
-                    if (p.Direction == ParameterDirection.InputOutput || p.Direction == ParameterDirection.Output)
+
+                    if(p.Direction == ParameterDirection.InputOutput || p.Direction == ParameterDirection.Output)
                     {
                         commandText += " output";
                     }
@@ -143,20 +145,21 @@
             }
 
             List<T> _result = this.Database.SqlQuery<T>(commandText, parameters).ToList();
-
             //performance hack applied as described here - http://www.nopcommerce.com/boards/t/25483/fix-very-important-speed-improvement.aspx
             bool _acd = this.Configuration.AutoDetectChangesEnabled;
+
             try
             {
                 this.Configuration.AutoDetectChangesEnabled = false;
 
-                for (int i = 0; i < _result.Count; i++)
+                for(int i = 0; i < _result.Count; i++)
                     _result[i] = AttachEntityToContext(_result[i]);
             }
             finally
             {
                 this.Configuration.AutoDetectChangesEnabled = _acd;
             }
+
             return _result;
         }
 
@@ -169,7 +172,7 @@
         /// 实体类
         /// </returns>
         public T Find<T>(params object[] keyValues)
-            where T : ModelBase
+        where T : ModelBase
         {
             return this.Set<T>().Find(keyValues);
         }
@@ -183,9 +186,9 @@
         /// 集合
         /// </returns>
         public List<T> FindAll<T>(Expression<Func<T, bool>> conditions = null)
-            where T : ModelBase
+        where T : ModelBase
         {
-            if (conditions == null)
+            if(conditions == null)
                 return this.Set<T>().ToList();
             else
                 return this.Set<T>().Where(conditions).ToList();
@@ -202,10 +205,9 @@
         /// <param name="pageIndex">分页集合</param>
         /// <returns>PagedList</returns>
         public PagedList<T> FindAllByPage<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex)
-            where T : ModelBase
+        where T : ModelBase
         {
             var queryList = conditions == null ? this.Set<T>() : this.Set<T>().Where(conditions) as IQueryable<T>;
-
             return queryList.OrderByDescending(orderBy).ToPagedList(pageIndex, pageSize);
         }
 
@@ -218,7 +220,7 @@
         /// 实体类
         /// </returns>
         public T Insert<T>(T entity)
-            where T : ModelBase
+        where T : ModelBase
         {
             this.Set<T>().Add(entity);
             this.SaveChanges();
@@ -236,7 +238,6 @@
         public override int SaveChanges()
         {
             this.WriteAuditLog();
-
             var result = base.SaveChanges();
             return result;
         }
@@ -264,13 +265,12 @@
         /// 实体类
         /// </returns>
         public T Update<T>(T entity)
-            where T : ModelBase
+        where T : ModelBase
         {
             var set = this.Set<T>();
             set.Attach(entity);
             this.Entry<T>(entity).State = EntityState.Modified;
             this.SaveChanges();
-
             return entity;
         }
 
@@ -281,35 +281,35 @@
         /// 备注：
         internal void WriteAuditLog()
         {
-            if (this.AuditLogger == null)
+            if(this.AuditLogger == null)
                 return;
 
-            foreach (var dbEntry in this.ChangeTracker.Entries<ModelBase>().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified))
+            foreach(var dbEntry in this.ChangeTracker.Entries<ModelBase>().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified))
             {
                 AuditableAttribute _auditableAttr = dbEntry.Entity.GetType().GetCustomAttributes(typeof(AuditableAttribute), false).SingleOrDefault() as AuditableAttribute;
-                if (_auditableAttr == null)
+
+                if(_auditableAttr == null)
                     continue;
 
                 string _operaterName = ServiceCallContext.Current.Operater.Name;
-
                 Task.Factory.StartNew(() =>
                 {
                     TableAttribute _tableAttr = dbEntry.Entity.GetType().GetCustomAttributes(typeof(TableAttribute), false).SingleOrDefault() as TableAttribute;
                     string _tableName = _tableAttr != null ? _tableAttr.Name : dbEntry.Entity.GetType().Name;
                     string _moduleName = dbEntry.Entity.GetType().FullName.Split('.').Skip(1).FirstOrDefault();
-
                     this.AuditLogger.WriteLog(dbEntry.Entity.ID, _operaterName, _moduleName, _tableName, dbEntry.State.ToString(), dbEntry.Entity);
                 });
             }
         }
 
         protected virtual TEntity AttachEntityToContext<TEntity>(TEntity entity)
-            where TEntity : ModelBase, new()
+        where TEntity : ModelBase, new()
         {
             //little hack here until Entity Framework really supports stored procedures
             //otherwise, navigation properties of loaded entities are not loaded until an entity is attached to the context
             var alreadyAttached = Set<TEntity>().Local.FirstOrDefault(x => x.ID == entity.ID);
-            if (alreadyAttached == null)
+
+            if(alreadyAttached == null)
             {
                 //attach new entity
                 Set<TEntity>().Attach(entity);

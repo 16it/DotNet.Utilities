@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
 {
+    using DotNet2.Utilities.Exception;
     using DotNet2.Utilities.Operator;
-    using YanZhiwei.DotNet2.Utilities.Core;
 
     /// <summary>
     /// FrameworkException辅助类

@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet.Core.Log
 {
     using Config;
-    using DotNet2.Utilities.DataOperator;
+    using DotNet2.Utilities.Operator;
     using log4net;
     using log4net.Config;
     using System;
@@ -18,7 +18,7 @@
         static Log4NetHelper()
         {
             string _log4NetXmlConfg = CachedConfigContext.Current.ConfigService.GetConfig("Log4net");
-            ValidateHelper.Begin().NotNullOrEmpty(_log4NetXmlConfg, "log4net配置文件");
+            ValidateOperator.Begin().NotNullOrEmpty(_log4NetXmlConfg, "log4net配置文件");
             using(MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(_log4NetXmlConfg)))
             {
                 XmlConfigurator.Configure(ms);

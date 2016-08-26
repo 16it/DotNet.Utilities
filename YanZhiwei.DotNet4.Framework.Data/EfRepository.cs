@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet4.Framework.Data
 {
     using DotNet.Framework.Contract;
-    using DotNet2.Utilities.DataOperator;
+    using DotNet2.Utilities.Operator;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -35,7 +35,7 @@
         /// 备注：
         public EfRepository(IDbContext context)
         {
-            ValidateHelper.Begin().NotNull(context, "context");
+            ValidateOperator.Begin().NotNull(context, "context");
             database = context;
         }
 
@@ -102,7 +102,7 @@
         {
             try
             {
-                ValidateHelper.Begin().NotNull(entity, "entity");
+                ValidateOperator.Begin().NotNull(entity, "entity");
                 Entities.Remove(entity);
                 database.SaveChanges();
             }
@@ -122,7 +122,7 @@
         {
             try
             {
-                ValidateHelper.Begin().NotNull(entities, "entities");
+                ValidateOperator.Begin().NotNull(entities, "entities");
 
                 foreach(var entity in entities)
                     Entities.Remove(entity);
@@ -157,7 +157,7 @@
         {
             try
             {
-                ValidateHelper.Begin().NotNull(entity, "entities");
+                ValidateOperator.Begin().NotNull(entity, "entities");
                 Entities.Add(entity);
                 database.SaveChanges();
             }
@@ -177,7 +177,7 @@
         {
             try
             {
-                ValidateHelper.Begin().NotNull(entities, "entities");
+                ValidateOperator.Begin().NotNull(entities, "entities");
 
                 foreach(var entity in entities)
                     Entities.Add(entity);
@@ -200,7 +200,7 @@
         {
             try
             {
-                ValidateHelper.Begin().NotNull(entity, "entity");
+                ValidateOperator.Begin().NotNull(entity, "entity");
                 database.SaveChanges();
             }
             catch(DbEntityValidationException dbEx)

@@ -14,7 +14,6 @@ namespace System.Runtime.CompilerServices
 
 #endif
 
-
 #if RUNNING_ON_2
 
 namespace System

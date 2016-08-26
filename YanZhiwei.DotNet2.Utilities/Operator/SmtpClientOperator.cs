@@ -1,7 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
     using Model;
-    using System;
     using System.Net.Mail;
     using System.Text;
 

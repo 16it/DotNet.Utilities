@@ -1,6 +1,5 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
-    using Common;
     using System;
     using System.IO;
     using System.Reflection;

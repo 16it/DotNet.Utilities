@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using YanZhiwei.DotNet.MVC.AdminPanel.Contract.Model;
 using YanZhiwei.DotNet.MVC.AdminPanel.UI.App_Start;
 using YanZhiwei.DotNet.MVC.AdminPanel.UI.Models;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet.MVC.AdminPanel.UI.Controllers
 {
@@ -34,27 +34,23 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel.UI.Controllers
 
             if(_curUser != null)
             {
-                IEnumerable<UserMenu> _userMenuList = ServiceContext.Current.AdminPanelService.GetMenuByUserId(_curUser.ID);
-
-                if(_userMenuList != null)
-                {
-                    _userMenuList = _userMenuList.Where(c => c.menuparentid == id).ToList();
-                    List<SysModuleNavModel> _sysModulNavList = new List<SysModuleNavModel>();
-
-                    foreach(UserMenu item in _userMenuList)
-                    {
-                        SysModuleNavModel _sysMenu = new SysModuleNavModel();
-                        _sysMenu.id = item.menuid.ToStringOrDefault(string.Empty);
-                        _sysMenu.text = item.menuname.ToStringOrDefault(string.Empty).Trim();
-                        _sysMenu.attributes = item.linkaddress.ToStringOrDefault(string.Empty).Trim();
-                        _sysMenu.iconCls = item.icon.Trim();
-                        _sysMenu.state = item.menuparentid == 0 ? "closed" : "open";
-                        _sysModulNavList.Add(_sysMenu);
-                    }
-
-                    return Json(_sysModulNavList);
-                }
-
+                //IEnumerable<UserMenu> _userMenuList = ServiceContext.Current.AdminPanelService.GetMenuByUserId(_curUser.ID);
+                //if (_userMenuList != null)
+                //{
+                //    _userMenuList = _userMenuList.Where(c => c.menuparentid == id).ToList();
+                //    List<SysModuleNavModel> _sysModulNavList = new List<SysModuleNavModel>();
+                //    foreach (UserMenu item in _userMenuList)
+                //    {
+                //        SysModuleNavModel _sysMenu = new SysModuleNavModel();
+                //        _sysMenu.id = item.menuid.ToStringOrDefault(string.Empty);
+                //        _sysMenu.text = item.menuname.ToStringOrDefault(string.Empty).Trim();
+                //        _sysMenu.attributes = item.linkaddress.ToStringOrDefault(string.Empty).Trim();
+                //        _sysMenu.iconCls = item.icon.Trim();
+                //        _sysMenu.state = item.menuparentid == 0 ? "closed" : "open";
+                //        _sysModulNavList.Add(_sysMenu);
+                //    }
+                //    return Json(_sysModulNavList);
+                //}
                 return Json("0", JsonRequestBehavior.AllowGet);
             }
             else

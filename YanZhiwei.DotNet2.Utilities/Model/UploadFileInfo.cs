@@ -13,7 +13,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 文件夹
         /// </summary>
@@ -22,7 +22,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         ///  上一级文件
         /// </summary>
@@ -31,7 +31,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         ///  文件名称
         /// </summary>
@@ -40,7 +40,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 文件后缀
         /// </summary>

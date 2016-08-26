@@ -1,11 +1,9 @@
 ﻿namespace YanZhiwei.DotNet.Framework.Contract
 {
+    using DotNet2.Utilities.Operator;
     using System;
     using System.Collections.Generic;
     using System.Runtime.Remoting.Messaging;
-
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
-    using YanZhiwei.DotNet3._5.Utilities.Common;
 
     /// <summary>
     /// 服务调用上下文，主要传输IP，操作人，认证等数据，可用于WCF传输用
@@ -31,6 +29,7 @@
         比如EF的数据上下文，每次请求都会生成一个线程处理请求，这时候创建一个数据上下文对象给不同的函数使用，最后一起提交就完全可以避免事务的问题。
         当然也许有人会问我可以创建一个变量来使用，同样可以达到一样的目的，这当然也是可以的，只是这个对象你也是可以和其他线程数据进行交互的，这就违背了线程内唯一的概念了。
         */
+
         /// <summary>
         /// ServiceCallContext 数据槽
         /// </summary>
@@ -86,7 +85,7 @@
             }
             set
             {
-                ValidateHelper.Begin().NotNull(value, "索引值").IsSerializable(value);
+                ValidateOperator.Begin().NotNull(value, "索引值").IsSerializable(value);
                 base[key] = value;
             }
         }

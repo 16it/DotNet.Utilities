@@ -4,9 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-
     using YanZhiwei.DotNet.Core.Cache;
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
+    using YanZhiwei.DotNet2.Utilities.Encryptor;
     using YanZhiwei.DotNet2.Utilities.Model;
     using YanZhiwei.DotNet4.Utilities.Common;
     using YanZhiwei.DotNet4.Utilities.Core;

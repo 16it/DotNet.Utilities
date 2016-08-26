@@ -8,6 +8,7 @@
 
     using YanZhiwei.DotNet2.Utilities.DataOperator;
     using YanZhiwei.DotNet2.Utilities.Enum;
+    using DotNet2.Utilities.Common;
 
     /// <summary>
     /// ListBox帮助类

@@ -49,7 +49,7 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 
         private void button4_Click(object sender, EventArgs e)
         {
-            throw new Exception("测试:" + DateTime.Now.FormatDate(1));
+            throw new System.Exception("测试:" + DateTime.Now.FormatDate(1));
         }
 
         private void button5_Click(object sender, EventArgs e)

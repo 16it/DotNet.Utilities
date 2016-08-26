@@ -114,7 +114,6 @@
             return _bytes;
         }
 
-
         #endregion Methods
     }
 }

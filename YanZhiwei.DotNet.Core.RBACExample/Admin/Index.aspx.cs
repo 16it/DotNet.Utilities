@@ -2,7 +2,7 @@
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using YanZhiwei.DotNet.Core.RBAC.Model;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet.Core.RBACExample.Admin
 {

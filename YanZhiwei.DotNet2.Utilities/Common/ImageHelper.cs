@@ -1,14 +1,13 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Enum;
+    using Operator;
     using System;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
     using System.IO;
     using System.Runtime.InteropServices;
-
-    using Enum;
-    using Operator;
 
     /// <summary>
     ///Image帮助类

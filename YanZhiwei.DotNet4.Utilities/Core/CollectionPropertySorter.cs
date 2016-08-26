@@ -7,6 +7,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Core;
+using YanZhiwei.DotNet2.Utilities.Operator;
+using YanZhiwei.DotNet2.Utilities.Exception;
 
 namespace YanZhiwei.DotNet4.Utilities.Core
 {
@@ -26,7 +28,7 @@ namespace YanZhiwei.DotNet4.Utilities.Core
         /// <param name="sortDirection">排序方向</param>
         public static IOrderedEnumerable<T> OrderBy(IEnumerable<T> source, string propertyName, ListSortDirection sortDirection)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(propertyName, "属性名称");
+            ValidateOperator.Begin().NotNullOrEmpty(propertyName, "属性名称");
             dynamic expression = GetKeySelector(propertyName);
             dynamic keySelector = expression.Compile();
             return sortDirection == ListSortDirection.Ascending
@@ -42,7 +44,7 @@ namespace YanZhiwei.DotNet4.Utilities.Core
         /// <param name="sortDirection">排序方向</param>
         public static IOrderedEnumerable<T> ThenBy(IOrderedEnumerable<T> source, string propertyName, ListSortDirection sortDirection)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(propertyName, "属性名称");
+            ValidateOperator.Begin().NotNullOrEmpty(propertyName, "属性名称");
             dynamic expression = GetKeySelector(propertyName);
             dynamic keySelector = expression.Compile();
             return sortDirection == ListSortDirection.Ascending
@@ -59,7 +61,7 @@ namespace YanZhiwei.DotNet4.Utilities.Core
         /// <returns></returns>
         public static IOrderedQueryable<T> OrderBy(IQueryable<T> source, string propertyName, ListSortDirection sortDirection)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(propertyName, "属性名称");
+            ValidateOperator.Begin().NotNullOrEmpty(propertyName, "属性名称");
             dynamic keySelector = GetKeySelector(propertyName);
             return sortDirection == ListSortDirection.Ascending
                    ? Queryable.OrderBy(source, keySelector)
@@ -75,7 +77,7 @@ namespace YanZhiwei.DotNet4.Utilities.Core
         /// <returns></returns>
         public static IOrderedQueryable<T> ThenBy(IOrderedQueryable<T> source, string propertyName, ListSortDirection sortDirection)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(propertyName, "属性名称");
+            ValidateOperator.Begin().NotNullOrEmpty(propertyName, "属性名称");
             dynamic keySelector = GetKeySelector(propertyName);
             return sortDirection == ListSortDirection.Ascending
                    ? Queryable.ThenBy(source, keySelector)

@@ -1,15 +1,15 @@
 ﻿namespace YanZhiwei.DotNet.Core.RBAC
 {
+    using DotNet2.Utilities.DataBase;
+    using DotNet2.Utilities.Operator;
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
     using System.Data.SqlClient;
-
     using YanZhiwei.DotNet.Core.RBAC.Model;
     using YanZhiwei.DotNet2.Utilities.DataOperator;
-    using YanZhiwei.DotNet2.Utilities.Core;
-
+    using YanZhiwei.DotNet2.Utilities.Common;
     /// <summary>
     /// 关于角色权限基于Sql Server实现
     /// </summary>
@@ -43,7 +43,7 @@
         /// 备注：
         public SqlServerProvider(string connectString)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(connectString, "Sql Server连接字符串");
+            ValidateOperator.Begin().NotNullOrEmpty(connectString, "Sql Server连接字符串");
             ConnectString = connectString;
             sqlHelper = new SqlServerDataOperator(connectString);
         }
@@ -65,7 +65,7 @@
         /// 备注：
         public bool CreateRole(string roleName, string roleCode, string[] modulePermissionId)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(roleName, "角色名称").NotNullOrEmpty(roleCode, "角色代码").NotNull(modulePermissionId, "角色对应模块操作标识ID数组");
+            ValidateOperator.Begin().NotNullOrEmpty(roleName, "角色名称").NotNullOrEmpty(roleCode, "角色代码").NotNull(modulePermissionId, "角色对应模块操作标识ID数组");
             bool _result = false;
             using(SqlServerTransaction sqlTran = sqlHelper.BeginTranscation())
             {
@@ -109,7 +109,7 @@
         /// 备注：
         public bool DeleteRoleByCode(string roleCodes)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(roleCodes, "角色代码,eg:1,2,3");
+            ValidateOperator.Begin().NotNullOrEmpty(roleCodes, "角色代码,eg:1,2,3");
             string _sql = "exec('delete from Roles where R_Code in ('+@code+')')";
             SqlParameter[] _paramter = new SqlParameter[1];
             _paramter[0] = new SqlParameter("@code", SqlDbType.VarChar, -1)
@@ -291,7 +291,7 @@
         public List<T> GetRolePermission<T>(string roleCode)
         where T : RolePermission, new()
         {
-            ValidateHelper.Begin().NotNullOrEmpty(roleCode, "角色代码");
+            ValidateOperator.Begin().NotNullOrEmpty(roleCode, "角色代码");
             string _sql = "select [Id],[R_Code],[MP_Id] from RolePermissions where R_Code=@code";
             DbParameter[] _paramter = new DbParameter[1];
             _paramter[0] = new SqlParameter("@code", roleCode);
@@ -325,7 +325,7 @@
         /// 备注：
         public bool UpdateRole(string roleName, string roleCode, string[] modulePermissionId)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(roleName, "角色名称").NotNullOrEmpty(roleCode, "角色代码").NotNull(modulePermissionId, "角色对应模块操作标识ID数组");
+            ValidateOperator.Begin().NotNullOrEmpty(roleName, "角色名称").NotNullOrEmpty(roleCode, "角色代码").NotNull(modulePermissionId, "角色对应模块操作标识ID数组");
             bool _result = false;
             using(SqlServerTransaction sqlTran = sqlHelper.BeginTranscation())
             {

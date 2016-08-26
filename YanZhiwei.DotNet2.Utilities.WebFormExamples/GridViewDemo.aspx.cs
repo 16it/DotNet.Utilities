@@ -2,6 +2,7 @@
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.WebForm;
@@ -14,7 +15,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
 
         protected override void OnInit(EventArgs e)
         {
-            SetDataPager(gvPage, btnPFirst, btnPNext, btnPPre, btnPLast, drpPShowCount, () => InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderWay.Asc, string.Empty, 1, drpPShowCount.Text.ToIntOrDefault(10)));
+            SetDataPager(gvPage, btnPFirst, btnPNext, btnPPre, btnPLast, drpPShowCount, () => InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderType.Asc, string.Empty, 1, drpPShowCount.Text.ToIntOrDefault(10)));
             gvDemo.SetOwnDataPager(10, PagerButtons.Numeric, gv => LoadProductListView(gv));
             gvDemo.SetPagerTemplate(gv => LoadProductListView(gv));
             gvDemo.SetColumnOrderBy((gv, orderByColumnName, orderWay) =>
@@ -33,11 +34,11 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             if(!Page.IsPostBack)
             {
                 gvDemo.AllowPaging = true;
-                gvDemo.InitializeColumnOrderBy("ProductID", OrderWay.Desc);
-                gvPage.InitializeColumnOrderBy("ProductID", OrderWay.Desc);
+                gvDemo.InitializeColumnOrderBy("ProductID", OrderType.Desc);
+                gvPage.InitializeColumnOrderBy("ProductID", OrderType.Desc);
                 LoadProductListView(gvDemo);
                 //--------------------------------------
-                InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderWay.Asc, string.Empty, 1, 10);
+                InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderType.Asc, string.Empty, 1, 10);
                 //LoadProductPageView(gvPage, 1, Convert.ToInt16(drpPShowCount.Text), "ProductID", OrderWay.Asc);
             }
         }
@@ -76,23 +77,23 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                         break;
                 }
 
-                InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderWay.Asc, string.Empty, _pageIndex, 10);
+                InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderType.Asc, string.Empty, _pageIndex, 10);
             }
         }
 
         private void DrpPShowCount_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadProductPageView(gvPage, 1, Convert.ToInt16(drpPShowCount.Text), "ProductID", OrderWay.Asc);
+            LoadProductPageView(gvPage, 1, Convert.ToInt16(drpPShowCount.Text), "ProductID", OrderType.Asc);
         }
 
-        private void InitializeDataPager(GridView gridView, string tableName, string fields, string orderByColumn, OrderWay orderWay, string sqlWhere, int pageIndex, int pageSize)
+        private void InitializeDataPager(GridView gridView, string tableName, string fields, string orderByColumn, OrderType orderWay, string sqlWhere, int pageIndex, int pageSize)
         {
             var _pageResult = sqlHelper.StoreExecutePageQuery(tableName, fields, string.Format("{0} {1}", orderByColumn, orderWay), sqlWhere, pageSize, pageIndex);
             lblPCount.Text = _pageResult.Item2.ToString();
             lblPCurIndexValue.Text = pageIndex.ToString();
             lblPTotalCountValue.Text = _pageResult.Item3.ToString();
 
-            if(pageIndex == 1) //当前页是否为首页
+            if(pageIndex == 1)   //当前页是否为首页
             {
                 btnPFirst.Enabled = false;
                 btnPPre.Enabled = false;
@@ -103,7 +104,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPPre.Enabled = true;
             }
 
-            if(pageIndex == _pageResult.Item2) //当前页是否为尾页
+            if(pageIndex == _pageResult.Item2)   //当前页是否为尾页
             {
                 btnPNext.Enabled = false;
                 btnPLast.Enabled = false;
@@ -120,7 +121,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             gridView.SetDataSource(_pageResult.Item1);
         }
 
-        private void LoadProductListView(GridView girdView, string orderByColumnName, OrderWay orderWay)
+        private void LoadProductListView(GridView girdView, string orderByColumnName, OrderType orderWay)
         {
             try
             {
@@ -130,7 +131,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 _dataView.Sort = string.Format("{0} {1}", orderByColumnName, orderWay);
                 girdView.SetDataSource(_dataView);
             }
-            catch(Exception ex)
+            catch(System.Exception ex)
             {
                 ClientScriptHelper.Alert(ex.Message.Trim());
             }
@@ -144,20 +145,20 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 DataTable _table = sqlHelper.ExecuteDataTable(_sql, null);
                 girdView.SetDataSource(_table);
             }
-            catch(Exception ex)
+            catch(System.Exception ex)
             {
                 ClientScriptHelper.Alert(ex.Message.Trim());
             }
         }
 
-        private void LoadProductPageView(GridView gvPage, int pageIndex, int pageSize, string orderByColumn, OrderWay orderWay)
+        private void LoadProductPageView(GridView gvPage, int pageIndex, int pageSize, string orderByColumn, OrderType orderWay)
         {
             var _pageResult = sqlHelper.StoreExecutePageQuery("Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", string.Format("{0} {1}", orderByColumn, orderWay), "", pageSize, pageIndex);
             lblPCount.Text = _pageResult.Item2.ToString();
             lblPCurIndexValue.Text = pageIndex.ToString();
             lblPTotalCountValue.Text = _pageResult.Item3.ToString();
 
-            if(pageIndex == 1) //当前页是否为首页
+            if(pageIndex == 1)   //当前页是否为首页
             {
                 btnPFirst.Enabled = false;
                 btnPPre.Enabled = false;
@@ -168,7 +169,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPPre.Enabled = true;
             }
 
-            if(pageIndex == _pageResult.Item2) //当前页是否为尾页
+            if(pageIndex == _pageResult.Item2)   //当前页是否为尾页
             {
                 btnPNext.Enabled = false;
                 btnPLast.Enabled = false;

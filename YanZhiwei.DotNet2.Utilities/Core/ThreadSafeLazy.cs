@@ -14,6 +14,7 @@
          * 参考：
          * 1. http://stackoverflow.com/questions/3207580/implementation-of-lazyt-for-net-3-5
          */
+
         /// <summary>
         /// 委托
         /// </summary>
@@ -58,7 +59,7 @@
         {
             get
             {
-                lock (syncRoot)
+                lock(syncRoot)
                 {
                     return isValueCreated;
                 }
@@ -72,11 +73,11 @@
         {
             get
             {
-                if (!isValueCreated)
+                if(!isValueCreated)
                 {
-                    lock (syncRoot)
+                    lock(syncRoot)
                     {
-                        if (!isValueCreated)
+                        if(!isValueCreated)
                         {
                             value = createValue();
                             isValueCreated = true;

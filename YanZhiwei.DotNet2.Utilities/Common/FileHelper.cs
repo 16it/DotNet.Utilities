@@ -1,6 +1,5 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
-    using Core;
     using Microsoft.Win32;
     using Model;
     using Operator;
@@ -750,7 +749,7 @@
                 string _path = _pathQueue.Dequeue();
                 DirectorySecurity _pathSecurity = new DirectorySecurity(_path, AccessControlSections.Access);
 
-                if(!_pathSecurity.AreAccessRulesProtected)                 //文件夹权限是否可访问
+                if(!_pathSecurity.AreAccessRulesProtected)                  //文件夹权限是否可访问
                 {
                     DirectoryInfo _directoryInfo = new DirectoryInfo(_path);
 

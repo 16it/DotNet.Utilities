@@ -1,8 +1,7 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.Core
 {
+    using DotNet2.Utilities.Collection;
     using System.Collections;
-
-    using YanZhiwei.DotNet2.Utilities.Core;
 
     /// <summary>
     /// 任务管理中心
@@ -16,6 +15,7 @@
          *参考：
          *1. http://www.cnblogs.com/Googler/archive/2010/06/05/1752213.html
          */
+
         /// <summary>
         /// 任务线程安全集合
         /// </summary>
@@ -42,7 +42,10 @@
         /// </summary>
         public static int Count
         {
-            get { return taskScheduler.Count; }
+            get
+            {
+                return taskScheduler.Count;
+            }
         }
 
         #endregion Properties
@@ -55,7 +58,7 @@
         /// <param name="task">Task</param>
         public static void DeRegister(Job task)
         {
-            lock (taskScheduler)
+            lock(taskScheduler)
             {
                 taskScheduler.Remove(task);
             }
@@ -86,7 +89,7 @@
         /// <param name="task">Task</param>
         public static void Register(Job task)
         {
-            lock (taskScheduler)
+            lock(taskScheduler)
             {
                 taskScheduler.Add(task);
             }
@@ -97,7 +100,7 @@
         /// </summary>
         public static void TerminateAllTask()
         {
-            lock (taskScheduler)
+            lock(taskScheduler)
             {
                 taskScheduler.ForEach(task => task.Close());
                 taskScheduler.Clear();

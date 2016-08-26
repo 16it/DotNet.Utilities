@@ -1,10 +1,9 @@
 ﻿namespace YanZhiwei.DotNet.QQWry.Utilities
 {
+    using DotNet2.Utilities.Operator;
     using System;
     using System.IO;
     using System.Text;
-
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// QQwry纯真IP数据库辅助类
@@ -38,9 +37,9 @@
         /// 备注：
         public QQWryLocator(string dataPath)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(dataPath, "QQwry纯真IP数据库路径").IsFilePath(dataPath, "QQwry纯真IP数据库");
+            ValidateOperator.Begin().NotNullOrEmpty(dataPath, "QQwry纯真IP数据库路径").IsFilePath(dataPath, "QQwry纯真IP数据库");
             qqWryRecCount = LoadQQWryData(dataPath);
-            ValidateHelper.Begin().CheckGreaterThan<long>(qqWryRecCount, "非QQwry纯真IP数据库", 1, true);
+            ValidateOperator.Begin().CheckGreaterThan<long>(qqWryRecCount, "非QQwry纯真IP数据库", 1, true);
         }
 
         #endregion Constructors
@@ -57,7 +56,7 @@
         public IPLocation Query(string ip)
         {
             ip = ip.Trim();
-            ValidateHelper.Begin().IsIp(ip, "IP地址格式");
+            ValidateOperator.Begin().IsIp(ip, "IP地址格式");
             IPLocation _ipLocation = new IPLocation()
             {
                 IP = ip

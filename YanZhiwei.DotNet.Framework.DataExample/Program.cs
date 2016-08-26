@@ -1,8 +1,6 @@
 ﻿using PetaPoco;
 using System;
 using System.Collections.Generic;
-using YanZhiwei.DotNet.Core.Cache;
-using YanZhiwei.DotNet.Core.ConfigExamples;
 using YanZhiwei.DotNet.Framework.Contract;
 
 namespace YanZhiwei.DotNet.Framework.DataExample
@@ -13,7 +11,6 @@ namespace YanZhiwei.DotNet.Framework.DataExample
         {
             try
             {
-                CacheConfigContext.SetCacheConfig(CachedConfigContext.Current.CacheConfig);
                 //Database db = new Database(@"Data Source=YANZHIWEI-IT-PC\SQLEXPRESS;Initial Catalog=pubs;Persist Security Info=True;User ID=sa;Password=sasa", DbProviderFactories.GetFactory("System.Data.SqlClient"));
                 //IEnumerable<Employee> _result = db.Query<Employee>("select * from employee");
                 ServiceCallContext.Current.Operater = new Operater()
@@ -24,9 +21,9 @@ namespace YanZhiwei.DotNet.Framework.DataExample
                     Token = Guid.NewGuid(),
                     UserId = 1
                 };
-                using (PubDbContext db = new PubDbContext())
+                using(PubDbContext db = new PubDbContext())
                 {
-                      List<Employee> _result2 = db.Fetch<Employee>("select * from [employee] where job_id>@0 and hire_date>@1", 2, "1953-08-30 00:00:00.000");
+                    List<Employee> _result2 = db.Fetch<Employee>("select * from [employee] where job_id>@0 and hire_date>@1", 2, "1953-08-30 00:00:00.000");
                     List<Employee> _result = db.ToCacheList<Employee>("select * from [employee] where job_id>@0 and hire_date>@1", 2, "1953-08-30 00:00:00.000");
                     //Console.WriteLine(_result == null ? "0" : _result.Count.ToString());
                     Page<Employee> _pagedResult = db.Page<Employee>(1, 20, "select * from employee ORDER BY emp_id DESC");
@@ -43,17 +40,14 @@ namespace YanZhiwei.DotNet.Framework.DataExample
                     //_author.zip = "94609";
                     //_author.contract = true;
                     //db.Insert(_author);
-
                     db.Update<Authors>("SET au_lname=@0 WHERE au_id=@1", "zhiwei223", "172-32-2222");
                 }
-
-                using (PubDbContext db = new PubDbContext())
+                using(PubDbContext db = new PubDbContext())
                 {
                     db.Update<Authors>("SET au_lname=@0 WHERE au_id=@1", "zhiwei223", "172-32-2222");
-
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

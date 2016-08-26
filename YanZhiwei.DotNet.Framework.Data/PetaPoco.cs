@@ -22,7 +22,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Text.RegularExpressions;
 using YanZhiwei.DotNet.Framework.Data;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace PetaPoco
 {
@@ -102,11 +102,13 @@ namespace PetaPoco
             get;
             private set;
         }
+
         public string sequenceName
         {
             get;
             set;
         }
+
         public bool autoIncrement
         {
             get;
@@ -130,26 +132,31 @@ namespace PetaPoco
             get;
             set;
         }
+
         public long TotalPages
         {
             get;
             set;
         }
+
         public long TotalItems
         {
             get;
             set;
         }
+
         public long ItemsPerPage
         {
             get;
             set;
         }
+
         public List<T> Items
         {
             get;
             set;
         }
+
         public object Context
         {
             get;
@@ -180,16 +187,19 @@ namespace PetaPoco
             get;
             set;
         }
+
         public string PrimaryKey
         {
             get;
             set;
         }
+
         public bool AutoIncrement
         {
             get;
             set;
         }
+
         public string SequenceName
         {
             get;
@@ -527,7 +537,7 @@ namespace PetaPoco
             {
                 var t = item.GetType();
 
-                if(t.IsEnum)        // PostgreSQL .NET driver wont cast enum to int
+                if(t.IsEnum)         // PostgreSQL .NET driver wont cast enum to int
                 {
                     p.Value = (int)item;
                 }
@@ -553,12 +563,12 @@ namespace PetaPoco
                 {
                     p.Value = ((bool)item) ? 1 : 0;
                 }
-                else if(item.GetType().Name == "SqlGeography")  //SqlGeography is a CLR Type
+                else if(item.GetType().Name == "SqlGeography")   //SqlGeography is a CLR Type
                 {
                     p.GetType().GetProperty("UdtTypeName").SetValue(p, "geography", null); //geography is the equivalent SQL Server Type
                     p.Value = item;
                 }
-                else if(item.GetType().Name == "SqlGeometry")  //SqlGeometry is a CLR Type
+                else if(item.GetType().Name == "SqlGeometry")   //SqlGeometry is a CLR Type
                 {
                     p.GetType().GetProperty("UdtTypeName").SetValue(p, "geometry", null); //geography is the equivalent SQL Server Type
                     p.Value = item;
@@ -802,11 +812,13 @@ namespace PetaPoco
             get;
             set;
         }
+
         public bool EnableNamedParams
         {
             get;
             set;
         }
+
         public bool ForceDateTimesToUtc
         {
             get;
@@ -1883,6 +1895,7 @@ namespace PetaPoco
             get;
             set;
         }
+
         public int OneTimeCommandTimeout
         {
             get;
@@ -1916,6 +1929,7 @@ namespace PetaPoco
                 return _lastSql;
             }
         }
+
         public object[] LastArgs
         {
             get
@@ -2443,21 +2457,25 @@ namespace PetaPoco
             private static MethodInfo fnListGetItem = typeof(List<Func<object, object>>).GetProperty("Item").GetGetMethod();
             private static MethodInfo fnInvoke = typeof(Func<object, object>).GetMethod("Invoke");
             public Type type;
+
             public string[] QueryColumns
             {
                 get;
                 private set;
             }
+
             public TableInfo TableInfo
             {
                 get;
                 private set;
             }
+
             public Dictionary<string, PocoColumn> Columns
             {
                 get;
                 private set;
             }
+
             private Dictionary<string, Delegate> PocoFactories = new Dictionary<string, Delegate>();
         }
 

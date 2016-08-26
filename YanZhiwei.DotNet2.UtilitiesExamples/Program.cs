@@ -1,5 +1,5 @@
 ﻿using System;
-using YanZhiwei.DotNet2.Utilities.Core;
+using YanZhiwei.DotNet2.Utilities.Communication;
 using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 

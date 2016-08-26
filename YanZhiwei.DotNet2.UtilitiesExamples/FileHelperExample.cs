@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet2.UtilitiesExamples
 {

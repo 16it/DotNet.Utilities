@@ -1,10 +1,9 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinForm
 {
+    using Collection;
     using System;
     using System.Collections.Generic;
     using System.Windows.Forms;
-
-    using YanZhiwei.DotNet2.Utilities.Core;
 
     /// <summary>
     /// DataGrid的添加，删除，修改，查询帮助类
@@ -22,13 +21,15 @@
         /// <param name="model">是否添加成功</param>
         /// <returns>操作是否成功</returns>
         public static bool AddObject<T>(this DataGridView gridView, T model)
-            where T : class
+        where T : class
         {
             bool _result = true;
+
             try
             {
                 BindList<T> _bindList = gridView.ToBindList<T>();
-                if (_bindList == null)
+
+                if(_bindList == null)
                 {
                     _bindList = new BindList<T>();
                     _bindList.Add(model);
@@ -39,10 +40,11 @@
                     _bindList.Add(model);
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 _result = false;
             }
+
             return _result;
         }
 
@@ -56,10 +58,12 @@
         public static bool AddObject<T>(this DataGridView gridView, List<T> list)
         {
             bool _result = true;
+
             try
             {
                 BindList<T> _bindList = gridView.ToBindList<T>();
-                if (_bindList == null)
+
+                if(_bindList == null)
                 {
                     _bindList = new BindList<T>(list);
                     SetDataSource<T>(gridView, _bindList);
@@ -67,16 +71,18 @@
                 else
                 {
                     _bindList = gridView.ToBindList<T>();
-                    foreach (T t in list)
+
+                    foreach(T t in list)
                     {
                         _bindList.Add(t);
                     }
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 _result = false;
             }
+
             return _result;
         }
 
@@ -91,11 +97,13 @@
         {
             bool _result = false;
             BindList<T> _source = gridView.ToBindList<T>();
-            if (_source != null)
+
+            if(_source != null)
             {
                 int _index = _source.Find(-1, columnName, key);
                 _result = _index > 0;
             }
+
             return _result;
         }
 
@@ -107,12 +115,13 @@
         /// <param name="gridView">DataGridView</param>
         /// <param name="filter">筛选条件</param>
         public static void Filter<T>(this DataGridView gridView, string filter)
-            where T : class
+        where T : class
         {
-            if (!string.IsNullOrEmpty(filter))
+            if(!string.IsNullOrEmpty(filter))
             {
                 BindingSource _bindSource = gridView.ToBindingSource();
-                if (_bindSource != null)
+
+                if(_bindSource != null)
                 {
                     _bindSource.RemoveFilter();
                     _bindSource.Filter = filter;
@@ -129,20 +138,23 @@
         /// <param name="key">列值</param>
         /// <returns>没有查到返回NULL</returns>
         public static T Find<T>(this DataGridView gridView, string columnName, object key)
-            where T : class
+        where T : class
         {
-            if (!string.IsNullOrEmpty(columnName))
+            if(!string.IsNullOrEmpty(columnName))
             {
                 BindList<T> _source = gridView.ToBindList<T>();
-                if (_source != null)
+
+                if(_source != null)
                 {
                     int _index = _source.Find(-1, columnName, key);
-                    if (_index != -1)
+
+                    if(_index != -1)
                     {
                         return _source[_index];
                     }
                 }
             }
+
             return null;
         }
 
@@ -154,11 +166,13 @@
         /// <param name="match">Predicate</param>
         /// <returns>没有查到返回NULL</returns>
         public static T Find<T>(this DataGridView gridView, Predicate<T> match)
-            where T : class
+        where T : class
         {
             BindList<T> _source = gridView.ToBindList<T>();
-            if (_source != null)
+
+            if(_source != null)
                 return _source.Find(match);
+
             return null;
         }
 
@@ -172,8 +186,10 @@
         public static IList<T> FindAll<T>(this DataGridView gridView, Predicate<T> match)
         {
             BindList<T> _source = gridView.ToBindList<T>();
-            if (_source != null)
+
+            if(_source != null)
                 return _source.FindAll(match);
+
             return null;
         }
 
@@ -186,14 +202,16 @@
         public static bool RemoveObject<T>(this DataGridView gridView)
         {
             bool _result = true;
+
             try
             {
                 SetDataSource<DataGridView>(gridView, null);
             }
-            catch (Exception)
+            catch(Exception)
             {
                 _result = false;
             }
+
             return _result;
         }
 
@@ -207,18 +225,21 @@
         public static bool RemoveObject<T>(this DataGridView gridView, T t)
         {
             bool _result = false;
+
             try
             {
                 BindList<T> _bindList = gridView.ToBindList<T>();
-                if (_bindList != null)
+
+                if(_bindList != null)
                 {
                     _result = _bindList.Remove(t);
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 _result = false;
             }
+
             return _result;
         }
 
@@ -232,18 +253,21 @@
         public static int RemoveObject<T>(this DataGridView gridView, Predicate<T> match)
         {
             int _result = 0;
+
             try
             {
                 BindList<T> _bindList = gridView.ToBindList<T>();
-                if (_bindList != null)
+
+                if(_bindList != null)
                 {
                     _result = _bindList.Remove(match);
                 }
             }
-            catch (Exception)
+            catch(Exception)
             {
                 _result = 0;
             }
+
             return _result;
         }
 
@@ -258,8 +282,10 @@
         {
             BindList<T> _source = null;
             BindingSource _bindSource = (BindingSource)gridView.DataSource;
-            if (_bindSource != null)
+
+            if(_bindSource != null)
                 _source = _bindSource.DataSource as BindList<T>;
+
             return _source;
         }
 
@@ -274,8 +300,10 @@
         {
             int _rowsCount = 0;
             IList<T> _finded = gridView.FindAll<T>(match);
-            if (_finded != null)
+
+            if(_finded != null)
                 _rowsCount = _finded.Count;
+
             return _rowsCount;
         }
 

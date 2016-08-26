@@ -11,10 +11,12 @@
         /// 无
         /// </summary>
         None = 0,
+
         /// <summary>
         /// TCP
         /// </summary>
         TCP = 1,
+
         /// <summary>
         /// UDP
         /// </summary>

@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet2.Utilities.Core;
+using YanZhiwei.DotNet2.Utilities.DataBase;
 
 namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
@@ -115,7 +115,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
                         new SqlParameter("@page", 18),
                         new SqlParameter("@paddress", "zhuzhou")
                     });
-                    throw new Exception("test");
+                    throw new System.Exception("test");
                     SqlHelper.ExecuteNonQuery(tranObj, _sql,
                                               new DbParameter[3]
                     {
@@ -125,7 +125,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
                     });
                     tranObj.CommitTransaction();
                 }
-                catch(Exception ex)
+                catch(System.Exception ex)
                 {
                     tranObj.RollbackTransaction();
                 }

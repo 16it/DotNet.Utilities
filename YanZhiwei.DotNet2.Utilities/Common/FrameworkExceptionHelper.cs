@@ -1,11 +1,11 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Collection;
+    using Exception;
     using Operator;
     using System.Collections;
     using System.IO;
     using System.Xml;
-
-    using YanZhiwei.DotNet2.Utilities.Core;
 
     /// <summary>
     /// FrameworkException 辅助类

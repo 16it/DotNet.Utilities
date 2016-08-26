@@ -1,8 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Collection;
     using System.Collections.Generic;
-
-    using YanZhiwei.DotNet2.Utilities.Core;
 
     /// <summary>
     /// Enumerable 帮助类

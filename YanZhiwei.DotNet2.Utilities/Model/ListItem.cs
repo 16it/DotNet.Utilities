@@ -34,7 +34,8 @@
         /// </summary>
         public string Key
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -42,12 +43,14 @@
         /// </summary>
         public string Value
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
 
-        #region Methods        
+        #region Methods
+
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>

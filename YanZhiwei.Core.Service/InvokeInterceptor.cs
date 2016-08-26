@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using System;
-using YanZhiwei.DotNet2.Utilities.Core;
+using YanZhiwei.DotNet2.Utilities.Exception;
 
 namespace YanZhiwei.DotNet.Core.Service
 {

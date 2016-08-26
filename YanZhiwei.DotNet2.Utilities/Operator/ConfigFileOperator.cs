@@ -1,13 +1,10 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
+    using Enum;
     using System;
     using System.Configuration;
     using System.IO;
     using System.Web.Configuration;
-
-    using DataOperator;
-    using Enum;
-    using Common;
 
     /// <summary>
     /// Config文件操作读取

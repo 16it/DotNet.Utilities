@@ -4,7 +4,6 @@ using System.IO;
 
 namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 {
-
     public class AnimatedGifEncoder
     {
         protected int colorDepth;
@@ -29,42 +28,51 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
         public bool AddFrame(Image im)
         {
-            if ((im == null) || !this.started)
+            if((im == null) || !this.started)
             {
                 return false;
             }
+
             bool flag = true;
+
             try
             {
-                if (!this.sizeSet)
+                if(!this.sizeSet)
                 {
                     this.SetSize(im.Width, im.Height);
                 }
+
                 this.image = im;
                 this.GetImagePixels();
                 this.AnalyzePixels();
-                if (this.firstFrame)
+
+                if(this.firstFrame)
                 {
                     this.WriteLSD();
                     this.WritePalette();
-                    if (this.repeat >= 0)
+
+                    if(this.repeat >= 0)
                     {
                         this.WriteNetscapeExt();
                     }
                 }
+
                 this.WriteGraphicCtrlExt();
                 this.WriteImageDesc();
-                if (!this.firstFrame)
+
+                if(!this.firstFrame)
                 {
                     this.WritePalette();
                 }
+
                 this.WritePixels();
                 this.firstFrame = false;
             }
-            catch (IOException)
+            catch(IOException)
             {
                 flag = false;
             }
+
             return flag;
         }
 
@@ -76,16 +84,19 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             NeuQuant quant = new NeuQuant(this.pixels, length, this.sample);
             this.colorTab = quant.Process();
             int num3 = 0;
-            for (int i = 0; i < num2; i++)
+
+            for(int i = 0; i < num2; i++)
             {
                 int index = quant.Map(this.pixels[num3++] & 0xff, this.pixels[num3++] & 0xff, this.pixels[num3++] & 0xff);
                 this.usedEntry[index] = true;
-                this.indexedPixels[i] = (byte) index;
+                this.indexedPixels[i] = (byte)index;
             }
+
             this.pixels = null;
             this.colorDepth = 8;
             this.palSize = 7;
-            if (this.transparent != Color.Empty)
+
+            if(this.transparent != Color.Empty)
             {
                 this.transIndex = this.FindClosest(this.transparent);
             }
@@ -93,29 +104,33 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
         protected int FindClosest(Color c)
         {
-            if (this.colorTab == null)
+            if(this.colorTab == null)
             {
                 return -1;
             }
+
             int r = c.R;
             int g = c.G;
             int b = c.B;
             int num4 = 0;
             int num5 = 0x1000000;
             int length = this.colorTab.Length;
-            for (int i = 0; i < length; i++)
+
+            for(int i = 0; i < length; i++)
             {
                 int num8 = r - (this.colorTab[i++] & 0xff);
                 int num9 = g - (this.colorTab[i++] & 0xff);
                 int num10 = b - (this.colorTab[i] & 0xff);
                 int num11 = ((num8 * num8) + (num9 * num9)) + (num10 * num10);
                 int index = i / 3;
-                if (this.usedEntry[index] && (num11 < num5))
+
+                if(this.usedEntry[index] && (num11 < num5))
                 {
                     num5 = num11;
                     num4 = index;
                 }
             }
+
             return num4;
         }
 
@@ -123,7 +138,8 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         {
             int width = this.image.Width;
             int height = this.image.Height;
-            if ((width != this.width) || (height != this.height))
+
+            if((width != this.width) || (height != this.height))
             {
                 Image image = new Bitmap(this.width, this.height);
                 Graphics graphics = Graphics.FromImage(image);
@@ -131,12 +147,14 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
                 this.image = image;
                 graphics.Dispose();
             }
+
             this.pixels = new byte[(3 * this.image.Width) * this.image.Height];
             int index = 0;
             Bitmap bitmap = new Bitmap(this.image);
-            for (int i = 0; i < this.image.Height; i++)
+
+            for(int i = 0; i < this.image.Height; i++)
             {
-                for (int j = 0; j < this.image.Width; j++)
+                for(int j = 0; j < this.image.Width; j++)
                 {
                     Color pixel = bitmap.GetPixel(j, i);
                     this.pixels[index] = pixel.R;
@@ -168,12 +186,12 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
         public void SetDelay(int ms)
         {
-            this.delay = (int) Math.Round((double) (((float) ms) / 10f));
+            this.delay = (int)Math.Round((double)(((float)ms) / 10f));
         }
 
         public void SetDispose(int code)
         {
-            if (code >= 0)
+            if(code >= 0)
             {
                 this.dispose = code;
             }
@@ -181,24 +199,25 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
         public void SetFrameRate(float fps)
         {
-            if (fps != 0f)
+            if(fps != 0f)
             {
-                this.delay = (int) Math.Round((double) (100f / fps));
+                this.delay = (int)Math.Round((double)(100f / fps));
             }
         }
 
         public void SetQuality(int quality)
         {
-            if (quality < 1)
+            if(quality < 1)
             {
                 quality = 1;
             }
+
             this.sample = quality;
         }
 
         public void SetRepeat(int iter)
         {
-            if (iter >= 0)
+            if(iter >= 0)
             {
                 this.repeat = iter;
             }
@@ -206,18 +225,21 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
         public void SetSize(int w, int h)
         {
-            if (!this.started || this.firstFrame)
+            if(!this.started || this.firstFrame)
             {
                 this.width = w;
                 this.height = h;
-                if (this.width < 1)
+
+                if(this.width < 1)
                 {
                     this.width = 320;
                 }
-                if (this.height < 1)
+
+                if(this.height < 1)
                 {
                     this.height = 240;
                 }
+
                 this.sizeSet = true;
             }
         }
@@ -241,7 +263,8 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             this.Memory.WriteByte(0x21);
             this.Memory.WriteByte(0xf9);
             this.Memory.WriteByte(4);
-            if (this.transparent == Color.Empty)
+
+            if(this.transparent == Color.Empty)
             {
                 num = 0;
                 num2 = 0;
@@ -251,12 +274,14 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
                 num = 1;
                 num2 = 2;
             }
-            if (this.dispose >= 0)
+
+            if(this.dispose >= 0)
             {
                 num2 = this.dispose & 7;
             }
+
             num2 = num2 << 2;
-            this.Memory.WriteByte(Convert.ToByte((int) (num2 | num)));
+            this.Memory.WriteByte(Convert.ToByte((int)(num2 | num)));
             this.WriteShort(this.delay);
             this.Memory.WriteByte(Convert.ToByte(this.transIndex));
             this.Memory.WriteByte(0);
@@ -269,13 +294,14 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             this.WriteShort(0);
             this.WriteShort(this.width);
             this.WriteShort(this.height);
-            if (this.firstFrame)
+
+            if(this.firstFrame)
             {
                 this.Memory.WriteByte(0);
             }
             else
             {
-                this.Memory.WriteByte(Convert.ToByte((int) (0x80 | this.palSize)));
+                this.Memory.WriteByte(Convert.ToByte((int)(0x80 | this.palSize)));
             }
         }
 
@@ -283,7 +309,7 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         {
             this.WriteShort(this.width);
             this.WriteShort(this.height);
-            this.Memory.WriteByte(Convert.ToByte((int) (240 | this.palSize)));
+            this.Memory.WriteByte(Convert.ToByte((int)(240 | this.palSize)));
             this.Memory.WriteByte(0);
             this.Memory.WriteByte(0);
         }
@@ -304,7 +330,8 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         {
             this.Memory.Write(this.colorTab, 0, this.colorTab.Length);
             int num = 0x300 - this.colorTab.Length;
-            for (int i = 0; i < num; i++)
+
+            for(int i = 0; i < num; i++)
             {
                 this.Memory.WriteByte(0);
             }
@@ -317,18 +344,18 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
         protected void WriteShort(int value)
         {
-            this.Memory.WriteByte(Convert.ToByte((int) (value & 0xff)));
-            this.Memory.WriteByte(Convert.ToByte((int) ((value >> 8) & 0xff)));
+            this.Memory.WriteByte(Convert.ToByte((int)(value & 0xff)));
+            this.Memory.WriteByte(Convert.ToByte((int)((value >> 8) & 0xff)));
         }
 
         protected void WriteString(string s)
         {
             char[] chArray = s.ToCharArray();
-            for (int i = 0; i < chArray.Length; i++)
+
+            for(int i = 0; i < chArray.Length; i++)
             {
-                this.Memory.WriteByte((byte) chArray[i]);
+                this.Memory.WriteByte((byte)chArray[i]);
             }
         }
     }
 }
-

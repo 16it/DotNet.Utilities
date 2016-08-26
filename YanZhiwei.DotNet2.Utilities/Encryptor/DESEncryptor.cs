@@ -1,7 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Encryptor
 {
     using Common;
-    using DataOperator;
     using System;
     using System.IO;
     using System.Security.Cryptography;

@@ -1,4 +1,6 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Core
+﻿using YanZhiwei.DotNet2.Utilities.DesignPattern;
+
+namespace YanZhiwei.DotNet2.Utilities.Core
 {
     /// <summary>
     /// 定义一个指定类型的单例，该实例的生命周期将跟随整个应用程序。
@@ -13,7 +15,10 @@
         /// </summary>
         public static T Instance
         {
-            get { return instance; }
+            get
+            {
+                return instance;
+            }
             set
             {
                 instance = value;

@@ -1,8 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Model;
     using System;
-
-    using Core;
 
     /// <summary>
     /// 检查 帮助类
@@ -235,7 +234,7 @@
                 _fileClass += data[1].ToString();
                 _fileClass = _fileClass.Trim();
 
-                if(_fileClass == "7173" || _fileClass == "13780") //7173:gif;13780:PNG;
+                if(_fileClass == "7173" || _fileClass == "13780")  //7173:gif;13780:PNG;
                 {
                     return true;
                 }
@@ -288,7 +287,7 @@
             {
                 UriHostNameType _hostType = Uri.CheckHostName(data);
 
-                if(_hostType == UriHostNameType.Unknown) //譬如 "192.168.1.1:8060"或者[2001:0DB8:02de::0e13]:9010
+                if(_hostType == UriHostNameType.Unknown)  //譬如 "192.168.1.1:8060"或者[2001:0DB8:02de::0e13]:9010
                 {
                     Uri _url;
 

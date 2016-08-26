@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet4.Core.CacheProvider
 {
+    using DotNet2.Utilities.Operator;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -8,7 +9,6 @@
     using System.Text.RegularExpressions;
 
     using YanZhiwei.DotNet.Core.Cache;
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// RuntimeMemoryCache 辅助类
@@ -141,12 +141,12 @@
 
         private void CheckedParamter(string key, object value)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(key, "缓存键").NotNull(value, "缓存数据");
+            ValidateOperator.Begin().NotNullOrEmpty(key, "缓存键").NotNull(value, "缓存数据");
         }
 
         private void CheckedParamter(string key)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(key, "缓存键");
+            ValidateOperator.Begin().NotNullOrEmpty(key, "缓存键");
         }
 
         private string GetCacheKey(string key)

@@ -1,13 +1,5 @@
 ﻿namespace YanZhiwei.DotNet.DevExpress12._1.Utilities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Drawing.Drawing2D;
-    using System.IO;
-    using System.Linq;
-    using System.Windows.Forms;
-
     using DevExpress.Utils;
     using DevExpress.Utils.Drawing;
     using DevExpress.XtraBars;
@@ -15,9 +7,15 @@
     using DevExpress.XtraTreeList;
     using DevExpress.XtraTreeList.Nodes;
     using DevExpress.XtraTreeList.ViewInfo;
-
+    using DotNet2.Utilities.Common;
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.IO;
+    using System.Linq;
+    using System.Windows.Forms;
     using YanZhiwei.DotNet.DevExpress12._1.Utilities.Core;
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// Devexpress-TreeList帮助类
@@ -518,12 +516,12 @@
 
             if(_parentNode != null)
             {
-                if(conditionHanlder(_parentNode)) //判断上一级父节点是否符合要求
+                if(conditionHanlder(_parentNode))   //判断上一级父节点是否符合要求
                 {
                     _conditonNode = _parentNode;
                 }
 
-                if(_conditonNode == null) //若没有找到符合要求的节点，递归继续
+                if(_conditonNode == null)   //若没有找到符合要求的节点，递归继续
                     _conditonNode = GetParentNode(_parentNode, conditionHanlder);
             }
 
@@ -550,7 +548,7 @@
 
                     if(_curpublicNode != null)
                     {
-                        if(_curpublicNode.Nodes.Count > 1) //若有多个子节点，则是公共父节点
+                        if(_curpublicNode.Nodes.Count > 1)   //若有多个子节点，则是公共父节点
                         {
                             _publicPNode = _curpublicNode;
                             return false;//跳出递归
@@ -734,7 +732,7 @@
         {
             TreeList _tree = node.TreeList;
 
-            if(checkHanlder(node)) //当前节点符合互斥条件时候
+            if(checkHanlder(node))   //当前节点符合互斥条件时候
             {
                 _tree.DownRecursiveTree(n => n.CheckState = CheckState.Unchecked);
             }

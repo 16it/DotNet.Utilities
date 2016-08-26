@@ -14,12 +14,13 @@ namespace YanZhiwei.DotNet.MVC.AdminPanel
             }
         }
 
-        public IAdminPanelService AdminPanelService
-        {
-            get
-            {
-                return ServiceHelper.CreateService<IAdminPanelService>();
-            }
-        }
+        //public IAdminPanelService AdminPanelService
+        //{
+        //    get
+        //    {
+        //        ServiceHelper _helper = new ServiceHelper();
+        //        return _helper.CreateService<IAdminPanelService>();
+        //    }
+        //}
     }
 }

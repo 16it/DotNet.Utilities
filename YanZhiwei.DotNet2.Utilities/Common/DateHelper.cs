@@ -1,9 +1,8 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Enum;
     using System;
     using System.Globalization;
-
-    using Enum;
 
     /// <summary>
     /// Date 帮助类

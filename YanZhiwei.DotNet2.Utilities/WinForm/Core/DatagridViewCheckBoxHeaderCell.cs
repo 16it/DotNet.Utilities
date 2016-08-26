@@ -58,15 +58,18 @@
         protected override void OnMouseClick(DataGridViewCellMouseEventArgs e)
         {
             Point _point = new Point(e.X + cellLocation.X, e.Y + cellLocation.Y);
-            if (_point.X >= checkBoxLocation.X && _point.X <= checkBoxLocation.X + checkBoxSize.Width && _point.Y >= checkBoxLocation.Y && _point.Y <= checkBoxLocation.Y + checkBoxSize.Height)
+
+            if(_point.X >= checkBoxLocation.X && _point.X <= checkBoxLocation.X + checkBoxSize.Width && _point.Y >= checkBoxLocation.Y && _point.Y <= checkBoxLocation.Y + checkBoxSize.Height)
             {
                 ckstatus = !ckstatus;
-                if (OnCheckBoxClicked != null)
+
+                if(OnCheckBoxClicked != null)
                 {
                     OnCheckBoxClicked(ckstatus);
                     this.DataGridView.InvalidateCell(this);
                 }
             }
+
             base.OnMouseClick(e);
         }
 
@@ -89,19 +92,22 @@
             base.Paint(graphics, clipBounds, cellBounds, rowIndex, dataGridViewElementState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts);
             Point _point = new Point();
             Size _size = CheckBoxRenderer.GetGlyphSize(graphics,
-            CheckBoxState.UncheckedNormal);
+                         CheckBoxState.UncheckedNormal);
             _point.X = cellBounds.Location.X + (cellBounds.Width / 2) - (_size.Width / 2);
             _point.Y = cellBounds.Location.Y + (cellBounds.Height / 2) - (_size.Height / 2);
             cellLocation = cellBounds.Location;
             checkBoxLocation = _point;
             checkBoxSize = _size;
-            if (ckstatus)
+
+            if(ckstatus)
             {
                 allCheckedState = CheckBoxState.CheckedNormal;
             }
-            else {
+            else
+            {
                 allCheckedState = CheckBoxState.UncheckedNormal;
             }
+
             CheckBoxRenderer.DrawCheckBox(graphics, checkBoxLocation, allCheckedState);
         }
 
