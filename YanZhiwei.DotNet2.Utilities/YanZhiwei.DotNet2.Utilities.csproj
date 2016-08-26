@@ -262,7 +262,6 @@
     <Compile Include="Core\ThreadSafeQueue.cs" />
     <Compile Include="Core\UBinder.cs" />
     <Compile Include="Operator\ValidateOperator.cs" />
-    <Compile Include="Common\XMLHelper.cs" />
     <Compile Include="Core\RegexPattern.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
