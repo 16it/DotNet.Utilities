@@ -103,7 +103,7 @@
     <Compile Include="Core\SqlServerTransaction.cs" />
     <Compile Include="Enum\AjaxResultType.cs" />
     <Compile Include="Enum\DataBaseType.cs" />
-    <Compile Include="Enum\ImageCutType.cs" />
+    <Compile Include="Enum\CutType.cs" />
     <Compile Include="Enum\OperationResultType.cs" />
     <Compile Include="Enum\OrderType.cs" />
     <Compile Include="Enum\ProgramMode.cs" />
