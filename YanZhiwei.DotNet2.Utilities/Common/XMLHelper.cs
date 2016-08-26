@@ -1,6 +1,5 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
-    using System;
     using System.Data;
     using System.IO;
     using System.Text;
@@ -9,7 +8,7 @@
     /// <summary>
     /// XML 辅助类
     /// </summary>
-    public static class XMLOpHelper
+    public static class XMLHelper
     {
         #region Methods
 
@@ -37,23 +36,16 @@
         /// <summary>
         /// 将XML文件读取返回成DataSet
         /// </summary>
-        /// <param name="path">xml路径</param>
+        /// <param name="xmlFilePath">xml路径</param>
         /// <returns>返回DataSet，若发生异常则返回NULL</returns>
-        public static DataSet ParseXMLFile(string path)
+        public static DataSet ParseXMLFile(string xmlFilePath)
         {
-            try
-            {
-                XmlDocument _doc = new XmlDocument();
-                _doc.Load(path);
-                XmlNodeReader _xmlReader = new XmlNodeReader(_doc);
-                DataSet _dataSet = new DataSet();
-                _dataSet.ReadXml(_xmlReader);
-                return _dataSet;
-            }
-            catch(Exception)
-            {
-                return null;
-            }
+            XmlDocument _doc = new XmlDocument();
+            _doc.Load(xmlFilePath);
+            XmlNodeReader _xmlReader = new XmlNodeReader(_doc);
+            DataSet _dataSet = new DataSet();
+            _dataSet.ReadXml(_xmlReader);
+            return _dataSet;
         }
 
         #endregion Methods

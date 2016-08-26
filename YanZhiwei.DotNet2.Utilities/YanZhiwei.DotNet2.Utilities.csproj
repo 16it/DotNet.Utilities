@@ -207,7 +207,7 @@
     <Compile Include="Common\UnixEpochHelper.cs" />
     <Compile Include="Common\WGSMercatorLatLonHelper.cs" />
     <Compile Include="Common\WGSGCJLatLonHelper.cs" />
-    <Compile Include="Common\XMLOpHelper.cs" />
+    <Compile Include="Common\XMLHelper.cs" />
     <Compile Include="Enum\DateDiff.cs" />
     <Compile Include="Enum\SerialPortState.cs" />
     <Compile Include="Enum\StripHtmlType.cs" />
