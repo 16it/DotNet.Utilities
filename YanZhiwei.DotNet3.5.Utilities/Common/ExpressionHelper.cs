@@ -17,10 +17,8 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <typeparam name="TProperty">属性</typeparam>
-        /// <param name="keySelector">选择器</param>
-        /// <returns></returns>
-        /// 创建时间:2015-05-26 13:50
-        /// 备注说明:<c>null</c>
+        /// <param name="keySelector">委托</param>
+        /// <returns>属性名称</returns>
         public static string GetTPropertyName<T, TProperty>(this Expression<Func<T, TProperty>> keySelector)
             where T : class
         {

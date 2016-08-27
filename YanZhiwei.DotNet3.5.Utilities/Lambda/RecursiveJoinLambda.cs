@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace YanZhiwei.DotNet3._5.Utilities.Common
+namespace YanZhiwei.DotNet3._5.Utilities.Lambda
 {
     /// <summary>
     /// 递归连接
     /// </summary>
-    public static class RecursiveJoinHelper
+    public static class RecursiveJoinLambda
     {
         /// <summary>
-        /// Recursives the join.
+        /// 递归连接
         /// </summary>
-        /// <typeparam name="TSource">The type of the source.</typeparam>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="source">The source.</param>
-        /// <param name="parentKeySelector">The parent key selector.</param>
-        /// <param name="childKeySelector">The child key selector.</param>
-        /// <param name="resultSelector">The result selector.</param>
-        /// <returns>IEnumerable</returns>
+        /// <param name="source">集合</param>
+        /// <param name="parentKeySelector">委托</param>
+        /// <param name="childKeySelector">委托</param>
+        /// <param name="resultSelector">委托</param>
+        /// <returns>集合</returns>
         public static IEnumerable<TResult> RecursiveJoin<TSource, TKey, TResult>(this IEnumerable<TSource> source,
             Func<TSource, TKey> parentKeySelector,
             Func<TSource, TKey> childKeySelector,
@@ -29,16 +26,13 @@ namespace YanZhiwei.DotNet3._5.Utilities.Common
         }
 
         /// <summary>
-        /// Recursives the join.
+        /// 递归连接
         /// </summary>
-        /// <typeparam name="TSource">The type of the source.</typeparam>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="source">The source.</param>
-        /// <param name="parentKeySelector">The parent key selector.</param>
-        /// <param name="childKeySelector">The child key selector.</param>
-        /// <param name="resultSelector">The result selector.</param>
-        /// <returns>IEnumerable</returns>
+        /// <param name="source">集合</param>
+        /// <param name="parentKeySelector">委托</param>
+        /// <param name="childKeySelector">委托</param>
+        /// <param name="resultSelector">委托</param>
+        /// <returns>集合</returns>
         public static IEnumerable<TResult> RecursiveJoin<TSource, TKey, TResult>(this IEnumerable<TSource> source,
             Func<TSource, TKey> parentKeySelector,
             Func<TSource, TKey> childKeySelector,
@@ -49,17 +43,14 @@ namespace YanZhiwei.DotNet3._5.Utilities.Common
         }
 
         /// <summary>
-        /// Recursives the join.
+        /// 递归连接
         /// </summary>
-        /// <typeparam name="TSource">The type of the source.</typeparam>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="source">The source.</param>
-        /// <param name="parentKeySelector">The parent key selector.</param>
-        /// <param name="childKeySelector">The child key selector.</param>
-        /// <param name="resultSelector">The result selector.</param>
-        /// <param name="comparer">The comparer.</param>
-        /// <returns>IEnumerable</returns>
+        /// <param name="source">集合</param>
+        /// <param name="parentKeySelector">委托</param>
+        /// <param name="childKeySelector">委托</param>
+        /// <param name="resultSelector">委托</param>
+        /// <param name="comparer">IComparer</param>
+        /// <returns>集合</returns>
         public static IEnumerable<TResult> RecursiveJoin<TSource, TKey, TResult>(this IEnumerable<TSource> source,
             Func<TSource, TKey> parentKeySelector,
             Func<TSource, TKey> childKeySelector,
@@ -71,17 +62,14 @@ namespace YanZhiwei.DotNet3._5.Utilities.Common
         }
 
         /// <summary>
-        /// Recursives the join.
+        /// 递归连接
         /// </summary>
-        /// <typeparam name="TSource">The type of the source.</typeparam>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="source">The source.</param>
-        /// <param name="parentKeySelector">The parent key selector.</param>
-        /// <param name="childKeySelector">The child key selector.</param>
-        /// <param name="resultSelector">The result selector.</param>
-        /// <param name="comparer">The comparer.</param>
-        /// <returns>IEnumerable</returns>
+        /// <param name="source">集合</param>
+        /// <param name="parentKeySelector">委托</param>
+        /// <param name="childKeySelector">委托</param>
+        /// <param name="resultSelector">委托</param>
+        /// <param name="comparer">IComparer</param>
+        /// <returns>集合</returns>
         public static IEnumerable<TResult> RecursiveJoin<TSource, TKey, TResult>(this IEnumerable<TSource> source,
             Func<TSource, TKey> parentKeySelector,
             Func<TSource, TKey> childKeySelector,
@@ -93,16 +81,13 @@ namespace YanZhiwei.DotNet3._5.Utilities.Common
         }
 
         /// <summary>
-        /// Recursives the join.
+        /// 递归连接
         /// </summary>
-        /// <typeparam name="TSource">The type of the source.</typeparam>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="source">The source.</param>
-        /// <param name="parentKeySelector">The parent key selector.</param>
-        /// <param name="childKeySelector">The child key selector.</param>
-        /// <param name="resultSelector">The result selector.</param>
-        /// <returns>IEnumerable</returns>
+        /// <param name="source">集合</param>
+        /// <param name="parentKeySelector">委托</param>
+        /// <param name="childKeySelector">委托</param>
+        /// <param name="resultSelector">委托</param>
+        /// <returns>集合</returns>
         public static IEnumerable<TResult> RecursiveJoin<TSource, TKey, TResult>(this IEnumerable<TSource> source,
             Func<TSource, TKey> parentKeySelector,
             Func<TSource, TKey> childKeySelector,
@@ -112,17 +97,14 @@ namespace YanZhiwei.DotNet3._5.Utilities.Common
         }
 
         /// <summary>
-        /// Recursives the join.
+        /// 递归连接
         /// </summary>
-        /// <typeparam name="TSource">The type of the source.</typeparam>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <typeparam name="TResult">The type of the result.</typeparam>
-        /// <param name="source">The source.</param>
-        /// <param name="parentKeySelector">The parent key selector.</param>
-        /// <param name="childKeySelector">The child key selector.</param>
-        /// <param name="resultSelector">The result selector.</param>
-        /// <param name="comparer">The comparer.</param>
-        /// <returns>IEnumerable</returns>
+        /// <param name="source">集合</param>
+        /// <param name="parentKeySelector">委托</param>
+        /// <param name="childKeySelector">委托</param>
+        /// <param name="resultSelector">委托</param>
+        /// <param name="comparer">IComparer</param>
+        /// <returns>集合</returns>
         public static IEnumerable<TResult> RecursiveJoin<TSource, TKey, TResult>(this IEnumerable<TSource> source,
             Func<TSource, TKey> parentKeySelector,
             Func<TSource, TKey> childKeySelector,

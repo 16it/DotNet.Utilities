@@ -1,18 +1,16 @@
-﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
+﻿namespace YanZhiwei.DotNet3._5.Utilities.Lambda
 {
     using DotNet2.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
-
     /// <summary>
     /// WhereIf 帮助类
     /// </summary>
     /// 创建时间:2015-05-27 10:05
     /// 备注说明:<c>null</c>
-    public static class WhereIfHelper
+    public static class WhereIfLambda
     {
         #region Methods
 

@@ -1,17 +1,17 @@
-﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
+﻿namespace YanZhiwei.DotNet3._5.Utilities.Lambda
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using YanZhiwei.DotNet3._5.Utilities.Core;
+    using Core;
 
     /// <summary>
     /// Distinct/去重复项 帮助类
     /// </summary>
     /// 创建时间:2015-05-27 9:28
     /// 备注说明:<c>null</c>
-    public static class DistinctHelper
+    public static class DistinctLambda
     {
         #region Methods
 

@@ -7,14 +7,14 @@ namespace YanZhiwei.DotNet3._5.UtilitiesTests.Common
     [TestClass()]
     public class AESEncryptHelperTests
     {
-        private AESEncryptHelper aesHelper = null;
+        private AESEncryptor aesHelper = null;
 
         [TestInitialize]
         public void Init()
         {
-            Aes _newAES = AESEncryptHelper.CreateAES("yanzhiweizhuzhouhunanchina");
+            Aes _newAES = AESEncryptor.CreateAES("yanzhiweizhuzhouhunanchina");
             _newAES.IV = new byte[16] { 0x01, 0x02, 0x03, 0x4, 0x05, 0x06, 0x07, 0x08, 0x01, 0x02, 0x03, 0x4, 0x05, 0x06, 0x07, 0x08 };
-            aesHelper = new AESEncryptHelper(_newAES.Key, _newAES.IV);
+            aesHelper = new AESEncryptor(_newAES.Key, _newAES.IV);
         }
 
         [TestMethod()]

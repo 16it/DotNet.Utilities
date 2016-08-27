@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
+﻿namespace YanZhiwei.DotNet3._5.Utilities.Lambda
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@
     /// </summary>
     /// 时间：2016/7/12 15:27
     /// 备注：
-    public static class RecursiveSelectHelper
+    public static class RecursiveSelectLambda
     {
         #region Methods
 

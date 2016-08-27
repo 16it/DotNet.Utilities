@@ -17,41 +17,77 @@
         /// <summary>
         /// 检查指定指定类型成员中是否存在指定的Attribute特性
         /// </summary>
-        /// <typeparam name="T">要检查的Attribute特性类型</typeparam>
+        /// <typeparam name="T">泛型</typeparam>
         /// <param name="memberInfo">要检查的类型成员</param>
         /// <param name="inherit">是否从继承中查找</param>
         /// <returns>是否存在</returns>
-        public static bool AttributeExists<T>(this MemberInfo memberInfo, bool inherit = false)
+        public static bool AttributeExists<T>(this MemberInfo memberInfo, bool inherit)
             where T : Attribute
         {
             return memberInfo.GetCustomAttributes(typeof(T), inherit).Any(m => (m as T) != null);
         }
 
         /// <summary>
-        /// 从类型成员获取指定Attribute特性
+        /// 检查指定指定类型成员中是否存在指定的Attribute特性
         /// </summary>
-        /// <typeparam name="T">Attribute特性类型</typeparam>
-        /// <param name="memberInfo">类型类型成员</param>
-        /// <param name="inherit">是否从继承中查找</param>
-        /// <returns>存在返回第一个，不存在返回null</returns>
-        public static T GetAttribute<T>(this MemberInfo memberInfo, bool inherit = false)
-            where T : Attribute
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="memberInfo">要检查的类型成员</param>
+        /// <returns>是否存在</returns>
+        public static bool AttributeExists<T>(this MemberInfo memberInfo)
+           where T : Attribute
         {
-            var descripts = memberInfo.GetCustomAttributes(typeof(T), inherit);
-            return descripts.FirstOrDefault() as T;
+            return AttributeExists<T>(memberInfo, false);
         }
 
         /// <summary>
         /// 从类型成员获取指定Attribute特性
         /// </summary>
-        /// <typeparam name="T">Attribute特性类型</typeparam>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="memberInfo">类型类型成员</param>
+        /// <param name="inherit">是否从继承中查找</param>
+        /// <returns>存在返回第一个，不存在返回null</returns>
+        public static T GetAttribute<T>(this MemberInfo memberInfo, bool inherit)
+            where T : Attribute
+        {
+            object[] _descripts = memberInfo.GetCustomAttributes(typeof(T), inherit);
+            return _descripts.FirstOrDefault() as T;
+        }
+
+        /// <summary>
+        /// 从类型成员获取指定Attribute特性
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="memberInfo">类型类型成员</param>
+        /// <returns>存在返回第一个，不存在返回null</returns>
+        public static T GetAttribute<T>(this MemberInfo memberInfo)
+         where T : Attribute
+        {
+            return GetAttribute<T>(memberInfo, false);
+        }
+
+        /// <summary>
+        /// 从类型成员获取指定Attribute特性
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
         /// <param name="memberInfo">类型类型成员</param>
         /// <param name="inherit">是否从继承中查找</param>
         /// <returns>返回所有指定Attribute特性的数组</returns>
-        public static T[] GetAttributes<T>(this MemberInfo memberInfo, bool inherit = false)
+        public static T[] GetAttributes<T>(this MemberInfo memberInfo, bool inherit)
             where T : Attribute
         {
             return memberInfo.GetCustomAttributes(typeof(T), inherit).Cast<T>().ToArray();
+        }
+
+        /// <summary>
+        /// 从类型成员获取指定Attribute特性
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="memberInfo">类型类型成员</param>
+        /// <returns>返回所有指定Attribute特性的数组</returns>
+        public static T[] GetAttributes<T>(this MemberInfo memberInfo)
+          where T : Attribute
+        {
+            return GetAttributes<T>(memberInfo, false);
         }
 
         /// <summary>
@@ -153,8 +189,8 @@
         /// <returns>返回Description特性描述信息，如不存在则返回成员的名称</returns>
         public static string ToDescription(this MemberInfo member, bool inherit = false)
         {
-            DescriptionAttribute desc = member.GetAttribute<DescriptionAttribute>(inherit);
-            return desc == null ? member.Name : desc.Description;
+            DescriptionAttribute _desc = member.GetAttribute<DescriptionAttribute>(inherit);
+            return _desc == null ? member.Name : _desc.Description;
         }
 
         #endregion Methods

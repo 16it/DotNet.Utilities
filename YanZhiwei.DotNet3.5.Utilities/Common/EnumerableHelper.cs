@@ -40,6 +40,7 @@
             }
             return _result;
         }
+
         /// <summary>
         /// 如果等于NULL则返回默认初始化集合
         /// </summary>

@@ -25,8 +25,8 @@
         /// 备注：
         public static PagedList<T> ToPagedList<T>(this IQueryable<T> allItems, int pageIndex, int pageSize)
         {
-            if(pageIndex < 1)
-                pageIndex = 1;
+
+            pageIndex = pageIndex < 1 ? 1 : pageIndex;
 
             int _itemIndex = (pageIndex - 1) * pageSize;
             List<T> _pageOfItems = allItems.Skip(_itemIndex).Take(pageSize).ToList();

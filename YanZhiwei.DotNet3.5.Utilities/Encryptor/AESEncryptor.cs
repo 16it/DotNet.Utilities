@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
+﻿namespace YanZhiwei.DotNet3._5.Utilities.Encryptor
 {
     using System;
     using System.IO;
@@ -8,7 +8,7 @@
     /// <summary>
     /// AES加密
     /// </summary>
-    public class AESEncryptHelper
+    public class AESEncryptor
     {
         #region Fields
 
@@ -32,7 +32,7 @@
         /// </summary>
         /// <param name="key">密钥.</param>
         /// <param name="iv">向量.</param>
-        public AESEncryptHelper(byte[] key, byte[] iv)
+        public AESEncryptor(byte[] key, byte[] iv)
         {
             this.aes = new AesCryptoServiceProvider();
             this.aes.Key = key;
