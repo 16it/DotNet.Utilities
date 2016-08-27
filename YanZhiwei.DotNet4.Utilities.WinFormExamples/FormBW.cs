@@ -9,7 +9,7 @@ namespace YanZhiwei.DotNet4.Utilities.WinForm.Examples
 {
     public partial class FormBW : Form
     {
-        private BWHelper backWorkerHelper;
+        private BackgroundWorkerHelper backWorkerHelper;
 
         public FormBW()
         {
@@ -45,7 +45,7 @@ namespace YanZhiwei.DotNet4.Utilities.WinForm.Examples
 
         private void FormBW_Load(object sender, EventArgs e)
         {
-            backWorkerHelper = new BWHelper(backgroundWorker1);
+            backWorkerHelper = new BackgroundWorkerHelper(backgroundWorker1);
             buttonStart.Click += new EventHandler(buttonStart_Click);
             buttonCancel.Click += new EventHandler(buttonCancel_Click);
             backgroundWorker1.ProgressChanged += new ProgressChangedEventHandler(backgroundWorkerExample_ProgressChanged);

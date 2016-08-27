@@ -57,14 +57,12 @@
     <Compile Include="Core\CollectionPropertySorter.cs" />
     <Compile Include="Core\ConcurrentBagWithChange.cs" />
     <Compile Include="Common\GZipHelper.cs" />
-    <Compile Include="Common\MemoryCacheHelper.cs" />
-    <Compile Include="Common\TaskHelper.cs" />
     <Compile Include="Model\ConBagChangEventArgs.cs" />
     <Compile Include="Model\SortCondition.cs" />
     <Compile Include="Model\ValueMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\PeriodicTaskFactory.cs" />
-    <Compile Include="WinForm\BWHelper.cs" />
+    <Compile Include="WinForm\BackgroundWorkerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
@@ -85,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Enum\" />
-    <Folder Include="WebForm\Core\" />
+    <Folder Include="WebForm\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

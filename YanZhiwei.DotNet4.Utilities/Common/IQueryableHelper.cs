@@ -14,16 +14,17 @@ namespace YanZhiwei.DotNet4.Utilities.Common
     /// 时间：2016-03-07 16:24
     /// 备注：
     public static class IQueryableHelper
-    { /// <summary>
-      /// 从指定<see cref="IQueryable{T}"/>集合中查询指定数据筛选的分页信息
-      /// </summary>
-      /// <typeparam name="TEntity">实体类型</typeparam>
-      /// <typeparam name="TResult">分页数据类型</typeparam>
-      /// <param name="source">要查询的数据集</param>
-      /// <param name="predicate">查询条件谓语表达式</param>
-      /// <param name="pageCondition">分页查询条件</param>
-      /// <param name="selector">数据筛选表达式</param>
-      /// <returns>分页结果信息</returns>
+    {
+        /// <summary>
+        /// 从指定<see cref="IQueryable{T}"/>集合中查询指定数据筛选的分页信息
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <typeparam name="TResult">分页数据类型</typeparam>
+        /// <param name="source">要查询的数据集</param>
+        /// <param name="predicate">查询条件谓语表达式</param>
+        /// <param name="pageCondition">分页查询条件</param>
+        /// <param name="selector">数据筛选表达式</param>
+        /// <returns>分页结果信息</returns>
         public static PageResult<TResult> ToPage<TEntity, TResult>(this IQueryable<TEntity> source,
             Expression<Func<TEntity, bool>> predicate,
             PageCondition pageCondition,

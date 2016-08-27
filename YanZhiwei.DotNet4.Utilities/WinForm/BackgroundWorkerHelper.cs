@@ -7,12 +7,12 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using YanZhiwei.DotNet4.Utilities.Model;
+    using Model;
 
     /// <summary>
     /// BackgroundWorker 帮助类
     /// </summary>
-    public class BWHelper
+    public class BackgroundWorkerHelper
     {
         #region Fields
 
@@ -30,7 +30,7 @@
         /// 构造函数
         /// </summary>
         /// <param name="aWorker">BackgroundWorker</param>
-        public BWHelper(BackgroundWorker aWorker)
+        public BackgroundWorkerHelper(BackgroundWorker aWorker)
         {
             worker = aWorker;
             worker.WorkerReportsProgress = true;
