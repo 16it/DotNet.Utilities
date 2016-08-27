@@ -96,7 +96,7 @@
     <Compile Include="WebForm\UrlHelper.cs" />
     <Compile Include="Encryptor\AESEncryptor.cs" />
     <Compile Include="Core\CommonEqualityComparer.cs" />
-    <Compile Include="Core\ScriptConverter\DateTimeConverter.cs" />
+    <Compile Include="ScriptConverter\DateTimeConverter.cs" />
     <Compile Include="Lambda\DistinctLambda.cs" />
     <Compile Include="Common\EnumerableHelper.cs" />
     <Compile Include="Common\ExpressionHelper.cs" />

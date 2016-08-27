@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet3._5.Utilities.Core.ScriptConverter
+﻿namespace YanZhiwei.DotNet3._5.Utilities.ScriptConverter
 {
     using System;
     using System.Collections.Generic;
