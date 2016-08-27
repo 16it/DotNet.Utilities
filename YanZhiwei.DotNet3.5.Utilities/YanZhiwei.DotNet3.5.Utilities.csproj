@@ -86,7 +86,6 @@
     <Compile Include="Model\UploadFileConfig.cs" />
     <Compile Include="Model\UploadImageMessage.cs" />
     <Compile Include="WebForm\Core\CookiesManager.cs" />
-    <Compile Include="WebForm\Core\VerificationCode.cs" />
     <Compile Include="WebForm\Core\WebThumbnailImage.cs" />
     <Compile Include="WebForm\Core\WebUploadFile.cs" />
     <Compile Include="WebForm\Core\WebUploadImage.cs" />
