@@ -8,7 +8,7 @@
     /// <summary>
     /// URL帮助类
     /// </summary>
-    public class UrlHelper
+    public class HyperlinkHelper
     {
         #region Methods
 

@@ -13,7 +13,7 @@
         /// <summary>
         /// Message
         /// </summary>
-        public object Message
+        public object Content
         {
             get; set;
         }

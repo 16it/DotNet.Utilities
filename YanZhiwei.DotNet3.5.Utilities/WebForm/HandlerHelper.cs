@@ -20,7 +20,7 @@
         /// 创建文件全路径
         /// <para>eg: context.CreateFilePath("images/1616/LampGroup/lampGroup.jpg")</para>
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="context">HttpContext</param>
         /// <param name="file">The file.eg:"images/1616/LampGroup/lampGroup.jpg"</param>
         /// <returns>文件路径</returns>
         /// 创建时间:2015-06-09 11:15
@@ -38,16 +38,16 @@
         /// <para>eg:context.CreateResponse(_zNodeList, HttpStatusCode.OK);</para>
         /// </summary>
         /// <param name="context">HttpContext</param>
-        /// <param name="obj">对象</param>
+        /// <param name="content">响应内容</param>
         /// <param name="statusCode">状态码</param>
         /// <param name="errorCode">T错误代码</param>
         /// 时间：2016-05-04 17:32
         /// 备注：
-        public static void CreateResponse(this HttpContext context, object obj, HttpStatusCode statusCode, int errorCode)
+        public static void CreateResponse(this HttpContext context, object content, HttpStatusCode statusCode, int errorCode)
         {
             JsonResult _jsonResult = new JsonResult();
             _jsonResult.StatusCode = (int)statusCode;
-            _jsonResult.Message = obj;
+            _jsonResult.Content = content;
             _jsonResult.ErrorCode = errorCode;
             string _jsonString = SerializeHelper.JsonSerialize<JsonResult>(_jsonResult);
             context.Response.Write(_jsonString);
@@ -59,13 +59,13 @@
         /// <para>eg:context.CreateResponse(_zNodeList, HttpStatusCode.OK);</para>
         /// </summary>
         /// <param name="context">HttpContext</param>
-        /// <param name="obj">对象</param>
+        /// <param name="content">响应内容</param>
         /// <param name="statusCode">状态码</param>
         /// 时间：2016-05-04 17:32
         /// 备注：
-        public static void CreateResponse(this HttpContext context, object obj, HttpStatusCode statusCode)
+        public static void CreateResponse(this HttpContext context, object content, HttpStatusCode statusCode)
         {
-            CreateResponse(context, obj, statusCode, 0);
+            CreateResponse(context, content, statusCode, 0);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@
         {
             string _contentType = null;
 
-            switch(ext.ToLower())
+            switch (ext.ToLower())
             {
                 case "gif":
                     _contentType = "image/gif";

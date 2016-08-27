@@ -147,7 +147,6 @@
     <Compile Include="WebForm\GridViewHelper.cs" />
     <Compile Include="WebForm\ClientScriptHelper.cs" />
     <Compile Include="WebForm\HtmlInputFileHelper.cs" />
-    <Compile Include="WebForm\HyperlinkHelper.cs" />
     <Compile Include="WebForm\LinkButtonHelper.cs" />
     <Compile Include="WebForm\ListBoxHelper.cs" />
     <Compile Include="WebForm\NetWorkHelper.cs" />
