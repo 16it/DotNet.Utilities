@@ -54,9 +54,7 @@
     <Compile Include="Common\IEnumerableHelper.cs" />
     <Compile Include="Common\IQueryableHelper.cs" />
     <Compile Include="Core\CollectionPropertySorter.cs" />
-    <Compile Include="Core\ConcurrentBagWithChange.cs" />
     <Compile Include="Common\GZipHelper.cs" />
-    <Compile Include="Model\ConBagChangEventArgs.cs" />
     <Compile Include="Model\SortCondition.cs" />
     <Compile Include="Model\ValueMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
