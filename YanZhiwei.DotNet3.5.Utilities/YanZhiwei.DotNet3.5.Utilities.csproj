@@ -75,9 +75,6 @@
     <Compile Include="Lambda\RecursiveSelectLambda.cs" />
     <Compile Include="Common\TypeHelper.cs" />
     <Compile Include="Common\WcfServiceProxy.cs" />
-    <Compile Include="Core\ExpressionEvaluator.cs" />
-    <Compile Include="Core\ExpressionTranslator.cs" />
-    <Compile Include="Core\ExpressionVisitor.cs" />
     <Compile Include="Enum\ImagePosition.cs" />
     <Compile Include="Enum\UploadFileSaveType.cs" />
     <Compile Include="Model\DataTablePageResult.cs" />
