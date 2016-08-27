@@ -18,13 +18,10 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
         /// <param name="originalImagePath">源图路径（物理路径）</param>
         /// <param name="thumbnailPath">缩略图路径（物理路径）</param>
         /// <param name="width">缩略图宽度</param>
-        /// <param name="height">缩略图高度</param>
-        /// <param name="mode">生成缩略图的方式</param>
-        /// <param name="isaddwatermark">是否添加水印</param>
-        /// <param name="quality">图片品质</param>
-        public static void MakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height, string mode = "Cut", bool isaddwatermark = false, int quality = 75)
+        /// <param name="height">缩略图高度</param>>
+        public static void MakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height)
         {
-            MakeThumbnail(originalImagePath, thumbnailPath, width, height, mode, isaddwatermark, ImagePosition.Default, null, quality);
+            MakeThumbnail(originalImagePath, thumbnailPath, width, height, "Cut", false, ImagePosition.Default, null, 75);
         }
 
         /// <summary>
@@ -39,7 +36,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
         /// <param name="quality">图片品质</param>
         /// <param name="imagePosition">水印位置</param>
         /// <param name="waterImage">水印图片名称</param>
-        public static void MakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height, string mode, bool isaddwatermark, ImagePosition imagePosition, string waterImage = null, int quality = 75)
+        public static void MakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height, string mode, bool isaddwatermark, ImagePosition imagePosition, string waterImage, int quality)
         {
             Image _originalImage = Image.FromFile(originalImagePath);
             int _towidth = width;
@@ -49,7 +46,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
             int _ow = _originalImage.Width;
             int _oh = _originalImage.Height;
 
-            switch(mode)
+            switch (mode)
             {
                 case "HW"://指定高宽缩放（可能变形）
                     break;
@@ -63,9 +60,9 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
                     break;
 
                 case "Cut"://指定高宽裁减（不变形）
-                    if(_originalImage.Width >= _towidth && _originalImage.Height >= _toheight)
+                    if (_originalImage.Width >= _towidth && _originalImage.Height >= _toheight)
                     {
-                        if((double)_originalImage.Width / (double)_originalImage.Height > (double)_towidth / (double)_toheight)
+                        if ((double)_originalImage.Width / (double)_originalImage.Height > (double)_towidth / (double)_toheight)
                         {
                             _oh = _originalImage.Height;
                             _ow = _originalImage.Height * _towidth / _toheight;
@@ -91,18 +88,18 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
                     break;
 
                 case "Fit"://不超出尺寸，比它小就不截了，不留白，大就缩小到最佳尺寸，主要为手机用
-                    if(_originalImage.Width > _towidth && _originalImage.Height > _toheight)
+                    if (_originalImage.Width > _towidth && _originalImage.Height > _toheight)
                     {
-                        if((double)_originalImage.Width / (double)_originalImage.Height > (double)_towidth / (double)_toheight)
+                        if ((double)_originalImage.Width / (double)_originalImage.Height > (double)_towidth / (double)_toheight)
                             _toheight = _originalImage.Height * width / _originalImage.Width;
                         else
                             _towidth = _originalImage.Width * height / _originalImage.Height;
                     }
-                    else if(_originalImage.Width > _towidth)
+                    else if (_originalImage.Width > _towidth)
                     {
                         _toheight = _originalImage.Height * width / _originalImage.Width;
                     }
-                    else if(_originalImage.Height > _toheight)
+                    else if (_originalImage.Height > _toheight)
                     {
                         _towidth = _originalImage.Width * height / _originalImage.Height;
                     }
@@ -138,9 +135,9 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
                                 GraphicsUnit.Pixel);
 
             //加图片水印
-            if(isaddwatermark)
+            if (isaddwatermark)
             {
-                if(string.IsNullOrEmpty(waterImage))
+                if (string.IsNullOrEmpty(waterImage))
                     waterImage = "watermarker.png";
 
                 Image _copyImage = Image.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, waterImage));
@@ -151,7 +148,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
                 int _phHeight = _toheight;
                 int _phWidth = _towidth;
 
-                switch(imagePosition)
+                switch (imagePosition)
                 {
                     case ImagePosition.LeftBottom:
                         _xPosOfWm = 70;
@@ -192,9 +189,9 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
             ImageCodecInfo[] _arrayICI = ImageCodecInfo.GetImageEncoders();
             ImageCodecInfo _jpegICI = null;
 
-            for(int i = 0; i < _arrayICI.Length; i++)
+            for (int i = 0; i < _arrayICI.Length; i++)
             {
-                if(_arrayICI[i].FormatDescription.Equals("JPEG"))
+                if (_arrayICI[i].FormatDescription.Equals("JPEG"))
                 {
                     _jpegICI = _arrayICI[i];
                     //设置JPEG编码
@@ -204,7 +201,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 
             try
             {
-                if(_jpegICI != null)
+                if (_jpegICI != null)
                 {
                     _bitmap.Save(thumbnailPath, _jpegICI, _encoderParams);
                 }
