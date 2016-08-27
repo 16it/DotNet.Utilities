@@ -3,8 +3,8 @@
     using System;
     using System.Threading;
 
-    using YanZhiwei.DotNet3._5.Interfaces;
-    using YanZhiwei.DotNet3._5.Utilities.Core.SchedulerType;
+    using Interfaces;
+    using SchedulerType;
 
     /// <summary>
     /// 任务帮助类
@@ -20,7 +20,7 @@
         /// <summary>
         /// TimerCallback 对象
         /// </summary>
-        private TimerCallback execTask;
+        private TimerCallback jobFactory;
 
         /// <summary>
         /// 上次执行时间
@@ -59,10 +59,10 @@
         /// <param name="taskName">任务名称</param>
         public Job(TimerCallback callback, ISchedule schedule, string taskName)
         {
-            this.execTask = callback;
+            this.jobFactory = callback;
             this.schedule = schedule;
             this.taskName = taskName;
-            execTask += new TimerCallback(Execute);
+            jobFactory += new TimerCallback(JobExecute);
             JobScheduler.Register(this);
         }
 
@@ -122,7 +122,7 @@
         /// </summary>
         public void Dispose()
         {
-            if (execTask != null)
+            if (jobFactory != null)
             {
                 taskName = null;
                 if (timer != null)
@@ -130,7 +130,7 @@
                     timer.Dispose();
                     timer = null;
                 }
-                execTask = null;
+                jobFactory = null;
                 JobScheduler.DeRegister(this);
             }
         }
@@ -157,12 +157,12 @@
         /// <summary>
         /// 开始任务
         /// </summary>
-        /// <param name="execTaskState">回调参数</param>
-        public void Start(object execTaskState)
+        /// <param name="arg">回调参数</param>
+        public void Start(object arg)
         {
             if (timer == null)
             {
-                timer = new Timer(execTask, execTaskState, schedule.DueTime, schedule.Period);
+                timer = new Timer(jobFactory, arg, schedule.DueTime, schedule.Period);
             }
             else
             {
@@ -194,7 +194,7 @@
         /// 执行任务
         /// </summary>
         /// <param name="state">任务函数参数</param>
-        private void Execute(object state)
+        private void JobExecute(object state)
         {
             lastExecuteTime = DateTime.Now;
             if (schedule.Period == Timeout.Infinite)

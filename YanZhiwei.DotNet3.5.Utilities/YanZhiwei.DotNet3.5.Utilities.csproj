@@ -79,7 +79,6 @@
     <Compile Include="Core\ExpressionEvaluator.cs" />
     <Compile Include="Core\ExpressionTranslator.cs" />
     <Compile Include="Core\ExpressionVisitor.cs" />
-    <Compile Include="Core\Locker.cs" />
     <Compile Include="Enum\ImagePosition.cs" />
     <Compile Include="Enum\UploadFileSaveType.cs" />
     <Compile Include="Model\DataTablePageResult.cs" />
