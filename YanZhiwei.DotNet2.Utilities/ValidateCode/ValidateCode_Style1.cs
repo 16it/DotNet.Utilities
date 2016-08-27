@@ -23,43 +23,48 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         private int validataCodeSize = 0x10;
         private string validateCodeFont = "Arial";
 
+        /// <summary>
+        /// 创建验证码抽象方法
+        /// </summary>
+        /// <param name="validataCode">验证码</param>
+        /// <returns>数组</returns>
         public override byte[] CreateImage(out string validataCode)
         {
-            Bitmap bitmap;
-            string formatString = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
-            GetRandom(formatString, this.ValidataCodeLength, out validataCode);
-            MemoryStream stream = new MemoryStream();
-            this.ImageBmp(out bitmap, validataCode);
-            bitmap.Save(stream, ImageFormat.Png);
-            bitmap.Dispose();
-            bitmap = null;
-            stream.Close();
-            stream.Dispose();
-            return stream.GetBuffer();
+            Bitmap _bitmap;
+            string _formatString = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
+            GetRandom(_formatString, this.ValidataCodeLength, out validataCode);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                this.ImageBmp(out _bitmap, validataCode);
+                _bitmap.Save(stream, ImageFormat.Png);
+                _bitmap.Dispose();
+                _bitmap = null;
+                return stream.GetBuffer();
+            }
         }
 
         private void CreateImageBmp(ref Bitmap bitMap, string validateCode)
         {
-            Graphics graphics = Graphics.FromImage(bitMap);
+            Graphics _graphics = Graphics.FromImage(bitMap);
             if (this.fontTextRenderingHint)
             {
-                graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixel;
+                _graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixel;
             }
             else
             {
-                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+                _graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
             }
-            Font font = new Font(this.validateCodeFont, (float)this.validataCodeSize, FontStyle.Regular);
-            Brush brush = new SolidBrush(this.drawColor);
-            int maxValue = Math.Max((this.ImageHeight - this.validataCodeSize) - 5, 0);
-            Random random = new Random();
+            Font _font = new Font(this.validateCodeFont, (float)this.validataCodeSize, FontStyle.Regular);
+            Brush _brush = new SolidBrush(this.drawColor);
+            int _maxValue = Math.Max((this.ImageHeight - this.validataCodeSize) - 5, 0);
+            Random _random = new Random();
             for (int i = 0; i < this.validataCodeLength; i++)
             {
-                int[] numArray = new int[] { ((i * this.validataCodeSize) + random.Next(1)) + 3, random.Next(maxValue) - 4 };
-                Point point = new Point(numArray[0], numArray[1]);
-                graphics.DrawString(validateCode[i].ToString(), font, brush, (PointF)point);
+                int[] _numArray = new int[] { ((i * this.validataCodeSize) + _random.Next(1)) + 3, _random.Next(_maxValue) - 4 };
+                Point _point = new Point(_numArray[0], _numArray[1]);
+                _graphics.DrawString(validateCode[i].ToString(), _font, _brush, (PointF)_point);
             }
-            graphics.Dispose();
+            _graphics.Dispose();
         }
 
         private void DisposeImageBmp(ref Bitmap bitmap)
@@ -103,6 +108,9 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             this.CreateImageBmp(ref bitMap, validataCode);
         }
 
+        /// <summary>
+        /// 背景色
+        /// </summary>
         public Color BackgroundColor
         {
             get
@@ -115,6 +123,9 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             }
         }
 
+        /// <summary>
+        /// 是否干扰线
+        /// </summary>
         public bool Chaos
         {
             get
@@ -127,6 +138,9 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             }
         }
 
+        /// <summary>
+        /// 干扰色
+        /// </summary>
         public Color ChaosColor
         {
             get
@@ -139,6 +153,9 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             }
         }
 
+        /// <summary>
+        /// 绘画色
+        /// </summary>
         public Color DrawColor
         {
             get
@@ -163,6 +180,9 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             }
         }
 
+        /// <summary>
+        /// 图片高度
+        /// </summary>
         public int ImageHeight
         {
             get
@@ -175,6 +195,9 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             }
         }
 
+        /// <summary>
+        /// 验证码类型名称
+        /// </summary>
         public override string Name
         {
             get

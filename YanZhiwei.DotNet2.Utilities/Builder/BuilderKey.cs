@@ -14,6 +14,12 @@ namespace YanZhiwei.DotNet2.Utilities.Builder
         private readonly Type _destinationType;
         private readonly DataBaseType _dbType;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="destinationType">Type</param>
+        /// <param name="record">IDataRecord</param>
+        /// <param name="dbType">DataBaseType</param>
         public BuilderKey(Type destinationType, IDataRecord record, DataBaseType dbType)
         {
             _destinationType = destinationType;
@@ -26,6 +32,12 @@ namespace YanZhiwei.DotNet2.Utilities.Builder
             }
         }
 
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
         public override int GetHashCode()
         {
             int hash = _destinationType.GetHashCode();
@@ -38,6 +50,13 @@ namespace YanZhiwei.DotNet2.Utilities.Builder
             return hash + _dbType.GetHashCode();
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Equals(object obj)
         {
             BuilderKey builderKey = obj as BuilderKey;

@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 {
-    public class NeuQuant
+    class NeuQuant
     {
         protected static readonly int alphabiasshift = 10;
         protected int alphadec;
@@ -46,7 +46,7 @@
             this.samplefac = sample;
             this.network = new int[netsize][];
 
-            for(int i = 0; i < netsize; i++)
+            for (int i = 0; i < netsize; i++)
             {
                 int num2;
                 this.network[i] = new int[4];
@@ -62,14 +62,14 @@
         {
             int num = i - rad;
 
-            if(num < -1)
+            if (num < -1)
             {
                 num = -1;
             }
 
             int netsize = i + rad;
 
-            if(netsize > NeuQuant.netsize)
+            if (netsize > NeuQuant.netsize)
             {
                 netsize = NeuQuant.netsize;
             }
@@ -78,12 +78,12 @@
             int num4 = i - 1;
             int num5 = 1;
 
-            while((num3 < netsize) || (num4 > num))
+            while ((num3 < netsize) || (num4 > num))
             {
                 int[] numArray;
                 int num6 = this.radpower[num5++];
 
-                if(num3 < netsize)
+                if (num3 < netsize)
                 {
                     numArray = this.network[num3++];
 
@@ -93,12 +93,12 @@
                         numArray[1] -= (num6 * (numArray[1] - g)) / alpharadbias;
                         numArray[2] -= (num6 * (numArray[2] - r)) / alpharadbias;
                     }
-                    catch(System.Exception)
+                    catch (System.Exception)
                     {
                     }
                 }
 
-                if(num4 > num)
+                if (num4 > num)
                 {
                     numArray = this.network[num4--];
 
@@ -109,7 +109,7 @@
                         numArray[2] -= (num6 * (numArray[2] - r)) / alpharadbias;
                         continue;
                     }
-                    catch(System.Exception)
+                    catch (System.Exception)
                     {
                         continue;
                     }
@@ -131,14 +131,14 @@
             byte[] buffer = new byte[3 * netsize];
             int[] numArray = new int[netsize];
 
-            for(num = 0; num < netsize; num++)
+            for (num = 0; num < netsize; num++)
             {
                 numArray[this.network[num][3]] = num;
             }
 
             int num2 = 0;
 
-            for(num = 0; num < netsize; num++)
+            for (num = 0; num < netsize; num++)
             {
                 int index = numArray[num];
                 buffer[num2++] = (byte)this.network[index][0];
@@ -156,19 +156,19 @@
             int index = -1;
             int num4 = index;
 
-            for(int i = 0; i < netsize; i++)
+            for (int i = 0; i < netsize; i++)
             {
                 int[] numArray = this.network[i];
                 int num6 = numArray[0] - b;
 
-                if(num6 < 0)
+                if (num6 < 0)
                 {
                     num6 = -num6;
                 }
 
                 int num7 = numArray[1] - g;
 
-                if(num7 < 0)
+                if (num7 < 0)
                 {
                     num7 = -num7;
                 }
@@ -176,14 +176,14 @@
                 num6 += num7;
                 num7 = numArray[2] - r;
 
-                if(num7 < 0)
+                if (num7 < 0)
                 {
                     num7 = -num7;
                 }
 
                 num6 += num7;
 
-                if(num6 < num)
+                if (num6 < num)
                 {
                     num = num6;
                     index = i;
@@ -191,7 +191,7 @@
 
                 int num8 = num6 - (this.bias[i] >> (intbiasshift - netbiasshift));
 
-                if(num8 < num2)
+                if (num8 < num2)
                 {
                     num2 = num8;
                     num4 = i;
@@ -213,7 +213,7 @@
             int index = 0;
             int num3 = 0;
 
-            for(int i = 0; i < netsize; i++)
+            for (int i = 0; i < netsize; i++)
             {
                 int[] numArray;
                 int[] numArray2 = this.network[i];
@@ -221,11 +221,11 @@
                 int num6 = numArray2[1];
                 num = i + 1;
 
-                while(num < netsize)
+                while (num < netsize)
                 {
                     numArray = this.network[num];
 
-                    if(numArray[1] < num6)
+                    if (numArray[1] < num6)
                     {
                         num5 = num;
                         num6 = numArray[1];
@@ -236,7 +236,7 @@
 
                 numArray = this.network[num5];
 
-                if(i != num5)
+                if (i != num5)
                 {
                     num = numArray[0];
                     numArray[0] = numArray2[0];
@@ -252,12 +252,12 @@
                     numArray2[3] = num;
                 }
 
-                if(num6 != index)
+                if (num6 != index)
                 {
                     this.netindex[index] = (num3 + i) >> 1;
                     num = index + 1;
 
-                    while(num < num6)
+                    while (num < num6)
                     {
                         this.netindex[num] = i;
                         num++;
@@ -270,7 +270,7 @@
 
             this.netindex[index] = (num3 + maxnetpos) >> 1;
 
-            for(num = index + 1; num < 0x100; num++)
+            for (num = index + 1; num < 0x100; num++)
             {
                 this.netindex[num] = maxnetpos;
             }
@@ -281,7 +281,7 @@
             int num;
             int num2;
 
-            if(this.lengthcount < minpicturebytes)
+            if (this.lengthcount < minpicturebytes)
             {
                 this.samplefac = 1;
             }
@@ -296,29 +296,29 @@
             int initradius = NeuQuant.initradius;
             int rad = initradius >> radiusbiasshift;
 
-            if(rad <= 1)
+            if (rad <= 1)
             {
                 rad = 0;
             }
 
-            for(num = 0; num < rad; num++)
+            for (num = 0; num < rad; num++)
             {
                 this.radpower[num] = initalpha * ((((rad * rad) - (num * num)) * radbias) / (rad * rad));
             }
 
-            if(this.lengthcount < minpicturebytes)
+            if (this.lengthcount < minpicturebytes)
             {
                 num2 = 3;
             }
-            else if((this.lengthcount % prime1) != 0)
+            else if ((this.lengthcount % prime1) != 0)
             {
                 num2 = 3 * prime1;
             }
-            else if((this.lengthcount % prime2) != 0)
+            else if ((this.lengthcount % prime2) != 0)
             {
                 num2 = 3 * prime2;
             }
-            else if((this.lengthcount % prime3) != 0)
+            else if ((this.lengthcount % prime3) != 0)
             {
                 num2 = 3 * prime3;
             }
@@ -329,7 +329,7 @@
 
             num = 0;
 
-            while(num < num5)
+            while (num < num5)
             {
                 int b = (thepicture[index] & 0xff) << netbiasshift;
                 int g = (thepicture[index + 1] & 0xff) << netbiasshift;
@@ -337,37 +337,37 @@
                 int i = this.Contest(b, g, r);
                 this.Altersingle(initalpha, i, b, g, r);
 
-                if(rad != 0)
+                if (rad != 0)
                 {
                     this.Alterneigh(rad, i, b, g, r);
                 }
 
                 index += num2;
 
-                if(index >= lengthcount)
+                if (index >= lengthcount)
                 {
                     index -= this.lengthcount;
                 }
 
                 num++;
 
-                if(num6 == 0)
+                if (num6 == 0)
                 {
                     num6 = 1;
                 }
 
-                if((num % num6) == 0)
+                if ((num % num6) == 0)
                 {
                     initalpha -= initalpha / this.alphadec;
                     initradius -= initradius / radiusdec;
                     rad = initradius >> radiusbiasshift;
 
-                    if(rad <= 1)
+                    if (rad <= 1)
                     {
                         rad = 0;
                     }
 
-                    for(i = 0; i < rad; i++)
+                    for (i = 0; i < rad; i++)
                     {
                         this.radpower[i] = initalpha * ((((rad * rad) - (i * i)) * radbias) / (rad * rad));
                     }
@@ -382,18 +382,18 @@
             int index = this.netindex[g];
             int num4 = index - 1;
 
-            while((index < netsize) || (num4 >= 0))
+            while ((index < netsize) || (num4 >= 0))
             {
                 int[] numArray;
                 int num5;
                 int num6;
 
-                if(index < netsize)
+                if (index < netsize)
                 {
                     numArray = this.network[index];
                     num5 = numArray[1] - g;
 
-                    if(num5 >= num)
+                    if (num5 >= num)
                     {
                         index = netsize;
                     }
@@ -401,32 +401,32 @@
                     {
                         index++;
 
-                        if(num5 < 0)
+                        if (num5 < 0)
                         {
                             num5 = -num5;
                         }
 
                         num6 = numArray[0] - b;
 
-                        if(num6 < 0)
+                        if (num6 < 0)
                         {
                             num6 = -num6;
                         }
 
                         num5 += num6;
 
-                        if(num5 < num)
+                        if (num5 < num)
                         {
                             num6 = numArray[2] - r;
 
-                            if(num6 < 0)
+                            if (num6 < 0)
                             {
                                 num6 = -num6;
                             }
 
                             num5 += num6;
 
-                            if(num5 < num)
+                            if (num5 < num)
                             {
                                 num = num5;
                                 num2 = numArray[3];
@@ -435,12 +435,12 @@
                     }
                 }
 
-                if(num4 >= 0)
+                if (num4 >= 0)
                 {
                     numArray = this.network[num4];
                     num5 = g - numArray[1];
 
-                    if(num5 >= num)
+                    if (num5 >= num)
                     {
                         num4 = -1;
                     }
@@ -448,32 +448,32 @@
                     {
                         num4--;
 
-                        if(num5 < 0)
+                        if (num5 < 0)
                         {
                             num5 = -num5;
                         }
 
                         num6 = numArray[0] - b;
 
-                        if(num6 < 0)
+                        if (num6 < 0)
                         {
                             num6 = -num6;
                         }
 
                         num5 += num6;
 
-                        if(num5 < num)
+                        if (num5 < num)
                         {
                             num6 = numArray[2] - r;
 
-                            if(num6 < 0)
+                            if (num6 < 0)
                             {
                                 num6 = -num6;
                             }
 
                             num5 += num6;
 
-                            if(num5 < num)
+                            if (num5 < num)
                             {
                                 num = num5;
                                 num2 = numArray[3];
@@ -496,7 +496,7 @@
 
         public void Unbiasnet()
         {
-            for(int i = 0; i < netsize; i++)
+            for (int i = 0; i < netsize; i++)
             {
                 this.network[i][0] = this.network[i][0] >> netbiasshift;
                 this.network[i][1] = this.network[i][1] >> netbiasshift;

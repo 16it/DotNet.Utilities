@@ -55,9 +55,9 @@
         /// <summary>
         /// 创建验证码抽象方法
         /// </summary>
-        /// <param name="resultCode">验证code</param>
+        /// <param name="validataCode">验证code</param>
         /// <returns>Byte数组</returns>
-        public abstract byte[] CreateImage(out string resultCode);
+        public abstract byte[] CreateImage(out string validataCode);
 
         #endregion Methods
     }

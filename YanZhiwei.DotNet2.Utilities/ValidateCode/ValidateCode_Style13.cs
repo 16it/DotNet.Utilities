@@ -19,13 +19,20 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         private int validataCodeSize = 0x10;
         private string validateCodeFont = "Arial";
 
-        public override byte[] CreateImage(out string resultCode)
+        /// <summary>
+        /// 创建验证码抽象方法
+        /// </summary>
+        /// <param name="validataCode">验证code</param>
+        /// <returns>
+        /// Byte数组
+        /// </returns>
+        public override byte[] CreateImage(out string validataCode)
         {
             Bitmap bitmap;
             string formatString = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
-            GetRandom(formatString, 4, out resultCode);
+            GetRandom(formatString, 4, out validataCode);
             MemoryStream stream = new MemoryStream();
-            this.ImageBmp(out bitmap, resultCode);
+            this.ImageBmp(out bitmap, validataCode);
             bitmap.Save(stream, ImageFormat.Png);
             bitmap.Dispose();
             bitmap = null;

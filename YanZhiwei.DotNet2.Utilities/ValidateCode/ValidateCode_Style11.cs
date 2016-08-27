@@ -26,6 +26,13 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         private int validataCodeSize = 0x10;
         private string validateCodeFont = "Arial";
 
+        /// <summary>
+        /// 创建验证码抽象方法
+        /// </summary>
+        /// <param name="validataCode">验证code</param>
+        /// <returns>
+        /// Byte数组
+        /// </returns>
         public override byte[] CreateImage(out string validataCode)
         {
             Bitmap bitmap;

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 {
-    public class LZWEncoder
+    class LZWEncoder
     {
         private int a_count;
         private byte[] accum = new byte[0x100];
@@ -50,7 +50,7 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         {
             this.accum[this.a_count++] = c;
 
-            if(this.a_count >= 0xfe)
+            if (this.a_count >= 0xfe)
             {
                 this.Flush(outs);
             }
@@ -79,7 +79,7 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             int num4 = 0;
             int hsize = this.hsize;
 
-            while(hsize < 0x10000)
+            while (hsize < 0x10000)
             {
                 num4++;
                 hsize *= 2;
@@ -89,24 +89,24 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             int num5 = this.hsize;
             this.ResetCodeTable(num5);
             this.Output(this.ClearCode, outs);
-            Label_0170:
+        Label_0170:
 
-            while((num2 = this.NextPixel()) != EOF)
+            while ((num2 = this.NextPixel()) != EOF)
             {
                 hsize = (num2 << this.maxbits) + code;
                 int index = (num2 << num4) ^ code;
 
-                if(this.htab[index] == hsize)
+                if (this.htab[index] == hsize)
                 {
                     code = this.codetab[index];
                 }
                 else
                 {
-                    if(this.htab[index] >= 0)
+                    if (this.htab[index] >= 0)
                     {
                         int num7 = num5 - index;
 
-                        if(index == 0)
+                        if (index == 0)
                         {
                             num7 = 1;
                         }
@@ -115,24 +115,24 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
                         {
                             index -= num7;
 
-                            if(index < 0)
+                            if (index < 0)
                             {
                                 index += num5;
                             }
 
-                            if(this.htab[index] == hsize)
+                            if (this.htab[index] == hsize)
                             {
                                 code = this.codetab[index];
                                 goto Label_0170;
                             }
                         }
-                        while(this.htab[index] >= 0);
+                        while (this.htab[index] >= 0);
                     }
 
                     this.Output(code, outs);
                     code = num2;
 
-                    if(this.free_ent < this.maxmaxcode)
+                    if (this.free_ent < this.maxmaxcode)
                     {
                         this.codetab[index] = this.free_ent++;
                         this.htab[index] = hsize;
@@ -159,7 +159,7 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
         private void Flush(Stream outs)
         {
-            if(this.a_count > 0)
+            if (this.a_count > 0)
             {
                 outs.WriteByte(Convert.ToByte(this.a_count));
                 outs.Write(this.accum, 0, this.a_count);
@@ -174,7 +174,7 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
         private int NextPixel()
         {
-            if(this.remaining == 0)
+            if (this.remaining == 0)
             {
                 return EOF;
             }
@@ -182,7 +182,7 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             this.remaining--;
             int num = this.curPixel + 1;
 
-            if(num < this.pixAry.GetUpperBound(0))
+            if (num < this.pixAry.GetUpperBound(0))
             {
                 byte num2 = this.pixAry[this.curPixel++];
                 return (num2 & 0xff);
@@ -195,7 +195,7 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         {
             this.cur_accum &= this.masks[this.cur_bits];
 
-            if(this.cur_bits > 0)
+            if (this.cur_bits > 0)
             {
                 this.cur_accum |= code << this.cur_bits;
             }
@@ -206,16 +206,16 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
             this.cur_bits += this.n_bits;
 
-            while(this.cur_bits >= 8)
+            while (this.cur_bits >= 8)
             {
                 this.Add((byte)(this.cur_accum & 0xff), outs);
                 this.cur_accum = this.cur_accum >> 8;
                 this.cur_bits -= 8;
             }
 
-            if((this.free_ent > this.maxcode) || this.clear_flg)
+            if ((this.free_ent > this.maxcode) || this.clear_flg)
             {
-                if(this.clear_flg)
+                if (this.clear_flg)
                 {
                     this.maxcode = this.MaxCode(this.n_bits = this.g_init_bits);
                     this.clear_flg = false;
@@ -224,7 +224,7 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
                 {
                     this.n_bits++;
 
-                    if(this.n_bits == this.maxbits)
+                    if (this.n_bits == this.maxbits)
                     {
                         this.maxcode = this.maxmaxcode;
                     }
@@ -235,9 +235,9 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
                 }
             }
 
-            if(code == this.EOFCode)
+            if (code == this.EOFCode)
             {
-                while(this.cur_bits > 0)
+                while (this.cur_bits > 0)
                 {
                     this.Add((byte)(this.cur_accum & 0xff), outs);
                     this.cur_accum = this.cur_accum >> 8;
@@ -250,7 +250,7 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 
         private void ResetCodeTable(int hsize)
         {
-            for(int i = 0; i < hsize; i++)
+            for (int i = 0; i < hsize; i++)
             {
                 this.htab[i] = -1;
             }
