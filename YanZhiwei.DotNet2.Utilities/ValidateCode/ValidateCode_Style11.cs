@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
-using System.IO;
-
-namespace YanZhiwei.DotNet2.Utilities.ValidateCode
+﻿namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Drawing.Text;
+    using System.IO;
+
     /// <summary>
     /// GIF闪烁动画(彩色)
     /// </summary>
     public class ValidateCode_Style11 : ValidateCodeType
     {
+        #region Fields
+
         private Color backgroundColor = Color.White;
         private bool chaos = true;
         private Color chaosColor = Color.FromArgb(170, 170, 0x33);
@@ -25,6 +26,154 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         private int validataCodeLength = 4;
         private int validataCodeSize = 0x10;
         private string validateCodeFont = "Arial";
+
+        #endregion Fields
+
+        #region Properties
+
+        public Color BackgroundColor
+        {
+            get
+            {
+                return this.backgroundColor;
+            }
+            set
+            {
+                this.backgroundColor = value;
+            }
+        }
+
+        public bool Chaos
+        {
+            get
+            {
+                return this.chaos;
+            }
+            set
+            {
+                this.chaos = value;
+            }
+        }
+
+        public Color ChaosColor
+        {
+            get
+            {
+                return this.chaosColor;
+            }
+            set
+            {
+                this.chaosColor = value;
+            }
+        }
+
+        public int ChaosMode
+        {
+            get
+            {
+                return this.chaosMode;
+            }
+            set
+            {
+                this.chaosMode = value;
+            }
+        }
+
+        public Color[] DrawColors
+        {
+            get
+            {
+                return this.drawColors;
+            }
+            set
+            {
+                this.drawColors = value;
+            }
+        }
+
+        public int ImageHeight
+        {
+            get
+            {
+                return this.imageHeight;
+            }
+            set
+            {
+                this.imageHeight = value;
+            }
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return "GIF闪烁动画(彩色)";
+            }
+        }
+
+        public int Padding
+        {
+            get
+            {
+                return this.padding;
+            }
+            set
+            {
+                this.padding = value;
+            }
+        }
+
+        public int ValidataCodeLength
+        {
+            get
+            {
+                return this.validataCodeLength;
+            }
+            set
+            {
+                this.validataCodeLength = value;
+            }
+        }
+
+        public int ValidataCodeSize
+        {
+            get
+            {
+                return this.validataCodeSize;
+            }
+            set
+            {
+                this.validataCodeSize = value;
+            }
+        }
+
+        public string ValidateCodeFont
+        {
+            get
+            {
+                return this.validateCodeFont;
+            }
+            set
+            {
+                this.validateCodeFont = value;
+            }
+        }
+
+        private bool FontTextRenderingHint
+        {
+            get
+            {
+                return this.fontTextRenderingHint;
+            }
+            set
+            {
+                this.fontTextRenderingHint = value;
+            }
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// 创建验证码抽象方法
@@ -72,6 +221,18 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             stream.Close();
             stream.Dispose();
             return stream.GetBuffer();
+        }
+
+        private static void GetRandom(string formatString, int len, out string codeString)
+        {
+            codeString = string.Empty;
+            string[] strArray = formatString.Split(new char[] { ',' });
+            Random random = new Random();
+            for (int i = 0; i < len; i++)
+            {
+                int index = random.Next(0x186a0) % strArray.Length;
+                codeString = codeString + strArray[index].ToString();
+            }
         }
 
         private void CreateImageBmp(ref Bitmap bitMap, string validateCode)
@@ -153,18 +314,6 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             graphics.Dispose();
         }
 
-        private static void GetRandom(string formatString, int len, out string codeString)
-        {
-            codeString = string.Empty;
-            string[] strArray = formatString.Split(new char[] { ',' });
-            Random random = new Random();
-            for (int i = 0; i < len; i++)
-            {
-                int index = random.Next(0x186a0) % strArray.Length;
-                codeString = codeString + strArray[index].ToString();
-            }
-        }
-
         private void ImageBmp(out Bitmap bitMap, string validataCode)
         {
             int width = (int)(((this.validataCodeLength * this.validataCodeSize) * 1.3) + 4.0);
@@ -197,144 +346,6 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             return strArray;
         }
 
-        public Color BackgroundColor
-        {
-            get
-            {
-                return this.backgroundColor;
-            }
-            set
-            {
-                this.backgroundColor = value;
-            }
-        }
-
-        public bool Chaos
-        {
-            get
-            {
-                return this.chaos;
-            }
-            set
-            {
-                this.chaos = value;
-            }
-        }
-
-        public Color ChaosColor
-        {
-            get
-            {
-                return this.chaosColor;
-            }
-            set
-            {
-                this.chaosColor = value;
-            }
-        }
-
-        public int ChaosMode
-        {
-            get
-            {
-                return this.chaosMode;
-            }
-            set
-            {
-                this.chaosMode = value;
-            }
-        }
-
-        public Color[] DrawColors
-        {
-            get
-            {
-                return this.drawColors;
-            }
-            set
-            {
-                this.drawColors = value;
-            }
-        }
-
-        private bool FontTextRenderingHint
-        {
-            get
-            {
-                return this.fontTextRenderingHint;
-            }
-            set
-            {
-                this.fontTextRenderingHint = value;
-            }
-        }
-
-        public int ImageHeight
-        {
-            get
-            {
-                return this.imageHeight;
-            }
-            set
-            {
-                this.imageHeight = value;
-            }
-        }
-
-        public override string Name
-        {
-            get
-            {
-                return "GIF闪烁动画(彩色)";
-            }
-        }
-
-        public int Padding
-        {
-            get
-            {
-                return this.padding;
-            }
-            set
-            {
-                this.padding = value;
-            }
-        }
-
-        public int ValidataCodeLength
-        {
-            get
-            {
-                return this.validataCodeLength;
-            }
-            set
-            {
-                this.validataCodeLength = value;
-            }
-        }
-
-        public int ValidataCodeSize
-        {
-            get
-            {
-                return this.validataCodeSize;
-            }
-            set
-            {
-                this.validataCodeSize = value;
-            }
-        }
-
-        public string ValidateCodeFont
-        {
-            get
-            {
-                return this.validateCodeFont;
-            }
-            set
-            {
-                this.validateCodeFont = value;
-            }
-        }
+        #endregion Methods
     }
 }

@@ -1,23 +1,112 @@
-﻿using System;
-
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
-using System.IO;
-
-namespace YanZhiwei.DotNet2.Utilities.ValidateCode
+﻿namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Drawing.Text;
+    using System.IO;
+
     /// <summary>
     /// 字体旋转(简单)
     /// </summary>
     public class ValidateCode_Style13 : ValidateCodeType
     {
+        #region Fields
+
         private Color backgroundColor = Color.White;
         private Color chaosColor = Color.FromArgb(170, 170, 0x33);
         private Color drawColor = Color.FromArgb(50, 0x99, 0xcc);
         private bool fontTextRenderingHint = true;
         private int validataCodeSize = 0x10;
         private string validateCodeFont = "Arial";
+
+        #endregion Fields
+
+        #region Properties
+
+        public Color BackgroundColor
+        {
+            get
+            {
+                return this.backgroundColor;
+            }
+            set
+            {
+                this.backgroundColor = value;
+            }
+        }
+
+        public Color ChaosColor
+        {
+            get
+            {
+                return this.chaosColor;
+            }
+            set
+            {
+                this.chaosColor = value;
+            }
+        }
+
+        public Color DrawColor
+        {
+            get
+            {
+                return this.drawColor;
+            }
+            set
+            {
+                this.drawColor = value;
+            }
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return "字体旋转(简单)";
+            }
+        }
+
+        public int ValidataCodeSize
+        {
+            get
+            {
+                return this.validataCodeSize;
+            }
+            set
+            {
+                this.validataCodeSize = value;
+            }
+        }
+
+        public string ValidateCodeFont
+        {
+            get
+            {
+                return this.validateCodeFont;
+            }
+            set
+            {
+                this.validateCodeFont = value;
+            }
+        }
+
+        private bool FontTextRenderingHint
+        {
+            get
+            {
+                return this.fontTextRenderingHint;
+            }
+            set
+            {
+                this.fontTextRenderingHint = value;
+            }
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// 创建验证码抽象方法
@@ -39,6 +128,18 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             stream.Close();
             stream.Dispose();
             return stream.GetBuffer();
+        }
+
+        private static void GetRandom(string formatString, int len, out string codeString)
+        {
+            codeString = string.Empty;
+            string[] strArray = formatString.Split(new char[] { ',' });
+            Random random = new Random();
+            for (int i = 0; i < len; i++)
+            {
+                int index = random.Next(0x186a0) % strArray.Length;
+                codeString = codeString + strArray[index].ToString();
+            }
         }
 
         private void CreateImageBmp(ref Bitmap bitMap, string validateCode)
@@ -85,18 +186,6 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             graphics.Dispose();
         }
 
-        private static void GetRandom(string formatString, int len, out string codeString)
-        {
-            codeString = string.Empty;
-            string[] strArray = formatString.Split(new char[] { ',' });
-            Random random = new Random();
-            for (int i = 0; i < len; i++)
-            {
-                int index = random.Next(0x186a0) % strArray.Length;
-                codeString = codeString + strArray[index].ToString();
-            }
-        }
-
         private void ImageBmp(out Bitmap bitMap, string validataCode)
         {
             bitMap = new Bitmap(120, 30);
@@ -104,84 +193,6 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             this.CreateImageBmp(ref bitMap, validataCode);
         }
 
-        public Color BackgroundColor
-        {
-            get
-            {
-                return this.backgroundColor;
-            }
-            set
-            {
-                this.backgroundColor = value;
-            }
-        }
-
-        public Color ChaosColor
-        {
-            get
-            {
-                return this.chaosColor;
-            }
-            set
-            {
-                this.chaosColor = value;
-            }
-        }
-
-        public Color DrawColor
-        {
-            get
-            {
-                return this.drawColor;
-            }
-            set
-            {
-                this.drawColor = value;
-            }
-        }
-
-        private bool FontTextRenderingHint
-        {
-            get
-            {
-                return this.fontTextRenderingHint;
-            }
-            set
-            {
-                this.fontTextRenderingHint = value;
-            }
-        }
-
-        public override string Name
-        {
-            get
-            {
-                return "字体旋转(简单)";
-            }
-        }
-
-        public int ValidataCodeSize
-        {
-            get
-            {
-                return this.validataCodeSize;
-            }
-            set
-            {
-                this.validataCodeSize = value;
-            }
-        }
-
-        public string ValidateCodeFont
-        {
-            get
-            {
-                return this.validateCodeFont;
-            }
-            set
-            {
-                this.validateCodeFont = value;
-            }
-        }
+        #endregion Methods
     }
 }

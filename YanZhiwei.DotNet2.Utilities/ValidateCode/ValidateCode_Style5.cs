@@ -1,17 +1,21 @@
-﻿using System;
-
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
-using System.IO;
-
-namespace YanZhiwei.DotNet2.Utilities.ValidateCode
+﻿namespace YanZhiwei.DotNet2.Utilities.ValidateCode
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Drawing.Text;
+    using System.IO;
+
     /// <summary>
     /// GIF闪烁动画(蓝色)
     /// </summary>
     public class ValidateCode_Style5 : ValidateCodeType
     {
+        #region Fields
+
+        private const double PI = 3.1415926535897931;
+        private const double PI2 = 6.2831853071795862;
+
         private Color backgroundColor = Color.White;
         private bool chaos = true;
         private Color chaosColor = Color.FromArgb(170, 170, 0x33);
@@ -21,11 +25,169 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
         private bool fontTextRenderingHint;
         private int imageHeight = 30;
         private int padding = 1;
-        private const double PI = 3.1415926535897931;
-        private const double PI2 = 6.2831853071795862;
         private int validataCodeLength = 4;
         private int validataCodeSize = 0x10;
         private string validateCodeFont = "Arial";
+
+        #endregion Fields
+
+        #region Properties
+
+        public Color BackgroundColor
+        {
+            get
+            {
+                return this.backgroundColor;
+            }
+            set
+            {
+                this.backgroundColor = value;
+            }
+        }
+
+        public bool Chaos
+        {
+            get
+            {
+                return this.chaos;
+            }
+            set
+            {
+                this.chaos = value;
+            }
+        }
+
+        public Color ChaosColor
+        {
+            get
+            {
+                return this.chaosColor;
+            }
+            set
+            {
+                this.chaosColor = value;
+            }
+        }
+
+        public int ChaosMode
+        {
+            get
+            {
+                return this.chaosMode;
+            }
+            set
+            {
+                this.chaosMode = value;
+            }
+        }
+
+        public int ContortRange
+        {
+            get
+            {
+                return this.contortRange;
+            }
+            set
+            {
+                this.contortRange = value;
+            }
+        }
+
+        public Color DrawColor
+        {
+            get
+            {
+                return this.drawColor;
+            }
+            set
+            {
+                this.drawColor = value;
+            }
+        }
+
+        public int ImageHeight
+        {
+            get
+            {
+                return this.imageHeight;
+            }
+            set
+            {
+                this.imageHeight = value;
+            }
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return "GIF闪烁动画(蓝色)";
+            }
+        }
+
+        public int Padding
+        {
+            get
+            {
+                return this.padding;
+            }
+            set
+            {
+                this.padding = value;
+            }
+        }
+
+        public int ValidataCodeLength
+        {
+            get
+            {
+                return this.validataCodeLength;
+            }
+            set
+            {
+                this.validataCodeLength = value;
+            }
+        }
+
+        public int ValidataCodeSize
+        {
+            get
+            {
+                return this.validataCodeSize;
+            }
+            set
+            {
+                this.validataCodeSize = value;
+            }
+        }
+
+        public string ValidateCodeFont
+        {
+            get
+            {
+                return this.validateCodeFont;
+            }
+            set
+            {
+                this.validateCodeFont = value;
+            }
+        }
+
+        private bool FontTextRenderingHint
+        {
+            get
+            {
+                return this.fontTextRenderingHint;
+            }
+            set
+            {
+                this.fontTextRenderingHint = value;
+            }
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// 创建验证码抽象方法
@@ -68,6 +230,47 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             stream.Close();
             stream.Dispose();
             return stream.GetBuffer();
+        }
+
+        public Bitmap TwistImage(Bitmap srcBmp, bool bXDir, double dMultValue, double dPhase)
+        {
+            Bitmap image = new Bitmap(srcBmp.Width, srcBmp.Height);
+            Graphics graphics = Graphics.FromImage(image);
+            graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, image.Width, image.Height);
+            graphics.Dispose();
+            double num = bXDir ? ((double)image.Height) : ((double)image.Width);
+            for (int i = 0; i < image.Width; i++)
+            {
+                for (int j = 0; j < image.Height; j++)
+                {
+                    double a = 0.0;
+                    a = bXDir ? ((6.2831853071795862 * j) / num) : ((6.2831853071795862 * i) / num);
+                    a += dPhase;
+                    double num5 = Math.Sin(a);
+                    int x = 0;
+                    int y = 0;
+                    x = bXDir ? (i + ((int)(num5 * dMultValue))) : i;
+                    y = bXDir ? j : (j + ((int)(num5 * dMultValue)));
+                    Color pixel = srcBmp.GetPixel(i, j);
+                    if (((x >= 0) && (x < image.Width)) && ((y >= 0) && (y < image.Height)))
+                    {
+                        image.SetPixel(x, y, pixel);
+                    }
+                }
+            }
+            return image;
+        }
+
+        private static void GetRandom(string formatString, int len, out string codeString)
+        {
+            codeString = string.Empty;
+            string[] strArray = formatString.Split(new char[] { ',' });
+            Random random = new Random();
+            for (int i = 0; i < len; i++)
+            {
+                int index = random.Next(0x186a0) % strArray.Length;
+                codeString = codeString + strArray[index].ToString();
+            }
         }
 
         private void CreateImageBmp(ref Bitmap bitMap, string validateCode)
@@ -150,18 +353,6 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             graphics.Dispose();
         }
 
-        private static void GetRandom(string formatString, int len, out string codeString)
-        {
-            codeString = string.Empty;
-            string[] strArray = formatString.Split(new char[] { ',' });
-            Random random = new Random();
-            for (int i = 0; i < len; i++)
-            {
-                int index = random.Next(0x186a0) % strArray.Length;
-                codeString = codeString + strArray[index].ToString();
-            }
-        }
-
         private void ImageBmp(out Bitmap bitMap, string validataCode)
         {
             int width = (int)(((this.validataCodeLength * this.validataCodeSize) * 1.3) + 4.0);
@@ -194,185 +385,6 @@ namespace YanZhiwei.DotNet2.Utilities.ValidateCode
             return strArray;
         }
 
-        public Bitmap TwistImage(Bitmap srcBmp, bool bXDir, double dMultValue, double dPhase)
-        {
-            Bitmap image = new Bitmap(srcBmp.Width, srcBmp.Height);
-            Graphics graphics = Graphics.FromImage(image);
-            graphics.FillRectangle(new SolidBrush(Color.White), 0, 0, image.Width, image.Height);
-            graphics.Dispose();
-            double num = bXDir ? ((double)image.Height) : ((double)image.Width);
-            for (int i = 0; i < image.Width; i++)
-            {
-                for (int j = 0; j < image.Height; j++)
-                {
-                    double a = 0.0;
-                    a = bXDir ? ((6.2831853071795862 * j) / num) : ((6.2831853071795862 * i) / num);
-                    a += dPhase;
-                    double num5 = Math.Sin(a);
-                    int x = 0;
-                    int y = 0;
-                    x = bXDir ? (i + ((int)(num5 * dMultValue))) : i;
-                    y = bXDir ? j : (j + ((int)(num5 * dMultValue)));
-                    Color pixel = srcBmp.GetPixel(i, j);
-                    if (((x >= 0) && (x < image.Width)) && ((y >= 0) && (y < image.Height)))
-                    {
-                        image.SetPixel(x, y, pixel);
-                    }
-                }
-            }
-            return image;
-        }
-
-        public Color BackgroundColor
-        {
-            get
-            {
-                return this.backgroundColor;
-            }
-            set
-            {
-                this.backgroundColor = value;
-            }
-        }
-
-        public bool Chaos
-        {
-            get
-            {
-                return this.chaos;
-            }
-            set
-            {
-                this.chaos = value;
-            }
-        }
-
-        public Color ChaosColor
-        {
-            get
-            {
-                return this.chaosColor;
-            }
-            set
-            {
-                this.chaosColor = value;
-            }
-        }
-
-        public int ChaosMode
-        {
-            get
-            {
-                return this.chaosMode;
-            }
-            set
-            {
-                this.chaosMode = value;
-            }
-        }
-
-        public int ContortRange
-        {
-            get
-            {
-                return this.contortRange;
-            }
-            set
-            {
-                this.contortRange = value;
-            }
-        }
-
-        public Color DrawColor
-        {
-            get
-            {
-                return this.drawColor;
-            }
-            set
-            {
-                this.drawColor = value;
-            }
-        }
-
-        private bool FontTextRenderingHint
-        {
-            get
-            {
-                return this.fontTextRenderingHint;
-            }
-            set
-            {
-                this.fontTextRenderingHint = value;
-            }
-        }
-
-        public int ImageHeight
-        {
-            get
-            {
-                return this.imageHeight;
-            }
-            set
-            {
-                this.imageHeight = value;
-            }
-        }
-
-        public override string Name
-        {
-            get
-            {
-                return "GIF闪烁动画(蓝色)";
-            }
-        }
-
-        public int Padding
-        {
-            get
-            {
-                return this.padding;
-            }
-            set
-            {
-                this.padding = value;
-            }
-        }
-
-        public int ValidataCodeLength
-        {
-            get
-            {
-                return this.validataCodeLength;
-            }
-            set
-            {
-                this.validataCodeLength = value;
-            }
-        }
-
-        public int ValidataCodeSize
-        {
-            get
-            {
-                return this.validataCodeSize;
-            }
-            set
-            {
-                this.validataCodeSize = value;
-            }
-        }
-
-        public string ValidateCodeFont
-        {
-            get
-            {
-                return this.validateCodeFont;
-            }
-            set
-            {
-                this.validateCodeFont = value;
-            }
-        }
+        #endregion Methods
     }
 }
