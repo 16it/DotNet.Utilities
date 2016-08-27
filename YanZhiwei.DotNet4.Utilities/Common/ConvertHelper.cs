@@ -12,17 +12,18 @@
         #region Methods
 
         /// <summary>
-        /// 字符串转GUID
+        /// 将字符串转换为Guid
         /// </summary>
-        /// <param name="data">字符串</param>
-        /// <returns>若转换失败，则返回Guid.Empty</returns>
-        public static Guid ToGuid(this string data)
+        /// <param name="data">需要转换的字符串</param>
+        /// <param name="errorValue">转换失败后返回类型</param>
+        /// <returns>转换返回</returns>
+        public static Guid ToGuidOrDefault(this string data, Guid errorValue)
         {
             Guid _result = Guid.Empty;
             if (Guid.TryParse(data, out _result))
                 return _result;
             else
-                return Guid.Empty;
+                return errorValue;
         }
 
         #endregion Methods

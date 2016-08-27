@@ -43,30 +43,30 @@ namespace YanZhiwei.DotNet4.Utilities.Common
             collection = collection as IList<T> ?? collection.ToList();
             ValidateOperator.Begin().NotNull(itemFormatFunc, "单个集合项的转换委托");
 
-            if(!collection.Any())
+            if (!collection.Any())
             {
                 return null;
             }
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder _builder = new StringBuilder();
             int i = 0;
             int count = collection.Count();
 
-            foreach(T t in collection)
+            foreach (T t in collection)
             {
-                if(i == count - 1)
+                if (i == count - 1)
                 {
-                    sb.Append(itemFormatFunc(t));
+                    _builder.Append(itemFormatFunc(t));
                 }
                 else
                 {
-                    sb.Append(itemFormatFunc(t) + separetor);
+                    _builder.Append(itemFormatFunc(t) + separetor);
                 }
 
                 i++;
             }
 
-            return sb.ToString();
+            return _builder.ToString();
         }
 
         /// <summary>

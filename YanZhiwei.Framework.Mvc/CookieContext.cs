@@ -126,7 +126,7 @@
         {
             get
             {
-                return CookieManger.GetValue(KeyPrefix + "UserToken").ToGuid();
+                return CookieManger.GetValue(KeyPrefix + "UserToken").ToGuidOrDefault();
             }
             set
             {
