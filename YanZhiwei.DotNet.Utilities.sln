@@ -61,8 +61,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Internatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.International.UtilitiesTests", "YanZhiwei.DotNet.International.UtilitiesTests\YanZhiwei.DotNet.International.UtilitiesTests.csproj", "{6F9B9A77-8677-4B05-8FAB-F4CD3FE2146D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.5.Utilities", "YanZhiwei.DotNet4.5.Utilities\YanZhiwei.DotNet4.5.Utilities.csproj", "{A118A566-52AD-48F6-B1D2-78B31647080D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.EF.Utilities", "YanZhiwei.DotNet.EF.Utilities\YanZhiwei.DotNet.EF.Utilities.csproj", "{9ACF5E7B-908C-4693-A348-BBC50170AECE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Ninject.Utilities", "YanZhiwei.DotNet.Ninject.Utilities\YanZhiwei.DotNet.Ninject.Utilities.csproj", "{1CB4F41B-4780-4568-A3E2-F4B50EB26B2C}"
@@ -485,16 +483,6 @@ Global
 		{6F9B9A77-8677-4B05-8FAB-F4CD3FE2146D}.Release|x64.Build.0 = Release|Any CPU
 		{6F9B9A77-8677-4B05-8FAB-F4CD3FE2146D}.Release|x86.ActiveCfg = Release|Any CPU
 		{6F9B9A77-8677-4B05-8FAB-F4CD3FE2146D}.Release|x86.Build.0 = Release|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Release|ARM.ActiveCfg = Release|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Release|x64.ActiveCfg = Release|Any CPU
-		{A118A566-52AD-48F6-B1D2-78B31647080D}.Release|x86.ActiveCfg = Release|Any CPU
 		{9ACF5E7B-908C-4693-A348-BBC50170AECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9ACF5E7B-908C-4693-A348-BBC50170AECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ACF5E7B-908C-4693-A348-BBC50170AECE}.Debug|ARM.ActiveCfg = Debug|Any CPU
