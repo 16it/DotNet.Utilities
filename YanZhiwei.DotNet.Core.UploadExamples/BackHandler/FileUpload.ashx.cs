@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web;
 using YanZhiwei.DotNet.Core.Upload;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet3._5.Utilities.Common;
 
 namespace YanZhiwei.DotNet.Core.UploadExamples.BackHandler
@@ -34,10 +34,10 @@ namespace YanZhiwei.DotNet.Core.UploadExamples.BackHandler
         {
             var ext = filePath.Substring(filePath.LastIndexOf('.') + 1).ToLower();
 
-            if(!ImageExt.Contains(ext))
+            if (!ImageExt.Contains(ext))
                 return;
 
-            if(string.IsNullOrEmpty(context.Request["thumbs"]))
+            if (string.IsNullOrEmpty(context.Request["thumbs"]))
             {
                 this.MakeThumbnail(filePath, "s", context.Request["thumbwidth"].ToInt32OrDefault(85), context.Request["thumbheight"].ToInt32OrDefault(85), string.IsNullOrEmpty(context.Request["mode"]) ? "H" : context.Request["mode"]);
             }
@@ -45,7 +45,7 @@ namespace YanZhiwei.DotNet.Core.UploadExamples.BackHandler
             {
                 var thumbs = context.Request["thumbs"];
 
-                foreach(var thumb in thumbs.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var thumb in thumbs.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     var thumbparts = thumb.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     this.MakeThumbnail(filePath, thumbparts[0], thumbparts[1].ToInt32OrDefault(0), thumbparts[2].ToInt32OrDefault(0), thumbparts[3]);
