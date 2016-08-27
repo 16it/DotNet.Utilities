@@ -1,17 +1,20 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
-using YanZhiwei.DotNet3._5.Utilities.Enum;
-
-namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
+﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
+    using System;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
+    using System.IO;
+
+    using YanZhiwei.DotNet3._5.Utilities.Enum;
+
     /// <summary>
     /// 生成缩略图
     /// </summary>
     public class WebThumbnailImage
     {
+        #region Methods
+
         /// <summary>
         ///  生成缩略图
         /// </summary>
@@ -222,5 +225,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
                 _graphics.Dispose();
             }
         }
+
+        #endregion Methods
     }
 }
