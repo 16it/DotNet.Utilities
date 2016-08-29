@@ -98,6 +98,19 @@
         }
 
         /// <summary>
+        /// 忽略大小写比较
+        /// </summary>
+        /// <param name="data">字符串</param>
+        /// <param name="compareData">比较字符串</param>
+        /// <returns>是否相等</returns>
+        /// 时间：2016/8/29 9:14
+        /// 备注：
+        public static bool CompareIgnoreCase(this string data, string compareData)
+        {
+            return string.Equals(data, compareData, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
         /// 补足位数_左边
         /// <para>eg:StringHelper.ComplementLeftZero("Yanzhiwei", 15);==>"000000Yanzhiwei"</para>
         /// </summary>
@@ -488,7 +501,6 @@
                 return data;
             }
         }
-
         #endregion Methods
     }
 }
