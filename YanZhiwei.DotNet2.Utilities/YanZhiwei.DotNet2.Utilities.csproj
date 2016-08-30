@@ -147,13 +147,12 @@
     <Compile Include="WebForm\Core\SessionManager.cs" />
     <Compile Include="WebForm\DropDownListHelper.cs" />
     <Compile Include="WebForm\FileDownHelper.cs" />
-    <Compile Include="WebForm\FileHelper.cs" />
+    <Compile Include="WebForm\StaticFileHelper.cs" />
     <Compile Include="WebForm\GridViewHelper.cs" />
     <Compile Include="WebForm\ClientScriptHelper.cs" />
     <Compile Include="WebForm\HtmlInputFileHelper.cs" />
     <Compile Include="WebForm\LinkButtonHelper.cs" />
     <Compile Include="WebForm\ListBoxHelper.cs" />
-    <Compile Include="WebForm\NetWorkHelper.cs" />
     <Compile Include="WebForm\RequestHelper.cs" />
     <Compile Include="WebForm\WebFormHelper.cs" />
     <Compile Include="WebForm\FetchHelper.cs" />
@@ -194,7 +193,7 @@
     <Compile Include="Common\SortHelper.cs" />
     <Compile Include="Common\StringBuilderHelper.cs" />
     <Compile Include="Core\ThreadSafeLazy.cs" />
-    <Compile Include="Common\MapHelper.cs" />
+    <Compile Include="Common\GeoHelper.cs" />
     <Compile Include="Common\MapOffsetDataHelper.cs" />
     <Compile Include="Common\MapOffsetHelper.cs" />
     <Compile Include="Test\RunTimeTest.cs" />

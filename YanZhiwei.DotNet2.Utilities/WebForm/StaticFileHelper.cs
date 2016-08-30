@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WebForm
 {
     using System.Web;
-
+    
     /// <summary>
-    /// WebForm 文件帮助类
+    /// 静态文件帮助类
     /// </summary>
-    public class FileHelper
+    public class StaticFileHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 获取物理地址
         /// </summary>
@@ -18,7 +18,7 @@
         {
             return HttpContext.Current.Server.MapPath(fileVirtualPath);
         }
-
+        
         #endregion Methods
     }
 }

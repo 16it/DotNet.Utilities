@@ -72,6 +72,7 @@
     <Compile Include="Common\GuidHelper.cs" />
     <Compile Include="Common\IDataReaderHelper.cs" />
     <Compile Include="Common\PageHelper.cs" />
+    <Compile Include="Enum\SerializationType.cs" />
     <Compile Include="Lambda\RecursiveSelectLambda.cs" />
     <Compile Include="Common\TypeHelper.cs" />
     <Compile Include="Common\WcfServiceProxy.cs" />
@@ -81,6 +82,9 @@
     <Compile Include="Model\UploadFileMessage.cs" />
     <Compile Include="Model\UploadFileConfig.cs" />
     <Compile Include="Model\UploadImageMessage.cs" />
+    <Compile Include="WebClient\CNNWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WebForm\Core\CookiesManager.cs" />
     <Compile Include="WebForm\Core\WebThumbnailImage.cs" />
     <Compile Include="WebForm\Core\WebUploadFile.cs" />
@@ -108,6 +112,7 @@
     <Compile Include="Core\NotifyPropertyChanged.cs" />
     <Compile Include="Core\SchedulerType\ScheduleExecutionOnce.cs" />
     <Compile Include="WebForm\Core\WebRequest.cs" />
+    <Compile Include="WebForm\NetHelper.cs" />
     <Compile Include="XAML\ControlHelper.cs" />
     <Compile Include="XAML\DispatcherHelper.cs" />
     <Compile Include="XAML\NotificationObject.cs" />

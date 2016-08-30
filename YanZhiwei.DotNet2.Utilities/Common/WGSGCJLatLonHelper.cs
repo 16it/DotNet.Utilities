@@ -1,16 +1,16 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-
+    
     using YanZhiwei.DotNet2.Utilities.Model;
-
+    
     /// <summary>
     /// 地球坐标系 (WGS-84) 到火星坐标系 (GCJ-02) 的转换 帮助类
     /// </summary>
     public class WGSGCJLatLonHelper
     {
         #region Fields
-
+        
         /*
          *参考：
          *1. http://blog.csdn.net/yorling/article/details/9175913
@@ -30,26 +30,26 @@
          *法，将真实的坐标加密成虚假的坐标，而这个加偏并不是线性的加偏，所以各地的偏移情况都会有所不同。而加密后的坐标也常
          *被人称为火星坐标系统。GCJ-02 意味“国测局-2002”，也就是说，这是国家测绘局于2002年弄出的标准。
          */
-
+        
         /// <summary>
         /// 常量a
         /// </summary>
         private const double a = 6378245.0;
-
+        
         /// <summary>
         /// 常量ee
         /// </summary>
         private const double ee = 0.00669342162296594323;
-
+        
         /// <summary>
         /// The pi
         /// </summary>
         private const double pi = 3.14159265358979324;
-
+        
         #endregion Fields
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 火星坐标转 (GCJ-02)地球坐标(WGS-84)
         /// </summary>
@@ -57,15 +57,15 @@
         /// <returns>地球坐标(WGS-84)</returns>
         public static LatLngPoint GCJ02ToWGS84(LatLngPoint gcjPoint)
         {
-            if(MapHelper.OutOfChina(gcjPoint))
+            if(GeoHelper.OutOfChina(gcjPoint))
             {
                 return gcjPoint;
             }
-
+            
             LatLngPoint _transPoint = Transform(gcjPoint);
             return new LatLngPoint(gcjPoint.LatY - _transPoint.LatY, gcjPoint.LonX - _transPoint.LonX);
         }
-
+        
         /// <summary>
         /// 地球坐标(WGS-84)转火星坐标 (GCJ-02)
         /// </summary>
@@ -73,15 +73,15 @@
         /// <returns>火星坐标 (GCJ-02)</returns>
         public static LatLngPoint WGS84ToGCJ02(LatLngPoint wgsPoint)
         {
-            if(MapHelper.OutOfChina(wgsPoint))
+            if(GeoHelper.OutOfChina(wgsPoint))
             {
                 return wgsPoint;
             }
-
+            
             LatLngPoint _transPoint = Transform(wgsPoint);
             return new LatLngPoint(wgsPoint.LatY + _transPoint.LatY, wgsPoint.LonX + _transPoint.LonX);
         }
-
+        
         /// <summary>
         /// 转义经纬度
         /// </summary>
@@ -102,7 +102,7 @@
             _transPoint.LonX = _lon;
             return _transPoint;
         }
-
+        
         /// <summary>
         /// 转义纬度
         /// </summary>
@@ -117,7 +117,7 @@
             _ret += (160.0 * Math.Sin(latY / 12.0 * pi) + 320 * Math.Sin(latY * pi / 30.0)) * 2.0 / 3.0;
             return _ret;
         }
-
+        
         /// <summary>
         /// 转义经度
         /// </summary>
@@ -132,7 +132,7 @@
             _ret += (150.0 * Math.Sin(lonX / 12.0 * pi) + 300.0 * Math.Sin(lonX / 30.0 * pi)) * 2.0 / 3.0;
             return _ret;
         }
-
+        
         #endregion Methods
     }
 }

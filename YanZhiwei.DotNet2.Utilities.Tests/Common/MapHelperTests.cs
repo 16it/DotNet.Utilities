@@ -11,7 +11,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         public void GetQueryLocationTest()
         {
             GeoPoint _geoPointExpected = new GeoPoint(11521, 3412);
-            GeoPoint _geoPointActual = MapHelper.GetQueryLocation(new LatLngPoint()
+            GeoPoint _geoPointActual = GeoHelper.GetQueryLocation(new LatLngPoint()
             {
                 LonX = 115.21212, LatY = 34.121
             });
