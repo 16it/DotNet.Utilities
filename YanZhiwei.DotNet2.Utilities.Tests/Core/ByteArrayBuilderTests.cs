@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using YanZhiwei.DotNet2.Utilities.Builder;
 
 namespace YanZhiwei.DotNet2.Utilities.Core.Tests
 {
@@ -8,7 +9,7 @@ namespace YanZhiwei.DotNet2.Utilities.Core.Tests
         [TestMethod()]
         public void ToArrayTest()
         {
-            using (ByteArrayBuilder builder = new ByteArrayBuilder())
+            using(ByteArrayBuilder builder = new ByteArrayBuilder())
             {
                 builder.Append((byte)0x68);
                 builder.Append((byte)0x01);
@@ -24,7 +25,7 @@ namespace YanZhiwei.DotNet2.Utilities.Core.Tests
         [TestMethod()]
         public void ToStringTest()
         {
-            using (ByteArrayBuilder builder = new ByteArrayBuilder())
+            using(ByteArrayBuilder builder = new ByteArrayBuilder())
             {
                 builder.Append((byte)0x68);
                 builder.Append((byte)0x01);

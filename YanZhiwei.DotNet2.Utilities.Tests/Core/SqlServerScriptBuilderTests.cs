@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections;
+using YanZhiwei.DotNet2.Utilities.Builder;
 
 namespace YanZhiwei.DotNet2.Utilities.Core.Tests
 {
@@ -19,7 +20,6 @@ namespace YanZhiwei.DotNet2.Utilities.Core.Tests
         {
             string _sql = sqlScriptBuilder.SelectAllColumns();
             Assert.AreEqual("select * from Products", _sql);
-
             Hashtable _sqlWhere = new Hashtable();
             _sqlWhere.Add("ProductID", 1);
             _sqlWhere.Add("ProductName", "Aniseed Syrup");
@@ -71,13 +71,11 @@ namespace YanZhiwei.DotNet2.Utilities.Core.Tests
         {
             string _sql = sqlScriptBuilder.Delete();
             Assert.AreEqual("DELETE FROM Products WHERE productid=@productid", _sql);
-
             Hashtable _sqlWhere = new Hashtable();
             _sqlWhere.Add("ProductID", 1);
             _sqlWhere.Add("ProductName", "Aniseed Syrup");
             _sql = sqlScriptBuilder.Delete(_sqlWhere);
             Assert.AreEqual("DELETE FROM Products WHERE productname=@productname and productid=@productid", _sql);
-
         }
     }
 }

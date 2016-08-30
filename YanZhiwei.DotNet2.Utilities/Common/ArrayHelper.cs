@@ -138,6 +138,19 @@
             return false;
         }
 
+        /// <summary>
+        /// 扩大或者缩小数组
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="array">数组</param>
+        /// <param name="newSizes">新数组大小</param>
+        /// 时间：2016/8/30 16:57
+        /// 备注：
+        public static T[] Resize<T>(this T[] array, int newSizes)
+        {
+            Array.Resize<T>(ref array, newSizes);
+            return array;
+        }
         #endregion Methods
     }
 }
