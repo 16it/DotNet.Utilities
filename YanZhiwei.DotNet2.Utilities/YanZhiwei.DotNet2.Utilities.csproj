@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Common\AttributeHelper.cs" />
     <Compile Include="DataOperator\AccessDataOperator.cs" />
+    <Compile Include="Enum\FileUpgradeStatus.cs" />
     <Compile Include="Operator\BinaryFileOperator.cs" />
     <Compile Include="Common\ComparisonHelper.cs" />
     <Compile Include="Common\DataBaseHelper.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Exception\FrameworkException.cs" />
     <Compile Include="Communication\HighPerformanceServer.cs" />
     <Compile Include="Collection\PagedList.cs" />
+    <Compile Include="Operator\FileUpgradeOperator.cs" />
     <Compile Include="Test\PerformanceTest.cs" />
     <Compile Include="Collection\SerializableDictionary.cs" />
     <Compile Include="Common\ADDomainHelper.cs">

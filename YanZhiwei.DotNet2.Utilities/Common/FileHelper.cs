@@ -19,12 +19,12 @@
         #region Fields
 
         /// <summary>
-        /// The o f_ readwrite
+        /// OF_READWRITE
         /// </summary>
         public const int OF_READWRITE = 2;
 
         /// <summary>
-        /// The o f_ shar e_ den y_ none
+        /// OF_SHARE_DENY_NONE
         /// </summary>
         public const int OF_SHARE_DENY_NONE = 0x40;
 
@@ -34,7 +34,7 @@
         public const string PATH_SPLIT_CHAR = "\\";
 
         /// <summary>
-        /// The hfil e_ error
+        /// HFILE_ERROR
         /// </summary>
         public static readonly IntPtr HFILE_ERROR = new IntPtr(-1);
 
@@ -87,7 +87,7 @@
         }
 
         /// <summary>
-        /// Closes the handle.
+        /// CloseHandle
         /// </summary>
         /// <param name="hObject">The h object.</param>
         /// <returns>bool</returns>：
@@ -439,6 +439,17 @@
         }
 
         /// <summary>
+        /// 将byte[]导出到文件
+        /// <para>eg: FileHelper.ExportToFile(_bytes, _outputFilePath); </para>
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="filePath"></param>
+        public static void ExportToFile(byte[] bytes, string filePath)
+        {
+            File.WriteAllBytes(filePath, bytes);
+        }
+
+        /// <summary>
         /// 文件是否被占用
         /// </summary>
         /// <param name="fileName">文件名称</param>
@@ -468,11 +479,8 @@
             Match _result = null;
             string _fileName = string.Empty;
 
-            if(!string.IsNullOrEmpty(path))
-            {
-                if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
-                    _fileName = _result.Result("${fpath}") + _result.Result("${fname}") + _result.Result("${namext}");
-            }
+            if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
+                _fileName = _result.Result("${fpath}") + _result.Result("${fname}") + _result.Result("${namext}");
 
             return _fileName;
         }
@@ -488,11 +496,8 @@
             Match _result = null;
             string _fileName = string.Empty;
 
-            if(!string.IsNullOrEmpty(path))
-            {
-                if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
-                    _fileName = _result.Result("${fpath}");
-            }
+            if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
+                _fileName = _result.Result("${fpath}");
 
             return _fileName;
         }
@@ -508,11 +513,8 @@
             Match _result = null;
             string _fileName = string.Empty;
 
-            if(!string.IsNullOrEmpty(path))
-            {
-                if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
-                    _fileName = _result.Result("${suffix}");
-            }
+            if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
+                _fileName = _result.Result("${suffix}");
 
             return _fileName;
         }
@@ -553,11 +555,8 @@
             Match _result = null;
             string _fileName = string.Empty;
 
-            if(!string.IsNullOrEmpty(path))
-            {
-                if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
-                    _fileName = _result.Result("${fname}") + _result.Result("${namext}") + _result.Result("${suffix}");
-            }
+            if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
+                _fileName = _result.Result("${fname}") + _result.Result("${namext}") + _result.Result("${suffix}");
 
             return _fileName;
         }
@@ -573,11 +572,8 @@
             Match _result = null;
             string _fileName = string.Empty;
 
-            if(!string.IsNullOrEmpty(path))
-            {
-                if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
-                    _fileName = _result.Result("${fname}") + _result.Result("${namext}");
-            }
+            if(RegexHelper.IsMatch(path, RegexPattern.FileCheck, out _result))
+                _fileName = _result.Result("${fname}") + _result.Result("${namext}");
 
             return _fileName;
         }
@@ -628,25 +624,8 @@
         /// <returns>文件大小</returns>
         public static long GetSize(string filePath)
         {
-            long _size = 0;
-
-            try
-            {
-                if(File.Exists(filePath))
-                {
-                    FileStream _stream = new FileStream(filePath, FileMode.Open);
-                    _size = _stream.Length;
-                    _stream.Close();
-                    _stream.Dispose();
-                }
-            }
-            catch(Exception ex)
-            {
-                _size = 0;
-                Debug.WriteLine(string.Format("获取文件大小异常，原因：{0}", ex.Message));
-            }
-
-            return _size;
+            byte[] _buffer = ReadBuffer(filePath);
+            return _buffer == null ? 0 : _buffer.Length;
         }
 
         /// <summary>
@@ -714,24 +693,19 @@
         }
 
         /// <summary>
-        /// 将文件转换成二进制数组
-        /// <para>eg:FileHelper.ParseFile(@"C:\demo.txt");</para>
+        /// 将文件转换成二进制流
+        /// <para>eg:FileHelper.ReadBuffer(@"C:\demo.txt");</para>
         /// </summary>
         /// <param name="filePath">文件路径</param>
-        /// <returns>Byte数组</returns>
-        public static byte[] ParseFile(string filePath)
+        /// <returns>二进制数组</returns>
+        public static byte[] ReadBuffer(string filePath)
         {
-            if(File.Exists(filePath))
+            using(FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
-                using(FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    byte[] _buffur = new byte[stream.Length];
-                    stream.Read(_buffur, 0, (int)stream.Length);
-                    return _buffur;
-                }
+                byte[] _buffur = new byte[stream.Length];
+                stream.Read(_buffur, 0, (int)stream.Length);
+                return _buffur;
             }
-
-            return null;
         }
 
         /// <summary>
@@ -749,7 +723,7 @@
                 string _path = _pathQueue.Dequeue();
                 DirectorySecurity _pathSecurity = new DirectorySecurity(_path, AccessControlSections.Access);
 
-                if(!_pathSecurity.AreAccessRulesProtected)                  //文件夹权限是否可访问
+                if(!_pathSecurity.AreAccessRulesProtected)                                   //文件夹权限是否可访问
                 {
                     DirectoryInfo _directoryInfo = new DirectoryInfo(_path);
 
@@ -787,9 +761,7 @@
              * 2. http://zouqinghua11111.blog.163.com/blog/static/67997654201242334620628/
              * 3. http://stackoverflow.com/questions/5089601/run-the-application-at-windows-startup
              */
-            RegistryKey _reg = Registry.LocalMachine;
-
-            try
+            using(RegistryKey _reg = Registry.LocalMachine)
             {
                 RegistryKey _run = _reg.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
 
@@ -799,28 +771,12 @@
                 }
                 else
                 {
-                    Object _value = _run.GetValue(keyName);
-                    Trace.WriteLine("StartupSet Finded :" + _value == null ? "Null" : _value);
+                    object _value = _run.GetValue(keyName);
 
                     if(_value != null)
                         _run.DeleteValue(keyName);
                 }
             }
-            finally
-            {
-                _reg.Close();
-            }
-        }
-
-        /// <summary>
-        /// 将byte[]导出到文件
-        /// <para>eg: FileHelper.ToFile(_bytes, _outputFilePath); </para>
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="filePath"></param>
-        public static void ToFile(byte[] bytes, string filePath)
-        {
-            File.WriteAllBytes(filePath, bytes);
         }
 
         #endregion Methods
