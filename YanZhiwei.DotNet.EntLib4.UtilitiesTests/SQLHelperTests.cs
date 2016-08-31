@@ -3,7 +3,7 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
 {

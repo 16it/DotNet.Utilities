@@ -1,5 +1,7 @@
 ﻿namespace YanZhiwei.Framework.Mvc
 {
+    using DotNet2.Utilities.Common;
+    using DotNet2.Utilities.Encryptor;
     using System;
     using System.Web;
 
@@ -126,7 +128,7 @@
         {
             get
             {
-                return CookieManger.GetValue(KeyPrefix + "UserToken").ToGuidOrDefault();
+                return CookieManger.GetValue(KeyPrefix + "UserToken").ToGuidOrDefault(Guid.Empty);
             }
             set
             {
@@ -141,14 +143,14 @@
         {
             get
             {
-                string _verifyCode = DESEncryptHelper.Encrypt(CookieManger.GetValue(KeyPrefix + "VerifyCode"));
+                string _verifyCode = DESEncryptor.Encrypt(CookieManger.GetValue(KeyPrefix + "VerifyCode"));
                 //获取完CookieManger后马上过期，重新生成新的验证码
-                CookieManger.Save(KeyPrefix + "VerifyCode", DESEncryptHelper.Encrypt(DateTime.Now.Ticks.ToString()), 1);
+                CookieManger.Save(KeyPrefix + "VerifyCode", DESEncryptor.Encrypt(DateTime.Now.Ticks.ToString()), 1);
                 return _verifyCode;
             }
             set
             {
-                CookieManger.Save(KeyPrefix + "VerifyCode", DESEncryptHelper.Decrypt(value), 1);
+                CookieManger.Save(KeyPrefix + "VerifyCode", DESEncryptor.Decrypt(value), 1);
             }
         }
 

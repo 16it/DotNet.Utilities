@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet.Ftp.Utilities
 {
+    using DotNet2.Utilities.Operator;
     using System.Collections.Generic;
     using System.IO;
     using System.Net;
@@ -45,7 +46,7 @@
         /// 备注：
         public FTPHelper(string serverHost, string userName, string userPassword)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(serverHost, "服务器IP").NotNullOrEmpty(UserName, "用户名").NotNullOrEmpty(userPassword, "用户密码");
+            ValidateOperator.Begin().NotNullOrEmpty(serverHost, "服务器IP").NotNullOrEmpty(UserName, "用户名").NotNullOrEmpty(userPassword, "用户密码");
             UserName = userName;
             UserPassword = userPassword;
             ServerHost = serverHost;
@@ -79,7 +80,7 @@
         /// <param name="localpath">本地保存路径</param>
         public bool DownloadFile(string serverpath, string localpath)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(serverpath, "服务器路径，eg：'/Serverpath/'").NotNullOrEmpty(localpath, "本地保存路径");
+            ValidateOperator.Begin().NotNullOrEmpty(serverpath, "服务器路径，eg：'/Serverpath/'").NotNullOrEmpty(localpath, "本地保存路径");
             FtpClient _ftpClient = new FtpClient();
             _ftpClient.Host = ServerHost;
             _ftpClient.Credentials = new NetworkCredential(UserName, UserPassword);

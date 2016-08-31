@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Routing;
-using YanZhiwei.DotNet2.Interfaces.IDataOperator;
+using YanZhiwei.DotNet2.Interfaces;
 
 namespace YanZhiwei.DotNet.Mvc.Utilities.Controls.MvcPager
 {

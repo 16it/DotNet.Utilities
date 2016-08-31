@@ -5,6 +5,9 @@ using YanZhiwei.DotNet.Log4Net.Utilities;
 using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Core;
 using YanZhiwei.DotNet2.Utilities.WinForm;
+using YanZhiwei.DotNet2.Utilities.Operator;
+using YanZhiwei.DotNet2.Utilities.Communication;
+using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet.SerialPortTemplate
 {
@@ -106,7 +109,7 @@ namespace YanZhiwei.DotNet.SerialPortTemplate
 
             try
             {
-                ValidateHelper.Begin().NotNullOrEmpty(_serilportName, "串口名称");
+                ValidateOperator.Begin().NotNullOrEmpty(_serilportName, "串口名称");
 
                 if(_tag == "1")
                 {

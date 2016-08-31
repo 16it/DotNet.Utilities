@@ -1,10 +1,9 @@
 ﻿namespace YanZhiwei.DotNet.Topshelf.Utilities
 {
+    using DotNet2.Utilities.Operator;
     using global::Topshelf;
     using global::Topshelf.HostConfigurators;
     using System;
-
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// Topshelf 辅助类
@@ -52,7 +51,7 @@
         /// 备注：
         public TopshelfHelper(string description, string displayName, string serviceName)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(description, "安装服务后，服务的描述").NotNullOrEmpty(displayName, "服务显示名称").NotNullOrEmpty(serviceName, "服务名称");
+            ValidateOperator.Begin().NotNullOrEmpty(description, "安装服务后，服务的描述").NotNullOrEmpty(displayName, "服务显示名称").NotNullOrEmpty(serviceName, "服务名称");
             Description = description;
             DisplayName = displayName;
             ServiceName = serviceName;
@@ -138,7 +137,7 @@
         public void SetServiceRunAs(string userName, string userPassword)
         {
             ServiceRunAs = ServiceRunAs.UserLogin;
-            ValidateHelper.Begin().NotNullOrEmpty(userName, "服务登陆用户名称").NotNullOrEmpty(userPassword, "服务登陆用户密码");
+            ValidateOperator.Begin().NotNullOrEmpty(userName, "服务登陆用户名称").NotNullOrEmpty(userPassword, "服务登陆用户密码");
             UserName = userName;
             UserPassword = userPassword;
         }

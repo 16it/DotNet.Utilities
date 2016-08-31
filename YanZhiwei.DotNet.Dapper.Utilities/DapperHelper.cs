@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet.Dapper.Utilities
 {
-    using DotNet2.Utilities.DataOperator;
+    using DotNet2.Utilities.Operator;
     using global::Dapper;
     using System.Collections.Generic;
     using System.Data;
@@ -30,7 +30,7 @@
         /// 备注：
         public DapperHelper(string connectString)
         {
-            ValidateHelper.Begin().NotNullOrEmpty(connectString, "连接字符串不能为空！");
+            ValidateOperator.Begin().NotNullOrEmpty(connectString, "连接字符串不能为空！");
             ConnectString = connectString;
         }
 

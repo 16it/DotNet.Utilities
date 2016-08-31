@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.Framework.Mvc
 {
     using DotNet.Framework.Contract;
+    using DotNet3._5.Utilities.WebForm;
     using System;
     using System.Linq;
     using System.Text;

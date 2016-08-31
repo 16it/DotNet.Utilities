@@ -1,7 +1,7 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.IO;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet.SharpZipLib.Utilities
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
 using YanZhiwei.DotNet2.Utilities.Enum;
+using YanZhiwei.DotNet2.Utilities.Operator;
 
 namespace YanZhiwei.DotNet.Mvc.Utilities
 {
@@ -48,8 +48,8 @@ namespace YanZhiwei.DotNet.Mvc.Utilities
 
         public static string JsCssFile(this UrlHelper helper, string path)
         {
-            AppSettingsHelper _appConfig = new AppSettingsHelper(ProgramMode.WebForm);
-            var jsAndCssFileEdition = _appConfig.GetValue("JsAndCssFileEdition");// AppSettingsHelper.GetString("JsAndCssFileEdition");
+            ConfigFileOperator _appConfig = new ConfigFileOperator(ProgramMode.WebForm);
+            var jsAndCssFileEdition = _appConfig.GetSetting("JsAndCssFileEdition");// AppSettingsHelper.GetString("JsAndCssFileEdition");
 
             if(string.IsNullOrEmpty(jsAndCssFileEdition))
                 jsAndCssFileEdition = Guid.NewGuid().ToString();
