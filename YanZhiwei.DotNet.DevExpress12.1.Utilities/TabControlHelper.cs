@@ -2,6 +2,9 @@
 {
     using DevExpress.XtraTab;
 
+    /// <summary>
+    /// XtraTabControl 帮助类
+    /// </summary>
     public static class TabControlHelper
     {
         #region Methods

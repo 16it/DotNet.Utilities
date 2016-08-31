@@ -15,7 +15,7 @@
         /// <param name="textEdit">TextEdit</param>
         public static void ClearWatermark(this TextEdit textEdit)
         {
-            if (textEdit.Properties.NullValuePromptShowForEmptyValue)
+            if(textEdit.Properties.NullValuePromptShowForEmptyValue)
                 textEdit.Properties.NullValuePrompt = string.Empty;
         }
 

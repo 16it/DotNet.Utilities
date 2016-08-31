@@ -1,8 +1,7 @@
 ﻿namespace YanZhiwei.DotNet.DevExpress12._1.Utilities
 {
-    using System.Windows.Forms;
-
     using DevExpress.XtraEditors;
+    using System.Windows.Forms;
 
     /// <summary>
     ///devexpress消息框帮助类

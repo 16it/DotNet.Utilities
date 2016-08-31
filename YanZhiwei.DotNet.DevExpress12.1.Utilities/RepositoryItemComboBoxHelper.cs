@@ -27,22 +27,19 @@
              *_source.Add(new PersonInfo("Dirk", "Luchte"));
              *repositoryItemComboBox1.SetDataSource<PersonInfo>(_source);
              */
-            if (source != null)
+            try
             {
-                try
+                combox.BeginUpdate();
+                combox.Items.AddRange(source);
+                combox.ParseEditValue += (sender, e) =>
                 {
-                    combox.BeginUpdate();
-                    combox.Items.AddRange(source);
-                    combox.ParseEditValue += (sender, e) =>
-                    {
-                        e.Value = e.Value.ToString();
-                        e.Handled = true;
-                    };
-                }
-                finally
-                {
-                    combox.EndUpdate();
-                }
+                    e.Value = e.Value.ToString();
+                    e.Handled = true;
+                };
+            }
+            finally
+            {
+                combox.EndUpdate();
             }
         }
 

@@ -14,20 +14,18 @@
          * 参考：
          * 1. https://documentation.devexpress.com/#WindowsForms/CustomDocument4874
          */
+
         /// <summary>
         /// 添加换行标签
         /// </summary>
         /// <param name="data">字符串</param>
         /// <returns>操作后的字符串</returns>
-        public static string AddBRTag(this string data)
+        public static string AddBRTag(string data)
         {
-            if (!string.IsNullOrEmpty(data))
-            {
-                StringBuilder _builder = new StringBuilder();
-                _builder.Append(data);
-                _builder.Append("<br>");
-                data = _builder.ToString();
-            }
+            StringBuilder _builder = new StringBuilder();
+            _builder.Append(data);
+            _builder.Append("<br>");
+            data = _builder.ToString();
             return data;
         }
 
@@ -37,15 +35,12 @@
         /// <param name="data">字符串</param>
         /// <param name="bContent">需要加粗的内容</param>
         /// <returns>操作后的字符串</returns>
-        public static string AddBTag(this string data, string bContent)
+        public static string AddBTag(string data, string bContent)
         {
-            if (!string.IsNullOrEmpty(data))
-            {
-                StringBuilder _builder = new StringBuilder();
-                _builder.Append(data);
-                _builder.AppendFormat("<b>{0}</b>", bContent);
-                data = _builder.ToString();
-            }
+            StringBuilder _builder = new StringBuilder();
+            _builder.Append(data);
+            _builder.AppendFormat("<b>{0}</b>", bContent);
+            data = _builder.ToString();
             return data;
         }
 
@@ -56,15 +51,12 @@
         /// <param name="url">超链接</param>
         /// <param name="urlText">超链接文本</param>
         /// <returns>操作后的字符串</returns>
-        public static string AddHrefTag(this string data, string url, string urlText)
+        public static string AddHrefTag(string data, string url, string urlText)
         {
-            if (!string.IsNullOrEmpty(data))
-            {
-                StringBuilder _builder = new StringBuilder();
-                _builder.Append(data);
-                _builder.AppendFormat("<href={0}>{1}</href>", url, urlText);
-                data = _builder.ToString();
-            }
+            StringBuilder _builder = new StringBuilder();
+            _builder.Append(data);
+            _builder.AppendFormat("<href={0}>{1}</href>", url, urlText);
+            data = _builder.ToString();
             return data;
         }
 
@@ -74,10 +66,9 @@
         /// <param name="data">字符串</param>
         /// <param name="color">Color</param>
         /// <returns>操作后的字符串</returns>
-        public static string SetbackColor(this string data, Color color)
+        public static string SetbackColor(string data, Color color)
         {
-            if (!string.IsNullOrEmpty(data))
-                data = string.Format("<backcolor={0}>{1}</color>", color.Name, data);
+            data = string.Format("<backcolor={0}>{1}</color>", color.Name, data);
             return data;
         }
 
@@ -87,10 +78,9 @@
         /// <param name="data">字符串</param>
         /// <param name="color">Color</param>
         /// <returns>操作后的字符串</returns>
-        public static string SetColor(this string data, Color color)
+        public static string SetColor(string data, Color color)
         {
-            if (!string.IsNullOrEmpty(data))
-                data = string.Format("<color={0}>{1}</color>", color.Name, data);
+            data = string.Format("<color={0}>{1}</color>", color.Name, data);
             return data;
         }
 
@@ -100,10 +90,9 @@
         /// <param name="data">字符串</param>
         /// <param name="size">字体大小</param>
         /// <returns>操作后的字符串</returns>
-        public static string SetFontSize(this string data, int size)
+        public static string SetFontSize(string data, int size)
         {
-            if (!string.IsNullOrEmpty(data))
-                data = string.Format("<size={0}>{1}</color>", size, data);
+            data = string.Format("<size={0}>{1}</color>", size, data);
             return data;
         }
 

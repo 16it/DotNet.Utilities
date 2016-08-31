@@ -128,7 +128,7 @@
     <Compile Include="HTMLTextFormattingHelper.cs" />
     <Compile Include="ListBoxHelper.cs" />
     <Compile Include="LookUpEditHelper.cs" />
-    <Compile Include="Models\PrintItem.cs" />
+    <Compile Include="Model\PrintItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryItemComboBoxHelper.cs" />
     <Compile Include="SplashScreenHelper.cs" />

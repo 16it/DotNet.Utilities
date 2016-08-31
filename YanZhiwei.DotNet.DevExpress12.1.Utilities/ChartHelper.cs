@@ -1,10 +1,9 @@
 ﻿namespace YanZhiwei.DotNet.DevExpress12._1.Utilities
 {
-    using System;
-    using System.Drawing;
-
     using DevExpress.Utils;
     using DevExpress.XtraCharts;
+    using System;
+    using System.Drawing;
 
     /// <summary>
     ///Chart帮助类
@@ -123,19 +122,18 @@
         /// <param name="ctLineStyle">基准线样式</param>
         public static void CreateConstantLine(this ChartControl chart, int ctAxisValue, string ctLegendText, string ctTitle, Color ctTitleColor, Color ctLineColor, DashStyle ctLineStyle)
         {
-            if (chart.Diagram is XYDiagram)
+            if(chart.Diagram is XYDiagram)
             {
                 XYDiagram _diagram = (XYDiagram)chart.Diagram;
-                if (_diagram != null)
+
+                if(_diagram != null)
                 {
                     ConstantLine _ctLine = new ConstantLine();
-
                     _ctLine.AxisValue = ctAxisValue;
                     _ctLine.Visible = true;
                     _ctLine.ShowInLegend = true;
                     _ctLine.LegendText = ctLegendText;
                     _ctLine.ShowBehind = false;
-
                     _ctLine.Title.Visible = true;
                     _ctLine.Title.Text = ctTitle;
                     _ctLine.Title.TextColor = ctTitleColor;
@@ -143,11 +141,9 @@
                     _ctLine.Title.Font = new Font("Tahoma", 14, FontStyle.Bold);
                     _ctLine.Title.ShowBelowLine = true;
                     _ctLine.Title.Alignment = ConstantLineTitleAlignment.Far;
-
                     _ctLine.Color = ctLineColor;
                     _ctLine.LineStyle.DashStyle = ctLineStyle;
                     _ctLine.LineStyle.Thickness = 2;
-
                     _diagram.AxisY.ConstantLines.Add(_ctLine);
                 }
             }
@@ -164,19 +160,18 @@
         /// <param name="stripStyle">Strip填充样式</param>
         public static void CreateStrip(this ChartControl chart, Strip strip, string stripLable, string stripLengend, Color stripColor, FillMode stripStyle)
         {
-            if (chart.Diagram is XYDiagram)
+            if(chart.Diagram is XYDiagram)
             {
                 XYDiagram _diagram = (XYDiagram)chart.Diagram;
-                if (_diagram != null && strip != null)
+
+                if(_diagram != null && strip != null)
                 {
                     _diagram.AxisY.Strips.Add(strip);
-
                     _diagram.AxisY.Strips[0].Visible = true;
                     _diagram.AxisY.Strips[0].ShowAxisLabel = true;
                     _diagram.AxisY.Strips[0].AxisLabelText = stripLable;
                     _diagram.AxisY.Strips[0].ShowInLegend = true;
                     _diagram.AxisY.Strips[0].LegendText = stripLengend;
-
                     _diagram.AxisY.Strips[0].Color = stripColor;
                     _diagram.AxisY.Strips[0].FillStyle.FillMode = stripStyle;
                 }
@@ -193,8 +188,9 @@
         /// <param name="formatString">CrosshairLabel格式化设置；【{A}{V}{S}】</param>
         public static void CustomCrosshairLabel(this SeriesBase series, string formatString)
         {
-            if (series.CrosshairEnabled != DefaultBoolean.True)
+            if(series.CrosshairEnabled != DefaultBoolean.True)
                 series.CrosshairEnabled = DefaultBoolean.True;
+
             series.CrosshairLabelPattern = formatString;
         }
 
@@ -208,8 +204,9 @@
         /// <param name="formatString">Lable格式化设置；【{A}{V}{S}】</param>
         public static void CustomLable(this SeriesBase series, string formatString)
         {
-            if (series.LabelsVisibility != DefaultBoolean.True)
+            if(series.LabelsVisibility != DefaultBoolean.True)
                 series.LabelsVisibility = DefaultBoolean.True;
+
             series.Label.PointOptions.Pattern = formatString;
         }
 
@@ -225,7 +222,8 @@
         public static void SetAxisXScrollBar(this ChartControl chart, Color backColor, Color barColor, Color borderColor, int barThickness, ScrollBarAlignment barAlignment)
         {
             ScrollBarOptions _scrollBarOptions = SetScrollBar(chart, backColor, barColor, borderColor, barThickness);
-            if (_scrollBarOptions != null)
+
+            if(_scrollBarOptions != null)
             {
                 _scrollBarOptions.XAxisScrollBarAlignment = barAlignment;
                 _scrollBarOptions.XAxisScrollBarVisible = true;
@@ -241,10 +239,11 @@
         /// <param name="dateTimeGridAlignment">X轴刻度间距的单位</param>
         public static void SetAxisXTime(this ChartControl chart, DateTimeMeasurementUnit dateTimeMeasureUnit, DateTimeMeasurementUnit dateTimeGridAlignment)
         {
-            if (chart.Diagram is XYDiagram)
+            if(chart.Diagram is XYDiagram)
             {
                 XYDiagram _diagram = (XYDiagram)chart.Diagram;
-                if (_diagram != null)
+
+                if(_diagram != null)
                 {
                     _diagram.AxisX.DateTimeMeasureUnit = dateTimeMeasureUnit;//X轴刻度单位
                     _diagram.AxisX.DateTimeGridAlignment = dateTimeGridAlignment;//X轴刻度间距
@@ -261,10 +260,11 @@
         /// <param name="formatString">时间格式；eg:yyyy-MM</param>
         public static void SetAxisXTime(this ChartControl chart, DateTimeMeasurementUnit dateTimeMeasureUnit, DateTimeMeasurementUnit dateTimeGridAlignment, string formatString)
         {
-            if (chart.Diagram is XYDiagram)
+            if(chart.Diagram is XYDiagram)
             {
                 XYDiagram _diagram = (XYDiagram)chart.Diagram;
-                if (_diagram != null)
+
+                if(_diagram != null)
                 {
                     _diagram.AxisX.DateTimeMeasureUnit = dateTimeMeasureUnit;//X轴刻度单位
                     _diagram.AxisX.DateTimeGridAlignment = dateTimeGridAlignment;//X轴刻度间距
@@ -282,10 +282,11 @@
         /// <param name="titleColor">Title文字颜色</param>
         public static void SetAxisXTitle(this ChartControl chart, string titleText, Color titleColor)
         {
-            if (chart.Diagram is XYDiagram)
+            if(chart.Diagram is XYDiagram)
             {
                 XYDiagram _diagram = (XYDiagram)chart.Diagram;
-                if (_diagram != null)
+
+                if(_diagram != null)
                 {
                     _diagram.AxisX.Title.Visible = true;
                     _diagram.AxisX.Title.Alignment = StringAlignment.Center;
@@ -309,7 +310,8 @@
         public static void SetAxisYScrollBar(this ChartControl chart, Color backColor, Color barColor, Color borderColor, int barThickness, ScrollBarAlignment barAlignment)
         {
             ScrollBarOptions _scrollBarOptions = SetScrollBar(chart, backColor, barColor, borderColor, barThickness);
-            if (_scrollBarOptions != null)
+
+            if(_scrollBarOptions != null)
             {
                 _scrollBarOptions.XAxisScrollBarVisible = false;
                 _scrollBarOptions.YAxisScrollBarVisible = true;
@@ -325,10 +327,11 @@
         /// <param name="titleColor">Title文字颜色</param>
         public static void SetAxisYTitle(this ChartControl chart, string titleText, Color titleColor)
         {
-            if (chart.Diagram is XYDiagram)
+            if(chart.Diagram is XYDiagram)
             {
                 XYDiagram _diagram = (XYDiagram)chart.Diagram;
-                if (_diagram != null)
+
+                if(_diagram != null)
                 {
                     _diagram.AxisY.Title.Visible = true;
                     _diagram.AxisY.Title.Alignment = StringAlignment.Center;
@@ -359,7 +362,8 @@
         public static void SetColorEach(this SeriesBase series, bool colorEach)
         {
             SeriesViewColorEachSupportBase colorEachView = (SeriesViewColorEachSupportBase)series.View;
-            if (colorEachView != null)
+
+            if(colorEachView != null)
             {
                 colorEachView.ColorEach = colorEach;
             }
@@ -412,18 +416,20 @@
             //    chartLh.Series["pieSeries"].Visible = true;
             //    chartLh.SeriesTemplate.Visible = false;
             //});
-
             chart.MouseClick += (sender, e) =>
             {
                 ChartControl _curChart = sender as ChartControl;
                 ChartHitInfo _hitInfo = _curChart.CalcHitInfo(e.X, e.Y);
                 SeriesPoint _point = _hitInfo.SeriesPoint;
-                if (_point != null)
+
+                if(_point != null)
                 {
                     gotoHandler(_point);
                 }
+
                 ChartTitle link = _hitInfo.ChartTitle;
-                if (link != null && link.Text.StartsWith(backKeyWord))
+
+                if(link != null && link.Text.StartsWith(backKeyWord))
                 {
                     link.Visible = false;
                     backHandler(_point);
@@ -438,11 +444,12 @@
         /// <param name="lablePosition">PieSeriesLabelPosition枚举</param>
         public static void SetLablePosition(this SeriesBase series, PieSeriesLabelPosition lablePosition)
         {
-            if (series.Label is PieSeriesLabel)
+            if(series.Label is PieSeriesLabel)
             {
                 PieSeriesLabel _label = series.Label as PieSeriesLabel;
                 _label.Position = lablePosition;
             }
+
             //if (series.Label is Pie3DSeriesLabel)
             //{
             //    Pie3DSeriesLabel _label = series.Label as Pie3DSeriesLabel;
@@ -460,9 +467,9 @@
         /// <param name="dragPie">是否可以拖动突出饼状</param>
         public static void SetPieExplode(this ChartControl chart, SeriesBase pieSeries, PieExplodeMode explodeMode, int explodedValue, bool dragPie)
         {
-            if (pieSeries.View is PieSeriesView)
+            if(pieSeries.View is PieSeriesView)
             {
-                if (!chart.RuntimeHitTesting)
+                if(!chart.RuntimeHitTesting)
                     chart.RuntimeHitTesting = true;
 
                 PieSeriesView _pieView = pieSeries.View as PieSeriesView;
@@ -480,10 +487,11 @@
         /// <param name="lengendPointView">Series对应Lengend PointView类型</param>
         public static void SetPiePercentage(this SeriesBase series, NumericFormat valueLegendType, PointView lengendPointView)
         {
-            if (series.View is PieSeriesView || series.View is Pie3DSeriesView)
+            if(series.View is PieSeriesView || series.View is Pie3DSeriesView)
             {
                 PiePointOptions _piePointOptions = (PiePointOptions)series.Label.PointOptions;
-                if (_piePointOptions != null)
+
+                if(_piePointOptions != null)
                 {
                     _piePointOptions.PercentOptions.ValueAsPercent = true;
                     _piePointOptions.ValueNumericOptions.Format = NumericFormat.Percent;
@@ -499,7 +507,7 @@
         /// </summary>
         /// <param name="chart">ChartControl</param>
         /// <param name="setColorHander">委托；参数顺序【DrawOptions，LegendDrawOptions，SeriesPoint】</param>
-        public static void SetPieSeriesColor(this  ChartControl chart, Action<PieDrawOptions, PieDrawOptions, SeriesPoint> setColorHander)
+        public static void SetPieSeriesColor(this ChartControl chart, Action<PieDrawOptions, PieDrawOptions, SeriesPoint> setColorHander)
         {
             //eg:
             //chartControl1.SetPieSeriesColor((drawOptions, legendDrawOptions, seriesPoint) =>
@@ -532,7 +540,7 @@
             //});
             chart.CustomDrawSeriesPoint += (sender, e) =>
             {
-                if (e.SeriesDrawOptions is PieDrawOptions)
+                if(e.SeriesDrawOptions is PieDrawOptions)
                 {
                     PieDrawOptions _drawOptions = e.SeriesDrawOptions as PieDrawOptions;
                     PieDrawOptions _legendDrawOptions = e.LegendDrawOptions as PieDrawOptions;
@@ -553,10 +561,11 @@
         /// <param name="barThickness">滚动条宽度</param>
         public static ScrollBarOptions SetScrollBar(this ChartControl chart, Color backColor, Color barColor, Color borderColor, int barThickness)
         {
-            if (chart.Diagram is XYDiagram)
+            if(chart.Diagram is XYDiagram)
             {
                 XYDiagram _diagram = (XYDiagram)chart.Diagram;
-                if (_diagram != null)
+
+                if(_diagram != null)
                 {
                     _diagram.EnableAxisXScrolling = true;
                     _diagram.EnableAxisYScrolling = true;
@@ -570,6 +579,7 @@
                     return _scrollBarOptions;
                 }
             }
+
             return null;
         }
 
@@ -579,8 +589,8 @@
         /// <typeparam name="T">DrawOptions</typeparam>
         /// <param name="chart">ChartControl</param>
         /// <param name="setColorHander">委托；参数顺序【DrawOptions，LegendDrawOptions，LegendText】</param>
-        public static void SetSeriesColor<T>(this  ChartControl chart, Action<T, T, string> setColorHander)
-            where T : DrawOptions
+        public static void SetSeriesColor<T>(this ChartControl chart, Action<T, T, string> setColorHander)
+        where T : DrawOptions
         {
             //eg:
             //chartControl1.SetSeriesColor<BarDrawOptions>((drawOptions, legendDrawOptions, legendText) =>
@@ -605,7 +615,7 @@
             //});
             chart.CustomDrawSeries += (sender, e) =>
             {
-                if (e.SeriesDrawOptions is T)
+                if(e.SeriesDrawOptions is T)
                 {
                     T _drawOptions = e.SeriesDrawOptions as T;
                     T _legendDrawOptions = e.LegendDrawOptions as T;
@@ -653,7 +663,8 @@
                 ChartControl _curChart = sender as ChartControl;
                 ChartHitInfo _hitInfo = _curChart.CalcHitInfo(e.X, e.Y);
                 SeriesPoint _point = _hitInfo.SeriesPoint;
-                if (_point != null)
+
+                if(_point != null)
                 {
                     string _msg = paramter(_point.Argument, _point.Values);
                     tooltip.ShowHint(_msg, tooltipTitle);
@@ -672,10 +683,11 @@
         /// <param name="angle">角度</param>
         public static void SetXLableAngle(this ChartControl chart, int angle)
         {
-            if (chart.Diagram is XYDiagram)
+            if(chart.Diagram is XYDiagram)
             {
                 XYDiagram _xyDiagram = (XYDiagram)chart.Diagram;
-                if (_xyDiagram != null)
+
+                if(_xyDiagram != null)
                     _xyDiagram.AxisX.Label.Angle = angle;
             }
         }
@@ -687,7 +699,7 @@
         /// <param name="angle">角度</param>
         public static void SetYLableAngle(this ChartControl chart, int angle)
         {
-            if (chart.Diagram is XYDiagram)
+            if(chart.Diagram is XYDiagram)
             {
                 XYDiagram _xyDiagram = (XYDiagram)chart.Diagram;
                 _xyDiagram.AxisY.Label.Angle = angle;

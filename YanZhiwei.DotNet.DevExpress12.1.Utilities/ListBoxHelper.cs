@@ -25,9 +25,7 @@
         /// <returns>格式化后的颜色</returns>
         public static string FormatColor(string message, Color color)
         {
-            if(!string.IsNullOrEmpty(message))
-                message = string.Format("<color={0}>{1}</color>", color.Name, message);
-
+            message = string.Format("<color={0}>{1}</color>", color.Name, message);
             return message;
         }
 

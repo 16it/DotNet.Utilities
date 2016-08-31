@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using YanZhiwei.DotNet.DevExpress12._1.Test.Model;
 using YanZhiwei.DotNet.DevExpress12._1.Utilities;
-using YanZhiwei.DotNet.DevExpress12._1.Utilities.Models;
+using YanZhiwei.DotNet.DevExpress12._1.Utilities.Model;
 using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet.DevExpress12._1.Test

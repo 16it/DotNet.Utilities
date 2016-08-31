@@ -15,7 +15,7 @@
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using YanZhiwei.DotNet.DevExpress12._1.Utilities.Core;
+    using Core;
 
     /// <summary>
     /// Devexpress-TreeList帮助类
@@ -27,12 +27,12 @@
         /// <summary>
         /// 为TreeList附加右键菜单
         /// </summary>
-        /// <param name="tree">The tree.</param>
-        /// <param name="menu">The menu.</param>
-        /// <param name="attachMenuHanlder">The attach menu hanlder.</param>
+        /// <param name="tree">TreeList</param>
+        /// <param name="menu">PopupMenu</param>
+        /// <param name="attachMenuFactory">委托</param>
         /// 创建时间:2015-05-26 17:45
         /// 备注说明:<c>null</c>
-        public static void AttachMenu(this TreeList tree, PopupMenu menu, Func<TreeListNode, bool> attachMenuHanlder)
+        public static void AttachMenu(this TreeList tree, PopupMenu menu, Func<TreeListNode, bool> attachMenuFactory)
         {
             tree.MouseClick += (sender, e) =>
             {
@@ -46,7 +46,7 @@
                     if(_hitInfo.HitInfoType == HitInfoType.Cell)
                         _curTree.SetFocusedNode(_hitInfo.Node);
 
-                    if(attachMenuHanlder(_curTree.FocusedNode))
+                    if(attachMenuFactory(_curTree.FocusedNode))
                         menu.ShowPopup(_point);
                 }
             };
@@ -56,12 +56,12 @@
         /// 正对节点的检查逻辑
         /// </summary>
         /// <param name="fucusedNode">TreeListNode</param>
-        /// <param name="checkNodeHanlder">检查逻辑代码[委托]</param>
+        /// <param name="checkNodeFactory">检查逻辑代码[委托]</param>
         /// <returns>TreeListNode</returns>
-        public static TreeListNode Check(this TreeListNode fucusedNode, Func<TreeListNode, bool> checkNodeHanlder)
+        public static TreeListNode Check(this TreeListNode fucusedNode, Func<TreeListNode, bool> checkNodeFactory)
         {
             if(fucusedNode != null)
-                return checkNodeHanlder(fucusedNode) == true ? fucusedNode : null;
+                return checkNodeFactory(fucusedNode) == true ? fucusedNode : null;
 
             return null;
         }
@@ -70,13 +70,13 @@
         /// 节点为null检查
         /// </summary>
         /// <param name="fucusedNode">需要判断的节点</param>
-        /// <param name="checkNodeHanlder">若为NULL,处理逻辑</param>
+        /// <param name="checkNodeFactory">若为NULL,处理逻辑</param>
         /// <returns>TreeListNode</returns>
-        public static TreeListNode CheckNull(this TreeListNode fucusedNode, Func<bool> checkNodeHanlder)
+        public static TreeListNode CheckNull(this TreeListNode fucusedNode, Func<bool> checkNodeFactory)
         {
             if(fucusedNode == null)
             {
-                checkNodeHanlder();
+                checkNodeFactory();
                 return null;
             }
 
@@ -87,13 +87,13 @@
         /// 节点为null检查
         /// </summary>
         /// <param name="fucusedNode">需要判断的节点</param>
-        /// <param name="checkNodeHanlder">委托</param>
+        /// <param name="checkNodeFactory">委托</param>
         /// <returns>TreeListNode</returns>
-        public static TreeListNode CheckNull(this TreeListNode fucusedNode, Action checkNodeHanlder)
+        public static TreeListNode CheckNull(this TreeListNode fucusedNode, Action checkNodeFactory)
         {
             if(fucusedNode == null)
             {
-                checkNodeHanlder();
+                checkNodeFactory();
                 return null;
             }
 
@@ -195,11 +195,11 @@
         /// </summary>
         /// <param name="tree">TreeList</param>
         /// <param name="e">CustomDrawNodeImagesEventArgs</param>
-        /// <param name="builderBackColorHandler">委托</param>
-        public static void CustomImageNodeBackColor(this TreeList tree, CustomDrawNodeImagesEventArgs e, Func<TreeListNode, Color> builderBackColorHandler)
+        /// <param name="builderBackColorFactory">委托</param>
+        public static void CustomImageNodeBackColor(this TreeList tree, CustomDrawNodeImagesEventArgs e, Func<TreeListNode, Color> builderBackColorFactory)
         {
             TreeListNode _node = e.Node;
-            Color _backColor = builderBackColorHandler(_node);
+            Color _backColor = builderBackColorFactory(_node);
             e.Graphics.FillRectangle(new SolidBrush(_backColor), e.Bounds);
         }
 
@@ -209,11 +209,11 @@
         /// </summary>
         /// <param name="tree">TreeList</param>
         /// <param name="e">GetCustomNodeCellStyleEventArgs</param>
-        /// <param name="builderBackColorHandler">委托</param>
-        public static void CustomNodeBackColor(this TreeList tree, GetCustomNodeCellStyleEventArgs e, Func<TreeListNode, Color> builderBackColorHandler)
+        /// <param name="builderBackColorFactory">委托</param>
+        public static void CustomNodeBackColor(this TreeList tree, GetCustomNodeCellStyleEventArgs e, Func<TreeListNode, Color> builderBackColorFactory)
         {
             TreeListNode _node = e.Node;
-            e.Appearance.BackColor = builderBackColorHandler(_node);
+            e.Appearance.BackColor = builderBackColorFactory(_node);
         }
 
         /// <summary>
@@ -238,8 +238,8 @@
         /// </summary>
         /// <param name="tree">TreeList</param>
         /// <param name="e">ToolTipControllerGetActiveObjectInfoEventArgs</param>
-        /// <param name="builderNodeTooltipHandler">委托</param>
-        public static void CustomNodeTooltip(this TreeList tree, ToolTipControllerGetActiveObjectInfoEventArgs e, Func<TreeListNode, string> builderNodeTooltipHandler)
+        /// <param name="builderNodeTooltipFactory">委托</param>
+        public static void CustomNodeTooltip(this TreeList tree, ToolTipControllerGetActiveObjectInfoEventArgs e, Func<TreeListNode, string> builderNodeTooltipFactory)
         {
             if(e.SelectedControl is DevExpress.XtraTreeList.TreeList)
             {
@@ -255,7 +255,7 @@
 
                     if(_editHitInfo.HitTest == EditHitTest.MaskBox)
                     {
-                        string _toolTip = builderNodeTooltipHandler(_hit.Node);
+                        string _toolTip = builderNodeTooltipFactory(_hit.Node);
 
                         if(!string.IsNullOrEmpty(_toolTip))
                             e.Info = new ToolTipControlInfo(_cellInfo, _toolTip);
@@ -286,11 +286,11 @@
         /// 在BeforeCheckNode事件中使用
         /// </summary>
         /// <param name="tree">TreeListNode</param>
-        /// <param name="conditionHanlder">委托</param>
+        /// <param name="conditionFactory">委托</param>
         /// <param name="e">CheckNodeEventArgs</param>
-        public static void DisabledSetCheckBox(this TreeListNode tree, Predicate<TreeListNode> conditionHanlder, CheckNodeEventArgs e)
+        public static void DisabledSetCheckBox(this TreeListNode tree, Predicate<TreeListNode> conditionFactory, CheckNodeEventArgs e)
         {
-            if(conditionHanlder(e.Node))
+            if(conditionFactory(e.Node))
             {
                 e.CanCheck = false;
             }
@@ -300,13 +300,13 @@
         /// 向下递归TreeListNode节点
         /// </summary>
         /// <param name="node">需要向下递归的节点</param>
-        /// <param name="conditionHanlder">委托</param>
-        public static void DownRecursiveNode(this TreeListNode node, Action<TreeListNode> conditionHanlder)
+        /// <param name="conditionFactory">委托</param>
+        public static void DownRecursiveNode(this TreeListNode node, Action<TreeListNode> conditionFactory)
         {
             foreach(TreeListNode _childNode in node.Nodes)
             {
-                conditionHanlder(_childNode);
-                DownRecursiveNode(_childNode, conditionHanlder);
+                conditionFactory(_childNode);
+                DownRecursiveNode(_childNode, conditionFactory);
             }
         }
 
@@ -314,15 +314,15 @@
         /// 向下递归TreeListNode,当opreateRule返回false停止循环
         /// </summary>
         /// <param name="node">需要向下递归的节点</param>
-        /// <param name="conditionHanlder">委托</param>
-        public static void DownRecursiveNode_Break(this TreeListNode node, Func<TreeListNode, bool> conditionHanlder)
+        /// <param name="conditionFactory">委托</param>
+        public static void DownRecursiveNode_Break(this TreeListNode node, Func<TreeListNode, bool> conditionFactory)
         {
             foreach(TreeListNode _childNode in node.Nodes)
             {
-                if(!conditionHanlder(_childNode))
+                if(!conditionFactory(_childNode))
                     break;
 
-                DownRecursiveNode_Break(_childNode, conditionHanlder);
+                DownRecursiveNode_Break(_childNode, conditionFactory);
             }
         }
 
@@ -330,15 +330,15 @@
         /// 向下递归遍历TreeListNode,当opreateRule返回false跳出循环，直接进入下次循环
         /// </summary>
         /// <param name="node">需要向下递归的节点</param>
-        /// <param name="conditionHanlder">委托</param>
-        public static void DownRecursiveNode_Continue(this TreeListNode node, Func<TreeListNode, bool> conditionHanlder)
+        /// <param name="conditionFactory">委托</param>
+        public static void DownRecursiveNode_Continue(this TreeListNode node, Func<TreeListNode, bool> conditionFactory)
         {
             foreach(TreeListNode _childNode in node.Nodes)
             {
-                if(!conditionHanlder(_childNode))
+                if(!conditionFactory(_childNode))
                     continue;
 
-                DownRecursiveNode_Continue(_childNode, conditionHanlder);
+                DownRecursiveNode_Continue(_childNode, conditionFactory);
             }
         }
 
@@ -346,16 +346,16 @@
         /// 向下递归遍历树节点
         /// </summary>
         /// <param name="tree">需要向下递归的TREE</param>
-        /// <param name="conditionHanlder">委托</param>
-        public static void DownRecursiveTree(this TreeList tree, Action<TreeListNode> conditionHanlder)
+        /// <param name="conditionFactory">委托</param>
+        public static void DownRecursiveTree(this TreeList tree, Action<TreeListNode> conditionFactory)
         {
             foreach(TreeListNode node in tree.Nodes)
             {
-                conditionHanlder(node);
+                conditionFactory(node);
 
                 if(node.Nodes.Count > 0)
                 {
-                    DownRecursiveNode(node, conditionHanlder);
+                    DownRecursiveNode(node, conditionFactory);
                 }
             }
         }
@@ -386,9 +386,9 @@
         /// <param name="focusedNode">TreeListNode</param>
         /// <param name="columnID">列名称</param>
         /// <param name="compareNodeRule">规则委托</param>
-        /// <param name="buildPathRule">规则委托</param>
+        /// <param name="buildPathFactory">规则委托</param>
         /// <returns>路径信息</returns>
-        public static string FilterPathInfo(this TreeListNode focusedNode, string columnID, Func<TreeListNode, bool> compareNodeRule, Func<string, string, string> buildPathRule)
+        public static string FilterPathInfo(this TreeListNode focusedNode, string columnID, Func<TreeListNode, bool> compareNodeRule, Func<string, string, string> buildPathFactory)
         {
             string _fullPathInfo = string.Empty;
             _fullPathInfo = focusedNode.GetDisplayText(columnID);
@@ -400,7 +400,7 @@
                 if(compareNodeRule(focusedNode))
                 {
                     string _nodeText = focusedNode.GetDisplayText(columnID).Trim();
-                    _fullPathInfo = buildPathRule(_nodeText, _fullPathInfo);
+                    _fullPathInfo = buildPathFactory(_nodeText, _fullPathInfo);
                 }
             }
 
@@ -412,9 +412,9 @@
         /// </summary>
         /// <param name="focusedNode">TreeListNode</param>
         /// <param name="columnID">列名称</param>
-        /// <param name="buildPathRule">规则委托</param>
+        /// <param name="buildPathFactory">规则委托</param>
         /// <returns>路径信息</returns>
-        public static string FullPathInfo(this TreeListNode focusedNode, string columnID, Func<string, string, string> buildPathRule)
+        public static string FullPathInfo(this TreeListNode focusedNode, string columnID, Func<string, string, string> buildPathFactory)
         {
             string _fullPathInfo = string.Empty;
             _fullPathInfo = focusedNode.GetDisplayText(columnID);
@@ -423,7 +423,7 @@
             {
                 focusedNode = focusedNode.ParentNode;
                 string _nodeText = focusedNode.GetDisplayText(columnID).Trim();
-                _fullPathInfo = buildPathRule(_nodeText, _fullPathInfo);
+                _fullPathInfo = buildPathFactory(_nodeText, _fullPathInfo);
             }
 
             return _fullPathInfo;
@@ -434,10 +434,10 @@
         /// <para>eg:tvCabTree.LHTree.GetDownRecursiveNodeListByCheckState(n => n.GetNodeType() == NodeType.Cab, new CheckState[2] { CheckState.Checked, CheckState.Indeterminate });</para>
         /// </summary>
         /// <param name="tree">TreeList</param>
-        /// <param name="getRule">委托</param>
+        /// <param name="getFactory">委托</param>
         /// <param name="checkstate">CheckState</param>
         /// <returns>可能返回NULL;</returns>
-        public static List<TreeListNode> GetDownRecursiveNodeListByCheckState(this TreeList tree, Predicate<TreeListNode> getRule, CheckState[] checkstate)
+        public static List<TreeListNode> GetDownRecursiveNodeListByCheckState(this TreeList tree, Predicate<TreeListNode> getFactory, CheckState[] checkstate)
         {
             if(tree != null)
             {
@@ -448,7 +448,7 @@
                     List<TreeListNode> _checkedNodeList = new List<TreeListNode>();
                     _rootNode.DownRecursiveNode(n =>
                     {
-                        if(getRule(n))
+                        if(getFactory(n))
                         {
                             if(checkstate.Contains<CheckState>(n.CheckState))
                                 _checkedNodeList.Add(n);
@@ -465,15 +465,15 @@
         /// 向下递归根据条件获取节点集合
         /// </summary>
         /// <param name="tree">TreeList</param>
-        /// <param name="firstConditionHanlder">第一次条件委托</param>
+        /// <param name="firstConditionFactory">第一次条件委托</param>
         /// <param name="secondConditionHanlder">第二次条件委托</param>
         /// <returns>节点集合</returns>
-        public static List<TreeListNode> GetNodesBy(this TreeList tree, Predicate<TreeListNode> firstConditionHanlder, Predicate<TreeListNode> secondConditionHanlder)
+        public static List<TreeListNode> GetNodesBy(this TreeList tree, Predicate<TreeListNode> firstConditionFactory, Predicate<TreeListNode> secondConditionHanlder)
         {
             List<TreeListNode> _checkNodes = new List<TreeListNode>();
             tree.DownRecursiveTree((TreeListNode node) =>
             {
-                if(firstConditionHanlder(node))
+                if(firstConditionFactory(node))
                 {
                     if(secondConditionHanlder(node))
                         _checkNodes.Add(node);
@@ -487,14 +487,14 @@
         /// </summary>
         /// <param name="tree">TreeList</param>
         /// <param name="state">CheckState</param>
-        /// <param name="GetNodesByStateRule">返回True的时候继续</param>
+        /// <param name="GetNodesByStateFactory">返回True的时候继续</param>
         /// <returns>TreeListNode集合</returns>
-        public static List<TreeListNode> GetNodesByState(this TreeList tree, CheckState state, Func<TreeListNode, bool> GetNodesByStateRule)
+        public static List<TreeListNode> GetNodesByState(this TreeList tree, CheckState state, Func<TreeListNode, bool> GetNodesByStateFactory)
         {
             List<TreeListNode> _checkNodes = new List<TreeListNode>();
             tree.DownRecursiveTree((TreeListNode node) =>
             {
-                if(GetNodesByStateRule(node))
+                if(GetNodesByStateFactory(node))
                 {
                     if(node.CheckState == state)
                         _checkNodes.Add(node);
@@ -507,22 +507,22 @@
         /// 向上递归，获取符合条件的父节点
         /// </summary>
         /// <param name="node">需要向上递归的节点</param>
-        /// <param name="conditionHanlder">判断条件【委托】</param>
+        /// <param name="conditionFactory">判断条件【委托】</param>
         /// <returns>符合条件的节点【TreeListNode】</returns>
-        public static TreeListNode GetParentNode(this TreeListNode node, Predicate<TreeListNode> conditionHanlder)
+        public static TreeListNode GetParentNode(this TreeListNode node, Predicate<TreeListNode> conditionFactory)
         {
             TreeListNode _parentNode = node.ParentNode;//获取上一级父节点
             TreeListNode _conditonNode = null;
 
             if(_parentNode != null)
             {
-                if(conditionHanlder(_parentNode))   //判断上一级父节点是否符合要求
+                if(conditionFactory(_parentNode))    //判断上一级父节点是否符合要求
                 {
                     _conditonNode = _parentNode;
                 }
 
-                if(_conditonNode == null)   //若没有找到符合要求的节点，递归继续
-                    _conditonNode = GetParentNode(_parentNode, conditionHanlder);
+                if(_conditonNode == null)    //若没有找到符合要求的节点，递归继续
+                    _conditonNode = GetParentNode(_parentNode, conditionFactory);
             }
 
             return _conditonNode;
@@ -532,12 +532,12 @@
         /// 向上递归，获取符合条件的节点的公共父节点
         /// </summary>
         /// <param name="node">操作节点</param>
-        /// <param name="checkHanlder">委托</param>
+        /// <param name="checkFactory">委托</param>
         /// <returns>符合条件的节点</returns>
-        public static TreeListNode GetPublicParentNode(this TreeListNode node, Predicate<TreeListNode> checkHanlder)
+        public static TreeListNode GetPublicParentNode(this TreeListNode node, Predicate<TreeListNode> checkFactory)
         {
             TreeListNode _publicPNode = null;
-            TreeListNode _findNode = node.GetParentNode(checkHanlder);//先获取到条件判断的自身父节点
+            TreeListNode _findNode = node.GetParentNode(checkFactory);//先获取到条件判断的自身父节点
 
             if(_findNode != null)
             {
@@ -548,7 +548,7 @@
 
                     if(_curpublicNode != null)
                     {
-                        if(_curpublicNode.Nodes.Count > 1)   //若有多个子节点，则是公共父节点
+                        if(_curpublicNode.Nodes.Count > 1)    //若有多个子节点，则是公共父节点
                         {
                             _publicPNode = _curpublicNode;
                             return false;//跳出递归
@@ -566,9 +566,9 @@
         /// 获取节点下可视区域子节点集合
         /// </summary>
         /// <param name="node">需要获取可见子节点的节点</param>
-        /// <param name="conditonHanlder">条件委托</param>
+        /// <param name="conditonFactory">条件委托</param>
         /// <returns>可见子节点集合</returns>
-        public static List<TreeListNode> GetVisibleChildNodes(this TreeListNode node, Predicate<TreeListNode> conditonHanlder)
+        public static List<TreeListNode> GetVisibleChildNodes(this TreeListNode node, Predicate<TreeListNode> conditonFactory)
         {
             List<TreeListNode> _visibleChildNodes = new List<TreeListNode>();
             TreeList _tree = node.TreeList;
@@ -578,7 +578,7 @@
 
                 if(_rowInfo != null)
                 {
-                    if(conditonHanlder(n))
+                    if(conditonFactory(n))
                     {
                         _visibleChildNodes.Add(n);
                     }
@@ -601,9 +601,9 @@
         /// 获取可视区域节点
         /// </summary>
         /// <param name="treeList">TreeList</param>
-        /// <param name="conditonHanlder">条件委托</param>
+        /// <param name="conditonFactoryr">条件委托</param>
         /// <returns>可视区域节点集合</returns>
-        public static List<TreeListNode> GetVisibleNodes(this TreeList treeList, Predicate<TreeListNode> conditonHanlder)
+        public static List<TreeListNode> GetVisibleNodes(this TreeList treeList, Predicate<TreeListNode> conditonFactoryr)
         {
             List<TreeListNode> _visibleNodes = new List<TreeListNode>();
             RowsInfo _rowsInfo = treeList.ViewInfo.RowsInfo;
@@ -612,7 +612,7 @@
             {
                 TreeListNode _curNode = ri.Node;
 
-                if(conditonHanlder(_curNode))
+                if(conditonFactoryr(_curNode))
                 {
                     _visibleNodes.Add(_curNode);
                 }
@@ -665,16 +665,16 @@
         /// 递归遍历节点
         /// </summary>
         /// <param name="tree">TreeList</param>
-        /// <param name="opreateRule">委托</param>
-        public static void LoopTreeNodes(this TreeList tree, Action<TreeListNode> opreateRule)
+        /// <param name="opreateFactory">委托</param>
+        public static void LoopTreeNodes(this TreeList tree, Action<TreeListNode> opreateFactory)
         {
             foreach(TreeListNode node in tree.Nodes)
             {
-                opreateRule(node);
+                opreateFactory(node);
 
                 if(node.Nodes.Count > 0)
                 {
-                    LoopTreeNodes(node, opreateRule);
+                    LoopTreeNodes(node, opreateFactory);
                 }
             }
         }
@@ -683,13 +683,13 @@
         /// 递归按需选中节点
         /// </summary>
         /// <param name="tree">TreeList</param>
-        /// <param name="focusedNodeHanlder">委托</param>
-        public static void SetFocusedNode(this TreeList tree, Predicate<TreeListNode> focusedNodeHanlder)
+        /// <param name="focusedNodeFactory">委托</param>
+        public static void SetFocusedNode(this TreeList tree, Predicate<TreeListNode> focusedNodeFactory)
         {
             if(tree != null && tree.Nodes.Count > 0)
             {
                 TreeListNode _root = tree.Nodes[0];
-                _root.DownRecursiveNode_Break(n => !focusedNodeHanlder(n));
+                _root.DownRecursiveNode_Break(n => !focusedNodeFactory(n));
             }
         }
 
@@ -727,22 +727,22 @@
         /// </summary>
         /// <param name="node">需要互斥同步的节点</param>
         /// <param name="checkState">节点状态</param>
-        /// <param name="checkHanlder">互斥条件【委托】</param>
-        public static void SyncMutexNodeCheckState(this TreeListNode node, CheckState checkState, Predicate<TreeListNode> checkHanlder)
+        /// <param name="checkFactory">互斥条件【委托】</param>
+        public static void SyncMutexNodeCheckState(this TreeListNode node, CheckState checkState, Predicate<TreeListNode> checkFactory)
         {
             TreeList _tree = node.TreeList;
 
-            if(checkHanlder(node))   //当前节点符合互斥条件时候
+            if(checkFactory(node))    //当前节点符合互斥条件时候
             {
                 _tree.DownRecursiveTree(n => n.CheckState = CheckState.Unchecked);
             }
             else
             {
-                TreeListNode _curParentNode = node.GetParentNode(checkHanlder);//获取符合互斥条件的父节点
+                TreeListNode _curParentNode = node.GetParentNode(checkFactory);//获取符合互斥条件的父节点
 
                 if(_curParentNode == null) return;
 
-                TreeListNode _thePubleNode = node.GetPublicParentNode(checkHanlder);//获取符合互斥条件的公共父节点
+                TreeListNode _thePubleNode = node.GetPublicParentNode(checkFactory);//获取符合互斥条件的公共父节点
 
                 if(_thePubleNode == null) return;
 
@@ -781,26 +781,26 @@
         /// 向上递归节点
         /// </summary>
         /// <param name="node">需要向上递归的节点</param>
-        /// <param name="conditionHanlder">委托，返回fasle跳出递归；返回true继续递归；</param>
-        public static void UpwardRecursiveNode(this TreeListNode node, Predicate<TreeListNode> conditionHanlder)
+        /// <param name="conditionFactory">委托，返回fasle跳出递归；返回true继续递归；</param>
+        public static void UpwardRecursiveNode(this TreeListNode node, Predicate<TreeListNode> conditionFactory)
         {
             TreeListNode _parentNode = node.ParentNode;
 
             if(_parentNode != null)
             {
-                if(conditionHanlder(_parentNode))
+                if(conditionFactory(_parentNode))
                 {
-                    UpwardRecursiveNode(_parentNode, conditionHanlder);
+                    UpwardRecursiveNode(_parentNode, conditionFactory);
                 }
             }
         }
 
-        private static void LoopTreeNodes(TreeListNode node, Action<TreeListNode> opreateRule)
+        private static void LoopTreeNodes(TreeListNode node, Action<TreeListNode> opreateFactory)
         {
             foreach(TreeListNode _childNode in node.Nodes)
             {
-                opreateRule(_childNode);
-                LoopTreeNodes(_childNode, opreateRule);
+                opreateFactory(_childNode);
+                LoopTreeNodes(_childNode, opreateFactory);
             }
         }
 

@@ -36,7 +36,7 @@
             });
             lue.ButtonClick += (sender, e) =>
             {
-                if (e.Button.Kind == ButtonPredefines.Delete)
+                if(e.Button.Kind == ButtonPredefines.Delete)
                 {
                     LookUpEdit _curLue = sender as LookUpEdit;
                     _curLue.EditValue = null;

@@ -20,14 +20,14 @@
         /// <param name="tip">ToolTipController</param>
         /// <param name="message">消息</param>
         public static void PromptTimelyMessage<T>(this T control, ToolTipController tip, string message)
-            where T : BaseEdit
+        where T : BaseEdit
         {
-            if (control != null && tip != null)
+            if(control != null && tip != null)
             {
                 control.MouseEnter += (object sender, EventArgs e) =>
                 {
                     T _curControl = sender as T;
-                    tip.ShowHint(message, sender as T, DevExpress.Utils.ToolTipLocation.RightCenter);
+                    tip.ShowHint(message, sender as T, ToolTipLocation.RightCenter);
                 };
             }
         }

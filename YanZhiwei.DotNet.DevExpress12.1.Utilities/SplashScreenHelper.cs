@@ -25,13 +25,9 @@
         /// </summary>
         public static void CloseSplashScreen()
         {
-            if (SplashScreenManager.Default != null)
+            if(SplashScreenManager.Default != null)
             {
-                //Thread _task = new Thread(() =>
-                //{
                 SplashScreenManager.CloseForm(ThrowExceptionIfIsAlreadyClosed);
-                //});
-                //_task.Start();
             }
         }
 
@@ -41,7 +37,7 @@
         /// <param name="caption">需要设置的Title</param>
         public static void SetCaption(string caption)
         {
-            if (SplashScreenManager.Default != null && !string.IsNullOrEmpty(caption))
+            if(SplashScreenManager.Default != null && !string.IsNullOrEmpty(caption))
             {
                 SplashScreenManager.Default.SetWaitFormCaption(caption);
             }
@@ -53,7 +49,7 @@
         /// <param name="description">需要设置的文字提示信息</param>
         public static void SetDescription(string description)
         {
-            if (SplashScreenManager.Default != null && !string.IsNullOrEmpty(description))
+            if(SplashScreenManager.Default != null && !string.IsNullOrEmpty(description))
             {
                 SplashScreenManager.Default.SetWaitFormDescription(description);
             }

@@ -21,7 +21,7 @@
     using DevExpress.XtraPrinting;
 
     using YanZhiwei.DotNet.DevExpress12._1.Utilities.Core;
-    using YanZhiwei.DotNet.DevExpress12._1.Utilities.Models;
+    using YanZhiwei.DotNet.DevExpress12._1.Utilities.Model;
     using YanZhiwei.DotNet3._5.Utilities.Common;
 
     /// <summary>
@@ -47,8 +47,10 @@
         public static void ClearAllRows(this GridView gridView)
         {
             bool _mutilSelected = gridView.OptionsSelection.MultiSelect;//获取当前是否可以多选
-            if (!_mutilSelected)
+
+            if(!_mutilSelected)
                 gridView.OptionsSelection.MultiSelect = true;
+
             gridView.SelectAll();
             gridView.DeleteSelectedRows();
             gridView.OptionsSelection.MultiSelect = _mutilSelected;//还原之前是否可以多选状态
@@ -64,14 +66,17 @@
         public static void ClearDataSource(this GridView gridview, bool clearColumns)
         {
             GridControl _gridControl = gridview.GridControl;
+
             try
             {
                 _gridControl.BeginUpdate();
-                if (clearColumns)
+
+                if(clearColumns)
                     gridview.Columns.Clear();
+
                 _gridControl.DataSource = null;
             }
-            catch (Exception)
+            catch(Exception)
             {
             }
             finally
@@ -94,16 +99,18 @@
         /// 创建时间:2015-05-26 13:48
         /// 备注说明:<c>null</c>
         public static void ConditionRepositoryItemEdit<T, TProperty>(this GridView view, string title, string content, ToolTipController toolTip, Expression<Func<T, TProperty>> keySelector, Func<T, bool> conditonHanlder)
-            where T : class
+        where T : class
         {
             string _filedName = keySelector.GetTPropertyName<T, TProperty>();
             view.ShowingEditor += (sender, e) =>
             {
                 GridView _curView = sender as GridView;
-                if (_curView.FocusedColumn.FieldName.Equals(_filedName))
+
+                if(_curView.FocusedColumn.FieldName.Equals(_filedName))
                 {
                     T _item = (T)view.GetFocusedRow();
-                    if (conditonHanlder(_item))
+
+                    if(conditonHanlder(_item))
                     {
                         e.Cancel = true;
                         Point _mousePoint = Control.MousePosition;
@@ -125,15 +132,16 @@
         /// 创建时间:2015-05-26 13:46
         /// 备注说明:<c>null</c>
         public static void ConditionRepositoryItemValidate<T, TProperty>(this GridView view, string errorText, Expression<Func<T, TProperty>> keySelector, Predicate<object> errorHanlder)
-            where T : class
+        where T : class
         {
             string _filedName = keySelector.GetTPropertyName<T, TProperty>();
             view.ValidatingEditor += (sender, e) =>
             {
                 GridView _curView = sender as GridView;
-                if (_curView.FocusedColumn.FieldName.Equals(_filedName))
+
+                if(_curView.FocusedColumn.FieldName.Equals(_filedName))
                 {
-                    if (errorHanlder(e.Value))
+                    if(errorHanlder(e.Value))
                     {
                         e.Valid = false;
                         e.ErrorText = errorText;
@@ -174,7 +182,7 @@
         /// 备注说明:<c>null</c>
         public static void CustomPrint(this GridControl gridControl, PrintItem printSetting, bool showPreview)
         {
-            using (PrintableComponentLink _print = new PrintableComponentLink(new PrintingSystem()))
+            using(PrintableComponentLink _print = new PrintableComponentLink(new PrintingSystem()))
             {
                 _print.Component = gridControl;
                 _print.Landscape = true;
@@ -182,7 +190,8 @@
                 CustomPrintHeader(gridControl, _print, printSetting);
                 CustomPrintFooter(gridControl, _print, printSetting);
                 _print.CreateDocument();
-                if (showPreview)
+
+                if(showPreview)
                     _print.ShowPreview();
                 else
                     _print.PrintDlg();
@@ -200,13 +209,14 @@
         /// 创建时间:2015-05-26 14:45
         /// 备注说明:<c>null</c>
         public static void DrawHeaderCheckBox<T, TProperty>(this GridView view, RepositoryItemCheckEdit checkItem, Expression<Func<T, TProperty>> keySelector)
-            where T : class
+        where T : class
         {
             string _filedName = keySelector.GetTPropertyName<T, TProperty>();
             view.CustomDrawColumnHeader += (sender, e) =>
             {
                 GridView _curView = sender as GridView;
-                if (e.Column != null && string.Compare(e.Column.FieldName, _filedName, true) == 0)
+
+                if(e.Column != null && string.Compare(e.Column.FieldName, _filedName, true) == 0)
                 {
                     e.Info.InnerElements.Clear();
                     e.Painter.DrawObject(e.Info);
@@ -233,9 +243,10 @@
             gridView.CustomDrawEmptyForeground += (sender, e) =>
             {
                 GridView _curView = sender as GridView;
-                if (_curView.RowCount == 0)
+
+                if(_curView.RowCount == 0)
                 {
-                    if (!string.IsNullOrEmpty(noRecordMsg))
+                    if(!string.IsNullOrEmpty(noRecordMsg))
                     {
                         Font _font = new Font("宋体", 10, FontStyle.Bold);
                         Rectangle _r = new Rectangle(e.Bounds.Left + 5, e.Bounds.Top + 5, e.Bounds.Width - 5, e.Bounds.Height - 5);
@@ -253,11 +264,12 @@
         /// 备注说明:<c>null</c>
         public static void DrawSequenceNumber(this GridView gridView)
         {
-            if (gridView.IndicatorWidth != 40)
+            if(gridView.IndicatorWidth != 40)
                 gridView.IndicatorWidth = 40;
+
             gridView.CustomDrawRowIndicator += (sender, e) =>
             {
-                if (e.Info.IsRowIndicator && e.RowHandle >= 0)
+                if(e.Info.IsRowIndicator && e.RowHandle >= 0)
                 {
                     e.Info.DisplayText = (e.RowHandle + 1).ToString();
                 }
@@ -299,12 +311,14 @@
         public static void SelectedRow(this GridView gridView, string colName, object colValue)
         {
             gridView.ClearSelection();
-            for (int rowHandle = 0; rowHandle < gridView.RowCount; rowHandle++)
+
+            for(int rowHandle = 0; rowHandle < gridView.RowCount; rowHandle++)
             {
                 object _cellValue = gridView.GetRowCellValue(rowHandle, colName);
-                if (_cellValue != null)
+
+                if(_cellValue != null)
                 {
-                    if (_cellValue == colValue)
+                    if(_cellValue == colValue)
                     {
                         gridView.SelectRow(rowHandle);
                         gridView.FocusedRowHandle = rowHandle;
@@ -325,16 +339,18 @@
         public static void SetDataSource(this GridView gridview, object datasource, bool clearColumns)
         {
             GridControl _gridControl = gridview.GridControl;
+
             try
             {
                 _gridControl.BeginUpdate();
-                if (clearColumns)
+
+                if(clearColumns)
                     gridview.Columns.Clear();
 
                 _gridControl.DataSource = null;
                 _gridControl.DataSource = datasource;
             }
-            catch (Exception)
+            catch(Exception)
             {
             }
             finally
@@ -356,7 +372,8 @@
             button.Buttons[0].Kind = ButtonPredefines.Glyph;
             button.Buttons[0].Caption = caption;
             button.TextEditStyle = TextEditStyles.HideTextEditor;
-            if (!gridView.OptionsBehavior.Editable)
+
+            if(!gridView.OptionsBehavior.Editable)
                 gridView.OptionsBehavior.Editable = true;
         }
 
@@ -373,17 +390,19 @@
         /// 创建时间:2015-05-26 15:13
         /// 备注说明:<c>null</c>
         public static void SetSummaryItem<T, TProperty>(this GridView girdView, SummaryItemType type, string formatString, Expression<Func<T, TProperty>> keySelector)
-            where T : class
+        where T : class
         {
-            if (!girdView.OptionsView.ShowFooter)
+            if(!girdView.OptionsView.ShowFooter)
                 girdView.OptionsView.ShowFooter = true;
 
             string _fieldName = keySelector.GetTPropertyName<T, TProperty>();
             GridColumn _summaryColumn = girdView.Columns[_fieldName];
-            if (_summaryColumn != null)
+
+            if(_summaryColumn != null)
             {
                 _summaryColumn.SummaryItem.SummaryType = type;
-                if (!string.IsNullOrEmpty(formatString))
+
+                if(!string.IsNullOrEmpty(formatString))
                     _summaryColumn.SummaryItem.DisplayFormat = formatString;
             }
         }
@@ -401,7 +420,8 @@
             _saveFileDialog.Filter = "Excel文件(*.xls)|*.xls";
             _saveFileDialog.FileName = fileName;
             DialogResult _dialogResult = _saveFileDialog.ShowDialog();
-            if (_dialogResult == DialogResult.OK)
+
+            if(_dialogResult == DialogResult.OK)
             {
                 XlsExportOptions _options = new XlsExportOptions();
                 _options.Suppress256ColumnsWarning = true;
@@ -414,7 +434,7 @@
 
         private static void CheckAll(GridView view, string fieldName)
         {
-            for (int i = 0; i < view.DataRowCount; i++)
+            for(int i = 0; i < view.DataRowCount; i++)
             {
                 view.SetRowCellValue(i, view.Columns[fieldName], true);
             }
@@ -422,12 +442,12 @@
 
         private static void CustomPrintFooter(GridControl gridControl, PrintableComponentLink print, PrintItem printSetting)
         {
-            if (printSetting.PrintFooter)
+            if(printSetting.PrintFooter)
             {
                 print.CreateMarginalFooterArea += (sender, e) =>
                 {
                     PageInfoBrick _rick = e.Graph.DrawPageInfo(PageInfo.None, printSetting.FooterText, printSetting.FooterColor,
-                      new RectangleF(0, 0, 200, 20), DevExpress.XtraPrinting.BorderSide.None);
+                                          new RectangleF(0, 0, 200, 20), DevExpress.XtraPrinting.BorderSide.None);
                     _rick.LineAlignment = BrickAlignment.Center;
                     _rick.Alignment = BrickAlignment.Center;
                     _rick.AutoWidth = true;
@@ -438,12 +458,12 @@
 
         private static void CustomPrintHeader(GridControl gridControl, PrintableComponentLink print, PrintItem printSetting)
         {
-            if (printSetting.PrintHeader)
+            if(printSetting.PrintHeader)
             {
                 print.CreateMarginalHeaderArea += (sender, e) =>
                 {
                     PageInfoBrick _rick = e.Graph.DrawPageInfo(PageInfo.None, printSetting.HeaderText, printSetting.HeaderColor,
-                      new RectangleF(0, 0, 200, 20), DevExpress.XtraPrinting.BorderSide.None);
+                                          new RectangleF(0, 0, 200, 20), DevExpress.XtraPrinting.BorderSide.None);
                     _rick.LineAlignment = BrickAlignment.Center;
                     _rick.Alignment = BrickAlignment.Center;
                     _rick.AutoWidth = true;
@@ -460,7 +480,6 @@
             _info = checkItem.CreateViewInfo() as CheckEditViewInfo;
             _painter = checkItem.CreatePainter() as CheckEditPainter;
             _info.EditValue = Checked;
-
             _info.Bounds = r;
             _info.PaintAppearance.ForeColor = Color.Black;
             _info.CalcViewInfo(g);
@@ -472,20 +491,26 @@
         private static int getCheckedCount(GridView view, string filedName)
         {
             int count = 0;
-            for (int i = 0; i < view.DataRowCount; i++)
+
+            for(int i = 0; i < view.DataRowCount; i++)
             {
                 object _cellValue = view.GetRowCellValue(i, view.Columns[filedName]);
+
                 //if (_cellValue != null && !(_cellValue is DBNull))
-                if (_cellValue == null) continue;
-                if (string.IsNullOrEmpty(_cellValue.ToString().Trim())) continue;
+                if(_cellValue == null) continue;
+
+                if(string.IsNullOrEmpty(_cellValue.ToString().Trim())) continue;
+
                 bool _checkStatus = false;
-                if (bool.TryParse(_cellValue.ToString(), out _checkStatus))
+
+                if(bool.TryParse(_cellValue.ToString(), out _checkStatus))
                 {
                     //if ((bool)_cellValue)
-                    if (_checkStatus)
+                    if(_checkStatus)
                         count++;
                 }
             }
+
             return count;
         }
 
@@ -501,16 +526,17 @@
              *_view.SyncCheckStatus(gcCheckFieldName, e);
              *}
              */
-            if (e.Clicks == 1 && e.Button == MouseButtons.Left)
+            if(e.Clicks == 1 && e.Button == MouseButtons.Left)
             {
                 view.ClearSorting();
                 view.PostEditor();
                 GridHitInfo _info;
                 Point _pt = view.GridControl.PointToClient(Control.MousePosition);
                 _info = view.CalcHitInfo(_pt);
-                if (_info.InColumn && _info.Column.FieldName.Equals(fieldeName))
+
+                if(_info.InColumn && _info.Column.FieldName.Equals(fieldeName))
                 {
-                    if (getCheckedCount(view, fieldeName) == view.DataRowCount)
+                    if(getCheckedCount(view, fieldeName) == view.DataRowCount)
                         UnChekAll(view, fieldeName);
                     else
                         CheckAll(view, fieldeName);
@@ -520,7 +546,7 @@
 
         private static void UnChekAll(GridView view, string fieldName)
         {
-            for (int i = 0; i < view.DataRowCount; i++)
+            for(int i = 0; i < view.DataRowCount; i++)
             {
                 view.SetRowCellValue(i, view.Columns[fieldName], false);
             }

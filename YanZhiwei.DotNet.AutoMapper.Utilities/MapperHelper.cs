@@ -21,8 +21,6 @@
         /// <returns>IEnumerable</returns>
         public static IEnumerable<T> GetEntitys<T>(this DataTable table)
         {
-            if (table == null || table.Rows.Count == 0)
-                return null;
             IDataReader _reader = table.CreateDataReader();
             Mapper.Reset();
             Mapper.CreateMap<IDataReader, IEnumerable<T>>();
@@ -55,10 +53,11 @@
         /// 时间：2015-12-07 15:45
         /// 备注：
         public static TDestination MapTo<TSource, TDestination>(this TSource source, TDestination destination)
-            where TSource : class
+        where TSource : class
             where TDestination : class
         {
-            if (source == null) return destination;
+            if(source == null) return destination;
+
             Mapper.CreateMap<TSource, TDestination>();
             return Mapper.Map(source, destination);
         }

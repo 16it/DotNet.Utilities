@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Printing;
 
-namespace YanZhiwei.DotNet.DevExpress12._1.Utilities.Models
+namespace YanZhiwei.DotNet.DevExpress12._1.Utilities.Model
 {
     /// <summary>
     /// 打印设置类
@@ -17,8 +17,9 @@ namespace YanZhiwei.DotNet.DevExpress12._1.Utilities.Models
         {
             get
             {
-                if (_paperKind == default(PaperKind))
+                if(_paperKind == default(PaperKind))
                     _paperKind = PaperKind.A3;
+
                 return _paperKind;
             }
             set
@@ -36,8 +37,9 @@ namespace YanZhiwei.DotNet.DevExpress12._1.Utilities.Models
         {
             get
             {
-                if (_footerColor == default(Color))
+                if(_footerColor == default(Color))
                     _footerColor = Color.DarkBlue;
+
                 return _footerColor;
             }
             set
@@ -55,8 +57,9 @@ namespace YanZhiwei.DotNet.DevExpress12._1.Utilities.Models
         {
             get
             {
-                if (_headerColor == default(Color))
+                if(_headerColor == default(Color))
                     _headerColor = Color.DarkBlue;
+
                 return _headerColor;
             }
             set
@@ -68,12 +71,20 @@ namespace YanZhiwei.DotNet.DevExpress12._1.Utilities.Models
         /// <summary>
         /// 是否设置打印页眉,默认false
         /// </summary>
-        public bool PrintHeader { get; set; }
+        public bool PrintHeader
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// 页眉文字
         /// </summary>
-        public string HeaderText { get; set; }
+        public string HeaderText
+        {
+            get;
+            set;
+        }
 
         private Font _headerFont;
 
@@ -84,8 +95,9 @@ namespace YanZhiwei.DotNet.DevExpress12._1.Utilities.Models
         {
             get
             {
-                if (_headerFont == null)
+                if(_headerFont == null)
                     _headerFont = new Font("Tahoma", 12, FontStyle.Bold);
+
                 return _headerFont;
             }
             set
@@ -97,12 +109,20 @@ namespace YanZhiwei.DotNet.DevExpress12._1.Utilities.Models
         /// <summary>
         /// 是否打印页脚，默认false
         /// </summary>
-        public bool PrintFooter { get; set; }
+        public bool PrintFooter
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// 页脚文字
         /// </summary>
-        public string FooterText { get; set; }
+        public string FooterText
+        {
+            get;
+            set;
+        }
 
         private Font _footerFont;
 
@@ -113,8 +133,9 @@ namespace YanZhiwei.DotNet.DevExpress12._1.Utilities.Models
         {
             get
             {
-                if (_footerFont == null)
+                if(_footerFont == null)
                     _footerFont = new Font("Tahoma", 12, FontStyle.Bold);
+
                 return _footerFont;
             }
             set
