@@ -62,6 +62,7 @@
     <Compile Include="Common\RecursiveSelectHelperTests.cs" />
     <Compile Include="Common\ScriptSerializerHelperTests.cs" />
     <Compile Include="Common\WhereIfHelperTests.cs" />
+    <Compile Include="Lambda\ReflectLambdaTests.cs" />
     <Compile Include="Model\DeepNodeData.cs" />
     <Compile Include="Model\FlatData.cs" />
     <Compile Include="Model\NodeData.cs" />

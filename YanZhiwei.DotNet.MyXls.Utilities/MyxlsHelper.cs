@@ -6,7 +6,6 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Reflection;
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
 
     /// <summary>
     /// MyXls帮助类
@@ -141,7 +140,6 @@
 
             XF _columnStyle = SetColumnStyle(_xls);
 
-
             Worksheet _sheet = _xls.Workbook.Worksheets.Add(sheetName);
             int _celIndex = 0, _rowIndex = 1;
             Cells _cells = _sheet.Cells;
@@ -214,8 +212,6 @@
 
             _xls.Save(_savePath, true);
         }
-
-
 
         /// <summary>
         /// 设置单元格样式
