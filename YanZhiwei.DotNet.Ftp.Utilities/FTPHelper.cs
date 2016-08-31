@@ -6,8 +6,6 @@
     using System.Net;
     using System.Net.FtpClient;
 
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
-
     /// <summary>
     /// Ftp辅助类
     /// </summary>

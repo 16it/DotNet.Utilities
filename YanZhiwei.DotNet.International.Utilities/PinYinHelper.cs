@@ -16,10 +16,12 @@ namespace YanZhiwei.DotNet.International.Utilities
         public static string GetAllPinYin(string chinese)
         {
             StringBuilder _builder = new StringBuilder();
-            foreach (char c in chinese)
+
+            foreach(char c in chinese)
             {
                 _builder.Append(SpecialAllTrans(c));
             }
+
             return _builder.ToString();
         }
 
@@ -33,10 +35,12 @@ namespace YanZhiwei.DotNet.International.Utilities
         {
             StringBuilder _pinyin = new StringBuilder();
             char[] _chineses = chinese.ToCharArray();
-            foreach (char c in _chineses)
+
+            foreach(char c in _chineses)
             {
                 _pinyin.Append(SpecialSimpleTrans(c));
             }
+
             return _pinyin.ToString();
         }
 
@@ -48,9 +52,10 @@ namespace YanZhiwei.DotNet.International.Utilities
         private static string SpecialAllTrans(char chinese)
         {
             string _pinyin = string.Empty;
-            if (ChineseChar.IsValidChar(chinese) && !char.IsWhiteSpace(chinese))
+
+            if(ChineseChar.IsValidChar(chinese) && !char.IsWhiteSpace(chinese))
             {
-                switch (chinese)
+                switch(chinese)
                 {
                     case '区':
                         _pinyin = "QU";
@@ -86,9 +91,10 @@ namespace YanZhiwei.DotNet.International.Utilities
         private static string SpecialSimpleTrans(char chinese)
         {
             string _pinyin = string.Empty;
-            if (ChineseChar.IsValidChar(chinese) && !char.IsWhiteSpace(chinese))
+
+            if(ChineseChar.IsValidChar(chinese) && !char.IsWhiteSpace(chinese))
             {
-                switch (chinese)
+                switch(chinese)
                 {
                     case '区':
                         _pinyin = "Q";//QU
@@ -115,6 +121,7 @@ namespace YanZhiwei.DotNet.International.Utilities
             {
                 _pinyin = chinese.ToString().ToUpper();
             }
+
             return _pinyin;
         }
     }

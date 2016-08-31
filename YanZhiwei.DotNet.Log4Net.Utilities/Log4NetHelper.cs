@@ -1,22 +1,23 @@
-﻿using log4net;
-using System;
-
-namespace YanZhiwei.DotNet.Log4Net.Utilities
+﻿namespace YanZhiwei.DotNet.Log4Net.Utilities
 {
+    using System;
+
+    using log4net;
+
     /// <summary>
     /// Log4Net帮助类
     /// </summary>
     public class Log4NetHelper
     {
-        #region 变量
-        
+        #region Fields
+
         private static ILog log = null;
-        
         private static string logger = "FileLogger";
-        
-        
-        #endregion 变量
-        
+
+        #endregion Fields
+
+        #region Constructors
+
         /// <summary>
         /// 静态构造函数
         /// </summary>
@@ -24,7 +25,11 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
         {
             log = LogManager.GetLogger(logger);
         }
-        
+
+        #endregion Constructors
+
+        #region Methods
+
         /// <summary>
         ///设置日志记录Logger
         /// </summary>
@@ -34,12 +39,12 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
             logger = loggerName;
             log = LogManager.GetLogger(logger);
         }
-        
+
         /// <summary>
-        /// Writes the debug.
+        /// 写入DEBUG信息
         /// </summary>
-        /// <param name="debug">The debug.</param>
-        /// <param name="ex">The ex.</param>
+        /// <param name="debug">DEBUG信息</param>
+        /// <param name="ex">Exception</param>
         public static void WriteDebug(string debug, Exception ex)
         {
             if(log.IsDebugEnabled)
@@ -47,11 +52,11 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Debug(debug, ex);
             }
         }
-        
+
         /// <summary>
-        /// Writes the debug.
+        ///写入DEBUG信息
         /// </summary>
-        /// <param name="debug">The debug.</param>
+        /// <param name="debug">DEBUG信息</param>
         public static void WriteDebug(string debug)
         {
             if(log.IsDebugEnabled)
@@ -59,11 +64,11 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Debug(debug);
             }
         }
-        
+
         /// <summary>
-        /// Writes the error.
+        /// 写入Error信息
         /// </summary>
-        /// <param name="error">The error.</param>
+        /// <param name="error">Error信息</param>
         public static void WriteError(string error)
         {
             if(log.IsErrorEnabled)
@@ -71,12 +76,12 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Error(error);
             }
         }
-        
+
         /// <summary>
-        /// Writes the error.
+        /// 写入Error信息
         /// </summary>
-        /// <param name="Error">The error.</param>
-        /// <param name="ex">The ex.</param>
+        /// <param name="Error">Error信息</param>
+        /// <param name="ex">Exception</param>
         public static void WriteError(string Error, Exception ex)
         {
             if(log.IsErrorEnabled)
@@ -84,11 +89,11 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Error(Error, ex);
             }
         }
-        
+
         /// <summary>
-        /// Writes the fatal.
+        /// 写入Fatal信息
         /// </summary>
-        /// <param name="fatal">The fatal.</param>
+        /// <param name="fatal">Fatal信息</param>
         public static void WriteFatal(string fatal)
         {
             if(log.IsFatalEnabled)
@@ -96,12 +101,12 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Fatal(fatal);
             }
         }
-        
+
         /// <summary>
-        /// Writes the fatal.
+        ///  写入Fatal信息
         /// </summary>
-        /// <param name="fatal">The fatal.</param>
-        /// <param name="ex">The ex.</param>
+        /// <param name="fatal">Fatal信息</param>
+        /// <param name="ex">Exception</param>
         public static void WriteFatal(string fatal, Exception ex)
         {
             if(log.IsFatalEnabled)
@@ -109,11 +114,11 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Fatal(fatal, ex);
             }
         }
-        
+
         /// <summary>
-        /// Writes the information.
+        /// 写入Info信息
         /// </summary>
-        /// <param name="info">The information.</param>
+        /// <param name="info">Info信息</param>
         public static void WriteInfo(string info)
         {
             if(log.IsInfoEnabled)
@@ -121,12 +126,12 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Info(info);
             }
         }
-        
+
         /// <summary>
-        /// Writes the information.
+        /// 写入Info信息
         /// </summary>
-        /// <param name="info">The information.</param>
-        /// <param name="ex">The ex.</param>
+        /// <param name="info">Info信息</param>
+        /// <param name="ex">Exception</param>
         public static void WriteInfo(string info, Exception ex)
         {
             if(log.IsInfoEnabled)
@@ -134,12 +139,12 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Info(info, ex);
             }
         }
-        
+
         /// <summary>
-        /// Writes the warn.
+        /// 写入Info信息
         /// </summary>
-        /// <param name="warn">The warn.</param>
-        /// <param name="ex">The ex.</param>
+        /// <param name="warn">Info信息</param>
+        /// <param name="ex">Exception</param>
         public static void WriteWarn(string warn, Exception ex)
         {
             if(log.IsWarnEnabled)
@@ -147,11 +152,11 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Warn(warn, ex);
             }
         }
-        
+
         /// <summary>
-        /// Writes the warn.
+        /// 写入Info信息
         /// </summary>
-        /// <param name="warn">The warn.</param>
+        /// <param name="warn">Info信息</param>
         public static void WriteWarn(string warn)
         {
             if(log.IsWarnEnabled)
@@ -159,5 +164,7 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
                 log.Warn(warn);
             }
         }
+
+        #endregion Methods
     }
 }

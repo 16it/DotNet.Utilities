@@ -1,9 +1,9 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System.IO;
-
-namespace YanZhiwei.DotNet.iTextSharp.Utilities
+﻿namespace YanZhiwei.DotNet.iTextSharp.Utilities
 {
+    using global::iTextSharp.text;
+    using global::iTextSharp.text.pdf;
+    using System.IO;
+
     /// <summary>
     /// PDF文档操作类
     /// </summary>
@@ -16,7 +16,16 @@ namespace YanZhiwei.DotNet.iTextSharp.Utilities
     //-------------------------------------------------------------------------------------
     public class PDFHelper
     {
-        #region 构造函数
+        #region Fields
+
+        private BaseFont basefont;
+        private Document document;
+        private Font font;
+        private Rectangle rect;
+
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// 构造函数
@@ -51,100 +60,67 @@ namespace YanZhiwei.DotNet.iTextSharp.Utilities
             document = new Document(rect, marginLeft, marginRight, marginTop, marginBottom);
         }
 
-        #endregion 构造函数
+        #endregion Constructors
 
-        #region 私有字段
+        #region Methods
 
-        private Font font;
-        private Rectangle rect;   //文档大小
-        private Document document;//文档对象
-        private BaseFont basefont;//字体
-
-        #endregion 私有字段
-
-        #region 设置字体
-
+        //文档大小
+        //文档对象
+        //字体
         /// <summary>
-        /// 设置字体
+        /// 添加链接点
         /// </summary>
-        public void SetBaseFont(string path)
+        /// <param name="Content">链接文字</param>
+        /// <param name="FontSize">字体大小</param>
+        /// <param name="Name">链接点名</param>
+        public void AddAnchorName(string Content, float FontSize, string Name)
         {
-            basefont = BaseFont.CreateFont(path, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            SetFont(FontSize);
+            Anchor auc = new Anchor(Content, font);
+            auc.Name = Name;
+            document.Add(auc);
         }
 
         /// <summary>
-        /// 设置字体
+        /// 添加链接
         /// </summary>
-        /// <param name="size">字体大小</param>
-        public void SetFont(float size)
+        /// <param name="Content">链接文字</param>
+        /// <param name="FontSize">字体大小</param>
+        /// <param name="Reference">链接地址</param>
+        public void AddAnchorReference(string Content, float FontSize, string Reference)
         {
-            font = new Font(basefont, size);
+            SetFont(FontSize);
+            Anchor auc = new Anchor(Content, font);
+            auc.Reference = Reference;
+            document.Add(auc);
         }
 
-        #endregion 设置字体
-
-        #region 设置页面大小
-
         /// <summary>
-        /// 设置页面大小
+        /// 添加图片
         /// </summary>
-        /// <param name="type">页面大小(如"A4")</param>
-        public void SetPageSize(string type)
+        /// <param name="path">图片路径</param>
+        /// <param name="Alignment">对齐方式（1为居中，0为居左，2为居右）</param>
+        /// <param name="newWidth">图片宽（0为默认值，如果宽度大于页宽将按比率缩放）</param>
+        /// <param name="newHeight">图片高</param>
+        public void AddImage(string path, int Alignment, float newWidth, float newHeight)
         {
-            switch (type.Trim())
+            Image img = Image.GetInstance(path);
+            img.Alignment = Alignment;
+
+            if(newWidth != 0)
             {
-                case "A4":
-                    rect = PageSize.A4;
-                    break;
-
-                case "A8":
-                    rect = PageSize.A8;
-                    break;
+                img.ScaleAbsolute(newWidth, newHeight);
             }
+            else
+            {
+                if(img.Width > PageSize.A4.Width)
+                {
+                    img.ScaleAbsolute(rect.Width, img.Width * img.Height / rect.Height);
+                }
+            }
+
+            document.Add(img);
         }
-
-        #endregion 设置页面大小
-
-        #region 实例化文档
-
-        /// <summary>
-        /// 实例化文档
-        /// </summary>
-        /// <param name="os">文档相关信息（如路径，打开方式等）</param>
-        public void GetInstance(Stream os)
-        {
-            PdfWriter.GetInstance(document, os);
-        }
-
-        #endregion 实例化文档
-
-        #region 打开文档对象
-
-        /// <summary>
-        /// 打开文档对象
-        /// </summary>
-        /// <param name="os">文档相关信息（如路径，打开方式等）</param>
-        public void Open(Stream os)
-        {
-            GetInstance(os);
-            document.Open();
-        }
-
-        #endregion 打开文档对象
-
-        #region 关闭打开的文档
-
-        /// <summary>
-        /// 关闭打开的文档
-        /// </summary>
-        public void Close()
-        {
-            document.Close();
-        }
-
-        #endregion 关闭打开的文档
-
-        #region 添加段落
 
         /// <summary>
         /// 添加段落
@@ -172,82 +148,87 @@ namespace YanZhiwei.DotNet.iTextSharp.Utilities
             SetFont(fontsize);
             Paragraph pra = new Paragraph(content, font);
             pra.Alignment = Alignment;
-            if (SpacingAfter != 0)
+
+            if(SpacingAfter != 0)
             {
                 pra.SpacingAfter = SpacingAfter;
             }
-            if (SpacingBefore != 0)
+
+            if(SpacingBefore != 0)
             {
                 pra.SpacingBefore = SpacingBefore;
             }
-            if (MultipliedLeading != 0)
+
+            if(MultipliedLeading != 0)
             {
                 pra.MultipliedLeading = MultipliedLeading;
             }
+
             document.Add(pra);
         }
 
-        #endregion 添加段落
-
-        #region 添加图片
+        /// <summary>
+        /// 关闭打开的文档
+        /// </summary>
+        public void Close()
+        {
+            document.Close();
+        }
 
         /// <summary>
-        /// 添加图片
+        /// 实例化文档
         /// </summary>
-        /// <param name="path">图片路径</param>
-        /// <param name="Alignment">对齐方式（1为居中，0为居左，2为居右）</param>
-        /// <param name="newWidth">图片宽（0为默认值，如果宽度大于页宽将按比率缩放）</param>
-        /// <param name="newHeight">图片高</param>
-        public void AddImage(string path, int Alignment, float newWidth, float newHeight)
+        /// <param name="os">文档相关信息（如路径，打开方式等）</param>
+        public void GetInstance(Stream os)
         {
-            Image img = Image.GetInstance(path);
-            img.Alignment = Alignment;
-            if (newWidth != 0)
+            PdfWriter.GetInstance(document, os);
+        }
+
+        /// <summary>
+        /// 打开文档对象
+        /// </summary>
+        /// <param name="os">文档相关信息（如路径，打开方式等）</param>
+        public void Open(Stream os)
+        {
+            GetInstance(os);
+            document.Open();
+        }
+
+        /// <summary>
+        /// 设置字体
+        /// </summary>
+        public void SetBaseFont(string path)
+        {
+            basefont = BaseFont.CreateFont(path, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        }
+
+        /// <summary>
+        /// 设置字体
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public void SetFont(float size)
+        {
+            font = new Font(basefont, size);
+        }
+
+        /// <summary>
+        /// 设置页面大小
+        /// </summary>
+        /// <param name="type">页面大小(如"A4")</param>
+        public void SetPageSize(string type)
+        {
+            switch(type.Trim())
             {
-                img.ScaleAbsolute(newWidth, newHeight);
+                case "A4":
+                    rect = PageSize.A4;
+                    break;
+
+                case "A8":
+                    rect = PageSize.A8;
+                    break;
             }
-            else
-            {
-                if (img.Width > PageSize.A4.Width)
-                {
-                    img.ScaleAbsolute(rect.Width, img.Width * img.Height / rect.Height);
-                }
-            }
-            document.Add(img);
         }
 
-        #endregion 添加图片
-
-        #region 添加链接、点
-
-        /// <summary>
-        /// 添加链接
-        /// </summary>
-        /// <param name="Content">链接文字</param>
-        /// <param name="FontSize">字体大小</param>
-        /// <param name="Reference">链接地址</param>
-        public void AddAnchorReference(string Content, float FontSize, string Reference)
-        {
-            SetFont(FontSize);
-            Anchor auc = new Anchor(Content, font);
-            auc.Reference = Reference;
-            document.Add(auc);
-        }
-
-        /// <summary>
-        /// 添加链接点
-        /// </summary>
-        /// <param name="Content">链接文字</param>
-        /// <param name="FontSize">字体大小</param>
-        /// <param name="Name">链接点名</param>
-        public void AddAnchorName(string Content, float FontSize, string Name)
-        {
-            SetFont(FontSize);
-            Anchor auc = new Anchor(Content, font);
-            auc.Name = Name;
-            document.Add(auc);
-        }
-
-        #endregion 添加链接、点
+        #endregion Methods
     }
 }
