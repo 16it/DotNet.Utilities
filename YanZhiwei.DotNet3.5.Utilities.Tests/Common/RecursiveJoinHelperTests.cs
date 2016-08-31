@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using YanZhiwei.DotNet3._5.UtilitiesTests.Model;
-
+using YanZhiwei.DotNet3._5.Utilities.Lambda;
 namespace YanZhiwei.DotNet3._5.Utilities.Common.Tests
 {
     [TestClass()]
@@ -11,21 +11,21 @@ namespace YanZhiwei.DotNet3._5.Utilities.Common.Tests
         [TestMethod()]
         public void RecursiveJoinTest()
         {
-            FlatData[] _elements = new FlatData[]{
-                    new FlatData {Id = 1, Text = "A"},
-                    new FlatData {Id = 2, Text = "B"},
-                    new FlatData {Id = 3, ParentId = 1, Text = "C"},
-                    new FlatData {Id = 4, ParentId = 1, Text = "D"},
-                    new FlatData {Id = 5, ParentId = 2, Text = "E"}
-                };
-
+            FlatData[] _elements = new FlatData[]
+            {
+                new FlatData {Id = 1, Text = "A"},
+                new FlatData {Id = 2, Text = "B"},
+                new FlatData {Id = 3, ParentId = 1, Text = "C"},
+                new FlatData {Id = 4, ParentId = 1, Text = "D"},
+                new FlatData {Id = 5, ParentId = 2, Text = "E"}
+            };
             IEnumerable<NodeData> _nodes = _elements.RecursiveJoin(element => element.Id,
-               element => element.ParentId,
-               (FlatData element, IEnumerable<NodeData> children) => new NodeData()
-               {
-                   Text = element.Text,
-                   Children = children
-               });
+                                           element => element.ParentId,
+                                           (FlatData element, IEnumerable<NodeData> children) => new NodeData()
+            {
+                Text = element.Text,
+                Children = children
+            });
             Assert.AreEqual(2, _nodes.Count());
             IEnumerable<DeepNodeData> _nodes2 = _elements.RecursiveJoin(element => element.Id, element => element.ParentId, (FlatData element, int index, int depth, IEnumerable<DeepNodeData> children) =>
             {

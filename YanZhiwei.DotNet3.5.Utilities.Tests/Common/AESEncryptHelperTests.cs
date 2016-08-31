@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security.Cryptography;
-using YanZhiwei.DotNet3._5.Utilities.Common;
+using YanZhiwei.DotNet3._5.Utilities.Encryptor;
 
 namespace YanZhiwei.DotNet3._5.UtilitiesTests.Common
 {

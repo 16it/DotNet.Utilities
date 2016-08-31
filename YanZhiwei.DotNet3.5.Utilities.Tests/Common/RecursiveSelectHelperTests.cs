@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using YanZhiwei.DotNet3._5.UtilitiesTests.Model;
-
+using YanZhiwei.DotNet3._5.Utilities.Lambda;
 namespace YanZhiwei.DotNet3._5.Utilities.Common.Tests
 {
     [TestClass()]
@@ -38,10 +38,9 @@ namespace YanZhiwei.DotNet3._5.Utilities.Common.Tests
                 }
             };
             var _finded = nodes.RecursiveSelect(node => node.Children).Where(c => c.Text == "E").FirstOrDefault();
-
             Assert.AreEqual("E", _finded.Text);
         }
     }
 
-   
+
 }

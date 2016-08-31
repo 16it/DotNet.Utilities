@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using YanZhiwei.DotNet3._5.Utilities.Core.ScriptConverter;
+using YanZhiwei.DotNet3._5.Utilities.ScriptConverter;
 using YanZhiwei.DotNet3._5.UtilitiesTests.Model;
 
 namespace YanZhiwei.DotNet3._5.Utilities.Common.Tests
@@ -32,7 +33,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.Common.Tests
             IList<Person> _personList = new List<Person>();
             _personList.Add(_personA);
             _personList.Add(_personB);
-            DateTimeConverter _datetimeConvert = new DateTimeConverter("yyyy-MM-dd");
+            CNDateTimeConverter _datetimeConvert = new CNDateTimeConverter("yyyy-MM-dd");
             string _actual = SerializeHelper.JsonSerialize<IList<Person>>(_personList, _datetimeConvert);
             string _expect = "[{\"Name\":\"YanZhiweiA\",\"Age\":10,\"Address\":\"shanghaiA\",\"Birth\":{\"DateTime\":\"2012-10-10\"},\"Login\":{\"DateTime\":\"2015-05-07\"},\"OptRecordList\":null},{\"Name\":\"YanZhiweiB\",\"Age\":11,\"Address\":\"shanghaiB\",\"Birth\":{\"DateTime\":\"2012-10-10\"},\"Login\":{\"DateTime\":\"2015-05-07\"},\"OptRecordList\":null}]";
             Assert.AreEqual<string>(_expect, _actual);

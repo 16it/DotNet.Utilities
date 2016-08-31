@@ -9,7 +9,7 @@
     /// </summary>
     /// 时间：2015-12-10 14:48
     /// 备注：
-    public class DateTimeConverter : JavaScriptConverter
+    public class CNDateTimeConverter : JavaScriptConverter
     {
         #region Fields
 
@@ -20,21 +20,21 @@
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimeConverter"/> class.
+        /// Initializes a new instance of the <see cref="CNDateTimeConverter"/> class.
         /// </summary>
         /// 时间：2015-12-10 14:49
         /// 备注：
-        public DateTimeConverter()
+        public CNDateTimeConverter()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimeConverter"/> class.
+        /// Initializes a new instance of the <see cref="CNDateTimeConverter"/> class.
         /// </summary>
         /// <param name="customFormat">The custom format.</param>
         /// 时间：2015-12-10 14:49
         /// 备注：
-        public DateTimeConverter(string customFormat)
+        public CNDateTimeConverter(string customFormat)
         {
             format = customFormat;
         }
@@ -50,7 +50,13 @@
         /// 备注：
         public override IEnumerable<Type> SupportedTypes
         {
-            get { return new List<Type>() { typeof(DateTime), typeof(DateTime?) }; }
+            get
+            {
+                return new List<Type>()
+                {
+                    typeof(DateTime), typeof(DateTime?)
+                };
+            }
         }
 
         #endregion Properties
@@ -68,8 +74,7 @@
         /// 备注：
         public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
         {
-            if (dictionary.ContainsKey("DateTime"))
-
+            if(dictionary.ContainsKey("DateTime"))
                 return new DateTime(long.Parse(dictionary["DateTime"].ToString()), DateTimeKind.Unspecified);
 
             return null;
@@ -87,10 +92,9 @@
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
 
-            if (obj == null) return result;
+            if(obj == null) return result;
 
             result["DateTime"] = ((DateTime)obj).ToString(format);
-
             return result;
         }
 
