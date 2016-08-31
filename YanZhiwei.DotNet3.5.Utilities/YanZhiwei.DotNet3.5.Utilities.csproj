@@ -90,7 +90,7 @@
     <Compile Include="WebForm\Core\WebUploadFile.cs" />
     <Compile Include="WebForm\Core\WebUploadImage.cs" />
     <Compile Include="WebForm\HandlerHelper.cs" />
-    <Compile Include="WebForm\Jquery\DataTableHelper.cs" />
+    <Compile Include="WebForm\JqueryPlugin\DataTableHelper.cs" />
     <Compile Include="WebForm\HyperlinkHelper.cs" />
     <Compile Include="Encryptor\AESEncryptor.cs" />
     <Compile Include="Core\CommonEqualityComparer.cs" />
