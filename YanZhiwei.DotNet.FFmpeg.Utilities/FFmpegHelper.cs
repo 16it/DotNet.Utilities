@@ -25,7 +25,7 @@ namespace YanZhiwei.DotNet.FFmpeg.Utilities
         /// 备注：
         public FFmpegHelper(string ffmpegPath)
         {
-            ValidateOperator.Begin().CheckFileExists(ffmpegPath, "ffmpeg.exe");
+            ValidateOperator.Begin().CheckFileExists(ffmpegPath);
             FFmpegPath = ffmpegPath;
         }
 
@@ -38,7 +38,7 @@ namespace YanZhiwei.DotNet.FFmpeg.Utilities
         /// 备注：
         public Process SaveVideoStream(string videoStream, string savepath)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(videoStream, "视频流路径").NotNullOrEmpty(savepath, "视频流保存本地路径").IsFilePath(savepath, "视频流保存本地路径");
+            ValidateOperator.Begin().NotNullOrEmpty(videoStream, "视频流路径").NotNullOrEmpty(savepath, "视频流保存本地路径").IsFilePath(savepath);
             Process _process = new Process();
             _process.StartInfo.FileName = FFmpegPath;
             _process.StartInfo.Arguments = string.Format(@"-i {0} -c copy {1}", videoStream, savepath);

@@ -150,6 +150,9 @@
   <data name="ParameterCheck_Ip4Address" xml:space="preserve">
     <value>参数“{0}”的值不是合法IP4地址。</value>
   </data>
+  <data name="ParameterCheck_IsFilePath" xml:space="preserve">
+    <value>指定的文件路径“{0}”非法。</value>
+  </data>
   <data name="ParameterCheck_Match" xml:space="preserve">
     <value>参数“{0}”不能匹配"{1}"格式。</value>
   </data>

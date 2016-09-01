@@ -26,7 +26,7 @@
         public static IEnumerable<T> Deserialize<T>(string path)
         where T : class
         {
-            ValidateOperator.Begin().NotNullOrEmpty(path, "XML文件").IsFilePath(path, "XML文件").CheckFileExists(path, "XML文件");
+            ValidateOperator.Begin().NotNullOrEmpty(path, "XML文件").IsFilePath(path).CheckFileExists(path);
             using(Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 XmlSerializer _serializer = new XmlSerializer(typeof(IEnumerable<T>));
@@ -41,7 +41,7 @@
         /// <returns>XML字符串</returns>
         public static string DeserializeToString(string path)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(path, "XML文件").IsFilePath(path, "XML文件").CheckFileExists(path, "XML文件");
+            ValidateOperator.Begin().NotNullOrEmpty(path, "XML文件").IsFilePath(path).CheckFileExists(path);
             XmlDocument _xmlDoc = new XmlDocument();
             _xmlDoc.Load(path);
             StringBuilder _builder = new StringBuilder();
@@ -63,7 +63,7 @@
         public static void Serialize<T>(IEnumerable<T> data, string path)
         where T : class
         {
-            ValidateOperator.Begin().NotNull(data, "需要序列化集合").NotNullOrEmpty(path, "XML文件").IsFilePath(path, "XML文件");
+            ValidateOperator.Begin().NotNull(data, "需要序列化集合").NotNullOrEmpty(path, "XML文件").IsFilePath(path);
             using(Stream stream = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
                 XmlTextWriter _xmlTextWriter = new XmlTextWriter(stream, new UTF8Encoding(false));
@@ -86,7 +86,7 @@
         public static void Serialize<T>(T model, string path)
         where T : class
         {
-            ValidateOperator.Begin().NotNull(model, "需要序列化对象").NotNullOrEmpty(path, "XML文件").IsFilePath(path, "XML文件");
+            ValidateOperator.Begin().NotNull(model, "需要序列化对象").NotNullOrEmpty(path, "XML文件").IsFilePath(path);
             using(Stream stream = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
                 XmlTextWriter _xmlTextWriter = new XmlTextWriter(stream, new UTF8Encoding(false));

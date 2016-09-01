@@ -238,9 +238,9 @@
         private static void CheckedExcelFileParamter(string excelPath, bool checkedExist)
         {
             if(checkedExist)
-                ValidateOperator.Begin().NotNullOrEmpty(excelPath, "EXCEL路径").IsFilePath(excelPath, "EXCEL路径").CheckFileExists(excelPath, "EXCEL文件");
+                ValidateOperator.Begin().NotNullOrEmpty(excelPath, "EXCEL路径").IsFilePath(excelPath).CheckFileExists(excelPath);
             else
-                ValidateOperator.Begin().NotNullOrEmpty(excelPath, "EXCEL路径").IsFilePath(excelPath, "EXCEL路径");
+                ValidateOperator.Begin().NotNullOrEmpty(excelPath, "EXCEL路径").IsFilePath(excelPath);
         }
 
         private static XF SetCellStyle(XlsDocument xls, Type dataType)

@@ -160,6 +160,15 @@ namespace YanZhiwei.DotNet2.Utilities {
         }
         
         /// <summary>
+        ///   查找类似 指定的文件路径“{0}”非法。 的本地化字符串。
+        /// </summary>
+        internal static string ParameterCheck_IsFilePath {
+            get {
+                return ResourceManager.GetString("ParameterCheck_IsFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 参数“{0}”不能匹配&quot;{1}&quot;格式。 的本地化字符串。
         /// </summary>
         internal static string ParameterCheck_Match {

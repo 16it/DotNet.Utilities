@@ -29,7 +29,7 @@
         /// 时间：2016/9/1 11:53
         /// 备注：
         public static void ToExcel<T>(IEnumerable<T> source, string sheetName, string excelPath)
-            where T : class
+        where T : class
         {
             ValidateOperator.Begin().NotNull(source, "导出到EXCEL的数据集合").NotNullOrEmpty(sheetName, "sheetName");
             IDictionary<string, IEnumerable<T>> _source = new Dictionary<string, IEnumerable<T>>();
@@ -44,9 +44,9 @@
         /// <param name="sourceDic">数据集合字典</param>
         /// <param name="excelpath">保存路径</param>
         public static void ToExcel<T>(IDictionary<string, IEnumerable<T>> sourceDic, string excelpath)
-            where T : class
+        where T : class
         {
-            ValidateOperator.Begin().NotNull(sourceDic, "导出到EXCEL的数据集合字典").NotNullOrEmpty(excelpath, "EXCEL路径").IsFilePath(excelpath, "EXCEL路径");
+            ValidateOperator.Begin().NotNull(sourceDic, "导出到EXCEL的数据集合字典").NotNullOrEmpty(excelpath, "EXCEL路径").IsFilePath(excelpath);
 
             object _missingValue = Missing.Value;
             Application _application = null;

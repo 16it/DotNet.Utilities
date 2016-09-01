@@ -181,7 +181,7 @@
         public static void XmlSerialize<T>(T serializeData, string filename)
         {
             CheckedSerializeData(serializeData);
-            ValidateOperator.Begin().IsFilePath(filename, "filename");
+            ValidateOperator.Begin().IsFilePath(filename);
             using(FileStream stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
             {
                 XmlSerializer _xmlSerializer = new XmlSerializer(serializeData.GetType());

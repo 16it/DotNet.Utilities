@@ -67,11 +67,10 @@
         /// </summary>
         /// <param name="validation">Validation</param>
         /// <param name="data">判断数据</param>
-        /// <param name="paramName">参数名称。</param>
         /// <exception cref="ArgumentNullException">ArgumentNullException</exception>
         /// <exception cref="DirectoryNotFoundException">DirectoryNotFoundException</exception>
         /// <returns>Validation</returns>
-        public static Validation CheckDirectoryExists(this Validation validation, string data, string paramName)
+        public static Validation CheckDirectoryExists(this Validation validation, string data)
         {
             return Check<DirectoryNotFoundException>(validation, () => Directory.Exists(data), string.Format(Resource.ParameterCheck_DirectoryNotExists, data));
         }
@@ -81,11 +80,10 @@
         /// </summary>
         /// <param name="validation">Validation</param>
         /// <param name="data">参数</param>
-        /// <param name="paramName">参数名称。</param>
         /// <exception cref="ArgumentNullException">当文件路径为null时</exception>
         /// <exception cref="FileNotFoundException">当文件路径不存在时</exception>
         /// <returns>Validation</returns>
-        public static Validation CheckFileExists(this Validation validation, string data, string paramName)
+        public static Validation CheckFileExists(this Validation validation, string data)
         {
             return Check<FileNotFoundException>(validation, () => File.Exists(data), string.Format(Resource.ParameterCheck_FileNotExists, data));
         }
@@ -170,11 +168,10 @@
         /// </summary>
         /// <param name="validation">Validation</param>
         /// <param name="data">路径</param>
-        /// <param name="argumentName">参数名称</param>
         /// <returns>Validation</returns>
-        public static Validation IsFilePath(this Validation validation, string data, string argumentName)
+        public static Validation IsFilePath(this Validation validation, string data)
         {
-            return Check(validation, () => CheckHelper.IsFilePath(data), RegexPattern.FileCheck, argumentName);
+            return Check<ArgumentException>(validation, () => CheckHelper.IsFilePath(data), string.Format(Resource.ParameterCheck_IsFilePath, data));
         }
 
         /// <summary>
@@ -308,11 +305,11 @@
         /// <param name="validation">Validation</param>
         /// <param name="data">输入项</param>
         /// <param name="equalObj">比较项</param>
-        /// <param name="paramName">参数名称</param>
+        /// <param name="argumentName">参数名称</param>
         /// <returns>Validation</returns>
-        public static Validation NotEqual(this Validation validation, object data, object equalObj, string paramName)
+        public static Validation NotEqual(this Validation validation, object data, object equalObj, string argumentName)
         {
-            return Check<ArgumentException>(validation, () => data != equalObj, string.Format(Resource.ParameterCheck_NotEqual, paramName, data));
+            return Check<ArgumentException>(validation, () => data != equalObj, string.Format(Resource.ParameterCheck_NotEqual, argumentName, data));
         }
 
         /// <summary>
@@ -320,11 +317,11 @@
         /// </summary>
         /// <param name="validation">Validation</param>
         /// <param name="data">输入项</param>
-        /// <param name="paramName">参数名称</param>
+        /// <param name="argumentName">参数名称</param>
         /// <returns>Validation</returns>
-        public static Validation NotNull(this Validation validation, object data, string paramName)
+        public static Validation NotNull(this Validation validation, object data, string argumentName)
         {
-            return Check<ArgumentNullException>(validation, () => CheckHelper.NotNull(data), string.Format(Resource.ParameterCheck_NotNull, paramName));
+            return Check<ArgumentNullException>(validation, () => CheckHelper.NotNull(data), string.Format(Resource.ParameterCheck_NotNull, argumentName));
         }
 
         /// <summary>
@@ -332,11 +329,11 @@
         /// </summary>
         /// <param name="validation">Validation</param>
         /// <param name="input">输入项</param>
-        /// <param name="paramName">参数名称</param>
+        /// <param name="argumentName">参数名称</param>
         /// <returns>Validation</returns>
-        public static Validation NotNullOrEmpty(this Validation validation, string input, string paramName)
+        public static Validation NotNullOrEmpty(this Validation validation, string input, string argumentName)
         {
-            return Check<ArgumentNullException>(validation, () => !string.IsNullOrEmpty(input), string.Format(Resource.ParameterCheck_NotNullOrEmpty_String, paramName));
+            return Check<ArgumentNullException>(validation, () => !string.IsNullOrEmpty(input), string.Format(Resource.ParameterCheck_NotNullOrEmpty_String, argumentName));
         }
 
         /// <summary>

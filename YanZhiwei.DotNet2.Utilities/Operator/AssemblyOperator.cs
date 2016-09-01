@@ -40,8 +40,8 @@
         public AssemblyOperator(string path)
         {
             ValidateOperator.Begin().NotNullOrEmpty(path, "Exe或DLL文件")
-            .IsFilePath(path, "Exe或DLL文件")
-            .CheckFileExists(path, "Exe或DLL文件");
+            .IsFilePath(path)
+            .CheckFileExists(path);
             filePath = path;
             assembly = Assembly.LoadFile(path);
         }

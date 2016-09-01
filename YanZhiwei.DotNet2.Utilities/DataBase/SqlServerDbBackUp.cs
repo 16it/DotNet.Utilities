@@ -60,7 +60,7 @@
         /// 备注：
         public bool DataBackup(string filePath)
         {
-            ValidateOperator.Begin().IsFilePath(filePath, "Sql Server备份路径");
+            ValidateOperator.Begin().IsFilePath(filePath);
             bool _result = false;
             //创建连接对象
             SqlServerDataOperator _sqlHelper = new SqlServerDataOperator(ConnectString);
@@ -97,7 +97,7 @@
         /// 备注：
         public bool DataRestore(string filePath, string restoreDbName)
         {
-            ValidateOperator.Begin().IsFilePath(filePath, "Sql Server备份路径").NotNullOrEmpty(restoreDbName, "还原数据库名称");
+            ValidateOperator.Begin().IsFilePath(filePath).NotNullOrEmpty(restoreDbName, "还原数据库名称");
             bool _result = false;
             SqlServerDataOperator _sqlHelper = new SqlServerDataOperator(ConnectString);
             string _sql = @" use master ;

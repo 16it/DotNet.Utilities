@@ -562,9 +562,9 @@
         private static void CheckedAttachPngParamters(string watermarkImageFile, string sourceImageFile)
         {
             ValidateOperator.Begin().NotNullOrEmpty(watermarkImageFile, "水印图片路径")
-            .CheckFileExists(watermarkImageFile, "水印图片路径")
+            .CheckFileExists(watermarkImageFile)
             .NotNullOrEmpty(sourceImageFile, "水印图片路径")
-            .CheckFileExists(sourceImageFile, "需要添加水印文件的原图")
+            .CheckFileExists(sourceImageFile)
             ;
         }
 

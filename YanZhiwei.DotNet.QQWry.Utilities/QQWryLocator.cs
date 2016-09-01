@@ -37,7 +37,7 @@
         /// 备注：
         public QQWryLocator(string dataPath)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(dataPath, "QQwry纯真IP数据库路径").IsFilePath(dataPath, "QQwry纯真IP数据库");
+            ValidateOperator.Begin().NotNullOrEmpty(dataPath, "QQwry纯真IP数据库路径").IsFilePath(dataPath);
             qqWryRecCount = LoadQQWryData(dataPath);
             ValidateOperator.Begin().CheckGreaterThan<long>(qqWryRecCount, "非QQwry纯真IP数据库", 1, true);
         }

@@ -152,7 +152,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator
 
         private void CheckedAccessDBPath(string path)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(path, "Access数据库路径").CheckFileExists(path, "Access数据库路径");
+            ValidateOperator.Begin().NotNullOrEmpty(path, "Access数据库路径").CheckFileExists(path);
         }
 
         private void CheckedSql(string sql)
