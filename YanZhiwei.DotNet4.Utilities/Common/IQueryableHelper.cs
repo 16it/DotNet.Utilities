@@ -26,16 +26,16 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="selector">数据筛选表达式</param>
         /// <returns>分页结果信息</returns>
         public static PageResult<TResult> ToPage<TEntity, TResult>(this IQueryable<TEntity> source,
-            Expression<Func<TEntity, bool>> predicate,
-            PageCondition pageCondition,
-            Expression<Func<TEntity, TResult>> selector)
+                Expression<Func<TEntity, bool>> predicate,
+                PageCondition pageCondition,
+                Expression<Func<TEntity, TResult>> selector)
         {
             return source.ToPage(predicate,
-                pageCondition.PrimaryKeyField,
-                pageCondition.PageIndex,
-                pageCondition.PageSize,
-                pageCondition.SortConditions,
-                selector);
+                                 pageCondition.PrimaryKeyField,
+                                 pageCondition.PageIndex,
+                                 pageCondition.PageSize,
+                                 pageCondition.SortConditions,
+                                 selector);
         }
 
         /// <summary>
@@ -52,16 +52,20 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="selector">数据筛选表达式</param>
         /// <returns>分页结果信息</returns>
         public static PageResult<TResult> ToPage<TEntity, TResult>(this IQueryable<TEntity> source,
-            Expression<Func<TEntity, bool>> predicate,
-            string primaryKeyField,
-            int pageIndex,
-            int pageSize,
-            SortCondition[] sortConditions,
-            Expression<Func<TEntity, TResult>> selector)
+                Expression<Func<TEntity, bool>> predicate,
+                string primaryKeyField,
+                int pageIndex,
+                int pageSize,
+                SortCondition[] sortConditions,
+                Expression<Func<TEntity, TResult>> selector)
         {
-            int total;
-            TResult[] data = source.Where(predicate, primaryKeyField, pageIndex, pageSize, out total, sortConditions).Select(selector).ToArray();
-            return new PageResult<TResult>() { Total = total, Data = data };
+            int _total;
+            TResult[] _data = source.Where(predicate, primaryKeyField, pageIndex, pageSize, out _total, sortConditions).Select(selector).ToArray();
+            return new PageResult<TResult>()
+            {
+                Total = _total,
+                Data = _data
+            };
         }
 
         /// <summary>
@@ -74,9 +78,9 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="total">输出符合条件的总记录数</param>
         /// <returns></returns>
         public static IQueryable<TEntity> Where<TEntity>(this IQueryable<TEntity> source,
-            Expression<Func<TEntity, bool>> predicate,
-            PageCondition pageCondition,
-            out int total)
+                Expression<Func<TEntity, bool>> predicate,
+                PageCondition pageCondition,
+                out int total)
         {
             return source.Where(predicate, pageCondition.PrimaryKeyField, pageCondition.PageIndex, pageCondition.PageSize, out total, pageCondition.SortConditions);
         }
@@ -94,43 +98,45 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="sortConditions">排序条件集合</param>
         /// <returns></returns>
         public static IQueryable<TEntity> Where<TEntity>(this IQueryable<TEntity> source,
-            Expression<Func<TEntity, bool>> predicate,
-            string primaryKeyField,
-            int pageIndex,
-            int pageSize,
-            out int total,
-            SortCondition[] sortConditions = null)
+                Expression<Func<TEntity, bool>> predicate,
+                string primaryKeyField,
+                int pageIndex,
+                int pageSize,
+                out int total,
+                SortCondition[] sortConditions = null)
         {
-            if ((sortConditions == null || sortConditions.Length == 0) && string.IsNullOrWhiteSpace(primaryKeyField))
+            if((sortConditions == null || sortConditions.Length == 0) && string.IsNullOrWhiteSpace(primaryKeyField))
             {
                 throw new ArgumentException("排序条件集合为空的话，请设置主键字段数值！");
             }
 
             total = source.Count(predicate);
             source = source.Where(predicate);
-            if (sortConditions == null || sortConditions.Length == 0)
+
+            if(sortConditions == null || sortConditions.Length == 0)
             {
                 source = source.OrderBy(primaryKeyField);
             }
             else
             {
-                int count = 0;
-                IOrderedQueryable<TEntity> orderSource = null;
-                foreach (SortCondition sortCondition in sortConditions)
-                {
-                    orderSource = count == 0
-                        ? CollectionPropertySorter<TEntity>.OrderBy(source, sortCondition.SortField, sortCondition.ListSortDirection)
-                        : CollectionPropertySorter<TEntity>.ThenBy(orderSource, sortCondition.SortField, sortCondition.ListSortDirection);
-                    count++;
-                }
-                source = orderSource;
-            }
-            return source != null
-                ? source.Skip((pageIndex - 1) * pageSize).Take(pageSize)
-                : Enumerable.Empty<TEntity>().AsQueryable();
-        }
+                int _count = 0;
+                IOrderedQueryable<TEntity> _orderSource = null;
 
-        #region IQueryable的扩展
+                foreach(SortCondition sortCondition in sortConditions)
+                {
+                    _orderSource = _count == 0
+                                   ? CollectionPropertySorter<TEntity>.OrderBy(source, sortCondition.SortField, sortCondition.ListSortDirection)
+                                   : CollectionPropertySorter<TEntity>.ThenBy(_orderSource, sortCondition.SortField, sortCondition.ListSortDirection);
+                    _count++;
+                }
+
+                source = _orderSource;
+            }
+
+            return source != null
+                   ? source.Skip((pageIndex - 1) * pageSize).Take(pageSize)
+                   : Enumerable.Empty<TEntity>().AsQueryable();
+        }
 
         /// <summary>
         /// 从指定<see cref="IQueryable{T}"/>集合中筛选指定键范围内的子数据集
@@ -145,22 +151,22 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="endEqual">是否等于结束集</param>
         /// <returns></returns>
         public static IQueryable<TSource> Between<TSource, TKey>(this IQueryable<TSource> source,
-            Expression<Func<TSource, TKey>> keySelector,
-            TKey start,
-            TKey end,
-            bool startEqual = false,
-            bool endEqual = false) where TKey : IComparable<TKey>
+                Expression<Func<TSource, TKey>> keySelector,
+                TKey start,
+                TKey end,
+                bool startEqual = false,
+                bool endEqual = false) where TKey : IComparable<TKey>
         {
-            Expression[] paramters = keySelector.Parameters.Cast<Expression>().ToArray();
-            Expression key = Expression.Invoke(keySelector, paramters);
-            Expression startBound = startEqual
-                ? Expression.GreaterThanOrEqual(key, Expression.Constant(start))
-                : Expression.GreaterThan(key, Expression.Constant(start));
-            Expression endBound = endEqual
-                ? Expression.LessThanOrEqual(key, Expression.Constant(end))
-                : Expression.LessThan(key, Expression.Constant(end));
-            Expression and = Expression.AndAlso(startBound, endBound);
-            Expression<Func<TSource, bool>> lambda = Expression.Lambda<Func<TSource, bool>>(and, keySelector.Parameters);
+            Expression[] _paramters = keySelector.Parameters.Cast<Expression>().ToArray();
+            Expression _key = Expression.Invoke(keySelector, _paramters);
+            Expression _startBound = startEqual
+            ? Expression.GreaterThanOrEqual(_key, Expression.Constant(start))
+            : Expression.GreaterThan(_key, Expression.Constant(start));
+            Expression _endBound = endEqual
+            ? Expression.LessThanOrEqual(_key, Expression.Constant(end))
+            : Expression.LessThan(_key, Expression.Constant(end));
+            Expression _and = Expression.AndAlso(_startBound, _endBound);
+            Expression<Func<TSource, bool>> lambda = Expression.Lambda<Func<TSource, bool>>(_and , keySelector.Parameters);
             return source.Where(lambda);
         }
 
@@ -173,8 +179,8 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <typeparam name="T">动态类型</typeparam>
         /// <returns>排序后的数据集</returns>
         public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source,
-            string propertyName,
-            ListSortDirection sortDirection = ListSortDirection.Ascending)
+                string propertyName,
+                ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
             return CollectionPropertySorter<T>.OrderBy(source, propertyName, sortDirection);
         }
@@ -212,8 +218,8 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="sortDirection">排序方向</param>
         /// <returns></returns>
         public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source,
-            string propertyName,
-            ListSortDirection sortDirection = ListSortDirection.Ascending)
+                string propertyName,
+                ListSortDirection sortDirection = ListSortDirection.Ascending)
         {
             return CollectionPropertySorter<T>.ThenBy(source, propertyName, sortDirection);
         }
@@ -243,67 +249,5 @@ namespace YanZhiwei.DotNet4.Utilities.Common
             return condition ? source.Where(predicate) : source;
         }
 
-        #endregion IQueryable的扩展
-
-        ///// <summary>
-        ///// 从指定<see cref="IQueryable{T}"/>集合 中查询指定分页条件的子数据集
-        ///// </summary>
-        ///// <typeparam name="TEntity">实体类型</typeparam>
-        ///// <typeparam name="TKey">实体主键类型</typeparam>
-        ///// <param name="source">要查询的数据集</param>
-        ///// <param name="predicate">查询条件谓语表达式</param>
-        ///// <param name="pageCondition">分页查询条件</param>
-        ///// <param name="total">输出符合条件的总记录数</param>
-        ///// <returns></returns>
-        //public static IQueryable<TEntity> Where<TEntity, TKey>(this IQueryable<TEntity> source,
-        //    Expression<Func<TEntity, bool>> predicate,
-        //    PageCondition pageCondition,
-        //    out int total) where TEntity : EntityBase<TKey>
-        //{
-        //    return source.Where<TEntity, TKey>(predicate, pageCondition.PageIndex, pageCondition.PageSize, out total, pageCondition.SortConditions);
-        //}
-
-        ///// <summary>
-        ///// 从指定<see cref="IQueryable{T}"/>集合 中查询指定分页条件的子数据集
-        ///// </summary>
-        ///// <typeparam name="TEntity">动态实体类型</typeparam>
-        ///// <typeparam name="TKey">实体主键类型</typeparam>
-        ///// <param name="source">要查询的数据集</param>
-        ///// <param name="predicate">查询条件谓语表达式</param>
-        ///// <param name="pageIndex">分页索引</param>
-        ///// <param name="pageSize">分页大小</param>
-        ///// <param name="total">输出符合条件的总记录数</param>
-        ///// <param name="sortConditions">排序条件集合</param>
-        ///// <returns></returns>
-        //public static IQueryable<TEntity> Where<TEntity, TKey>(this IQueryable<TEntity> source,
-        //    Expression<Func<TEntity, bool>> predicate,
-        //    int pageIndex,
-        //    int pageSize,
-        //    out int total,
-        //    SortCondition[] sortConditions = null) where TEntity : EntityBase<TKey>
-        //{
-        //    total = source.Count(predicate);
-        //    source = source.Where(predicate);
-        //    if (sortConditions == null || sortConditions.Length == 0)
-        //    {
-        //        source = source.OrderBy(m => m.Id);
-        //    }
-        //    else
-        //    {
-        //        int count = 0;
-        //        IOrderedQueryable<TEntity> orderSource = null;
-        //        foreach (SortCondition sortCondition in sortConditions)
-        //        {
-        //            orderSource = count == 0
-        //                ? QueryablePropertySorter<TEntity>.OrderBy(source, sortCondition.SortField, sortCondition.ListSortDirection)
-        //                : QueryablePropertySorter<TEntity>.ThenBy(orderSource, sortCondition.SortField, sortCondition.ListSortDirection);
-        //            count++;
-        //        }
-        //        source = orderSource;
-        //    }
-        //    return source != null
-        //        ? source.Skip((pageIndex - 1) * pageSize).Take(pageSize)
-        //        : Enumerable.Empty<TEntity>().AsQueryable();
-        //}
     }
 }

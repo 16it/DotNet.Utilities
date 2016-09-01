@@ -1,24 +1,28 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
-using YanZhiwei.DotNet2.Utilities.Core;
-using YanZhiwei.DotNet2.Utilities.Operator;
-using YanZhiwei.DotNet2.Utilities.Exception;
-
-namespace YanZhiwei.DotNet4.Utilities.Core
+﻿namespace YanZhiwei.DotNet4.Utilities.Core
 {
+    using DotNet2.Utilities.Exception;
+    using DotNet2.Utilities.Operator;
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
     /// <summary>
     /// 集合类型字符串排序操作类
     /// </summary>
     /// <typeparam name="T">集合项类型</typeparam>
-    public static class CollectionPropertySorter<T>
+    internal static class CollectionPropertySorter<T>
     {
+        #region Fields
+
         private static readonly ConcurrentDictionary<string, LambdaExpression> Cache = new ConcurrentDictionary<string, LambdaExpression>();
+
+        #endregion Fields
+
+        #region Methods
 
         /// <summary>
         /// 按指定的属性名称对<see cref="IEnumerable{T}"/>序列进行排序
@@ -37,22 +41,6 @@ namespace YanZhiwei.DotNet4.Utilities.Core
         }
 
         /// <summary>
-        /// 按指定的属性名称对<see cref="IOrderedEnumerable{T}"/>进行继续排序
-        /// </summary>
-        /// <param name="source"><see cref="IOrderedEnumerable{T}"/>序列</param>
-        /// <param name="propertyName">属性名称</param>
-        /// <param name="sortDirection">排序方向</param>
-        public static IOrderedEnumerable<T> ThenBy(IOrderedEnumerable<T> source, string propertyName, ListSortDirection sortDirection)
-        {
-            ValidateOperator.Begin().NotNullOrEmpty(propertyName, "属性名称");
-            dynamic expression = GetKeySelector(propertyName);
-            dynamic keySelector = expression.Compile();
-            return sortDirection == ListSortDirection.Ascending
-                   ? Enumerable.ThenBy(source, keySelector)
-                   : Enumerable.ThenByDescending(source, keySelector);
-        }
-
-        /// <summary>
         /// 按指定的属性名称对<see cref="IQueryable{T}"/>序列进行排序
         /// </summary>
         /// <param name="source">IQueryable{T}序列</param>
@@ -66,6 +54,22 @@ namespace YanZhiwei.DotNet4.Utilities.Core
             return sortDirection == ListSortDirection.Ascending
                    ? Queryable.OrderBy(source, keySelector)
                    : Queryable.OrderByDescending(source, keySelector);
+        }
+
+        /// <summary>
+        /// 按指定的属性名称对<see cref="IOrderedEnumerable{T}"/>进行继续排序
+        /// </summary>
+        /// <param name="source"><see cref="IOrderedEnumerable{T}"/>序列</param>
+        /// <param name="propertyName">属性名称</param>
+        /// <param name="sortDirection">排序方向</param>
+        public static IOrderedEnumerable<T> ThenBy(IOrderedEnumerable<T> source, string propertyName, ListSortDirection sortDirection)
+        {
+            ValidateOperator.Begin().NotNullOrEmpty(propertyName, "属性名称");
+            dynamic expression = GetKeySelector(propertyName);
+            dynamic keySelector = expression.Compile();
+            return sortDirection == ListSortDirection.Ascending
+                   ? Enumerable.ThenBy(source, keySelector)
+                   : Enumerable.ThenByDescending(source, keySelector);
         }
 
         /// <summary>
@@ -115,5 +119,7 @@ namespace YanZhiwei.DotNet4.Utilities.Core
             Cache[key] = keySelector;
             return keySelector;
         }
+
+        #endregion Methods
     }
 }

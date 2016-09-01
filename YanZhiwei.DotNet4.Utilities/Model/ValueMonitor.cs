@@ -17,14 +17,17 @@ namespace YanZhiwei.DotNet4.Utilities.Model
     public interface IValueMonitor<ValueType>
     {
         /// <summary>
-        /// Gets the value.
-        /// </summary>
-        ValueType Value { get; }
-
-        /// <summary>
         /// Occurs when [value changed].
         /// </summary>
         event ValueChangedDelegate<ValueType> ValueChanged;
+
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        ValueType Value
+        {
+            get;
+        }
     }
 
     /// <summary>
@@ -59,6 +62,11 @@ namespace YanZhiwei.DotNet4.Utilities.Model
         }
 
         /// <summary>
+        ///值改变事件
+        /// </summary>
+        public event ValueChangedDelegate<ValueType> ValueChanged;
+
+        /// <summary>
         /// Gets or sets the value.
         /// </summary>
         /// <value>
@@ -66,18 +74,24 @@ namespace YanZhiwei.DotNet4.Utilities.Model
         /// </value>
         public ValueType Value
         {
-            get { return aValue; }
+            get
+            {
+                return aValue;
+            }
             set
             {
                 bool areEqual = false;
-                if (comparer == null)
+
+                if(comparer == null)
                     areEqual = (aValue.Equals(value));
                 else areEqual = comparer.Equals(aValue, value);
 
-                if (areEqual == true) return;
+                if(areEqual == true) return;
+
                 ValueType oldValue = aValue; // remember previous for the event rising
                 aValue = value;
-                if (ValueChanged != null)
+
+                if(ValueChanged != null)
                     ValueChanged(oldValue, aValue);
             }
         }
@@ -90,10 +104,5 @@ namespace YanZhiwei.DotNet4.Utilities.Model
         {
             aValue = newValue;
         }
-
-        /// <summary>
-        ///值改变事件
-        /// </summary>
-        public event ValueChangedDelegate<ValueType> ValueChanged;
     }
 }

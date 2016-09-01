@@ -27,13 +27,13 @@
         /// <param name="periodicTaskCreationOptions">TaskCreationOptions</param>
         /// <returns>Task</returns>
         public static Task Start(Action action,
-            int intervalInMilliseconds = Timeout.Infinite,
-            int delayInMilliseconds = 0,
-            int duration = Timeout.Infinite,
-            int maxIterations = -1,
-            bool synchronous = false,
-            CancellationToken cancelToken = new CancellationToken(),
-            TaskCreationOptions periodicTaskCreationOptions = TaskCreationOptions.None)
+                                 int intervalInMilliseconds = Timeout.Infinite,
+                                 int delayInMilliseconds = 0,
+                                 int duration = Timeout.Infinite,
+                                 int maxIterations = -1,
+                                 bool synchronous = false,
+                                 CancellationToken cancelToken = new CancellationToken(),
+                                 TaskCreationOptions periodicTaskCreationOptions = TaskCreationOptions.None)
         {
             Stopwatch _stopWatch = new Stopwatch();
             Action _wrapperAction = () =>
@@ -59,8 +59,6 @@
         /// <param name="cancelToken">CancellationToken</param>
         private static void CheckIfCancelled(CancellationToken cancelToken)
         {
-            if (cancelToken == null)
-                throw new ArgumentNullException("cancellationToken");
             cancelToken.ThrowIfCancellationRequested();//如果已请求取消此标记，则引发 OperationCanceledException。
         }
 
@@ -77,34 +75,41 @@
         /// <param name="wrapperAction">委托</param>
         /// <param name="periodicTaskCreationOptions">TaskCreationOptions</param>
         private static void MainPeriodicTaskAction(int intervalInMilliseconds,
-            int delayInMilliseconds,
-            int duration,
-            int maxIterations,
-            CancellationToken cancelToken,
-            Stopwatch stopWatch,
-            bool synchronous,
-            Action wrapperAction,
-            TaskCreationOptions periodicTaskCreationOptions)
+                int delayInMilliseconds,
+                int duration,
+                int maxIterations,
+                CancellationToken cancelToken,
+                Stopwatch stopWatch,
+                bool synchronous,
+                Action wrapperAction,
+                TaskCreationOptions periodicTaskCreationOptions)
         {
             TaskCreationOptions _subTaskCreationOptions = TaskCreationOptions.AttachedToParent | periodicTaskCreationOptions;
             CheckIfCancelled(cancelToken);
-            if (delayInMilliseconds > 0)
+
+            if(delayInMilliseconds > 0)
             {
                 Thread.Sleep(delayInMilliseconds);
             }
-            if (maxIterations == 0) { return; }
-            int _iteration = 0;//迭代次数
 
-            //ManualResetEventSlim：提供 ManualResetEvent 的简化版本。
-            using (ManualResetEventSlim periodResetEvent = new ManualResetEventSlim(false))
+            if(maxIterations == 0)
             {
-                while (true)
+                return;
+            }
+
+            int _iteration = 0;//迭代次数
+            //ManualResetEventSlim：提供 ManualResetEvent 的简化版本。
+            using(ManualResetEventSlim periodResetEvent = new ManualResetEventSlim(false))
+            {
+                while(true)
                 {
                     CheckIfCancelled(cancelToken);
                     Task _subTask = Task.Factory.StartNew(wrapperAction, cancelToken, _subTaskCreationOptions, TaskScheduler.Current);
-                    if (synchronous)
+
+                    if(synchronous)
                     {
                         stopWatch.Start();
+
                         try
                         {
                             _subTask.Wait(cancelToken);
@@ -112,20 +117,24 @@
                         catch
                         {
                         }
+
                         stopWatch.Stop();
                     }
 
                     //时间间隔
-                    if (intervalInMilliseconds == Timeout.Infinite)
+                    if(intervalInMilliseconds == Timeout.Infinite)
                     {
                         break;
                     }
+
                     _iteration++;
+
                     //判断最大迭代次数
-                    if (maxIterations > 0 && _iteration >= maxIterations)
+                    if(maxIterations > 0 && _iteration >= maxIterations)
                     {
                         break;
                     }
+
                     try
                     {
                         stopWatch.Start();
@@ -136,8 +145,13 @@
                     {
                         periodResetEvent.Reset();
                     }
+
                     CheckIfCancelled(cancelToken);
-                    if (duration > 0 && stopWatch.ElapsedMilliseconds >= duration) { break; }
+
+                    if(duration > 0 && stopWatch.ElapsedMilliseconds >= duration)
+                    {
+                        break;
+                    }
                 }
             }
         }

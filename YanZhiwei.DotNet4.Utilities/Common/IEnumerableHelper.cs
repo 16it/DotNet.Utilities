@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using YanZhiwei.DotNet2.Utilities.Model;
-using YanZhiwei.DotNet2.Utilities.Operator;
-using YanZhiwei.DotNet4.Utilities.Core;
-using YanZhiwei.DotNet4.Utilities.Model;
-
-namespace YanZhiwei.DotNet4.Utilities.Common
+﻿namespace YanZhiwei.DotNet4.Utilities.Common
 {
+    using Core;
+    using DotNet2.Utilities.Model;
+    using DotNet2.Utilities.Operator;
+    using Model;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Text;
+
     /// <summary>
     ///  IEnumerable辅助类
     /// </summary>
@@ -17,7 +17,22 @@ namespace YanZhiwei.DotNet4.Utilities.Common
     /// 备注：
     public static class IEnumerableHelper
     {
-        #region IEnumerable的扩展
+        #region Methods
+
+        /// <summary>
+        /// 根据指定条件返回集合中不重复的元素
+        /// </summary>
+        /// <typeparam name="T">动态类型</typeparam>
+        /// <typeparam name="TKey">动态筛选条件类型</typeparam>
+        /// <param name="source">要操作的源</param>
+        /// <param name="keySelector">重复数据筛选条件</param>
+        /// <returns>不重复元素的集合</returns>
+        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector)
+        {
+            ValidateOperator.Begin().NotNull(keySelector, "重复数据筛选条件");
+            source = source as IList<T> ?? source.ToList();
+            return source.GroupBy(keySelector).Select(group => group.First());
+        }
 
         /// <summary>
         /// 将集合展开并分别转换成字符串，再以指定的分隔符衔接，拼成一个字符串返回。默认分隔符为逗号
@@ -43,7 +58,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
             collection = collection as IList<T> ?? collection.ToList();
             ValidateOperator.Begin().NotNull(itemFormatFunc, "单个集合项的转换委托");
 
-            if (!collection.Any())
+            if(!collection.Any())
             {
                 return null;
             }
@@ -52,9 +67,9 @@ namespace YanZhiwei.DotNet4.Utilities.Common
             int i = 0;
             int count = collection.Count();
 
-            foreach (T t in collection)
+            foreach(T t in collection)
             {
-                if (i == count - 1)
+                if(i == count - 1)
                 {
                     _builder.Append(itemFormatFunc(t));
                 }
@@ -79,36 +94,6 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         {
             collection = collection as IList<T> ?? collection.ToList();
             return !collection.Any();
-        }
-
-        /// <summary>
-        /// 根据第三方条件是否为真来决定是否执行指定条件的查询
-        /// </summary>
-        /// <param name="source"> 要查询的源 </param>
-        /// <param name="predicate"> 查询条件 </param>
-        /// <param name="condition"> 第三方条件 </param>
-        /// <typeparam name="T"> 动态类型 </typeparam>
-        /// <returns> 查询的结果 </returns>
-        public static IEnumerable<T> WhereIf<T>(this IEnumerable<T> source, Func<T, bool> predicate, bool condition)
-        {
-            ValidateOperator.Begin().NotNull(predicate, "查询条件");
-            source = source as IList<T> ?? source.ToList();
-            return condition ? source.Where(predicate) : source;
-        }
-
-        /// <summary>
-        /// 根据指定条件返回集合中不重复的元素
-        /// </summary>
-        /// <typeparam name="T">动态类型</typeparam>
-        /// <typeparam name="TKey">动态筛选条件类型</typeparam>
-        /// <param name="source">要操作的源</param>
-        /// <param name="keySelector">重复数据筛选条件</param>
-        /// <returns>不重复元素的集合</returns>
-        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> keySelector)
-        {
-            ValidateOperator.Begin().NotNull(keySelector, "重复数据筛选条件");
-            source = source as IList<T> ?? source.ToList();
-            return source.GroupBy(keySelector).Select(group => group.First());
         }
 
         /// <summary>
@@ -182,6 +167,21 @@ namespace YanZhiwei.DotNet4.Utilities.Common
             return source.ThenBy(sortCondition.SortField, sortCondition.ListSortDirection);
         }
 
-        #endregion IEnumerable的扩展
+        /// <summary>
+        /// 根据第三方条件是否为真来决定是否执行指定条件的查询
+        /// </summary>
+        /// <param name="source"> 要查询的源 </param>
+        /// <param name="predicate"> 查询条件 </param>
+        /// <param name="condition"> 第三方条件 </param>
+        /// <typeparam name="T"> 动态类型 </typeparam>
+        /// <returns> 查询的结果 </returns>
+        public static IEnumerable<T> WhereIf<T>(this IEnumerable<T> source, Func<T, bool> predicate, bool condition)
+        {
+            ValidateOperator.Begin().NotNull(predicate, "查询条件");
+            source = source as IList<T> ?? source.ToList();
+            return condition ? source.Where(predicate) : source;
+        }
+
+        #endregion Methods
     }
 }
