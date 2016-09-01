@@ -1,12 +1,14 @@
-﻿using System;
-
-namespace YanZhiwei.DotNet.Office11.Utilities
+﻿namespace YanZhiwei.DotNet.Office11.Utilities
 {
+    using System;
+
     /// <summary>
     /// Office 帮助类
     /// </summary>
     public static class OfficeHelper
     {
+        #region Methods
+
         /*
          *参考
          *1. http://www.codeproject.com/Tips/701015/How-to-Check-Whether-Word-is-Installed-in-the-Syst
@@ -35,5 +37,7 @@ namespace YanZhiwei.DotNet.Office11.Utilities
             Type _officeType = Type.GetTypeFromProgID(applicationName);
             return _officeType != null;
         }
+
+        #endregion Methods
     }
 }

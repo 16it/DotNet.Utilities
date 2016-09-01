@@ -1,20 +1,24 @@
-﻿using Microsoft.Office.Interop.Excel;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet2.Utilities.Operator;
-
-namespace YanZhiwei.DotNet.Office11.Utilities
+﻿namespace YanZhiwei.DotNet.Office11.Utilities
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
+
+    using Microsoft.Office.Interop.Excel;
+
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.Operator;
+
     /// <summary>
     /// Excel 帮助类
     /// </summary>
     public class ExcelHelper
     {
+        #region Methods
+
         /// <summary>
         ///  将数据集合导出到excel
         /// </summary>
@@ -24,7 +28,8 @@ namespace YanZhiwei.DotNet.Office11.Utilities
         /// <param name="excelPath">导出EXCEL路径</param>
         /// 时间：2016/9/1 11:53
         /// 备注：
-        public static void ToExcel<T>(IEnumerable<T> source, string sheetName, string excelPath) where T : class
+        public static void ToExcel<T>(IEnumerable<T> source, string sheetName, string excelPath)
+            where T : class
         {
             ValidateOperator.Begin().NotNull(source, "导出到EXCEL的数据集合").NotNullOrEmpty(sheetName, "sheetName");
             IDictionary<string, IEnumerable<T>> _source = new Dictionary<string, IEnumerable<T>>();
@@ -38,7 +43,8 @@ namespace YanZhiwei.DotNet.Office11.Utilities
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="sourceDic">数据集合字典</param>
         /// <param name="excelpath">保存路径</param>
-        public static void ToExcel<T>(IDictionary<string, IEnumerable<T>> sourceDic, string excelpath) where T : class
+        public static void ToExcel<T>(IDictionary<string, IEnumerable<T>> sourceDic, string excelpath)
+            where T : class
         {
             ValidateOperator.Begin().NotNull(sourceDic, "导出到EXCEL的数据集合字典").NotNullOrEmpty(excelpath, "EXCEL路径").IsFilePath(excelpath, "EXCEL路径");
 
@@ -172,5 +178,7 @@ namespace YanZhiwei.DotNet.Office11.Utilities
                 GC.Collect();
             }
         }
+
+        #endregion Methods
     }
 }
