@@ -1,19 +1,23 @@
-﻿using System;
-using System.Data;
-using System.Data.Common;
-using System.Data.SQLite;
-using System.Text;
-
-namespace YanZhiwei.DotNet.SQLite.Utilities
+﻿namespace YanZhiwei.DotNet.SQLite.Utilities
 {
+    using System;
+    using System.Data;
+    using System.Data.Common;
+    using System.Data.SQLite;
+    using System.Text;
+
     /// <summary>
     /// SQLite帮助类
     /// </summary>
     public class SQLiteHelper
     {
-        #region 构造函数以及变量
+        #region Fields
 
         private string connectionString = string.Empty;
+
+        #endregion Fields
+
+        #region Constructors
 
         /// <summary>
         /// 构造函数
@@ -24,9 +28,34 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
             connectionString = string.Format(@"Data Source={0}", dbpath);
         }
 
-        #endregion 构造函数以及变量
+        #endregion Constructors
 
-        #region 执行sql语句，返回影响行数
+        #region Methods
+
+        /// <summary>
+        /// ExecuteDataTable
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="parameters">参数</param>
+        /// <returns>DataTable</returns>
+        public DataTable ExecuteDataTable(string sql, SQLiteParameter[] parameters)
+        {
+            using(SQLiteConnection _sqlcon = new SQLiteConnection(connectionString))
+            {
+                using(SQLiteCommand _sqlcmd = new SQLiteCommand(sql, _sqlcon))
+                {
+                    if(parameters != null)
+                        _sqlcmd.Parameters.AddRange(parameters);
+
+                    using(SQLiteDataAdapter _sqldap = new SQLiteDataAdapter(_sqlcmd))
+                    {
+                        DataTable _dt = new DataTable();
+                        _sqldap.Fill(_dt);
+                        return _dt;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 执行sql语句，返回影响行数
@@ -39,13 +68,14 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
         public int ExecuteNonQuery(string sql, SQLiteParameter[] parameters)
         {
             int _affectedRows = -1;
-            using (SQLiteConnection sqlcon = new SQLiteConnection(connectionString))
+            using(SQLiteConnection sqlcon = new SQLiteConnection(connectionString))
             {
                 sqlcon.Open();
-                using (SQLiteCommand sqlcmd = new SQLiteCommand(sql, sqlcon))
+                using(SQLiteCommand sqlcmd = new SQLiteCommand(sql, sqlcon))
                 {
-                    if (parameters != null)
+                    if(parameters != null)
                         sqlcmd.Parameters.AddRange(parameters);
+
                     _affectedRows = sqlcmd.ExecuteNonQuery();
                 }
             }
@@ -61,23 +91,26 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
         public int ExecuteNonQueryWithTrans(string[] sqlList)
         {
             int _affectedRows = -1;
-            using (SQLiteConnection sqlcon = new SQLiteConnection(connectionString))
+            using(SQLiteConnection sqlcon = new SQLiteConnection(connectionString))
             {
                 sqlcon.Open();
                 DbTransaction _sqlTrans = sqlcon.BeginTransaction();
+
                 try
                 {
                     _affectedRows = 0;
-                    foreach (string sql in sqlList)
+
+                    foreach(string sql in sqlList)
                     {
-                        using (SQLiteCommand sqlcmd = new SQLiteCommand(sql, sqlcon))
+                        using(SQLiteCommand sqlcmd = new SQLiteCommand(sql, sqlcon))
                         {
                             _affectedRows += sqlcmd.ExecuteNonQuery();
                         }
                     }
+
                     _sqlTrans.Commit();
                 }
-                catch (Exception)
+                catch(Exception)
                 {
                     _sqlTrans.Rollback();
                     _affectedRows = -1;
@@ -85,10 +118,6 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
             }
             return _affectedRows;
         }
-
-        #endregion 执行sql语句，返回影响行数
-
-        #region ExecuteReader
 
         /// <summary>
         /// ExecuteReader
@@ -99,46 +128,15 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
         public IDataReader ExecuteReader(string sql, SQLiteParameter[] parameters)
         {
             SQLiteConnection _sqlcon = new SQLiteConnection(connectionString);
-            using (SQLiteCommand _sqlcmd = new SQLiteCommand(sql, _sqlcon))
+            using(SQLiteCommand _sqlcmd = new SQLiteCommand(sql, _sqlcon))
             {
-                if (parameters != null)
+                if(parameters != null)
                     _sqlcmd.Parameters.AddRange(parameters);
+
                 _sqlcon.Open();
                 return _sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
         }
-
-        #endregion ExecuteReader
-
-        #region ExecuteDataTable
-
-        /// <summary>
-        /// ExecuteDataTable
-        /// </summary>
-        /// <param name="sql">sql语句</param>
-        /// <param name="parameters">参数</param>
-        /// <returns>DataTable</returns>
-        public DataTable ExecuteDataTable(string sql, SQLiteParameter[] parameters)
-        {
-            using (SQLiteConnection _sqlcon = new SQLiteConnection(connectionString))
-            {
-                using (SQLiteCommand _sqlcmd = new SQLiteCommand(sql, _sqlcon))
-                {
-                    if (parameters != null)
-                        _sqlcmd.Parameters.AddRange(parameters);
-                    using (SQLiteDataAdapter _sqldap = new SQLiteDataAdapter(_sqlcmd))
-                    {
-                        DataTable _dt = new DataTable();
-                        _sqldap.Fill(_dt);
-                        return _dt;
-                    }
-                }
-            }
-        }
-
-        #endregion ExecuteDataTable
-
-        #region ExecuteScalar
 
         /// <summary>
         /// ExecuteScalar
@@ -148,21 +146,18 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
         /// <returns>Object</returns>
         public Object ExecuteScalar(string sql, SQLiteParameter[] parameters)
         {
-            using (SQLiteConnection _sqlcon = new SQLiteConnection(connectionString))
+            using(SQLiteConnection _sqlcon = new SQLiteConnection(connectionString))
             {
-                using (SQLiteCommand _sqlcmd = new SQLiteCommand(sql, _sqlcon))
+                using(SQLiteCommand _sqlcmd = new SQLiteCommand(sql, _sqlcon))
                 {
-                    if (parameters != null)
+                    if(parameters != null)
                         _sqlcmd.Parameters.AddRange(parameters);
+
                     _sqlcon.Open();
                     return _sqlcmd.ExecuteScalar(CommandBehavior.CloseConnection);
                 }
             }
         }
-
-        #endregion ExecuteScalar
-
-        #region InsertRow
 
         /// <summary>
         /// Inserts the row.
@@ -172,12 +167,12 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
         public int InsertRow(DataRow row)
         {
             int _affectedRows = -1;
-            using (SQLiteConnection sqlcon = new SQLiteConnection(connectionString))
+            using(SQLiteConnection sqlcon = new SQLiteConnection(connectionString))
             {
                 try
                 {
                     sqlcon.Open();
-                    using (SQLiteCommand sqlcmd = CreateInsertCommand(row))
+                    using(SQLiteCommand sqlcmd = CreateInsertCommand(row))
                     {
                         sqlcmd.Connection = sqlcon;
                         sqlcmd.CommandType = CommandType.Text;
@@ -186,7 +181,7 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
                 }
                 finally
                 {
-                    if (sqlcon.State != ConnectionState.Closed)
+                    if(sqlcon.State != ConnectionState.Closed)
                     {
                         sqlcon.Close();
                         sqlcon.Dispose();
@@ -204,13 +199,13 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
             bool bIdentity = false;
             string identityType = null;
 
-            foreach (DataColumn column in table.Columns)
+            foreach(DataColumn column in table.Columns)
             {
-                if (column.AutoIncrement)
+                if(column.AutoIncrement)
                 {
                     bIdentity = true;
 
-                    switch (column.DataType.Name)
+                    switch(column.DataType.Name)
                     {
                         case "Int16":
                             identityType = "smallint";
@@ -235,7 +230,7 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
                 }
                 else
                 {
-                    if (bFirst)
+                    if(bFirst)
                         bFirst = false;
                     else
                     {
@@ -248,11 +243,12 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
                     values.Append(column.ColumnName);
                 }
             }
+
             sql.Append(") ");
             sql.Append(values.ToString());
             sql.Append(")");
 
-            if (bIdentity)
+            if(bIdentity)
             {
                 sql.Append("; SELECT CAST(scope_identity() AS ");
                 sql.Append(identityType);
@@ -269,32 +265,31 @@ namespace YanZhiwei.DotNet.SQLite.Utilities
             SQLiteCommand command = new SQLiteCommand(sql);
             command.CommandType = System.Data.CommandType.Text;
 
-            foreach (DataColumn column in table.Columns)
+            foreach(DataColumn column in table.Columns)
             {
-                if (!column.AutoIncrement)
+                if(!column.AutoIncrement)
                 {
                     string parameterName = "@" + column.ColumnName;
                     InsertParameter(command, parameterName, column.ColumnName, row[column.ColumnName]);
                 }
             }
+
             return command;
         }
 
         private void InsertParameter(SQLiteCommand command,
-                                         string parameterName,
-                                          string sourceColumn,
-                                          object value)
+                                     string parameterName,
+                                     string sourceColumn,
+                                     object value)
         {
             SQLiteParameter parameter = new SQLiteParameter(parameterName, value);
-
             parameter.Direction = ParameterDirection.Input;
             parameter.ParameterName = parameterName;
             parameter.SourceColumn = sourceColumn;
             parameter.SourceVersion = DataRowVersion.Current;
-
             command.Parameters.Add(parameter);
         }
 
-        #endregion InsertRow
+        #endregion Methods
     }
 }
