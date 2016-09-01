@@ -19,7 +19,7 @@
         /// <returns>压缩后的byte数组</returns>
         public static byte[] Compress(this byte[] data)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using(MemoryStream ms = new MemoryStream())
             {
                 GZipStream zip = new GZipStream(ms, CompressionMode.Compress, true);
                 zip.Write(data, 0, data.Length);
@@ -38,13 +38,9 @@
         /// <returns>压缩后的字符串</returns>
         public static string Compress(this string value)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return string.Empty;
-            }
-            byte[] bytes = Encoding.UTF8.GetBytes(value);
-            bytes = Compress(bytes);
-            return Convert.ToBase64String(bytes);
+            byte[] _bytes = Encoding.UTF8.GetBytes(value);
+            _bytes = Compress(_bytes);
+            return Convert.ToBase64String(_bytes);
         }
 
         /// <summary>
@@ -54,9 +50,9 @@
         /// <returns>解压后的byte数组</returns>
         public static byte[] Decompress(this byte[] data)
         {
-            using (MemoryStream tmpMs = new MemoryStream())
+            using(MemoryStream tmpMs = new MemoryStream())
             {
-                using (MemoryStream ms = new MemoryStream(data))
+                using(MemoryStream ms = new MemoryStream(data))
                 {
                     GZipStream zip = new GZipStream(ms, CompressionMode.Decompress, true);
                     zip.CopyTo(tmpMs);
@@ -73,13 +69,9 @@
         /// <returns>解压后的字符串</returns>
         public static string Decompress(this string value)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return string.Empty;
-            }
-            byte[] bytes = Convert.FromBase64String(value);
-            bytes = Decompress(bytes);
-            return Encoding.UTF8.GetString(bytes);
+            byte[] _bytes = Convert.FromBase64String(value);
+            _bytes = Decompress(_bytes);
+            return Encoding.UTF8.GetString(_bytes);
         }
 
         #endregion Methods
