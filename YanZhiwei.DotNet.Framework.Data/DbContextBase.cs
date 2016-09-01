@@ -1,17 +1,14 @@
 ﻿namespace YanZhiwei.DotNet.Framework.Data
 {
+    using Contract;
+    using Core.Cache;
+    using PetaPoco;
     using System;
     using System.Collections.Generic;
     using System.Data.Common;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading;
-
-    using Core.Cache;
-
-    using PetaPoco;
-
-    using YanZhiwei.DotNet.Framework.Contract;
 
     /// <summary>
     ///  DAL基类，通用数据访问模式
@@ -41,7 +38,7 @@
         /// 时间：2016-03-28 10:13
         /// 备注：
         public DbContextBase(string connectionString, DbProviderFactory dbProviderFactory, ISqlAuditable auditLogger, string cacheKeyPrefix)
-            : base(connectionString, dbProviderFactory)
+        : base(connectionString, dbProviderFactory)
         {
             this.CacheKeyPrefix = cacheKeyPrefix;
             this.AuditLogger = auditLogger;
@@ -55,7 +52,7 @@
         /// 时间：2016-03-28 10:14
         /// 备注：
         public DbContextBase(string connectionString)
-            : this(connectionString, DbProviderFactories.GetFactory("System.Data.SqlClient"), null, "DotNetFrameworkData")
+        : this(connectionString, DbProviderFactories.GetFactory("System.Data.SqlClient"), null, "DotNetFrameworkData")
         {
         }
 
@@ -67,7 +64,7 @@
         /// 时间：2016-03-28 10:15
         /// 备注：
         public DbContextBase(string connectionString, ISqlAuditable auditLogger)
-            : this(connectionString, DbProviderFactories.GetFactory("System.Data.SqlClient"), auditLogger, "DotNetFrameworkData")
+        : this(connectionString, DbProviderFactories.GetFactory("System.Data.SqlClient"), auditLogger, "DotNetFrameworkData")
         {
         }
 
@@ -80,7 +77,8 @@
         /// </summary>
         public ISqlAuditable AuditLogger
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -100,10 +98,12 @@
         {
             string _key = GetKey(0, 0, sql, args);
             List<TSource> _result = (List<TSource>)CacheHelper.Get(_key);
-            if (_result != null)
+
+            if(_result != null)
             {
                 return _result;
             }
+
             _result = this.Fetch<TSource>(sql, args);
             CacheHelper.Set(_key, _result);
             return _result;
@@ -124,10 +124,12 @@
         {
             string _key = GetKey(page, itemsPerPage, sql, args);
             Page<TSource> _result = (Page<TSource>)CacheHelper.Get(_key);
-            if (_result != null)
+
+            if(_result != null)
             {
                 return _result;
             }
+
             _result = this.Page<TSource>(page, itemsPerPage, sql, args);
             CacheHelper.Set(_key, _result);
             return _result;
@@ -135,17 +137,18 @@
 
         private void DbContextBase_DataChangedEvent(Type type, string sql)
         {
-            if (type != null)
+            if(type != null)
             {
                 Type _entityType = type;
                 AuditableAttribute _auditableAttr = _entityType.GetCustomAttributes(typeof(AuditableAttribute), false).SingleOrDefault() as AuditableAttribute;
-                if (_auditableAttr == null) return;
+
+                if(_auditableAttr == null) return;
+
                 int _userId = ServiceCallContext.Current.Operater.UserId;
                 Thread _task = new Thread(() =>
                 {
                     var _tableAttr = _entityType.GetCustomAttributes(typeof(TableNameAttribute), true);
                     string _tableName = _tableAttr.Length == 0 ? _entityType.Name : (_tableAttr[0] as TableNameAttribute).Value;
-
                     this.AuditLogger.WriteLog(_userId, _tableName, sql, DateTime.UtcNow);
                 });
                 _task.Start();
@@ -155,19 +158,22 @@
         private string GetKey(long page, long itemsPerPage, string sql, object[] args)
         {
             string _key = null;
-            if (args != null)
+
+            if(args != null)
             {
                 var _new_args = new List<object>();
                 sql = ProcessParams(sql, args, _new_args);
                 sql = rxParamsPrefix.Replace(sql, m => _paramPrefix + m.Value.Substring(1));
                 sql = sql.Replace("@@", "@");
                 int i = 0;
-                foreach (object arg in args)
+
+                foreach(object arg in args)
                 {
                     sql = sql.Replace(string.Format("@{0}", i), arg.ToString());
                     i++;
                 }
             }
+
             _key = string.Format("{0}.{1}{2}{3}", CacheKeyPrefix, page, itemsPerPage, sql);
             return _key;
         }
