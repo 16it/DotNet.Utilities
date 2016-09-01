@@ -62,6 +62,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\ModelHelperTests.cs" />
+    <Compile Include="Common\ReflectHelperTests.cs" />
     <Compile Include="Core\ByteArrayBuilderTests.cs" />
     <Compile Include="Core\PackageDataTests.cs" />
     <Compile Include="Operator\AssemblyOperatorTests.cs" />

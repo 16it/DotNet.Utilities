@@ -47,7 +47,7 @@
         /// <param name="data">IEnumerable</param>
         public ThreadSafeList(IEnumerable<T> data)
         {
-            innerList = IEnumerableHelper.ToList(data);
+            innerList = new List<T>(data);
         }
 
         #endregion Constructors

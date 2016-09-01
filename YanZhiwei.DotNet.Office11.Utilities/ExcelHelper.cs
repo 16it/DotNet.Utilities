@@ -1,12 +1,10 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
 
 namespace YanZhiwei.DotNet.Office11.Utilities
 {

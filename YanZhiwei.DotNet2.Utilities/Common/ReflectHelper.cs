@@ -1,6 +1,8 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Reflection;
 
     /// <summary>
@@ -69,6 +71,56 @@
         {
             FieldInfo _fi = model.GetType().GetField(propertyName, bindingFlags);
             return (F)_fi.GetValue(model);
+        }
+
+        /// <summary>
+        /// 反射获取属性集合
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <returns>属性集合</returns>
+        /// 时间：2016/9/1 10:27
+        /// 备注：
+        public static PropertyInfo[] GetPropertyInfo<T>() where T : class
+        {
+            return typeof(T).GetProperties();
+        }
+
+        /// <summary>
+        /// 获取属性名称，优先获取DisplayName
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <returns>属性名称</returns>
+        /// 时间：2016/9/1 10:59
+        /// 备注：
+        public static IDictionary<string, string> GetPropertyName<T>() where T : class
+        {
+            IDictionary<string, string> _fields = new Dictionary<string, string>();
+            PropertyInfo[] _properties = typeof(T).GetProperties();
+            int _properityCnt = _properties.Length;
+
+            foreach(PropertyInfo property in _properties)
+            {
+                object[] _attribute = property.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+                _fields.Add(property.Name, _attribute.Length == 0 ? property.Name : ((DisplayNameAttribute)_attribute[0]).DisplayName);
+            }
+
+            return _fields;
+        }
+
+        public static Dictionary<string, object> DictionaryFromType<T>(this T model) where T : class
+        {
+            PropertyInfo[] _props = GetPropertyInfo<T>();
+            Dictionary<string, object> _dict = new Dictionary<string, object>();
+
+            foreach(PropertyInfo prp in _props)
+            {
+                object[] _attribute = prp.GetCustomAttributes(typeof(DisplayNameAttribute), false);
+                string _proName = _attribute.Length == 0 ? prp.Name : ((DisplayNameAttribute)_attribute[0]).DisplayName;
+                object _proValue = prp.GetValue(model, new object[] { });
+                _dict.Add(_proName, _proValue);
+            }
+
+            return _dict;
         }
 
         /// <summary>

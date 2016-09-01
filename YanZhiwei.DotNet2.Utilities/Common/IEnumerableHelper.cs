@@ -78,18 +78,6 @@
             }
         }
 
-        /// <summary>
-        /// 转换为List
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="self">需要转换的集合</param>
-        /// <returns>List</returns>
-        public static List<T> ToList<T>(IEnumerable<T> self)
-        {
-            List<T> _toList = new List<T>(self);
-            return _toList;
-        }
-
         #endregion Methods
     }
 }

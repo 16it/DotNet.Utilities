@@ -26,10 +26,59 @@
         /// 备注：
         public static string GetPropertyDisplayName<T>(this T model, Expression<Func<T, object>> keySelector) where T : class
         {
-            var _memberInfo = GetPropertyInformation(keySelector.Body);
+            MemberInfo _memberInfo = GetPropertyInformation(keySelector.Body);
             var _attr = _memberInfo.GetAttribute<DisplayNameAttribute>(false);
 
             return _attr == null ? _memberInfo.Name : _attr.DisplayName;
+        }
+
+        /// <summary>
+        /// 获取属性的数值
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="model">实体类对象</param>
+        /// <param name="keySelector">选择表达式</param>
+        /// <returns>属性的数值</returns>
+        /// 时间：2016/9/1 9:10
+        /// 备注：
+        public static object GetPropertyValue<T>(this T model, Expression<Func<T, object>> keySelector) where T : class
+        {
+            MemberInfo _memberInfo = GetPropertyInformation(keySelector.Body);
+
+            if(_memberInfo is PropertyInfo)
+            {
+                return ((PropertyInfo)_memberInfo).GetValue(model, null);
+            }
+            else if(_memberInfo is FieldInfo)
+            {
+                return ((FieldInfo)_memberInfo).GetValue(model);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 设置属性的数值
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <typeparam name="F">泛型</typeparam>
+        /// <param name="model">实体类对象</param>
+        /// <param name="value">设置的数值</param>
+        /// <param name="keySelector">选择表达式</param>
+        /// 时间：2016/9/1 9:20
+        /// 备注：
+        public static void SetPropertyValue<T, F>(this T model, F value, Expression<Func<T, object>> keySelector) where T : class
+        {
+            MemberInfo _memberInfo = GetPropertyInformation(keySelector.Body);
+
+            if(_memberInfo is PropertyInfo)
+            {
+                ((PropertyInfo)_memberInfo).SetValue(model, value, null);
+            }
+            else if(_memberInfo is FieldInfo)
+            {
+                ((FieldInfo)_memberInfo).SetValue(model, value);
+            }
         }
 
         private static T GetAttribute<T>(this MemberInfo member, bool isRequired)
