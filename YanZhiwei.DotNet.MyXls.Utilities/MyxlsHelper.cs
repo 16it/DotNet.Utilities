@@ -1,13 +1,15 @@
 ﻿namespace YanZhiwei.DotNet.MyXls.Utilities
 {
-    using DotNet2.Utilities.Common;
-    using DotNet2.Utilities.Operator;
-    using org.in2bits.MyXls;
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using System.Reflection;
+
+    using DotNet2.Utilities.Common;
+    using DotNet2.Utilities.Operator;
+
+    using org.in2bits.MyXls;
 
     /// <summary>
     /// MyXls帮助类
@@ -222,7 +224,8 @@
             _xls.Save(_savePath, true);
         }
 
-        private static void CheckedExcelExportParamter<T>(IEnumerable<T> source, string sheetName) where T : class
+        private static void CheckedExcelExportParamter<T>(IEnumerable<T> source, string sheetName)
+        where T : class
         {
             ValidateOperator.Begin().NotNull(source, "需要导出到EXCEL数据集合").NotNullOrEmpty(sheetName, "sheetName");
         }
