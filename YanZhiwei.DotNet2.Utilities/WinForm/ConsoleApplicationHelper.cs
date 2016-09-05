@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-namespace YanZhiwei.DotNet2.Utilities.WinForm
+﻿namespace YanZhiwei.DotNet2.Utilities.WinForm
 {
+    using System;
+    using System.Runtime.InteropServices;
+
     /// <summary>
     /// 控制台应用程序辅助类
     /// </summary>
@@ -10,26 +10,7 @@ namespace YanZhiwei.DotNet2.Utilities.WinForm
     /// 备注：
     public class ConsoleApplicationHelper
     {
-        /// <summary>
-        /// 监听控制台输入
-        /// </summary>
-        /// <param name="inputFactory">委托，参数：输入字符串</param>
-        /// 时间：2016-05-23 11:05
-        /// 备注：
-        public static void DetectKeyPress(Action<string> inputFactory)
-        {
-            do
-            {
-                while (!Console.KeyAvailable)
-                {
-                    string _input = Console.ReadLine();
-                    if (inputFactory != null)
-                        inputFactory(_input);
-                }
-            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
-        }
-
-        #region 控制台应用程序关闭时的消息捕获
+        #region Fields
 
         /// <summary>
         /// 当用户关闭Console时，系统会发送次消息
@@ -37,6 +18,10 @@ namespace YanZhiwei.DotNet2.Utilities.WinForm
         /// 时间：2016-05-23 11:13
         /// 备注：
         private const int CTRL_CLOSE_EVENT = 2;
+
+        #endregion Fields
+
+        #region Delegates
 
         /// <summary>
         /// 控制台控制委托
@@ -47,10 +32,30 @@ namespace YanZhiwei.DotNet2.Utilities.WinForm
         /// 备注：
         public delegate bool ConsoleCtrlHanlder(int dwCtrlType);
 
-        [DllImport("kernel32.dll")]
-        private static extern bool SetConsoleCtrlHandler(ConsoleCtrlHanlder detectShutdown, bool Add);
+        #endregion Delegates
 
-        #endregion 控制台应用程序关闭时的消息捕获
+        #region Methods
+
+        /// <summary>
+        /// 监听控制台输入
+        /// </summary>
+        /// <param name="inputFactory">委托，参数：输入字符串</param>
+        /// 时间：2016-05-23 11:05
+        /// 备注：
+        public static void DetectKeyPress(Action<string> inputFactory)
+        {
+            do
+            {
+                while(!Console.KeyAvailable)
+                {
+                    string _input = Console.ReadLine();
+
+                    if(inputFactory != null)
+                        inputFactory(_input);
+                }
+            }
+            while(Console.ReadKey(true).Key != ConsoleKey.Escape);
+        }
 
         /// <summary>
         /// 监听用户关闭控制台应用程序
@@ -62,7 +67,7 @@ namespace YanZhiwei.DotNet2.Utilities.WinForm
         {
             ConsoleCtrlHanlder _shutDownHanlder = new ConsoleCtrlHanlder(ctrlType =>
             {
-                switch (ctrlType)
+                switch(ctrlType)
                 {
                     case CTRL_CLOSE_EVENT:
                         shutDownConsoleFactory();
@@ -73,5 +78,10 @@ namespace YanZhiwei.DotNet2.Utilities.WinForm
             });
             SetConsoleCtrlHandler(_shutDownHanlder, true);
         }
+
+        [DllImport("kernel32.dll")]
+        private static extern bool SetConsoleCtrlHandler(ConsoleCtrlHanlder detectShutdown, bool Add);
+
+        #endregion Methods
     }
 }
