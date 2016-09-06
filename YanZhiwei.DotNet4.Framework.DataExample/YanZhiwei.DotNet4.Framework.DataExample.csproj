@@ -55,14 +55,9 @@
     <Compile Include="Contract\CustomerRequest.cs" />
     <Compile Include="Contract\Customer.cs" />
     <Compile Include="Contract\INorthwindService.cs" />
-    <Compile Include="ICacheManager.cs" />
     <Compile Include="NorthwindDbContext.cs" />
-    <Compile Include="PortalDb.cs" />
-    <Compile Include="PortalDbEx.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CustomerService.cs" />
-    <Compile Include="Services\ICustomerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -105,6 +100,9 @@
       <Project>{5cd641fa-33ba-4fa3-9df4-97a0c2e53e14}</Project>
       <Name>YanZhiwei.DotNet.Framework.Contract</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using YanZhiwei.DotNet.Framework.Contract;
-using YanZhiwei.DotNet4.Framework.Data;
 using YanZhiwei.DotNet4.Framework.Data.Example.BLL;
 using YanZhiwei.DotNet4.Framework.Data.Example.Contract;
-using YanZhiwei.DotNet4.Framework.Data.Example.Services;
 
 namespace YanZhiwei.DotNet4.Framework.Data.Example
 {
@@ -15,7 +13,10 @@ namespace YanZhiwei.DotNet4.Framework.Data.Example
             try
             {
                 NorthwindService _service = new NorthwindService();
-                IEnumerable<Customer> _finded = _service.GetArticleList(new CustomerRequest() { CustomerID = "ALFKI" });
+                IEnumerable<Customer> _finded = _service.GetArticleList(new CustomerRequest()
+                {
+                    CustomerID = "ALFKI"
+                });
                 ServiceCallContext.Current.Operater = new Operater()
                 {
                     IP = "127.0.0.1",
@@ -53,7 +54,7 @@ namespace YanZhiwei.DotNet4.Framework.Data.Example
                 //    Phone = "(5) 555-4729"
                 //});
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

@@ -54,13 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbContextBase.cs" />
-    <Compile Include="EfContextBase.cs" />
-    <Compile Include="EfRepository.cs" />
     <Compile Include="IDataRepository.cs" />
-    <Compile Include="IDbContext.cs" />
-    <Compile Include="IDependency.cs" />
-    <Compile Include="IRepository.cs" />
-    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -14,10 +14,13 @@ namespace YanZhiwei.Framework.DataAc.Example
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer<NorthwindDbContext>(null);//从不创建数据库
-
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customer> Customers
+        {
+            get;
+            set;
+        }
     }
 }
