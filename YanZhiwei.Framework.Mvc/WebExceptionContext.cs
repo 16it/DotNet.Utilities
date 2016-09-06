@@ -18,7 +18,7 @@ namespace YanZhiwei.Framework.Mvc
             get;
             set;
         }
-
+        
         /// <summary>
         /// 当前链接
         /// </summary>
@@ -27,7 +27,7 @@ namespace YanZhiwei.Framework.Mvc
             get;
             set;
         }
-
+        
         /// <summary>
         /// 引用链接
         /// </summary>
@@ -36,7 +36,7 @@ namespace YanZhiwei.Framework.Mvc
             get;
             set;
         }
-
+        
         /// <summary>
         /// 是否是ajax请求
         /// </summary>
@@ -45,7 +45,7 @@ namespace YanZhiwei.Framework.Mvc
             get;
             set;
         }
-
+        
         /// <summary>
         /// FormData
         /// </summary>
@@ -54,7 +54,7 @@ namespace YanZhiwei.Framework.Mvc
             get;
             set;
         }
-
+        
         /// <summary>
         /// QueryData
         /// </summary>
@@ -63,7 +63,7 @@ namespace YanZhiwei.Framework.Mvc
             get;
             set;
         }
-
+        
         /// <summary>
         /// RouteData
         /// </summary>

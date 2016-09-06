@@ -80,7 +80,6 @@
     <Compile Include="AuthorizeFilterAttribute.cs" />
     <Compile Include="AuthorizeIgnoreAttribute.cs" />
     <Compile Include="ControllerBase.cs" />
-    <Compile Include="CookieContext.cs" />
     <Compile Include="IAuthCookie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebExceptionContext.cs" />

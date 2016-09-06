@@ -1,24 +1,34 @@
-﻿using System;
-using System.Web.Mvc;
-
-namespace YanZhiwei.Framework.Mvc
+﻿namespace YanZhiwei.Framework.Mvc
 {
+    using System;
+    using System.Web.Mvc;
+    
     /// <summary>
     /// Attribute for power Authorize
     /// </summary>
     public class AuthorizeFilterAttribute : ActionFilterAttribute
     {
+        #region Constructors
+        
+        public AuthorizeFilterAttribute(string name)
+        {
+            this.Name = name;
+        }
+        
+        #endregion Constructors
+        
+        #region Properties
+        
         public string Name
         {
             get;
             set;
         }
-
-        public AuthorizeFilterAttribute(string name)
-        {
-            this.Name = name;
-        }
-
+        
+        #endregion Properties
+        
+        #region Methods
+        
         /// <summary>
         /// Called when [action executing].
         /// </summary>
@@ -30,7 +40,7 @@ namespace YanZhiwei.Framework.Mvc
             if(!this.Authorize(filterContext, this.Name))
                 filterContext.Result = new ContentResult { Content = "<script>alert('抱歉,你不具有当前操作的权限！');history.go(-1)</script>" };
         }
-
+        
         /// <summary>
         /// Authorizes the specified filter context.
         /// </summary>
@@ -44,11 +54,13 @@ namespace YanZhiwei.Framework.Mvc
         {
             if(filterContext.HttpContext == null)
                 throw new ArgumentNullException("httpContext");
-
+                
             if(!filterContext.HttpContext.User.Identity.IsAuthenticated)
                 return false;
-
+                
             return true;
         }
+        
+        #endregion Methods
     }
 }
