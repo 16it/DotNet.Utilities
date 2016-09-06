@@ -7,10 +7,18 @@ namespace YanZhiwei.DotNet.Core.Service
     /// </summary>
     public class WcfServiceFactory : ServiceFactory
     {
-        public override T CreateService<T>()
+        /// <summary>
+        /// 创建服务
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <typeparam name="F">泛型</typeparam>
+        /// <returns>
+        /// 类型
+        /// </returns>
+        /// 时间：2016/9/6 16:54
+        /// 备注：
+        public override T CreateService<T, F>()
         {
-            //TODO
-            //需实现WCF Uri来自配置文件
             var uri = string.Empty;
             var proxy = WcfServiceProxy.CreateServiceProxy<T>(uri);
             return proxy;

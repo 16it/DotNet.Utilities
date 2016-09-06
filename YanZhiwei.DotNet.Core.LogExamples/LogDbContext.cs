@@ -9,12 +9,36 @@ namespace YanZhiwei.DotNet.Core.LogExamples
     [Table("AuditLog")]
     public class AuditLog : ModelBase
     {
-        public string EventType { get; set; }
-        public int ModelId { get; set; }
-        public string ModuleName { get; set; }
-        public string NewValues { get; set; }
-        public string TableName { get; set; }
-        public string UserName { get; set; }
+        public string EventType
+        {
+            get;
+            set;
+        }
+        public int ModelId
+        {
+            get;
+            set;
+        }
+        public string ModuleName
+        {
+            get;
+            set;
+        }
+        public string NewValues
+        {
+            get;
+            set;
+        }
+        public string TableName
+        {
+            get;
+            set;
+        }
+        public string UserName
+        {
+            get;
+            set;
+        }
     }
 
     public class LogDbContext : DbContextBase, IAuditable
@@ -24,7 +48,11 @@ namespace YanZhiwei.DotNet.Core.LogExamples
             //Database.SetInitializer<LogDbContext>(null);
         }
 
-        public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<AuditLog> AuditLogs
+        {
+            get;
+            set;
+        }
 
         public void WriteLog(int modelId, string userName, string moduleName, string tableName, string eventType, ModelBase newValues)
         {
@@ -35,9 +63,11 @@ namespace YanZhiwei.DotNet.Core.LogExamples
                 ModuleName = moduleName,
                 TableName = tableName,
                 EventType = eventType,
-                NewValues = JsonConvert.SerializeObject(newValues, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore })
+                NewValues = JsonConvert.SerializeObject(newValues, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                })
             });
-
             this.SaveChanges();
             this.Dispose();
         }
@@ -45,7 +75,6 @@ namespace YanZhiwei.DotNet.Core.LogExamples
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer<LogDbContext>(null);//从不创建数据库
-
             base.OnModelCreating(modelBuilder);
         }
     }

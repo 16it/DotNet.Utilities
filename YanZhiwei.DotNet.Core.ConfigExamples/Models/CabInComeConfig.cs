@@ -15,7 +15,8 @@ namespace YanZhiwei.DotNet.Core.ConfigExamples.Models
         /// </summary>
         public CabInComeConfigItem[] CacheConfigItems
         {
-            get; set;
+            get;
+            set;
         }
     }
 }

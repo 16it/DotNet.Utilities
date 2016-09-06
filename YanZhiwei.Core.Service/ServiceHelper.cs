@@ -17,7 +17,7 @@ namespace YanZhiwei.DotNet.Core.Service
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="pageContentConfigService">IConfigService</param>
+        /// <param name="service">ServiceFactory</param>
         public ServiceHelper(ServiceFactory service)
         {
             serviceFactory = service;
@@ -39,7 +39,7 @@ namespace YanZhiwei.DotNet.Core.Service
         where T : class
             where F : IInterceptor, new()
         {
-            var _service = serviceFactory.CreateService<T>();
+            var _service = serviceFactory.CreateService<T, F>();
             ProxyGenerator _generator = new ProxyGenerator();
             T _dynamicProxy = _generator.CreateInterfaceProxyWithTargetInterface<T>(
                                   _service, new F());
