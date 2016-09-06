@@ -13,6 +13,11 @@ using YanZhiwei.DotNet2.Interfaces;
 
 namespace YanZhiwei.DotNet.Mvc.Utilities.Controls.MvcPager
 {
+    /// <summary>
+    /// MVC 分页辅助类
+    /// </summary>
+    /// 时间：2016/9/6 17:27
+    /// 备注：
     public static class PagerHelper
     {
         #region Html Pager

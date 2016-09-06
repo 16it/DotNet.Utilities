@@ -1,65 +1,86 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using System.Web.Routing;
-using YanZhiwei.DotNet2.Interfaces;
-
-namespace YanZhiwei.DotNet.Mvc.Utilities.Controls
+﻿namespace YanZhiwei.DotNet.Mvc.Utilities.Controls
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Web.Mvc;
+    using System.Web.Routing;
+
+    using DotNet2.Interfaces;
+
     /// <summary>
     /// 分页控件专为SEO，显示为1-20, 21-40.....
     /// </summary>
     public static class PagerForSeo
     {
+        #region Methods
+
+        /// <summary>
+        /// SEO优化版分页控件
+        /// </summary>
+        /// <param name="helper">HtmlHelper</param>
+        /// <param name="pagedList">分页集合</param>
+        /// <param name="pageIndexParameterName">分页主键</param>
+        /// <param name="sectionSize">分页大小</param>
+        /// <returns>MvcHtmlString</returns>
         public static MvcHtmlString SeoPager(this HtmlHelper helper, IPagedList pagedList, string pageIndexParameterName = "id", int sectionSize = 20)
         {
-            var sb = new StringBuilder();
+            StringBuilder _builder = new StringBuilder();
             int pageCount = pagedList.TotalItemCount / pagedList.PageSize + (pagedList.TotalItemCount % pagedList.PageSize == 0 ? 0 : 1);
 
             if(pageCount > 1)
             {
-                var pages = new List<int>();
+                List<int> _pages = new List<int>();
 
                 for(int i = 1; i <= pageCount; i++)
-                    pages.Add(i);
+                    _pages.Add(i);
 
-                var sections = pages.GroupBy(p => (p - 1) / sectionSize);
-                var currentSection = sections.Single(s => s.Key == (pagedList.CurrentPageIndex - 1) / sectionSize);
+                var _sections = _pages.GroupBy(p => (p - 1) / sectionSize);
+                var _currentSection = _sections.Single(s => s.Key == (pagedList.CurrentPageIndex - 1) / sectionSize);
 
-                foreach(var p in currentSection)
+                foreach(var item in _currentSection)
                 {
-                    if(p == pagedList.CurrentPageIndex)
-                        sb.AppendFormat("<span>{0}</span>", p);
+                    if(item == pagedList.CurrentPageIndex)
+                    {
+                        _builder.AppendFormat("<span>{0}</span>", item);
+                    }
                     else
-                        sb.AppendFormat("<a href=\"{1}\">{0}</a>", p, PrepearRouteUrl(helper, pageIndexParameterName, p));
+                    {
+                        _builder.AppendFormat("<a href=\"{1}\">{0}</a>", item, PrepearRouteUrl(helper, pageIndexParameterName, item));
+                    }
                 }
 
-                if(sections.Count() > 1)
+                if(_sections.Count() > 1)
                 {
-                    sb.Append("<br/>");
+                    _builder.Append("<br/>");
 
-                    foreach(var s in sections)
+                    foreach(var item in _sections)
                     {
-                        if(s.Key == currentSection.Key)
-                            sb.AppendFormat("<span>{0}-{1}</span>", s.First(), s.Last());
+                        if(item.Key == _currentSection.Key)
+                        {
+                            _builder.AppendFormat("<span>{0}-{1}</span>", item.First(), item.Last());
+                        }
                         else
-                            sb.AppendFormat("<a href=\"{2}\">{0}-{1}</a>", s.First(), s.Last(), PrepearRouteUrl(helper, pageIndexParameterName, s.First()));
+                        {
+                            _builder.AppendFormat("<a href=\"{2}\">{0}-{1}</a>", item.First(), item.Last(), PrepearRouteUrl(helper, pageIndexParameterName, item.First()));
+                        }
                     }
                 }
             }
 
-            return MvcHtmlString.Create(sb.ToString());
+            return MvcHtmlString.Create(_builder.ToString());
         }
 
         private static string PrepearRouteUrl(HtmlHelper helper, string pageIndexParameterName, int pageIndex)
         {
-            var routeValues = new RouteValueDictionary();
-            routeValues["action"] = helper.ViewContext.RequestContext.RouteData.Values["action"];
-            routeValues["controller"] = helper.ViewContext.RequestContext.RouteData.Values["controller"];
-            routeValues[pageIndexParameterName] = pageIndex;
+            RouteValueDictionary _routeValues = new RouteValueDictionary();
+            _routeValues["action"] = helper.ViewContext.RequestContext.RouteData.Values["action"];
+            _routeValues["controller"] = helper.ViewContext.RequestContext.RouteData.Values["controller"];
+            _routeValues[pageIndexParameterName] = pageIndex;
             var urlHelper = new UrlHelper(helper.ViewContext.RequestContext);
-            return urlHelper.RouteUrl(routeValues);
+            return urlHelper.RouteUrl(_routeValues);
         }
+
+        #endregion Methods
     }
 }
