@@ -31,7 +31,8 @@
         /// </summary>
         public string IP
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -39,7 +40,8 @@
         /// </summary>
         public string Method
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -47,7 +49,8 @@
         /// </summary>
         public string Name
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -55,7 +58,8 @@
         /// </summary>
         public DateTime Time
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -63,7 +67,8 @@
         /// </summary>
         public Guid Token
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -71,7 +76,8 @@
         /// </summary>
         public int UserId
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties

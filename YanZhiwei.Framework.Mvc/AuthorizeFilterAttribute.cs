@@ -8,7 +8,11 @@ namespace YanZhiwei.Framework.Mvc
     /// </summary>
     public class AuthorizeFilterAttribute : ActionFilterAttribute
     {
-        public string Name { get; set; }
+        public string Name
+        {
+            get;
+            set;
+        }
 
         public AuthorizeFilterAttribute(string name)
         {
@@ -23,7 +27,7 @@ namespace YanZhiwei.Framework.Mvc
         /// 备注：
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (!this.Authorize(filterContext, this.Name))
+            if(!this.Authorize(filterContext, this.Name))
                 filterContext.Result = new ContentResult { Content = "<script>alert('抱歉,你不具有当前操作的权限！');history.go(-1)</script>" };
         }
 
@@ -38,10 +42,10 @@ namespace YanZhiwei.Framework.Mvc
         /// <exception cref="System.ArgumentNullException">httpContext</exception>
         protected virtual bool Authorize(ActionExecutingContext filterContext, string permissionName)
         {
-            if (filterContext.HttpContext == null)
+            if(filterContext.HttpContext == null)
                 throw new ArgumentNullException("httpContext");
 
-            if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+            if(!filterContext.HttpContext.User.Identity.IsAuthenticated)
                 return false;
 
             return true;

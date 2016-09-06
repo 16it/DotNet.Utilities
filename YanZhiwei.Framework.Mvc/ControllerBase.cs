@@ -1,19 +1,15 @@
 ﻿namespace YanZhiwei.Framework.Mvc
 {
     using DotNet.Framework.Contract;
-    using DotNet3._5.Utilities.WebForm;
+    using DotNet2.Utilities.WebForm;
+    using DotNet3._5.Utilities.Common;
     using System;
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
 
-    using YanZhiwei.DotNet2.Utilities.WebForm;
-    using YanZhiwei.DotNet3._5.Utilities.Common;
-
     public class ControllerBase : Controller
     {
-        #region Properties
-
         /// <summary>
         /// 操作人，传IP....到后端记录
         /// </summary>
@@ -43,23 +39,19 @@
         {
             get
             {
-                var exceptionContext = new WebExceptionContext
+                WebExceptionContext _exceptionContext = new WebExceptionContext
                 {
                     IP = FetchHelper.UserIp,
-                    CurrentUrl = HyperlinkHelper.CurrentUrl,
+                    CurrentUrl = FetchHelper.CurrentUrl,
                     RefUrl = (Request == null || Request.UrlReferrer == null) ? string.Empty : Request.UrlReferrer.AbsoluteUri,
                     IsAjaxRequest = (Request == null) ? false : Request.IsAjaxRequest(),
                     FormData = (Request == null) ? null : Request.Form,
                     QueryData = (Request == null) ? null : Request.QueryString,
                     RouteData = (Request == null || Request.RequestContext == null || Request.RequestContext.RouteData == null) ? null : Request.RequestContext.RouteData.Values
                 };
-                return exceptionContext;
+                return _exceptionContext;
             }
         }
-
-        #endregion Properties
-
-        #region Methods
 
         /// <summary>
         ///  警告并且历史返回
@@ -177,8 +169,8 @@
         /// 备注：
         protected ContentResult JsonP(string callback, object data)
         {
-            var json = SerializeHelper.JsonSerialize(data);
-            return this.Content(string.Format("{0}({1})", callback, json));
+            string _crossJson = SerializeHelper.JsonSerialize(data);
+            return this.Content(string.Format("{0}({1})", callback, _crossJson));
         }
 
         /// <summary>
@@ -239,14 +231,8 @@
         {
         }
 
-        #endregion Methods
-
-        #region Other
-
         /*
         ASP.NET MVC 框架会在调用Action方法之前调用你Action过滤器中的OnActionExecuting方法，在之后调用Action过滤器中的OnActionExecuted方法。
         */
-
-        #endregion Other
     }
 }

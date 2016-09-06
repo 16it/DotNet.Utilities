@@ -33,16 +33,18 @@
         //[Display(Name = "创建时间")]
         public virtual DateTime CreateTime
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
         /// 主键
         /// </summary>
-       // [Key]
+        // [Key]
         public virtual int ID
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -51,7 +53,8 @@
         //[Display(Name = "更新时间")]
         public virtual DateTime ModifyTime
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties

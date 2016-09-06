@@ -2,12 +2,10 @@
 {
     using DotNet2.Utilities.Common;
     using DotNet2.Utilities.Encryptor;
+    using DotNet2.Utilities.WebForm.Core;
+    using DotNet4.Utilities.Common;
     using System;
     using System.Web;
-
-    using YanZhiwei.DotNet2.Utilities.DataOperator;
-    using YanZhiwei.DotNet2.Utilities.WebForm.Core;
-    using YanZhiwei.DotNet4.Utilities.Common;
 
     /// <summary>
     /// Cookie上下文
@@ -16,17 +14,11 @@
     /// 备注：
     public class CookieContext : IAuthCookie
     {
-        #region Fields
-
         //默认密钥向量
         private static byte[] iv = { 0x11, 0x33, 0x57, 0x79, 0x91, 0xAC, 0xDC, 0xEF };
 
         //用户过期时间，10小时
         private int userExpiresHours = 10;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// 构造函数
@@ -34,10 +26,6 @@
         public CookieContext()
         {
         }
-
-        #endregion Constructors
-
-        #region Properties
 
         /// <summary>
         /// 是否启用验证码验证，默认当登陆错误超过一次启用
@@ -170,10 +158,6 @@
             }
         }
 
-        #endregion Properties
-
-        #region Methods
-
         /// <summary>
         /// 设置cookie
         /// </summary>
@@ -187,7 +171,5 @@
             else
                 CookieManger.Save(KeyPrefix + key, value);
         }
-
-        #endregion Methods
     }
 }

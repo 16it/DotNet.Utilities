@@ -2,15 +2,71 @@
 
 namespace YanZhiwei.Framework.Mvc
 {
+    /// <summary>
+    /// 验证cookie接口
+    /// </summary>
     public interface IAuthCookie
     {
-        int UserExpiresHours { get; set; }
+        /// <summary>
+        /// 用户过期时间【小时】
+        /// </summary>
+        int UserExpiresHours
+        {
+            get;
+            set;
+        }
 
-        string UserName { get; set; }
-        int UserId { get; set; }
-        Guid UserToken { get; set; }
-        string VerifyCode { get; set; }
-        int LoginErrorTimes { get; set; }
-        bool IsNeedVerifyCode { get; }
+        /// <summary>
+        /// 用户名称
+        /// </summary>
+        string UserName
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 用户ID
+        /// </summary>
+        int UserId
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 用户凭据
+        /// </summary>
+        Guid UserToken
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        string VerifyCode
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 登陆错误次数
+        /// </summary>
+        int LoginErrorTimes
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 是否需要验证码
+        /// </summary>
+        bool IsNeedVerifyCode
+        {
+            get;
+        }
     }
 }

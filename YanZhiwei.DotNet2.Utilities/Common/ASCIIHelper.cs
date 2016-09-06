@@ -53,14 +53,7 @@
         /// <returns>byte数组</returns>
         public static byte[] ToASCII(this string data)
         {
-            byte[] _asciiBytes = null;
-
-            if(!string.IsNullOrEmpty(data))
-            {
-                _asciiBytes = Encoding.ASCII.GetBytes(data);
-            }
-
-            return _asciiBytes;
+            return Encoding.ASCII.GetBytes(data);
         }
 
         #endregion Methods
