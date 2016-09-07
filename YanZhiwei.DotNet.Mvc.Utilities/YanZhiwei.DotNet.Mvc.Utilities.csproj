@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerHelper.cs" />
     <Compile Include="Controls\CheckBoxListHelper.cs" />
     <Compile Include="Controls\HtmlPrefixScope.cs" />
     <Compile Include="Controls\MvcPager\PagerBuilder.cs" />
