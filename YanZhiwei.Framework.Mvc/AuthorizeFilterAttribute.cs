@@ -2,65 +2,64 @@
 {
     using System;
     using System.Web.Mvc;
-    
+
     /// <summary>
-    /// Attribute for power Authorize
+    /// 用于Controller上用于用户验证特性
     /// </summary>
     public class AuthorizeFilterAttribute : ActionFilterAttribute
     {
+        #region Fields
+
+        /// <summary>
+        /// 权限名称
+        /// </summary>
+        public readonly string Name = null;
+
+        #endregion Fields
+
         #region Constructors
-        
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="name">权限名称</param>
         public AuthorizeFilterAttribute(string name)
         {
             this.Name = name;
         }
-        
+
         #endregion Constructors
-        
-        #region Properties
-        
-        public string Name
-        {
-            get;
-            set;
-        }
-        
-        #endregion Properties
-        
+
         #region Methods
-        
+
         /// <summary>
-        /// Called when [action executing].
+        /// 在执行操作方法之前由 ASP.NET MVC 框架调用。
         /// </summary>
-        /// <param name="filterContext">The filter context.</param>
-        /// 时间：2016-01-14 11:33
-        /// 备注：
+        /// <param name="filterContext">筛选器上下文。</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if(!this.Authorize(filterContext, this.Name))
                 filterContext.Result = new ContentResult { Content = "<script>alert('抱歉,你不具有当前操作的权限！');history.go(-1)</script>" };
         }
-        
+
         /// <summary>
-        /// Authorizes the specified filter context.
+        /// 验证筛选器上下文
         /// </summary>
-        /// <param name="filterContext">The filter context.</param>
-        /// <param name="permissionName">Name of the permission.</param>
+        /// <param name="filterContext">筛选器上下文</param>
+        /// <param name="permissionName">权限名称</param>
         /// <returns></returns>
-        /// 时间：2016-01-14 11:33
-        /// 备注：
         /// <exception cref="System.ArgumentNullException">httpContext</exception>
         protected virtual bool Authorize(ActionExecutingContext filterContext, string permissionName)
         {
             if(filterContext.HttpContext == null)
                 throw new ArgumentNullException("httpContext");
-                
+
             if(!filterContext.HttpContext.User.Identity.IsAuthenticated)
                 return false;
-                
+
             return true;
         }
-        
+
         #endregion Methods
     }
 }

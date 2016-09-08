@@ -1,9 +1,9 @@
 ﻿namespace YanZhiwei.Framework.Mvc
 {
     using System;
-    
+
     /// <summary>
-    /// Attribute for power Authorize
+    /// 用于Controller上用于忽略用户验证特性
     /// </summary>
     public class AuthorizeIgnoreAttribute : Attribute
     {
@@ -14,7 +14,7 @@
         public AuthorizeIgnoreAttribute()
         {
         }
-        
+
         #endregion Constructors
     }
 }
