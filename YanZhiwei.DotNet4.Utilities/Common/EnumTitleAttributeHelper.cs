@@ -6,7 +6,7 @@
     using System.Reflection;
     using System.Text;
     
-    using YanZhiwei.DotNet4.Utilities.Attribute;
+    using Attribute;
     
     /// <summary>
     /// EnumTitleAttribute 特性帮助类
@@ -77,6 +77,36 @@
         }
         
         /// <summary>
+        /// 根据枚举值，返回描述字符串
+        /// 如果多选枚举，返回以","分割的字符串
+        /// </summary>
+        /// <param name="e">枚举</param>
+        /// <returns>以","分割的字符串</returns>
+        public static string GetEnumTitle(Enum e)
+        {
+            string[] _valueArray = e.ToString().Split(ENUM_TITLE_SEPARATOR.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+            Type _type = e.GetType();
+            StringBuilder _builder = new StringBuilder();
+            
+            foreach(string enumValue in _valueArray)
+            {
+                FieldInfo _field = _type.GetField(enumValue.Trim());
+                
+                if(_field == null)
+                    continue;
+                    
+                EnumTitleAttribute[] _attrs = _field.GetCustomAttributes(typeof(EnumTitleAttribute), false) as EnumTitleAttribute[];
+                
+                if(_attrs != null && _attrs.Length > 0 && _attrs[0].IsDisplay)
+                {
+                    _builder.AppendFormat("{0}{1}", _attrs[0].Title, ENUM_TITLE_SEPARATOR);
+                }
+            }
+            
+            return _builder.ToString().TrimEnd(ENUM_TITLE_SEPARATOR.ToArray());
+        }
+        
+        /// <summary>
         /// 根据枚举获取包含所有所有值和描述的哈希表，其文本是由应用在枚举值上的EnumTitleAttribute设定
         /// </summary>
         /// <returns></returns>
@@ -96,7 +126,6 @@
         {
             return GetItemValueList<T, int>(false);
         }
-        
         /// <summary>
         /// 获取枚举所有项的标题,其文本是由应用在枚举值上的EnumTitleAttribute设定
         /// </summary>
