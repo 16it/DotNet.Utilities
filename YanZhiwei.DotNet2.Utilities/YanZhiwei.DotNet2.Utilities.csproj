@@ -111,7 +111,6 @@
     <Compile Include="Enum\SerialPortDatabits.cs" />
     <Compile Include="Enum\SetWaterPosition.cs" />
     <Compile Include="Enum\TCPIPType.cs" />
-    <Compile Include="Model\EnumTitleAttribute.cs" />
     <Compile Include="Model\ExifMetadata.cs" />
     <Compile Include="Model\ExifMetadataDetail.cs" />
     <Compile Include="Model\UploadFileInfo.cs" />
