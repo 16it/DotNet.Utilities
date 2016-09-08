@@ -50,7 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\EnumTitleAttribute.cs" />
     <Compile Include="Common\ConvertHelper.cs" />
+    <Compile Include="Common\EnumTitleAttributeHelper.cs" />
     <Compile Include="Common\IEnumerableHelper.cs" />
     <Compile Include="Common\IQueryableHelper.cs" />
     <Compile Include="Core\CollectionPropertySorter.cs" />
