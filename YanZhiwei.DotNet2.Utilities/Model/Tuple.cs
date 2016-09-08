@@ -184,7 +184,8 @@ namespace System
         /// </summary>
         public T1 Item1
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -219,7 +220,8 @@ namespace System
         /// </summary>
         public T1 Item1
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -227,7 +229,8 @@ namespace System
         /// </summary>
         public T2 Item2
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -265,7 +268,8 @@ namespace System
         /// </summary>
         public T1 Item1
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -273,7 +277,8 @@ namespace System
         /// </summary>
         public T2 Item2
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -281,7 +286,8 @@ namespace System
         /// </summary>
         public T3 Item3
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -322,7 +328,8 @@ namespace System
         /// </summary>
         public T1 Item1
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -330,7 +337,8 @@ namespace System
         /// </summary>
         public T2 Item2
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -338,7 +346,8 @@ namespace System
         /// </summary>
         public T3 Item3
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -346,7 +355,8 @@ namespace System
         /// </summary>
         public T4 Item4
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -390,7 +400,8 @@ namespace System
         /// </summary>
         public T1 Item1
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -398,7 +409,8 @@ namespace System
         /// </summary>
         public T2 Item2
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -406,7 +418,8 @@ namespace System
         /// </summary>
         public T3 Item3
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -414,7 +427,8 @@ namespace System
         /// </summary>
         public T4 Item4
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -422,7 +436,8 @@ namespace System
         /// </summary>
         public T5 Item5
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -469,7 +484,8 @@ namespace System
         /// </summary>
         public T1 Item1
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -477,7 +493,8 @@ namespace System
         /// </summary>
         public T2 Item2
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -485,7 +502,8 @@ namespace System
         /// </summary>
         public T3 Item3
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -493,7 +511,8 @@ namespace System
         /// </summary>
         public T4 Item4
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -501,7 +520,8 @@ namespace System
         /// </summary>
         public T5 Item5
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -509,7 +529,8 @@ namespace System
         /// </summary>
         public T6 Item6
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -559,7 +580,8 @@ namespace System
         /// </summary>
         public T1 Item1
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -567,7 +589,8 @@ namespace System
         /// </summary>
         public T2 Item2
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -575,7 +598,8 @@ namespace System
         /// </summary>
         public T3 Item3
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -583,7 +607,8 @@ namespace System
         /// </summary>
         public T4 Item4
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -591,7 +616,8 @@ namespace System
         /// </summary>
         public T5 Item5
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -599,7 +625,8 @@ namespace System
         /// </summary>
         public T6 Item6
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -607,7 +634,8 @@ namespace System
         /// </summary>
         public T7 Item7
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties
@@ -660,7 +688,8 @@ namespace System
         /// </summary>
         public T1 Item1
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -668,7 +697,8 @@ namespace System
         /// </summary>
         public T2 Item2
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -676,7 +706,8 @@ namespace System
         /// </summary>
         public T3 Item3
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -684,7 +715,8 @@ namespace System
         /// </summary>
         public T4 Item4
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -692,7 +724,8 @@ namespace System
         /// </summary>
         public T5 Item5
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -700,7 +733,8 @@ namespace System
         /// </summary>
         public T6 Item6
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -708,7 +742,8 @@ namespace System
         /// </summary>
         public T7 Item7
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -716,7 +751,8 @@ namespace System
         /// </summary>
         public TRest Rest
         {
-            get; set;
+            get;
+            set;
         }
 
         #endregion Properties

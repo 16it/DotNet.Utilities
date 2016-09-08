@@ -12,14 +12,14 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            Tuple<bool, System.Exception> _result = FileDownHelper.ResponseFile("动物世界", @"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
-            Debug.WriteLine(_result.Item1 == true ? "成功" : "失败");
+            FileDownHelper.ResponseFile("动物世界", @"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv");
+            // Debug.WriteLine(_result.Item1 == true ? "成功" : "失败");
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
-            Tuple<bool, System.Exception> _result = FileDownHelper.ResponseFile("动物世界", @"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv", 102400);
-            Debug.WriteLine(_result.Item1 == true ? "成功" : "失败");
+            FileDownHelper.ResponseFile("动物世界", @"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv", 102400);
+            //Debug.WriteLine(_result.Item1 == true ? "成功" : "失败");
         }
     }
 }

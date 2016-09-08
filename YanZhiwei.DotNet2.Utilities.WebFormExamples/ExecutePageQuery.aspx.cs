@@ -19,11 +19,13 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 //string _sql = "select OrderID,CustomerID,OrderDate, ShipName,ShippedDate,ShipCity,ShipRegion,ShipCountry from [Orders]";
                 //GridView1.DataSource = sqlHelper.ExecuteDataTable(_sql, null);
                 //GridView1.DataBind();
+                int _totalPage = 0,
+                    _totalCount = 0;
                 int _index = Request.QueryString["pageIndex"].ToIntOrDefault(1);
-                Tuple<DataTable, int, int> _result = sqlHelper.ExecutePageQuery("Orders", "OrderID,CustomerID,OrderDate, ShipName,ShippedDate,ShipCity,ShipRegion,ShipCountry", "OrderID", OrderType.Desc, "OrderID <10000000", 10, _index);
-                GridView1.DataSource = _result.Item1;
+                DataTable _result = sqlHelper.ExecutePageQuery("Orders", "OrderID,CustomerID,OrderDate, ShipName,ShippedDate,ShipCity,ShipRegion,ShipCountry", "OrderID", OrderType.Desc, "OrderID <10000000", 10, _index, out _totalPage, out _totalCount);
+                GridView1.DataSource = _result;
                 GridView1.DataBind();
-                Label1.Text = PagerHtmlScript.BuilderNormal(_index, _result.Item2);
+                Label1.Text = PagerHtmlScript.BuilderNormal(_index, _totalPage);
             }
         }
     }

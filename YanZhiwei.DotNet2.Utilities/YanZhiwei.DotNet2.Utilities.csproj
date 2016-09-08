@@ -233,7 +233,6 @@
     <Compile Include="Model\SocketData.cs" />
     <Compile Include="Model\SocketObj.cs" />
     <Compile Include="Model\TipMessage.cs" />
-    <Compile Include="Model\Tuple.cs" />
     <Compile Include="Model\Validation.cs" />
     <Compile Include="DataOperator\SqlServerDataOperator.cs" />
     <Compile Include="Common\NetWorkHelper.cs" />

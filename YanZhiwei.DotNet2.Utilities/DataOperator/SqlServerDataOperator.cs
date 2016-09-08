@@ -251,13 +251,17 @@
         /// <param name="sqlWhere">筛选条件『eg:Order=1，若无筛选条件，则""』</param>
         /// <param name="pageSize">每页显示多少条数据</param>
         /// <param name="pageIndex">当前页码</param>
-        /// <returns>组元[DataTable,分页总数，记录总数]</returns>
-        /// 时间：2016-01-05 13:21
+        /// <param name="totalPage">分页总数</param>
+        /// <param name="totalCount">记录总数</param>
+        /// <returns>分页DataTable</returns>
+        /// 时间：2016/9/8 11:25
         /// 备注：
-        public Tuple<DataTable, int, int> ExecutePageQuery(string tableName, string fields, string orderField, OrderType orderBy, string sqlWhere, int pageSize, int pageIndex)
+        /// <exception cref="FrameworkException"></exception>
+        public DataTable ExecutePageQuery(string tableName, string fields, string orderField, OrderType orderBy, string sqlWhere, int pageSize, int pageIndex, out int totalPage, out int totalCount)
         {
+            totalPage = 0;
+            totalCount = 0;
             string _sql = SqlServerPageScript.CreateSqlByRowNumber(tableName, fields, orderField, sqlWhere, orderBy, pageSize, pageIndex);
-            int _totalPage = 0, _totalCount = 0;
 
             try
             {
@@ -267,9 +271,9 @@
                 {
                     if(!_result.Tables[0].IsNullOrEmpty() && !_result.Tables[1].IsNullOrEmpty())
                     {
-                        _totalCount = _result.Tables[1].Rows[0][0].ToIntOrDefault(0);
-                        _totalPage = (int)Math.Ceiling(_totalCount / (double)pageSize);
-                        return Tuple.Create(_result.Tables[0], _totalPage, _totalCount);
+                        totalCount = _result.Tables[1].Rows[0][0].ToIntOrDefault(0);
+                        totalPage = (int)Math.Ceiling(totalCount / (double)pageSize);
+                        return _result.Tables[0];
                     }
                 }
             }
@@ -288,7 +292,7 @@
                 throw new FrameworkException(_sqlExMessage, ex);
             }
 
-            return Tuple.Create(new DataTable(), _totalPage, _totalCount);
+            return new DataTable();
         }
 
         /// <summary>
@@ -562,8 +566,12 @@
         /// <param name="sqlWhere">查询条件</param>
         /// <param name="pageSize">每页显示多少条数据</param>
         /// <param name="pageIndex">当前页码</param>
-        /// <returns>组元[DataTable,分页总数，记录总数]</returns>
-        public Tuple<DataTable, int, int> StoreExecutePageQuery(string tableName, string fields, string orderField, string sqlWhere, int pageSize, int pageIndex)
+        /// <param name="totalPage">分页总数</param>
+        /// <param name="totalCount">记录总数</param>
+        /// <returns>DataTable</returns>
+        /// 时间：2016/9/8 11:28
+        /// 备注：
+        public DataTable StoreExecutePageQuery(string tableName, string fields, string orderField, string sqlWhere, int pageSize, int pageIndex, out int totalPage, out int totalCount)
         {
             DbParameter[] _paramter = new DbParameter[8];
             _paramter[0] = new SqlParameter("@tableName", SqlDbType.NVarChar, 100);
@@ -582,13 +590,17 @@
             _paramter[6].Direction = ParameterDirection.Output;
             _paramter[7] = new SqlParameter("@return", SqlDbType.Int);
             _paramter[7].Direction = ParameterDirection.ReturnValue;
+            totalPage = 0;
+            totalCount = 0;
             int _totalPage = 0, _totalCount = 0;
             DataTable _table = StoreExecuteDataTable("proc_DataPage", _paramter, outparamter =>
             {
                 _totalPage = (int)outparamter[6].Value;
                 _totalCount = (int)outparamter[7].Value;
             });
-            return Tuple.Create(_table, _totalPage, _totalCount);
+            totalCount = _totalCount;
+            totalPage = _totalPage;
+            return _table;
         }
 
         private void CheckedSqlParamter(string sql)

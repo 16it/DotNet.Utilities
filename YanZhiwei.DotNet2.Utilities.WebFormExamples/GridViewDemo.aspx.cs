@@ -88,12 +88,13 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
 
         private void InitializeDataPager(GridView gridView, string tableName, string fields, string orderByColumn, OrderType orderWay, string sqlWhere, int pageIndex, int pageSize)
         {
-            var _pageResult = sqlHelper.StoreExecutePageQuery(tableName, fields, string.Format("{0} {1}", orderByColumn, orderWay), sqlWhere, pageSize, pageIndex);
-            lblPCount.Text = _pageResult.Item2.ToString();
+            int _totalPage = 0, _totalCount = 0;
+            var _pageResult = sqlHelper.StoreExecutePageQuery(tableName, fields, string.Format("{0} {1}", orderByColumn, orderWay), sqlWhere, pageSize, pageIndex, out _totalPage, out _totalCount);
+            lblPCount.Text = _totalPage.ToString();
             lblPCurIndexValue.Text = pageIndex.ToString();
-            lblPTotalCountValue.Text = _pageResult.Item3.ToString();
+            lblPTotalCountValue.Text = _totalCount.ToString();
 
-            if(pageIndex == 1)   //当前页是否为首页
+            if(pageIndex == 1)     //当前页是否为首页
             {
                 btnPFirst.Enabled = false;
                 btnPPre.Enabled = false;
@@ -104,7 +105,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPPre.Enabled = true;
             }
 
-            if(pageIndex == _pageResult.Item2)   //当前页是否为尾页
+            if(pageIndex == _totalPage)     //当前页是否为尾页
             {
                 btnPNext.Enabled = false;
                 btnPLast.Enabled = false;
@@ -116,9 +117,9 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             }
 
             gridView.Attributes["PageIndex"] = pageIndex.ToString();
-            gridView.Attributes["PageCount"] = _pageResult.Item2.ToString();
+            gridView.Attributes["PageCount"] = _totalPage.ToString();
             gridView.Attributes["PageSize"] = pageSize.ToString();
-            gridView.SetDataSource(_pageResult.Item1);
+            gridView.SetDataSource(_pageResult);
         }
 
         private void LoadProductListView(GridView girdView, string orderByColumnName, OrderType orderWay)
@@ -153,12 +154,13 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
 
         private void LoadProductPageView(GridView gvPage, int pageIndex, int pageSize, string orderByColumn, OrderType orderWay)
         {
-            var _pageResult = sqlHelper.StoreExecutePageQuery("Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", string.Format("{0} {1}", orderByColumn, orderWay), "", pageSize, pageIndex);
-            lblPCount.Text = _pageResult.Item2.ToString();
+            int _totalPage = 0, _totalCount = 0;
+            DataTable _pageResult = sqlHelper.StoreExecutePageQuery("Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", string.Format("{0} {1}", orderByColumn, orderWay), "", pageSize, pageIndex, out _totalPage, out _totalCount);
+            lblPCount.Text = _totalPage.ToString();
             lblPCurIndexValue.Text = pageIndex.ToString();
-            lblPTotalCountValue.Text = _pageResult.Item3.ToString();
+            lblPTotalCountValue.Text = _totalCount.ToString();
 
-            if(pageIndex == 1)   //当前页是否为首页
+            if(pageIndex == 1)     //当前页是否为首页
             {
                 btnPFirst.Enabled = false;
                 btnPPre.Enabled = false;
@@ -169,7 +171,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPPre.Enabled = true;
             }
 
-            if(pageIndex == _pageResult.Item2)   //当前页是否为尾页
+            if(pageIndex == _totalPage)     //当前页是否为尾页
             {
                 btnPNext.Enabled = false;
                 btnPLast.Enabled = false;
@@ -181,9 +183,9 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             }
 
             gvPage.Attributes["PageIndex"] = pageIndex.ToString();
-            gvPage.Attributes["PageCount"] = _pageResult.Item2.ToString();
+            gvPage.Attributes["PageCount"] = _totalPage.ToString();
             gvPage.Attributes["PageSize"] = pageSize.ToString();
-            gvPage.SetDataSource(_pageResult.Item1);
+            gvPage.SetDataSource(_pageResult);
         }
 
         private void SetDataPager(GridView gridView, Button btnFirst, Button btnNext, Button btnPre, Button btnLast, DropDownList drpPageSize, Action finallyDataBindFactory)
