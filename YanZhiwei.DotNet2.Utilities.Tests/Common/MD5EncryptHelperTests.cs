@@ -15,7 +15,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         public void ToMD5Test()
         {
             string _data = "yanzhiwei";
-            string _actual = _data.ToMD5String();
+            string _actual = _data.Encrypt();
             Assert.AreEqual("b07ec574a666d8e7582885ce334b4d00", _actual);
         }
     }
