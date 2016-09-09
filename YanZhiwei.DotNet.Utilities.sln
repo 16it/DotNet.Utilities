@@ -199,7 +199,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Uploa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Templates", "YanZhiwei.DotNet.Templates", "{C552D541-3440-4B4C-9853-A90F407A5381}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.SerialPortTemplate", "YanZhiwei.DotNet.SerialPortTemplate\YanZhiwei.DotNet.SerialPortTemplate.csproj", "{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.SerialPortSolution.UI", "YanZhiwei.DotNet.SerialPortTemplate\DotNet.SerialPortSolution.UI.csproj", "{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.UploadExamples", "YanZhiwei.DotNet.Core.UploadExamples\YanZhiwei.DotNet.Core.UploadExamples.csproj", "{D0654B72-C3D3-40E3-ADB6-ED17C5034B92}"
 EndProject

@@ -7,8 +7,8 @@
     <ProjectGuid>{2456973A-EAD0-4D8E-9F8E-9EB0E68941A1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.DotNet.SerialPortTemplate</RootNamespace>
-    <AssemblyName>DotNet.SerialPortTemplate</AssemblyName>
+    <RootNamespace>DotNet.SerialPortSolution.UI</RootNamespace>
+    <AssemblyName>DotNet.SerialPortSolution.UI</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -63,6 +63,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -90,6 +91,9 @@
       <Project>{fce5db97-96ec-4e53-bc19-eee6f2aa88e0}</Project>
       <Name>YanZhiwei.DotNet3.5.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\SettingConfig.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

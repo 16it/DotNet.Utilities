@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet.SerialPortTemplate
+﻿namespace DotNet.SerialPortSolution.UI
 {
     partial class FormMain
     {
@@ -6,7 +6,7 @@
         /// 必需的设计器变量。
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
+        
         /// <summary>
         /// 清理所有正在使用的资源。
         /// </summary>
@@ -17,12 +17,12 @@
             {
                 components.Dispose();
             }
-
+            
             base.Dispose(disposing);
         }
-
+        
         #region Windows 窗体设计器生成的代码
-
+        
         /// <summary>
         /// 设计器支持所需的方法 - 不要修改
         /// 使用代码编辑器修改此方法的内容。
@@ -384,7 +384,7 @@
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DotNet.SerialPortTemplate";
+            this.Text = "DotNet SerialPortTemplate";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuFunction.ResumeLayout(false);
             this.menuFunction.PerformLayout();
@@ -412,9 +412,9 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
-
+        
         #endregion
-
+        
         private System.Windows.Forms.MenuStrip menuFunction;
         private System.Windows.Forms.ToolStripMenuItem btnItemFunctionList;
         private System.Windows.Forms.ToolStripMenuItem btnItemAbout;

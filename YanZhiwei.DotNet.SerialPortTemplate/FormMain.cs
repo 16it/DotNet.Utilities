@@ -2,14 +2,12 @@
 using System;
 using System.Windows.Forms;
 using YanZhiwei.DotNet.Log4Net.Utilities;
-using YanZhiwei.DotNet2.Utilities.DataOperator;
-using YanZhiwei.DotNet2.Utilities.Core;
-using YanZhiwei.DotNet2.Utilities.WinForm;
-using YanZhiwei.DotNet2.Utilities.Operator;
-using YanZhiwei.DotNet2.Utilities.Communication;
 using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.Communication;
+using YanZhiwei.DotNet2.Utilities.Operator;
+using YanZhiwei.DotNet2.Utilities.WinForm;
 
-namespace YanZhiwei.DotNet.SerialPortTemplate
+namespace DotNet.SerialPortSolution.UI
 {
     /// <summary>
     /// 主界面
@@ -22,14 +20,14 @@ namespace YanZhiwei.DotNet.SerialPortTemplate
         {
             InitializeComponent();
         }
-
+        
         private void FormMain_Load(object sender, System.EventArgs e)
         {
             HanlderFormClosed();
             InitUIBasic();
             InitSerialPortUIBasic();
         }
-
+        
         /// <summary>
         /// 处理程序关闭时候提醒
         /// </summary>
@@ -41,11 +39,11 @@ namespace YanZhiwei.DotNet.SerialPortTemplate
             {
                 if(MessageHelper.ShowYesNoAndTips("确认退出软件？") == DialogResult.Yes)
                     return true;
-
+                    
                 return false;
             });
         }
-
+        
         /// <summary>
         /// 绑定串口UI数据
         /// </summary>
@@ -61,7 +59,7 @@ namespace YanZhiwei.DotNet.SerialPortTemplate
             cbSeriportDataBits.Text = "8";
             cbSeriportBaudRates.Text = "9600";
         }
-
+        
         /// <summary>
         /// 设定串口UI是否可用
         /// </summary>
@@ -78,39 +76,35 @@ namespace YanZhiwei.DotNet.SerialPortTemplate
             btnSerilportOpt.Text = enable == true ? "打开串口" : "关闭串口";
             btnSerilportOpt.Tag = enable == true ? "1" : "0";
         }
-
+        
         /// <summary>
         /// UI基本初始化
         /// </summary>
-        /// 时间：2016/8/23 13:18
-        /// 备注：
         private void InitUIBasic()
         {
             treeFunctionList.ExpandAll();
         }
-
+        
         private void treeFunctionList_AfterSelect(object sender, TreeViewEventArgs e)
         {
             short _selectIndex = Convert.ToInt16(e.Node.Name);
             tabFunctionList.SelectedIndex = _selectIndex;
         }
-
+        
         /// <summary>
         /// 打开或者关闭串口
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        /// 时间：2016/8/23 13:53
-        /// 备注：
         private void btnSerilportOpt_Click(object sender, EventArgs e)
         {
             string _tag = btnSerilportOpt.Tag.ToString();
             string _serilportName = cbSeriportName.Text.Trim();
-
+            
             try
             {
                 ValidateOperator.Begin().NotNullOrEmpty(_serilportName, "串口名称");
-
+                
                 if(_tag == "1")
                 {
                     SerialPortMaster.Open(serialPort, _serilportName, cbSeriportDataBits.Text, cbSeriportBaudRates.Text, cbSeriportParitys.Text, cbSeriportStopBits.Text);
@@ -135,13 +129,11 @@ namespace YanZhiwei.DotNet.SerialPortTemplate
                 Log4NetHelper.WriteError(_errorMsg, ex);
             }
         }
-
+        
         /// <summary>
         /// 添加显示操作日志
         /// </summary>
         /// <param name="log">日志内容</param>
-        /// 时间：2016/8/23 13:52
-        /// 备注：
         private void AddOptLog(string log)
         {
             try
@@ -162,15 +154,12 @@ namespace YanZhiwei.DotNet.SerialPortTemplate
                 Log4NetHelper.WriteError("AddOptLog", ex);
             }
         }
-
-
+        
         /// <summary>
         /// 串口数据接受事件
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.IO.Ports.SerialDataReceivedEventArgs"/> instance containing the event data.</param>
-        /// 时间：2016/8/23 13:57
-        /// 备注：
         private void serialPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
         }

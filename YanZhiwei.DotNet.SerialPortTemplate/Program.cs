@@ -4,7 +4,7 @@ using YanZhiwei.DotNet.Log4Net.Utilities;
 using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 
-namespace YanZhiwei.DotNet.SerialPortTemplate
+namespace DotNet.SerialPortSolution.UI
 {
     internal static class Program
     {
@@ -23,7 +23,7 @@ namespace YanZhiwei.DotNet.SerialPortTemplate
                     case ExceptionType.Unhandled:
                         Log4NetHelper.WriteFatal("发生未捕获的异常:" + ex.Message);
                         break;
-
+                        
                     case ExceptionType.Thread:
                         Log4NetHelper.WriteFatal("发生线程异常:" + ex.Message);
                         break;
