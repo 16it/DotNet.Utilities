@@ -32,7 +32,7 @@ namespace YanZhiwei.DotNet.UARTSolution
             }
         }
         
-        protected virtual void LogException(Exception exception, string mssage)
+        public virtual void LogException(Exception exception, string mssage)
         {
             var message = new
             {
@@ -40,6 +40,11 @@ namespace YanZhiwei.DotNet.UARTSolution
                 exceptionContext = mssage,
             };
             Log4NetHelper.Error(LoggerType.ServiceExceptionLog, message, exception);
+        }
+        
+        public virtual void LogInfo(string mssage)
+        {
+            Log4NetHelper.Error(LoggerType.ServiceExceptionLog, mssage);
         }
     }
 }

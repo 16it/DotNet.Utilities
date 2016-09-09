@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using YanZhiwei.DotNet.Log4Net.Utilities;
+using YanZhiwei.DotNet.UARTSolution;
 using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 
@@ -21,11 +21,11 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
                 switch(mode)
                 {
                     case ExceptionType.Unhandled:
-                        Log4NetHelper.WriteFatal("发生未捕获的异常:" + ex.Message);
+                        ServiceContext.Current.LogException(ex, "发生未捕获的异常:" + ex.Message);
                         break;
                         
                     case ExceptionType.Thread:
-                        Log4NetHelper.WriteFatal("发生线程异常:" + ex.Message);
+                        ServiceContext.Current.LogException(ex, "发生线程异常:" + ex.Message);
                         break;
                 }
             });
@@ -33,7 +33,7 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
             {
                 if(t)
                 {
-                    Log4NetHelper.WriteInfo("启动程序");
+                    ServiceContext.Current.LogInfo("程序启动");
                     Application.Run(new FormMain());
                 }
                 else

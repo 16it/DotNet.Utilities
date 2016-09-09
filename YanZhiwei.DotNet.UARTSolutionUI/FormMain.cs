@@ -126,7 +126,7 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
             {
                 string _errorMsg = string.Format("{0}[{1}]串口失败！", _tag == "0" ? "打开" : "关闭", _serilportName);
                 MessageHelper.ShowError(_errorMsg);
-                Log4NetHelper.WriteError(_errorMsg, ex);
+                ServiceContext.Current.LogException(ex, _errorMsg);
             }
         }
         
@@ -151,7 +151,7 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
             catch(Exception ex)
             {
                 ex.Data.Add("log", log);
-                Log4NetHelper.WriteError("AddOptLog", ex);
+                ServiceContext.Current.LogException(ex, "添加日志失败");
             }
         }
         
