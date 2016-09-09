@@ -213,6 +213,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.SharpZipLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.UtilitiesTests", "YanZhiwei.DotNet4.UtilitiesTests\YanZhiwei.DotNet4.UtilitiesTests.csproj", "{626629EC-E5A5-4B78-A97E-8DC515ABE0DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.NPOI2.UtilitiesTests", "YanZhiwei.DotNet.NPOI2.UtilitiesTests\YanZhiwei.DotNet.NPOI2.UtilitiesTests.csproj", "{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1479,6 +1481,22 @@ Global
 		{626629EC-E5A5-4B78-A97E-8DC515ABE0DD}.Release|x64.Build.0 = Release|Any CPU
 		{626629EC-E5A5-4B78-A97E-8DC515ABE0DD}.Release|x86.ActiveCfg = Release|Any CPU
 		{626629EC-E5A5-4B78-A97E-8DC515ABE0DD}.Release|x86.Build.0 = Release|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Debug|x64.Build.0 = Debug|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Debug|x86.Build.0 = Debug|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Release|ARM.Build.0 = Release|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Release|x64.ActiveCfg = Release|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Release|x64.Build.0 = Release|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Release|x86.ActiveCfg = Release|Any CPU
+		{5D0F31EC-39E5-4F9E-B1DB-41DA4B17DFAE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

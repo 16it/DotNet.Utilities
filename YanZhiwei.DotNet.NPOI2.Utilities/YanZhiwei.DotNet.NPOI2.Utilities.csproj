@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NOPIHelper.cs" />
+    <Compile Include="NPOIExcel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +68,12 @@
     <Content Include="DLL\NPOI.OpenXml4Net.XML" />
     <Content Include="DLL\NPOI.OpenXmlFormats.dll" />
     <Content Include="DLL\NPOI.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
+      <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
+      <Name>YanZhiwei.DotNet2.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
