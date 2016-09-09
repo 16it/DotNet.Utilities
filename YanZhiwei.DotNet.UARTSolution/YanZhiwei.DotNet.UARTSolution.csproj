@@ -48,7 +48,7 @@
     <Compile Include="FormServiceBase.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ICommonService.cs" />
+    <Compile Include="IPacketDataService.cs" />
     <Compile Include="Model\SettingConfig.cs" />
     <Compile Include="Core\ProjectConfigContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

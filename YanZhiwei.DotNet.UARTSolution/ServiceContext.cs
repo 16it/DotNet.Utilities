@@ -24,11 +24,11 @@ namespace YanZhiwei.DotNet.UARTSolution
         /// <summary>
         /// 获取AccountService
         /// </summary>
-        public ICommonService CommonService
+        public IPacketDataService CommonService
         {
             get
             {
-                return ProjectSerivce.RefService.CreateService<ICommonService, RefServiceInvokeInterceptor>();
+                return ProjectSerivce.RefService.CreateService<IPacketDataService, RefServiceInvokeInterceptor>();
             }
         }
         

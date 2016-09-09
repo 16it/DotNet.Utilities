@@ -1,5 +1,6 @@
 ﻿using ComponentFactory.Krypton.Toolkit;
 using System;
+using System.IO.Ports;
 using System.Windows.Forms;
 using YanZhiwei.DotNet.UARTSolution;
 using YanZhiwei.DotNet2.Utilities.Common;
@@ -31,8 +32,6 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
         /// <summary>
         /// 处理程序关闭时候提醒
         /// </summary>
-        /// 时间：2016/8/23 13:56
-        /// 备注：
         private void HanlderFormClosed()
         {
             ApplicationHelper.CapturedExit<FormMain>(this, () =>
@@ -47,8 +46,6 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
         /// <summary>
         /// 绑定串口UI数据
         /// </summary>
-        /// 时间：2016/8/23 13:18
-        /// 备注：
         private void InitSerialPortUIBasic()
         {
             cbSeriportDataBits.DataSource = SerialPortMaster.DataBits;
@@ -64,8 +61,6 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
         /// 设定串口UI是否可用
         /// </summary>
         /// <param name="enable">是否可用</param>
-        /// 时间：2016/8/23 13:27
-        /// 备注：
         private void SetSerialPortUIEnable(bool enable)
         {
             cbSeriportDataBits.Enabled = enable;
@@ -104,6 +99,7 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
             try
             {
                 ValidateOperator.Begin().NotNullOrEmpty(_serilportName, "串口名称");
+                CommonService.ResetDataReceived();
                 
                 if(_tag == "1")
                 {

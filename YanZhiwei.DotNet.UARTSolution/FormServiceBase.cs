@@ -4,7 +4,7 @@ namespace YanZhiwei.DotNet.UARTSolution
 {
     public class FormServiceBase : Form
     {
-        public virtual ICommonService CommonService
+        public virtual IPacketDataService CommonService
         {
             get
             {
