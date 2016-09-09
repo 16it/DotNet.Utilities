@@ -1,11 +1,14 @@
-﻿using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.SS.Util;
-using System.Data;
-using System.IO;
-using YanZhiwei.DotNet2.Utilities.Operator;
-namespace YanZhiwei.DotNet.NPOI2.Utilities
+﻿namespace YanZhiwei.DotNet.NPOI2.Utilities
 {
+    using System.Data;
+    using System.IO;
+    
+    using NPOI.HSSF.UserModel;
+    using NPOI.SS.UserModel;
+    using NPOI.SS.Util;
+    
+    using DotNet2.Utilities.Operator;
+    
     /// <summary>
     /// NPOIExcel 操作辅助类
     /// </summary>
@@ -13,6 +16,8 @@ namespace YanZhiwei.DotNet.NPOI2.Utilities
     /// 备注：
     public class NPOIExcel
     {
+        #region Methods
+        
         /// <summary>
         /// 导出到Excel
         /// </summary>
@@ -70,5 +75,7 @@ namespace YanZhiwei.DotNet.NPOI2.Utilities
                 return true;
             }
         }
+        
+        #endregion Methods
     }
 }
