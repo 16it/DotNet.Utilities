@@ -99,7 +99,7 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
             try
             {
                 ValidateOperator.Begin().NotNullOrEmpty(_serilportName, "串口名称");
-                CommonService.ResetDataReceived();
+                PacketDataService.ResetDataReceived();
                 
                 if(_tag == "1")
                 {
@@ -154,10 +154,17 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
         /// <summary>
         /// 串口数据接受事件
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.IO.Ports.SerialDataReceivedEventArgs"/> instance containing the event data.</param>
-        private void serialPort_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            byte[] _curBuffer = new byte[serialPort.BytesToRead];
+            
+            if(_curBuffer.Length > 0)
+            {
+                int _curBufferLength = serialPort.Read(_curBuffer, 0, _curBuffer.Length);
+                PacketDataService.DataReceived(_curBuffer);
+                string _curBufferString = ByteHelper.ToHexStringWithBlank(ArrayHelper.Copy<byte>(_curBuffer, 0, _curBufferLength));
+                AddOptLog(string.Format("接收:{0}.", _curBufferString));
+            }
         }
     }
 }

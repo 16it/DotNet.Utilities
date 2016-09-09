@@ -4,11 +4,11 @@ namespace YanZhiwei.DotNet.UARTSolution
 {
     public class FormServiceBase : Form
     {
-        public virtual IPacketDataService CommonService
+        public virtual IPacketDataService PacketDataService
         {
             get
             {
-                return ServiceContext.Current.CommonService;
+                return ServiceContext.Current.PacketDataService;
             }
         }
     }

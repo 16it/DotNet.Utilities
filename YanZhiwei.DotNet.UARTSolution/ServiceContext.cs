@@ -24,7 +24,7 @@ namespace YanZhiwei.DotNet.UARTSolution
         /// <summary>
         /// 获取AccountService
         /// </summary>
-        public IPacketDataService CommonService
+        public IPacketDataService PacketDataService
         {
             get
             {

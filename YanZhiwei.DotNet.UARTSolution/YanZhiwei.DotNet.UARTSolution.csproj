@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ProjectSerivce.cs" />
+    <Compile Include="CTMUnPacketDataService.cs" />
     <Compile Include="FormServiceBase.cs">
       <SubType>Form</SubType>
     </Compile>
