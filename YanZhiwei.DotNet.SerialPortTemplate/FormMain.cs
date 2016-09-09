@@ -7,7 +7,7 @@ using YanZhiwei.DotNet2.Utilities.Communication;
 using YanZhiwei.DotNet2.Utilities.Operator;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 
-namespace DotNet.SerialPortSolution.UI
+namespace YanZhiwei.DotNet.UARTSolutionUI
 {
     /// <summary>
     /// 主界面

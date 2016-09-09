@@ -4,7 +4,7 @@ using YanZhiwei.DotNet.Log4Net.Utilities;
 using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 
-namespace DotNet.SerialPortSolution.UI
+namespace YanZhiwei.DotNet.UARTSolutionUI
 {
     internal static class Program
     {

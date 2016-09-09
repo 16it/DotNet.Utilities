@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DotNet.SerialPortSolution.UI.Properties {
+namespace YanZhiwei.DotNet.UARTSolutionUI.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace DotNet.SerialPortSolution.UI.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DotNet.SerialPortSolution.UI.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("YanZhiwei.DotNet.UARTSolutionUI.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

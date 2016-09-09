@@ -1,4 +1,4 @@
-﻿namespace DotNet.SerialPortSolution.UI
+﻿namespace YanZhiwei.DotNet.UARTSolutionUI
 {
     partial class FormMain
     {

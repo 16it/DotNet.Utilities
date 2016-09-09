@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DotNet.SerialPortSolution.UI.Properties {
+namespace YanZhiwei.DotNet.UARTSolutionUI.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
