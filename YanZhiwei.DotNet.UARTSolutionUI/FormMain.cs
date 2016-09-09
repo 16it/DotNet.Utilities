@@ -1,7 +1,7 @@
 ﻿using ComponentFactory.Krypton.Toolkit;
 using System;
 using System.Windows.Forms;
-using YanZhiwei.DotNet.Log4Net.Utilities;
+using YanZhiwei.DotNet.UARTSolution;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Communication;
 using YanZhiwei.DotNet2.Utilities.Operator;
@@ -14,7 +14,7 @@ namespace YanZhiwei.DotNet.UARTSolutionUI
     /// </summary>
     /// 时间：2016/8/23 13:19
     /// 备注：
-    public partial class FormMain : Form
+    public partial class FormMain : FormServiceBase
     {
         public FormMain()
         {
