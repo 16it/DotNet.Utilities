@@ -58,8 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AttributeHelper.cs" />
+    <Compile Include="Common\EncryptorHelper.cs" />
     <Compile Include="Core\PackageData.cs" />
     <Compile Include="DataOperator\AccessDataOperator.cs" />
+    <Compile Include="Encryptor\SHA256Encryptor.cs" />
     <Compile Include="Enum\FileUpgradeStatus.cs" />
     <Compile Include="Hanlder\PackageDataHanlder.cs" />
     <Compile Include="Operator\BinaryFileOperator.cs" />
