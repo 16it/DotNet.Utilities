@@ -17,7 +17,7 @@ namespace YanZhiwei.DotNet4.Utilities.Builder
         /// </summary>
         /// <param name="nextBillNumberFactory">委托，参数：一天开始时间，一天结束时间</param>
         /// <param name="prefix">订单前缀</param>
-        /// <returns></returns>
+        /// <returns>订单号</returns>
         /// 时间：2016/9/29 14:08
         /// 备注：
         public static string NextBillNumber(Func<DateTime, DateTime, ulong> nextBillNumberFactory, string prefix = "")
