@@ -3,6 +3,21 @@ using System;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Enum;
 
+namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+{
+    [TestClass()]
+    public class DateHelperTests
+    {
+        [TestMethod()]
+        public void EndOfDayTest()
+        {
+            DateTime _actual = DateTime.Now.EndOfDay();
+            DateTime _expect = Convert.ToDateTime(DateTime.Now.ToShortDateString() + " 23:59:59");
+            Assert.AreEqual(_expect.FormatDate(1), _actual.FormatDate(1));
+        }
+    }
+}
+
 namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]
@@ -16,7 +31,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
             int _actual = DateHelper.GetDateDiff(_start, _end, DateType.day);
             Assert.AreEqual(12, _actual);
         }
-
+        
         [TestMethod()]
         public void GetDaysTest()
         {
@@ -24,7 +39,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
             int _actual = DateHelper.GetDays(_time);
             Assert.AreEqual(31, _actual);
         }
-
+        
         [TestMethod()]
         public void GetFriendlyStringTest()
         {
@@ -32,7 +47,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
             string _friendlyString = _time.GetFriendlyString();
             Assert.Inconclusive(_friendlyString);
         }
-
+        
         [TestMethod()]
         public void ParseExactTest()
         {
