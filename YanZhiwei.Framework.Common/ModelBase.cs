@@ -2,11 +2,10 @@
 {
     using System;
     
-    
     /// <summary>
     /// 实体类基类
     /// </summary>
-    public class ModelBase
+    public abstract class ModelBase<TPrimaryKey>
     {
         #region Constructors
         
@@ -34,12 +33,19 @@
         /// <summary>
         /// 主键
         /// </summary>
-        public virtual int ID
+        public virtual TPrimaryKey ID
         {
             get;
             set;
         }
         
         #endregion Properties
+    }
+    
+    /// <summary>
+    /// 定义默认主键类型为INT的实体基类
+    /// </summary>
+    public abstract class ModelBase : ModelBase<int>
+    {
     }
 }

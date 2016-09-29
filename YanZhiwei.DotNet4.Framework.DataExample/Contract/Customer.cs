@@ -17,7 +17,7 @@ namespace YanZhiwei.DotNet4.Framework.Data.Example.Contract
             get;
             set;
         }
-
+        
         [Required]
         [StringLength(40)]
         public string CompanyName
@@ -25,7 +25,7 @@ namespace YanZhiwei.DotNet4.Framework.Data.Example.Contract
             get;
             set;
         }
-
+        
         [Required]
         [StringLength(30)]
         public string ContactName
@@ -33,7 +33,7 @@ namespace YanZhiwei.DotNet4.Framework.Data.Example.Contract
             get;
             set;
         }
-
+        
         [Required]
         [StringLength(30)]
         public string ContactTitle
@@ -41,7 +41,7 @@ namespace YanZhiwei.DotNet4.Framework.Data.Example.Contract
             get;
             set;
         }
-
+        
         public string Address
         {
             get;
