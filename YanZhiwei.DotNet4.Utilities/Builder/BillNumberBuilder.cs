@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet4.Utilities.Builder
 {
@@ -17,19 +15,17 @@ namespace YanZhiwei.DotNet4.Utilities.Builder
         /// <summary>
         /// 生成订单号
         /// </summary>
-        /// <param name="prefix">The prefix.</param>
+        /// <param name="nextBillNumberFactory">委托，参数：一天开始时间，一天结束时间</param>
+        /// <param name="prefix">订单前缀</param>
         /// <returns></returns>
-        /// 时间：2016/9/29 13:54
+        /// 时间：2016/9/29 14:08
         /// 备注：
-        public static string NextBillNumber(Func<ulong> nextBillNumberFactory, string prefix = "")
+        public static string NextBillNumber(Func<DateTime, DateTime, ulong> nextBillNumberFactory, string prefix = "")
         {
             lock(locker)
             {
-                string str = DateTime.Now.ToShortDateString();
-                DateTime time1 = Convert.ToDateTime(str + " 0:00:00");
-                DateTime time2 = Convert.ToDateTime(str + " 23:59:59");
-                var todayTotal = nextBillNumberFactory();
-                return prefix + DateTime.Now.ToString("yyMMddfff") + (todayTotal + 1).ToString().PadLeft(5, '0');
+                ulong _todayTotal = nextBillNumberFactory(DateTime.Now.StartOfDay(), DateTime.Now.EndOfDay());
+                return string.Format("{0}{1}{2}", prefix, DateTime.Now.ToString("yyMMddfff"), (_todayTotal + 1).ToString().PadLeft(5, '0'));
             }
         }
     }
