@@ -158,14 +158,14 @@
             return ExecuteBase<object>(sql, parameters, (db, dbCmd) => db.ExecuteScalar(dbCmd));
         }
         
-        private T ExecuteBase<T>(string sql, DbParameter[] parameters, Func<Database, DbCommand, T> executeHanlder)
+        private T ExecuteBase<T>(string sql, DbParameter[] parameters, Func<Database, DbCommand, T> executeFactory)
         {
             using(DbCommand dbCommand = dataBase.GetSqlStringCommand(sql))
             {
                 if(parameters != null)
                     dbCommand.Parameters.AddRange(parameters);
                     
-                return executeHanlder(dataBase, dbCommand);
+                return executeFactory(dataBase, dbCommand);
             }
         }
         
