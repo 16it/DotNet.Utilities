@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\SqlScriptBuilder.cs" />
     <Compile Include="Common\AttributeHelper.cs" />
     <Compile Include="Common\EncryptorHelper.cs" />
     <Compile Include="Core\PackageData.cs" />

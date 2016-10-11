@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.DataBase
 {
+    using Builder;
     using Enum;
     
     /// <summary>
@@ -33,8 +34,8 @@
                                         orderType == OrderType.Desc ? "desc" : "asc",
                                         _pageStart,
                                         _pageEnd);
-            _sql = CreateQueryWhereSql(_sql, sqlWhere);
-            _sql = CreateQueryTotalSql(_sql, tableName);
+            _sql = SqlScriptBuilder.JoinQueryWhereSql(_sql, sqlWhere);
+            _sql = SqlScriptBuilder.JoinQueryTotalSql(_sql, tableName);
             return _sql;
         }
         
@@ -66,8 +67,8 @@
                                         orderType == OrderType.Desc ? "desc" : "asc",
                                         pSize,
                                         (pIndex - 1) * pSize);
-            _sql = CreateQueryWhereSql(_sql, sqlWhere);
-            _sql = CreateQueryTotalSql(_sql, tableName);
+            _sql = SqlScriptBuilder.JoinQueryWhereSql(_sql, sqlWhere);
+            _sql = SqlScriptBuilder.JoinQueryTotalSql(_sql, tableName);
             return _sql;
         }
         
@@ -97,39 +98,9 @@
                                         orderType == OrderType.Desc ? "desc" : "asc",
                                         pSize,
                                         (pIndex - 1) * pSize);
-            _sql = CreateQueryWhereSql(_sql, sqlWhere);
-            _sql = CreateQueryTotalSql(_sql, tableName);
+            _sql = SqlScriptBuilder.JoinQueryWhereSql(_sql, sqlWhere);
+            _sql = SqlScriptBuilder.JoinQueryTotalSql(_sql, tableName);
             return _sql;
-        }
-        
-        /// <summary>
-        /// 查询记录总数
-        /// </summary>
-        /// <param name="sql">The SQL.</param>
-        /// <param name="tableName">表名</param>
-        /// <returns>Sql</returns>
-        /// 时间：2016-01-05 13:11
-        /// 备注：
-        private static string CreateQueryTotalSql(string sql, string tableName)
-        {
-            string _sqltotalCount = string.Format("select count(*) from {0}", tableName);
-            return string.Format("{0};{1}", sql, _sqltotalCount);
-        }
-        
-        /// <summary>
-        /// 添加筛选条件
-        /// </summary>
-        /// <param name="sql">The SQL.</param>
-        /// <param name="sqlWhere">筛选条件</param>
-        /// <returns>sql</returns>
-        /// 时间：2016-01-06 15:19
-        /// 备注：
-        private static string CreateQueryWhereSql(string sql, string sqlWhere)
-        {
-            if(!string.IsNullOrEmpty(sqlWhere))
-                sql = string.Format("{0} and ( {1} )", sql, sqlWhere);
-                
-            return sql;
         }
         
         #endregion Methods
