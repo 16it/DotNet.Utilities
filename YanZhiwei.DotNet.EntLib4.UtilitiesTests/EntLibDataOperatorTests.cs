@@ -66,11 +66,11 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                 {
                     AddProduct(tranObj, string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)), 22);
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
-                    tranObj.CommitTransaction();
+                    tranObj.Commit();
                 }
                 catch(Exception)
                 {
-                    tranObj.RollbackTransaction();
+                    tranObj.Rollback();
                 }
             }
             _sql = "select UnitPrice from Products where ProductName=@ProductName";
@@ -91,11 +91,11 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                     AddProduct(tranObj, string.Format("{0}_UnitTest_1", DateTime.Now.FormatDate(13)), 22);
                     throw new Exception("test");
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
-                    tranObj.CommitTransaction();
+                    tranObj.Commit();
                 }
                 catch(Exception)
                 {
-                    tranObj.RollbackTransaction();
+                    tranObj.Rollback();
                 }
             }
             _sql = "select UnitPrice from Products where ProductName=@ProductName";
@@ -119,19 +119,19 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                         {
                             AddProduct(tranObjChild, string.Format("{0}_UnitTest_3", DateTime.Now.FormatDate(13)), 44);
                             AddProduct(tranObjChild, string.Format("{0}_UnitTest_4", DateTime.Now.FormatDate(13)), 55);
-                            tranObjChild.CommitTransaction();
+                            tranObjChild.Commit();
                         }
                         catch(Exception)
                         {
-                            tranObjChild.RollbackTransaction();
+                            tranObjChild.Rollback();
                         }
                     }
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
-                    tranObj.CommitTransaction();
+                    tranObj.Commit();
                 }
                 catch(Exception)
                 {
-                    tranObj.RollbackTransaction();
+                    tranObj.Rollback();
                 }
             }
             _sql = "select UnitPrice from Products where ProductName=@ProductName";
@@ -162,19 +162,19 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                             AddProduct(tranObjChild, string.Format("{0}_UnitTest_3", DateTime.Now.FormatDate(13)), 44);
                             throw new Exception("test");
                             AddProduct(tranObjChild, string.Format("{0}_UnitTest_4", DateTime.Now.FormatDate(13)), 55);
-                            tranObjChild.CommitTransaction();
+                            tranObjChild.Commit();
                         }
                         catch(Exception)
                         {
-                            tranObjChild.RollbackTransaction();
+                            tranObjChild.Rollback();
                         }
                     }
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
-                    tranObj.CommitTransaction();
+                    tranObj.Commit();
                 }
                 catch(Exception)
                 {
-                    tranObj.RollbackTransaction();
+                    tranObj.Rollback();
                 }
             }
             _sql = "select UnitPrice from Products where ProductName=@ProductName";
@@ -204,20 +204,20 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                         {
                             AddProduct(tranObjChild, string.Format("{0}_UnitTest_3", DateTime.Now.FormatDate(13)), 44);
                             AddProduct(tranObjChild, string.Format("{0}_UnitTest_4", DateTime.Now.FormatDate(13)), 55);
-                            tranObjChild.CommitTransaction();
+                            tranObjChild.Commit();
                         }
                         catch(Exception)
                         {
-                            tranObjChild.RollbackTransaction();
+                            tranObjChild.Rollback();
                         }
                     }
                     throw new Exception("test");
                     AddProduct(tranObj, string.Format("{0}_UnitTest_2", DateTime.Now.FormatDate(13)), 33);
-                    tranObj.CommitTransaction();
+                    tranObj.Commit();
                 }
                 catch(Exception)
                 {
-                    tranObj.RollbackTransaction();
+                    tranObj.Rollback();
                 }
             }
             _sql = "select UnitPrice from Products where ProductName=@ProductName";

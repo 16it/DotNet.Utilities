@@ -1,74 +1,90 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Data;
-using System;
-using System.Data.Common;
-
-namespace YanZhiwei.DotNet.EntLib4.Utilities
+﻿namespace YanZhiwei.DotNet.EntLib4.Utilities
 {
+    using DotNet2.Utilities.Operator;
+    using Microsoft.Practices.EnterpriseLibrary.Data;
+    using System;
+    using System.Data.Common;
+    
     /// <summary>
-    /// Local DbTransaction
+    /// 本地事务
     /// </summary>
     public class LocalDbTransaction : IDisposable
     {
+        #region Fields
+        
         /// <summary>
-        /// Gets or sets the data base object.
+        /// Database对象
         /// </summary>
-        /// <value>
-        /// The data base object.
-        /// </value>
-        public readonly Database DataBaseObj;
-
+        public readonly Database Db;
+        
+        #endregion Fields
+        
+        #region Constructors
+        
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocalDbTransaction"/> class.
+        /// 构造函数
         /// </summary>
-        public LocalDbTransaction(Database db)
+        /// <param name="dataBase">Database</param>
+        public LocalDbTransaction(Database dataBase)
         {
-            if (db != null)
-            {
-                DataBaseObj = db;
-                DbConnection _dbConnection = DataBaseObj.CreateConnection();
-                _dbConnection.Open();
-                TransactionObj = _dbConnection.BeginTransaction();
-            }
+            ValidateOperator.Begin().NotNull(dataBase, "Database");
+            Db = dataBase;
+            DbConnection _dbConnection = Db.CreateConnection();
+            _dbConnection.Open();
+            TransactionObj = _dbConnection.BeginTransaction();
         }
-
+        
+        #endregion Constructors
+        
+        #region Properties
+        
         /// <summary>
-        /// Gets or sets the transaction object.
+        /// DbTransaction 对象
         /// </summary>
-        /// <value>
-        /// The transaction object.
-        /// </value>
-        public DbTransaction TransactionObj { get; set; }
-        /// <summary>
-        /// Commits the transaction.
-        /// </summary>
-        public void CommitTransaction()
+        public DbTransaction TransactionObj
         {
-            if (TransactionObj != null)
+            get;
+            set;
+        }
+        
+        #endregion Properties
+        
+        #region Methods
+        
+        /// <summary>
+        /// 提交事务
+        /// </summary>
+        public void Commit()
+        {
+            if(TransactionObj != null)
             {
                 TransactionObj.Commit();
             }
         }
-
+        
         /// <summary>
         /// 执行与释放或重置非托管资源相关的应用程序定义的任务。
         /// </summary>
         public void Dispose()
         {
-            if (TransactionObj != null)
+            if(TransactionObj != null)
             {
                 TransactionObj.Dispose();
                 TransactionObj = null;
             }
         }
+        
         /// <summary>
-        /// Rollbacks the transaction.
+        /// 回滚事务
         /// </summary>
-        public void RollbackTransaction()
+        public void Rollback()
         {
-            if (TransactionObj != null)
+            if(TransactionObj != null)
             {
                 TransactionObj.Rollback();
             }
         }
+        
+        #endregion Methods
     }
 }

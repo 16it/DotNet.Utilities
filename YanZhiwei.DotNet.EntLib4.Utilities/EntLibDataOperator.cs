@@ -119,7 +119,7 @@
             int _result = 0;
             DbTransaction _dbTranscation = localTranscation.TransactionObj;
             DbConnection _curConnection = _dbTranscation.Connection;
-            Database _dataBase = localTranscation.DataBaseObj;
+            Database _dataBase = localTranscation.Db;
             
             if(_curConnection.State != ConnectionState.Open)
                 _curConnection.Open();

@@ -1,12 +1,48 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Security.Cryptography;
-
-namespace YanZhiwei.DotNet.EntLib4.Utilities
+﻿namespace YanZhiwei.DotNet.EntLib4.Utilities
 {
+    using Microsoft.Practices.EnterpriseLibrary.Security.Cryptography;
+    
     /// <summary>
-    /// 企业库 加密 辅助类
+    /// 企业库 加密解密 辅助类
     /// </summary>
     public class EntLibCryptographyEncryptor
     {
+        #region Methods
+        
+        /// <summary>
+        /// 判断HASH字符串是否相等
+        /// </summary>
+        /// <param name="hashName">HASH加密方式</param>
+        /// <param name="decryptData">加密字符串</param>
+        /// <param name="encrytData">解密字符串</param>
+        /// <returns>是否相等</returns>
+        public static bool CompareHash(string hashName, string decryptData, string encrytData)
+        {
+            return Cryptographer.CompareHash(hashName, decryptData, encrytData);
+        }
+        
+        /// <summary>
+        /// 创建HASH方式加密字符串
+        /// </summary>
+        /// <param name="hashName">HASH加密方式</param>
+        /// <param name="encrytData">需要加密的字符串</param>
+        /// <returns>加密字符串</returns>
+        public static string CreateHash(string hashName, string encrytData)
+        {
+            return Cryptographer.CreateHash(hashName, encrytData);
+        }
+        
+        /// <summary>
+        /// 对称解密
+        /// </summary>
+        /// <param name="symmetricName">对称解密方式</param>
+        /// <param name="decryptData">需要解密字符串</param>
+        /// <returns>解密后字符串</returns>
+        public static string DecryptSymmetric(string symmetricName, string decryptData)
+        {
+            return Cryptographer.DecryptSymmetric(symmetricName, decryptData);
+        }
+        
         /*
          *知识：
          *1. 产生 key 文件的过程中有个选择项， 一个是用户模式，一个是机器模式。
@@ -21,50 +57,17 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities
          *
          *
          */
-        
         /// <summary>
         /// 对称加密
         /// </summary>
-        /// <param name="symmetricName">Name of the symmetric.</param>
-        /// <param name="encrytData">The encryt data.</param>
-        /// <returns></returns>
+        /// <param name="symmetricName">对称加密方式</param>
+        /// <param name="encrytData">需要加密的字符串</param>
+        /// <returns>加密字符串</returns>
         public static string EncryptSymmetric(string symmetricName, string encrytData)
         {
             return Cryptographer.EncryptSymmetric(symmetricName, encrytData);
         }
         
-        /// <summary>
-        /// 对称解密
-        /// </summary>
-        /// <param name="symmetricName">Name of the symmetric.</param>
-        /// <param name="decryptData">The decrypt data.</param>
-        /// <returns></returns>
-        public static string DecryptSymmetric(string symmetricName, string decryptData)
-        {
-            return Cryptographer.DecryptSymmetric(symmetricName, decryptData);
-        }
-        
-        /// <summary>
-        /// Creates the hash.
-        /// </summary>
-        /// <param name="hashName">Name of the hash.</param>
-        /// <param name="encrytData">The encryt data.</param>
-        /// <returns></returns>
-        public static string CreateHash(string hashName, string encrytData)
-        {
-            return Cryptographer.CreateHash(hashName, encrytData);
-        }
-        
-        /// <summary>
-        /// Compares the hash.
-        /// </summary>
-        /// <param name="hashName">Name of the hash.</param>
-        /// <param name="decryptData">The decrypt data.</param>
-        /// <param name="encrytData">The encryt data.</param>
-        /// <returns></returns>
-        public static bool CompareHash(string hashName, string decryptData, string encrytData)
-        {
-            return Cryptographer.CompareHash(hashName, decryptData, encrytData);
-        }
+        #endregion Methods
     }
 }
