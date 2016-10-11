@@ -60,10 +60,6 @@
     <Compile Include="ValidateHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.DotNet.Enterprise6.Utilities\YanZhiwei.DotNet.EntLib6.Utilities.csproj">
-      <Project>{3D81334E-F5E7-4C16-A0F0-978684D42402}</Project>
-      <Name>YanZhiwei.DotNet.EntLib6.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet4.Interfaces\YanZhiwei.DotNet4.Interfaces.csproj">
       <Project>{514ed19c-c736-4372-86cc-8ba260bdec20}</Project>
       <Name>YanZhiwei.DotNet4.Interfaces</Name>
