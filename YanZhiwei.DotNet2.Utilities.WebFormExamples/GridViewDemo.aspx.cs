@@ -12,7 +12,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
     public partial class GridViewDemo : System.Web.UI.Page
     {
         private SqlServerDataOperator sqlHelper = new SqlServerDataOperator(@"server=YANZHIWEI-IT-PC\SQLEXPRESS;database=Northwind;uid=sa;pwd=sasa;");
-
+        
         protected override void OnInit(EventArgs e)
         {
             SetDataPager(gvPage, btnPFirst, btnPNext, btnPPre, btnPLast, drpPShowCount, () => InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderType.Asc, string.Empty, 1, drpPShowCount.Text.ToIntOrDefault(10)));
@@ -28,7 +28,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", orderByColumnName, orderWay, string.Empty, 1, drpPShowCount.Text.ToIntOrDefault(10));
             });
         }
-
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             if(!Page.IsPostBack)
@@ -42,50 +42,50 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 //LoadProductPageView(gvPage, 1, Convert.ToInt16(drpPShowCount.Text), "ProductID", OrderWay.Asc);
             }
         }
-
+        
         private void btnDataPage_Click(object sender, EventArgs e)
         {
         }
-
+        
         private void DataPagerAction(object sender, EventArgs e, GridView gridView)
         {
             Button _button = sender as Button;
-
+            
             if(_button != null)
             {
                 string _cmdName = _button.CommandName;
                 int _pageIndex = Convert.ToInt32(gridView.Attributes["PageIndex"]),
                     _pageCount = Convert.ToInt32(gridView.Attributes["PageCount"]),
                     _pageSize = Convert.ToInt32(gridView.Attributes["PageSize"]);
-
+                    
                 switch(_cmdName)
                 {
                     case "next":
                         _pageIndex++;
                         break;
-
+                        
                     case "prev":
                         _pageIndex--;
                         break;
-
+                        
                     case "last":
                         _pageIndex = _pageCount;
                         break;
-
+                        
                     case "first":
                         _pageIndex = 1;
                         break;
                 }
-
+                
                 InitializeDataPager(gvPage, "Products", "ProductID,ProductName,QuantityPerUnit,UnitPrice,UnitsOnOrder,Discontinued", "ProductID", OrderType.Asc, string.Empty, _pageIndex, 10);
             }
         }
-
+        
         private void DrpPShowCount_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadProductPageView(gvPage, 1, Convert.ToInt16(drpPShowCount.Text), "ProductID", OrderType.Asc);
         }
-
+        
         private void InitializeDataPager(GridView gridView, string tableName, string fields, string orderByColumn, OrderType orderWay, string sqlWhere, int pageIndex, int pageSize)
         {
             int _totalPage = 0, _totalCount = 0;
@@ -93,8 +93,8 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             lblPCount.Text = _totalPage.ToString();
             lblPCurIndexValue.Text = pageIndex.ToString();
             lblPTotalCountValue.Text = _totalCount.ToString();
-
-            if(pageIndex == 1)     //当前页是否为首页
+            
+            if(pageIndex == 1)      //当前页是否为首页
             {
                 btnPFirst.Enabled = false;
                 btnPPre.Enabled = false;
@@ -104,8 +104,8 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPFirst.Enabled = true;
                 btnPPre.Enabled = true;
             }
-
-            if(pageIndex == _totalPage)     //当前页是否为尾页
+            
+            if(pageIndex == _totalPage)      //当前页是否为尾页
             {
                 btnPNext.Enabled = false;
                 btnPLast.Enabled = false;
@@ -115,13 +115,13 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPNext.Enabled = true;
                 btnPLast.Enabled = true;
             }
-
+            
             gridView.Attributes["PageIndex"] = pageIndex.ToString();
             gridView.Attributes["PageCount"] = _totalPage.ToString();
             gridView.Attributes["PageSize"] = pageSize.ToString();
             gridView.SetDataSource(_pageResult);
         }
-
+        
         private void LoadProductListView(GridView girdView, string orderByColumnName, OrderType orderWay)
         {
             try
@@ -137,7 +137,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 ClientScriptHelper.Alert(ex.Message.Trim());
             }
         }
-
+        
         private void LoadProductListView(GridView girdView)
         {
             try
@@ -151,7 +151,7 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 ClientScriptHelper.Alert(ex.Message.Trim());
             }
         }
-
+        
         private void LoadProductPageView(GridView gvPage, int pageIndex, int pageSize, string orderByColumn, OrderType orderWay)
         {
             int _totalPage = 0, _totalCount = 0;
@@ -159,8 +159,8 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
             lblPCount.Text = _totalPage.ToString();
             lblPCurIndexValue.Text = pageIndex.ToString();
             lblPTotalCountValue.Text = _totalCount.ToString();
-
-            if(pageIndex == 1)     //当前页是否为首页
+            
+            if(pageIndex == 1)      //当前页是否为首页
             {
                 btnPFirst.Enabled = false;
                 btnPPre.Enabled = false;
@@ -170,8 +170,8 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPFirst.Enabled = true;
                 btnPPre.Enabled = true;
             }
-
-            if(pageIndex == _totalPage)     //当前页是否为尾页
+            
+            if(pageIndex == _totalPage)      //当前页是否为尾页
             {
                 btnPNext.Enabled = false;
                 btnPLast.Enabled = false;
@@ -181,23 +181,23 @@ namespace YanZhiwei.DotNet2.Utilities.WebFormExamples
                 btnPNext.Enabled = true;
                 btnPLast.Enabled = true;
             }
-
+            
             gvPage.Attributes["PageIndex"] = pageIndex.ToString();
             gvPage.Attributes["PageCount"] = _totalPage.ToString();
             gvPage.Attributes["PageSize"] = pageSize.ToString();
             gvPage.SetDataSource(_pageResult);
         }
-
+        
         private void SetDataPager(GridView gridView, Button btnFirst, Button btnNext, Button btnPre, Button btnLast, DropDownList drpPageSize, Action finallyDataBindFactory)
         {
             btnFirst.CommandName = "first";
             btnNext.CommandName = "next";
             btnPre.CommandName = "prev";
             btnLast.CommandName = "last";
-
+            
             if(!drpPageSize.AutoPostBack)
                 drpPageSize.AutoPostBack = true;
-
+                
             btnFirst.Click += (sender, e) => DataPagerAction(sender, e, gridView);
             btnNext.Click += (sender, e) => DataPagerAction(sender, e, gridView);
             btnPre.Click += (sender, e) => DataPagerAction(sender, e, gridView);
