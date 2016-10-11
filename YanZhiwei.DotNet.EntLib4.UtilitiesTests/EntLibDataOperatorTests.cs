@@ -8,17 +8,17 @@ using YanZhiwei.DotNet2.Utilities.Common;
 namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
 {
     [TestClass()]
-    public class SQLHelperTests
+    public class EntLibDataOperatorTests
     {
-        private SQLHelper sqlHelper = null;
-
+        private EntLibDataOperator sqlHelper = null;
+        
         [TestInitialize]
         public void Init()
         {
-            sqlHelper = new SQLHelper();
+            sqlHelper = new EntLibDataOperator();
             ClearProductTestDb();
         }
-
+        
         private void ClearProductTestDb()
         {
             string _sql = "delete from Products  where ProductName like @ProductName";
@@ -26,7 +26,7 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
             _paramterList[0] = new SqlParameter("@ProductName", "%UnitTest%");
             sqlHelper.ExecuteNonQuery(_sql, _paramterList);
         }
-
+        
         [TestMethod()]
         public void ExecuteDataTableTest()
         {
@@ -36,7 +36,7 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
             DataTable _result = sqlHelper.ExecuteDataTable(_sql, _paramterList);
             Assert.IsNotNull(_result);
         }
-
+        
         [TestMethod()]
         public void ExecuteNonQueryTest()
         {
@@ -235,7 +235,7 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
             Assert.AreEqual(55m, sqlHelper.ExecuteScalar(_sql, _paramterList));
             #endregion ExecuteNonQuery 事物嵌套 主事物失败
         }
-
+        
         private void AddProduct(LocalDbTransaction tranObj, string key, int UnitPrice)
         {
             string _sql = @"INSERT INTO [dbo].[Products]([ProductName],[CategoryID],[UnitPrice],[LastUpdate])
@@ -251,7 +251,7 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
             _paramterList[3] = new SqlParameter("@LastUpdate", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             sqlHelper.ExecuteNonQuery(tranObj, _sql, _paramterList);
         }
-
+        
         [TestMethod()]
         public void ExecuteReaderTest()
         {
@@ -266,7 +266,7 @@ namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
                 }
             }
         }
-
+        
         [TestMethod()]
         public void ExecuteScalarTest()
         {

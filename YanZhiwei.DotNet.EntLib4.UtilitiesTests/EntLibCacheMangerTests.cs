@@ -5,12 +5,12 @@ using System.Threading;
 namespace YanZhiwei.DotNet.EntLib4.Utilities.Tests
 {
     [TestClass()]
-    public class CacheHelperTests
+    public class EntLibCacheMangerTests
     {
         [TestMethod()]
         public void AddAbsoluteTimeTest()
         {
-            CacheHelper _cacheHelper = new CacheHelper();
+            EntLibCacheManger _cacheHelper = new EntLibCacheManger();
             _cacheHelper.AddAbsoluteTime("Name", "YanZhiwei", DateTime.Now.AddMinutes(1));
             Assert.AreEqual(_cacheHelper.GetData<string>("Name"), "YanZhiwei");
             Thread.Sleep(new TimeSpan(0, 1, 10));

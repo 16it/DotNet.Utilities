@@ -73,10 +73,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CacheHelperTests.cs" />
-    <Compile Include="CryptographyHelperTests.cs" />
+    <Compile Include="EntLibCacheMangerTests.cs" />
+    <Compile Include="EntLibCryptographyEncryptorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQLHelperTests.cs" />
+    <Compile Include="EntLibDataOperatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YanZhiwei.DotNet.EntLib4.Utilities\YanZhiwei.DotNet.EntLib4.Utilities.csproj">
@@ -90,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataAccessQuickStarts.sql" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
