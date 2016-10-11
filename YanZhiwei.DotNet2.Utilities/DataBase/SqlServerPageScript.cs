@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.DataBase
 {
     using Enum;
-
+    
     /// <summary>
     /// Sql Server数据库分页脚本
     /// </summary>
@@ -10,7 +10,7 @@
     public class SqlServerPageScript
     {
         #region Methods
-
+        
         /// <summary>
         /// 利用[ROW_NUMBER() over]分页，生成sql语句
         /// </summary>
@@ -22,7 +22,7 @@
         /// <param name="pSize">每页页数『需大于零』</param>
         /// <param name="pIndex">页数『从壹开始算』</param>
         /// <returns>生成分页sql脚本</returns>
-        public static string CreateSqlByRowNumber(string tableName, string columns, string orderColumn, string sqlWhere, OrderType orderType, int pSize, int pIndex)
+        public static string JoinPageSQLByRowNumber(string tableName, string columns, string orderColumn, string sqlWhere, OrderType orderType, int pSize, int pIndex)
         {
             int _pageStart = pSize * (pIndex - 1) + 1;
             int _pageEnd = pSize * pIndex + 1;
@@ -37,7 +37,7 @@
             _sql = CreateQueryTotalSql(_sql, tableName);
             return _sql;
         }
-
+        
         /// <summary>
         /// 利用[Top Max]分页，生成sql语句
         /// </summary>
@@ -49,7 +49,7 @@
         /// <param name="pSize">每页页数『需大于零』</param>
         /// <param name="pIndex">页数『从壹开始算』</param>
         /// <returns>生成分页sql脚本</returns>
-        public static string CreateSqlByTopMax(string tableName, string columns, string orderColumn, string sqlWhere, OrderType orderType, int pSize, int pIndex)
+        public static string JoinPageSQLByTopMax(string tableName, string columns, string orderColumn, string sqlWhere, OrderType orderType, int pSize, int pIndex)
         {
             /*
              *eg:
@@ -70,7 +70,7 @@
             _sql = CreateQueryTotalSql(_sql, tableName);
             return _sql;
         }
-
+        
         /// <summary>
         /// 利用[Top NotIn]分页，生成sql语句
         /// </summary>
@@ -82,7 +82,7 @@
         /// <param name="pSize">每页页数『需大于零』</param>
         /// <param name="pIndex">页数『从壹开始算』</param>
         /// <returns>生成分页sql脚本</returns>
-        public static string CreateSqlByTopNotIn(string tableName, string columns, string orderColumn, string sqlWhere, OrderType orderType, int pSize, int pIndex)
+        public static string JoinPageSQLByTopNotIn(string tableName, string columns, string orderColumn, string sqlWhere, OrderType orderType, int pSize, int pIndex)
         {
             /*
              *eg:
@@ -101,7 +101,7 @@
             _sql = CreateQueryTotalSql(_sql, tableName);
             return _sql;
         }
-
+        
         /// <summary>
         /// 查询记录总数
         /// </summary>
@@ -115,7 +115,7 @@
             string _sqltotalCount = string.Format("select count(*) from {0}", tableName);
             return string.Format("{0};{1}", sql, _sqltotalCount);
         }
-
+        
         /// <summary>
         /// 添加筛选条件
         /// </summary>
@@ -128,10 +128,10 @@
         {
             if(!string.IsNullOrEmpty(sqlWhere))
                 sql = string.Format("{0} and ( {1} )", sql, sqlWhere);
-
+                
             return sql;
         }
-
+        
         #endregion Methods
     }
 }
