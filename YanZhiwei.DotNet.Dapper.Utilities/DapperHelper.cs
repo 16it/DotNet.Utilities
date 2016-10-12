@@ -6,7 +6,7 @@
     using System.Data;
     using System.Data.SqlClient;
     using System.Linq;
-
+    
     /// <summary>
     /// Dapper 数据库操作帮助类，默认是sql Server
     /// </summary>
@@ -15,13 +15,13 @@
     public abstract class DapperHelper
     {
         #region Fields
-
+        
         private string ConnectString = string.Empty;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -30,14 +30,14 @@
         /// 备注：
         public DapperHelper(string connectString)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(connectString, "连接字符串不能为空！");
+            ValidateOperator.Begin().NotNullOrEmpty(connectString, "连接字符串");
             ConnectString = connectString;
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 创建SqlConnection连接对象，需要打开
         /// </summary>
@@ -47,13 +47,13 @@
         public virtual IDbConnection CreateConnection()
         {
             IDbConnection sqlConnection = new SqlConnection(ConnectString);
-
+            
             if(sqlConnection.State != ConnectionState.Open)
                 sqlConnection.Open();
-
+                
             return sqlConnection;
         }
-
+        
         /// <summary>
         /// 返回DataTable
         /// </summary>
@@ -69,7 +69,7 @@
         {
             if(dbConnection == null)
                 dbConnection = CreateConnection();
-
+                
             using(IDbConnection sqlConnection = dbConnection)
             {
                 DataTable _table = new DataTable();
@@ -77,7 +77,7 @@
                 return _table;
             }
         }
-
+        
         /// <summary>
         /// 返回DataTable
         /// </summary>
@@ -92,7 +92,7 @@
         {
             return ExecuteDataTable<T>(null, sql, parameters);
         }
-
+        
         /// <summary>
         /// 执行操作
         /// </summary>
@@ -108,13 +108,13 @@
         {
             if(dbConnection == null)
                 dbConnection = CreateConnection();
-
+                
             using(IDbConnection sqlConnection = dbConnection)
             {
                 return sqlConnection.Execute(sql, parameters);
             }
         }
-
+        
         /// <summary>
         /// 执行操作
         /// </summary>
@@ -129,7 +129,7 @@
         {
             return ExecuteNonQuery<T>(null, sql, parameters);
         }
-
+        
         /// <summary>
         /// 返回IDataReader
         /// </summary>
@@ -145,12 +145,12 @@
         {
             if(dbConnection == null)
                 dbConnection = CreateConnection();
-
+                
             IDbConnection sqlConnection = dbConnection;
-
+            
             return sqlConnection.ExecuteReader(sql, parameters);
         }
-
+        
         /// <summary>
         /// 返回IDataReader
         /// </summary>
@@ -165,7 +165,7 @@
         {
             return ExecuteReader<T>(null, sql, parameters);
         }
-
+        
         /// <summary>
         /// 返回对象
         /// </summary>
@@ -181,13 +181,13 @@
         {
             if(dbConnection == null)
                 dbConnection = CreateConnection();
-
+                
             using(IDbConnection sqlConnection = dbConnection)
             {
                 return sqlConnection.ExecuteScalar(sql, parameters, null, null, null);
             }
         }
-
+        
         /// <summary>
         /// 返回对象
         /// </summary>
@@ -202,7 +202,7 @@
         {
             return ExecuteScalar<T>(null, sql, parameters);
         }
-
+        
         /// <summary>
         /// 返回实体类
         /// </summary>
@@ -218,16 +218,16 @@
         {
             if(dbConnection == null)
                 dbConnection = CreateConnection();
-
+                
             T _result = null;
             using(IDbConnection sqlConnection = dbConnection)
             {
                 _result = sqlConnection.Query<T>(sql, parameters).FirstOrDefault();
             }
-
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 返回实体类
         /// </summary>
@@ -242,7 +242,7 @@
         {
             return Query<T>(null, sql, parameters);
         }
-
+        
         /// <summary>
         /// 返回集合
         /// </summary>
@@ -258,16 +258,16 @@
         {
             if(dbConnection == null)
                 dbConnection = CreateConnection();
-
+                
             List<T> _result = null;
             using(IDbConnection sqlConnection = dbConnection)
             {
                 _result = sqlConnection.Query<T>(sql, parameters).ToList();
             }
-
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 返回集合，默认Sql Server数据库
         /// </summary>
@@ -282,7 +282,7 @@
         {
             return QueryList<T>(null, sql, parameters);
         }
-
+        
         #endregion Methods
     }
 }

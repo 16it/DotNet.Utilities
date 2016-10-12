@@ -4,22 +4,22 @@
     using System.Drawing.Drawing2D;
     using System.IO;
     using System.Windows.Forms;
-
+    
     using Sunisoft.IrisSkin;
-
+    
     /// <summary>
     /// Iris 帮助类
     /// </summary>
     public class IrisHelper
     {
         #region Fields
-
+        
         private const int DisableTag = 9999;
-
+        
         #endregion Fields
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 高亮控件颜色『需要控件有tag属性』
         /// </summary>
@@ -48,7 +48,7 @@
             control.ForeColor = fontColor;
             control.Tag = DisableTag;
         }
-
+        
         /// <summary>
         /// 高亮按钮控件
         /// </summary>
@@ -61,12 +61,12 @@
         public static void HighlightButtonColor<T>(T control, Button button, Color color1, Color color2, Color fontColor)
         where T : Control
         {
-            foreach(Control ct in control.Controls)
+            foreach(Control item in control.Controls)
             {
-                if(ct is Button)
+                if(item is Button)
                 {
-                    Button _button = (Button)ct;
-
+                    Button _button = (Button)item;
+                    
                     if(_button.Name == button.Name)
                         ChangControlColor<Button>(button, color1, color2, fontColor);
                     else
@@ -74,7 +74,7 @@
                 }
             }
         }
-
+        
         /// <summary>
         /// 还原按钮默认主题
         /// </summary>
@@ -84,20 +84,20 @@
             button.UseVisualStyleBackColor = true;
             button.Tag = null;
         }
-
+        
         /// <summary>
         /// 设置程序主题
         /// </summary>
         /// <param name="skin">SkinEngine</param>
-        /// <param name="bytes">byte数组</param>
-        public static void SetupTheme(SkinEngine skin, byte[] bytes)
+        /// <param name="buffer">byte数组</param>
+        public static void SetupTheme(SkinEngine skin, byte[] buffer)
         {
-            using(MemoryStream memoryStream = new MemoryStream(bytes))
+            using(MemoryStream memoryStream = new MemoryStream(buffer))
             {
                 skin.SkinStream = memoryStream;
             }
         }
-
+        
         #endregion Methods
     }
 }

@@ -5,20 +5,20 @@
     using System.Data.Common;
     using System.Data.SQLite;
     using System.Text;
-
+    
     /// <summary>
     /// SQLite帮助类
     /// </summary>
     public class SQLiteHelper
     {
         #region Fields
-
+        
         private string connectionString = string.Empty;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -27,11 +27,11 @@
         {
             connectionString = string.Format(@"Data Source={0}", dbpath);
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// ExecuteDataTable
         /// </summary>
@@ -40,23 +40,23 @@
         /// <returns>DataTable</returns>
         public DataTable ExecuteDataTable(string sql, SQLiteParameter[] parameters)
         {
-            using(SQLiteConnection _sqlcon = new SQLiteConnection(connectionString))
+            using(SQLiteConnection sqlcon = new SQLiteConnection(connectionString))
             {
-                using(SQLiteCommand _sqlcmd = new SQLiteCommand(sql, _sqlcon))
+                using(SQLiteCommand sqlcmd = new SQLiteCommand(sql, sqlcon))
                 {
                     if(parameters != null)
-                        _sqlcmd.Parameters.AddRange(parameters);
-
-                    using(SQLiteDataAdapter _sqldap = new SQLiteDataAdapter(_sqlcmd))
+                        sqlcmd.Parameters.AddRange(parameters);
+                        
+                    using(SQLiteDataAdapter sqldap = new SQLiteDataAdapter(sqlcmd))
                     {
-                        DataTable _dt = new DataTable();
-                        _sqldap.Fill(_dt);
-                        return _dt;
+                        DataTable _table = new DataTable();
+                        sqldap.Fill(_table);
+                        return _table;
                     }
                 }
             }
         }
-
+        
         /// <summary>
         /// 执行sql语句，返回影响行数
         ///<para>eg: string sql = "INSERT INTO Test(Name,TypeName)values(@Name,@TypeName)";   </para>
@@ -75,13 +75,13 @@
                 {
                     if(parameters != null)
                         sqlcmd.Parameters.AddRange(parameters);
-
+                        
                     _affectedRows = sqlcmd.ExecuteNonQuery();
                 }
             }
             return _affectedRows;
         }
-
+        
         /// <summary>
         /// 执行sql语句，返回影响行数 带事物
         /// <para>eg:DataAccess.Instance.SQLHelper.ExecuteNonQueryWithTrans(new string[2] { _addSell, _updateProduct }) </para>
@@ -95,11 +95,11 @@
             {
                 sqlcon.Open();
                 DbTransaction _sqlTrans = sqlcon.BeginTransaction();
-
+                
                 try
                 {
                     _affectedRows = 0;
-
+                    
                     foreach(string sql in sqlList)
                     {
                         using(SQLiteCommand sqlcmd = new SQLiteCommand(sql, sqlcon))
@@ -107,7 +107,7 @@
                             _affectedRows += sqlcmd.ExecuteNonQuery();
                         }
                     }
-
+                    
                     _sqlTrans.Commit();
                 }
                 catch(Exception)
@@ -118,7 +118,7 @@
             }
             return _affectedRows;
         }
-
+        
         /// <summary>
         /// ExecuteReader
         /// </summary>
@@ -127,17 +127,17 @@
         /// <returns>IDataReader</returns>
         public IDataReader ExecuteReader(string sql, SQLiteParameter[] parameters)
         {
-            SQLiteConnection _sqlcon = new SQLiteConnection(connectionString);
-            using(SQLiteCommand _sqlcmd = new SQLiteCommand(sql, _sqlcon))
+            SQLiteConnection sqlcon = new SQLiteConnection(connectionString);
+            using(SQLiteCommand sqlcmd = new SQLiteCommand(sql, sqlcon))
             {
                 if(parameters != null)
-                    _sqlcmd.Parameters.AddRange(parameters);
-
-                _sqlcon.Open();
-                return _sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
+                    sqlcmd.Parameters.AddRange(parameters);
+                    
+                sqlcon.Open();
+                return sqlcmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
         }
-
+        
         /// <summary>
         /// ExecuteScalar
         /// </summary>
@@ -146,19 +146,19 @@
         /// <returns>Object</returns>
         public Object ExecuteScalar(string sql, SQLiteParameter[] parameters)
         {
-            using(SQLiteConnection _sqlcon = new SQLiteConnection(connectionString))
+            using(SQLiteConnection sqlcon = new SQLiteConnection(connectionString))
             {
-                using(SQLiteCommand _sqlcmd = new SQLiteCommand(sql, _sqlcon))
+                using(SQLiteCommand sqlcmd = new SQLiteCommand(sql, sqlcon))
                 {
                     if(parameters != null)
-                        _sqlcmd.Parameters.AddRange(parameters);
-
-                    _sqlcon.Open();
-                    return _sqlcmd.ExecuteScalar(CommandBehavior.CloseConnection);
+                        sqlcmd.Parameters.AddRange(parameters);
+                        
+                    sqlcon.Open();
+                    return sqlcmd.ExecuteScalar(CommandBehavior.CloseConnection);
                 }
             }
         }
-
+        
         /// <summary>
         /// Inserts the row.
         /// </summary>
@@ -190,106 +190,106 @@
             }
             return _affectedRows;
         }
-
+        
         private string BuildInsertSQL(DataTable table)
         {
-            StringBuilder sql = new StringBuilder("INSERT INTO " + table.TableName + " (");
-            StringBuilder values = new StringBuilder("VALUES (");
-            bool bFirst = true;
-            bool bIdentity = false;
-            string identityType = null;
-
+            StringBuilder _builder = new StringBuilder("INSERT INTO " + table.TableName + " (");
+            StringBuilder _joinSql = new StringBuilder("VALUES (");
+            bool _first = true;
+            bool _identity = false;
+            string _identityType = null;
+            
             foreach(DataColumn column in table.Columns)
             {
                 if(column.AutoIncrement)
                 {
-                    bIdentity = true;
-
+                    _identity = true;
+                    
                     switch(column.DataType.Name)
                     {
                         case "Int16":
-                            identityType = "smallint";
+                            _identityType = "smallint";
                             break;
-
+                            
                         case "SByte":
-                            identityType = "tinyint";
+                            _identityType = "tinyint";
                             break;
-
+                            
                         case "Int64":
-                            identityType = "bigint";
+                            _identityType = "bigint";
                             break;
-
+                            
                         case "Decimal":
-                            identityType = "decimal";
+                            _identityType = "decimal";
                             break;
-
+                            
                         default:
-                            identityType = "int";
+                            _identityType = "int";
                             break;
                     }
                 }
                 else
                 {
-                    if(bFirst)
-                        bFirst = false;
+                    if(_first)
+                        _first = false;
                     else
                     {
-                        sql.Append(", ");
-                        values.Append(", ");
+                        _builder.Append(", ");
+                        _joinSql.Append(", ");
                     }
-
-                    sql.Append(column.ColumnName);
-                    values.Append("@");
-                    values.Append(column.ColumnName);
+                    
+                    _builder.Append(column.ColumnName);
+                    _joinSql.Append("@");
+                    _joinSql.Append(column.ColumnName);
                 }
             }
-
-            sql.Append(") ");
-            sql.Append(values.ToString());
-            sql.Append(")");
-
-            if(bIdentity)
+            
+            _builder.Append(") ");
+            _builder.Append(_joinSql.ToString());
+            _builder.Append(")");
+            
+            if(_identity)
             {
-                sql.Append("; SELECT CAST(scope_identity() AS ");
-                sql.Append(identityType);
-                sql.Append(")");
+                _builder.Append("; SELECT CAST(scope_identity() AS ");
+                _builder.Append(_identityType);
+                _builder.Append(")");
             }
-
-            return sql.ToString(); ;
+            
+            return _builder.ToString();
         }
-
+        
         private SQLiteCommand CreateInsertCommand(DataRow row)
         {
-            DataTable table = row.Table;
-            string sql = BuildInsertSQL(table);
-            SQLiteCommand command = new SQLiteCommand(sql);
-            command.CommandType = System.Data.CommandType.Text;
-
-            foreach(DataColumn column in table.Columns)
+            DataTable _table = row.Table;
+            string _sql = BuildInsertSQL(_table);
+            SQLiteCommand _command = new SQLiteCommand(_sql);
+            _command.CommandType = CommandType.Text;
+            
+            foreach(DataColumn column in _table.Columns)
             {
                 if(!column.AutoIncrement)
                 {
                     string parameterName = "@" + column.ColumnName;
-                    InsertParameter(command, parameterName, column.ColumnName, row[column.ColumnName]);
+                    InsertParameter(_command, parameterName, column.ColumnName, row[column.ColumnName]);
                 }
             }
-
-            return command;
+            
+            return _command;
         }
-
+        
         private void InsertParameter(SQLiteCommand command,
                                      string parameterName,
                                      string sourceColumn,
                                      object value)
         {
-            SQLiteParameter parameter = new SQLiteParameter(parameterName, value);
-            parameter.Direction = ParameterDirection.Input;
-            parameter.ParameterName = parameterName;
-            parameter.SourceColumn = sourceColumn;
-            parameter.SourceVersion = DataRowVersion.Current;
-            command.Parameters.Add(parameter);
+            SQLiteParameter _parameter = new SQLiteParameter(parameterName, value);
+            _parameter.Direction = ParameterDirection.Input;
+            _parameter.ParameterName = parameterName;
+            _parameter.SourceColumn = sourceColumn;
+            _parameter.SourceVersion = DataRowVersion.Current;
+            command.Parameters.Add(_parameter);
         }
-
+        
         #endregion Methods
     }
 }
