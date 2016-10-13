@@ -1,6 +1,5 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
 {
-    using DotNet2.Utilities.Common;
     using DotNet2.Utilities.Operator;
     using System;
     using System.IO;
@@ -10,14 +9,14 @@
     using System.Text.RegularExpressions;
     using System.Web.Script.Serialization;
     using System.Xml.Serialization;
-
+    
     /// <summary>
     /// 序列化帮助类
     /// </summary>
     public static class SerializeHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 将使用二进制格式保存的byte数组反序列化成对象
         /// </summary>
@@ -32,7 +31,7 @@
                 return (T)_binarySerializer.Deserialize(stream);
             }
         }
-
+        
         /// <summary>
         /// 将对象使用二进制格式序列化成byte数组
         /// </summary>
@@ -48,7 +47,7 @@
                 return stream.ToArray();
             }
         }
-
+        
         /// <summary>
         /// 利用DataContractSerializer反序列化
         /// </summary>
@@ -63,7 +62,7 @@
                 return (T)_dataContractSerializer.ReadObject(stream);
             }
         }
-
+        
         /// <summary>
         /// 利用DataContractSerializer对象序列化
         /// </summary>
@@ -79,7 +78,7 @@
                 return Encoding.UTF8.GetString(stream.ToArray());
             }
         }
-
+        
         /// <summary>
         /// 利用JavaScriptSerializer将json字符串反序列化
         /// </summary>
@@ -91,7 +90,7 @@
             JavaScriptSerializer _jsonHelper = new JavaScriptSerializer();
             return _jsonHelper.Deserialize<T>(deserializeString);
         }
-
+        
         /// <summary>
         /// 利用JavaScriptSerializer将对象序列化成JSON字符串
         /// </summary>
@@ -102,16 +101,16 @@
         {
             CheckedSerializeData(serializeData);
             JavaScriptSerializer _jsonHelper = new JavaScriptSerializer();
-
+            
             if(scriptConverters != null)
             {
                 _jsonHelper.RegisterConverters(scriptConverters);
             }
-
+            
             _jsonHelper.MaxJsonLength = int.MaxValue;
             return _jsonHelper.Serialize(serializeData);
         }
-
+        
         /// <summary>
         /// 利用JavaScriptSerializer将对象序列化成JSON字符串
         /// </summary>
@@ -122,7 +121,7 @@
         {
             return JsonSerialize<T>(serializeData, null);
         }
-
+        
         /// <summary>
         /// 处理JsonString的时间格式问题【时间格式：yyyy-MM-dd HH:mm:ss】
         /// </summary>
@@ -132,7 +131,7 @@
         {
             return ParseJsonDateTime(jsonString, "yyyy-MM-dd HH:mm:ss");
         }
-
+        
         /// <summary>
         /// 处理JsonString的时间格式问题
         /// <para>eg:ScriptSerializerHelper.ConvertTimeJson(@"[{'getTime':'\/Date(1419564257428)\/'}]", "yyyyMMdd hh:mm:ss");==>[{'getTime':'20141226 11:24:17'}]</para>
@@ -155,10 +154,10 @@
                     return _dateTime.ToString(formart);
                 });
             }
-
+            
             return jsonString;
         }
-
+        
         /// <summary>
         /// 利用XmlSerializer来反序列化
         /// </summary>
@@ -171,7 +170,7 @@
             StringReader _writer = new StringReader(deserializeString);
             return (T)_xmlSerializer.Deserialize(_writer);
         }
-
+        
         /// <summary>
         /// 序列化，使用标准的XmlSerializer
         /// 不能序列化IDictionary接口.
@@ -188,7 +187,7 @@
                 _xmlSerializer.Serialize(stream, serializeData);
             }
         }
-
+        
         /// <summary>
         /// 序列化，使用标准的XmlSerializer
         /// 不能序列化IDictionary接口.
@@ -203,7 +202,7 @@
             _xmlSerializer.Serialize(_writer, serializeData);
             return _writer.ToString();
         }
-
+        
         /// <summary>
         /// 序列化，使用标准的XmlSerializer
         /// 不能序列化IDictionary接口.
@@ -224,17 +223,17 @@
                 return ecoding.GetString(stream.ToArray());
             }
         }
-
+        
         private static void CheckedDeserializeString(string deserializeString)
         {
             ValidateOperator.Begin().NotNull(deserializeString, "deserializeString");
         }
-
+        
         private static void CheckedSerializeData<T>(T serializeData)
         {
             ValidateOperator.Begin().NotNull(serializeData, "serializeData");
         }
-
+        
         #endregion Methods
     }
 }
