@@ -66,6 +66,8 @@
     <Compile Include="Core\ByteArrayBuilderTests.cs" />
     <Compile Include="Core\PackageDataTests.cs" />
     <Compile Include="DataBase\OraclePageScriptTests.cs" />
+    <Compile Include="DataOperator\SqlServerDataOperatorTests.cs" />
+    <Compile Include="Model\Product.cs" />
     <Compile Include="Operator\AssemblyOperatorTests.cs" />
     <Compile Include="Operator\ConfigFileOperatorTests.cs" />
     <Compile Include="Operator\INIOperatorTests.cs" />

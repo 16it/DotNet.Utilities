@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.DataOperator
 {
     using Builder;
+    using Collection;
     using Common;
     using DataBase;
     using Enum;
@@ -293,6 +294,46 @@
             }
             
             return new DataTable();
+        }
+        
+        /// <summary>
+        /// 获取分页数据，利用RowNumber()方式
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="tableName">数据表名『eg:Orders』</param>
+        /// <param name="fields">要读取的字段『*:所有列；或者：eg:OrderID,OrderDate,ShipName,ShipCountry』</param>
+        /// <param name="orderField">依据排序的列『eg:OrderID』</param>
+        /// <param name="orderBy">排序方式『升序，降序』</param>
+        /// <param name="sqlWhere">筛选条件『eg:Order=1，若无筛选条件，则""』</param>
+        /// <param name="pageSize">每页显示多少条数据</param>
+        /// <param name="pageIndex">当前页码</param>
+        /// <returns>泛型分页结果</returns>
+        /// <exception cref="FrameworkException">SQL异常</exception>
+        public PagedList<T> ExecutePageQuery<T>(string tableName, string fields, string orderField, OrderType orderBy, string sqlWhere, int pageSize, int pageIndex) where T : class
+        {
+            string _sql = SqlServerPageScript.JoinPageSQLByRowNumber(tableName, fields, orderField, sqlWhere, orderBy, pageSize, pageIndex);
+            
+            try
+            {
+                string[] _sqlBuilder = _sql.Split(';');
+                List<T> _pageList = ExecuteReader<T>(_sqlBuilder[0], null);
+                int _totalCount = (int)ExecuteScalar(_sqlBuilder[1], null);
+                return new PagedList<T>(_pageList, pageIndex, pageSize, _totalCount);
+            }
+            catch(SqlException ex)
+            {
+                string _sqlExMessage = ex.GetSqlExceptionMessage();
+                ex.Data.Add("sqlServerConnectString", connectionString);
+                ex.Data.Add("sql", _sql);
+                ex.Data.Add("tableName", tableName);
+                ex.Data.Add("orderField", orderField);
+                ex.Data.Add("orderField", orderField);
+                ex.Data.Add("orderBy", orderBy.ToString());
+                ex.Data.Add("sqlWhere", sqlWhere);
+                ex.Data.Add("pageSize", pageSize);
+                ex.Data.Add("pageIndex", pageIndex);
+                throw new FrameworkException(_sqlExMessage, ex);
+            }
         }
         
         /// <summary>
