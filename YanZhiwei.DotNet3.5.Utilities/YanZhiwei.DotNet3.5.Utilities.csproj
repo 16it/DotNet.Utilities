@@ -79,6 +79,7 @@
     <Compile Include="Enum\ImagePosition.cs" />
     <Compile Include="Enum\UploadFileSaveType.cs" />
     <Compile Include="Lambda\ReflectLambda.cs" />
+    <Compile Include="Mapper\GeneralMapper.cs" />
     <Compile Include="Model\DataTablePageResult.cs" />
     <Compile Include="Model\UploadFileMessage.cs" />
     <Compile Include="Model\UploadFileConfig.cs" />

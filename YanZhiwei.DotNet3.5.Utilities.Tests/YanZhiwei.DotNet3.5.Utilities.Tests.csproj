@@ -40,6 +40,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <Choose>
@@ -63,6 +65,8 @@
     <Compile Include="Common\ScriptSerializerHelperTests.cs" />
     <Compile Include="Common\WhereIfHelperTests.cs" />
     <Compile Include="Lambda\ReflectLambdaTests.cs" />
+    <Compile Include="Mapper\GeneralMapperTests.cs" />
+    <Compile Include="Model\Address.cs" />
     <Compile Include="Model\DeepNodeData.cs" />
     <Compile Include="Model\FlatData.cs" />
     <Compile Include="Model\NodeData.cs" />
