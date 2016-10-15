@@ -73,6 +73,8 @@
         /// </summary>
         /// <param name="sql">sql 语句</param>
         /// <returns>DataTable</returns>
+        /// 时间:2016/10/15 20:07
+        /// 备注:
         public virtual DataTable ExecuteDataTable(string sql)
         {
             using(IDbConnection sqlConnection = CreateConnection())
