@@ -26,7 +26,7 @@
         /// <param name="sheetIndex">Sheet索引</param>
         /// <param name="headIndex">列索引</param>
         /// <param name="rowIndex">行起始索引</param>
-        /// <returns></returns>
+        /// <returns>DataTable</returns>
         /// 时间：2016/10/11 17:07
         /// 备注：
         public static DataTable ToDataTable(string filePath, ushort sheetIndex, ushort headIndex, ushort rowIndex)
@@ -58,7 +58,7 @@
                     switch(_row.GetCell(j).CellType)
                     {
                         case CellType.Numeric:
-                            if(DateUtil.IsCellDateFormatted(_row.GetCell(j)))       //日期类型
+                            if(DateUtil.IsCellDateFormatted(_row.GetCell(j)))         //日期类型
                             {
                                 _itemArray[j] = _row.GetCell(j).DateCellValue;
                             }
@@ -119,9 +119,13 @@
         /// <summary>
         /// 导出到Excel
         /// </summary>
-        /// <param name="table"></param>
-        /// <returns></returns>
-        public static bool ToExcel(DataTable table, string sheetName, string title, string filePath)
+        /// <param name="table">需要导出的DataTable</param>
+        /// <param name="sheetName">sheet名称</param>
+        /// <param name="title">标题</param>
+        /// <param name="filePath">Excel路径</param>
+        /// 时间:2016/10/15 21:35
+        /// 备注:
+        public static void ToExcel(DataTable table, string sheetName, string title, string filePath)
         {
             ValidateOperator.Begin().NotNull(table, "需要导出到EXCEL数据源")
             .NotNullOrEmpty(title, "EXCEL标题")
@@ -170,7 +174,6 @@
                 
                 //写入数据流
                 _workBook.Write(fileStream);
-                return true;
             }
         }
         
