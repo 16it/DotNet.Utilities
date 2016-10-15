@@ -1,4 +1,7 @@
-﻿namespace YanZhiwei.DotNet.Dapper.Utilities
+﻿using System.Data;
+using System.Data.SqlClient;
+
+namespace YanZhiwei.DotNet.Dapper.Utilities
 {
     /// <summary>
     ///  Dapper Sql Server数据库操作帮助类
@@ -15,6 +18,19 @@
         /// 备注：
         public DapperSqlServerHelper(string sqlConnectString) : base(sqlConnectString)
         {
+        }
+        
+        /// <summary>
+        /// 创建SqlConnection连接对象，需要打开
+        /// </summary>
+        public override IDbConnection CreateConnection()
+        {
+            IDbConnection sqlConnection = new SqlConnection(base.ConnectString);
+            
+            if(sqlConnection.State != ConnectionState.Open)
+                sqlConnection.Open();
+                
+            return sqlConnection;
         }
     }
 }

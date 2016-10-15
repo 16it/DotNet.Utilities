@@ -4,7 +4,6 @@
     using global::Dapper;
     using System.Collections.Generic;
     using System.Data;
-    using System.Data.SqlClient;
     using System.Linq;
     
     /// <summary>
@@ -16,7 +15,10 @@
     {
         #region Fields
         
-        private string ConnectString = string.Empty;
+        /// <summary>
+        /// 连接字符串
+        /// </summary>
+        public readonly string ConnectString = string.Empty;
         
         #endregion Fields
         
@@ -44,15 +46,7 @@
         /// <returns>IDbConnection</returns>
         /// 时间：2016-01-19 16:22
         /// 备注：
-        public virtual IDbConnection CreateConnection()
-        {
-            IDbConnection sqlConnection = new SqlConnection(ConnectString);
-            
-            if(sqlConnection.State != ConnectionState.Open)
-                sqlConnection.Open();
-                
-            return sqlConnection;
-        }
+        public abstract IDbConnection CreateConnection();
         
         /// <summary>
         /// 返回DataTable
