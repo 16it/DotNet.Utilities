@@ -66,8 +66,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DapperOracleHelperTests.cs" />
-    <Compile Include="DapperSqlServerHelperTests.cs" />
+    <Compile Include="DapperDataOperatorTests.cs" />
+    <Compile Include="DapperSqlServerOperatorTests.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

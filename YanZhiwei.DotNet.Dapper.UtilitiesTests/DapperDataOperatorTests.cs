@@ -9,13 +9,13 @@ using System.Data;
 namespace YanZhiwei.DotNet.Dapper.Utilities.Tests
 {
     [TestClass()]
-    public class DapperOracleHelperTests
+    public class DapperDataOperatorTests
     {
-        DapperHelper OralceHelper = null;
+        DapperDataOperator OralceHelper = null;
         public void Init()
         {
             string _connectString = @"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=10.102.2.165)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=LC)));User Id=user01;Password=Orcl_4321;";
-            OralceHelper = new DapperOracleHelper(_connectString);
+            OralceHelper = new DapperOracleOperator(_connectString);
         }
         [TestMethod()]
         public void ExecuteDataTableTest()

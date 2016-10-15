@@ -6,8 +6,8 @@ namespace YanZhiwei.DotNet.Dapper.Utilities
     /// <summary>
     /// 基于Dapper的Oracle数据库操作类
     /// </summary>
-    /// <seealso cref="YanZhiwei.DotNet.Dapper.Utilities.DapperHelper" />
-    public class DapperOracleHelper : DapperHelper
+    /// <seealso cref="YanZhiwei.DotNet.Dapper.Utilities.DapperDataOperator" />
+    public class DapperOracleOperator : DapperDataOperator
     {
         /// <summary>
         /// 构造函数
@@ -15,7 +15,7 @@ namespace YanZhiwei.DotNet.Dapper.Utilities
         /// <param name="connectString">连接字符串</param>
         /// 时间：2016-01-19 16:21
         /// 备注：
-        public DapperOracleHelper(string connectString) : base(connectString)
+        public DapperOracleOperator(string connectString) : base(connectString)
         {
         }
         

@@ -7,14 +7,14 @@ using YanZhiwei.DotNet.Dapper.Utilities;
 namespace YanZhiwei.DotNet.Dapper.UtilitiesTests
 {
     [TestClass()]
-    public class DapperSqlServerHelperTests
+    public class DapperSqlServerOperatorTests
     {
-        private DapperHelper sqlHelper = null;
+        private DapperDataOperator sqlHelper = null;
         
         [TestInitialize()]
         public void Init()
         {
-            sqlHelper = new DapperSqlServerHelper(@"Server=YANZHIWEI-PC\SQLEXPRESS;Database=Sample;uid=sa;pwd=sasa;");
+            sqlHelper = new DapperSqlServerOperator(@"Server=YANZHIWEI-PC\SQLEXPRESS;Database=Sample;uid=sa;pwd=sasa;");
         }
         
         [TestMethod()]

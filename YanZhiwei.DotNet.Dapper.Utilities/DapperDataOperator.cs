@@ -11,7 +11,7 @@
     /// </summary>
     /// 时间：2016-01-19 16:21
     /// 备注：
-    public abstract class DapperHelper
+    public abstract class DapperDataOperator
     {
         #region Fields
         
@@ -30,7 +30,7 @@
         /// <param name="connectString">连接字符串</param>
         /// 时间：2016-01-19 16:21
         /// 备注：
-        public DapperHelper(string connectString)
+        public DapperDataOperator(string connectString)
         {
             ValidateOperator.Begin().NotNullOrEmpty(connectString, "连接字符串");
             ConnectString = connectString;

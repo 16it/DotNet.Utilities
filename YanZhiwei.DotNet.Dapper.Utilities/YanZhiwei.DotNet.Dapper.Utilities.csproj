@@ -51,9 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DapperHelper.cs" />
-    <Compile Include="DapperOracleHelper.cs" />
-    <Compile Include="DapperSqlServerHelper.cs" />
+    <Compile Include="DapperDataOperator.cs" />
+    <Compile Include="DapperOracleOperator.cs" />
+    <Compile Include="DapperSqlServerOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
