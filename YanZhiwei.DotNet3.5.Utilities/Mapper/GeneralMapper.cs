@@ -6,6 +6,8 @@
     using System.Linq;
     using System.Reflection;
 
+    using Common;
+
     /// <summary>
     /// 通用类型映射转换
     /// </summary>
@@ -39,7 +41,7 @@
 
             foreach(PropertyInfo prop in _properties)
             {
-                _dataTable.Columns.Add(prop.Name);
+                _dataTable.Columns.Add(DisplayNameHelper.Get(prop));
             }
 
             foreach(T item in data)

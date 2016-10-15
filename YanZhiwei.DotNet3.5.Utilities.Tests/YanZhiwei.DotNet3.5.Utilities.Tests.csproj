@@ -40,6 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Web.Extensions" />
@@ -58,6 +59,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\AESEncryptHelperTests.cs" />
+    <Compile Include="Common\DisplayNameHelperTests.cs" />
     <Compile Include="Common\DistinctHelperTests.cs" />
     <Compile Include="Common\EnumerableHelperTests.cs" />
     <Compile Include="Common\RecursiveJoinHelperTests.cs" />

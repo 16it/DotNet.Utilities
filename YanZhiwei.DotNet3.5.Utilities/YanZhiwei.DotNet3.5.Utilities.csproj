@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AssemblyHelper.cs" />
+    <Compile Include="Common\DisplayNameHelper.cs" />
     <Compile Include="Common\GuidHelper.cs" />
     <Compile Include="Common\IDataReaderHelper.cs" />
     <Compile Include="Common\PageHelper.cs" />

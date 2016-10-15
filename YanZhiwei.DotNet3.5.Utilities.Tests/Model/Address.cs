@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 
 public class Address
 {
@@ -26,6 +27,7 @@ public class Address
         set;
     }
     
+    [DisplayName("³ÇÊÐ")]
     public string City
     {
         get;    // nvarchar(30), not null
