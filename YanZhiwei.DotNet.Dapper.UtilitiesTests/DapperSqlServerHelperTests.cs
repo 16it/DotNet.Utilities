@@ -20,11 +20,19 @@ namespace YanZhiwei.DotNet.Dapper.UtilitiesTests
         [TestMethod()]
         public void ExecuteDataTableTest()
         {
-            DataTable _table = sqlHelper.ExecuteDataTable<Person>("SELECT  [id],[username],[password],[age],[registerDate],[address] FROM [Person] where id=@id", new Person()
+            DataTable _actual = sqlHelper.ExecuteDataTable<Person>("SELECT  [id],[username],[password],[age],[registerDate],[address] FROM [Person] where id=@id", new Person()
             {
                 id = 5
             });
-            Assert.AreEqual(_table.Rows[0][0], 5);
+            Assert.AreEqual(_actual.Rows[0][0], 5);
+            string _sql = @"SELECT [username]
+                                  ,[address]
+                                  ,[age]
+                                  ,[password]
+                                  ,[registerDate]
+                                   FROM [Person]";
+            _actual = sqlHelper.ExecuteDataTable(_sql);
+            Assert.IsTrue(_actual.Rows.Count > 0);
         }
         
         [TestMethod()]
