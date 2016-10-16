@@ -35,8 +35,23 @@
         public static DataTable ToDataTable<T>(IEnumerable<T> data)
         where T : class
         {
+            return ToDataTable<T>(data, null);
+        }
+        
+        /// <summary>
+        /// 将集合导出为DataTable
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="data">需要导出的集合</param>
+        /// <param name="propertyNameList">需要包含显示的实体类的属性</param>
+        /// <returns>DataTable</returns>
+        /// 时间:2016/10/16 15:54
+        /// 备注:
+        public static DataTable ToDataTable<T>(IEnumerable<T> data, string[] propertyNameList)
+        where T : class
+        {
             ValidateOperator.Begin().NotNull(data, "需要导出的集合");
-            ICollection<PropertyInfo> _properties = GetCacheProperties<T>(); ;
+            ICollection<PropertyInfo> _properties = GetCacheProperties<T>(propertyNameList);
             
             DataTable _dataTable = new DataTable(typeof(T).Name);
             
@@ -76,7 +91,7 @@
             try
             {
                 ValidateOperator.Begin().NotNull(table, "需要导出的DataTable");
-                ICollection<PropertyInfo> _properties = GetCacheProperties<T>(); ;
+                ICollection<PropertyInfo> _properties = GetCacheProperties<T>(null); ;
                 List<T> _list = new List<T>(table.Rows.Count);
                 IEnumerable<DataRow> _dataRowList = table.AsEnumerable();
                 
@@ -108,7 +123,7 @@
             }
         }
         
-        private static ICollection<PropertyInfo> GetCacheProperties<T>()
+        private static ICollection<PropertyInfo> GetCacheProperties<T>(string[] propertyNameList)
         where T : class
         {
             Type _objType = typeof(T);
@@ -119,6 +134,12 @@
                 if(!CacheProperties.TryGetValue(_objType, out _properties))
                 {
                     _properties = _objType.GetProperties().Where(property => property.CanWrite).ToList();
+                    
+                    if(propertyNameList != null && propertyNameList.Count() > 0)
+                    {
+                        _properties = _properties.Where(c => propertyNameList.ContainsIgnoreCase(c.Name)).ToList();
+                    }
+                    
                     CacheProperties.Add(_objType, _properties);
                 }
             }

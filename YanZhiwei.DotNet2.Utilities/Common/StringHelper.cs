@@ -166,6 +166,32 @@
         }
         
         /// <summary>
+        /// 对字符串进行编码
+        /// </summary>
+        /// <param name="data">需要编码的字符串</param>
+        /// <returns>编码后的字符串</returns>
+        /// 时间:2016/10/16 13:02
+        /// 备注:
+        public static string Escape(this string data)
+        {
+            if(!string.IsNullOrEmpty(data))
+            {
+                StringBuilder _builder = new StringBuilder();
+                
+                foreach(char c in data)
+                {
+                    _builder.Append((char.IsLetterOrDigit(c)
+                                     || c == '-' || c == '_' || c == '\\'
+                                     || c == '/' || c == '.') ? c.ToString() : Uri.HexEscape(c));
+                }
+                
+                return _builder.ToString();
+            }
+            
+            return data;
+        }
+        
+        /// <summary>
         /// 为指定格式的字符串填充相应对象来生成字符串
         /// </summary>
         /// <param name="format">字符串格式，占位符以{n}表示</param>
@@ -304,6 +330,7 @@
                 
             return inputString;
         }
+        
         /// <summary>
         /// 移除Json字符串诸如“{”,“}”符号
         /// </summary>
@@ -458,6 +485,34 @@
             return data;
         }
         
+        /// <summary>
+        /// 对字符串进行解码
+        /// </summary>
+        /// <param name="data">需要解码的字符串</param>
+        /// <returns>解码后的字符串</returns>
+        /// 时间:2016/10/16 13:06
+        /// 备注:
+        public static string UnEscape(this string data)
+        {
+            if(!string.IsNullOrEmpty(data))
+            {
+                StringBuilder _builder = new StringBuilder();
+                int _len = data.Length;
+                int i = 0;
+                
+                while(i != _len)
+                {
+                    if(Uri.IsHexEncoding(data, i))
+                        _builder.Append(Uri.HexUnescape(data, ref i));
+                    else
+                        _builder.Append(data[i++]);
+                }
+                
+                return _builder.ToString();
+            }
+            
+            return data;
+        }
         /// <summary>
         ///  获取全局唯一值
         /// </summary>
