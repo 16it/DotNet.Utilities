@@ -9,9 +9,32 @@ namespace YanZhiwei.DotNet2.Utilities.Model
     /// 备注：
     public class SocketConnectionInfo
     {
+        /// <summary>
+        /// 缓冲大小
+        /// </summary>
         public const int BufferSize = 1048576;
-        public Socket Socket;
+        
+        /// <summary>
+        ///Socket对象
+        /// </summary>
+        public Socket Socket
+        {
+            get;
+            set;
+        }
+        
+        /// <summary>
+        /// 缓冲
+        /// </summary>
         public byte[] Buffer;
-        public int BytesRead { get; set; }
+        
+        /// <summary>
+        /// 读取字节
+        /// </summary>
+        public int BytesRead
+        {
+            get;
+            set;
+        }
     }
 }

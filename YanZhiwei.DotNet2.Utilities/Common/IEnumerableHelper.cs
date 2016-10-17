@@ -2,8 +2,6 @@
 {
     using Collection;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Data;
     
     /// <summary>
     /// Enumerable 帮助类
@@ -80,37 +78,6 @@
             }
         }
         
-        public static DataTable ToDataTable<T>(IEnumerable<T> data)
-        {
-            DataTable _table = new DataTable();
-            
-            foreach(var item in typeof(T).GetProperties())
-            {
-                object[] _attribute = item.GetCustomAttributes(typeof(DisplayNameAttribute), true);
-                string _displayName = _attribute.Length > 0 ? (_attribute[0] as DisplayNameAttribute).DisplayName : item.Name;
-                _table.Columns.Add(new DataColumn(_displayName, item.PropertyType));
-            }
-            
-            foreach(var report in data)
-            {
-                DataRow dr = _table.NewRow();
-                
-                foreach(var item in report.GetType().GetProperties())
-                {
-                    string displayName = string.Empty;
-                    object[] objs = item.GetCustomAttributes(typeof(DisplayNameAttribute), true);
-                    
-                    if(objs.Length > 0)
-                        displayName = (objs[0] as DisplayNameAttribute).DisplayName;
-                        
-                    dr[displayName] = item.GetValue(report, null);
-                }
-                
-                _table.Rows.Add(dr);
-            }
-            
-            return _table;
-        }
         #endregion Methods
     }
 }

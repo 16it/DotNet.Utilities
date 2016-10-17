@@ -4,14 +4,14 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reflection;
-
+    
     /// <summary>
     /// 反射帮助类
     /// </summary>
     public static class ReflectHelper
     {
         #region Fields
-
+        
         /// <summary>
         /// 方法或属性搜索标志
         /// </summary>
@@ -19,11 +19,11 @@
         /// 备注：
         private static BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Public |
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
-
+                
         #endregion Fields
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 利用反射来判断对象是否包含某个属性
         /// </summary>
@@ -37,7 +37,7 @@
             PropertyInfo _findedPropertyInfo = model.GetType().GetProperty(propertyName);
             return _findedPropertyInfo != null;
         }
-
+        
         /// <summary>
         /// 反射创建对象
         /// </summary>
@@ -55,7 +55,7 @@
             object _getType = Activator.CreateInstance(_loadType, true);//根据类型创建实例
             return (T)_getType;//类型转换并返回
         }
-
+        
         /// <summary>
         /// 获取值
         /// </summary>
@@ -72,7 +72,7 @@
             FieldInfo _fi = model.GetType().GetField(propertyName, bindingFlags);
             return (F)_fi.GetValue(model);
         }
-
+        
         /// <summary>
         /// 反射获取属性集合
         /// </summary>
@@ -84,7 +84,7 @@
         {
             return typeof(T).GetProperties();
         }
-
+        
         /// <summary>
         /// 获取属性名称，优先获取DisplayName
         /// </summary>
@@ -97,21 +97,27 @@
             IDictionary<string, string> _fields = new Dictionary<string, string>();
             PropertyInfo[] _properties = typeof(T).GetProperties();
             int _properityCnt = _properties.Length;
-
+            
             foreach(PropertyInfo property in _properties)
             {
                 object[] _attribute = property.GetCustomAttributes(typeof(DisplayNameAttribute), false);
                 _fields.Add(property.Name, _attribute.Length == 0 ? property.Name : ((DisplayNameAttribute)_attribute[0]).DisplayName);
             }
-
+            
             return _fields;
         }
-
+        
+        /// <summary>
+        /// 将实体类属性转换为字典形式
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="model">实体类</param>
+        /// <returns>字典</returns>
         public static Dictionary<string, object> DictionaryFromType<T>(this T model) where T : class
         {
             PropertyInfo[] _props = GetPropertyInfo<T>();
             Dictionary<string, object> _dict = new Dictionary<string, object>();
-
+            
             foreach(PropertyInfo prp in _props)
             {
                 object[] _attribute = prp.GetCustomAttributes(typeof(DisplayNameAttribute), false);
@@ -119,10 +125,10 @@
                 object _proValue = prp.GetValue(model, new object[] { });
                 _dict.Add(_proName, _proValue);
             }
-
+            
             return _dict;
         }
-
+        
         /// <summary>
         /// 反射调用方法
         /// </summary>
@@ -137,7 +143,7 @@
             _objReturn = _type.InvokeMember(methodName, bindingFlags | BindingFlags.InvokeMethod, null, item, args);
             return _objReturn;
         }
-
+        
         /// <summary>
         /// 反射设置值
         /// </summary>
@@ -152,7 +158,7 @@
             FieldInfo _fi = model.GetType().GetField(name, bindingFlags);
             _fi.SetValue(model, fieldValue);
         }
-
+        
         #endregion Methods
     }
 }
