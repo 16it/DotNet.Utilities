@@ -3,19 +3,19 @@
     using Enum;
     using System;
     using System.Globalization;
-
+    
     /// <summary>
     /// Date 帮助类
     /// </summary>
     public static class DateHelper
     {
         #region Fields
-
+        
         /// <summary>
         /// 一天分钟数
         /// </summary>
         public const int MinutesOfTheDay = 1440;
-
+        
         /// <summary>
         /// 秒
         /// </summary>
@@ -24,11 +24,11 @@
                          HOUR = 60 * MINUTE,
                          DAY = 24 * HOUR,
                          MONTH = 30 * DAY;
-
+                         
         #endregion Fields
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 一天末尾时间
         /// </summary>
@@ -38,7 +38,7 @@
         {
             return new DateTime(data.Year, data.Month, data.Day).AddDays(1).Subtract(new TimeSpan(0, 0, 0, 0, 1));
         }
-
+        
         /// <summary>
         /// 一个月末尾时间
         /// </summary>
@@ -48,7 +48,7 @@
         {
             return new DateTime(data.Year, data.Month, 1).AddMonths(1).Subtract(new TimeSpan(0, 0, 0, 0, 1));
         }
-
+        
         /// <summary>
         /// 一周末尾时间
         /// </summary>
@@ -58,7 +58,7 @@
         {
             return EndOfWeek(date, DayOfWeek.Monday);
         }
-
+        
         /// <summary>
         /// 一周末尾时间
         /// </summary>
@@ -69,12 +69,12 @@
         {
             DateTime _endDate = date;
             DayOfWeek endDayOfWeek = startDayOfWeek - 1;
-
+            
             if(endDayOfWeek < 0)
             {
                 endDayOfWeek = DayOfWeek.Saturday;
             }
-
+            
             if(_endDate.DayOfWeek != endDayOfWeek)
             {
                 if(endDayOfWeek < _endDate.DayOfWeek)
@@ -86,10 +86,10 @@
                     _endDate = _endDate.AddDays(endDayOfWeek - _endDate.DayOfWeek);
                 }
             }
-
+            
             return new DateTime(_endDate.Year, _endDate.Month, _endDate.Day, 23, 59, 59, 999);
         }
-
+        
         /// <summary>
         /// 一年末尾时间
         /// </summary>
@@ -99,7 +99,7 @@
         {
             return new DateTime(date.Year, 1, 1).AddYears(1).Subtract(new TimeSpan(0, 0, 0, 0, 1));
         }
-
+        
         /// <summary>
         /// 一个星期的第一天
         /// </summary>
@@ -109,7 +109,7 @@
         {
             return new DateTime(date.Year, date.Month, date.Day).AddDays(-(int)date.DayOfWeek);
         }
-
+        
         /// <summary>
         /// 格式化日期时间
         /// <para>0==>yyyy-MM-dd</para>
@@ -136,51 +136,51 @@
             {
                 case 0:
                     return dateTime.ToString("yyyy-MM-dd");
-
+                    
                 case 1:
                     return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
-
+                    
                 case 2:
                     return dateTime.ToString("yyyy/MM/dd");
-
+                    
                 case 3:
                     return dateTime.ToString("yyyy年MM月dd日");
-
+                    
                 case 4:
                     return dateTime.ToString("MM-dd");
-
+                    
                 case 5:
                     return dateTime.ToString("MM/dd");
-
+                    
                 case 6:
                     return dateTime.ToString("MM月dd日");
-
+                    
                 case 7:
                     return dateTime.ToString("yyyy-MM");
-
+                    
                 case 8:
                     return dateTime.ToString("yyyy/MM");
-
+                    
                 case 9:
                     return dateTime.ToString("yyyy年MM月");
-
+                    
                 case 10:
                     return dateTime.ToString("HH:mm:ss");
-
+                    
                 case 11:
                     return dateTime.ToString("HH:mm");
-
+                    
                 case 12:
                     return dateTime.ToString("yyyyMMddHHmmss");
-
+                    
                 case 13:
                     return dateTime.ToString("yyyyMMdd");
-
+                    
                 default:
                     return dateTime.ToString();
             }
         }
-
+        
         /// <summary>
         /// 根据出生日期获取年龄
         /// </summary>
@@ -192,10 +192,10 @@
             {
                 return DateTime.Today.Year - birthDate.Year - 1;
             }
-
+            
             return DateTime.Today.Year - birthDate.Year;
         }
-
+        
         /// <summary>
         /// 日期差计算
         /// </summary>
@@ -206,37 +206,37 @@
         public static int GetDateDiff(this DateTime startTime, DateTime endTime, DateType part)
         {
             int _resutl = 0;
-
+            
             switch(part)
             {
                 case DateType.year:
                     _resutl = endTime.Year - startTime.Year;
                     break;
-
+                    
                 case DateType.month:
                     _resutl = (endTime.Year - startTime.Year) * 12 + (endTime.Month - startTime.Month);
                     break;
-
+                    
                 case DateType.day:
                     _resutl = (int)(endTime - startTime).TotalDays;
                     break;
-
+                    
                 case DateType.hour:
                     _resutl = (int)(endTime - startTime).TotalHours;
                     break;
-
+                    
                 case DateType.minute:
                     _resutl = (int)(endTime - startTime).TotalMinutes;
                     break;
-
+                    
                 case DateType.second:
                     _resutl = (int)(endTime - startTime).TotalSeconds;
                     break;
             }
-
+            
             return _resutl;
         }
-
+        
         /// <summary>
         /// 获取一个月有多少天
         /// </summary>
@@ -246,7 +246,7 @@
         {
             return DateTime.DaysInMonth(date.Year, date.Month);
         }
-
+        
         /// <summary>
         /// 友好时间
         /// </summary>
@@ -257,7 +257,7 @@
             string _friendlyString = string.Empty;
             TimeSpan _ts = DateTime.Now - datetime;
             double _totalSeconds = _ts.TotalSeconds;
-
+            
             if(_totalSeconds < 1 * SECOND)
             {
                 _friendlyString = _ts.Seconds == 1 ? "1秒前" : _ts.Seconds + "秒前";
@@ -296,10 +296,10 @@
                 int _years = Convert.ToInt32(Math.Floor((double)_ts.Days / 365));
                 _friendlyString = _years <= 1 ? "一年前" : _years + "年前";
             }
-
+            
             return _friendlyString;
         }
-
+        
         /// <summary>
         /// 计算两个时间之间工作天数
         /// </summary>
@@ -310,20 +310,20 @@
         {
             TimeSpan _ts = endTime - startTime;
             int _weekCount = 0;
-
+            
             for(int i = 0; i < _ts.Days; i++)
             {
                 DateTime _time = startTime.AddDays(i);
-
+                
                 if(IsWeekDay(_time))
                 {
                     _weekCount++;
                 }
             }
-
+            
             return _weekCount;
         }
-
+        
         /// <summary>
         /// 计算两个时间直接周末天数
         /// </summary>
@@ -334,20 +334,20 @@
         {
             TimeSpan _ts = endTime - startTime;
             int _weekendCount = 0;
-
+            
             for(int i = 0; i < _ts.Days; i++)
             {
                 DateTime dt = startTime.AddDays(i);
-
+                
                 if(IsWeekEnd(dt))
                 {
                     _weekendCount++;
                 }
             }
-
+            
             return _weekendCount;
         }
-
+        
         /// <summary>
         /// 获取日期是一年中第几个星期
         /// </summary>
@@ -358,7 +358,7 @@
             var _cultureInfo = CultureInfo.CurrentCulture;
             return _cultureInfo.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
         }
-
+        
         /// <summary>
         /// 是否是下午时间
         /// </summary>
@@ -368,7 +368,7 @@
         {
             return date.TimeOfDay >= new DateTime(2000, 1, 1, 12, 0, 0).TimeOfDay;
         }
-
+        
         /// <summary>
         /// 日期部分比较
         /// </summary>
@@ -379,7 +379,7 @@
         {
             return date.Date == dateToCompare.Date;
         }
-
+        
         /// <summary>
         /// 是否是将来时间
         /// </summary>
@@ -389,7 +389,7 @@
         {
             return date > DateTime.Now;
         }
-
+        
         /// <summary>
         /// 是否是上午时间
         /// </summary>
@@ -399,7 +399,7 @@
         {
             return date.TimeOfDay < new DateTime(2000, 1, 1, 12, 0, 0).TimeOfDay;
         }
-
+        
         /// <summary>
         /// 是否是当前时间
         /// </summary>
@@ -409,7 +409,7 @@
         {
             return date == DateTime.Now;
         }
-
+        
         /// <summary>
         /// 是否是过去时间
         /// </summary>
@@ -419,7 +419,7 @@
         {
             return date < DateTime.Now;
         }
-
+        
         /// <summary>
         /// 时间部分比较
         /// </summary>
@@ -430,7 +430,7 @@
         {
             return time.TimeOfDay == timeToCompare.TimeOfDay;
         }
-
+        
         /// <summary>
         /// 日期是否是今天
         /// </summary>
@@ -440,7 +440,7 @@
         {
             return date.Date == DateTime.Today;
         }
-
+        
         /// <summary>
         /// 是否是工作日
         /// </summary>
@@ -450,7 +450,7 @@
         {
             return !(date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday);
         }
-
+        
         /// <summary>
         ///  是否是周末
         /// </summary>
@@ -460,7 +460,7 @@
         {
             return Convert.ToInt16(dt.DayOfWeek) > 5;
         }
-
+        
         /// <summary>
         /// 是否周末
         /// </summary>
@@ -470,7 +470,7 @@
         {
             return date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
         }
-
+        
         /// <summary>
         /// 一周最后一天
         /// </summary>
@@ -480,7 +480,7 @@
         {
             return new DateTime(date.Year, date.Month, date.Day).AddDays(6 - (int)date.DayOfWeek);
         }
-
+        
         /// <summary>
         /// 时间字符串转换为时间类型
         /// </summary>
@@ -491,7 +491,7 @@
         {
             return DateTime.ParseExact(data, format, CultureInfo.InvariantCulture);
         }
-
+        
         /// <summary>
         /// 把秒转换成分钟
         /// </summary>
@@ -502,7 +502,7 @@
             decimal _minute = (decimal)((decimal)second / (decimal)60);
             return Convert.ToInt32(Math.Ceiling(_minute));
         }
-
+        
         /// <summary>
         /// 设置时间
         /// </summary>
@@ -513,7 +513,7 @@
         {
             return SetTime(current, hour, 0, 0, 0);
         }
-
+        
         /// <summary>
         /// 设置时间
         /// </summary>
@@ -525,7 +525,7 @@
         {
             return SetTime(current, hour, minute, 0, 0);
         }
-
+        
         /// <summary>
         /// 设置时间
         /// </summary>
@@ -538,7 +538,7 @@
         {
             return SetTime(current, hour, minute, second, 0);
         }
-
+        
         /// <summary>
         /// 设置时间
         /// </summary>
@@ -552,7 +552,7 @@
         {
             return new DateTime(current.Year, current.Month, current.Day, hour, minute, second, millisecond);
         }
-
+        
         /// <summary>
         ///  一天起始时间
         /// </summary>
@@ -562,7 +562,7 @@
         {
             return new DateTime(date.Year, date.Month, date.Day);
         }
-
+        
         /// <summary>
         /// 一个月起始时间
         /// </summary>
@@ -572,7 +572,7 @@
         {
             return new DateTime(date.Year, date.Month, 1);
         }
-
+        
         /// <summary>
         /// 一周起始时间
         /// </summary>
@@ -582,7 +582,7 @@
         {
             return date.StartOfWeek(DayOfWeek.Monday);
         }
-
+        
         /// <summary>
         /// 一周起始时间
         /// </summary>
@@ -592,22 +592,22 @@
         public static DateTime StartOfWeek(this DateTime date, DayOfWeek startDayOfWeek)
         {
             DateTime _start = new DateTime(date.Year, date.Month, date.Day);
-
+            
             if(_start.DayOfWeek != startDayOfWeek)
             {
                 int d = startDayOfWeek - _start.DayOfWeek;
-
+                
                 if(startDayOfWeek <= _start.DayOfWeek)
                 {
                     return _start.AddDays(d);
                 }
-
+                
                 return _start.AddDays(-7 + d);
             }
-
+            
             return _start;
         }
-
+        
         /// <summary>
         /// 一年起始时间
         /// </summary>
@@ -617,7 +617,7 @@
         {
             return new DateTime(date.Year, 1, 1);
         }
-
+        
         /// <summary>
         /// 转换成EpochTime
         /// </summary>
@@ -627,7 +627,7 @@
         {
             return date.Subtract(new DateTime(1970, 1, 1));
         }
-
+        
         /// <summary>
         /// 明天时间
         /// </summary>
@@ -637,7 +637,7 @@
         {
             return date.AddDays(1);
         }
-
+        
         /// <summary>
         /// 昨天时间
         /// </summary>
@@ -647,7 +647,16 @@
         {
             return date.AddDays(-1);
         }
-
+        
+        /// <summary>
+        /// 获取时间戳【毫秒】
+        /// </summary>
+        /// <returns>时间戳</returns>
+        public static long GetTimeStamp()
+        {
+            return Convert.ToInt64((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalMilliseconds);
+        }
+        
         #endregion Methods
     }
 }

@@ -146,6 +146,7 @@
     <Compile Include="ValidateCode\ValidateCode_Style7.cs" />
     <Compile Include="ValidateCode\ValidateCode_Style8.cs" />
     <Compile Include="ValidateCode\ValidateCode_Style9.cs" />
+    <Compile Include="WebForm\WebRequestHelper.cs" />
     <Compile Include="WinForm\Core\ColorConsole.cs" />
     <Compile Include="WebForm\Core\CacheManger.cs" />
     <Compile Include="WebForm\Core\CookieManger.cs" />

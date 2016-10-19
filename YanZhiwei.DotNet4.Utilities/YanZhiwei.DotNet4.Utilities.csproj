@@ -58,9 +58,13 @@
     <Compile Include="Common\IQueryableHelper.cs" />
     <Compile Include="Core\CollectionPropertySorter.cs" />
     <Compile Include="Model\SortCondition.cs" />
+    <Compile Include="Model\AuthApiToken.cs" />
+    <Compile Include="Model\AuthApiTokenResult.cs" />
     <Compile Include="Model\ValueMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\PeriodicTaskFactory.cs" />
+    <Compile Include="WebApi\AuthApi.cs" />
+    <Compile Include="WebApi\TokenSign.cs" />
     <Compile Include="WinForm\BackgroundWorkerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
