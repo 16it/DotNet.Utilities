@@ -19,5 +19,14 @@
             get;
             set;
         }
+        
+        /// <summary>
+        /// 用于加密解密签名以及用户令牌的Key
+        /// </summary>
+        public string SharedKey
+        {
+            get;
+            set;
+        }
     }
 }

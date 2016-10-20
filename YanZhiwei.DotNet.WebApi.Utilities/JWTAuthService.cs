@@ -1,53 +1,42 @@
-﻿using JWT;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using YanZhiwei.DotNet.WebApi.Utilities.Model;
-using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet2.Utilities.Encryptor;
-
-namespace YanZhiwei.DotNet.WebApi.Utilities
+﻿namespace YanZhiwei.DotNet.WebApi.Utilities
 {
+    using System;
+    using System.Collections.Generic;
+    
+    using JWT;
+    
+    using Newtonsoft.Json.Linq;
+    
+    using YanZhiwei.DotNet.WebApi.Utilities.Model;
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.Encryptor;
+    
     /// <summary>
     /// 采用JWT生成令牌WEB API验证类
     /// </summary>
     /// 时间：2016/10/20 14:11
     /// 备注：
-    public class JWTAuthApi
+    public class JWTAuthService : IAuthApi
     {
-        /// <summary>
-        /// WEB API验证配置项目
-        /// </summary>
-        /// 时间：2016/10/20 14:38
-        /// 备注：
-        internal readonly WrapAuthApiConfigItem configItem;
-        
-        private readonly string SharedKey;
-        
-        internal JWTAuthApi(WrapAuthApiConfigItem authApiConfigItem, string sharedKey)
-        {
-            configItem = authApiConfigItem;
-            SharedKey = sharedKey;
-        }
+        #region Methods
         
         /// <summary>
-        /// 注册用户获取访问令牌接口
+        /// 获取用户令牌
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <param name="signature">加密签名字符串</param>
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
-        /// <param name="appid">应用接入ID</param>
         /// <param name="appSecret">应用接入ID对应Key</param>
+        /// <param name="sharedKey">用于加密解密签名以及用户令牌的Key</param>
+        /// <param name="timspanExpiredMinutes">时间戳过期时间【分钟】</param>
         /// <returns>
-        /// 令牌
+        /// 用户令牌信息
         /// </returns>
-        /// 时间：2016/10/20 13:35
-        /// 备注：
-        public TokenResult GetAccessToken(string userId, string signature, string timestamp, string nonce, string appid, string appSecret)
+        public TokenResult GetAccessToken(string userId, string signature, string timestamp, string nonce, string appSecret, string sharedKey, int timspanExpiredMinutes)
         {
             TokenResult _result = new TokenResult();
-            Tuple<bool, string> _checkedResult = ValidateSignature(signature, timestamp, nonce, appid, appSecret);
+            Tuple<bool, string> _checkedResult = ValidateSignature(signature, timestamp, nonce, appSecret, timspanExpiredMinutes);
             
             if(_checkedResult.Item1)
             {
@@ -56,9 +45,9 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
                     { "userId", userId},
                     { "claim", UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds}
                 };
-                string _token = JsonWebToken.Encode(_payload, SharedKey, JwtHashAlgorithm.HS256);
+                string _token = JsonWebToken.Encode(_payload, sharedKey, JwtHashAlgorithm.HS256);
                 _result.Access_token = _token;
-                _result.Expires_in = configItem.TimspanExpiredMinutes * 24 * 3600;
+                _result.Expires_in = timspanExpiredMinutes * 24 * 3600;
             }
             
             return _result;
@@ -68,18 +57,19 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
         /// 检查用户令牌
         /// </summary>
         /// <param name="token">用户令牌</param>
-        /// <returns></returns>
-        /// 时间：2016/10/20 15:30
-        /// 备注：
-        /// <exception cref="System.ArgumentException">用户令牌失效.</exception>
-        public Tuple<bool, string> ValidateToken(string token)
+        /// <param name="sharedKey">用于加密解密签名以及用户令牌的Key</param>
+        /// <param name="tokenExpiredDays">用户令牌过期天数</param>
+        /// <returns>
+        /// 检查结果
+        /// </returns>
+        public Tuple<bool, string> ValidateToken(string token, string sharedKey, int tokenExpiredDays)
         {
             //返回的结果对象
             Tuple<bool, string> _checkeResult = new Tuple<bool, string>(false, "数据完整性检查不通过");
             
             if(!string.IsNullOrEmpty(token))
             {
-                string _decodedJwt = JsonWebToken.Decode(token, SharedKey);
+                string _decodedJwt = JsonWebToken.Decode(token, sharedKey);
                 
                 if(!string.IsNullOrEmpty(_decodedJwt))
                 {
@@ -87,7 +77,7 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
                     string _userid = _root.userId;
                     int _jwtcreated = (int)_root.claim;
                     
-                    if(UnixEpochHelper.GetCurrentUnixTimestamp().TotalDays - _jwtcreated > configItem.TokenExpiredDays)
+                    if(UnixEpochHelper.GetCurrentUnixTimestamp().TotalDays - _jwtcreated > tokenExpiredDays)
                     {
                         _checkeResult = new Tuple<bool, string>(false, "用户令牌失效.");
                     }
@@ -99,7 +89,7 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
             return _checkeResult;
         }
         
-        private Tuple<bool, string> ValidateSignature(string signature, string timestamp, string nonce, string appid, string appSecret)
+        private Tuple<bool, string> ValidateSignature(string signature, string timestamp, string nonce, string appSecret, int timspanExpiredMinutes)
         {
             Tuple<bool, string> _checkeResult = new Tuple<bool, string>(false, "数据完整性检查不通过");
             string[] _arrayParamter = { appSecret, timestamp, nonce };
@@ -112,7 +102,7 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
                 DateTime _timestampMillis = UnixEpochHelper.DateTimeFromUnixTimestampMillis(timestamp.ToInt32OrDefault(0));
                 double _minutes = DateTime.Now.Subtract(_timestampMillis).TotalMinutes;
                 
-                if(_minutes > configItem.TimspanExpiredMinutes)
+                if(_minutes > timspanExpiredMinutes)
                 {
                     _checkeResult = new Tuple<bool, string>(false, "签名时间戳失效");
                 }
@@ -124,5 +114,7 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
             
             return _checkeResult;
         }
+        
+        #endregion Methods
     }
 }
