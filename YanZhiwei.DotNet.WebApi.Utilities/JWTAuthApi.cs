@@ -22,9 +22,12 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
         /// 备注：
         internal readonly WrapAuthApiConfigItem configItem;
         
-        internal JWTAuthApi(WrapAuthApiConfigItem authApiConfigItem)
+        private readonly string SharedKey;
+        
+        internal JWTAuthApi(WrapAuthApiConfigItem authApiConfigItem, string sharedKey)
         {
             configItem = authApiConfigItem;
+            SharedKey = sharedKey;
         }
         
         /// <summary>
@@ -53,7 +56,7 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
                     { "userId", userId},
                     { "claim", UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds}
                 };
-                string _token = JsonWebToken.Encode(_payload, configItem.SharedKey, JwtHashAlgorithm.HS256);
+                string _token = JsonWebToken.Encode(_payload, SharedKey, JwtHashAlgorithm.HS256);
                 _result.Access_token = _token;
                 _result.Expires_in = configItem.TimspanExpiredMinutes * 24 * 3600;
             }
@@ -64,7 +67,7 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
         /// <summary>
         /// 检查用户令牌
         /// </summary>
-        /// <param name="token">The token.</param>
+        /// <param name="token">用户令牌</param>
         /// <returns></returns>
         /// 时间：2016/10/20 15:30
         /// 备注：
@@ -76,7 +79,7 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
             
             if(!string.IsNullOrEmpty(token))
             {
-                string _decodedJwt = JsonWebToken.Decode(token, configItem.SharedKey);
+                string _decodedJwt = JsonWebToken.Decode(token, SharedKey);
                 
                 if(!string.IsNullOrEmpty(_decodedJwt))
                 {
@@ -84,9 +87,9 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
                     string _userid = _root.userId;
                     int _jwtcreated = (int)_root.claim;
                     
-                    if(UnixEpochHelper.GetCurrentUnixTimestamp().TotalDays - _jwtcreated > configItem.Token_ExpiredDays)
+                    if(UnixEpochHelper.GetCurrentUnixTimestamp().TotalDays - _jwtcreated > configItem.TokenExpiredDays)
                     {
-                        throw new ArgumentException("用户令牌失效.");
+                        _checkeResult = new Tuple<bool, string>(false, "用户令牌失效.");
                     }
                     
                     _checkeResult = new Tuple<bool, string>(true, _userid);

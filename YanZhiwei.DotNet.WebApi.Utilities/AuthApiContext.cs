@@ -17,7 +17,6 @@ namespace YanZhiwei.DotNet.WebApi.Utilities
             get
             {
                 WrapAuthApiConfigItem _item = new WrapAuthApiConfigItem();
-                _item.AppId = "";
                 _item.TimspanExpiredMinutes = 5;
                 return _item;
             }

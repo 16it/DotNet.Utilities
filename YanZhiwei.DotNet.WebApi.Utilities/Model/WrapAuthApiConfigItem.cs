@@ -12,22 +12,9 @@
         }
         
         /// <summary>
-        /// AppId
-        /// </summary>
-        public string AppId
-        {
-            get;
-            set;
-        }
-        /// <summary>
         /// 用户令牌【天】
         /// </summary>
-        public int Token_ExpiredDays
-        {
-            get;
-            set;
-        }
-        public string SharedKey
+        public int TokenExpiredDays
         {
             get;
             set;
