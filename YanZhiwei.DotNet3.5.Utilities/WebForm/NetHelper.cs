@@ -4,18 +4,18 @@
     using System.IO;
     using System.Net;
     using System.Text;
-
-    using YanZhiwei.DotNet3._5.Utilities.Common;
-    using YanZhiwei.DotNet3._5.Utilities.Enum;
-    using YanZhiwei.DotNet3._5.Utilities.WebClient;
-
+    
+    using Common;
+    using Enum;
+    using WebClient;
+    
     /// <summary>
     /// 向远程Url Post/Get数据类
     /// </summary>
     public class NetHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 向远程Url Get数据类
         /// </summary>
@@ -27,7 +27,7 @@
         {
             string _responseText = HttpGet(uri);
             T _t = default(T);
-
+            
             if(serializationType == SerializationType.Xml)
             {
                 _t = SerializeHelper.XmlDeserialize<T>(_responseText);
@@ -36,10 +36,10 @@
             {
                 _t = (T)SerializeHelper.JsonDeserialize<T>(_responseText);
             }
-
+            
             return _t;
         }
-
+        
         /// <summary>
         /// 向远程Url Get数据类
         /// </summary>
@@ -56,11 +56,11 @@
             using(Stream stream = _response.GetResponseStream())
             {
                 int _count = 0;
-
+                
                 do
                 {
                     _count = stream.Read(_buffer, 0, _buffer.Length);
-
+                    
                     if(_count != 0)
                         _responeBuilder.Append(Encoding.UTF8.GetString(_buffer, 0, _count));
                 }
@@ -68,7 +68,7 @@
             }
             return _responeBuilder.ToString();
         }
-
+        
         /// <summary>
         /// 向远程Url Post数据
         /// </summary>
@@ -81,7 +81,7 @@
         {
             string _responseText = HttpPost(uri, data, serializationType);
             T _t = default(T);
-
+            
             if(serializationType == SerializationType.Xml)
             {
                 _t = SerializeHelper.XmlDeserialize<T>(_responseText);
@@ -90,10 +90,10 @@
             {
                 _t = SerializeHelper.JsonDeserialize<T>(_responseText);
             }
-
+            
             return _t;
         }
-
+        
         /// <summary>
         /// 向远程Url Post数据
         /// </summary>
@@ -107,7 +107,7 @@
             _request.Method = "POST";
             _request.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
             string _requestParamter = string.Empty;
-
+            
             if(data is string)
             {
                 _requestParamter = (string)data;
@@ -123,13 +123,13 @@
                     _requestParamter = SerializeHelper.JsonSerialize(data);
                 }
             }
-
+            
             CNNWebClient _webClient = new CNNWebClient();
             _webClient.Timeout = 300;
             byte[] _responeBuffer = _webClient.UploadData(uri, "POST", Encoding.UTF8.GetBytes(_requestParamter));
             return Encoding.UTF8.GetString(_responeBuffer);
         }
-
+        
         /// <summary>
         /// 向远程Url Post数据
         /// </summary>
@@ -144,7 +144,7 @@
             byte[] _responeBuffer = _webClient.UploadValues(uri, "POST", data);
             return Encoding.UTF8.GetString(_responeBuffer);
         }
-
+        
         #endregion Methods
     }
 }
