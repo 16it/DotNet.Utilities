@@ -1,14 +1,14 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
-
+    
     /// <summary>
     /// Unix 时间戳 帮助类
     /// </summary>
     public class UnixEpochHelper
     {
         #region Fields
-
+        
         /*
          *参考：
          *1. http://stackoverflow.com/questions/7983441/unix-time-conversions-in-c-sharp
@@ -20,16 +20,16 @@
          *北京时区是东八区，领先UTC八个小时，在电子邮件信头的Date域记为+0800
          *
          */
-
+        
         /// <summary>
         /// Unix 时间戳
         /// </summary>
         public static readonly DateTime UnixEpochUtcValue;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// Initializes the <see cref="UnixEpochHelper"/> class.
         /// </summary>
@@ -37,11 +37,11 @@
         {
             UnixEpochUtcValue = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 将Unix时间戳转换成DateTime
         /// </summary>
@@ -51,16 +51,16 @@
         {
             return UnixEpochUtcValue.AddMilliseconds(millis);
         }
-
+        
         /// <summary>
-        /// 获取当前时间Unix时间戳【毫秒】
+        /// 获取当前时间Unix时间戳
         /// </summary>
         /// <returns>Unix时间戳</returns>
-        public static long GetCurrentUnixTimestampMillis()
+        public static TimeSpan GetCurrentUnixTimestamp()
         {
-            return (long)(DateTime.UtcNow - UnixEpochUtcValue).TotalMilliseconds;
+            return (DateTime.UtcNow - UnixEpochUtcValue);
         }
-
+        
         #endregion Methods
     }
 }
