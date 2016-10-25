@@ -1,15 +1,13 @@
 ﻿namespace YanZhiwei.DotNet.WebApi.Utilities
 {
+    using DotNet2.Utilities.Common;
+    using DotNet2.Utilities.Encryptor;
+    using DotNet2.Utilities.Exception;
+    using JWT;
+    using Model;
+    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
-    
-    using JWT;
-    
-    using Newtonsoft.Json.Linq;
-    
-    using YanZhiwei.DotNet.WebApi.Utilities.Model;
-    using YanZhiwei.DotNet2.Utilities.Common;
-    using YanZhiwei.DotNet2.Utilities.Encryptor;
     
     /// <summary>
     /// 采用JWT生成令牌WEB API验证类
@@ -49,6 +47,10 @@
                 _result.Access_token = _token;
                 _result.Expires_in = timspanExpiredMinutes * 24 * 3600;
             }
+            else
+            {
+                throw new FrameworkException(_checkedResult.Item2);
+            }
             
             return _result;
         }
@@ -75,9 +77,10 @@
                 {
                     dynamic _root = JObject.Parse(_decodedJwt);
                     string _userid = _root.userId;
-                    int _jwtcreated = (int)_root.claim;
+                    double _jwtcreated = (double)_root.claim;
+                    bool _validTokenExpired = (new TimeSpan((int)(UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds - _jwtcreated)).TotalDays) > tokenExpiredDays;
                     
-                    if(UnixEpochHelper.GetCurrentUnixTimestamp().TotalDays - _jwtcreated > tokenExpiredDays)
+                    if(_validTokenExpired)
                     {
                         _checkeResult = new Tuple<bool, string>(false, "用户令牌失效.");
                     }
@@ -99,8 +102,8 @@
             
             if(signature.CompareIgnoreCase(signature) && CheckHelper.IsNumber(timestamp))
             {
-                DateTime _timestampMillis = UnixEpochHelper.DateTimeFromUnixTimestampMillis(timestamp.ToInt32OrDefault(0));
-                double _minutes = DateTime.Now.Subtract(_timestampMillis).TotalMinutes;
+                DateTime _timestampMillis = UnixEpochHelper.DateTimeFromUnixTimestampMillis(timestamp.ToDoubleOrDefault(0f));
+                double _minutes = DateTime.UtcNow.Subtract(_timestampMillis).TotalMinutes;
                 
                 if(_minutes > timspanExpiredMinutes)
                 {

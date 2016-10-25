@@ -47,7 +47,7 @@
         /// </summary>
         /// <param name="millis">毫秒</param>
         /// <returns>DateTime</returns>
-        public static DateTime DateTimeFromUnixTimestampMillis(long millis)
+        public static DateTime DateTimeFromUnixTimestampMillis(double millis)
         {
             return UnixEpochUtcValue.AddMilliseconds(millis);
         }

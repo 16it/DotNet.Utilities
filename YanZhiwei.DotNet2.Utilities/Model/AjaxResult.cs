@@ -1,14 +1,16 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Model
 {
     using Enum;
-
+    
     /// <summary>
     /// 表示Ajax操作结果
     /// </summary>
     public class AjaxResult
     {
         #region Constructors
-
+        
+        public AjaxResult() { }
+        
         /// <summary>
         /// 初始化一个<see cref="AjaxResult"/>类型的新实例
         /// </summary>
@@ -16,7 +18,7 @@
         : this(content, data, type)
         {
         }
-
+        
         /// <summary>
         /// 初始化一个<see cref="AjaxResult"/>类型的新实例
         /// </summary>
@@ -25,7 +27,7 @@
         : this(content, AjaxResultType.Info, null)
         {
         }
-
+        
         /// <summary>
         /// 初始化一个<see cref="AjaxResult"/>类型的新实例
         /// </summary>
@@ -35,11 +37,11 @@
             Content = content;
             Data = data;
         }
-
+        
         #endregion Constructors
-
+        
         #region Properties
-
+        
         /// <summary>
         /// 获取 消息内容
         /// </summary>
@@ -48,7 +50,7 @@
             get;
             private set;
         }
-
+        
         /// <summary>
         /// 获取 返回数据
         /// </summary>
@@ -57,7 +59,7 @@
             get;
             private set;
         }
-
+        
         /// <summary>
         /// 获取 Ajax操作结果类型
         /// </summary>
@@ -66,7 +68,7 @@
             get;
             private set;
         }
-
+        
         #endregion Properties
     }
 }
