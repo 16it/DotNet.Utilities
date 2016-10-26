@@ -47,8 +47,10 @@ namespace YanZhiwei.DotNet.AuthWebApiExample.Filters
                         }
                     }
                 }
-                
-                actionContext.Response = CreateTokenResponseMessage("非法请求数据！");
+                else
+                {
+                    actionContext.Response = CreateTokenResponseMessage("非法请求数据！");
+                }
             }
         }
         
