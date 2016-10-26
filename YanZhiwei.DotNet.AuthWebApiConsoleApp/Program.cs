@@ -4,7 +4,7 @@ using YanZhiwei.DotNet.AuthWebApi.Utilities.Model;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Encryptor;
 using YanZhiwei.DotNet3._5.Utilities.Enum;
-using YanZhiwei.DotNet3._5.Utilities.WebForm;
+using YanZhiwei.DotNet3._5.Utilities.WebForm.Core;
 
 namespace YanZhiwei.DotNet.WebApiConsoleApp
 {
@@ -35,10 +35,10 @@ namespace YanZhiwei.DotNet.WebApiConsoleApp
                 string signature = SignatureString("XXHHAREJDDF", timestamp, nonce);
                 string appended = string.Format("&signature={0}&timestamp={1}&nonce={2}&appid={3}", signature, timestamp, nonce, "aabbcc");
                 string queryUrl = url + "api/Auth?userId=test" + appended;
-                TokenResult _tokenResult = NetHelper.HttpGet<TokenResult>(queryUrl, SerializationType.Json);
+                TokenResult _tokenResult = WebRequest.HttpGet<TokenResult>(queryUrl, SerializationType.Json);
                 Console.WriteLine(_tokenResult.Access_token);
                 queryUrl = url + "api/Product/1?token=" + _tokenResult.Access_token;
-                string jsonText = NetHelper.HttpGet(queryUrl);
+                string jsonText = WebRequest.HttpGet(queryUrl);
                 JObject jsonObj = JObject.Parse(jsonText);
                 string aa = jsonObj["Data"].ToString();
                 Console.WriteLine(jsonText);
