@@ -108,7 +108,6 @@
     <Compile Include="Core\JobScheduler.cs" />
     <Compile Include="Common\UserAgentHelper.cs" />
     <Compile Include="Lambda\WhereIfLambda.cs" />
-    <Compile Include="Model\JsonResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\SchedulerType\CycExecution.cs" />
     <Compile Include="Core\SchedulerType\ImmediateExecution.cs" />
