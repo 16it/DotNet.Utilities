@@ -1,10 +1,9 @@
 ﻿namespace YanZhiwei.DotNet.HtmlAgilityPack.Utilities
 {
-    using global::HtmlAgilityPack;
-    
     using DotNet2.Utilities.Operator;
     using DotNet3._5.Utilities.WebForm.Core;
-    using System;
+    using global::HtmlAgilityPack;
+    using System.Xml.XPath;
     
     /// <summary>
     /// 基于HtmlAgilityPack的爬虫解析辅助类
@@ -53,8 +52,15 @@
         /// 备注：
         public HtmlNode GetNode(string xPath)
         {
-            CheckedxPath(xPath);
-            return htmldoc.DocumentNode.SelectSingleNode(xPath);
+            try
+            {
+                CheckedxPath(xPath);
+                return htmldoc.DocumentNode.SelectSingleNode(xPath);
+            }
+            catch(XPathException)
+            {
+                return null;
+            }
         }
         
         /// <summary>
@@ -66,8 +72,15 @@
         /// 备注：
         public HtmlNodeCollection GetNodes(string xPath)
         {
-            CheckedxPath(xPath);
-            return htmldoc.DocumentNode.SelectNodes(xPath);
+            try
+            {
+                CheckedxPath(xPath);
+                return htmldoc.DocumentNode.SelectNodes(xPath);
+            }
+            catch(XPathException)
+            {
+                return null;
+            }
         }
         
         /// <summary>
@@ -95,5 +108,15 @@
         }
         
         #endregion Methods
+        
+        #region Other
+        
+        //1.以/开头的是从根节点开始选取，以//开头的是模糊选取，而不考虑它们的位置
+        //2.可以使用属性来定位要选取的节点或节点集合 比如//span[@class="time"] 就是选择文档中所有class="time"的span元素。
+        //3.节点集合中的某一个使用[i] 的方式选取 比如 //span[@class="time"][1] 就是选择文档中所有class="time"的span元素中的第一个span。注意在这里选择节点的索引是从1开始的，而不是0
+        //4.使用|  来做容错选择，比如一个网页中某个数据可能在<div class="a1"></div>中 也可能在<div class="a2"></div> 这时就可以用 //div[@class="a1"]|//div[@class="a2"] 作为XPath
+        //5.XPath中需要用到的引号 可以使用单引号  因为C#中字符串需要用双引号，XPath中需要引号的使用单引号即可，这样不用转义了。
+        
+        #endregion Other
     }
 }

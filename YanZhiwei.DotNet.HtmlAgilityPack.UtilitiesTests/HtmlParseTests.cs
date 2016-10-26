@@ -1,11 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using YanZhiwei.DotNet.HtmlAgilityPack.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace YanZhiwei.DotNet.HtmlAgilityPack.Utilities.Tests
 {
@@ -13,11 +7,21 @@ namespace YanZhiwei.DotNet.HtmlAgilityPack.Utilities.Tests
     public class HtmlParseTests
     {
         [TestMethod()]
-        public void GetGetNodeTest()
+        public void GetNodeTest()
         {
             HtmlParse _htmlParse = new HtmlParse("https://news.cnblogs.com/");
             _htmlParse.LoadHtmlDocument();
-            HtmlNode _htmlNode = _htmlParse.GetNode("id('entry_555912')/x:div[2]/x:h2/x:a");
+            HtmlNode _htmlNode = _htmlParse.GetNode("//div[@class='news_block'][@id='entry_555912']");
+            Assert.IsNotNull(_htmlNode);
+        }
+        
+        [TestMethod()]
+        public void GetNodesTest()
+        {
+            HtmlParse _htmlParse = new HtmlParse("https://news.cnblogs.com/");
+            _htmlParse.LoadHtmlDocument();
+            HtmlNodeCollection _htmlNode = _htmlParse.GetNodes("//div[@class='news_block']");
+            Assert.IsNotNull(_htmlNode);
         }
     }
 }
