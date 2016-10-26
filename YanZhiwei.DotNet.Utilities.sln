@@ -213,9 +213,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.5.Interfa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AuthWebApi.Utilities", "YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.AuthWebApi.Utilities.csproj", "{34A19D85-C000-43F0-996C-1766974725DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.WebApiExample", "YanZhiwei.DotNet.WebApiExample\YanZhiwei.DotNet.WebApiExample.csproj", "{AA8AAB5C-2456-451E-B772-374A2FA424F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AuthWebApiExample", "YanZhiwei.DotNet.WebApiExample\YanZhiwei.DotNet.AuthWebApiExample.csproj", "{AA8AAB5C-2456-451E-B772-374A2FA424F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.WebApiConsoleApp", "YanZhiwei.DotNet.WebApiConsoleApp\YanZhiwei.DotNet.WebApiConsoleApp.csproj", "{2B794F3B-6ED1-4D46-B719-C525BFCF2D2C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AuthWebApiConsoleApp", "YanZhiwei.DotNet.WebApiConsoleApp\YanZhiwei.DotNet.AuthWebApiConsoleApp.csproj", "{2B794F3B-6ED1-4D46-B719-C525BFCF2D2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

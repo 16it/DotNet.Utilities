@@ -7,8 +7,8 @@
     <ProjectGuid>{2B794F3B-6ED1-4D46-B719-C525BFCF2D2C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.DotNet.WebApiConsoleApp</RootNamespace>
-    <AssemblyName>YanZhiwei.DotNet.WebApiConsoleApp</AssemblyName>
+    <RootNamespace>YanZhiwei.DotNet.AuthWebApiConsoleApp</RootNamespace>
+    <AssemblyName>YanZhiwei.DotNet.AuthWebApiConsoleApp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
