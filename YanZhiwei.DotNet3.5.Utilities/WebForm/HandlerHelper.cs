@@ -1,12 +1,12 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm
 {
+    using DotNet2.Utilities.Enum;
+    using DotNet2.Utilities.Model;
     using System;
-    using System.Net;
     using System.Web;
-
+    
     using YanZhiwei.DotNet3._5.Utilities.Common;
-    using YanZhiwei.DotNet3._5.Utilities.Model;
-
+    
     /// <summary>
     /// HttpHandler帮助类
     /// </summary>
@@ -15,7 +15,7 @@
     public static class HandlerHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 创建文件全路径
         /// <para>eg: context.CreateFilePath("images/1616/LampGroup/lampGroup.jpg")</para>
@@ -32,42 +32,39 @@
                                + file;
             return _fullPath;
         }
-
+        
         /// <summary>
-        /// 创建Response响应
-        /// <para>eg:context.CreateResponse(_zNodeList, HttpStatusCode.OK);</para>
+        /// 创建Ajax响应
         /// </summary>
         /// <param name="context">HttpContext</param>
-        /// <param name="content">响应内容</param>
-        /// <param name="statusCode">状态码</param>
-        /// <param name="errorCode">T错误代码</param>
-        /// 时间：2016-05-04 17:32
+        /// <param name="data">返回数据</param>
+        /// <param name="type">Ajax操作结果类型</param>
+        /// <param name="content">消息内容</param>
+        /// 时间：2016/10/26 10:15
         /// 备注：
-        public static void CreateResponse(this HttpContext context, object content, HttpStatusCode statusCode, int errorCode)
+        public static void CreateResponse(this HttpContext context, object data, AjaxResultType type, string content)
         {
-            JsonResult _jsonResult = new JsonResult();
-            _jsonResult.StatusCode = (int)statusCode;
-            _jsonResult.Content = content;
-            _jsonResult.ErrorCode = errorCode;
-            string _jsonString = SerializeHelper.JsonSerialize<JsonResult>(_jsonResult);
+            AjaxResult _jsonResult = new AjaxResult(content, type, data);
+            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult>(_jsonResult);
             context.Response.Write(_jsonString);
             context.ApplicationInstance.CompleteRequest();
         }
-
+        
         /// <summary>
-        /// 创建Response响应
-        /// <para>eg:context.CreateResponse(_zNodeList, HttpStatusCode.OK);</para>
+        /// 创建Ajax响应
         /// </summary>
         /// <param name="context">HttpContext</param>
-        /// <param name="content">响应内容</param>
-        /// <param name="statusCode">状态码</param>
-        /// 时间：2016-05-04 17:32
+        /// <param name="content">消息内容</param>
+        /// 时间：2016/10/26 10:18
         /// 备注：
-        public static void CreateResponse(this HttpContext context, object content, HttpStatusCode statusCode)
+        public static void CreateResponse(this HttpContext context, string content)
         {
-            CreateResponse(context, content, statusCode, 0);
+            AjaxResult _jsonResult = new AjaxResult(content);
+            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult>(_jsonResult);
+            context.Response.Write(_jsonString);
+            context.ApplicationInstance.CompleteRequest();
         }
-
+        
         /// <summary>
         /// 自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。
         /// </summary>
@@ -85,7 +82,7 @@
             context.Response.CacheControl = "private";
             context.Response.Cache.SetValidUntilExpires(true);
         }
-
+        
         /// <summary>
         /// 获取图片类型contentType
         /// </summary>
@@ -96,39 +93,39 @@
         public static string GetImageContentType(string ext)
         {
             string _contentType = null;
-
-            switch (ext.ToLower())
+            
+            switch(ext.ToLower())
             {
                 case "gif":
                     _contentType = "image/gif";
                     break;
-
+                    
                 case "jpg":
                 case "jpe":
                 case "jpeg":
                     _contentType = "image/jpeg";
                     break;
-
+                    
                 case "bmp":
                     _contentType = "image/bmp";
                     break;
-
+                    
                 case "tif":
                 case "tiff":
                     _contentType = "image/tiff";
                     break;
-
+                    
                 case "eps":
                     _contentType = "application/postscript";
                     break;
-
+                    
                 default:
                     break;
             }
-
+            
             return _contentType;
         }
     }
-
+    
     #endregion Methods
 }

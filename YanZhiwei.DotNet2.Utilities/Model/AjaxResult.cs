@@ -9,28 +9,32 @@
     {
         #region Constructors
         
-        public AjaxResult() { }
-        
         /// <summary>
-        /// 初始化一个<see cref="AjaxResult"/>类型的新实例
+        /// 构造函数
         /// </summary>
+        /// <param name="content">消息内容</param>
+        /// <param name="type">Ajax操作结果类型</param>
+        /// <param name="data">返回数据</param>
         public AjaxResult(string content, AjaxResultType type, object data)
         : this(content, data, type)
         {
         }
         
         /// <summary>
-        /// 初始化一个<see cref="AjaxResult"/>类型的新实例
+        /// 构造函数
         /// </summary>
-        /// <param name="content"></param>
+        /// <param name="content">消息内容</param>
         public AjaxResult(string content)
         : this(content, AjaxResultType.Info, null)
         {
         }
         
         /// <summary>
-        /// 初始化一个<see cref="AjaxResult"/>类型的新实例
+        /// 构造函数
         /// </summary>
+        /// <param name="content">消息内容</param>
+        /// <param name="data">返回数据</param>
+        /// <param name="type">Ajax操作结果类型</param>
         public AjaxResult(string content, object data, AjaxResultType type)
         {
             Type = type.ToString();
