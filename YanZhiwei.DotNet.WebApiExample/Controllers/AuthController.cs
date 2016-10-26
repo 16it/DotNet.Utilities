@@ -2,8 +2,8 @@
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
-using YanZhiwei.DotNet.WebApi.Utilities;
-using YanZhiwei.DotNet.WebApi.Utilities.Model;
+using YanZhiwei.DotNet.AuthWebApi.Utilities;
+using YanZhiwei.DotNet.AuthWebApi.Utilities.Model;
 
 namespace YanZhiwei.DotNet.WebApiExample.Controllers
 {

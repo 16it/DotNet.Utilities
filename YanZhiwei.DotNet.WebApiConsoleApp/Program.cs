@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using YanZhiwei.DotNet.WebApi.Utilities.Model;
+using YanZhiwei.DotNet.AuthWebApi.Utilities.Model;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Encryptor;
 using YanZhiwei.DotNet3._5.Utilities.Enum;

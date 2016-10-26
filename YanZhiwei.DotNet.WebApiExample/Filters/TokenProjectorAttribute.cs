@@ -6,7 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using YanZhiwei.DotNet.WebApi.Utilities;
+using YanZhiwei.DotNet.AuthWebApi.Utilities;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.Model;
