@@ -7,6 +7,7 @@
     
     /// <summary>
     /// 基于HtmlAgilityPack的爬虫解析辅助类
+    /// 结合火狐插件XPath Checker使用
     /// </summary>
     public class HtmlParse
     {
