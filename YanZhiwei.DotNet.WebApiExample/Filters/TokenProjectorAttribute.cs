@@ -1,10 +1,15 @@
-﻿using System.Web;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Specialized;
+using System.Net.Http;
+using System.Text;
+using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using System.Linq;
-using YanZhiwei.DotNet2.Utilities.Common;
-using System.Collections.Specialized;
 using YanZhiwei.DotNet.WebApi.Utilities;
+using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.Enum;
+using YanZhiwei.DotNet2.Utilities.Model;
 
 namespace YanZhiwei.DotNet.WebApiExample.Filters
 {
@@ -13,29 +18,45 @@ namespace YanZhiwei.DotNet.WebApiExample.Filters
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             var _request = actionContext.Request;
-            // string aa = HttpUtility.UrlDecode(_request.Headers.GetValues("token").FirstOrDefault());
-            NameValueCollection _queryString = HttpUtility.ParseQueryString(actionContext.Request.RequestUri.Query);
             
-            if(_queryString != null)
+            if(actionContext.ActionDescriptor.ActionName == "GetAccessToken")
             {
-                string _token = _queryString["token"].ToStringOrDefault(string.Empty);
-                
-                if(!string.IsNullOrWhiteSpace(_token))
-                {
-                    AuthApiContext _authContext = new AuthApiContext();
-                    var aa = _authContext.ValidateToken(_token);
-                }
+                base.OnActionExecuting(actionContext);
             }
-            
-            //if(actionContext.ActionDescriptor.ActionName.CompareIgnoreCase("GetAccessToken"))
-            //{
-            //    //string userId = HttpUtility.UrlDecode(_request.Headers.GetValues("userId").FirstOrDefault()),
-            //    //       signature = HttpUtility.UrlDecode(_request.Headers.GetValues("signature").FirstOrDefault()),
-            //    //       timestamp = HttpUtility.UrlDecode(_request.Headers.GetValues("timestamp").FirstOrDefault()),
-            //    //       nonce = HttpUtility.UrlDecode(_request.Headers.GetValues("nonce").FirstOrDefault()),
-            //    //       appSecret = HttpUtility.UrlDecode(_request.Headers.GetValues("appId").FirstOrDefault());
-            //}
-            base.OnActionExecuting(actionContext);
+            else
+            {
+                NameValueCollection _queryString = HttpUtility.ParseQueryString(actionContext.Request.RequestUri.Query);
+                
+                if(_queryString != null)
+                {
+                    string _token = _queryString["token"].ToStringOrDefault(string.Empty);
+                    
+                    if(!string.IsNullOrWhiteSpace(_token))
+                    {
+                        AuthApiContext _authContext = new AuthApiContext();
+                        Tuple<bool, string> _checkedResult = _authContext.ValidateToken(_token);
+                        
+                        if(!_checkedResult.Item1)
+                        {
+                            actionContext.Response = CreateTokenResponseMessage(_checkedResult.Item2);
+                            return;
+                        }
+                        else
+                        {
+                            base.OnActionExecuting(actionContext);
+                        }
+                    }
+                }
+                
+                actionContext.Response = CreateTokenResponseMessage("非法请求数据！");
+            }
+        }
+        
+        private HttpResponseMessage CreateTokenResponseMessage(string content)
+        {
+            AjaxResult _ajaxResult = new AjaxResult(content, AjaxResultType.Warning, null);
+            HttpResponseMessage _result = new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(_ajaxResult), Encoding.GetEncoding("UTF-8"), "application/json") };
+            return _result;
         }
         
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)

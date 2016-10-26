@@ -71,21 +71,28 @@
             
             if(!string.IsNullOrEmpty(token))
             {
-                string _decodedJwt = JsonWebToken.Decode(token, sharedKey);
-                
-                if(!string.IsNullOrEmpty(_decodedJwt))
+                try
                 {
-                    dynamic _root = JObject.Parse(_decodedJwt);
-                    string _userid = _root.userId;
-                    double _jwtcreated = (double)_root.claim;
-                    bool _validTokenExpired = (new TimeSpan((int)(UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds - _jwtcreated)).TotalDays) > tokenExpiredDays;
+                    string _decodedJwt = JsonWebToken.Decode(token, sharedKey);
                     
-                    if(_validTokenExpired)
+                    if(!string.IsNullOrEmpty(_decodedJwt))
                     {
-                        _checkeResult = new Tuple<bool, string>(false, "用户令牌失效.");
+                        dynamic _root = JObject.Parse(_decodedJwt);
+                        string _userid = _root.userId;
+                        double _jwtcreated = (double)_root.claim;
+                        bool _validTokenExpired = (new TimeSpan((int)(UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds - _jwtcreated)).TotalDays) > tokenExpiredDays;
+                        
+                        if(_validTokenExpired)
+                        {
+                            _checkeResult = new Tuple<bool, string>(false, "用户令牌失效.");
+                        }
+                        
+                        _checkeResult = new Tuple<bool, string>(true, _userid);
                     }
-                    
-                    _checkeResult = new Tuple<bool, string>(true, _userid);
+                }
+                catch(SignatureVerificationException)
+                {
+                    _checkeResult = new Tuple<bool, string>(false, "用户令牌非法.");
                 }
             }
             
