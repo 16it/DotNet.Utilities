@@ -293,9 +293,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.WebApi.Utilities.csproj">
+    <ProjectReference Include="..\YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.AuthWebApi.Utilities.csproj">
       <Project>{34a19d85-c000-43f0-996c-1766974725df}</Project>
-      <Name>YanZhiwei.DotNet.WebApi.Utilities</Name>
+      <Name>YanZhiwei.DotNet.AuthWebApi.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>

@@ -211,7 +211,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.EntLib6.Ut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.5.Interfaces", "YanZhiwei.DotNet4.5.Interfaces\YanZhiwei.DotNet4.5.Interfaces.csproj", "{00A16473-0E4D-47BD-8F66-041331E93D88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.WebApi.Utilities", "YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.WebApi.Utilities.csproj", "{34A19D85-C000-43F0-996C-1766974725DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.AuthWebApi.Utilities", "YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.AuthWebApi.Utilities.csproj", "{34A19D85-C000-43F0-996C-1766974725DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.WebApiExample", "YanZhiwei.DotNet.WebApiExample\YanZhiwei.DotNet.WebApiExample.csproj", "{AA8AAB5C-2456-451E-B772-374A2FA424F3}"
 EndProject

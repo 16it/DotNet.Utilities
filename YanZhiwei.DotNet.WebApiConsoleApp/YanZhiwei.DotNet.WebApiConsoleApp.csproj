@@ -55,9 +55,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.WebApi.Utilities.csproj">
+    <ProjectReference Include="..\YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.AuthWebApi.Utilities.csproj">
       <Project>{34A19D85-C000-43F0-996C-1766974725DF}</Project>
-      <Name>YanZhiwei.DotNet.WebApi.Utilities</Name>
+      <Name>YanZhiwei.DotNet.AuthWebApi.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>

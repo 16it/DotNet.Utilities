@@ -7,8 +7,8 @@
     <ProjectGuid>{34A19D85-C000-43F0-996C-1766974725DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.DotNet.WebApi.Utilities</RootNamespace>
-    <AssemblyName>DotNet.WebApi.Utilities</AssemblyName>
+    <RootNamespace>YanZhiwei.DotNet.AuthWebApi.Utilities</RootNamespace>
+    <AssemblyName>DotNet.AuthWebApi.Utilities</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\DotNet.WebApi.Utilities.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\DotNet.AuthWebApi.Utilities.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
