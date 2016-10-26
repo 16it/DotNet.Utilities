@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-16"?>
+<AuthWebApiConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ClusteredByIndex>false</ClusteredByIndex>
+  <Id>0</Id>
+  <TimspanExpiredMinutes>20</TimspanExpiredMinutes>
+  <TokenExpiredDays>1</TokenExpiredDays>
+  <SharedKey>yanzhiwei</SharedKey>
+</AuthWebApiConfig>

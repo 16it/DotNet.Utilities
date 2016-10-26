@@ -1,6 +1,14 @@
-﻿namespace YanZhiwei.DotNet.AuthWebApi.Utilities.Model
+﻿using System;
+
+namespace YanZhiwei.DotNet.Core.Model
 {
-    internal class WrapAuthApiConfigItem
+    /// <summary>
+    /// WEB API 用户令牌验证实体类
+    /// </summary>
+    /// 时间：2016/10/26 9:56
+    /// 备注：
+    [Serializable]
+    public class AuthWebApiConfig : ConfigFileBase
     {
         /// <summary>
         /// 时间戳过期时间【分钟】

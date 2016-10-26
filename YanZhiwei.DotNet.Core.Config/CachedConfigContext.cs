@@ -56,5 +56,16 @@ namespace YanZhiwei.DotNet.Core.Config
                 return this.Get<UploadConfig>();
             }
         }
+        
+        /// <summary>
+        /// WEB API 用户令牌验证配置项
+        /// </summary>
+        public AuthWebApiConfig AuthWebApiConfig
+        {
+            get
+            {
+                return this.Get<AuthWebApiConfig>();
+            }
+        }
     }
 }
