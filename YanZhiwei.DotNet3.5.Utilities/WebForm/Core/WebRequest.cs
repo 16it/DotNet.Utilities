@@ -1,19 +1,15 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
+    using Common;
+    using Enum;
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.IO;
-    using System.Linq;
     using System.Net;
     using System.Net.Security;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
-    
-    using Common;
-    
-    using Enum;
-    
     using WebClient;
     
     /// <summary>
@@ -84,7 +80,7 @@
         public static string HttpGet(string uri)
         {
             StringBuilder _responeBuilder = new StringBuilder();
-            HttpWebRequest _request = HttpWebRequest.Create(uri) as HttpWebRequest;
+            HttpWebRequest _request = System.Net.WebRequest.Create(uri) as HttpWebRequest;
             _request.Method = "GET";
             _request.ContentType = "application/x-www-form-urlencoded;charset=utf-8";
             HttpWebResponse _response = _request.GetResponse() as HttpWebResponse;
