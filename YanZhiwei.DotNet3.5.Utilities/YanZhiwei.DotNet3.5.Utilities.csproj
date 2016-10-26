@@ -114,7 +114,6 @@
     <Compile Include="Core\NotifyPropertyChanged.cs" />
     <Compile Include="Core\SchedulerType\ScheduleExecutionOnce.cs" />
     <Compile Include="WebForm\Core\WebRequest.cs" />
-    <Compile Include="WebForm\NetHelper.cs" />
     <Compile Include="XAML\ControlHelper.cs" />
     <Compile Include="XAML\DispatcherHelper.cs" />
     <Compile Include="XAML\NotificationObject.cs" />
