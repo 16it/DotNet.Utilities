@@ -4,6 +4,7 @@
     
     using DotNet2.Utilities.Operator;
     using DotNet3._5.Utilities.WebForm.Core;
+    using System;
     
     /// <summary>
     /// 基于HtmlAgilityPack的爬虫解析辅助类
@@ -82,7 +83,7 @@
             
             if(_loadHmtlSuccessed)
             {
-                htmldoc.Load(_responeText);
+                htmldoc.LoadHtml(_responeText);
             }
             
             return _loadHmtlSuccessed;
