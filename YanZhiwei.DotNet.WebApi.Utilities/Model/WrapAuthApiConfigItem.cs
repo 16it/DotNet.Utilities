@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet.WebApi.Utilities.Model
+﻿namespace YanZhiwei.DotNet.AuthWebApi.Utilities.Model
 {
     internal class WrapAuthApiConfigItem
     {

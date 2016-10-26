@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet.WebApi.Utilities.Model
+﻿namespace YanZhiwei.DotNet.AuthWebApi.Utilities.Model
 {
     /// <summary>
     /// 令牌结果
@@ -7,6 +7,8 @@
     /// 备注：
     public class TokenResult
     {
+        #region Properties
+
         /// <summary>
         /// 令牌
         /// </summary>
@@ -15,7 +17,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 签名有效时间【分钟】
         /// </summary>
@@ -24,7 +26,7 @@
             get;
             set;
         }
-        
-        
+
+        #endregion Properties
     }
 }

@@ -1,13 +1,17 @@
-﻿namespace YanZhiwei.DotNet.WebApi.Utilities
+﻿namespace YanZhiwei.DotNet.AuthWebApi.Utilities
 {
+    using System;
+    using System.Collections.Generic;
+    
     using DotNet2.Utilities.Common;
     using DotNet2.Utilities.Encryptor;
     using DotNet2.Utilities.Exception;
+    
     using JWT;
+    
     using Model;
+    
     using Newtonsoft.Json.Linq;
-    using System;
-    using System.Collections.Generic;
     
     /// <summary>
     /// 采用JWT生成令牌WEB API验证类

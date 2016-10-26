@@ -1,8 +1,8 @@
-﻿namespace YanZhiwei.DotNet.WebApi.Utilities
+﻿namespace YanZhiwei.DotNet.AuthWebApi.Utilities
 {
     using System;
     
-    using YanZhiwei.DotNet.WebApi.Utilities.Model;
+    using Model;
     
     /// <summary>
     /// 系统认证等基础接口
