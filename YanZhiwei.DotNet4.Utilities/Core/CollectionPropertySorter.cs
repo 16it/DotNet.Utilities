@@ -9,21 +9,21 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-
+    
     /// <summary>
     /// 集合类型字符串排序操作类
     /// </summary>
     /// <typeparam name="T">集合项类型</typeparam>
-    internal static class CollectionPropertySorter<T>
+    public static class CollectionPropertySorter<T>
     {
         #region Fields
-
+        
         private static readonly ConcurrentDictionary<string, LambdaExpression> Cache = new ConcurrentDictionary<string, LambdaExpression>();
-
+        
         #endregion Fields
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 按指定的属性名称对<see cref="IEnumerable{T}"/>序列进行排序
         /// </summary>
@@ -39,7 +39,7 @@
                    ? Enumerable.OrderBy(source, keySelector)
                    : Enumerable.OrderByDescending(source, keySelector);
         }
-
+        
         /// <summary>
         /// 按指定的属性名称对<see cref="IQueryable{T}"/>序列进行排序
         /// </summary>
@@ -55,7 +55,7 @@
                    ? Queryable.OrderBy(source, keySelector)
                    : Queryable.OrderByDescending(source, keySelector);
         }
-
+        
         /// <summary>
         /// 按指定的属性名称对<see cref="IOrderedEnumerable{T}"/>进行继续排序
         /// </summary>
@@ -71,7 +71,7 @@
                    ? Enumerable.ThenBy(source, keySelector)
                    : Enumerable.ThenByDescending(source, keySelector);
         }
-
+        
         /// <summary>
         /// 按指定的属性名称对<see cref="IOrderedQueryable{T}"/>序列进行排序
         /// </summary>
@@ -87,39 +87,39 @@
                    ? Queryable.ThenBy(source, keySelector)
                    : Queryable.ThenByDescending(source, keySelector);
         }
-
+        
         private static LambdaExpression GetKeySelector(string keyName)
         {
             Type type = typeof(T);
             string key = type.FullName + "." + keyName;
-
+            
             if(Cache.ContainsKey(key))
             {
                 return Cache[key];
             }
-
+            
             ParameterExpression param = Expression.Parameter(type);
             string[] propertyNames = keyName.Split('.');
             Expression propertyAccess = param;
-
+            
             foreach(string propertyName in propertyNames)
             {
                 PropertyInfo property = type.GetProperty(propertyName);
-
+                
                 if(property == null)
                 {
                     throw new FrameworkException(string.Format("查找类似 指定对象中不存在名称为{0}的属性。", propertyName));
                 }
-
+                
                 type = property.PropertyType;
                 propertyAccess = Expression.MakeMemberAccess(propertyAccess, property);
             }
-
+            
             LambdaExpression keySelector = Expression.Lambda(propertyAccess, param);
             Cache[key] = keySelector;
             return keySelector;
         }
-
+        
         #endregion Methods
     }
 }
