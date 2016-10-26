@@ -232,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Config\AuthWebApiConfig.xml" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -300,6 +301,18 @@
     <ProjectReference Include="..\YanZhiwei.DotNet.AuthWebApi.Utilities\YanZhiwei.DotNet.AuthWebApi.Utilities.csproj">
       <Project>{34A19D85-C000-43F0-996C-1766974725DF}</Project>
       <Name>YanZhiwei.DotNet.AuthWebApi.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Cache\YanZhiwei.DotNet.Core.Cache.csproj">
+      <Project>{30104ac9-1c35-468d-8e43-8309e5b9cbe3}</Project>
+      <Name>YanZhiwei.DotNet.Core.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Config\YanZhiwei.DotNet.Core.Config.csproj">
+      <Project>{6dabf7b8-c072-43cd-8876-3d2aaedb7a43}</Project>
+      <Name>YanZhiwei.DotNet.Core.Config</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Model\YanZhiwei.DotNet.Core.Model.csproj">
+      <Project>{26fc1441-a657-4d9d-8813-a52dac3387d7}</Project>
+      <Name>YanZhiwei.DotNet.Core.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748D-6FEC-4423-8254-BC366507C589}</Project>
