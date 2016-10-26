@@ -4,10 +4,11 @@
     using System.Collections.Generic;
     using System.Net;
     using System.Web;
-
+    
     using DotNet2.Utilities.Common;
     using Model;
-
+    using DotNet2.Utilities.Enum;
+    
     /// <summary>
     /// Jquery DataTables帮助类
     /// </summary>
@@ -16,7 +17,7 @@
     public static class DataTableHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 数据分页
         /// </summary>
@@ -31,19 +32,19 @@
             int _iDisplayStart = context.Request["iDisplayStart"].ToInt32OrDefault(0);//用于指定从哪一条数据开始显示到表格中去
             int _iSortCol = context.Request["iSortCol_0"].ToInt32OrDefault(0);//排序列索引
             string _iSortDir = context.Request["sSortDir_0"].ToStringOrDefault("desc");//升序还是降序
-
+            
             DataTablePageResult _result = getDataFactory(_iDisplayLength, _iDisplayStart, _iSortCol, _iSortDir);
-
+            
             if(_result.ExecuteState != HttpStatusCode.OK)
             {
                 _result.iTotalDisplayRecords = 0;
                 _result.iTotalRecords = 0;
                 _result.aaData = new List<T>();
             }
-
-            context.CreateResponse(_result, _result.ExecuteState);
+            
+            context.CreateResponse(_result, AjaxResultType.Success, string.Empty);
         }
-
+        
         #endregion Methods
     }
 }
