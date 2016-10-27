@@ -25,7 +25,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                 return false;
             }
         }
-
+        
         /// <summary>
         /// Processes the request.
         /// </summary>
@@ -33,24 +33,24 @@ namespace YanZhiwei.DotNet.Core.Upload
         public void ProcessRequest(HttpContext context)
         {
             //如果304已缓存了，则返回
-            if (!string.IsNullOrEmpty(context.Request.Headers["If-Modified-Since"]))
+            if(!string.IsNullOrEmpty(context.Request.Headers["If-Modified-Since"]))
             {
                 context.Response.StatusCode = 304;
                 context.Response.StatusDescription = "Not Modified";
                 return;
             }
-
+            
             string _path = context.Request.CurrentExecutionFilePath;
-
-            if (!_path.EndsWith(".axd") && !_path.StartsWith("/Upload", StringComparison.OrdinalIgnoreCase))
+            
+            if(!_path.EndsWith(".axd") && !_path.StartsWith("/Upload", StringComparison.OrdinalIgnoreCase))
                 return;
-
+                
             //正则从Url里匹配出上传的文件夹目录.....
             Match _uploadfolder = Regex.Match(_path, @"upload/(.+)/(day_\d+)/thumb/(\d+)_(\d+)_(\d+)\.([A-Za-z]+)\.axd$", RegexOptions.IgnoreCase);
-
-            if (!_uploadfolder.Success)
+            
+            if(!_uploadfolder.Success)
                 return;
-
+                
             string _folder = _uploadfolder.Groups[1].Value,
                    _subFolder = _uploadfolder.Groups[2].Value,
                    _fileName = _uploadfolder.Groups[3].Value,
@@ -60,33 +60,33 @@ namespace YanZhiwei.DotNet.Core.Upload
             //如果在配置找不到需要按需生成的，则返回，这样能防止任何人随便敲个尺寸就生成
             string _key = string.Format("{0}_{1}_{2}", _folder, _width, _height).ToLower();
             bool isOnDemandSize = UploadConfigContext.ThumbnailConfigDic.ContainsKey(_key) && UploadConfigContext.ThumbnailConfigDic[_key].Timming == Timming.OnDemand;
-
-            if (!isOnDemandSize)
+            
+            if(!isOnDemandSize)
                 return;
-
+                
             string _thumbnailFilePath = string.Format(@"{0}\{1}\Thumb\{2}_{4}_{5}.{3}", _folder, _subFolder, _fileName, _fileExt, _width, _height);
             _thumbnailFilePath = Path.Combine(UploadConfigContext.UploadPath, _thumbnailFilePath);
             string _filePath = string.Format(@"{0}\{1}\{2}.{3}", _folder, _subFolder, _fileName, _fileExt);
             _filePath = Path.Combine(UploadConfigContext.UploadPath, _filePath);
-
-            if (!File.Exists(_filePath))
+            
+            if(!File.Exists(_filePath))
                 return;
-
+                
             //如果不存在缩略图，则生成
-            if (!File.Exists(_thumbnailFilePath))
+            if(!File.Exists(_thumbnailFilePath))
             {
                 string _thumbnailFileFolder = string.Format(@"{0}\{1}\Thumb", _folder, _subFolder);
                 _thumbnailFileFolder = Path.Combine(UploadConfigContext.UploadPath, _thumbnailFileFolder);
-
-                if (!Directory.Exists(_thumbnailFileFolder))
+                
+                if(!Directory.Exists(_thumbnailFileFolder))
                     Directory.CreateDirectory(_thumbnailFileFolder);
-
+                    
                 ThumbnailHelper.MakeThumbnail(_filePath, _thumbnailFilePath, UploadConfigContext.ThumbnailConfigDic[_key]);
             }
-
+            
             //缩略图存在了，返回图片字节，并输出304标记
             context.Response.Clear();
-            context.Response.ContentType = HandlerHelper.GetImageContentType(_fileExt);
+            context.Response.ContentType = HttpContextHelper.GetImageContentType(_fileExt);
             byte[] _responseImage = File.ReadAllBytes(_thumbnailFilePath);
             context.Response.BinaryWrite(_responseImage);
             context.Set304Cache();

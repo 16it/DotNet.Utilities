@@ -45,6 +45,10 @@
     <DocumentationFile>bin\Release\DotNet3.5.Utilities.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNet2.Utilities, Version=1.0.6053.31498, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\YanZhiwei.DotNet.MVC.AdminPanel.UI\DLL\DotNet2.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -92,7 +96,7 @@
     <Compile Include="WebForm\Core\WebThumbnailImage.cs" />
     <Compile Include="WebForm\Core\WebUploadFile.cs" />
     <Compile Include="WebForm\Core\WebUploadImage.cs" />
-    <Compile Include="WebForm\HandlerHelper.cs" />
+    <Compile Include="WebForm\HttpContextHelper.cs" />
     <Compile Include="WebForm\JqueryPlugin\DataTableHelper.cs" />
     <Compile Include="WebForm\HyperlinkHelper.cs" />
     <Compile Include="Encryptor\AESEncryptor.cs" />

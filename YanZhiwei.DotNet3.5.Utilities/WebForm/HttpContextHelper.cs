@@ -1,18 +1,18 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm
 {
+    using Common;
+    using DotNet2.Utilities.Collection;
     using DotNet2.Utilities.Enum;
     using DotNet2.Utilities.Model;
     using System;
     using System.Web;
-    
-    using YanZhiwei.DotNet3._5.Utilities.Common;
     
     /// <summary>
     /// HttpHandler帮助类
     /// </summary>
     /// 创建时间:2015-06-08 11:46
     /// 备注说明:<c>null</c>
-    public static class HandlerHelper
+    public static class HttpContextHelper
     {
         #region Methods
         
@@ -31,6 +31,23 @@
                                + (context.Request.ApplicationPath == "/" ? "/" : context.Request.ApplicationPath + "/")
                                + file;
             return _fullPath;
+        }
+        
+        /// <summary>
+        /// 创建分页集合Ajax响应
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="context">HttpContext</param>
+        /// <param name="pagedList">分页集合</param>
+        /// 时间：2016/10/27 17:45
+        /// 备注：
+        public static void CreatePagedListResponse<T>(this HttpContext context, PagedList<T> pagedList) where T : class
+        {
+            JsonPagedList<T> _jsonPagedList = new JsonPagedList<T>(pagedList);
+            AjaxResult _jsonResult = new AjaxResult(string.Empty, AjaxResultType.Success, _jsonPagedList);
+            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult>(_jsonResult).ParseJsonDateTime();
+            context.Response.Write(_jsonString);
+            context.ApplicationInstance.CompleteRequest();
         }
         
         /// <summary>
@@ -63,24 +80,6 @@
             string _jsonString = SerializeHelper.JsonSerialize<AjaxResult>(_jsonResult);
             context.Response.Write(_jsonString);
             context.ApplicationInstance.CompleteRequest();
-        }
-        
-        /// <summary>
-        /// 自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。
-        /// </summary>
-        /// <param name="context">HttpContext</param>
-        /// 时间：2016/8/23 9:05
-        /// 备注：
-        public static void Set304Cache(this HttpContext context)
-        {
-            context.Response.Cache.SetCacheability(HttpCacheability.Public);
-            context.Response.Cache.SetLastModified(DateTime.UtcNow);
-            context.Response.AddHeader("If-Modified-Since", DateTime.UtcNow.ToString());
-            int _maxDay = 86400 * 14; // 14 Day
-            context.Response.Cache.SetExpires(DateTime.Now.AddSeconds(_maxDay));
-            context.Response.Cache.SetMaxAge(new TimeSpan(0, 0, _maxDay));
-            context.Response.CacheControl = "private";
-            context.Response.Cache.SetValidUntilExpires(true);
         }
         
         /// <summary>
@@ -124,6 +123,24 @@
             }
             
             return _contentType;
+        }
+        
+        /// <summary>
+        /// 自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。
+        /// </summary>
+        /// <param name="context">HttpContext</param>
+        /// 时间：2016/8/23 9:05
+        /// 备注：
+        public static void Set304Cache(this HttpContext context)
+        {
+            context.Response.Cache.SetCacheability(HttpCacheability.Public);
+            context.Response.Cache.SetLastModified(DateTime.UtcNow);
+            context.Response.AddHeader("If-Modified-Since", DateTime.UtcNow.ToString());
+            int _maxDay = 86400 * 14; // 14 Day
+            context.Response.Cache.SetExpires(DateTime.Now.AddSeconds(_maxDay));
+            context.Response.Cache.SetMaxAge(new TimeSpan(0, 0, _maxDay));
+            context.Response.CacheControl = "private";
+            context.Response.Cache.SetValidUntilExpires(true);
         }
     }
     
