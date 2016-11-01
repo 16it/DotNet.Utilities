@@ -4,6 +4,7 @@
     using System.Text;
     
     using Enum;
+    using Operator;
     
     /// <summary>
     ///byte 帮助类
@@ -153,17 +154,13 @@
         /// </summary>
         /// <param name="percent">The percent.</param>
         /// <returns></returns>
-        public static byte ParsePercent(this int percent)
+        public static byte ParsePercent(this ushort percent)
         {
-            if(percent >= 0 && percent <= 100)
-            {
-                double _percent = ((double)percent) / 100;
-                double _number = Math.Round(_percent * 255, 0);
-                string _percentHex = string.Format("{0:x}", (int)_number).PadLeft(2, '0');
-                return Convert.ToByte(_percentHex, 16);
-            }
-            
-            return 0x00;
+            ValidateOperator.Begin().CheckLessThan(percent, "百分比", 100, true);
+            double _percent = ((double)percent) / 100;
+            double _number = Math.Round(_percent * byte.MaxValue, 0);
+            string _percentHex = string.Format("{0:x}", (ushort)_number).PadLeft(2, '0');
+            return Convert.ToByte(_percentHex, 16);
         }
         
         /// <summary>
