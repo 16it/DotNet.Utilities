@@ -217,6 +217,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Filters\APIExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\CompressContentAttribute.cs" />
     <Compile Include="Filters\TokenProjectorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
