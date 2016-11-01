@@ -46,7 +46,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         [TestMethod()]
         public void ParsePercentTest()
         {
-            Assert.AreEqual(128, ByteHelper.ParsePercent(101));
+            Assert.AreEqual(128, ByteHelper.ParsePercent(50));
         }
         
         [TestMethod()]
