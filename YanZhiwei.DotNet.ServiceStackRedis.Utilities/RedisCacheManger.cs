@@ -1,13 +1,14 @@
 ﻿namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities
 {
-    using ServiceStack.DesignPatterns.Model;
-    using ServiceStack.Redis;
-    using ServiceStack.Redis.Generic;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
+
+    using ServiceStack.DesignPatterns.Model;
+    using ServiceStack.Redis;
+    using ServiceStack.Redis.Generic;
 
     /// <summary>
     /// 基于ServiceStack.Redis 缓存帮助类
@@ -48,7 +49,7 @@
         /// 时间：2016/8/4 15:38
         /// 备注：
         public bool Contains<T>()
-        where T : IHasId<string>
+            where T : IHasId<string>
         {
             using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
@@ -65,7 +66,7 @@
         /// 时间：2016/8/4 15:17
         /// 备注：
         public bool ContainsKey<T>(string id)
-        where T : IHasId<string>
+            where T : IHasId<string>
         {
             using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
@@ -75,33 +76,34 @@
         }
 
         /// <summary>
+        /// 创建Redis事务操作
+        /// </summary>
+        /// <param name="redisTransactionFactroy">委托</param>
+        /// 时间：2016/11/3 11:20
+        /// 备注：
+        public void CreateTransaction(Action<IRedisTransaction> redisTransactionFactroy)
+        {
+            using(IRedisClient client = new RedisClient(RedisClient.Host, RedisClient.Port, RedisClient.Password, RedisClient.Db))
+            {
+                using(IRedisTransaction transcatiion = client.CreateTransaction())
+                {
+                    redisTransactionFactroy(transcatiion);
+                }
+            }
+        }
+
+        /// <summary>
         /// 删除缓存
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="item">缓存项</param>
-        public void Delete<T>(T item) where T : IHasId<string>
+        public void Delete<T>(T item)
+            where T : IHasId<string>
         {
             using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
                 typedclient.Delete(item);
             }
-        }
-
-        /// <summary>
-        /// 更新缓存
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="item">缓存项</param>
-        /// 时间：2016/8/17 17:00
-        /// 备注：
-        public void Update<T>(T item) where T : IHasId<string>
-        {
-            if(ContainsKey<T>(item.Id))
-            {
-                Delete<T>(item);
-            }
-
-            Set<T>(item);
         }
 
         /// <summary>
@@ -123,7 +125,8 @@
         /// <param name="id">KeyId</param>
         /// 时间：2016/8/3 14:20
         /// 备注：
-        public void DeleteById<T>(string id) where T : IHasId<string>
+        public void DeleteById<T>(string id)
+            where T : IHasId<string>
         {
             T _finded = Get<T>(id);
 
@@ -152,7 +155,8 @@
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="id">KeyId</param>
         /// <returns>泛型</returns>
-        public T Get<T>(string id) where T : IHasId<string>
+        public T Get<T>(string id)
+            where T : IHasId<string>
         {
             using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
@@ -165,7 +169,8 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <returns>集合</returns>
-        public IList<T> GetAll<T>() where T : IHasId<string>
+        public IList<T> GetAll<T>()
+            where T : IHasId<string>
         {
             using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
@@ -272,6 +277,24 @@
             {
                 typedclient.StoreAll(listItems);
             }
+        }
+
+        /// <summary>
+        /// 更新缓存
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="item">缓存项</param>
+        /// 时间：2016/8/17 17:00
+        /// 备注：
+        public void Update<T>(T item)
+            where T : IHasId<string>
+        {
+            if(ContainsKey<T>(item.Id))
+            {
+                Delete<T>(item);
+            }
+
+            Set<T>(item);
         }
 
         #endregion Methods
