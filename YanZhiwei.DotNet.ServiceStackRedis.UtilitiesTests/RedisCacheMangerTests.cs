@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceStack.DesignPatterns.Model;
 using ServiceStack.Redis;
+using System;
 
 namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities.Tests
 {
@@ -15,38 +15,61 @@ namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities.Tests
         {
             RedisClient _client = new RedisClient("127.0.0.1", 6379, null, 0);
             redisCacheHelper = new RedisCacheManger(_client);
+            redisCacheHelper.DeleteById<Person>("BB8F637E-0CB3-4193-BBCC-61C8BD83698F");
+            redisCacheHelper.DeleteById<Person>("BB8F637E-0CB3-4193-BBCC-61C8BD836981");
+            redisCacheHelper.Save();
         }
-        
-        //[TestMethod()]
-        //public void SetTest()
-        //{
-        //    using(IRedisClient RClient = redisCacheHelper.RedisClient)
-        //    {
-        //        RClient.Add("key", 1);
-        //        using(IRedisTransaction IRT = RClient.CreateTransaction())
-        //        {
-        //            IRT.QueueCommand(r => r.Set("key", 20));
-        //            IRT.QueueCommand(r => r.Increment("key", 1));
-        //            IRT.Commit(); // 提交事务
-        //        }
-        //    }
-        //}
         
         [TestMethod()]
         public void CreateTransactionTest()
         {
-            Person _person = new Person();
-            _person.Age = 10;
-            _person.Name = "churenyouzi";
-            redisCacheHelper.CreateTransaction(trans =>
+            redisCacheHelper.CreateTransaction<Person>(trans =>
             {
-                trans.QueueCommand(r => r.Set<Person>(_person.Id, _person));
-                // trans.QueueCommand(r => r.Increment("key", 1));
-                trans.Commit(); // 提交事务
+                try
+                {
+                    Person _person = new Person();
+                    _person.Age = 10;
+                    _person.Name = "churenyouzi";
+                    _person.Id = "BB8F637E-0CB3-4193-BBCC-61C8BD83698F".ToLower();
+                    trans.QueueCommand(c => c.Store(_person));
+                    throw new Exception("test");
+                    _person.Age = 11;
+                    _person.Name = "churenyouz1";
+                    _person.Id = "BB8F637E-0CB3-4193-BBCC-61C8BD836981".ToLower();
+                    trans.QueueCommand(c => c.Store(_person));
+                    trans.Commit();
+                }
+                catch(Exception)
+                {
+                    trans.Rollback();
+                }
             });
             redisCacheHelper.Save();
-            bool _acutal = redisCacheHelper.RedisClient.ContainsKey(_person.Id);
-            Assert.IsTrue(_acutal);
+            bool _actual = redisCacheHelper.ContainsKey<Person>("BB8F637E-0CB3-4193-BBCC-61C8BD836981".ToLower());
+            Assert.IsFalse(_actual);
+            redisCacheHelper.CreateTransaction<Person>(trans =>
+            {
+                try
+                {
+                    Person _person = new Person();
+                    _person.Age = 10;
+                    _person.Name = "churenyouzi";
+                    _person.Id = "BB8F637E-0CB3-4193-BBCC-61C8BD83698F".ToLower();
+                    trans.QueueCommand(c => c.Store(_person));
+                    _person.Age = 11;
+                    _person.Name = "churenyouz1";
+                    _person.Id = "BB8F637E-0CB3-4193-BBCC-61C8BD836981".ToLower();
+                    trans.QueueCommand(c => c.Store(_person));
+                    trans.Commit();
+                }
+                catch(Exception)
+                {
+                    trans.Rollback();
+                }
+            });
+            redisCacheHelper.Save();
+            _actual = redisCacheHelper.ContainsKey<Person>("BB8F637E-0CB3-4193-BBCC-61C8BD836981".ToLower());
+            Assert.IsTrue(_actual);
         }
     }
     
@@ -66,10 +89,8 @@ namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities.Tests
         
         public string Id
         {
-            get
-            {
-                return "BB8F637E-0CB3-4193-BBCC-61C8BD83698F";
-            }
+            get;
+            set;
         }
     }
 }
