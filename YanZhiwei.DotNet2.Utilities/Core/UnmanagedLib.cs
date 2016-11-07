@@ -1,11 +1,9 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using Exception;
+    using Operator;
     using System;
     using System.Runtime.InteropServices;
-    
-    using Exception;
-    
-    using Operator;
     
     /// <summary>
     /// 非托管DLL加载处理
