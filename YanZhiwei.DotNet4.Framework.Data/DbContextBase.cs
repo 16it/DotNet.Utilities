@@ -2,15 +2,12 @@
 {
     using DotNet.Framework.Contract;
     using DotNet2.Utilities.Collection;
-    using DotNet2.Utilities.Operator;
     using DotNet3._5.Utilities.Common;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data;
-    using System.Data.Common;
     using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
@@ -18,7 +15,7 @@
     /// <summary>
     /// DAL基类，实现Repository通用泛型数据访问模式
     /// </summary>
-    public class DbContextBase : DbContext, IDataRepository, IDisposable
+    public class DbContextBase<F> : DbContext, IDataRepository<F>, IDisposable
     {
         /// <summary>
         /// 构造函数
@@ -55,28 +52,23 @@
         /// 删除
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <typeparam name="F">主键泛型</typeparam>
         /// <param name="entity">实体类</param>
-        public void Delete<T, F>(T entity)
+        public void Delete<T>(T entity)
         where T : ModelBase<F>
         {
             this.Entry<T>(entity).State = EntityState.Deleted;
             this.SaveChanges();
         }
         
-        
-        
-        
         /// <summary>
         /// 查找
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <typeparam name="F">主键泛型</typeparam>
         /// <param name="keyValues">查询依据的键</param>
         /// <returns>
         /// 实体类
         /// </returns>
-        public T Find<T, F>(params object[] keyValues)
+        public T Find<T>(params object[] keyValues)
         where T : ModelBase<F>
         {
             return this.Set<T>().Find(keyValues);
@@ -86,12 +78,11 @@
         /// 查找全部
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <typeparam name="F">主键泛型</typeparam>
         /// <param name="conditions">委托.</param>
         /// <returns>
         /// 集合
         /// </returns>
-        public List<T> FindAll<T, F>(Expression<Func<T, bool>> conditions = null)
+        public List<T> FindAll<T>(Expression<Func<T, bool>> conditions = null)
         where T : ModelBase<F>
         {
             if(conditions == null)
@@ -105,13 +96,12 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <typeparam name="S">泛型</typeparam>
-        /// <typeparam name="F">主键泛型</typeparam>
         /// <param name="conditions">查找条件</param>
         /// <param name="orderBy">排序</param>
         /// <param name="pageSize">分页大小</param>
         /// <param name="pageIndex">分页集合</param>
         /// <returns>PagedList</returns>
-        public PagedList<T> FindAllByPage<T, S, F>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex)
+        public PagedList<T> FindAllByPage<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex)
         where T : ModelBase<F>
         {
             var queryList = conditions == null ? this.Set<T>() : this.Set<T>().Where(conditions) as IQueryable<T>;
@@ -122,12 +112,11 @@
         /// 添加
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <typeparam name="F">主键泛型</typeparam>
         /// <param name="entity">实体类</param>
         /// <returns>
         /// 实体类
         /// </returns>
-        public T Insert<T, F>(T entity)
+        public T Insert<T>(T entity)
         where T : ModelBase<F>
         {
             this.Set<T>().Add(entity);
@@ -169,7 +158,7 @@
         /// <returns>
         /// 实体类
         /// </returns>
-        public T Update<T, F>(T entity)
+        public T Update<T>(T entity)
         where T : ModelBase<F>
         {
             var set = this.Set<T>();
@@ -204,7 +193,5 @@
                 });
             }
         }
-        
-        
     }
 }
