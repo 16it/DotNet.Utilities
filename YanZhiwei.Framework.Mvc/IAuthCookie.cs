@@ -5,7 +5,10 @@
     /// <summary>
     /// 验证cookie接口
     /// </summary>
-    public interface IAuthCookie
+    /// <typeparam name="F">用户ID类型泛型</typeparam>
+    /// 时间：2016/11/7 16:56
+    /// 备注：
+    public interface IAuthCookie<F>
     {
         #region Properties
         
@@ -38,7 +41,7 @@
         /// <summary>
         /// 用户ID
         /// </summary>
-        int UserId
+        F UserId
         {
             get;
             set;
