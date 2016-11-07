@@ -1,10 +1,8 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using Enum;
-    using Operator;
     using System;
     using System.Reflection;
-    using System.Runtime.InteropServices;
     using WinForm;
     
     /// <summary>
@@ -50,30 +48,6 @@
             }
             
             return ProgramMode.WebForm;
-        }
-        
-        /// <summary>
-        /// 加载非托管DLL
-        /// </summary>
-        /// <param name="lpLibFileName">DLL路径</param>
-        /// <returns>IntPtr</returns>
-        /// 时间：2016/11/7 13:33
-        /// 备注：
-        [DllImport("kernel32.dll", EntryPoint = "LoadLibrary")]
-        public static extern IntPtr LoadLibrary(string lpLibFileName);
-        
-        /// <summary>
-        /// 加载非托管DLL
-        /// </summary>
-        /// <param name="dllPath">DLL路径</param>
-        /// <returns>加载是否成功</returns>
-        /// 时间：2016/11/7 13:35
-        /// 备注：
-        public static bool LoadUnmanagedDLL(string dllPath)
-        {
-            ValidateOperator.Begin().NotNullOrEmpty(dllPath, "非托管DLL路径").IsFilePath(dllPath).CheckFileExists(dllPath);
-            IntPtr _dllAddr = LoadLibrary(dllPath);
-            return _dllAddr == IntPtr.Zero;
         }
         
         #endregion Methods

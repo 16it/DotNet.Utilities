@@ -63,6 +63,7 @@
     <Compile Include="Collection\PagedTable.cs" />
     <Compile Include="Common\AttributeHelper.cs" />
     <Compile Include="Common\EncryptorHelper.cs" />
+    <Compile Include="Core\UnmanagedLib.cs" />
     <Compile Include="Core\PackageData.cs" />
     <Compile Include="DataBase\OraclePageScript.cs" />
     <Compile Include="DataOperator\AccessDataOperator.cs" />
