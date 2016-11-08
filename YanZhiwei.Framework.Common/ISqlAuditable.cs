@@ -13,11 +13,13 @@ namespace YanZhiwei.DotNet.Framework.Contract
         /// 写入日志
         /// </summary>
         /// <param name="userId">用户Id</param>
+        /// <param name="userGuid">用户Guid</param>
+        /// <param name="userBase64">用户Base64</param>
         /// <param name="tableName">涉及表名称</param>
         /// <param name="sql">添加，删除，修改拦截到sql语句</param>
         /// <param name="optTime">操作时间</param>
         /// 时间：2016-03-30 11:11
         /// 备注：
-        void WriteLog(int userId, string tableName, string sql, DateTime optTime);
+        void WriteLog(int userId, Guid userGuid, string userBase64, string tableName, string sql, DateTime optTime);
     }
 }

@@ -6,7 +6,7 @@
     public interface IAuditable
     {
         #region Methods
-
+        
         /// <summary>
         /// 写入日志
         /// </summary>
@@ -19,7 +19,7 @@
         /// 时间：2016-01-06 16:47
         /// 备注：
         void WriteLog(int modelId, string userName, string moduleName, string tableName, string eventType, ModelBase newValues);
-
+        
         #endregion Methods
     }
 }
