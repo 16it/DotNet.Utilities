@@ -11,9 +11,10 @@
 
         /// <summary>
         /// 返回Guid用于数据库操作，特定的时间代码可以提高检索效率
+        /// combined guid/timestamp，意思是：组合GUID/时间截
         /// </summary>
         /// <returns>COMB类型 Guid 数据</returns>
-        public static Guid CreateSqlServerGuid()
+        public static Guid CreateCOMB()
         {
             byte[] _guidArray = Guid.NewGuid().ToByteArray();
             DateTime _dtBase = new DateTime(1900, 1, 1);
@@ -73,48 +74,18 @@
         }
 
         /// <summary>
-        /// 有效减少GUID作为数据库主键引起的索引碎片，提高主键索引效率
-        /// </summary>
-        /// <returns>Guid</returns>
-        /// 时间：2016-02-25 11:03
-        /// 备注：
-        public static Guid NewSequentialGuid()
-        {
-            byte[] _uid = Guid.NewGuid().ToByteArray();
-            byte[] _binDate = BitConverter.GetBytes(DateTime.UtcNow.Ticks);
-            byte[] _secuentialGuid = new byte[_uid.Length];
-            _secuentialGuid[0] = _uid[0];
-            _secuentialGuid[1] = _uid[1];
-            _secuentialGuid[2] = _uid[2];
-            _secuentialGuid[3] = _uid[3];
-            _secuentialGuid[4] = _uid[4];
-            _secuentialGuid[5] = _uid[5];
-            _secuentialGuid[6] = _uid[6];
-            _secuentialGuid[7] = (byte)(0xc0 | (0xf & _uid[7]));
-            _secuentialGuid[9] = _binDate[0];
-            _secuentialGuid[8] = _binDate[1];
-            _secuentialGuid[15] = _binDate[2];
-            _secuentialGuid[14] = _binDate[3];
-            _secuentialGuid[13] = _binDate[4];
-            _secuentialGuid[12] = _binDate[5];
-            _secuentialGuid[11] = _binDate[6];
-            _secuentialGuid[10] = _binDate[7];
-            return new Guid(_secuentialGuid);
-        }
-
-        /// <summary>
         /// 从SQL Server 返回的Guid中生成时间信息
         /// </summary>
-        /// <param name="sqlServerGuid">The SQL server unique identifier.</param>
+        /// <param name="combGuid">The SQL server unique identifier.</param>
         /// <returns>DateTime</returns>
         /// 时间：2015-09-15 13:28
         /// 备注：
-        public static DateTime ParseSqlServerGuid(Guid sqlServerGuid)
+        public static DateTime ParseCOMBGuid(Guid combGuid)
         {
             DateTime _baseDate = new DateTime(1900, 1, 1);
             byte[] _daysArray = new byte[4];
             byte[] _msecsArray = new byte[4];
-            byte[] _guidArray = sqlServerGuid.ToByteArray();
+            byte[] _guidArray = combGuid.ToByteArray();
             Array.Copy(_guidArray, _guidArray.Length - 6, _daysArray, 2, 2);
             Array.Copy(_guidArray, _guidArray.Length - 4, _msecsArray, 0, 4);
             Array.Reverse(_daysArray);
@@ -127,17 +98,43 @@
         }
 
         /// <summary>
+        /// 将Guid转换为Base64String
+        /// </summary>
+        /// <param name="guid">The unique identifier.</param>
+        /// <returns>Base64字符串</returns>
+        /// 时间：2016/11/8 14:54
+        /// 备注：
+        public static string ToBase64String(Guid guid)
+        {
+            byte[] _buffer = guid.ToByteArray();
+            return Convert.ToBase64String(_buffer);
+        }
+
+        /// <summary>
         /// 将GUID转换成符合SQL Server的GUID
         /// </summary>
         /// <param name="guid">Guid</param>
         /// <returns>符合SQL Server的GUID</returns>
-        public static Guid ToSqlServerGuid(this Guid guid)
+        public static Guid ToCOMBGuid(this Guid guid)
         {
             byte[] _guid = guid.ToByteArray();
             Array.Reverse(_guid, 0, 4);
             Array.Reverse(_guid, 4, 2);
             Array.Reverse(_guid, 6, 2);
             return new Guid(_guid);
+        }
+
+        /// <summary>
+        /// 将Guid转换为Long类型
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        /// 时间：2016/11/8 14:36
+        /// 备注：
+        public static long ToLongId(Guid value)
+        {
+            byte[] _guid = value.ToByteArray();
+            return BitConverter.ToInt64(_guid, 0);
         }
 
         #endregion Methods
