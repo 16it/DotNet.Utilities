@@ -182,7 +182,7 @@
         {
             using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
             {
-                return typedclient.GetById(id.ToLower());
+                return typedclient.GetById(id);
             }
         }
         
