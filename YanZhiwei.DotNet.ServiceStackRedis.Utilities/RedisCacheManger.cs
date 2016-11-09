@@ -1,14 +1,13 @@
 ﻿namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities
 {
+    using ServiceStack.DesignPatterns.Model;
+    using ServiceStack.Redis;
+    using ServiceStack.Redis.Generic;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    
-    using ServiceStack.DesignPatterns.Model;
-    using ServiceStack.Redis;
-    using ServiceStack.Redis.Generic;
     
     /// <summary>
     /// 基于ServiceStack.Redis 缓存帮助类
@@ -40,6 +39,28 @@
         #endregion Constructors
         
         #region Methods
+        
+        /// <summary>
+        /// 检查Redis连接实例
+        /// </summary>
+        /// <returns>是否连接畅通</returns>
+        /// 时间:2016/11/9 23:15
+        /// 备注:
+        public bool CheckedConnectInstance()
+        {
+            bool _result = true;
+            
+            try
+            {
+                RedisClient.GetAllKeys();
+            }
+            catch(RedisException)
+            {
+                _result = false;
+            }
+            
+            return _result;
+        }
         
         /// <summary>
         /// 判断TypeName是否存在
