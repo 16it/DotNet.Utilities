@@ -17,7 +17,7 @@
         /// <summary>
         /// 队列处理是否需要单线程顺序执行
         /// ture表示单线程处理队列的T对象
-        /// 默认为false，表明按照顺序出队，但是多线程处理item
+        /// 默认为false，表明按照顺序出队
         /// </summary>
         public readonly bool WorkSequential;
         
@@ -120,58 +120,89 @@
         }
         
         /// <summary>
-        /// 处理队列中对象的函数
+        /// 处理队列中对象的
         /// </summary>
         /// <param name="o"></param>
         private void doUserWork(object o)
         {
-            try
+            while(!IsEmpty())
             {
-                T item;
-                
-                while(true)
+                try
                 {
-                    lock(looker)
+                    lock(isWorkingLooker)
                     {
-                        if(queue.Count > 0)
+                        T _item = queue.Dequeue();
+                        
+                        if(OnUserWorkHandlerEvent != null)
                         {
-                            item = queue.Dequeue();
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    
-                    if(!item.Equals(default(T)))
-                    {
-                        if(WorkSequential)
-                        {
-                            if(OnUserWorkHandlerEvent != null)
+                            if(WorkSequential)
                             {
-                                OnUserWorkHandlerEvent(this, new EnqueueEventArgs<T>(item));
+                                OnUserWorkHandlerEvent(this, new EnqueueEventArgs<T>(_item));
+                            }
+                            else
+                            {
+                                ThreadPool.QueueUserWorkItem(item =>
+                                {
+                                    OnUserWorkHandlerEvent(this, new EnqueueEventArgs<T>((T)item));
+                                }, _item);
                             }
                         }
-                        else
-                        {
-                            ThreadPool.QueueUserWorkItem(obj =>
-                            {
-                                if(OnUserWorkHandlerEvent != null)
-                                {
-                                    OnUserWorkHandlerEvent(this, new EnqueueEventArgs<T>((T)obj));
-                                }
-                            }, item);
-                        }
+                    }
+                }
+                finally
+                {
+                    lock(isWorkingLooker)
+                    {
+                        IsWorking = false;
                     }
                 }
             }
-            finally
-            {
-                lock(isWorkingLooker)
-                {
-                    IsWorking = false;
-                }
-            }
+            
+            //try
+            //{
+            //    T item;
+            //    while(true)
+            //    {
+            //        lock(looker)
+            //        {
+            //            if(queue.Count > 0)
+            //            {
+            //                item = queue.Dequeue();
+            //            }
+            //            else
+            //            {
+            //                return;
+            //            }
+            //        }
+            //        if(!item.Equals(default(T)))
+            //        {
+            //            if(WorkSequential)
+            //            {
+            //                if(OnUserWorkHandlerEvent != null)
+            //                {
+            //                    OnUserWorkHandlerEvent(this, new EnqueueEventArgs<T>(item));
+            //                }
+            //            }
+            //            else
+            //            {
+            //                ThreadPool.QueueUserWorkItem(obj =>
+            //                {
+            //                    if(OnUserWorkHandlerEvent != null)
+            //                    {
+            //                        OnUserWorkHandlerEvent(this, new EnqueueEventArgs<T>((T)obj));
+            //                    }
+            //                }, item);
+            //            }
+            //        }
+            //    }
+            //}
+            //finally
+            //{
+            //    lock(isWorkingLooker)
+            //    {
+            //        IsWorking = false;
+            //    }
+            //}
         }
         
         #endregion Methods

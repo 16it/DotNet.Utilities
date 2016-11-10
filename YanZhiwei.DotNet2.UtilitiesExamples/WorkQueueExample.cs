@@ -11,7 +11,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
         {
             try
             {
-                WorkQueue<int> workQueue = new WorkQueue<int>(1000, false);
+                WorkQueue<int> workQueue = new WorkQueue<int>(1000, true);
                 workQueue.OnUserWorkHandlerEvent += WorkQueue_OnUserWorkHandlerEvent;
                 ThreadPool.QueueUserWorkItem(o =>
                 {
