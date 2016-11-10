@@ -58,9 +58,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Args\EnqueueEventArgs.cs" />
     <Compile Include="Builder\SqlScriptBuilder.cs" />
     <Compile Include="Collection\JsonPagedList.cs" />
     <Compile Include="Collection\PagedTable.cs" />
+    <Compile Include="Collection\WorkQueue.cs" />
     <Compile Include="Common\AttributeHelper.cs" />
     <Compile Include="Common\EncryptorHelper.cs" />
     <Compile Include="Core\UnmanagedLib.cs" />
