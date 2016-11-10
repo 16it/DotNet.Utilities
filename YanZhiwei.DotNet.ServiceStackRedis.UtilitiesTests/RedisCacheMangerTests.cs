@@ -13,8 +13,7 @@ namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities.Tests
         [TestInitialize]
         public void Init()
         {
-            RedisClient _client = new RedisClient("127.0.0.1", 6379, null, 0);
-            redisCacheHelper = new RedisCacheManger(_client);
+            redisCacheHelper = new RedisCacheManger("127.0.0.1", 6379, 0);
             redisCacheHelper.DeleteById<Person>("BB8F637E-0CB3-4193-BBCC-61C8BD83698F");
             redisCacheHelper.DeleteById<Person>("BB8F637E-0CB3-4193-BBCC-61C8BD836981");
             redisCacheHelper.Save();

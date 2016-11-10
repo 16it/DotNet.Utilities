@@ -1,27 +1,28 @@
 ﻿namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities
 {
-    using ServiceStack.DesignPatterns.Model;
-    using ServiceStack.Redis;
-    using ServiceStack.Redis.Generic;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
     
+    using ServiceStack.DesignPatterns.Model;
+    using ServiceStack.Redis;
+    using ServiceStack.Redis.Generic;
+    
     /// <summary>
-    /// 基于ServiceStack.Redis 缓存帮助类
+    /// 基于ServiceStack Redis辅助类
     /// </summary>
-    /// 时间：2016/8/3 13:32
+    /// 时间：2016/11/10 15:13
     /// 备注：
     public class RedisCacheManger : IDisposable
     {
         #region Fields
         
         /// <summary>
-        /// IRedisClient
+        /// PooledRedisClientManager
         /// </summary>
-        public readonly IRedisClient RedisClient;
+        public readonly PooledRedisClientManager PRM;
         
         #endregion Fields
         
@@ -30,10 +31,28 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="redisClient">IRedisClient</param>
-        public RedisCacheManger(IRedisClient redisClient)
+        /// <param name="readWriteHosts">读写Redis主机</param>
+        /// <param name="readOnlyHosts">只读Redis主机</param>
+        /// <param name="defaultDb">Reids DataBase索引</param>
+        /// 时间：2016/11/10 15:14
+        /// 备注：
+        public RedisCacheManger(string[] readWriteHosts, string[] readOnlyHosts, long defaultDb)
         {
-            RedisClient = redisClient;
+            PRM = CreateManager(readWriteHosts, readOnlyHosts, defaultDb);
+        }
+        
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="ip">Reids 主机Ip</param>
+        /// <param name="port">Redis 端口</param>
+        /// <param name="defaultDb">Reids DataBase索引</param>
+        /// 时间：2016/11/10 15:14
+        /// 备注：
+        public RedisCacheManger(string ip, int port, long defaultDb)
+        {
+            string[] _hosts = new string[] { string.Format("{0}:{1}", ip, port) };
+            PRM = CreateManager(_hosts, _hosts, defaultDb);
         }
         
         #endregion Constructors
@@ -52,7 +71,10 @@
             
             try
             {
-                RedisClient.GetAllKeys();
+                using(IRedisClient redisClient = PRM.GetClient())
+                {
+                    redisClient.GetAllKeys();
+                }
             }
             catch(RedisException)
             {
@@ -72,9 +94,12 @@
         public bool Contains<T>()
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                return typedclient.TypeIdsSet.Count > 0;
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
+                {
+                    return typedclient.TypeIdsSet.Count > 0;
+                }
             }
         }
         
@@ -89,10 +114,13 @@
         public bool ContainsKey<T>(string id)
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                string _key = string.Format("urn:{0}:{1}", typeof(T).Name.ToLower(), id);
-                return typedclient.ContainsKey(_key);
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
+                {
+                    string _key = string.Format("urn:{0}:{1}", typeof(T).Name.ToLower(), id);
+                    return typedclient.ContainsKey(_key);
+                }
             }
         }
         
@@ -106,11 +134,14 @@
         public void CreateLock<T>(Action<IRedisTypedClient<T>> redisLockFactroy)
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                using(typedclient.AcquireLock())
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
                 {
-                    redisLockFactroy(typedclient);
+                    using(typedclient.AcquireLock())
+                    {
+                        redisLockFactroy(typedclient);
+                    }
                 }
             }
         }
@@ -125,11 +156,14 @@
         public void CreateTransaction<T>(Action<IRedisTypedTransaction<T>> redisTransactionFactroy)
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                using(IRedisTypedTransaction<T> trans = typedclient.CreateTransaction())
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
                 {
-                    redisTransactionFactroy(trans);
+                    using(IRedisTypedTransaction<T> trans = typedclient.CreateTransaction())
+                    {
+                        redisTransactionFactroy(trans);
+                    }
                 }
             }
         }
@@ -142,9 +176,12 @@
         public void Delete<T>(T item)
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                typedclient.Delete(item);
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
+                {
+                    typedclient.Delete(item);
+                }
             }
         }
         
@@ -155,9 +192,12 @@
         public void DeleteAll<T>()
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                typedclient.DeleteAll();
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
+                {
+                    typedclient.DeleteAll();
+                }
             }
         }
         
@@ -186,9 +226,9 @@
         /// 备注：
         public void Dispose()
         {
-            if(RedisClient != null)
+            if(PRM != null)
             {
-                RedisClient.Dispose();
+                PRM.Dispose();
             }
         }
         
@@ -201,9 +241,12 @@
         public T Get<T>(string id)
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                return typedclient.GetById(id);
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
+                {
+                    return typedclient.GetById(id);
+                }
             }
         }
         
@@ -215,9 +258,12 @@
         public IList<T> GetAll<T>()
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                return typedclient.GetAll();
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
+                {
+                    return typedclient.GetAll();
+                }
             }
         }
         
@@ -230,9 +276,12 @@
         public IEnumerable<T> GetAll<T>(Func<T, bool> keySelector)
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                return typedclient.GetAll().Where(keySelector);
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
+                {
+                    return typedclient.GetAll().Where(keySelector);
+                }
             }
         }
         
@@ -247,9 +296,12 @@
         public IQueryable<T> GetAll<T>(string hashId, string dataKey, Expression<Func<T, bool>> keySelector)
         where T : IHasId<string>
         {
-            var _filtered = RedisClient.GetAllEntriesFromHash(hashId).Where(c => c.Value.Equals(dataKey, StringComparison.InvariantCultureIgnoreCase));
-            var _ids = _filtered.Select(c => c.Key);
-            return RedisClient.As<T>().GetByIds(_ids).AsQueryable().Where(keySelector);
+            using(IRedisClient redisClient = PRM.GetClient())
+            {
+                var _filtered = redisClient.GetAllEntriesFromHash(hashId).Where(c => c.Value.Equals(dataKey, StringComparison.InvariantCultureIgnoreCase));
+                var _ids = _filtered.Select(c => c.Key);
+                return redisClient.As<T>().GetByIds(_ids).AsQueryable().Where(keySelector);
+            }
         }
         
         /// <summary>
@@ -262,9 +314,12 @@
         public IQueryable<T> GetAll<T>(string hashId, string dataKey)
         where T : IHasId<string>
         {
-            var _filtered = RedisClient.GetAllEntriesFromHash(hashId).Where(c => c.Value.Equals(dataKey, StringComparison.InvariantCultureIgnoreCase));
-            var _ids = _filtered.Select(c => c.Key);
-            return RedisClient.As<T>().GetByIds(_ids).AsQueryable();
+            using(IRedisClient redisClient = PRM.GetClient())
+            {
+                var _filtered = redisClient.GetAllEntriesFromHash(hashId).Where(c => c.Value.Equals(dataKey, StringComparison.InvariantCultureIgnoreCase));
+                var _ids = _filtered.Select(c => c.Key);
+                return redisClient.As<T>().GetByIds(_ids).AsQueryable();
+            }
         }
         
         /// <summary>
@@ -272,7 +327,10 @@
         /// </summary>
         public void Save()
         {
-            RedisClient.Save();
+            using(IRedisClient redisClient = PRM.GetClient())
+            {
+                redisClient.Save();
+            }
         }
         
         /// <summary>
@@ -280,7 +338,10 @@
         /// </summary>
         public void SaveAsync()
         {
-            RedisClient.SaveAsync();
+            using(IRedisClient redisClient = PRM.GetClient())
+            {
+                redisClient.SaveAsync();
+            }
         }
         
         /// <summary>
@@ -291,9 +352,12 @@
         public void Set<T>(T item)
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                typedclient.Store(item);
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
+                {
+                    typedclient.Store(item);
+                }
             }
         }
         
@@ -308,10 +372,13 @@
         public void Set<T>(T item, string hashId, string dataKey, string keyName)
         where T : IHasId<string>
         {
-            Type _type = item.GetType();
-            PropertyInfo _prop = _type.GetProperty(keyName);
-            RedisClient.SetEntryInHash(hashId, _prop.GetValue(item, null).ToString(), dataKey.ToLower());
-            RedisClient.As<T>().Store(item);
+            using(IRedisClient redisClient = PRM.GetClient())
+            {
+                Type _type = item.GetType();
+                PropertyInfo _prop = _type.GetProperty(keyName);
+                redisClient.SetEntryInHash(hashId, _prop.GetValue(item, null).ToString(), dataKey.ToLower());
+                redisClient.As<T>().Store(item);
+            }
         }
         
         /// <summary>
@@ -322,9 +389,12 @@
         public void SetAll<T>(IEnumerable<T> listItems)
         where T : IHasId<string>
         {
-            using(IRedisTypedClient<T> typedclient = RedisClient.As<T>())
+            using(IRedisClient redisClient = PRM.GetClient())
             {
-                typedclient.StoreAll(listItems);
+                using(IRedisTypedClient<T> typedclient = redisClient.As<T>())
+                {
+                    typedclient.StoreAll(listItems);
+                }
             }
         }
         
@@ -344,6 +414,18 @@
             }
             
             Set<T>(item);
+        }
+        
+        private PooledRedisClientManager CreateManager(
+            string[] readWriteHosts, string[] readOnlyHosts, long defaultDb = 0)
+        {
+            RedisClientManagerConfig _redisConfig = new RedisClientManagerConfig();
+            _redisConfig.AutoStart = true;
+            _redisConfig.MaxReadPoolSize = readOnlyHosts.Length * 20;
+            _redisConfig.MaxWritePoolSize = readWriteHosts.Length * 20;
+            _redisConfig.DefaultDb = defaultDb;
+            PooledRedisClientManager _prm = new PooledRedisClientManager(readWriteHosts, readOnlyHosts, _redisConfig);
+            return _prm;
         }
         
         #endregion Methods

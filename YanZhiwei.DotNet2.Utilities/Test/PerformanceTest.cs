@@ -3,35 +3,35 @@
     using System;
     using System.Collections.Generic;
     using System.Threading;
-
+    
     using Model;
-
+    
     /// <summary>
     /// 程序性能测试类
     /// </summary>
     public class PerformanceTest
     {
         #region Fields
-
+        
         /// <summary>
         /// 开始时间
         /// </summary>
         private DateTime beginTime;
-
+        
         /// <summary>
         /// 结束时间
         /// </summary>
         private DateTime endTime;
-
+        
         /// <summary>
         /// 测试参数
         /// </summary>
         private PerformanceParams performance;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -47,19 +47,19 @@
                 IsMultithread = isMultithread
             };
         }
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
         public PerformanceTest()
-            : this(1, false)
+        : this(1, false)
         {
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 执行函数
         /// </summary>
@@ -86,7 +86,7 @@
             */
             List<Thread> _testThreads = new List<Thread>();
             beginTime = DateTime.Now;
-
+            
             for(int i = 0; i < performance.RunCount; i++)
             {
                 if(performance.IsMultithread)
@@ -103,7 +103,7 @@
                     testFactory(i);
                 }
             }
-
+            
             if(performance.IsMultithread)
             {
                 foreach(Thread t in _testThreads)
@@ -114,10 +114,10 @@
                     }
                 }
             }
-
+            
             resultFactory(GetResult());
         }
-
+        
         /// <summary>
         /// 获取测试结果
         /// </summary>
@@ -125,12 +125,10 @@
         private string GetResult()
         {
             endTime = DateTime.Now;
-            string totalTime = ((endTime - beginTime).TotalMilliseconds / 1000.0).ToString("n5");
-            string reval = string.Format("总共执行时间：{0}秒", totalTime);
-            Console.Write(reval);
-            return reval;
+            string _totalTime = ((endTime - beginTime).TotalMilliseconds / 1000.0).ToString("n5");
+            return string.Format("总共执行时间：{0}秒", _totalTime);
         }
-
+        
         #endregion Methods
     }
 }
