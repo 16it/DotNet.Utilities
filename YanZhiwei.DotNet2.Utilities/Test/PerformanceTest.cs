@@ -1,9 +1,10 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Test
 {
-    using Model;
     using System;
     using System.Collections.Generic;
     using System.Threading;
+
+    using Model;
 
     /// <summary>
     /// 程序性能测试类
@@ -34,12 +35,25 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        public PerformanceTest()
+        /// <param name="executeCount">执行次数</param>
+        /// <param name="isMultithread">是否多线程</param>
+        /// 时间：2016/11/10 11:14
+        /// 备注：
+        public PerformanceTest(int executeCount, bool isMultithread)
         {
             performance = new PerformanceParams()
             {
-                RunCount = 1
+                RunCount = executeCount,
+                IsMultithread = isMultithread
             };
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public PerformanceTest()
+            : this(1, false)
+        {
         }
 
         #endregion Constructors
@@ -102,23 +116,6 @@
             }
 
             resultFactory(GetResult());
-        }
-
-        /// <summary>
-        ///设置执行次数(默认:1)
-        /// </summary>
-        public void SetCount(int count)
-        {
-            performance.RunCount = count;
-        }
-
-        /// <summary>
-        /// 设置线程模式(默认:false)
-        /// </summary>
-        /// <param name="isMul">true为多线程</param>
-        public void SetIsMultithread(bool isMul)
-        {
-            performance.IsMultithread = isMul;
         }
 
         /// <summary>
