@@ -197,6 +197,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.HtmlAgilit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests", "YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests\YanZhiwei.DotNet.ServiceStackRedis.UtilitiesTests.csproj", "{179C5133-F19E-4FB7-8428-5187625F2137}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Krypton.Utilities", "YanZhiwei.DotNet.Krypton.Utilities\YanZhiwei.DotNet.Krypton.Utilities.csproj", "{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1459,6 +1461,22 @@ Global
 		{179C5133-F19E-4FB7-8428-5187625F2137}.Release|x64.Build.0 = Release|Any CPU
 		{179C5133-F19E-4FB7-8428-5187625F2137}.Release|x86.ActiveCfg = Release|Any CPU
 		{179C5133-F19E-4FB7-8428-5187625F2137}.Release|x86.Build.0 = Release|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Debug|ARM.Build.0 = Debug|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Debug|x64.Build.0 = Debug|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Debug|x86.Build.0 = Debug|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Release|ARM.Build.0 = Release|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Release|x64.ActiveCfg = Release|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Release|x64.Build.0 = Release|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Release|x86.ActiveCfg = Release|Any CPU
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1552,5 +1570,6 @@ Global
 		{C22072A9-9AF9-4997-8434-C1F3C6D15341} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{059BF006-6821-4139-AF47-3BA8D6A1D912} = {0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}
 		{179C5133-F19E-4FB7-8428-5187625F2137} = {0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}
+		{240906DB-1F2A-4E14-B2D5-D6D3F341C1E6} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 	EndGlobalSection
 EndGlobal
