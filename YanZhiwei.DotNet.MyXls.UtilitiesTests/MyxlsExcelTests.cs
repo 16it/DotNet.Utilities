@@ -21,9 +21,9 @@ namespace YanZhiwei.DotNet.MyXls.Utilities.Tests
             {
                 personList.Add(new Person()
                 {
-                    Address = RandomHelper.NetxtString(10, false),
+                    Address = RandomHelper.NextString(10, false),
                     Age = (short)RandomHelper.NextNumber(0, 100),
-                    Name = RandomHelper.NetxtString(4, false)
+                    Name = RandomHelper.NextString(4, false)
                 });
             }
         }

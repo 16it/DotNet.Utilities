@@ -3,28 +3,28 @@
     using System;
     using System.Drawing;
     using System.Text;
-
+    
     /// <summary>
     /// Random的帮助类
     /// </summary>
     public static class RandomHelper
     {
         #region Fields
-
+        
         /// <summary>
         /// 随机种子
         /// </summary>
         public static readonly Random RandomSeed = null;
-
+        
         /// <summary>
         /// 0~9 A~Z字符串
         /// </summary>
         public static readonly string RandomString09AZ = "0123456789ABCDEFGHIJKMLNOPQRSTUVWXYZ";
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 静态构造函数
         /// </summary>
@@ -32,11 +32,11 @@
         {
             RandomSeed = new Random((int)DateTime.Now.Ticks);
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 生成随机字符串
         /// <para>eg:RandomHelper.NetxtString(4, false);</para>
@@ -44,19 +44,19 @@
         /// <param name="size">字符串长度</param>
         /// <param name="lowerCase">字符串是小写</param>
         /// <returns>随机字符串</returns>
-        public static string NetxtString(int size, bool lowerCase)
+        public static string NextString(int size, bool lowerCase)
         {
             StringBuilder _builder = new StringBuilder(size);
             int _startChar = lowerCase ? 97 : 65;  //65 = A / 97 = a
-
+            
             for(int i = 0; i < size; i++)
             {
                 _builder.Append((char)(26 * RandomSeed.NextDouble() + _startChar));
             }
-
+            
             return _builder.ToString();
         }
-
+        
         /// <summary>
         /// 依据指定字符串来生成随机字符串
         /// <para>eg:RandomHelper.NetxtString(RandomHelper.RandomString_09AZ, 4, false);</para>
@@ -65,27 +65,27 @@
         /// <param name="size">字符串长度</param>
         /// <param name="lowerCase">字符串是小写</param>
         /// <returns>随机字符串</returns>
-        public static string NetxtString(string randomString, int size, bool lowerCase)
+        public static string NextString(string randomString, int size, bool lowerCase)
         {
             string _nextString = string.Empty;
-
+            
             if(!string.IsNullOrEmpty(randomString))
             {
                 StringBuilder _builder = new StringBuilder(size);
                 int _maxCount = randomString.Length - 1;
-
+                
                 for(int i = 0; i < size; i++)
                 {
                     int _number = RandomSeed.Next(0, _maxCount);
                     _builder.Append(randomString[_number]);
                 }
-
+                
                 _nextString = _builder.ToString();
             }
-
+            
             return lowerCase ? _nextString.ToLower() : _nextString.ToUpper();
         }
-
+        
         /// <summary>
         /// 随机布尔值
         /// </summary>
@@ -94,7 +94,7 @@
         {
             return RandomSeed.NextDouble() >= 0.5;
         }
-
+        
         /// <summary>
         /// 生成随机颜色
         /// </summary>
@@ -103,7 +103,7 @@
         {
             return Color.FromArgb((byte)RandomSeed.Next(255), (byte)RandomSeed.Next(255), (byte)RandomSeed.Next(255));
         }
-
+        
         /// <summary>
         /// 获取随机时间
         /// </summary>
@@ -120,7 +120,7 @@
             DateTime _nextTime = Convert.ToDateTime(_dateTimeString);
             return _nextTime;
         }
-
+        
         /// <summary>
         /// 生成设置范围内的Double的随机数
         /// <para>eg:RandomHelper.NextDouble(1.5, 1.7);</para>
@@ -132,7 +132,28 @@
         {
             return RandomSeed.NextDouble() * (maxiDouble - miniDouble) + miniDouble;
         }
-
+        
+        /// <summary>
+        /// 生成随机十六进制字符串
+        /// </summary>
+        /// <param name="byteLength">生成随机十六进制字节长度</param>
+        /// <returns>十六进制字符串</returns>
+        /// 时间：2016/11/23 16:45
+        /// 备注：
+        public static string NextHexString(ushort byteLength)
+        {
+            byte[] _buffer = new byte[byteLength];
+            RandomSeed.NextBytes(_buffer);
+            StringBuilder _builder = new StringBuilder();
+            
+            foreach(byte x in _buffer)
+            {
+                _builder.Append(x.ToString("X2"));
+            }
+            
+            return _builder.ToString();
+        }
+        
         /// <summary>
         /// 生成随机MAC地址
         /// <para>eg:RandomHelper.NextMacAddress();</para>
@@ -144,7 +165,7 @@
             string _newMacAddress = string.Format("{0}{1}:{2}{3}:{4}{5}:{6}{7}:{8}{9}:{10}{11}", RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x"), RandomSeed.Next(_minValue, _maxValue).ToString("x")).ToUpper();
             return _newMacAddress;
         }
-
+        
         /// <summary>
         /// 生成随机数【包括上下限】
         /// </summary>
@@ -155,7 +176,7 @@
         {
             return RandomSeed.Next(low, high);
         }
-
+        
         /// <summary>
         /// 生成随机时间
         /// <para>eg:RandomHelper.NextTime();</para>
@@ -170,7 +191,7 @@
             DateTime _nextTime = Convert.ToDateTime(_dateTimeString);
             return _nextTime;
         }
-
+        
         #endregion Methods
     }
 }

@@ -2,6 +2,22 @@
 using System;
 using YanZhiwei.DotNet2.Utilities.Common;
 
+namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+{
+    [TestClass()]
+    public class RandomHelperTests
+    {
+        [TestMethod()]
+        public void NextHexStringTest()
+        {
+            string _hexString = RandomHelper.NextHexString(10);
+            Assert.AreEqual(20, _hexString.Length);
+            string _hexStringA = RandomHelper.NextHexString(10);
+            Assert.AreNotEqual(_hexString, _hexStringA);
+        }
+    }
+}
+
 namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]
@@ -14,7 +30,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
             Assert.Inconclusive(_newMac);
             Assert.AreEqual(17, _newMac.Length);
         }
-
+        
         [TestMethod()]
         public void NextDoubleTest()
         {
@@ -23,23 +39,23 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
             bool _result = (_newDouble > 1.5) && (_newDouble < 1.7);
             Assert.AreEqual(true, _result);
         }
-
+        
         [TestMethod()]
         public void NetxtStringTest()
         {
-            string _newString = RandomHelper.NetxtString(4, false);
+            string _newString = RandomHelper.NextString(4, false);
             Assert.Inconclusive(_newString);
             Assert.AreEqual(4, _newString);
         }
-
+        
         [TestMethod()]
         public void NetxtStringTest1()
         {
-            string _newString = RandomHelper.NetxtString(RandomHelper.RandomString09AZ, 4, false);
+            string _newString = RandomHelper.NextString(RandomHelper.RandomString09AZ, 4, false);
             Assert.Inconclusive(_newString);
             Assert.AreEqual(4, _newString);
         }
-
+        
         [TestMethod()]
         public void NextDateTimeTest()
         {
