@@ -61,6 +61,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Builder\CRCBuilderTests.cs" />
     <Compile Include="Common\ModelHelperTests.cs" />
     <Compile Include="Common\ReflectHelperTests.cs" />
     <Compile Include="Core\ByteArrayBuilderTests.cs" />

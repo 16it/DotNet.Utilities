@@ -45,10 +45,6 @@
     <DocumentationFile>bin\Release\DotNet3.5.Utilities.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNet2.Utilities, Version=1.0.6053.31498, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\YanZhiwei.DotNet.MVC.AdminPanel.UI\DLL\DotNet2.Utilities.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
