@@ -1,16 +1,16 @@
 ﻿namespace YanZhiwei.DotNet.Krypton.Utilities
 {
     using ComponentFactory.Krypton.Toolkit;
-
+    
     /// <summary>
     ///  RichTextBox 辅助类
     /// </summary>
     /// 时间：2016/11/23 15:38
     /// 备注：
-    public static class RichTextBoxHelper
+    public static class KryptonRichTextBoxHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 设置RichTextBox的值，并且设置焦点最最后
         /// </summary>
@@ -25,7 +25,7 @@
             richText.ScrollToCaret();
             richText.Focus();
         }
-
+        
         #endregion Methods
     }
 }

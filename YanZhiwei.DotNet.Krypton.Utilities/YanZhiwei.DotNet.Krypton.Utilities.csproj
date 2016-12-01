@@ -44,7 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RichTextBoxHelper.cs" />
+    <Compile Include="KryptonMessageBoxHelper.cs" />
+    <Compile Include="KryptonRichTextBoxHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
