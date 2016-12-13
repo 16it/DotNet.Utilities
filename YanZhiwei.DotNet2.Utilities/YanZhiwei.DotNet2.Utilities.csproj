@@ -67,6 +67,7 @@
     <Compile Include="Common\AttributeHelper.cs" />
     <Compile Include="Common\EncryptorHelper.cs" />
     <Compile Include="Core\ImageFast.cs" />
+    <Compile Include="Core\InteractRetry.cs" />
     <Compile Include="Core\NonInteractRetry.cs" />
     <Compile Include="Core\UnmanagedLib.cs" />
     <Compile Include="Core\PackageData.cs" />
