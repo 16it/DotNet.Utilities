@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
     using Common;
+    using Operator;
     using System.Collections.Generic;
     
     /// <summary>
@@ -83,6 +84,7 @@
         /// <param name="iUnPackage">拆包接口</param>
         public UnPackageData(IUnPackageData iUnPackage)
         {
+            ValidateOperator.Begin().NotNull(iUnPackage, "适用于串口，Socket数据协议接口");
             StartFlag = 0x68;
             EndFlag = 0x16;
             ProtocolMaxFullCount = 65535;
