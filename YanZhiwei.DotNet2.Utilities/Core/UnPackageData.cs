@@ -15,7 +15,7 @@
         /// 计算CRC数值
         /// </summary>
         /// <param name="buffer">需要计算CRC部分BYTE数值</param>
-        /// <returns></returns>
+        /// <returns>CRC数值</returns>
         byte[] GetCaluCrcValue(byte[] buffer);
         
         /// <summary>
@@ -24,8 +24,6 @@
         /// <param name="expect">期待数值</param>
         /// <param name="actual">实际数值</param>
         /// <returns>是否一致</returns>
-        /// 时间:2017/1/9 22:54
-        /// 备注:
         bool CheckedCaluCrc(byte[] expect, byte[] actual);
         
         /// <summary>
@@ -110,7 +108,7 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="iUnPackage">拆包接口</param>
+        /// <param name="iUnPackage">拆包接口定义实现</param>
         /// <param name="startFlag">起始位</param>
         /// <param name="endflag">结束位</param>
         /// <param name="protocolMaxFullCount">报文最大长度</param>
