@@ -108,5 +108,10 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
             
             MyxlsExcel.ToExecel(_table, @"D:\myxlsTest.xls", "信息一览");
         }
+        
+        private void button12_Click(object sender, EventArgs e)
+        {
+            FormHelper.ShowDialogForm<winUnPackageData>();
+        }
     }
 }
