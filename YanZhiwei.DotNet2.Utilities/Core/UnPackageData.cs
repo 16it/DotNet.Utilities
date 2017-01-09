@@ -50,7 +50,7 @@
         #region Fields
         
         /// <summary>
-        /// 结束位
+        /// 结束位，若值==0x00，则不检查结束位
         /// </summary>
         public readonly byte EndFlag;
         
@@ -69,6 +69,13 @@
         /// </summary>
         public readonly byte StartFlag;
         
+        private bool CheckEndFlag
+        {
+            get
+            {
+                return EndFlag != 0x00;
+            }
+        }
         /// <summary>
         /// 拆包接口
         /// </summary>
@@ -257,22 +264,31 @@
                 bool _checkedCrc = false;
                 byte[] _packetDataBuffer = VerifyingPacketDataLength(out _checkedCrc);
                 
-                if(VerifyingPacketCRC(_checkedCrc, _packetDataBuffer))
+                if(_checkedCrc)
                 {
-                    if(ReceivedFullPackageEvent != null)
+                    bool _checkedEndFlagResult = true;
+                    
+                    if(CheckEndFlag)
                     {
-                        ReceivedFullPackageEvent(_packetDataBuffer);
+                        _checkedEndFlagResult = _packetDataBuffer[_packetDataBuffer.Length - 1] == EndFlag;
                     }
+                    
+                    if(_checkedEndFlagResult && VerifyingPacketCRC(_checkedCrc, _packetDataBuffer))
+                    {
+                        if(ReceivedFullPackageEvent != null)
+                        {
+                            ReceivedFullPackageEvent(_packetDataBuffer);
+                        }
+                    }
+                    
+                    ResetDataReceived();
                 }
-                
-                ResetDataReceived();
+                else if(CacheBuffer.Count >= ProtocolMaxFullCount)
+                {
+                    ResetDataReceived();
+                }
             }
-            else if(CacheBuffer.Count >= ProtocolMaxFullCount)
-            {
-                ResetDataReceived();
-            }
+            
+            #endregion Methods
         }
-        
-        #endregion Methods
     }
-}
