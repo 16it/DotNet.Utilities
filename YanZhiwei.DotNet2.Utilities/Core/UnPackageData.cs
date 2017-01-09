@@ -7,7 +7,7 @@
     /// <summary>
     ///适用于串口，Socket数据协议 接口
     /// </summary>
-    public interface IUnPackageData
+    public interface IUnPackageProtocol
     {
         #region Methods
         
@@ -17,6 +17,16 @@
         /// <param name="buffer">需要计算CRC部分BYTE数值</param>
         /// <returns></returns>
         byte[] GetCaluCrcValue(byte[] buffer);
+        
+        /// <summary>
+        /// 检查CRC数值
+        /// </summary>
+        /// <param name="expect">期待数值</param>
+        /// <param name="actual">实际数值</param>
+        /// <returns>是否一致</returns>
+        /// 时间:2017/1/9 22:54
+        /// 备注:
+        bool CheckedCaluCrc(byte[] expect, byte[] actual);
         
         /// <summary>
         ///获取CRC计算BYTE数组
@@ -76,10 +86,11 @@
                 return EndFlag != 0x00;
             }
         }
+        
         /// <summary>
         /// 拆包接口
         /// </summary>
-        private IUnPackageData protocolUnPackage = null;
+        private IUnPackageProtocol unPackageProtocol = null;
         
         #endregion Fields
         
@@ -89,13 +100,31 @@
         /// 构造函数
         /// </summary>
         /// <param name="iUnPackage">拆包接口</param>
-        public UnPackageData(IUnPackageData iUnPackage)
+        /// <param name="protocolMinCount">协议最小长度</param>
+        /// 时间:2017/1/9 22:42
+        /// 备注:
+        public UnPackageData(IUnPackageProtocol iUnPackage, int protocolMinCount) : this(iUnPackage, 0x68, 0x16, 65535, protocolMinCount)
+        {
+        }
+        
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="iUnPackage">拆包接口</param>
+        /// <param name="startFlag">起始位</param>
+        /// <param name="endflag">结束位</param>
+        /// <param name="protocolMaxFullCount">报文最大长度</param>
+        /// <param name="protocolMinCount">协议最小长度</param>
+        /// 时间:2017/1/9 22:41
+        /// 备注:
+        public UnPackageData(IUnPackageProtocol iUnPackage, byte startFlag, byte endflag, int protocolMaxFullCount, int protocolMinCount)
         {
             ValidateOperator.Begin().NotNull(iUnPackage, "适用于串口，Socket数据协议接口");
-            StartFlag = 0x68;
-            EndFlag = 0x16;
-            ProtocolMaxFullCount = 65535;
-            protocolUnPackage = iUnPackage;
+            StartFlag = startFlag;
+            EndFlag = endflag;
+            ProtocolMaxFullCount = protocolMaxFullCount;
+            unPackageProtocol = iUnPackage;
+            ProtocolMinCount = protocolMinCount;
         }
         
         #endregion Constructors
@@ -186,7 +215,7 @@
         /// </summary>
         /// <param name="buffer">缓冲数据buffer</param>
         /// <returns>查找到得索引</returns>
-        public virtual int FindedCommandWords(byte[] buffer)
+        protected virtual int FindedCommandWords(byte[] buffer)
         {
             int _cmdWordIndex = 0;
             bool _result = buffer != null;
@@ -210,7 +239,7 @@
         /// <summary>
         /// 重置数据，包括接收状态，以及缓冲
         /// </summary>
-        public virtual void ResetDataReceived()
+        protected virtual void ResetDataReceived()
         {
             DataReceiving = false;
             CacheBuffer = null;
@@ -222,16 +251,16 @@
         /// <param name="checkedCrc">是否检验CRC</param>
         /// <param name="packetDataBuffer">完整报文Byte数组</param>
         /// <returns>CRC是否合法</returns>
-        public virtual bool VerifyingPacketCRC(bool checkedCrc, byte[] packetDataBuffer)
+        protected virtual bool VerifyingPacketCRC(bool checkedCrc, byte[] packetDataBuffer)
         {
             bool _result = false;
             
             if(checkedCrc && packetDataBuffer != null)
             {
-                byte[] _packetDataCRC = protocolUnPackage.GetProtocolCaluCRCSection(packetDataBuffer);
-                byte[] _expectCRC = protocolUnPackage.GetCaluCrcValue(_packetDataCRC);
-                byte[] _actualCRC = protocolUnPackage.GetProtocolCRCSection(packetDataBuffer);
-                _result = ArrayHelper.Equals(_expectCRC, _actualCRC);
+                byte[] _packetDataCRC = unPackageProtocol.GetProtocolCaluCRCSection(packetDataBuffer);
+                byte[] _expectCRC = unPackageProtocol.GetCaluCrcValue(_packetDataCRC);
+                byte[] _actualCRC = unPackageProtocol.GetProtocolCRCSection(packetDataBuffer);
+                _result = unPackageProtocol.CheckedCaluCrc(_expectCRC, _actualCRC);
             }
             
             return _result;
@@ -242,11 +271,11 @@
         /// </summary>
         /// <param name="checkedCrc">是否检查CRC</param>
         /// <returns>完整报文</returns>
-        public virtual byte[] VerifyingPacketDataLength(out bool checkedCrc)
+        protected virtual byte[] VerifyingPacketDataLength(out bool checkedCrc)
         {
             checkedCrc = false;
             byte[] _packetDataBuffer = null;
-            int _dataPackageLength = protocolUnPackage.GetProtocolLengthSection(CacheBuffer);
+            int _dataPackageLength = unPackageProtocol.GetProtocolLengthSection(CacheBuffer);
             
             if((_dataPackageLength + ProtocolMinCount) <= CacheBuffer.Count)
             {
@@ -254,7 +283,7 @@
                 checkedCrc = true;
             }
             
-            return null;
+            return _packetDataBuffer;
         }
         
         private void VerifyingPacketData()

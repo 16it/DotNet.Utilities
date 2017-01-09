@@ -32,7 +32,7 @@
             this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listLog = new System.Windows.Forms.ListBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.SuspendLayout();
             //
@@ -56,14 +56,14 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             //
-            // listBox1
+            // listLog
             //
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(13, 43);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(455, 136);
-            this.listBox1.TabIndex = 2;
+            this.listLog.FormattingEnabled = true;
+            this.listLog.ItemHeight = 12;
+            this.listLog.Location = new System.Drawing.Point(13, 43);
+            this.listLog.Name = "listLog";
+            this.listLog.Size = new System.Drawing.Size(753, 136);
+            this.listLog.TabIndex = 2;
             //
             // serialPort1
             //
@@ -73,13 +73,14 @@
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 194);
-            this.Controls.Add(this.listBox1);
+            this.ClientSize = new System.Drawing.Size(778, 194);
+            this.Controls.Add(this.listLog);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "winUnPackageData";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UnPackageData";
+            this.Load += new System.EventHandler(this.winUnPackageData_Load);
             this.ResumeLayout(false);
         }
         
@@ -87,7 +88,7 @@
         
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listLog;
         private System.IO.Ports.SerialPort serialPort1;
     }
 }
