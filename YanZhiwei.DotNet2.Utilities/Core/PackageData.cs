@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
     /// <summary>
-    /// 适用于串口，Socket数据协议组包，拆包
+    /// 适用于串口，Socket数据协议组包
     /// </summary>
     /// 时间：2016/8/30 16:22
     /// 备注：
@@ -14,7 +14,7 @@
         {
             get;
         }
-
+        
         /// <summary>
         /// 同步字2
         /// </summary>
@@ -22,7 +22,7 @@
         {
             get;
         }
-
+        
         /// <summary>
         /// 长度域
         /// </summary>
@@ -31,7 +31,7 @@
             get;
             set;
         }
-
+        
         /// <summary>
         /// 长度域数组
         /// </summary>
@@ -40,7 +40,7 @@
             get;
             set;
         }
-
+        
         /// <summary>
         /// 命令字
         /// </summary>
@@ -49,7 +49,7 @@
             get;
             set;
         }
-
+        
         /// <summary>
         /// 命令字
         /// </summary>
@@ -58,7 +58,7 @@
             get;
             set;
         }
-
+        
         /// <summary>
         /// 命令字的参数
         /// </summary>
@@ -67,7 +67,7 @@
             get;
             set;
         }
-
+        
         /// <summary>
         /// 校验码
         /// </summary>
@@ -76,7 +76,7 @@
             get;
             set;
         }
-
+        
         /// <summary>
         /// 校验码
         /// </summary>
@@ -85,7 +85,7 @@
             get;
             set;
         }
-
+        
         /// <summary>
         ///  通过构造函数初始化参数，来将对象转换为BYTE数组
         /// </summary>

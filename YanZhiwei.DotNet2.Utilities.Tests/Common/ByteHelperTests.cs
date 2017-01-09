@@ -2,6 +2,31 @@
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Enum;
 
+namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+{
+    [TestClass()]
+    public class ByteHelperTests
+    {
+        [TestMethod()]
+        public void ToInt32Test()
+        {
+            byte[] _data = new byte[4] { 0x00, 0x00, 0xff, 0xff };
+            int _actual = ByteHelper.ToInt32(_data);
+            int _expect = 65535;
+            Assert.AreEqual(_expect, 65535);
+        }
+        
+        [TestMethod()]
+        public void ToUInt16Test()
+        {
+            byte[] _data = new byte[2] { 0xff, 0xff };
+            ushort _actual = ByteHelper.ToUInt16(_data);
+            ushort _expect = 65535;
+            Assert.AreEqual(_expect, 65535);
+        }
+    }
+}
+
 namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]

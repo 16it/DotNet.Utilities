@@ -4,6 +4,7 @@
     using System.Text;
     
     using Enum;
+    
     using Operator;
     
     /// <summary>
@@ -401,6 +402,39 @@
             }
             
             return _hexString;
+        }
+        
+        /// <summary>
+        ///将Byte数组转换为INT32
+        /// </summary>
+        /// <param name="data">byte数组</param>
+        /// <returns>INT32</returns>
+        public static int ToInt32(byte[] data)
+        {
+            ValidateOperator.Begin().NotNull(data, "需要转换得数据").CheckLessThan(data.Length, "需要转换的数据", 4, true);
+            return BitConverter.ToInt32(data, 0);
+        }
+        
+        /// <summary>
+        ///将Byte数组转换为long
+        /// </summary>
+        /// <param name="data">byte数组</param>
+        /// <returns>long</returns>
+        public static long ToInt64(byte[] data)
+        {
+            ValidateOperator.Begin().NotNull(data, "需要转换得数据").CheckLessThan(data.Length, "需要转换的数据", 8, true);
+            return BitConverter.ToInt64(data, 0);
+        }
+        
+        /// <summary>
+        ///将Byte数组转换为UInt16
+        /// </summary>
+        /// <param name="data">byte数组</param>
+        /// <returns>UInt16</returns>
+        public static ushort ToUInt16(byte[] data)
+        {
+            ValidateOperator.Begin().NotNull(data, "需要转换得数据").CheckLessThan(data.Length, "需要转换的数据", 2, true);
+            return BitConverter.ToUInt16(data, 0);
         }
         
         private static string ToHexStringByBitConverter(byte[] bytes)
