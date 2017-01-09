@@ -1,8 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Core
 {
-    using System.Collections.Generic;
-    
     using Common;
+    using System.Collections.Generic;
     
     /// <summary>
     ///适用于串口，Socket数据协议 接口
@@ -224,7 +223,6 @@
                 byte[] _expectCRC = protocolUnPackage.GetCaluCrcValue(_packetDataCRC);
                 byte[] _actualCRC = protocolUnPackage.GetProtocolCRCSection(packetDataBuffer);
                 _result = ArrayHelper.Equals(_expectCRC, _actualCRC);
-                ResetDataReceived();
             }
             
             return _result;
