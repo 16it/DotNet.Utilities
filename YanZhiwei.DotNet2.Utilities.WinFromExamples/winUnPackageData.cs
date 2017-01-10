@@ -134,10 +134,10 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
         
         public int GetProtocolLengthSection(List<byte> buffer)
         {
-            byte[] _crcSection = new byte[2];
-            _crcSection[0] = buffer[1];
-            _crcSection[1] = buffer[2];
-            return ByteHelper.ToUInt16(_crcSection);
+            byte[] _lenSection = new byte[2];
+            _lenSection[0] = buffer[1];
+            _lenSection[1] = buffer[2];
+            return ByteHelper.ToUInt16(_lenSection);
         }
     }
 }
