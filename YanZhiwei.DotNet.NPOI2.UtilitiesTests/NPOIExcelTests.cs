@@ -31,8 +31,8 @@ namespace YanZhiwei.DotNet.NPOI2.Utilities.Tests
         [TestMethod()]
         public void ToDataTableTest()
         {
-            string _path = @"D:\Employees_20161011165659.xls";
-            DataTable _table = NPOIExcel.ToDataTable(_path, 0, 1, 2);
+            string _path = @"D:\为制作DB而临时产生的文件_愚园路246弄.xlsx";
+            DataTable _table = NPOIExcel.ToDataTable(_path, 0, 0, 1);
             Assert.IsTrue(_table.Rows.Count > 0);
         }
     }

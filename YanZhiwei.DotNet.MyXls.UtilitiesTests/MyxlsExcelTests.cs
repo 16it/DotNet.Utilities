@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using YanZhiwei.DotNet.MyXls.Utilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using YanZhiwei.DotNet2.Utilities.Common;
+using System.Data;
 
 namespace YanZhiwei.DotNet.MyXls.Utilities.Tests
 {
@@ -39,6 +41,13 @@ namespace YanZhiwei.DotNet.MyXls.Utilities.Tests
             MyxlsExcel.ToExecel<Person>(personList, _excelpath, "PersonInfo");
             bool _actual = File.Exists(_excelpath);
             Assert.IsTrue(_actual);
+        }
+        
+        [TestMethod()]
+        public void ToDataTableTest()
+        {
+            DataTable _actual = MyxlsExcel.ToDataTable(@"D:\为制作DB而临时产生的文件_愚园路246弄.xls", 0);
+            Assert.IsNotNull(_actual);
         }
     }
     
