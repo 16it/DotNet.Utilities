@@ -2,7 +2,7 @@
 {
     using System;
     using System.Data;
-
+    
     /// <summary>
     /// DataTable 帮助类
     /// </summary>
@@ -11,7 +11,7 @@
     public static class DataTableHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 判断DataTable是否是NULL或者Row行数等于零
         /// </summary>
@@ -23,7 +23,7 @@
         {
             return datatable == null || datatable.Rows.Count == 0;
         }
-
+        
         /// <summary>
         /// 创建Datatable，规范：列名|列类型,列名|列类型,列名|列类型
         /// <para>举例：CustomeName|string,Gender|bool,Address</para>
@@ -37,12 +37,12 @@
             string _columnName;
             string _columnType;
             string[] _singleColumnInfo;
-
+            
             foreach(string s in _columnsList)
             {
                 _singleColumnInfo = s.Split('|');
                 _columnName = _singleColumnInfo[0];
-
+                
                 if(_singleColumnInfo.Length == 2)
                 {
                     _columnType = _singleColumnInfo[1];
@@ -53,10 +53,34 @@
                     _dtNew.Columns.Add(new DataColumn(_columnName));
                 }
             }
-
+            
             return _dtNew;
         }
-
+        
+        /// <summary>
+        /// 检查特定列名称是否存在
+        /// </summary>
+        /// <param name="table">DataTable</param>
+        /// <param name="columnsName">需要存在的列名称</param>
+        /// <returns>是否全部包含</returns>
+        public static bool CheckedColumnsName(this DataTable table, string[] columnsName)
+        {
+            bool _result = table != null;
+            
+            if(table != null)
+            {
+                foreach(string item in columnsName)
+                {
+                    if(!table.Columns.Contains(item))
+                    {
+                        _result = false;
+                        break;
+                    }
+                }
+            }
+            
+            return _result;
+        }
         /// <summary>
         /// 转义数据类型
         /// </summary>
@@ -65,49 +89,49 @@
         private static string TransColumnType(string columnType)
         {
             string _currentType = string.Empty;
-
+            
             switch(columnType.ToLower())
             {
                 case "int":
                     _currentType = "System.Int32";
                     break;
-
+                    
                 case "string":
                     _currentType = "System.String";
                     break;
-
+                    
                 case "decimal":
                     _currentType = "System.Decimal";
                     break;
-
+                    
                 case "double":
                     _currentType = "System.Double";
                     break;
-
+                    
                 case "dateTime":
                     _currentType = "System.DateTime";
                     break;
-
+                    
                 case "bool":
                     _currentType = "System.Boolean";
                     break;
-
+                    
                 case "image":
                     _currentType = "System.Byte[]";
                     break;
-
+                    
                 case "object":
                     _currentType = "System.Object";
                     break;
-
+                    
                 default:
                     _currentType = "System.String";
                     break;
             }
-
+            
             return _currentType;
         }
-
+        
         #endregion Methods
     }
 }
