@@ -34,10 +34,12 @@
             ValidateOperator.Begin().NotNull(filePath, "需要导入到EXCEL文件路径").IsFilePath(filePath).CheckFileExists(filePath);
             DataTable _table = new DataTable();
             IWorkbook _hssfworkbook;
+            
             using(FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
                 _hssfworkbook = WorkbookFactory.Create(file);
             }
+            
             ISheet _sheet = _hssfworkbook.GetSheetAt(sheetIndex);
             AddDataColumns(_sheet, headIndex, _table);
             bool _supportFormula = string.Compare(Path.GetExtension(filePath), ".xlsx", true) == 0;
@@ -131,6 +133,7 @@
             .NotNullOrEmpty(title, "EXCEL标题")
             .NotNullOrEmpty(filePath, "EXCEL导出路径")
             .IsFilePath(filePath);
+            
             using(FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 IWorkbook _workBook = new HSSFWorkbook();
