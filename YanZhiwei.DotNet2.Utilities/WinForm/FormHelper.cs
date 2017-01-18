@@ -32,8 +32,6 @@
         /// <summary>
         /// 弹出模式对话框
         /// </summary>
-        /// <typeparam name="T">窗体泛型</typeparam>
-        /// <typeparam name="P">参数泛型</typeparam>
         /// <param name="paramter">参数</param>
         public static void ShowDialogForm<T, P>(P paramter)
         where T : Form, new()
@@ -46,15 +44,26 @@
         /// <summary>
         /// 弹出模式对话框
         /// </summary>
-        /// <typeparam name="T">窗体泛型</typeparam>
-        /// <typeparam name="P1">传参泛型</typeparam>
-        /// <typeparam name="P2">传参泛型</typeparam>
         /// <param name="paramter1">参数1</param>
         /// <param name="paramter2">参数2</param>
         public static void ShowDialogForm<T, P1, P2>(P1 paramter1, P2 paramter2)
         where T : Form, new()
         {
             T _winForm = (T)Activator.CreateInstance(typeof(T), paramter1, paramter2);
+            _winForm.ShowDialog();
+        }
+        
+        /// <summary>
+        /// 弹出模式对话框
+        /// </summary>
+        /// <param name="paramter1">参数1</param>
+        /// <param name="paramter2">参数2</param>
+        /// <param name="paramter3">参数3</param>
+        /// <param name="paramter4">参数4</param>
+        public static void ShowDialogForm<T, P1, P2, P3, P4>(P1 paramter1, P2 paramter2, P3 paramter3, P4 paramter4)
+        where T : Form, new()
+        {
+            T _winForm = (T)Activator.CreateInstance(typeof(T), paramter1, paramter2, paramter3, paramter4);
             _winForm.ShowDialog();
         }
         
