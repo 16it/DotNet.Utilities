@@ -142,6 +142,15 @@ namespace YanZhiwei.DotNet2.Utilities {
         }
         
         /// <summary>
+        ///   查找类似 文件类型不合法，必须为“{0}”后缀文件。 的本地化字符串。
+        /// </summary>
+        internal static string ParameterCheck_FileExtCompare {
+            get {
+                return ResourceManager.GetString("ParameterCheck_FileExtCompare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 指定的文件路径“{0}”不存在。 的本地化字符串。
         /// </summary>
         internal static string ParameterCheck_FileNotExists {

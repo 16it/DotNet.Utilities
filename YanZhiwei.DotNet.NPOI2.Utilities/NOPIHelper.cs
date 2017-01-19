@@ -1,4 +1,7 @@
 ﻿using NPOI.SS.UserModel;
+using System.IO;
+using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.Operator;
 
 namespace YanZhiwei.DotNet.NPOI2.Utilities
 {
@@ -9,6 +12,24 @@ namespace YanZhiwei.DotNet.NPOI2.Utilities
     /// 备注：
     public static class NOPIHelper
     {
+        /// <summary>
+        /// 获取Excel IWorkbook对象
+        /// </summary>
+        /// <param name="filePath">Excel路径</param>
+        /// <returns>IWorkbook</returns>
+        public static IWorkbook GetExcelWorkbook(string filePath)
+        {
+            ValidateOperator.Begin().NotNull(filePath, "需要导入到EXCEL文件路径").IsFilePath(filePath).CheckFileExists(filePath).CheckedFileExt(Path.GetExtension(filePath), FileExtInfoHelper.ExcelExt);
+            IWorkbook _hssfworkbook;
+            
+            using(FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                _hssfworkbook = WorkbookFactory.Create(file);
+            }
+            
+            return _hssfworkbook;
+        }
+        
         /// <summary>
         /// 样式创建
         /// eg:

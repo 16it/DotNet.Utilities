@@ -1,14 +1,12 @@
 ﻿namespace YanZhiwei.DotNet.NPOI2.Utilities
 {
-    using System.Data;
-    using System.IO;
-    
     using DotNet2.Utilities.Operator;
-    
     using NPOI.HSSF.UserModel;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using NPOI.XSSF.UserModel;
+    using System.Data;
+    using System.IO;
     
     /// <summary>
     /// NPOIExcel 操作辅助类
@@ -31,15 +29,8 @@
         /// 备注：
         public static DataTable ToDataTable(string filePath, ushort sheetIndex, ushort headIndex, ushort rowIndex)
         {
-            ValidateOperator.Begin().NotNull(filePath, "需要导入到EXCEL文件路径").IsFilePath(filePath).CheckFileExists(filePath);
             DataTable _table = new DataTable();
-            IWorkbook _hssfworkbook;
-            
-            using(FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                _hssfworkbook = WorkbookFactory.Create(file);
-            }
-            
+            IWorkbook _hssfworkbook = NOPIHelper.GetExcelWorkbook(filePath);
             ISheet _sheet = _hssfworkbook.GetSheetAt(sheetIndex);
             AddDataColumns(_sheet, headIndex, _table);
             bool _supportFormula = string.Compare(Path.GetExtension(filePath), ".xlsx", true) == 0;
@@ -60,7 +51,7 @@
                     switch(_row.GetCell(j).CellType)
                     {
                         case CellType.Numeric:
-                            if(DateUtil.IsCellDateFormatted(_row.GetCell(j)))         //日期类型
+                            if(DateUtil.IsCellDateFormatted(_row.GetCell(j)))                  //日期类型
                             {
                                 _itemArray[j] = _row.GetCell(j).DateCellValue;
                             }

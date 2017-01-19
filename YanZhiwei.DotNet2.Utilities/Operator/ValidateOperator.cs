@@ -1,18 +1,20 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Operator
 {
-    using Common;
     using System;
     using System.IO;
     using System.Text.RegularExpressions;
-    using YanZhiwei.DotNet2.Utilities.Model;
-
+    
+    using Common;
+    
+    using Model;
+    
     /// <summary>
     /// 参数验证帮助类
     /// </summary>
     public static class ValidateOperator
     {
         #region Methods
-
+        
         /// <summary>
         /// 验证初始化
         /// </summary>
@@ -21,7 +23,7 @@
         {
             return null;
         }
-
+        
         /// <summary>
         /// 需要验证的正则表达式
         /// </summary>
@@ -34,7 +36,7 @@
         {
             return Check<ArgumentException>(validation, checkFactory, string.Format(Resource.ParameterCheck_Match2, argumentName));
         }
-
+        
         /// <summary>
         /// 自定义参数检查
         /// </summary>
@@ -61,7 +63,7 @@
                 throw _exception;
             }
         }
-
+        
         /// <summary>
         /// 检查指定路径的文件夹必须存在，否则抛出<see cref="DirectoryNotFoundException"/>异常。
         /// </summary>
@@ -74,7 +76,32 @@
         {
             return Check<DirectoryNotFoundException>(validation, () => Directory.Exists(data), string.Format(Resource.ParameterCheck_DirectoryNotExists, data));
         }
-
+        
+        /// <summary>
+        /// 检查文件类型
+        /// </summary>
+        /// <param name="validation">Validation</param>
+        /// <param name="actualFileExt">实际文件类型；eg: .xls</param>
+        /// <param name="expectFileExt">期待文件类型</param>
+        /// <returns></returns>
+        public static Validation CheckedFileExt(this Validation validation, string actualFileExt, string expectFileExt)
+        {
+            return Check<FileNotFoundException>(validation, () => StringHelper.CompareIgnoreCase(actualFileExt, expectFileExt), string.Format(Resource.ParameterCheck_FileExtCompare, expectFileExt));
+        }
+        
+        /// <summary>
+        ///检查文件类型
+        /// </summary>
+        /// <param name="validation">Validation</param>
+        /// <param name="actualFileExt">实际文件类型；eg: .xls</param>
+        /// <param name="expectFileExt">期待文件类型</param>
+        /// <returns></returns>
+        public static Validation CheckedFileExt(this Validation validation, string actualFileExt, string[] expectFileExt)
+        {
+            string _allowFileExts = expectFileExt.ToString(",");
+            return Check<FileNotFoundException>(validation, () => expectFileExt.ContainIgnoreCase(actualFileExt), string.Format(Resource.ParameterCheck_FileExtCompare, _allowFileExts));
+        }
+        
         /// <summary>
         /// 检查指定路径的文件必须存在，否则抛出<see cref="FileNotFoundException"/>异常。
         /// </summary>
@@ -87,7 +114,7 @@
         {
             return Check<FileNotFoundException>(validation, () => File.Exists(data), string.Format(Resource.ParameterCheck_FileNotExists, data));
         }
-
+        
         /// <summary>
         /// 检查参数必须大于[或可等于，参数canEqual]指定值，否则抛出<see cref="ArgumentOutOfRangeException"/>异常。
         /// </summary>
@@ -106,7 +133,7 @@
             string _format = canEqual ? Resource.ParameterCheck_NotGreaterThanOrEqual : Resource.ParameterCheck_NotGreaterThan;
             return Check<ArgumentOutOfRangeException>(validation, () => canEqual ? value.CompareTo(target) >= 0 : value.CompareTo(target) > 0, string.Format(_format, paramName, target));
         }
-
+        
         /// <summary>
         /// 检查参数必须小于[或可等于，参数canEqual]指定值，否则抛出<see cref="ArgumentOutOfRangeException"/>异常。
         /// </summary>
@@ -124,7 +151,7 @@
             string _format = canEqual ? Resource.ParameterCheck_NotLessThanOrEqual : Resource.ParameterCheck_NotLessThan;
             return Check<ArgumentOutOfRangeException>(validation, () => canEqual ? value.CompareTo(target) <= 0 : value.CompareTo(target) < 0, string.Format(_format, paramName, target));
         }
-
+        
         /// <summary>
         /// 验证是否在范围内
         /// </summary>
@@ -138,7 +165,7 @@
         {
             return Check<ArgumentOutOfRangeException>(validation, () => data >= min && data <= max, string.Format(Resource.ParameterCheck_Between, argumentName, min, max));
         }
-
+        
         /// <summary>
         /// 是否是中文
         /// </summary>
@@ -150,7 +177,7 @@
         {
             return Check(validation, () => CheckHelper.IsChinses(data), RegexPattern.ChineseCheck, argumentName);
         }
-
+        
         /// <summary>
         /// 是否是电子邮箱
         /// </summary>
@@ -162,7 +189,7 @@
         {
             return Check(validation, () => CheckHelper.IsEmail(email), RegexPattern.EmailCheck, argumentName);
         }
-
+        
         /// <summary>
         /// 是否是文件路径
         /// </summary>
@@ -173,7 +200,7 @@
         {
             return Check<ArgumentException>(validation, () => CheckHelper.IsFilePath(data), string.Format(Resource.ParameterCheck_IsFilePath, data));
         }
-
+        
         /// <summary>
         /// 是否是十六进制字符串
         /// </summary>
@@ -185,7 +212,7 @@
         {
             return Check(validation, () => CheckHelper.IsHexString(data), RegexPattern.HexStringCheck, argumentName);
         }
-
+        
         /// <summary>
         /// 是否是身份证号码
         /// </summary>
@@ -197,7 +224,7 @@
         {
             return Check(validation, () => CheckHelper.IsIdCard(data), RegexPattern.IdCardCheck, argumentName);
         }
-
+        
         /// <summary>
         /// 是否是整数
         /// </summary>
@@ -209,7 +236,7 @@
         {
             return Check(validation, () => CheckHelper.IsInt(data), RegexPattern.IntCheck, argumentName);
         }
-
+        
         /// <summary>
         /// 是否是IP
         /// </summary>
@@ -221,7 +248,7 @@
         {
             return Check(validation, () => CheckHelper.IsIp4Address(data), RegexPattern.IpCheck, argumentName);
         }
-
+        
         /// <summary>
         /// 是否是数字
         /// </summary>
@@ -233,7 +260,7 @@
         {
             return Check(validation, () => CheckHelper.IsNumber(data), RegexPattern.NumberCheck, argumentName);
         }
-
+        
         /// <summary>
         /// 是否是合法端口
         /// </summary>
@@ -245,7 +272,7 @@
         {
             return Check<ArgumentException>(validation, () => CheckHelper.IsValidPort(data), string.Format(Resource.ParameterCheck_Port, paramName));
         }
-
+        
         /// <summary>
         /// 是否是邮政编码
         /// </summary>
@@ -257,7 +284,7 @@
         {
             return Check(validation, () => CheckHelper.IsPoseCode(data), RegexPattern.PostCodeCheck, argumentName);
         }
-
+        
         /// <summary>
         /// 判断字符串是否是要求的长度
         /// </summary>
@@ -273,7 +300,7 @@
                        () => input.Length == requireLength,
                        string.Format(Resource.ParameterCheck_StringLength, argumentName, requireLength));
         }
-
+        
         /// <summary>
         /// 判断类型是否能序列化
         /// </summary>
@@ -286,7 +313,7 @@
         {
             return Check<ArgumentException>(validation, () => data.GetType().IsSerializable, string.Format("该参数类型{0}不能序列化！", data.GetType().FullName));
         }
-
+        
         /// <summary>
         /// 是否是URL
         /// </summary>
@@ -298,7 +325,7 @@
         {
             return Check(validation, () => CheckHelper.IsURL(data), RegexPattern.URLCheck, argumentName);
         }
-
+        
         /// <summary>
         /// 验证参数不能等于某个值
         /// </summary>
@@ -311,7 +338,7 @@
         {
             return Check<ArgumentException>(validation, () => data != equalObj, string.Format(Resource.ParameterCheck_NotEqual, argumentName, data));
         }
-
+        
         /// <summary>
         /// 验证非空
         /// </summary>
@@ -323,7 +350,7 @@
         {
             return Check<ArgumentNullException>(validation, () => CheckHelper.NotNull(data), string.Format(Resource.ParameterCheck_NotNull, argumentName));
         }
-
+        
         /// <summary>
         /// 不能为空或者NULL验证
         /// </summary>
@@ -335,7 +362,7 @@
         {
             return Check<ArgumentNullException>(validation, () => !string.IsNullOrEmpty(input), string.Format(Resource.ParameterCheck_NotNullOrEmpty_String, argumentName));
         }
-
+        
         /// <summary>
         /// 需要验证的正则表达式
         /// </summary>
@@ -348,7 +375,7 @@
         {
             return Check<ArgumentException>(validation, () => Regex.IsMatch(input, pattern), string.Format(Resource.ParameterCheck_Match, input, argumentName));
         }
-
+        
         #endregion Methods
     }
 }

@@ -2,8 +2,10 @@
 using System;
 using System.Data;
 using System.IO;
+using System.Reflection;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.DataOperator;
+using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet.NPOI2.Utilities.Tests
 {
@@ -31,7 +33,8 @@ namespace YanZhiwei.DotNet.NPOI2.Utilities.Tests
         [TestMethod()]
         public void ToDataTableTest()
         {
-            string _path = @"D:\为制作DB而临时产生的文件_愚园路246弄.xlsx";
+            //D:\NOPI.xlsx
+            string _path = string.Format(@"{0}NOPI.xlsx", UnitTestHelper.GetExecuteDirectory());
             DataTable _table = NPOIExcel.ToDataTable(_path, 0, 0, 1);
             Assert.IsTrue(_table.Rows.Count > 0);
         }

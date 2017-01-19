@@ -144,6 +144,9 @@
   <data name="ParameterCheck_DirectoryNotExists" xml:space="preserve">
     <value>指定的目录路径“{0}”不存在。</value>
   </data>
+  <data name="ParameterCheck_FileExtCompare" xml:space="preserve">
+    <value>文件类型不合法，必须为“{0}”后缀文件。</value>
+  </data>
   <data name="ParameterCheck_FileNotExists" xml:space="preserve">
     <value>指定的文件路径“{0}”不存在。</value>
   </data>
