@@ -39,7 +39,6 @@ namespace YanZhiwei.DotNet.NPOI2.Utilities.Tests
                 IRow _row = _workbook.GetSheetAt(0).GetRow(1);
                 NOPIHelper.SetRowStyle(_row, CreateCellStly(_workbook));
                 _workbook.Write(file);
-                file.Close();
             }
         }
     }
