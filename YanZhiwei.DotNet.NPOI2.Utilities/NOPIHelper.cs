@@ -30,7 +30,47 @@ namespace YanZhiwei.DotNet.NPOI2.Utilities
             return _hssfworkbook;
         }
         
+        /// <summary>
+        /// 设置单元格包含边框
+        /// </summary>
+        /// <param name="cellStyle">ICellStyle</param>
+        public static void SetCellHasBorder(this ICellStyle cellStyle)
+        {
+            if(cellStyle != null)
+            {
+                cellStyle.BorderBottom = BorderStyle.Thin;
+                cellStyle.BorderLeft = BorderStyle.Thin;
+                cellStyle.BorderRight = BorderStyle.Thin;
+                cellStyle.BorderTop = BorderStyle.Thin;
+            }
+        }
         
+        /// <summary>
+        /// 设置单元格背景色
+        /// </summary>
+        /// <param name="cellStyle">ICellStyle</param>
+        /// <param name="colorRBGValue">颜色RBG数值</param>
+        public static void SetCellBackColor(this ICellStyle cellStyle, short colorRBGValue)
+        {
+            if(cellStyle != null)
+            {
+                cellStyle.FillForegroundColor = colorRBGValue;
+                cellStyle.FillPattern = FillPattern.SolidForeground;
+            }
+        }
+        
+        /// <summary>
+        /// 设置单元格文本居中
+        /// </summary>
+        /// <param name="cellStyle">ICellStyle</param>
+        public static void SetCellTextCenter(this ICellStyle cellStyle)
+        {
+            if(cellStyle != null)
+            {
+                cellStyle.VerticalAlignment = VerticalAlignment.Center;
+                cellStyle.Alignment = HorizontalAlignment.Center;
+            }
+        }
         
         /// <summary>
         /// 样式创建
