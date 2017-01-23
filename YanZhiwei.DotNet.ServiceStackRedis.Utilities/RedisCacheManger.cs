@@ -421,8 +421,8 @@
         {
             RedisClientManagerConfig _redisConfig = new RedisClientManagerConfig();
             _redisConfig.AutoStart = true;
-            _redisConfig.MaxReadPoolSize = readOnlyHosts.Length * 20;
-            _redisConfig.MaxWritePoolSize = readWriteHosts.Length * 20;
+            _redisConfig.MaxReadPoolSize = readOnlyHosts.Length * 60;
+            _redisConfig.MaxWritePoolSize = readWriteHosts.Length * 60;
             _redisConfig.DefaultDb = defaultDb;
             PooledRedisClientManager _prm = new PooledRedisClientManager(readWriteHosts, readOnlyHosts, _redisConfig);
             return _prm;
