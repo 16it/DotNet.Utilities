@@ -5,7 +5,7 @@
     using Common;
     using DataBase;
     using Enum;
-    using Exception;
+    using ExtendException;
     using Interfaces;
     using Operator;
     using System;
@@ -61,12 +61,12 @@
             try
             {
                 using(SqlBulkCopy sbc = new SqlBulkCopy(connectionString, SqlBulkCopyOptions.UseInternalTransaction)
-                {
-                    BulkCopyTimeout = 300,
-                    NotifyAfter = dataTable.Rows.Count,
-                    BatchSize = batchSize,
-                    DestinationTableName = desTable
-                })
+            {
+                BulkCopyTimeout = 300,
+                NotifyAfter = dataTable.Rows.Count,
+                BatchSize = batchSize,
+                DestinationTableName = desTable
+            })
                 {
                     foreach(DataColumn column in dataTable.Columns)
                         sbc.ColumnMappings.Add(column.ColumnName, column.ColumnName);
@@ -105,6 +105,7 @@
             try
             {
                 CheckedSqlParamter(sql);
+                
                 using(SqlConnection sqlcon = new SqlConnection(connectionString))
                 {
                     using(SqlCommand sqlcmd = new SqlCommand(sql, sqlcon))
@@ -140,6 +141,7 @@
             try
             {
                 CheckedSqlParamter(sql);
+                
                 using(SqlConnection sqlcon = new SqlConnection(connectionString))
                 {
                     using(SqlCommand sqlcmd = new SqlCommand(sql, sqlcon))
@@ -182,9 +184,11 @@
             try
             {
                 CheckedSqlParamter(sql);
+                
                 using(SqlConnection sqlcon = new SqlConnection(connectionString))
                 {
                     sqlcon.Open();
+                    
                     using(SqlCommand sqlcmd = new SqlCommand(sql, sqlcon))
                     {
                         if(parameters != null)
@@ -350,6 +354,7 @@
             {
                 CheckedSqlParamter(sql);
                 SqlConnection sqlcon = new SqlConnection(connectionString);
+                
                 using(SqlCommand sqlcmd = new SqlCommand(sql, sqlcon))
                 {
                     if(parameters != null)
@@ -380,6 +385,7 @@
             {
                 CheckedSqlParamter(sql);
                 List<T> _result = new List<T>();
+                
                 using(SqlConnection sqlcon = new SqlConnection(connectionString))
                 {
                     using(SqlCommand sqlcmd = new SqlCommand(sql, sqlcon))
@@ -388,6 +394,7 @@
                             sqlcmd.Parameters.AddRange(parameters);
                             
                         sqlcon.Open();
+                        
                         using(IDataReader reader = sqlcmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
                             DynamicBuilder.Build _buildFrom = DynamicBuilder.CreateBuilder(reader, typeof(T), DataBaseType.SqlServer);
@@ -399,6 +406,7 @@
                         }
                     }
                 }
+                
                 return _result;
             }
             catch(SqlException ex)
@@ -424,6 +432,7 @@
             try
             {
                 CheckedSqlParamter(sql);
+                
                 using(SqlConnection sqlcon = new SqlConnection(connectionString))
                 {
                     using(SqlCommand sqlcmd = new SqlCommand(sql, sqlcon))
@@ -432,6 +441,7 @@
                             sqlcmd.Parameters.AddRange(parameters);
                             
                         sqlcon.Open();
+                        
                         using(IDataReader reader = sqlcmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
                             DynamicBuilder.Build _buildFrom = DynamicBuilder.CreateBuilder(reader, typeof(T), DataBaseType.SqlServer);
@@ -465,6 +475,7 @@
             try
             {
                 CheckedSqlParamter(sql);
+                
                 using(SqlConnection sqlcon = new SqlConnection(connectionString))
                 {
                     using(SqlCommand sqlcmd = new SqlCommand(sql, sqlcon))
@@ -500,6 +511,7 @@
             {
                 CheckedStoreNameParameter(proName);
                 SqlConnection _sqlcon = new SqlConnection(connectionString);
+                
                 using(SqlCommand sqlcmd = new SqlCommand())
                 {
                     sqlcmd.Connection = _sqlcon;
@@ -575,9 +587,11 @@
             try
             {
                 int _affectedRows = -1;
+                
                 using(SqlConnection sqlcon = new SqlConnection(connectionString))
                 {
                     sqlcon.Open();
+                    
                     using(SqlCommand sqlcmd = new SqlCommand())
                     {
                         sqlcmd.Connection = sqlcon;
@@ -590,6 +604,7 @@
                         _affectedRows = sqlcmd.ExecuteNonQuery();
                     }
                 }
+                
                 return _affectedRows;
             }
             catch(SqlException ex)

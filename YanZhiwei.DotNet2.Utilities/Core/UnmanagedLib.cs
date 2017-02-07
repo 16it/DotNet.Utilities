@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
-    using Exception;
+    using ExtendException;
     using Operator;
     using System;
     using System.Runtime.InteropServices;

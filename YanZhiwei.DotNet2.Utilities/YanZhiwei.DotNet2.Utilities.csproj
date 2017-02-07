@@ -90,12 +90,12 @@
     <Compile Include="Encryptor\MD5Encryptor.cs" />
     <Compile Include="Model\AjaxResult.cs" />
     <Compile Include="Builder\BuilderKey.cs" />
-    <Compile Include="Exception\BusinessException.cs" />
+    <Compile Include="ExtendException\BusinessException.cs" />
     <Compile Include="DesignPattern\BusinessFactory.cs" />
     <Compile Include="Builder\ByteArrayBuilder.cs" />
     <Compile Include="Core\Disposable.cs" />
     <Compile Include="Builder\DynamicBuilder.cs" />
-    <Compile Include="Exception\FrameworkException.cs" />
+    <Compile Include="ExtendException\FrameworkException.cs" />
     <Compile Include="Communication\HighPerformanceServer.cs" />
     <Compile Include="Collection\PagedList.cs" />
     <Compile Include="Operator\FileUpgradeOperator.cs" />

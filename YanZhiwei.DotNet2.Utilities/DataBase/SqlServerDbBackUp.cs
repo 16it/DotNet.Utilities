@@ -1,11 +1,11 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.DataBase
 {
     using DataOperator;
-    using Exception;
+    using ExtendException;
     using Operator;
     using System;
     using System.Data.SqlClient;
-
+    
     /// <summary>
     /// SqlServer 数据库备份和还原功能
     /// </summary>
@@ -14,25 +14,25 @@
     public class SqlServerDbBackUp
     {
         #region Fields
-
+        
         /// <summary>
         /// 需要备份的数据库
         /// </summary>
         /// 时间：2016-02-24 17:37
         /// 备注：
         public readonly string BackUpDataBase;
-
+        
         /// <summary>
         /// 连接字符串
         /// </summary>
         /// 时间：2016-02-24 17:37
         /// 备注：
         public readonly string ConnectString;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -46,11 +46,11 @@
             ConnectString = connectString;
             BackUpDataBase = backUpDataBase;
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 备份数据库
         /// </summary>
@@ -66,7 +66,7 @@
             SqlServerDataOperator _sqlHelper = new SqlServerDataOperator(ConnectString);
             DropBackupDevice(_sqlHelper);
             CreateBackupDevice(_sqlHelper, filePath);
-
+            
             try
             {
                 SqlParameter[] _paramters = new SqlParameter[2];
@@ -83,10 +83,10 @@
                 ex.Data.Add("BackUpDataBase", BackUpDataBase);
                 throw new FrameworkException(string.Format("备份数据库{0}失败。", BackUpDataBase), ex);
             }
-
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 还原数据库文件
         /// </summary>
@@ -108,7 +108,7 @@
             _paramters[0] = new SqlParameter("@dbid", restoreDbName);
             _paramters[1] = new SqlParameter("@database", restoreDbName);
             _paramters[2] = new SqlParameter("@filepath", filePath);
-
+            
             try
             {
                 _sqlHelper.ExecuteNonQuery(_sql, _paramters);
@@ -120,10 +120,10 @@
                 ex.Data.Add("BackUpDataBase", BackUpDataBase);
                 throw new FrameworkException(string.Format("还原数据库{0}失败，可能该数据库正在使用。", restoreDbName), ex);
             }
-
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 创建数据库的备份逻辑设备
         /// </summary>
@@ -145,7 +145,7 @@
             {
             }
         }
-
+        
         /// <summary>
         /// 删除已有的备份设备
         /// </summary>
@@ -164,7 +164,7 @@
             {
             }
         }
-
+        
         #endregion Methods
     }
 }

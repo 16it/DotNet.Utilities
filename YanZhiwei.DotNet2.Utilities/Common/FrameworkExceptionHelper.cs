@@ -1,12 +1,12 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using Collection;
-    using Exception;
+    using ExtendException;
     using Operator;
     using System.Collections;
     using System.IO;
     using System.Xml;
-
+    
     /// <summary>
     /// FrameworkException 辅助类
     /// </summary>
@@ -15,7 +15,7 @@
     public static class FrameworkExceptionHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 将InnerException.Data转换为Xml字符串
         /// <para>不支持Data中Value是集合数组形式存储</para>
@@ -28,18 +28,18 @@
         {
             ValidateOperator.Begin().NotNull(frameworkException, "FrameworkException");
             string _xmlString = string.Empty;
-
+            
             if(frameworkException.InnerException != null)
             {
                 if(frameworkException.InnerException.Data != null)
                 {
                     SerializableDictionary<string, string> _seriableDic = new SerializableDictionary<string, string>();
-
+                    
                     foreach(DictionaryEntry data in frameworkException.InnerException.Data)
                     {
                         _seriableDic.Add(data.Key.ToStringOrDefault(string.Empty), data.Value.ToStringOrDefault(string.Empty));
                     }
-
+                    
                     using(StringWriter sw = new StringWriter())
                     {
                         using(XmlTextWriter writer = new XmlTextWriter(sw))
@@ -52,10 +52,10 @@
                     }
                 }
             }
-
+            
             return _xmlString;
         }
-
+        
         #endregion Methods
     }
 }

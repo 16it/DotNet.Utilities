@@ -1,6 +1,6 @@
 ﻿using System;
 using YanZhiwei.DotNet.Core.Model;
-using YanZhiwei.DotNet2.Utilities.Exception;
+using YanZhiwei.DotNet2.Utilities.ExtendException;
 using YanZhiwei.DotNet3._5.Utilities.WebForm.Core;
 
 namespace YanZhiwei.DotNet.Core.Upload
@@ -34,7 +34,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                 throw new FrameworkException(string.Format("生成失败，非标准图片:{0}", thumbnailPath), ex);
             }
         }
-
+        
         /// <summary>
         /// 即时生成缩略图
         /// </summary>
@@ -57,7 +57,7 @@ namespace YanZhiwei.DotNet.Core.Upload
             };
             MakeThumbnail(originalImagePath, thumbnailPath, _size);
         }
-
+        
         /// <summary>
         /// 即时生成缩略图
         /// </summary>

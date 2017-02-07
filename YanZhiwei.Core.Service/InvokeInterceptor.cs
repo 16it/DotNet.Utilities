@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using System;
-using YanZhiwei.DotNet2.Utilities.Exception;
+using YanZhiwei.DotNet2.Utilities.ExtendException;
 
 namespace YanZhiwei.DotNet.Core.Service
 {
@@ -9,7 +9,7 @@ namespace YanZhiwei.DotNet.Core.Service
         public InvokeInterceptor()
         {
         }
-
+        
         /// <summary>
         /// 拦截方法
         /// </summary>
@@ -24,7 +24,7 @@ namespace YanZhiwei.DotNet.Core.Service
             {
                 if(exception is BusinessException)
                     throw;
-
+                    
                 var message = new
                 {
                     exception = exception.Message,
