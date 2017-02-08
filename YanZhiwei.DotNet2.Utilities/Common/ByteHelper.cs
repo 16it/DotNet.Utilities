@@ -176,7 +176,7 @@
         public static string ToBinaryString(this byte[] bytes)
         {
             string _hexString = ToHexString(bytes, ToHexadecimal.Loop);
-            return Convert.ToString(HexHelper.ParseHexString(_hexString), 2);
+            return Convert.ToString(HexHelper.ToUInt(_hexString), 2);
         }
         
         /// <summary>
