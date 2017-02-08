@@ -97,6 +97,16 @@
         /// </summary>
         public const string URLCheck = @"^(((file|gopher|news|nntp|telnet|http|ftp|https|ftps|sftp)://)|(www\.))+(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(/[a-zA-Z0-9\&amp;%_\./-~-]*)?$";
         
+        /// <summary>
+        /// Mac地址(7个长度)正则表达式
+        /// </summary>
+        public const string MacAddr7Check = @"^([0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F])$";
+        
+        /// <summary>
+        ///Mac地址（6个长度）正则表达式
+        /// </summary>
+        public const string MacAddr6Check = @"^([0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F])$";
+        
         #endregion Fields
     }
 }
