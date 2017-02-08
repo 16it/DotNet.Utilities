@@ -25,7 +25,7 @@
         }
         
         /// <summary>
-        ///将uint转换成十六进制字符串
+        ///将ushort转换成十六进制字符串
         /// </summary>
         /// <param name="number">ushort</param>
         /// <returns>十六进制字符串</returns>
@@ -40,7 +40,7 @@
         }
         
         /// <summary>
-        ///将uint转换成十六进制字符串
+        ///将ulong转换成十六进制字符串
         /// </summary>
         /// <param name="number">ulong</param>
         /// <returns>十六进制字符串</returns>
