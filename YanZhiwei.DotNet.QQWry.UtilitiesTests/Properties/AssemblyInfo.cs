@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("YanZhiwei.DotNet.QQWryExamples")]
+[assembly: AssemblyTitle("YanZhiwei.DotNet.QQWry.UtilitiesTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("YanZhiwei.DotNet.QQWryExamples")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("YanZhiwei.DotNet.QQWry.UtilitiesTests")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("57ae8c38-5bc2-44f5-8d34-0fba355ae8ba")]
+[assembly: Guid("4d3ef8d7-2097-42e4-86a9-48a4bce58f77")]
 
 // 程序集的版本信息由下列四个值组成: 
 //
