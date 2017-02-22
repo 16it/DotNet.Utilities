@@ -41,6 +41,12 @@ namespace YanZhiwei.DotNet.ProtoBuf.Utilities.Tests
             ProtoBufHelper.Serialize<Person>(personList[0], serializeFilePath2);
             _actual = File.Exists(serializeFilePath);
             Assert.IsTrue(_actual);
+            PersonSample _personSample = new PersonSample();
+            _personSample.Address = "zhuzhou";
+            _personSample.Name = "yanzhiwei";
+            byte[] _buffer = ProtoBufHelper.Serialize(_personSample);
+            _actual = _buffer != null && _buffer.Length > 0;
+            Assert.IsTrue(_actual);
         }
         
         [TestCleanup]
@@ -65,6 +71,24 @@ namespace YanZhiwei.DotNet.ProtoBuf.Utilities.Tests
             ProtoBufHelper.Serialize(personList, serializeFilePath);
             _actual = ProtoBufHelper.Deserialize<List<Person>>(serializeFilePath);
             CollectionAssert.AreNotEqual(_actual, personList);
+        }
+    }
+    
+    [ProtoContract]
+    internal class PersonSample
+    {
+        [ProtoMember(1)]
+        public string Name
+        {
+            get;
+            set;
+        }
+        
+        [ProtoMember(2)]
+        public string Address
+        {
+            get;
+            set;
         }
     }
     
