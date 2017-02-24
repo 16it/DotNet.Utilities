@@ -203,6 +203,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ProtoBuf.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ProtoBuf.UtilitiesTests", "YanZhiwei.DotNet.ProtoBuf.UtilitiesTests\YanZhiwei.DotNet.ProtoBuf.UtilitiesTests.csproj", "{53DCF7CD-8661-41AE-AF89-F06656D3A5B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.5.Utilities", "YanZhiwei.DotNet4.5.Utilities\YanZhiwei.DotNet4.5.Utilities.csproj", "{63A554D3-CD2D-471E-8EE7-E743459E896D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1513,6 +1515,22 @@ Global
 		{53DCF7CD-8661-41AE-AF89-F06656D3A5B7}.Release|x64.Build.0 = Release|Any CPU
 		{53DCF7CD-8661-41AE-AF89-F06656D3A5B7}.Release|x86.ActiveCfg = Release|Any CPU
 		{53DCF7CD-8661-41AE-AF89-F06656D3A5B7}.Release|x86.Build.0 = Release|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Debug|ARM.Build.0 = Debug|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Debug|x64.Build.0 = Debug|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Debug|x86.Build.0 = Debug|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Release|ARM.ActiveCfg = Release|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Release|ARM.Build.0 = Release|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Release|x64.ActiveCfg = Release|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Release|x64.Build.0 = Release|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Release|x86.ActiveCfg = Release|Any CPU
+		{63A554D3-CD2D-471E-8EE7-E743459E896D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

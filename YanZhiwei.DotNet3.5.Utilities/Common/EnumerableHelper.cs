@@ -3,14 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
+    
     /// <summary>
     /// Enumerable帮助类
     /// </summary>
     public static class EnumerableHelper
     {
         #region Methods
-
+        
         /// <summary>
         /// 集合包含忽略大小写比对
         /// </summary>
@@ -23,7 +23,34 @@
         {
             return items.Contains(data, StringComparer.CurrentCultureIgnoreCase);
         }
-
+        
+        /// <summary>
+        /// 在主线程上分页处理数据
+        /// </summary>
+        /// <param name="item">需要分页的数据源</param>
+        /// <param name="dataPageSize">每页大小</param>
+        /// <param name="dataPageFactory">分页处理委托，参数：每页数据源，总页数，页索引/param>
+        public static void DataPageProcess<T>(
+            IEnumerable<T> item, int dataPageSize,
+            Action<IEnumerable<T>, int, int> dataPageFactory)
+        where T : class
+        {
+            if(item != null && item.Count() > 0)
+            {
+                int _dataTotalCount = item.Count();
+                int _dataTotalPages = item.Count() / dataPageSize;
+                
+                if(_dataTotalCount % dataPageSize > 0)
+                    _dataTotalPages += 1;
+                    
+                for(int pageIndex = 1; pageIndex <= _dataTotalPages; pageIndex++)
+                {
+                    IEnumerable<T> _pageSource = item.Skip((pageIndex - 1) * dataPageSize).Take(dataPageSize);
+                    dataPageFactory(_pageSource, _dataTotalPages, pageIndex);
+                }
+            }
+        }
+        
         /// <summary>
         /// 判断IEnumerable是否是空
         /// </summary>
@@ -33,14 +60,16 @@
         public static bool IsEmpty<T>(this IEnumerable<T> items)
         {
             bool _result = true;
-            if (items != null)
+            
+            if(items != null)
             {
                 var _enumerator = items.GetEnumerator();
                 _result = !_enumerator.MoveNext();
             }
+            
             return _result;
         }
-
+        
         /// <summary>
         /// 如果等于NULL则返回默认初始化集合
         /// </summary>
@@ -51,12 +80,12 @@
         /// 备注：
         public static IEnumerable<T> NullToEmpty<T>(this IEnumerable<T> source)
         {
-            if (source == null)
+            if(source == null)
                 return Enumerable.Empty<T>();
-
+                
             return source;
         }
-
+        
         /// <summary>
         /// 根据设定的大小分割集合
         /// <para>
@@ -70,19 +99,22 @@
         public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> source, int size)
         {
             List<T> _partition = new List<T>(size);
-            foreach (var item in source)
+            
+            foreach(var item in source)
             {
                 _partition.Add(item);
-                if (_partition.Count == size)
+                
+                if(_partition.Count == size)
                 {
                     yield return _partition;
                     _partition = new List<T>(size);
                 }
             }
-            if (_partition.Count > 0)
+            
+            if(_partition.Count > 0)
                 yield return _partition;
         }
-
+        
         /// <summary>
         /// 转换为HashSet
         /// </summary>
@@ -95,7 +127,7 @@
             _result.UnionWith(source);
             return _result;
         }
-
+        
         /// <summary>
         /// 递归扩展
         /// <para>
@@ -108,21 +140,23 @@
         /// <returns>集合</returns>
         public static IEnumerable<T> Traverse<T>(this IEnumerable<T> source, Func<T, IEnumerable<T>> fnRecurse)
         {
-            foreach (T current in source)
+            foreach(T current in source)
             {
                 yield return current;
                 IEnumerable<T> enumerable = fnRecurse(current);
-                if (enumerable != null)
+                
+                if(enumerable != null)
                 {
-                    foreach (T current2 in enumerable.Traverse(fnRecurse))
+                    foreach(T current2 in enumerable.Traverse(fnRecurse))
                     {
                         yield return current2;
                     }
                 }
             }
+            
             yield break;
         }
-
+        
         #endregion Methods
     }
 }
