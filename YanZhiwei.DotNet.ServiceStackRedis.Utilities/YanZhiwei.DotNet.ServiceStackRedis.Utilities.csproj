@@ -63,6 +63,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet.ProtoBuf.Utilities\YanZhiwei.DotNet.ProtoBuf.Utilities.csproj">
+      <Project>{366b7829-aa19-4060-a5b5-bb16fc7397c8}</Project>
+      <Name>YanZhiwei.DotNet.ProtoBuf.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
