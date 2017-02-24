@@ -5,27 +5,27 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    
     using ServiceStack.Redis;
-
+    
     using YanZhiwei.DotNet.ProtoBuf.Utilities;
-
+    
     /// <summary>
     /// NativeRedis操作封装
     /// </summary>
     public class NativeRedisCacheManger : IDisposable
     {
         #region Fields
-
+        
         /// <summary>
         /// PooledRedisClientManager
         /// </summary>
         public readonly PooledRedisClientManager PRM;
-
+        
         #endregion Fields
-
+        
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -38,7 +38,7 @@
         {
             PRM = CreateManager(readWriteHosts, readOnlyHosts, defaultDb);
         }
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -52,19 +52,22 @@
             string[] _hosts = new string[] { string.Format("{0}:{1}", ip, port) };
             PRM = CreateManager(_hosts, _hosts, defaultDb);
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if(PRM != null)
+            {
+                PRM.Dispose();
+            }
         }
-
+        
         /// <summary>
         /// 获取HASH类型数据
         /// </summary>
@@ -72,27 +75,27 @@
         /// <param name="key">HASH KEY</param>
         /// <returns>泛型</returns>
         public T HashGet<T>(string hashId, string key)
-            where T : class
+        where T : class
         {
             using(IRedisClient redis = PRM.GetClient())
             {
                 IRedisNativeClient _redisNative = (IRedisNativeClient)redis;
                 byte[] _findedBuffer = _redisNative.HGet(hashId, Encoding.UTF8.GetBytes(key));
-
+                
                 if(_findedBuffer != null)
                     return ProtoBufHelper.Deserialize<T>(_findedBuffer);
                 else
                     return null;
             }
         }
-
+        
         /// <summary>
         /// 添加HASH类型
         /// </summary>
         /// <param name="hashId">HASH ID</param>
         /// <param name="source">需要设置的数据</param>
         public void HashSet<T>(string hashId, IEnumerable<IGrouping<string, T>> source)
-            where T : class
+        where T : class
         {
             Parallel.ForEach(source, (item, loopState) =>
             {
@@ -105,7 +108,7 @@
                 }
             });
         }
-
+        
         private PooledRedisClientManager CreateManager(
             string[] readWriteHosts, string[] readOnlyHosts, long defaultDb = 0)
         {
@@ -117,7 +120,7 @@
             PooledRedisClientManager _prm = new PooledRedisClientManager(readWriteHosts, readOnlyHosts, _redisConfig);
             return _prm;
         }
-
+        
         #endregion Methods
     }
 }
