@@ -1,14 +1,12 @@
 ﻿namespace YanZhiwei.DotNet.ServiceStackRedis.Utilities
 {
+    using ProtoBuf.Utilities;
+    using ServiceStack.Redis;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    
-    using ServiceStack.Redis;
-    
-    using YanZhiwei.DotNet.ProtoBuf.Utilities;
     
     /// <summary>
     /// NativeRedis操作封装
@@ -87,6 +85,66 @@
                 else
                     return null;
             }
+        }
+        
+        private static readonly object looker = new object();
+        
+        /// <summary>
+        /// 获取所有HASH数据
+        /// </summary>
+        /// <param name="hashId">Hash Id</param>
+        /// <returns>泛型</returns>
+        public List<T> HashGetAll<T>(string hashId)
+        where T : class
+        {
+            byte[][] _allKey = null;
+            List<T> _allRedisTypeList = null;
+            
+            using(IRedisClient redis = PRM.GetClient())
+            {
+                IRedisNativeClient _redisNative = (IRedisNativeClient)redis;
+                _allKey = _redisNative.HKeys(hashId);
+            }
+            
+            if(_allKey != null)
+            {
+                _allRedisTypeList = new List<T>();
+            }
+            
+            Parallel.ForEach(_allKey, (key, loopState) =>
+            {
+                List<T> _singleRedisTypeList = HashGet<List<T>>(hashId, Encoding.UTF8.GetString(key));
+                
+                lock(looker)
+                {
+                    _allRedisTypeList.AddRange(_singleRedisTypeList);
+                }
+            });
+            return _allRedisTypeList;
+        }
+        
+        /// <summary>
+        /// 获取HASH类型数据
+        /// </summary>
+        /// <param name="hashId">Hash Id</param>
+        /// <param name="getKeys">需要获取的Key</param>
+        /// <returns>泛型</returns>
+        public List<T> HashGet<T>(string hashId, string[] getKeys)
+        where T : class
+        {
+            List<T> _allRedisTypeList = new List<T>();
+            
+            Parallel.ForEach(getKeys, (key, loopState) =>
+            {
+                List<T> _singleRedisTypeList = HashGet<List<T>>(hashId, key);
+                
+                lock(looker)
+                {
+                    _allRedisTypeList.AddRange(_singleRedisTypeList);
+                }
+            });
+            
+            return _allRedisTypeList;
         }
         
         /// <summary>
