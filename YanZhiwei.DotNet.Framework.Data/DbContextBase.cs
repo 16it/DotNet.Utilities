@@ -133,8 +133,7 @@
         public override int SaveChanges()
         {
             this.WriteAuditLog();
-            var result = base.SaveChanges();
-            return result;
+            return base.SaveChanges();
         }
         
         /// <summary>

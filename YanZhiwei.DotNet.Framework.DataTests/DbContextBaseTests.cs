@@ -1,6 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using YanZhiwei.DotNet.Framework.DataTests;
-
+using YanZhiwei.DotNet2.Utilities.Collection;
+using System.Linq;
 namespace YanZhiwei.DotNet.Framework.Data.Tests
 {
     [TestClass()]
@@ -9,7 +14,13 @@ namespace YanZhiwei.DotNet.Framework.Data.Tests
         [TestMethod()]
         public void DeleteTest()
         {
-            Assert.Fail();
+            using(var dbContext = new AdventureWorks2014DbContext())
+            {
+                Address _fined = dbContext.Find<Address>(1);
+                dbContext.Delete<Address>(_fined);
+                _fined = dbContext.Find<Address>(1);
+                Assert.IsNull(_fined);
+            }
         }
         
         [TestMethod()]
@@ -26,31 +37,60 @@ namespace YanZhiwei.DotNet.Framework.Data.Tests
         [TestMethod()]
         public void FindAllTest()
         {
-            Assert.Fail();
+            using(var dbContext = new AdventureWorks2014DbContext())
+            {
+                List<Address> _finedAll = dbContext.FindAll<Address>();
+                Assert.IsNotNull(_finedAll);
+            }
         }
         
         [TestMethod()]
         public void FindAllByPageTest()
         {
-            Assert.Fail();
+            using(var dbContext = new AdventureWorks2014DbContext())
+            {
+                PagedList<Address> _finedAll = dbContext.FindAllByPage<Address, int>(null, c => c.ID, 10, 1);
+                Assert.AreEqual(_finedAll.Count, 10);
+            }
         }
         
         [TestMethod()]
         public void InsertTest()
         {
-            Assert.Fail();
-        }
-        
-        [TestMethod()]
-        public void SaveChangesTest()
-        {
-            Assert.Fail();
+            using(var dbContext = new AdventureWorks2014DbContext())
+            {
+                Address _item = new Address();
+                _item.ID = 1;
+                _item.PostalCode = "78011";
+                _item.AddressLine1 = "Tianxin";
+                _item.City = "Zhuzhou";
+                _item.StateProvinceID = 79;
+                _item.PostalCode = "72222";
+                _item.rowguid = Guid.NewGuid();
+                Address _actual = dbContext.Insert<Address>(_item);
+                Assert.IsNotNull(_actual);
+            }
         }
         
         [TestMethod()]
         public void SqlQueryTest()
         {
-            Assert.Fail();
+            using(var dbContext = new AdventureWorks2014DbContext())
+            {
+                string _sql = @"SELECT  [AddressID] as ID
+                                       ,[AddressLine1]
+                                       ,[AddressLine2]
+                                       ,[City]
+                                       ,[StateProvinceID]
+                                       ,[PostalCode]
+                                       ,[rowguid]
+                                       ,[ModifiedDate] as CreateTime
+                                       FROM[Person].[Address]
+                                       where AddressID = @AddressID";
+                DbParameter _paramter = new SqlParameter("@AddressID", 32529);
+                Address _actual = dbContext.SqlQuery<Address>(_sql, _paramter).FirstOrDefault();
+                Assert.IsNotNull(_actual);
+            }
         }
         
         [TestMethod()]
