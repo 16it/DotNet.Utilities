@@ -4,20 +4,20 @@
     using System;
     using System.Data;
     using System.IO;
-
+    
     /// <summary>
     /// Json 辅助类
     /// </summary>
     public sealed class JsonHelper
     {
         #region Methods
-
+        
         /*
          * 参考：
          * 1.http://weblog.west-wind.com/posts/2008/Sep/03/DataTable-JSON-Serialization-in-JSONNET-and-JavaScriptSerializer
          * 2.http://blog.prabir.me/posts/json-in-classical-web-services-asmx
          */
-
+        
         /// <summary>
         /// 反序列化Json数据格式
         /// </summary>
@@ -27,11 +27,12 @@
         public static T Deserialize<T>(string jsonText)
         {
             T _jsonResult = default(T);
-
+            
             if(!string.IsNullOrEmpty(jsonText))
             {
                 JsonSerializer _json = new JsonSerializer();
                 JsonInitialize(_json);
+                
                 using(StringReader reader = new StringReader(jsonText))
                 {
                     using(JsonTextReader jsonReader = new JsonTextReader(reader))
@@ -41,10 +42,10 @@
                     }
                 }
             }
-
+            
             return _jsonResult;
         }
-
+        
         /// <summary>
         /// 序列化数据为Json数据格式.
         /// <para>说明 [JsonProperty("姓名")]重命名属性名称</para>
@@ -57,16 +58,16 @@
             Type _type = value.GetType();
             JsonSerializer _json = new JsonSerializer();
             JsonInitialize(_json);
-
+            
             if(_type == typeof(DataRow))
                 _json.Converters.Add(new DataRowConverter());
-
+                
             if(_type == typeof(DataTable))
                 _json.Converters.Add(new DataTableConverter());
-
+                
             if(_type == typeof(DataSet))
                 _json.Converters.Add(new DataSetConverter());
-
+                
             using(StringWriter writer = new StringWriter())
             {
                 using(JsonTextWriter jsonWriter = new JsonTextWriter(writer))
@@ -78,7 +79,7 @@
                 }
             }
         }
-
+        
         private static void JsonInitialize(JsonSerializer jsonSerializer)
         {
             if(jsonSerializer != null)
@@ -89,7 +90,7 @@
                 jsonSerializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             }
         }
-
+        
         #endregion Methods
     }
 }

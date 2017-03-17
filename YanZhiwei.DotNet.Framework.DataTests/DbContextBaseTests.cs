@@ -17,9 +17,9 @@ namespace YanZhiwei.DotNet.Framework.Data.Tests
         {
             using(var dbContext = new AdventureWorks2014DbContext())
             {
-                Address _fined = dbContext.Find<Address>(1);
+                Address _fined = dbContext.Find<Address>(14);
                 dbContext.Delete<Address>(_fined);
-                _fined = dbContext.Find<Address>(1);
+                _fined = dbContext.Find<Address>(3);
                 Assert.IsNull(_fined);
             }
         }
@@ -62,11 +62,11 @@ namespace YanZhiwei.DotNet.Framework.Data.Tests
             {
                 Address _item = new Address();
                 _item.ID = 1;
-                _item.PostalCode = "78011";
+                _item.PostalCode = "78019";
                 _item.AddressLine1 = "Tianxin";
                 _item.City = "Zhuzhou";
-                _item.StateProvinceID = 79;
-                _item.PostalCode = "72222";
+                _item.StateProvinceID = 78;
+                _item.PostalCode = "72229";
                 _item.rowguid = Guid.NewGuid();
                 Address _actual = dbContext.Insert<Address>(_item);
                 Assert.IsNotNull(_actual);

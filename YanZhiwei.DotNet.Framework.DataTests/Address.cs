@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using YanZhiwei.DotNet.Framework.Contract;
 
 [Table("Person.Address")]
+[Auditable]
+[Serializable]
 public class Address : ModelBase
 {
     [Key]
