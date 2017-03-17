@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet4.Framework.Data
+﻿namespace YanZhiwei.DotNet.Framework.Data
 {
     using DotNet.Framework.Contract;
     using DotNet2.Utilities.Collection;

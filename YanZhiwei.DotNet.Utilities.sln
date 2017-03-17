@@ -95,7 +95,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Log", "Log", "{9F9016F0-DC3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{0FE0CB83-8F4A-420E-94A6-F7EB6F364112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.Framework.Data", "YanZhiwei.DotNet4.Framework.Data\YanZhiwei.DotNet4.Framework.Data.csproj", "{3E3AD6DC-66CD-4B62-9C90-DCFD6805A92C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Framework.Data", "YanZhiwei.DotNet4.Framework.Data\YanZhiwei.DotNet.Framework.Data.csproj", "{3E3AD6DC-66CD-4B62-9C90-DCFD6805A92C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Framework", "YanZhiwei.DotNet.Framework", "{E800C592-BEBC-4DC8-B717-89E008924956}"
 EndProject

@@ -92,9 +92,9 @@
       <Project>{fce5db97-96ec-4e53-bc19-eee6f2aa88e0}</Project>
       <Name>YanZhiwei.DotNet3.5.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.DotNet4.Framework.Data\YanZhiwei.DotNet4.Framework.Data.csproj">
+    <ProjectReference Include="..\YanZhiwei.DotNet4.Framework.Data\YanZhiwei.DotNet.Framework.Data.csproj">
       <Project>{3e3ad6dc-66cd-4b62-9c90-dcfd6805a92c}</Project>
-      <Name>YanZhiwei.DotNet4.Framework.Data</Name>
+      <Name>YanZhiwei.DotNet.Framework.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.Framework.Common\YanZhiwei.DotNet.Framework.Contract.csproj">
       <Project>{5cd641fa-33ba-4fa3-9df4-97a0c2e53e14}</Project>

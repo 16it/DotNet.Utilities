@@ -7,8 +7,8 @@
     <ProjectGuid>{3E3AD6DC-66CD-4B62-9C90-DCFD6805A92C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.DotNet4.Framework.Data</RootNamespace>
-    <AssemblyName>DotNet4.Framework.Data</AssemblyName>
+    <RootNamespace>YanZhiwei.DotNet.Framework.Data</RootNamespace>
+    <AssemblyName>DotNet.Framework.Data</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\DotNet4.Framework.Data.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\DotNet.Framework.Data.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
