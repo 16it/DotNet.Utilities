@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Linq;
 using YanZhiwei.DotNet.Framework.DataTests;
 using YanZhiwei.DotNet2.Utilities.Collection;
-using System.Linq;
+
 namespace YanZhiwei.DotNet.Framework.Data.Tests
 {
     [TestClass()]
@@ -96,7 +97,15 @@ namespace YanZhiwei.DotNet.Framework.Data.Tests
         [TestMethod()]
         public void UpdateTest()
         {
-            Assert.Fail();
+            using(var dbContext = new AdventureWorks2014DbContext())
+            {
+                Address _actual = dbContext.Find<Address>(32529);
+                string _expect = _actual.AddressLine1 + DateTime.Now.ToString("yyyyMMddHHmmss");
+                _actual.AddressLine1 = _expect;
+                dbContext.Update<Address>(_actual);
+                _actual = dbContext.Find<Address>(32529);
+                Assert.AreEqual(_actual.AddressLine1, _expect);
+            }
         }
     }
 }
