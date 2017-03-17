@@ -17,7 +17,7 @@ namespace YanZhiwei.DotNet.Framework.Data.Tests
         {
             using(var dbContext = new AdventureWorks2014DbContext())
             {
-                Address _fined = dbContext.Find<Address>(14);
+                Address _fined = dbContext.Find<Address>(22);
                 dbContext.Delete<Address>(_fined);
                 _fined = dbContext.Find<Address>(3);
                 Assert.IsNull(_fined);

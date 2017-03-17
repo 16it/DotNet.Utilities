@@ -38,7 +38,7 @@ namespace YanZhiwei.DotNet.Framework.DataTests
                 _item.NewValues =  JsonHelper.Serialize(newValues);
                 this.AuditLogs.Add(_item);
                 this.SaveChanges();
-                //this.Dispose();
+                this.Dispose();
             }
             catch(Exception ex)
             {
