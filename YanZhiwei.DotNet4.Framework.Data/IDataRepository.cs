@@ -1,12 +1,10 @@
 ﻿namespace YanZhiwei.DotNet4.Framework.Data
 {
+    using DotNet.Framework.Contract;
+    using DotNet2.Utilities.Collection;
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    
-    using DotNet.Framework.Contract;
-    
-    using DotNet2.Utilities.Collection;
     
     /// <summary>
     /// 仓储接口
