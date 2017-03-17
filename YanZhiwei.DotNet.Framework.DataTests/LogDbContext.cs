@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Data.Entity;
 using YanZhiwei.DotNet.Framework.Contract;
 using YanZhiwei.DotNet.Framework.Data;
@@ -35,7 +34,7 @@ namespace YanZhiwei.DotNet.Framework.DataTests
                 _item.ModuleName = moduleName;
                 _item.TableName = tableName;
                 _item.EventType = eventType;
-                _item.NewValues =  JsonHelper.Serialize(newValues);
+                _item.NewValues = JsonHelper.Serialize(newValues);
                 this.AuditLogs.Add(_item);
                 this.SaveChanges();
                 this.Dispose();
