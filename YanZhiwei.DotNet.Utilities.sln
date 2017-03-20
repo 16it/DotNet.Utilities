@@ -85,7 +85,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.SharpZipLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.iTextSharp.Utilities", "YanZhiwei.DotNet.iTextSharp.Utilities\YanZhiwei.DotNet.iTextSharp.Utilities.csproj", "{A7719F17-BF21-406E-99C2-0B82068D80CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.Core.CacheProvider", "YanZhiwei.DotNet4.Core.CacheProvider\YanZhiwei.DotNet4.Core.CacheProvider.csproj", "{96634A6B-1565-419A-A438-20F47F586A55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.ObjectCache", "YanZhiwei.DotNet4.Core.CacheProvider\YanZhiwei.DotNet.Core.ObjectCache.csproj", "{96634A6B-1565-419A-A438-20F47F586A55}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Core", "YanZhiwei.DotNet.Core", "{01873B87-2AAC-4C13-B86F-9AB8C9A18445}"
 EndProject

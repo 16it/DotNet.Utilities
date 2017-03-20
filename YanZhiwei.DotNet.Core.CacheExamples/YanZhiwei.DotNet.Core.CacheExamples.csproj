@@ -179,9 +179,9 @@
       <Project>{fce5db97-96ec-4e53-bc19-eee6f2aa88e0}</Project>
       <Name>YanZhiwei.DotNet3.5.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.DotNet4.Core.CacheProvider\YanZhiwei.DotNet4.Core.CacheProvider.csproj">
+    <ProjectReference Include="..\YanZhiwei.DotNet4.Core.CacheProvider\YanZhiwei.DotNet.Core.ObjectCache.csproj">
       <Project>{96634a6b-1565-419a-a438-20f47f586a55}</Project>
-      <Name>YanZhiwei.DotNet4.Core.CacheProvider</Name>
+      <Name>YanZhiwei.DotNet.Core.ObjectCache</Name>
     </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.Framework.Common\YanZhiwei.DotNet.Framework.Contract.csproj">
       <Project>{5cd641fa-33ba-4fa3-9df4-97a0c2e53e14}</Project>

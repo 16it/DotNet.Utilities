@@ -7,8 +7,8 @@
     <ProjectGuid>{96634A6B-1565-419A-A438-20F47F586A55}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.DotNet4.Core.CacheProvider</RootNamespace>
-    <AssemblyName>DotNet4.Core.CacheProvider</AssemblyName>
+    <RootNamespace>YanZhiwei.DotNet.Core.ObjectCache</RootNamespace>
+    <AssemblyName>DotNet.Core.ObjectCache</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\DotNet.Core.ObjectCache.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
