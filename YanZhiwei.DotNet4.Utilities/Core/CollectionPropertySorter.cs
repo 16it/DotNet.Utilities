@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet4.Utilities.Core
 {
-    using DotNet2.Utilities.Exception;
+    using DotNet2.Utilities.ExtendException;
     using DotNet2.Utilities.Operator;
     using System;
     using System.Collections.Concurrent;
