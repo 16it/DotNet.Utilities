@@ -2,7 +2,7 @@
 using System;
 using YanZhiwei.DotNet2.Utilities.ExtendException;
 
-namespace YanZhiwei.DotNet.Core.Service
+namespace YanZhiwei.DotNet.Core.ServiceTests
 {
     internal class InvokeInterceptor : IInterceptor
     {
@@ -35,7 +35,6 @@ namespace YanZhiwei.DotNet.Core.Service
                         returnValue = invocation.ReturnValue
                     }
                 };
-                //   Log4NetHelper.Error(LoggerType.ServiceExceptionLog, message, exception);
                 throw;
             }
         }
