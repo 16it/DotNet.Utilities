@@ -4,31 +4,33 @@
     using DotNet2.Utilities.Operator;
     using log4net;
     using log4net.Config;
+    using Newtonsoft.Json.Utilities;
     using System;
     using System.IO;
     using System.Text;
-
+    
     /// <summary>
     /// Log4Net日志记录
     /// </summary>
     public class Log4NetHelper
     {
         #region Constructors
-
+        
         static Log4NetHelper()
         {
             string _log4NetXmlConfg = CachedConfigContext.Current.ConfigService.GetConfig("Log4net");
             ValidateOperator.Begin().NotNullOrEmpty(_log4NetXmlConfg, "log4net配置文件");
+            
             using(MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(_log4NetXmlConfg)))
             {
                 XmlConfigurator.Configure(ms);
             }
         }
-
+        
         #endregion Constructors
-
+        
         #region Methods
-
+        
         /// <summary>
         /// Debug记录
         /// </summary>
@@ -38,13 +40,13 @@
         public static void Debug(LoggerType loggerType, object message, Exception ex)
         {
             ILog _logger = LogManager.GetLogger(loggerType.ToString());
-
+            
             if(ex != null)
                 _logger.Debug(SerializeObject(message), ex);
             else
                 _logger.Debug(SerializeObject(message));
         }
-
+        
         /// <summary>
         /// Debug记录
         /// </summary>
@@ -54,7 +56,7 @@
         {
             Debug(loggerType, message, null);
         }
-
+        
         /// <summary>
         /// Error记录
         /// </summary>
@@ -64,13 +66,13 @@
         public static void Error(LoggerType loggerType, object message, Exception ex)
         {
             var _logger = LogManager.GetLogger(loggerType.ToString());
-
+            
             if(ex != null)
                 _logger.Error(SerializeObject(message), ex);
             else
                 _logger.Error(SerializeObject(message));
         }
-
+        
         /// <summary>
         /// Error记录
         /// </summary>
@@ -80,7 +82,7 @@
         {
             Error(loggerType, message, null);
         }
-
+        
         /// <summary>
         /// Fatal记录
         /// </summary>
@@ -90,13 +92,13 @@
         public static void Fatal(LoggerType loggerType, object message, Exception ex)
         {
             var _logger = LogManager.GetLogger(loggerType.ToString());
-
+            
             if(ex != null)
                 _logger.Fatal(SerializeObject(message), ex);
             else
                 _logger.Fatal(SerializeObject(message));
         }
-
+        
         /// <summary>
         /// Fatal记录
         /// </summary>
@@ -106,7 +108,7 @@
         {
             Fatal(loggerType, message, null);
         }
-
+        
         /// <summary>
         /// Info记录
         /// </summary>
@@ -116,13 +118,13 @@
         public static void Info(LoggerType loggerType, object message, Exception ex)
         {
             var _logger = LogManager.GetLogger(loggerType.ToString());
-
+            
             if(ex != null)
                 _logger.Info(SerializeObject(message), ex);
             else
                 _logger.Info(SerializeObject(message));
         }
-
+        
         /// <summary>
         /// Info记录
         /// </summary>
@@ -132,7 +134,7 @@
         {
             Info(loggerType, message, null);
         }
-
+        
         /// <summary>
         /// Warn记录
         /// </summary>
@@ -142,13 +144,13 @@
         public static void Warn(LoggerType loggerType, object message, Exception ex)
         {
             var _logger = LogManager.GetLogger(loggerType.ToString());
-
+            
             if(ex != null)
                 _logger.Warn(SerializeObject(message), ex);
             else
                 _logger.Warn(SerializeObject(message));
         }
-
+        
         /// <summary>
         /// Warn记录
         /// </summary>
@@ -158,7 +160,7 @@
         {
             Warn(loggerType, message, null);
         }
-
+        
         /// <summary>
         /// 序列化对象
         /// </summary>
@@ -172,10 +174,10 @@
             }
             else
             {
-                return Newtonsoft.Json.Utilities.JsonHelper.Serialize(message);
+                return JsonHelper.Serialize(message);
             }
         }
-
+        
         #endregion Methods
     }
 }

@@ -1,27 +1,27 @@
 ﻿namespace YanZhiwei.DotNet.Core.Log
 {
     #region Enumerations
-
+    
     /// <summary>
     /// 日志类型
     /// </summary>
     public enum LoggerType
     {
         /// <summary>
-        /// The web exception log
+        /// 网页异常日志
         /// </summary>
         WebExceptionLog,
-
+        
         /// <summary>
-        /// The winForm exception log
+        /// 客户端异常日志
         /// </summary>
         WinExceptionLog,
-
+        
         /// <summary>
-        /// The service exception log
+        /// 服务端异常日志
         /// </summary>
-        ServiceExceptionLog
+        ServiceExceptionLog,
     }
-
+    
     #endregion Enumerations
 }
