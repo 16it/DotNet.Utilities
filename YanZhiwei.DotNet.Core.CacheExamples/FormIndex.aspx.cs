@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using YanZhiwei.DotNet.Core.Cache.Examples;
 using YanZhiwei.DotNet.Core.Log;
+using YanZhiwei.DotNet.Core.ObjectCache;
 using YanZhiwei.DotNet2.Utilities.Model;
-using YanZhiwei.DotNet4.Core.CacheProvider;
 
 namespace YanZhiwei.DotNet.Core.CacheExamples
 {
@@ -12,27 +12,27 @@ namespace YanZhiwei.DotNet.Core.CacheExamples
         protected void Page_Load(object sender, EventArgs e)
         {
         }
-
+        
         protected void Button1_Click(object sender, EventArgs e)
         {
             Core.Cache.CacheHelper.Set("LoginInfo_name", "YanZhiwei");
         }
-
+        
         protected void Button2_Click(object sender, EventArgs e)
         {
             Debug.WriteLine(Core.Cache.CacheHelper.Get("LoginInfo_name"));
         }
-
+        
         protected void Button3_Click(object sender, EventArgs e)
         {
             Log4NetHelper.Info(LoggerType.WinExceptionLog, "测试");
         }
-
+        
         protected void Button4_Click(object sender, EventArgs e)
         {
             Log4NetHelper.Info(LoggerType.ServiceExceptionLog, "测试");
         }
-
+        
         protected void Button5_Click(object sender, EventArgs e)
         {
             using(var edm = new NorthwindEntities1())
@@ -51,7 +51,7 @@ namespace YanZhiwei.DotNet.Core.CacheExamples
                 Products[] _productList = _productPageResult.Data;
             }
         }
-
+        
         protected void Button6_Click(object sender, EventArgs e)
         {
         }

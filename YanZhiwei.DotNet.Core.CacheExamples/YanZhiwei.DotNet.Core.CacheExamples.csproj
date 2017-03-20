@@ -167,6 +167,10 @@
       <Project>{26fc1441-a657-4d9d-8813-a52dac3387d7}</Project>
       <Name>YanZhiwei.DotNet.Core.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.ObjectCache\YanZhiwei.DotNet.Core.ObjectCache.csproj">
+      <Project>{96634a6b-1565-419a-a438-20f47f586a55}</Project>
+      <Name>YanZhiwei.DotNet.Core.ObjectCache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.Newtonsoft.Json.Utilities\YanZhiwei.DotNet.Newtonsoft.Json.Utilities.csproj">
       <Project>{17020b01-dddb-4060-9b17-e4439cdc8c9a}</Project>
       <Name>YanZhiwei.DotNet.Newtonsoft.Json.Utilities</Name>
