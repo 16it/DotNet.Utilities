@@ -2,7 +2,7 @@
 <CacheConfig>
   <CacheProviderItems>
     <CacheProviderItem name="LocalCacheProvider" type="YanZhiwei.DotNet.Core.Cache.LocalCacheProvider, DotNet.Core.Cache" desc="本地缓存" />
-    <CacheProviderItem name="RuntimeMemoryCacheProvider" type="YanZhiwei.DotNet4.Core.CacheProvider.RuntimeMemoryCacheProvider, DotNet4.Core.CacheProvider" desc="本地缓存" />
+    <CacheProviderItem name="RuntimeMemoryCacheProvider" type="YanZhiwei.DotNet.Core.ObjectCache.RuntimeMemoryCacheProvider, DotNet.Core.ObjectCache" desc="本地缓存" />
   </CacheProviderItems>
   <CacheConfigItems>
     <CacheConfigItem desc="全局缓存" priority="0" keyRegex=".*" moduleRegex=".*" providerName="RuntimeMemoryCacheProvider" minitus="30" isAbsoluteExpiration="true" />
