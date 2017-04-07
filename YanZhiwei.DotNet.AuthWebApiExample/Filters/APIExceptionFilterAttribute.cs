@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using System.Web.Http.Filters;
-using YanZhiwei.DotNet2.Utilities.Exception;
+using YanZhiwei.DotNet2.Utilities.ExtendException;
 
 namespace YanZhiwei.DotNet.AuthWebApiExample.Filters
 {
