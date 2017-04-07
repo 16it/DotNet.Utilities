@@ -239,3 +239,4 @@ nunit-UnitTests.xml
 nunit-TrackingCollectionTests.xml
 GitHubVS.sln.DotSettings
 **/generated/*.cs
+/Visual Studio 2015/settings
