@@ -57,6 +57,10 @@
     <Compile Include="Common\IEnumerableHelper.cs" />
     <Compile Include="Common\IQueryableHelper.cs" />
     <Compile Include="Core\CollectionPropertySorter.cs" />
+    <Compile Include="EventHandle\CustomizeEventPublisher.cs" />
+    <Compile Include="EventHandle\Events\CustomizeEvent.cs" />
+    <Compile Include="EventHandle\Events\ICustomizeEvent.cs" />
+    <Compile Include="EventHandle\Subscribers\CustomizeEventSubscriber.cs" />
     <Compile Include="Model\SortCondition.cs" />
     <Compile Include="Model\ValueMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,7 +85,6 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EventHandle\" />
     <Folder Include="WebApi\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
