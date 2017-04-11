@@ -20,7 +20,7 @@ namespace YanZhiwei.DotNet.AuthWebApiExample.Controllers
                 Count = 10,
                 Price = 38.8
             };
-            AjaxResult _ajaxResult = new AjaxResult(string.Empty, AjaxResultType.Success, product);
+            AjaxResult<Product> _ajaxResult = new AjaxResult<Product>(string.Empty, AjaxResultType.Success, product);
             HttpResponseMessage _result = new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(_ajaxResult), Encoding.GetEncoding("UTF-8"), "application/json") };
             return _result;
         }
@@ -28,7 +28,7 @@ namespace YanZhiwei.DotNet.AuthWebApiExample.Controllers
         [HttpPost]
         public HttpResponseMessage AddProudct(Product product)
         {
-            AjaxResult _ajaxResult = new AjaxResult(string.Empty, AjaxResultType.Success, product);
+            AjaxResult<Product> _ajaxResult = new AjaxResult<Product>(string.Empty, AjaxResultType.Success, product);
             HttpResponseMessage _result = new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(_ajaxResult), Encoding.GetEncoding("UTF-8"), "application/json") };
             return _result;
         }

@@ -44,8 +44,8 @@
         public static void CreatePagedListResponse<T>(this HttpContext context, PagedList<T> pagedList) where T : class
         {
             JsonPagedList<T> _jsonPagedList = new JsonPagedList<T>(pagedList);
-            AjaxResult _jsonResult = new AjaxResult(string.Empty, AjaxResultType.Success, _jsonPagedList);
-            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult>(_jsonResult).ParseJsonDateTime();
+            AjaxResult<JsonPagedList<T>> _jsonResult = new AjaxResult <JsonPagedList<T>>(string.Empty, AjaxResultType.Success, _jsonPagedList);
+            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult<JsonPagedList<T>>>(_jsonResult).ParseJsonDateTime();
             context.Response.Write(_jsonString);
             context.ApplicationInstance.CompleteRequest();
         }
@@ -59,10 +59,10 @@
         /// <param name="content">消息内容</param>
         /// 时间：2016/10/26 10:15
         /// 备注：
-        public static void CreateResponse(this HttpContext context, object data, AjaxResultType type, string content)
+        public static void CreateResponse<T>(this HttpContext context, T data, AjaxResultType type, string content)
         {
-            AjaxResult _jsonResult = new AjaxResult(content, type, data);
-            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult>(_jsonResult);
+            AjaxResult<T> _jsonResult = new AjaxResult<T>(content, type, data);
+            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult<T>>(_jsonResult);
             context.Response.Write(_jsonString);
             context.ApplicationInstance.CompleteRequest();
         }
