@@ -3,8 +3,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using YanZhiwei.DotNet.AuthWebApiExample.Models;
-using YanZhiwei.DotNet2.Utilities.Enum;
-using YanZhiwei.DotNet2.Utilities.Model;
+using YanZhiwei.DotNet2.Utilities.Result;
 
 namespace YanZhiwei.DotNet.AuthWebApiExample.Controllers
 {
@@ -20,16 +19,15 @@ namespace YanZhiwei.DotNet.AuthWebApiExample.Controllers
                 Count = 10,
                 Price = 38.8
             };
-            AjaxResult<Product> _ajaxResult = new AjaxResult<Product>(string.Empty, AjaxResultType.Success, product);
-            HttpResponseMessage _result = new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(_ajaxResult), Encoding.GetEncoding("UTF-8"), "application/json") };
+
+            HttpResponseMessage _result = new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(AjaxResult<Product>.Success(product)), Encoding.GetEncoding("UTF-8"), "application/json") };
             return _result;
         }
-        
+
         [HttpPost]
         public HttpResponseMessage AddProudct(Product product)
         {
-            AjaxResult<Product> _ajaxResult = new AjaxResult<Product>(string.Empty, AjaxResultType.Success, product);
-            HttpResponseMessage _result = new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(_ajaxResult), Encoding.GetEncoding("UTF-8"), "application/json") };
+            HttpResponseMessage _result = new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(AjaxResult<Product>.Success(product)), Encoding.GetEncoding("UTF-8"), "application/json") };
             return _result;
         }
     }
