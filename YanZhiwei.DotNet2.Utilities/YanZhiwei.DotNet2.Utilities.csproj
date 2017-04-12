@@ -100,6 +100,7 @@
     <Compile Include="Collection\PagedList.cs" />
     <Compile Include="Operator\FileUpgradeOperator.cs" />
     <Compile Include="Result\BasicResult.cs" />
+    <Compile Include="Result\OperatedResult.cs" />
     <Compile Include="Test\PerformanceTest.cs" />
     <Compile Include="Collection\SerializableDictionary.cs" />
     <Compile Include="Common\ADDomainHelper.cs">
