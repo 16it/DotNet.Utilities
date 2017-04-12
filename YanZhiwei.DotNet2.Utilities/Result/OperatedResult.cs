@@ -4,7 +4,7 @@
     /// 操作返回
     /// </summary>
     /// <typeparam name="T">泛型</typeparam>
-    public class OperatedResult<T> : BasicResult<T>
+    public sealed class OperatedResult<T> : BasicResult<T>
     {
         #region Constructors
 

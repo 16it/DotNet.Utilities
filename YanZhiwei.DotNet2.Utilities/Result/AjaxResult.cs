@@ -5,7 +5,7 @@
     /// <summary>
     /// 表示Ajax操作结果
     /// </summary>
-    public class AjaxResult<T> : BasicResult<T>
+    public sealed class AjaxResult<T> : BasicResult<T>
     {
         #region Constructors
 
