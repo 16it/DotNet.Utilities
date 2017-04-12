@@ -88,7 +88,7 @@
     <Compile Include="Common\FrameworkExceptionHelper.cs" />
     <Compile Include="Common\IDbCommandHelper.cs" />
     <Compile Include="Encryptor\MD5Encryptor.cs" />
-    <Compile Include="Model\AjaxResult.cs" />
+    <Compile Include="Result\AjaxResult.cs" />
     <Compile Include="Builder\BuilderKey.cs" />
     <Compile Include="ExtendException\BusinessException.cs" />
     <Compile Include="DesignPattern\BusinessFactory.cs" />
@@ -99,6 +99,7 @@
     <Compile Include="Communication\HighPerformanceServer.cs" />
     <Compile Include="Collection\PagedList.cs" />
     <Compile Include="Operator\FileUpgradeOperator.cs" />
+    <Compile Include="Result\BasicResult.cs" />
     <Compile Include="Test\PerformanceTest.cs" />
     <Compile Include="Collection\SerializableDictionary.cs" />
     <Compile Include="Common\ADDomainHelper.cs">

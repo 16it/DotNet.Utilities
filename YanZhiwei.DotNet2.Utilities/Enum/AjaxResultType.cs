@@ -23,6 +23,11 @@
         /// <summary>
         /// 异常结果类型
         /// </summary>
-        Error
+        Error,
+
+        /// <summary>
+        /// 失败结果类型
+        /// </summary>
+        Fail
     }
 }
