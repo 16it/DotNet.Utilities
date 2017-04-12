@@ -15,7 +15,7 @@
         /// <param name="message">消息内容</param>
         /// <param name="data">返回数据</param>
         /// <param name="resultType">Ajax操作结果类型</param>
-        private AjaxResult(string message, T data, AjaxResultType resultType)
+        public AjaxResult(string message, T data, AjaxResultType resultType)
             : base(message, data)
         {
             ResultType = resultType;

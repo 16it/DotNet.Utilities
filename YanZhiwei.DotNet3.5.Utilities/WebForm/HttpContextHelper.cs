@@ -3,10 +3,10 @@
     using Common;
     using DotNet2.Utilities.Collection;
     using DotNet2.Utilities.Enum;
-    using DotNet2.Utilities.Model;
     using System;
     using System.Web;
-    
+    using YanZhiwei.DotNet2.Utilities.Result;
+
     /// <summary>
     /// HttpHandler帮助类
     /// </summary>
@@ -15,7 +15,7 @@
     public static class HttpContextHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 创建文件全路径
         /// <para>eg: context.CreateFilePath("images/1616/LampGroup/lampGroup.jpg")</para>
@@ -32,7 +32,7 @@
                                + file;
             return _fullPath;
         }
-        
+
         /// <summary>
         /// 创建分页集合Ajax响应
         /// </summary>
@@ -44,12 +44,12 @@
         public static void CreatePagedListResponse<T>(this HttpContext context, PagedList<T> pagedList) where T : class
         {
             JsonPagedList<T> _jsonPagedList = new JsonPagedList<T>(pagedList);
-            AjaxResult<JsonPagedList<T>> _jsonResult = new AjaxResult <JsonPagedList<T>>(string.Empty, AjaxResultType.Success, _jsonPagedList);
-            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult<JsonPagedList<T>>>(_jsonResult).ParseJsonDateTime();
+
+            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult<JsonPagedList<T>>>(AjaxResult<JsonPagedList<T>>.Success(_jsonPagedList)).ParseJsonDateTime();
             context.Response.Write(_jsonString);
             context.ApplicationInstance.CompleteRequest();
         }
-        
+
         /// <summary>
         /// 创建Ajax响应
         /// </summary>
@@ -61,12 +61,12 @@
         /// 备注：
         public static void CreateResponse<T>(this HttpContext context, T data, AjaxResultType type, string content)
         {
-            AjaxResult<T> _jsonResult = new AjaxResult<T>(content, type, data);
+            AjaxResult<T> _jsonResult = new AjaxResult<T>(content, data, type);
             string _jsonString = SerializeHelper.JsonSerialize<AjaxResult<T>>(_jsonResult);
             context.Response.Write(_jsonString);
             context.ApplicationInstance.CompleteRequest();
         }
-        
+
         /// <summary>
         /// 创建Ajax响应
         /// </summary>
@@ -76,12 +76,12 @@
         /// 备注：
         public static void CreateResponse(this HttpContext context, string content)
         {
-            AjaxResult _jsonResult = new AjaxResult(content);
-            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult>(_jsonResult);
+            AjaxResult<int> _jsonResult = new AjaxResult<int>(content, 0, AjaxResultType.Success);
+            string _jsonString = SerializeHelper.JsonSerialize<AjaxResult<int>>(_jsonResult);
             context.Response.Write(_jsonString);
             context.ApplicationInstance.CompleteRequest();
         }
-        
+
         /// <summary>
         /// 获取图片类型contentType
         /// </summary>
@@ -92,39 +92,39 @@
         public static string GetImageContentType(string ext)
         {
             string _contentType = null;
-            
-            switch(ext.ToLower())
+
+            switch (ext.ToLower())
             {
                 case "gif":
                     _contentType = "image/gif";
                     break;
-                    
+
                 case "jpg":
                 case "jpe":
                 case "jpeg":
                     _contentType = "image/jpeg";
                     break;
-                    
+
                 case "bmp":
                     _contentType = "image/bmp";
                     break;
-                    
+
                 case "tif":
                 case "tiff":
                     _contentType = "image/tiff";
                     break;
-                    
+
                 case "eps":
                     _contentType = "application/postscript";
                     break;
-                    
+
                 default:
                     break;
             }
-            
+
             return _contentType;
         }
-        
+
         /// <summary>
         /// 自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。
         /// </summary>
@@ -143,6 +143,6 @@
             context.Response.Cache.SetValidUntilExpires(true);
         }
     }
-    
+
     #endregion Methods
 }
