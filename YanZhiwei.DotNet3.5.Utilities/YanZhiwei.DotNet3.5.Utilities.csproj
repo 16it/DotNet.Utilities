@@ -28,7 +28,7 @@
     <DefineConstants Condition=" '$(TargetFrameworkVersion)' == 'v3.5' ">RUNNING_ON_3_5;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\DotNet3.5.Utilities.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\DotNet3.5.Utilities.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

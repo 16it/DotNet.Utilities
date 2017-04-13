@@ -30,7 +30,7 @@
         /// <param name="data">返回数据</param>
         public BasicResult(string message, T data)
         {
-            Message = message.Trim();
+            Message = message == null ? null : message.Trim();
             Data = data;
         }
     }

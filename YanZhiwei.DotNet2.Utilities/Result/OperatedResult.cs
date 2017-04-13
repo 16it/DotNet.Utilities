@@ -17,6 +17,7 @@
         public OperatedResult(string message, T data, bool state)
             : base(message, data)
         {
+            State = state;
         }
 
         #endregion Constructors
