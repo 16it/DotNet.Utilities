@@ -10,7 +10,7 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
             try
             {
                 Console.WriteLine("开始：" + DateTime.Now.ToLongTimeString());
-                Log4NetHelper.SetLogger("AdoNetLogger");
+                //  Log4NetHelper.SetLogger("AdoNetLogger");
                 Log4NetHelper.WriteDebug("Debug 你好");
                 Log4NetHelper.WriteError("ERROR");
                 Log4NetHelper.WriteFatal("Fatal");
@@ -18,7 +18,7 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
                 Log4NetHelper.WriteInfo("Info");
                 Console.WriteLine("end....");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
