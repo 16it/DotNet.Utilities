@@ -54,8 +54,8 @@
     <Compile Include="Builder\BillNumberBuilder.cs" />
     <Compile Include="Common\ConvertHelper.cs" />
     <Compile Include="Common\EnumTitleAttributeHelper.cs" />
-    <Compile Include="Common\IEnumerableHelper.cs" />
-    <Compile Include="Common\IQueryableHelper.cs" />
+    <Compile Include="Common\EnumerableHelper.cs" />
+    <Compile Include="Common\QueryableHelper.cs" />
     <Compile Include="Core\CollectionPropertySorter.cs" />
     <Compile Include="EventHandle\CustomizeEventPublisher.cs" />
     <Compile Include="EventHandle\Events\CustomizeEvent.cs" />

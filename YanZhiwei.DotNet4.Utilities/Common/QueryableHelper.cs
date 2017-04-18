@@ -13,7 +13,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
     /// </summary>
     /// 时间：2016-03-07 16:24
     /// 备注：
-    public static class IQueryableHelper
+    public static class QueryableHelper
     {
         /// <summary>
         /// 从指定<see cref="IQueryable{T}"/>集合中查询指定数据筛选的分页信息

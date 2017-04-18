@@ -15,7 +15,7 @@
     /// </summary>
     /// 时间：2016-03-07 17:03
     /// 备注：
-    public static class IEnumerableHelper
+    public static class EnumerableHelper
     {
         #region Methods
 
