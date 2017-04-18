@@ -1,16 +1,15 @@
 ﻿namespace YanZhiwei.DotNet.AuthWebApi.Utilities
 {
     using System;
-    
-    using Model;
-    
+    using YanZhiwei.DotNet2.Utilities.Result;
+
     /// <summary>
     /// 系统认证等基础接口
     /// </summary>
     public interface IAuthApi
     {
         #region Methods
-        
+
         /// <summary>
         /// 获取用户令牌
         /// </summary>
@@ -25,7 +24,7 @@
         /// 时间：2016/10/20 16:04
         /// 备注：
         TokenResult GetAccessToken(string userId, string signature, string timestamp, string nonce, string appSecret, string sharedKey, int timspanExpiredMinutes);
-        
+
         /// <summary>
         /// 检查用户令牌
         /// </summary>
@@ -36,7 +35,7 @@
         /// 时间：2016/10/20 16:08
         /// 备注：
         Tuple<bool, string> ValidateToken(string token, string sharedKey, int tokenExpiredDays);
-        
+
         #endregion Methods
     }
 }

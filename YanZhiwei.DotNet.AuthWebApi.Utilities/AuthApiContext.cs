@@ -1,10 +1,12 @@
 ﻿namespace YanZhiwei.DotNet.AuthWebApi.Utilities
 {
+    using System;
+
     using Core.Config;
     using Core.Model;
-    using Model;
-    using System;
-    
+
+    using YanZhiwei.DotNet2.Utilities.Result;
+
     /// <summary>
     /// AuthApi配置上下文
     /// </summary>
@@ -13,7 +15,7 @@
     public class AuthApiContext
     {
         #region Constructors
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -24,21 +26,21 @@
         {
             AuthApiService = authApiService;
         }
-        
+
         /// <summary>
         /// 默认构造函数
         /// </summary>
         /// 时间：2016/10/20 16:23
         /// 备注：
         public AuthApiContext()
-        : this(new JWTAuthService())
+            : this(new JWTAuthService())
         {
         }
-        
+
         #endregion Constructors
-        
+
         #region Properties
-        
+
         /// <summary>
         /// Web Api验证接口
         /// </summary>
@@ -47,7 +49,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// WEBAPI验证配置项
         /// </summary>
@@ -58,11 +60,11 @@
                 return CachedConfigContext.Current.AuthWebApiConfig;
             }
         }
-        
+
         #endregion Properties
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 获取用户令牌
         /// </summary>
@@ -78,7 +80,7 @@
         {
             return AuthApiService.GetAccessToken(userId, signature, timestamp, nonce, appSecret, AuthWebApiConfig.SharedKey, AuthWebApiConfig.TimspanExpiredMinutes);
         }
-        
+
         /// <summary>
         /// 检查用户令牌
         /// </summary>
@@ -90,7 +92,7 @@
         {
             return AuthApiService.ValidateToken(token, AuthWebApiConfig.SharedKey, AuthWebApiConfig.TokenExpiredDays);
         }
-        
+
         #endregion Methods
     }
 }

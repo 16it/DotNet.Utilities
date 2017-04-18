@@ -53,7 +53,6 @@
     <Compile Include="JWTAuthService.cs" />
     <Compile Include="AuthApiContext.cs" />
     <Compile Include="IAuthApi.cs" />
-    <Compile Include="Model\TokenResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

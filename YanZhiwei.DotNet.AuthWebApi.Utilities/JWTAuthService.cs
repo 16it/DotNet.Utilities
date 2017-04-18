@@ -3,12 +3,12 @@
     using DotNet2.Utilities.Common;
     using DotNet2.Utilities.Encryptor;
     using DotNet2.Utilities.ExtendException;
+    using DotNet2.Utilities.Result;
     using JWT;
-    using Model;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
-    
+
     /// <summary>
     /// 采用JWT生成令牌WEB API验证类
     /// </summary>
@@ -17,7 +17,7 @@
     public class JWTAuthService : IAuthApi
     {
         #region Methods
-        
+
         /// <summary>
         /// 获取用户令牌
         /// </summary>
@@ -34,27 +34,29 @@
         public TokenResult GetAccessToken(string userId, string signature, string timestamp, string nonce, string appSecret, string sharedKey, int timspanExpiredMinutes)
         {
             TokenResult _result = new TokenResult();
-            Tuple<bool, string> _checkedResult = ValidateSignature(signature, timestamp, nonce, appSecret, timspanExpiredMinutes);
-            
-            if(_checkedResult.Item1)
+            CheckResult _checkedResult = ValidateSignature(signature, timestamp, nonce, appSecret, timspanExpiredMinutes);
+
+            if (_checkedResult.State)
             {
                 Dictionary<string, object> _payload = new Dictionary<string, object>()
                 {
                     { "userId", userId},
                     { "claim", UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds}
                 };
+                //_payload 负载
+                //
                 string _token = JsonWebToken.Encode(_payload, sharedKey, JwtHashAlgorithm.HS256);
                 _result.Access_token = _token;
                 _result.Expires_in = timspanExpiredMinutes * 24 * 3600;
             }
             else
             {
-                throw new FrameworkException(_checkedResult.Item2);
+                throw new FrameworkException(_checkedResult.Message);
             }
-            
+
             return _result;
         }
-        
+
         /// <summary>
         /// 检查用户令牌
         /// </summary>
@@ -68,63 +70,58 @@
         {
             //返回的结果对象
             Tuple<bool, string> _checkeResult = new Tuple<bool, string>(false, "数据完整性检查不通过");
-            
-            if(!string.IsNullOrEmpty(token))
+
+            if (!string.IsNullOrEmpty(token))
             {
                 try
                 {
                     string _decodedJwt = JsonWebToken.Decode(token, sharedKey);
-                    
-                    if(!string.IsNullOrEmpty(_decodedJwt))
+
+                    if (!string.IsNullOrEmpty(_decodedJwt))
                     {
                         dynamic _root = JObject.Parse(_decodedJwt);
                         string _userid = _root.userId;
                         double _jwtcreated = (double)_root.claim;
                         bool _validTokenExpired = (new TimeSpan((int)(UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds - _jwtcreated)).TotalDays) > tokenExpiredDays;
-                        
-                        if(_validTokenExpired)
+
+                        if (_validTokenExpired)
                         {
                             _checkeResult = new Tuple<bool, string>(false, "用户令牌失效.");
                         }
-                        
+
                         _checkeResult = new Tuple<bool, string>(true, _userid);
                     }
                 }
-                catch(SignatureVerificationException)
+                catch (SignatureVerificationException)
                 {
                     _checkeResult = new Tuple<bool, string>(false, "用户令牌非法.");
                 }
             }
-            
+
             return _checkeResult;
         }
-        
-        private Tuple<bool, string> ValidateSignature(string signature, string timestamp, string nonce, string appSecret, int timspanExpiredMinutes)
+
+        private CheckResult ValidateSignature(string signature, string timestamp, string nonce, string appSecret, int timspanExpiredMinutes)
         {
-            Tuple<bool, string> _checkeResult = new Tuple<bool, string>(false, "数据完整性检查不通过");
             string[] _arrayParamter = { appSecret, timestamp, nonce };
             Array.Sort(_arrayParamter);
             string _signatureString = string.Join("", _arrayParamter);
             _signatureString = MD5Encryptor.Encrypt(_signatureString);
-            
-            if(signature.CompareIgnoreCase(signature) && CheckHelper.IsNumber(timestamp))
+
+            if (signature.CompareIgnoreCase(signature) && CheckHelper.IsNumber(timestamp))
             {
                 DateTime _timestampMillis = UnixEpochHelper.DateTimeFromUnixTimestampMillis(timestamp.ToDoubleOrDefault(0f));
                 double _minutes = DateTime.UtcNow.Subtract(_timestampMillis).TotalMinutes;
-                
-                if(_minutes > timspanExpiredMinutes)
+
+                if (_minutes > timspanExpiredMinutes)
                 {
-                    _checkeResult = new Tuple<bool, string>(false, "签名时间戳失效");
-                }
-                else
-                {
-                    _checkeResult = new Tuple<bool, string>(true, string.Empty);
+                    return CheckResult.Fail("签名时间戳失效");
                 }
             }
-            
-            return _checkeResult;
+
+            return CheckResult.Success();
         }
-        
+
         #endregion Methods
     }
 }
