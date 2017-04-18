@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using YanZhiwei.DotNet.AuthWebApi.Utilities.Model;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Encryptor;
+using YanZhiwei.DotNet2.Utilities.Result;
 using YanZhiwei.DotNet3._5.Utilities.Enum;
 using YanZhiwei.DotNet3._5.Utilities.WebForm.Core;
 
@@ -24,7 +24,7 @@ namespace YanZhiwei.DotNet.WebApiConsoleApp
             tmpStr = MD5Encryptor.Encrypt(tmpStr);
             return tmpStr.ToLower();
         }
-        
+
         private static void Main(string[] args)
         {
             try
@@ -43,7 +43,7 @@ namespace YanZhiwei.DotNet.WebApiConsoleApp
                 string aa = jsonObj["Data"].ToString();
                 Console.WriteLine(jsonText);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
