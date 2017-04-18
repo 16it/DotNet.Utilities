@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Plugins", "YanZhiwei.DotNet.Plugins", "{E7041928-FF2F-44AF-AB91-7427819415C5}"
 EndProject
@@ -206,6 +206,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet4.UtilitiesExamples", "YanZhiwei.DotNet4.UtilitiesExamples\YanZhiwei.DotNet4.UtilitiesExamples.csproj", "{AC60F02B-31C0-449A-AD89-ED0881715E05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.WebApi.Utilities", "YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.WebApi.Utilities.csproj", "{7CA43F1C-2FEA-45DC-968D-D57B6162F698}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.WebApi", "YanZhiwei.DotNet.Core.WebApi\YanZhiwei.DotNet.Core.WebApi.csproj", "{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1549,6 +1551,22 @@ Global
 		{7CA43F1C-2FEA-45DC-968D-D57B6162F698}.Release|x64.Build.0 = Release|Any CPU
 		{7CA43F1C-2FEA-45DC-968D-D57B6162F698}.Release|x86.ActiveCfg = Release|Any CPU
 		{7CA43F1C-2FEA-45DC-968D-D57B6162F698}.Release|x86.Build.0 = Release|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Debug|ARM.Build.0 = Debug|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Debug|x64.Build.0 = Debug|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Debug|x86.Build.0 = Debug|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Release|ARM.ActiveCfg = Release|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Release|ARM.Build.0 = Release|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Release|x64.ActiveCfg = Release|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Release|x64.Build.0 = Release|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Release|x86.ActiveCfg = Release|Any CPU
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1646,5 +1664,6 @@ Global
 		{411753B3-624E-4473-9BD2-9617E0787A3D} = {0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}
 		{AC60F02B-31C0-449A-AD89-ED0881715E05} = {2BF92C47-311B-46B2-B536-CBD597257243}
 		{7CA43F1C-2FEA-45DC-968D-D57B6162F698} = {E7041928-FF2F-44AF-AB91-7427819415C5}
+		{0F53589F-3AC8-43D0-8A76-9B8AFFDB1642} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 	EndGlobalSection
 EndGlobal

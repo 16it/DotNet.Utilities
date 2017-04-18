@@ -8,6 +8,7 @@
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// 采用JWT生成令牌WEB API验证类
@@ -31,9 +32,9 @@
         /// <returns>
         /// 用户令牌信息
         /// </returns>
-        public TokenResult GetAccessToken(string userId, string signature, string timestamp, string nonce, string appSecret, string sharedKey, int timspanExpiredMinutes)
+        public TokenInfo GetAccessToken(string userId, string signature, string timestamp, string nonce, string appSecret, string sharedKey, int timspanExpiredMinutes)
         {
-            TokenResult _result = new TokenResult();
+            TokenInfo _result = new TokenInfo();
             CheckResult _checkedResult = ValidateSignature(signature, timestamp, nonce, appSecret, timspanExpiredMinutes);
 
             if (_checkedResult.State)

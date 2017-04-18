@@ -80,6 +80,9 @@
     <Compile Include="Encryptor\SHA256Encryptor.cs" />
     <Compile Include="Enum\FileUpgradeStatus.cs" />
     <Compile Include="Hanlder\PackageDataHanlder.cs" />
+    <Compile Include="Model\AppInfo.cs" />
+    <Compile Include="Model\TokenInfo.cs" />
+    <Compile Include="Model\UserInfo.cs" />
     <Compile Include="Operator\BinaryFileOperator.cs" />
     <Compile Include="Common\ComparisonHelper.cs" />
     <Compile Include="Common\DataBaseHelper.cs" />
@@ -103,7 +106,6 @@
     <Compile Include="Result\BasicResult.cs" />
     <Compile Include="Result\CheckResult.cs" />
     <Compile Include="Result\OperatedResult.cs" />
-    <Compile Include="Result\TokenResult.cs" />
     <Compile Include="Test\PerformanceTest.cs" />
     <Compile Include="Collection\SerializableDictionary.cs" />
     <Compile Include="Common\ADDomainHelper.cs">

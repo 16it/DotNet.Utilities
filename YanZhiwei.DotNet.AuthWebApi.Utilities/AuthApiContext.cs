@@ -76,7 +76,7 @@
         /// <returns>用户令牌信息</returns>
         /// 时间：2016/10/20 16:04
         /// 备注：
-        public TokenResult GetAccessToken(string userId, string signature, string timestamp, string nonce, string appSecret)
+        public TokenData GetAccessToken(string userId, string signature, string timestamp, string nonce, string appSecret)
         {
             return AuthApiService.GetAccessToken(userId, signature, timestamp, nonce, appSecret, AuthWebApiConfig.SharedKey, AuthWebApiConfig.TimspanExpiredMinutes);
         }
