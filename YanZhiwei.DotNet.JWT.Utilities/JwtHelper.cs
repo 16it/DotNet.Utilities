@@ -26,5 +26,22 @@ namespace YanZhiwei.DotNet.JWT.Utilities
             IJwtEncoder _encoder = new JwtEncoder(_algorithm, _serializer, _urlEncoder);
             return _encoder.Encode(payload, secret);
         }
+        
+        /// <summary>
+        /// 转换Token
+        /// </summary>
+        /// <param name="token">令牌</param>
+        /// <param name="secret">密钥</param>
+        /// <returns>Token以及负载数据</returns>
+        public static string ParseTokens(string token, string secret)
+        {
+            ValidateOperator.Begin().NotNullOrEmpty(token, "令牌").NotNullOrEmpty(secret, "密钥");
+            IJsonSerializer _serializer = new JsonNetSerializer();
+            IDateTimeProvider _provider = new UtcDateTimeProvider();
+            IJwtValidator _validator = new JwtValidator(_serializer, _provider);
+            IBase64UrlEncoder _urlEncoder = new JwtBase64UrlEncoder();
+            IJwtDecoder _decoder = new JwtDecoder(_serializer, _validator, _urlEncoder);
+            return _decoder.Decode(token, secret, true);
+        }
     }
 }
