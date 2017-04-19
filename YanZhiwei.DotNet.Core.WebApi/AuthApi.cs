@@ -1,4 +1,6 @@
 ﻿using JWT;
+using JWT.Algorithms;
+using JWT.Serializers;
 using System;
 using System.Collections.Generic;
 using YanZhiwei.DotNet2.Utilities.Common;
@@ -81,9 +83,13 @@ namespace YanZhiwei.DotNet.Core.WebApi
                     { "iat", UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds}
             };//负载
 
-
             TokenInfo _tokenData = new TokenInfo();
-            _tokenData.Access_token = JsonWebToken.Encode(_payload, sharedKey, JwtHashAlgorithm.HS256);
+            IJwtAlgorithm _algorithm = new HMACSHA256Algorithm();
+            IJsonSerializer _serializer = new JsonNetSerializer();
+            IBase64UrlEncoder _urlEncoder = new JwtBase64UrlEncoder();
+            IJwtEncoder _encoder = new JwtEncoder(_algorithm, _serializer, _urlEncoder);
+            string _token = _encoder.Encode(_payload, _appInfo.SharedKey);
+
             return OperatedResult<TokenInfo>.Success(_tokenData);
         }
     }
