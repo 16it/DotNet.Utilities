@@ -1,13 +1,16 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Result
+﻿using System;
+
+namespace YanZhiwei.DotNet2.Utilities.Result
 {
     /// <summary>
     /// 操作返回
     /// </summary>
     /// <typeparam name="T">泛型</typeparam>
+    [Serializable]
     public sealed class OperatedResult<T> : BasicResult<T>
     {
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -15,27 +18,33 @@
         /// <param name="data">返回数据</param>
         /// <param name="state">操作结果</param>
         public OperatedResult(string message, T data, bool state)
-            : base(message, data)
+        : base(message, data)
         {
             State = state;
         }
-
+        
+        /// <summary>
+        /// 默认无参构造函数
+        /// </summary>
+        public OperatedResult() { }
+        
         #endregion Constructors
-
+        
         #region Properties
-
+        
         /// <summary>
         /// 操作结果
         /// </summary>
         public bool State
         {
-            get; private set;
+            get;
+            set;
         }
-
+        
         #endregion Properties
-
+        
         #region Methods
-
+        
         /// <summary>
         ///  失败结果
         /// </summary>
@@ -46,7 +55,7 @@
             OperatedResult<T> _failResult = new OperatedResult<T>(message, default(T), false);
             return _failResult;
         }
-
+        
         /// <summary>
         /// 成功结果
         /// </summary>
@@ -58,7 +67,7 @@
             OperatedResult<T> _successResult = new OperatedResult<T>(message, data, true);
             return _successResult;
         }
-
+        
         /// <summary>
         /// 成功结果
         /// </summary>
@@ -69,7 +78,7 @@
             OperatedResult<T> _successResult = new OperatedResult<T>(null, data, true);
             return _successResult;
         }
-
+        
         #endregion Methods
     }
 }

@@ -11,7 +11,7 @@
         public virtual string Message
         {
             get;
-            private set;
+             set;
         }
 
         /// <summary>
@@ -20,7 +20,7 @@
         public virtual T Data
         {
             get;
-            private set;
+             set;
         }
 
         /// <summary>
@@ -32,6 +32,13 @@
         {
             Message = message == null ? null : message.Trim();
             Data = data;
+        }
+
+        /// <summary>
+        /// 默认无参构造函数
+        /// </summary>
+        public BasicResult() {
+
         }
     }
 }

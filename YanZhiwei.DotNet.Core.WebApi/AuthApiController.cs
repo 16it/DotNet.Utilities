@@ -10,7 +10,7 @@ namespace YanZhiwei.DotNet.Core.WebApi
     /// <summary>
     /// WebApi 验证基类
     /// </summary>
-    public class AuthApiController : ApiBaseController, IAuthApi
+    public class AuthApiController : ApiBaseController, IAuthorizationApi
     {
         /// <summary>
         /// 注册用户获取访问令牌接口

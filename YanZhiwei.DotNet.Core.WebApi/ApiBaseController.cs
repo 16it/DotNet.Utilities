@@ -7,6 +7,9 @@ using System.Web.Http;
 
 namespace YanZhiwei.DotNet.Core.WebApi
 {
+    /// <summary>
+    /// WebApi 基类
+    /// </summary>
     public class ApiBaseController: ApiController
     {
     }

@@ -1,8 +1,11 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Model
+﻿using System;
+
+namespace YanZhiwei.DotNet2.Utilities.Model
 {
     /// <summary>
     /// 令牌信息
     /// </summary>
+    [Serializable]
     public class TokenInfo
     {
         #region Properties

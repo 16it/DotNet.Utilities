@@ -5,9 +5,9 @@ using YanZhiwei.DotNet2.Utilities.Result;
 namespace YanZhiwei.DotNet.Core.WebApi
 {
     /// <summary>
-    /// 系统认证等基础接口
+    ///Webapi 授权系统基本接口
     /// </summary>
-    public interface IAuthApi
+    public interface IAuthorizationApi
     {
         /// <summary>
         /// 注册用户获取访问令牌接口
