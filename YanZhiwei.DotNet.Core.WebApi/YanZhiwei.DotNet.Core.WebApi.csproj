@@ -70,9 +70,21 @@
       <Project>{008865b5-3a7e-49c7-81b9-fe5f2010c588}</Project>
       <Name>YanZhiwei.DotNet.JWT.Utilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.WebApi.Utilities.csproj">
+      <Project>{7ca43f1c-2fea-45dc-968d-d57b6162f698}</Project>
+      <Name>YanZhiwei.DotNet.WebApi.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748D-6FEC-4423-8254-BC366507C589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet3.5.Utilities\YanZhiwei.DotNet3.5.Utilities.csproj">
+      <Project>{fce5db97-96ec-4e53-bc19-eee6f2aa88e0}</Project>
+      <Name>YanZhiwei.DotNet3.5.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet4.Utilities\YanZhiwei.DotNet4.Utilities.csproj">
+      <Project>{f28c6057-ba11-4b01-89f0-471ac92683df}</Project>
+      <Name>YanZhiwei.DotNet4.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
