@@ -40,22 +40,22 @@ namespace System
     public delegate void Action<T, U, V>(T t, U u, V v);
 
     /// <summary>
-    /// Action委托
+    /// Func委托
     /// </summary>
     public delegate TResult Func<TResult>();
 
     /// <summary>
-    /// Action委托
+    /// Func委托
     /// </summary>
     public delegate TResult Func<T, TResult>(T t);
 
     /// <summary>
-    /// Action委托
+    /// Func委托
     /// </summary>
     public delegate TResult Func<T, U, TResult>(T t, U u);
 
     /// <summary>
-    /// Action委托
+    /// Func委托
     /// </summary>
     public delegate TResult Func<T, U, V, TResult>(T t, U u, V v);
 
