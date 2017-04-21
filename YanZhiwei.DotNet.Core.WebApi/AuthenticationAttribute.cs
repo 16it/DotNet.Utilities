@@ -36,7 +36,7 @@ namespace YanZhiwei.DotNet.Core.WebApi
                 string _tokenString = JwtHelper.ParseTokens(token, _appInfo.SharedKey);
 
                 if (string.IsNullOrEmpty(_tokenString))
-                    return CheckResult.Fail("令牌Token为空");
+                    return CheckResult.Fail("用户令牌Token为空");
 
                 dynamic _root = JObject.Parse(_tokenString);
                 string _userid = _root.iss;
@@ -45,6 +45,10 @@ namespace YanZhiwei.DotNet.Core.WebApi
                     (new TimeSpan((int)(UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds - _jwtcreated))
                      .TotalDays) > _appInfo.TokenExpiredDay;
                 return _validTokenExpired == true ? CheckResult.Fail($"用户ID{_userid}令牌失效") : CheckResult.Success(_userid);
+            }
+            catch (FormatException)
+            {
+                return CheckResult.Fail("用户令牌非法");
             }
             catch (SignatureVerificationException)
             {
