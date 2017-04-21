@@ -90,6 +90,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WebForm\Core\CookiesManager.cs" />
+    <Compile Include="WebForm\Core\SimulateWebRequest.cs" />
     <Compile Include="WebForm\Core\WebThumbnailImage.cs" />
     <Compile Include="WebForm\Core\WebUploadFile.cs" />
     <Compile Include="WebForm\Core\WebUploadImage.cs" />
@@ -114,7 +115,7 @@
     <Compile Include="Core\SchedulerType\ImmediateExecution.cs" />
     <Compile Include="Core\NotifyPropertyChanged.cs" />
     <Compile Include="Core\SchedulerType\ScheduleExecutionOnce.cs" />
-    <Compile Include="WebForm\Core\WebRequest.cs" />
+    <Compile Include="WebForm\Core\SimulateWebClientRequest.cs" />
     <Compile Include="XAML\ControlHelper.cs" />
     <Compile Include="XAML\DispatcherHelper.cs" />
     <Compile Include="XAML\NotificationObject.cs" />
