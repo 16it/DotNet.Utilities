@@ -21,13 +21,13 @@ namespace YanZhiwei.DotNet.Core.WebApi
         /// <param name="appid">应用ID</param>
         /// <param name="checkAppChannelFactory">检查APP通道合法性 委托</param>
         /// <returns>CheckResult</returns>
-        public CheckResult ValidateToken(string token, Guid appid, Func<Guid, OperatedResult<AppInfo>> checkAppChannelFactory)
+        public OperatedResult<string> ValidateToken(string token, Guid appid, Func<Guid, OperatedResult<AppInfo>> checkAppChannelFactory)
         {
             OperatedResult<AppInfo> _checkedAppChannel = checkAppChannelFactory(appid);
 
             if (!_checkedAppChannel.State)
             {
-                return CheckResult.Fail(_checkedAppChannel.Message);
+                return OperatedResult<string>.Fail(_checkedAppChannel.Message);
             }
 
             try
@@ -36,7 +36,7 @@ namespace YanZhiwei.DotNet.Core.WebApi
                 string _tokenString = JwtHelper.ParseTokens(token, _appInfo.SharedKey);
 
                 if (string.IsNullOrEmpty(_tokenString))
-                    return CheckResult.Fail("用户令牌Token为空");
+                    return OperatedResult<string>.Fail("用户令牌Token为空");
 
                 dynamic _root = JObject.Parse(_tokenString);
                 string _userid = _root.iss;
@@ -44,15 +44,15 @@ namespace YanZhiwei.DotNet.Core.WebApi
                 bool _validTokenExpired =
                     (new TimeSpan((int)(UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds - _jwtcreated))
                      .TotalDays) > _appInfo.TokenExpiredDay;
-                return _validTokenExpired == true ? CheckResult.Fail($"用户ID{_userid}令牌失效") : CheckResult.Success(_userid);
+                return _validTokenExpired == true ? OperatedResult<string>.Fail($"用户ID{_userid}令牌失效") : OperatedResult<string>.Success(_userid);
             }
             catch (FormatException)
             {
-                return CheckResult.Fail("用户令牌非法");
+                return OperatedResult<string>.Fail("用户令牌非法");
             }
             catch (SignatureVerificationException)
             {
-                return CheckResult.Fail("用户令牌非法");
+                return OperatedResult<string>.Fail("用户令牌非法");
             }
         }
     }
