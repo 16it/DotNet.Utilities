@@ -20,7 +20,7 @@ namespace YanZhiwei.DotNet.Core.WebApi
         /// <param name="appid">应用接入ID</param>
         /// <returns>OperatedResult</returns>
         OperatedResult<TokenInfo> GetAccessToken(Func<OperatedResult<UserInfo>> checkUserFactory,
-                Func<string, OperatedResult<AppInfo>> checkAppChannelFactory, string signature, string timestamp,
-                string nonce, string appid);
+                Func<Guid, OperatedResult<AppInfo>> checkAppChannelFactory, string signature, string timestamp,
+                string nonce, Guid appid);
     }
 }

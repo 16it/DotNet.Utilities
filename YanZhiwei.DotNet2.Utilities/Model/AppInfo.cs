@@ -1,4 +1,6 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Model
+﻿using System;
+
+namespace YanZhiwei.DotNet2.Utilities.Model
 {
     /// <summary>
     /// APP 信息
@@ -23,7 +25,7 @@
         /// <summary>
         /// 辨识ID
         /// </summary>
-        public string AppId
+        public Guid AppId
         {
             get;
             set;

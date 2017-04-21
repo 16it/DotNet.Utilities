@@ -1,4 +1,6 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Model
+﻿using System;
+
+namespace YanZhiwei.DotNet2.Utilities.Model
 {
     /// <summary>
     /// 用户信息
@@ -8,7 +10,7 @@
         /// <summary>
         /// 用户Id
         /// </summary>
-        public string UserId
+        public Guid UserId
         {
             get;
             set;
