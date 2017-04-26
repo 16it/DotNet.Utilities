@@ -525,14 +525,14 @@
         /// <param name="filepath">文件路径</param>
         /// <param name="regexString">需要匹配的正则表达式</param>
         /// <returns>文件信息</returns>
-        public static UploadFileInfo GetFileInfo(string filepath, string regexString)
+        public static FileProperties GetFileInfo(string filepath, string regexString)
         {
             ValidateOperator.Begin().NotNullOrEmpty(filepath, "文件路径").IsFilePath(filepath).NotNullOrEmpty(regexString, "正则表达式");
             Match _uploadfolder = Regex.Match(filepath, regexString, RegexOptions.IgnoreCase);
-
+            
             if(_uploadfolder.Success)
             {
-                UploadFileInfo _fileInfo = new UploadFileInfo();
+                FileProperties _fileInfo = new FileProperties();
                 _fileInfo.Root = _uploadfolder.Groups[1].Value;
                 _fileInfo.Folder = _uploadfolder.Groups[2].Value;
                 _fileInfo.SubFolder = _uploadfolder.Groups[3].Value;

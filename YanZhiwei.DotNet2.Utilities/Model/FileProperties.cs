@@ -3,7 +3,7 @@
     /// <summary>
     /// 文件信息
     /// </summary>
-    public class UploadFileInfo
+    public class FileProperties
     {
         /// <summary>
         /// 根目录

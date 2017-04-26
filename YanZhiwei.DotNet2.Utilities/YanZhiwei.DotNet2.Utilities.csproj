@@ -140,7 +140,7 @@
     <Compile Include="Enum\TCPIPType.cs" />
     <Compile Include="Model\ExifMetadata.cs" />
     <Compile Include="Model\ExifMetadataDetail.cs" />
-    <Compile Include="Model\UploadFileInfo.cs" />
+    <Compile Include="Model\FileProperties.cs" />
     <Compile Include="Model\PageCondition.cs" />
     <Compile Include="Model\PageResult.cs" />
     <Compile Include="Model\PerformanceParams.cs" />

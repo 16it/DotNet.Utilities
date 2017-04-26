@@ -20,7 +20,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// <param name="timming">生成方式</param>
         public static void HandleThumbnail(string imagefilePath, Timming timming)
         {
-            UploadFileInfo _fileInfo = FileHelper.GetFileInfo(imagefilePath, @"^(.*)\\upload\\(.+)\\(day_\d+)\\(\d+)(\.[A-Za-z]+)$");
+            FileProperties _fileInfo = FileHelper.GetFileInfo(imagefilePath, @"^(.*)\\upload\\(.+)\\(day_\d+)\\(\d+)(\.[A-Za-z]+)$");
 
             if(_fileInfo == null) return;
 
@@ -94,7 +94,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                 {
                     foreach(string filePath in Directory.GetFiles(dayFolder))
                     {
-                        UploadFileInfo _fileInfo = FileHelper.GetFileInfo(filePath, @"^(.+\\day_\d+)\\(\d+)(\.[A-Za-z]+)$");
+                        FileProperties _fileInfo = FileHelper.GetFileInfo(filePath, @"^(.+\\day_\d+)\\(\d+)(\.[A-Za-z]+)$");
 
                         if(_fileInfo == null) continue;
 
