@@ -115,9 +115,6 @@
         #region Other
 
         /*
-         *参考
-         *1. http://www.cnblogs.com/sunkaixuan/p/4992576.html
-
          *知识
           1. get方法传输的数据的写法： Request.QueryString["name"];
           2. post方法传输的数据的写法:Request.Form["name"];
