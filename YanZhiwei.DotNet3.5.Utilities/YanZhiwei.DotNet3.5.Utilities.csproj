@@ -85,7 +85,7 @@
     <Compile Include="Model\DataTablePageResult.cs" />
     <Compile Include="Model\UploadFileInfo.cs" />
     <Compile Include="Model\UploadFileConfig.cs" />
-    <Compile Include="Model\UploadImageMessage.cs" />
+    <Compile Include="Model\UploadImageInfo.cs" />
     <Compile Include="WebClient\CNNWebClient.cs">
       <SubType>Component</SubType>
     </Compile>

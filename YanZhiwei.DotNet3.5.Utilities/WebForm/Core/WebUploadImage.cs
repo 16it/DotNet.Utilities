@@ -2,12 +2,13 @@
 {
     using DotNet2.Utilities.Common;
     using DotNet2.Utilities.Enum;
+    using DotNet2.Utilities.Result;
     using Model;
     using System;
     using System.Collections.Generic;
-    using System.Drawing;
     using System.IO;
     using System.Web;
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// ASP.NET 图片上传
@@ -134,72 +135,19 @@
 
         #region Methods
 
-        /// <summary>
-        /// 裁剪图片
-        /// </summary>
-        /// <param name="postedFile">HttpPostedFile控件</param>
-        /// <param name="savePath">保存路径</param>
-        /// <param name="imgWidth">图片宽度</param>
-        /// <param name="imgHeight">图片高度</param>
-        /// <param name="cMode">剪切类型</param>
-        /// <returns>返回上传信息</returns>
-        public UploadImageMessage FileCutSaveAs(HttpPostedFile postedFile, string savePath, int imgWidth, int imgHeight, CutType cMode)
+        private CheckResult CheckedUploadImageParamter(string fileEx, double fileSize)
         {
-            UploadImageMessage _uploadImageMsg = new UploadImageMessage();
-
-            try
+            if (!FileHelper.CheckValidExt(SetAllowFormat, fileEx))
             {
-                //获取上传文件的扩展名
-                string _fileEx = Path.GetExtension(postedFile.FileName);
-
-                if(!FileHelper.CheckValidExt(SetAllowFormat, _fileEx))
-                {
-                    AddUploadImageMessage(_uploadImageMsg, 2);
-                    return _uploadImageMsg;
-                }
-
-                //获取上传文件的大小
-                double _fileSize = postedFile.ContentLength / 1024.0 / 1024.0;
-
-                if(_fileSize > SetAllowSize)
-                {
-                    AddUploadImageMessage(_uploadImageMsg, 3);
-                    return _uploadImageMsg;  //超过文件上传大小
-                }
-
-                if(!Directory.Exists(savePath))
-                {
-                    Directory.CreateDirectory(savePath);
-                }
-
-                string _newFileName = DateTime.Now.FormatDate(12),
-                       _fName = "s" + _newFileName + _fileEx,
-                       _fullPath = Path.Combine(savePath, _fName);
-                postedFile.SaveAs(_fullPath);
-                string _cfileName = DateTime.Now.FormatDate(12),
-                       _cfName = _cfileName + _fileEx;
-                _uploadImageMsg.IsError = false;
-                _uploadImageMsg.FileName = _cfName;
-                string _cFullPath = Path.Combine(savePath, _cfName);
-                _uploadImageMsg.FilePath = _cFullPath;
-                _uploadImageMsg.WebPath = "/" + _cFullPath.Replace(HttpContext.Current.Server.MapPath("~/"), "").Replace("\\", "/");
-                ImageHelper.CreateSmallPhoto(_fullPath, imgWidth, imgHeight, _cFullPath, cMode);
-
-                //if (File.Exists(_fullPath))
-                //{
-                //    File.Delete(_fullPath);
-                //}
-                if(_fileSize > 100)
-                {
-                    ImageHelper.CompressPhoto(_cFullPath, 100);
-                }
-            }
-            catch(Exception ex)
-            {
-                AddUploadImageMessage(_uploadImageMsg, ex.Message);
+                return CheckResult.Fail(GetCodeMessage(2));
             }
 
-            return _uploadImageMsg;
+            if (fileSize > SetAllowSize)
+            {
+                return CheckResult.Fail(GetCodeMessage(3));
+            }
+
+            return CheckResult.Success();
         }
 
         /// <summary>
@@ -208,102 +156,40 @@
         /// <param name="postedFile">HttpPostedFile控件</param>
         /// <param name="savePath">保存路径</param>
         /// <returns>返回上传信息</returns>
-        public UploadImageMessage FileSaveAs(HttpPostedFile postedFile, string savePath)
+        public OperatedResult<UploadImageInfo> FileSaveAs(HttpPostedFile postedFile, string savePath)
         {
-            UploadImageMessage _uploadImageMsg = new UploadImageMessage();
-
             try
             {
-                if(string.IsNullOrEmpty(postedFile.FileName))
+                OperatedResult<UploadImageInfo> _uploadImageInfo = GetUploadImageInfo(postedFile, savePath);
+                if (!_uploadImageInfo.State)
+                    return _uploadImageInfo;
+
+                string _fullPath = _uploadImageInfo.Data.FilePath,
+                       _fileEx = _uploadImageInfo.Data.FileEx,
+                       _fileName = _uploadImageInfo.Data.FileName;
+
+                int _sourceWidth = _uploadImageInfo.Data.SourceWidth,
+                    _sourceHeight = _uploadImageInfo.Data.SourceHeight;
+
+                HanlderImageSourceWidthOverMax(savePath, _sourceWidth, _sourceHeight, _fileEx, _fullPath);
+                HanlderImageZip(_fullPath, _fileEx);
+
+                if (string.IsNullOrEmpty(SetSmallImgWidth))
                 {
-                    AddUploadImageMessage(_uploadImageMsg, 4);
-                    return _uploadImageMsg;
+                    return OperatedResult<UploadImageInfo>.Success("上传成功,无缩略图", _uploadImageInfo.Data);
                 }
 
-                int _randomNumber = RandomHelper.NextNumber(1000, 9999);
-                string _fileName = DateTime.Now.FormatDate(12) + _randomNumber,
-                       _fileEx = Path.GetExtension(postedFile.FileName);
-
-                if(!FileHelper.CheckValidExt(SetAllowFormat, _fileEx))
+                for (int i = 0; i < _widthArray.Length; i++)
                 {
-                    AddUploadImageMessage(_uploadImageMsg, 2);
-                    return _uploadImageMsg;
-                }
-
-                double _fileSize = postedFile.ContentLength / 1024.0 / 1024.0;
-
-                if(_fileSize > SetAllowSize)
-                {
-                    AddUploadImageMessage(_uploadImageMsg, 3);
-                    return _uploadImageMsg;
-                }
-
-                if(!Directory.Exists(savePath))
-                {
-                    Directory.CreateDirectory(savePath);
-                }
-
-                _uploadImageMsg.FileName = _fileName + _fileEx;
-                string _fullPath = savePath.Trim('\\') + "\\" + _uploadImageMsg.FileName;
-                _uploadImageMsg.WebPath = "/" + _fullPath.Replace(HttpContext.Current.Server.MapPath("~/"), "").Replace("\\", "/");
-                _uploadImageMsg.FilePath = _fullPath;
-                _uploadImageMsg.Size = _fileSize;
-                postedFile.SaveAs(_fullPath);
-                Bitmap _sourceBmp = new Bitmap(_fullPath);
-                int _sourceWidth = _sourceBmp.Width,
-                    _sourceHeight = _sourceBmp.Height;
-                _sourceBmp.Dispose();
-
-                if(SetMinWidth > 0)
-                {
-                    if(_sourceWidth < SetMinWidth)
-                    {
-                        AddUploadImageMessage(_uploadImageMsg, 7);
-                        return _uploadImageMsg;
-                    }
-                }
-
-                if(SetLimitWidth && _sourceWidth > SetMaxWidth)
-                {
-                    int _width = SetMaxWidth;
-                    int _height = _width * _sourceHeight / _sourceWidth;
-                    string _tempFile = savePath + Guid.NewGuid().ToString() + _fileEx;
-                    File.Move(_fullPath, _tempFile);
-                    ImageHelper.CreateSmallPhoto(_tempFile, _width, _height, _fullPath);
-                    File.Delete(_tempFile);
-                }
-
-                if(_fileEx.ToLower() != ".gif")
-                {
-                    ImageHelper.CompressPhoto(_fullPath, 100);
-                }
-
-                if(string.IsNullOrEmpty(SetSmallImgWidth))
-                {
-                    _uploadImageMsg.Message = "上传成功,无缩略图";
-                    return _uploadImageMsg;
-                }
-
-                string[] _widthArray = SetSmallImgWidth.Split(',');
-                string[] _heightArray = SetSmallImgHeight.Split(',');
-
-                if(_widthArray.Length != _heightArray.Length)
-                {
-                    AddUploadImageMessage(_uploadImageMsg, 6);
-                    return _uploadImageMsg;
-                }
-
-                for(int i = 0; i < _widthArray.Length; i++)
-                {
-                    if(Convert.ToInt32(_widthArray[i]) <= 0 || Convert.ToInt32(_heightArray[i]) <= 0)
+                    if (Convert.ToInt32(_widthArray[i]) <= 0 || Convert.ToInt32(_heightArray[i]) <= 0)
                         continue;
 
                     string _descFile = savePath.TrimEnd('\\') + '\\' + _fileName + "_" + i.ToString() + _fileEx;
 
                     //判断图片高宽是否大于生成高宽。否则用原图
-                    if(_sourceWidth > Convert.ToInt32(_widthArray[i]))
+                    if (_sourceWidth > Convert.ToInt32(_widthArray[i]))
                     {
-                        if(SetCutImage)
+                        if (SetCutImage)
                         {
                             ImageHelper.CreateSmallPhoto(_fullPath, Convert.ToInt32(_widthArray[i]), Convert.ToInt32(_heightArray[i]), _descFile);
                         }
@@ -314,7 +200,7 @@
                     }
                     else
                     {
-                        if(SetCutImage)
+                        if (SetCutImage)
                         {
                             ImageHelper.CreateSmallPhoto(_fullPath, _sourceWidth, _sourceHeight, _descFile);
                         }
@@ -325,40 +211,101 @@
                     }
                 }
 
-                if(!string.IsNullOrEmpty(SetPicWater))
+                if (!string.IsNullOrEmpty(SetPicWater))
                     ImageHelper.AttachPng(SetPicWater, _fullPath, SetWaterPosition.bottomRight);
 
-                if(!string.IsNullOrEmpty(SetWordWater))
+                if (!string.IsNullOrEmpty(SetWordWater))
                     ImageHelper.AttachText(SetWordWater, _fullPath);
+                return OperatedResult<UploadImageInfo>.Success(_uploadImageInfo.Data);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                AddUploadImageMessage(_uploadImageMsg, ex.Message);
+                return OperatedResult<UploadImageInfo>.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 压缩图片存储尺寸
+        /// </summary>
+        /// <param name="fullPath">图片原始路径</param>
+        /// <param name="fileEx">图片后缀</param>
+        private void HanlderImageZip(string fullPath, string fileEx)
+        {
+            if (fileEx.ToLower() != ".gif")
+            {
+                ImageHelper.CompressPhoto(fullPath, 100);
+            }
+        }
+
+        /// <summary>
+        /// 如果设置图片最大宽度，如果原始图片超过则处理
+        /// </summary>
+        /// <param name="savePath">保存路径</param>
+        /// <param name="sourceWidth">图片原始宽度</param>
+        /// <param name="sourceHeight">图片原始高度</param>
+        /// <param name="fileEx">图片后缀</param>
+        /// <param name="fullPath">图片原始路径</param>
+        private void HanlderImageSourceWidthOverMax(string savePath, int sourceWidth, int sourceHeight, string fileEx, string fullPath)
+        {
+            if (SetLimitWidth && sourceWidth > SetMaxWidth)
+            {
+                int _width = SetMaxWidth;
+                int _height = _width * sourceHeight / sourceWidth;
+                string _tempFile = savePath + Guid.NewGuid().ToString() + fileEx;
+                File.Move(fullPath, _tempFile);
+                ImageHelper.CreateSmallPhoto(_tempFile, _width, _height, fullPath);
+                File.Delete(_tempFile);
+            }
+        }
+
+        private OperatedResult<UploadImageInfo> GetUploadImageInfo(HttpPostedFile postedFile, string savePath)
+        {
+            CheckResult _checkedPostFileResult = CheckedPostFile(postedFile);
+
+            if (!_checkedPostFileResult.State)
+                return OperatedResult<UploadImageInfo>.Fail(_checkedPostFileResult.Message);
+
+            int _randomNumber = RandomHelper.NextNumber(1000, 9999);
+            string _fileName = DateTime.Now.FormatDate(12) + _randomNumber,
+                   _fileEx = Path.GetExtension(postedFile.FileName);
+            double _fileSize = postedFile.ContentLength / 1024.0 / 1024.0;
+            CheckResult _checkedUploadImageResult = CheckedUploadImageParamter(_fileEx, _fileSize);
+
+            if (!_checkedUploadImageResult.State)
+                return OperatedResult<UploadImageInfo>.Fail(_checkedUploadImageResult.Message);
+
+            UploadImageInfo _uploadImageInfo = new UploadImageInfo();
+            _uploadImageInfo.FileName = _fileName + _fileEx;
+            _uploadImageInfo.FilePath = savePath.Trim('\\') + "\\" + _uploadImageInfo.FileName;
+            _uploadImageInfo.WebPath = "/" + _uploadImageInfo.FilePath.Replace(HttpContext.Current.Server.MapPath("~/"), "").Replace("\\", "/");
+            _uploadImageInfo.Size = _fileSize;
+            _uploadImageInfo.FileEx = _fileEx;
+            BitmapInfo _iamgeInfo = ImageHelper.GetBitmapInfo(_uploadImageInfo.FilePath);
+            _uploadImageInfo.SourceWidth = _iamgeInfo.Width;
+            _uploadImageInfo.SourceHeight = _iamgeInfo.Height;
+
+            _uploadImageInfo.IsCreateThumbnail = !string.IsNullOrEmpty(SetSmallImgWidth);
+            string[] _widthArray = SetSmallImgWidth.Split(',');
+            string[] _heightArray = SetSmallImgHeight.Split(',');
+            _uploadImageInfo.ThumbnailHeight = _heightArray;
+            _uploadImageInfo.ThumbnailWidth = _widthArray;
+            if (_widthArray.Length != _heightArray.Length)
+            {
+                return OperatedResult<UploadImageInfo>.Fail(GetCodeMessage(6));
+            }
+            FileHelper.CreateDirectory(savePath);
+            postedFile.SaveAs(_uploadImageInfo.FilePath);
+            return OperatedResult<UploadImageInfo>.Success(_uploadImageInfo);
+        }
+
+        private CheckResult CheckedPostFile(HttpPostedFile postedFile)
+        {
+            if (postedFile == null && postedFile.ContentLength == 0)
+            {
+                return CheckResult.Fail(GetCodeMessage(4));
             }
 
-            return _uploadImageMsg;
-        }
-
-        /// <summary>
-        /// 增加上传错误信息
-        /// </summary>
-        /// <param name="rm">UploadImageMessage</param>
-        /// <param name="code">错误代码</param>
-        private void AddUploadImageMessage(UploadImageMessage rm, int code)
-        {
-            rm.IsError = true;
-            rm.Message = GetCodeMessage(code);
-        }
-
-        /// <summary>
-        /// 增加上传错误信息
-        /// </summary>
-        /// <param name="rm">UploadImageMessage</param>
-        /// <param name="message">错误信息</param>
-        private void AddUploadImageMessage(UploadImageMessage rm, string message)
-        {
-            rm.IsError = true;
-            rm.Message = message;
+            return CheckResult.Success();
         }
 
         /// <summary>
