@@ -88,7 +88,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.Model
         /// <summary>
         ///  缩略图宽度规则
         /// </summary>
-        public string[] ThumbnailWidth
+        public int[] ThumbnailWidth
         {
             get;
             set;
@@ -97,7 +97,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.Model
         /// <summary>
         ///  缩略图高度规则
         /// </summary>
-        public string[] ThumbnailHeight
+        public int[] ThumbnailHeight
         {
             get;
             set;
@@ -112,6 +112,22 @@ namespace YanZhiwei.DotNet3._5.Utilities.Model
             set;
         }
         
+        /// <summary>
+        /// 是否设置图片水印
+        /// </summary>
+        public bool IsSetPicWater
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 是否设置文字水印
+        /// </summary>
+        public bool IsSetWordWater
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// 图片原始宽度
         /// </summary>
