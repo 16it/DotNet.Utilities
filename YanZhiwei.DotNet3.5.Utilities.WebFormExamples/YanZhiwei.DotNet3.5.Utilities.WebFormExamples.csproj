@@ -61,6 +61,12 @@
     <Content Include="005.jpg" />
     <Content Include="2.png" />
     <Content Include="Default.aspx" />
+    <Content Include="file\temp2\20160825100947.jpg" />
+    <Content Include="file\temp2\s20160825100947.jpg" />
+    <Content Include="file\temp\201704262226494196.jpg" />
+    <Content Include="file\temp\201704262226494196.jpg_0.jpg" />
+    <Content Include="file\temp\201704262226494196.jpg_1.jpg" />
+    <Content Include="file\temp\201704262226494196.jpg_2.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Image\005.jpg" />
     <Content Include="Image\Img.jpg" />

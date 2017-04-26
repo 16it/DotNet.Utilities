@@ -300,7 +300,7 @@
             _uploadImageInfo.FileEx = _fileEx;
             _uploadImageInfo.IsSetPicWater = !string.IsNullOrEmpty(SetPicWater);
             _uploadImageInfo.IsSetWordWater = !string.IsNullOrEmpty(SetWordWater);
-            BitmapInfo _iamgeInfo = ImageHelper.GetBitmapInfo(_uploadImageInfo.FilePath);
+            BitmapInfo _iamgeInfo = ImageHelper.GetBitmapInfo(postedFile.FileName);
             _uploadImageInfo.SourceWidth = _iamgeInfo.Width;
             _uploadImageInfo.SourceHeight = _iamgeInfo.Height;
             _uploadImageInfo.IsCreateThumbnail = SetSmallImgWidth.Length != 0;
