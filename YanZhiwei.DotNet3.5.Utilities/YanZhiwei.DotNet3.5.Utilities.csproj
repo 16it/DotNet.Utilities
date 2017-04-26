@@ -83,7 +83,7 @@
     <Compile Include="Lambda\ReflectLambda.cs" />
     <Compile Include="Mapper\GeneralMapper.cs" />
     <Compile Include="Model\DataTablePageResult.cs" />
-    <Compile Include="Model\UploadFileMessage.cs" />
+    <Compile Include="Model\UploadFileInfo.cs" />
     <Compile Include="Model\UploadFileConfig.cs" />
     <Compile Include="Model\UploadImageMessage.cs" />
     <Compile Include="WebClient\CNNWebClient.cs">

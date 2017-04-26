@@ -3,18 +3,8 @@
     /// <summary>
     /// 上传返回信息
     /// </summary>
-    public class UploadFileMessage
+    public sealed class UploadFileInfo
     {
-        /// <summary>
-        /// 上传错误
-        /// </summary>
-        public bool HasError { get; set; }
-
-        /// <summary>
-        /// 消息
-        /// </summary>
-        public string Message { get; set; }
-
         /// <summary>
         /// 文件路径
         /// </summary>

@@ -7,6 +7,7 @@
     using System.Text.RegularExpressions;
     using System.Web;
     using YanZhiwei.DotNet2.Utilities.Operator;
+    using YanZhiwei.DotNet2.Utilities.Result;
     using YanZhiwei.DotNet3._5.Utilities.Enum;
     using YanZhiwei.DotNet3._5.Utilities.Model;
 
@@ -62,9 +63,9 @@
         /// </summary>
         /// <param name="postFile">HttpPostedFile</param>
         /// <returns>上传返回信息</returns>
-        public UploadFileMessage Save(HttpPostedFile postFile)
+        public OperatedResult<UploadFileInfo> Save(HttpPostedFile postFile)
         {
-            return CommonSave(postFile);
+            return SaveUploadFile(postFile);
         }
 
         /// <summary>
@@ -73,11 +74,11 @@
         /// <param name="postFile">HttpPostedFile</param>
         /// <param name="number">编号</param>
         /// <returns>上传返回信息</returns>
-        public UploadFileMessage Save(HttpPostedFile postFile, string number)
+        public OperatedResult<UploadFileInfo> Save(HttpPostedFile postFile, string number)
         {
             uploadFileSetting.PathSaveType = UploadFileSaveType.Code;
             folderNumber = number;
-            return CommonSave(postFile);
+            return SaveUploadFile(postFile);
         }
 
         /// <summary>
@@ -86,7 +87,6 @@
         public void SetFileDirectory(string fileDirectory)
         {
             ValidateOperator.Begin().NotNullOrEmpty(fileDirectory, "保存路径");
-
             bool _mapServerPath = Regex.IsMatch(fileDirectory, @"[a-z]\:\\", RegexOptions.IgnoreCase);
             uploadFileSetting.FileDirectory = _mapServerPath == true ? GetRelativePath(fileDirectory) : fileDirectory;
         }
@@ -138,96 +138,67 @@
             return fileDirectory;
         }
 
+        private CheckResult<string> CheckedFileParamter(HttpPostedFile postFile)
+        {
+            if (postFile == null && postFile.ContentLength == 0)
+            {
+                return CheckResult<string>.Fail("没有文件");
+            }
+
+            //文件名
+            string _fileName = uploadFileSetting.IsUseOldFileName ? postFile.FileName : DateTime.Now.FormatDate(12) + Path.GetExtension(postFile.FileName);
+            //验证格式
+            CheckResult<string> _checkFileTypeResult = CheckingType(postFile.FileName);
+
+            if (!_checkFileTypeResult.State)
+            {
+                return _checkFileTypeResult;
+            }
+
+            //验证大小
+            CheckResult<string> _checkFileSizeResult = CheckSize(postFile);
+
+            if (!_checkFileSizeResult.State)
+            {
+                return _checkFileSizeResult;
+            }
+
+            return CheckResult<string>.Success(_fileName);
+        }
+
         /// <summary>
         /// 验证文件类型
         /// </summary>
-        /// <param name="message">上传返回信息.</param>
         /// <param name="fileName">文件名称.</param>
-        private void CheckingType(UploadFileMessage message, string fileName)
+        private CheckResult<string> CheckingType(string fileName)
         {
             if (uploadFileSetting.FileType != "*")
             {
                 // 获取允许允许上传类型列表
                 string[] _typeList = uploadFileSetting.FileType.Split(',');
                 // 获取上传文件类型(小写)
-                string _type = Path.GetExtension(fileName).ToLowerInvariant(); ;
+                string _type = Path.GetExtension(fileName).ToLowerInvariant(); 
 
                 // 验证类型
                 if (_typeList.Contains(_type) == false)
-                    this.AddUploadFileMessage(message, "文件类型非法!");
+                    return CheckResult<string>.Fail("文件类型非法");
             }
+
+            return CheckResult<string>.Success();
         }
 
         /// <summary>
         /// 检查文件大小
         /// </summary>
-        /// <param name="message">上传返回信息</param>
         /// <param name="postFile">HttpPostedFile</param>
-        private void CheckSize(UploadFileMessage message, HttpPostedFile postFile)
+        private CheckResult<string> CheckSize(HttpPostedFile postFile)
         {
             if (postFile.ContentLength / 1024.0 / 1024.0 > uploadFileSetting.MaxSizeM)
             {
-                AddUploadFileMessage(message, string.Format("对不起上传文件过大，不能超过{0}M！", uploadFileSetting.MaxSizeM));
+                return CheckResult<string>.Fail(string.Format("对不起上传文件过大，不能超过{0}M！", uploadFileSetting.MaxSizeM));
             }
-        }
 
-        /// <summary>
-        /// 保存表单文件,根据HttpPostedFile
-        /// </summary>
-        /// <param name="postFile">HttpPostedFile</param>
-        /// <returns>上传返回信息</returns>
-        private UploadFileMessage CommonSave(HttpPostedFile postFile)
-        {
-            UploadFileMessage _uploadFileMessage = new UploadFileMessage();
-
-            try
-            {
-                if (postFile == null || postFile.ContentLength == 0)
-                {
-                    AddUploadFileMessage(_uploadFileMessage, "没有文件！");
-                    return _uploadFileMessage;
-                }
-
-                //文件名
-                string _fileName = uploadFileSetting.IsUseOldFileName ? postFile.FileName : DateTime.Now.FormatDate(12) + Path.GetExtension(postFile.FileName);
-                //验证格式
-                this.CheckingType(_uploadFileMessage, postFile.FileName);
-                //验证大小
-                this.CheckSize(_uploadFileMessage, postFile);
-
-                if (_uploadFileMessage.HasError)
-                    return _uploadFileMessage;
-
-                string _webDir = string.Empty;
-                // 获取存储目录
-                string _directory = this.GetDirectory(ref _webDir),
-                       _filePath = _directory + _fileName;
-
-                if (File.Exists(_filePath))
-                {
-                    if (uploadFileSetting.IsRenameSameFile)
-                    {
-                        _filePath = _directory + DateTime.Now.FormatDate(12) + "-" + _fileName;
-                    }
-                    else
-                    {
-                        File.Delete(_filePath);
-                    }
-                }
-
-                // 保存文件
-                postFile.SaveAs(_filePath);
-                _uploadFileMessage.FilePath = _filePath;
-                _uploadFileMessage.FilePath = _webDir + _fileName;
-                _uploadFileMessage.FileName = _fileName;
-                _uploadFileMessage.WebFilePath = _webDir + _fileName;
-                return _uploadFileMessage;
-            }
-            catch (Exception ex)
-            {
-                AddUploadFileMessage(_uploadFileMessage, ex.Message);
-                return _uploadFileMessage;
-            }
+            return CheckResult<string>.Success();
         }
 
         /// <summary>
@@ -258,18 +229,52 @@
         }
 
         /// <summary>
-        /// 抛出错误
+        /// 保存表单文件,根据HttpPostedFile
         /// </summary>
-        /// <param name="message">上传返回信息</param>
-        /// <param name="msg">错误消息</param>
-        private void AddUploadFileMessage(UploadFileMessage message, string msg)
+        /// <param name="postFile">HttpPostedFile</param>
+        /// <returns>上传返回信息</returns>
+        private OperatedResult<UploadFileInfo> SaveUploadFile(HttpPostedFile postFile)
         {
-            message.HasError = true;
-            message.Message = msg;
+            try
+            {
+                CheckResult<string> _checkedFileParamter = CheckedFileParamter(postFile);
+
+                if (!_checkedFileParamter.State)
+                    return OperatedResult<UploadFileInfo>.Fail(_checkedFileParamter.Message);
+
+                string _fileName = _checkedFileParamter.Data;
+                string _webDir = string.Empty;
+                // 获取存储目录
+                string _directory = this.GetDirectory(ref _webDir),
+                       _filePath = _directory + _fileName;
+
+                if (File.Exists(_filePath))
+                {
+                    if (uploadFileSetting.IsRenameSameFile)
+                    {
+                        _filePath = _directory + DateTime.Now.FormatDate(12) + "-" + _fileName;
+                    }
+                    else
+                    {
+                        File.Delete(_filePath);
+                    }
+                }
+
+                // 保存文件
+                postFile.SaveAs(_filePath);
+                UploadFileInfo _uploadFileInfo = new UploadFileInfo();
+                _uploadFileInfo.FilePath = _filePath;
+                _uploadFileInfo.FilePath = _webDir + _fileName;
+                _uploadFileInfo.FileName = _fileName;
+                _uploadFileInfo.WebFilePath = _webDir + _fileName;
+                return OperatedResult<UploadFileInfo>.Success(_uploadFileInfo);
+            }
+            catch (Exception ex)
+            {
+                return OperatedResult<UploadFileInfo>.Fail(ex.Message);
+            }
         }
 
         #endregion Methods
-
-     
     }
 }
