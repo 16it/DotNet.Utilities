@@ -1,33 +1,37 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
-    using Common;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
-    using YanZhiwei.DotNet3._5.Interfaces;
+
+    using Common;
+
+    using DotNet2.Utilities.DesignPattern;
+    using DotNet3._5.Interfaces;
 
     /// <summary>
     /// cookie 辅助类
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     /// 时间：2015-12-18 11:33
     /// 备注：
     public class CookiesManager<T> : IHttpStorageObject<T>
     {
-        #region Fields
+        #region Properties
 
         /// <summary>
-        /// 锁对象
+        /// 获取实例 （单例模式）
         /// </summary>
-        private static readonly object lockObj = new object();
+        /// <returns>CookiesManager</returns>
+        public static CookiesManager<T> Instance
+        {
+            get
+            {
+                return Singleton<CookiesManager<T>>.GetInstance();
+            }
+        }
 
-        /// <summary>
-        /// CookiesManager实例
-        /// </summary>
-        private static CookiesManager<T> instance = null;
-
-        #endregion Fields
+        #endregion Properties
 
         #region Indexers
 
@@ -45,26 +49,6 @@
         #endregion Indexers
 
         #region Methods
-
-        /// <summary>
-        /// 获取实例 （单例模式）
-        /// </summary>
-        /// <returns>CookiesManager</returns>
-        public static CookiesManager<T> GetInstance()
-        {
-            if(instance == null)
-            {
-                lock(lockObj)
-                {
-                    if(instance == null)
-                    {
-                        instance = new CookiesManager<T>();
-                    }
-                }
-            }
-
-            return instance;
-        }
 
         /// <summary>
         /// 添加cookies ,注意value最大4K (默认1天)
@@ -86,13 +70,13 @@
         {
             HttpResponse _response = HttpContext.Current.Response;
 
-            if(_response != null)
+            if (_response != null)
             {
                 HttpCookie _cookie = _response.Cookies[key];
 
-                if(_cookie != null)
+                if (_cookie != null)
                 {
-                    if(typeof(T) == typeof(string))
+                    if (typeof(T) == typeof(string))
                     {
                         string _setValue = value.ToString();
                         Add(key, cookiesDurationInSeconds, _cookie, _setValue, _response);
@@ -125,10 +109,10 @@
         {
             string _value = string.Empty;
 
-            if(context.Request.Cookies[key] != null)
+            if (context.Request.Cookies[key] != null)
                 _value = context.Request.Cookies[key].Value;
 
-            if(typeof(T) == typeof(string))
+            if (typeof(T) == typeof(string))
             {
                 return (T)Convert.ChangeType(_value, typeof(T));
             }
@@ -146,7 +130,7 @@
         {
             List<string> _allKeyList = context.Request.Cookies.AllKeys.ToList();
 
-            foreach(var key in _allKeyList)
+            foreach (var key in _allKeyList)
             {
                 yield return key;
             }
@@ -160,14 +144,14 @@
         {
             HttpRequest _request = HttpContext.Current.Request;
 
-            if(_request != null)
+            if (_request != null)
             {
                 HttpCookie _cookie = _request.Cookies[key];
                 _cookie.Expires = DateTime.Now.AddDays(-1);
 
-                if(_cookie != null)
+                if (_cookie != null)
                 {
-                    if(!string.IsNullOrEmpty(key) && _cookie.HasKeys)
+                    if (!string.IsNullOrEmpty(key) && _cookie.HasKeys)
                         _cookie.Values.Remove(key);
                     else
                         _request.Cookies.Remove(key);
@@ -180,7 +164,7 @@
         /// </summary>
         public override void RemoveAll()
         {
-            foreach(var key in GetAllKey())
+            foreach (var key in GetAllKey())
             {
                 Remove(key);
             }
@@ -194,7 +178,7 @@
         {
             List<string> _removeList = GetAllKey().Where(keySelector).ToList();
 
-            foreach(var key in _removeList)
+            foreach (var key in _removeList)
             {
                 Remove(key);
             }
@@ -208,14 +192,14 @@
         /// <param name="cookie">HttpCookie</param>
         /// <param name="setValue">值</param>
         /// <param name="response">HttpResponse</param>
-        private void Add(string key, int cookiesDurationInSeconds, HttpCookie cookie, string setValue, HttpResponse response)
+        void Add(string key, int cookiesDurationInSeconds, HttpCookie cookie, string setValue, HttpResponse response)
         {
-            if(!string.IsNullOrEmpty(key) && cookie.HasKeys)
+            if (!string.IsNullOrEmpty(key) && cookie.HasKeys)
                 cookie.Values.Set(key, setValue);
-            else if(!string.IsNullOrEmpty(setValue))
+            else if (!string.IsNullOrEmpty(setValue))
                 cookie.Value = setValue;
 
-            if(cookiesDurationInSeconds > 0)
+            if (cookiesDurationInSeconds > 0)
                 cookie.Expires = DateTime.Now.AddSeconds(cookiesDurationInSeconds);
 
             response.SetCookie(cookie);

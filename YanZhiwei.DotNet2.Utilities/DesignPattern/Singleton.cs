@@ -11,8 +11,8 @@
         where T : new()
     {
         #region Fields
-        private static T instance = new T();
-        private static object lockHelper = new object();
+        static T instance = new T();
+        static object lockHelper = new object();
         #endregion Fields
         #region Constructors
         /// <summary>
