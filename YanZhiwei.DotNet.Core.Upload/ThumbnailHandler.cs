@@ -13,11 +13,8 @@ namespace YanZhiwei.DotNet.Core.Upload
     public class ThumbnailHandler : IHttpHandler
     {
         /// <summary>
-        /// Gets a value indicating whether this instance is reusable.
+        /// 指示其他请求是否可以使用 IHttpHandler 实例。
         /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is reusable; otherwise, <c>false</c>.
-        /// </value>
         public bool IsReusable
         {
             get
@@ -42,7 +39,7 @@ namespace YanZhiwei.DotNet.Core.Upload
             
             string _path = context.Request.CurrentExecutionFilePath;
             
-            if(!_path.EndsWith(".axd") && !_path.StartsWith("/Upload", StringComparison.OrdinalIgnoreCase))
+            if(!_path.EndsWith(".axd", StringComparison.Ordinal) && !_path.StartsWith("/Upload", StringComparison.OrdinalIgnoreCase))
                 return;
                 
             //正则从Url里匹配出上传的文件夹目录.....
