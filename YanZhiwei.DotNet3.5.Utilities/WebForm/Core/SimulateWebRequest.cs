@@ -16,31 +16,31 @@
     public sealed class SimulateWebRequest
     {
         #region Fields
-        
+
         /// <summary>
         /// accept
         /// </summary>
-        private const string accept = "*/*";
-        
+        const string accept = "*/*";
+
         /// <summary>
         /// 是否允许重定向
         /// </summary>
-        private const bool allowAutoRedirect = true;
-        
+        const bool allowAutoRedirect = true;
+
         /// <summary>
         /// contentType
         /// </summary>
-        private const string contentType = "application/x-www-form-urlencoded";
-        
+        const string contentType = "application/x-www-form-urlencoded";
+
         /// <summary>
         /// 过期时间
         /// </summary>
-        private const int timeOut = 50000;
-        
+        const int timeOut = 50000;
+
         #endregion Fields
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 发起Get请求
         /// </summary>
@@ -245,14 +245,14 @@
                 Debug.WriteLine("测试完成");
             }
         }
-        
-        private static void BuilderUploadFilePostParamter(Stream requestStream, byte[] boundarybuffer, NameValueCollection postData, Encoding encoding)
+
+        static void BuilderUploadFilePostParamter(Stream requestStream, byte[] boundarybuffer, NameValueCollection postData, Encoding encoding)
         {
             string _formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
-            
-            if(postData != null)
+
+            if (postData != null)
             {
-                foreach(string key in postData.Keys)
+                foreach (string key in postData.Keys)
                 {
                     requestStream.Write(boundarybuffer, 0, boundarybuffer.Length);
                     string _formitem = string.Format(_formdataTemplate, key, postData[key]);
@@ -261,8 +261,8 @@
                 }
             }
         }
-        
-        private static HttpWebRequest CreateUploadFileWebRequest(string url, string boundarynumber)
+
+        static HttpWebRequest CreateUploadFileWebRequest(string url, string boundarynumber)
         {
             HttpWebRequest _request = (HttpWebRequest)WebRequest.Create(url);
             _request.ContentType = "multipart/form-data; boundary=" + boundarynumber;
@@ -274,30 +274,30 @@
             _request.Credentials = CredentialCache.DefaultCredentials;
             return _request;
         }
-        
-        private static void FetchUploadFiles(Stream requestStream, byte[] boundarybuffer, string[] files, Encoding encoding, byte[] allRequestBuffer, Action<decimal> completePercentFacotry)
+
+        static void FetchUploadFiles(Stream requestStream, byte[] boundarybuffer, string[] files, Encoding encoding, byte[] allRequestBuffer, Action<decimal> completePercentFacotry)
         {
             string _headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n";
             byte[] _buffer = new byte[4096];
             int _offset = 0;
             int _completeOffset = 0;
             DateTime _uploadFilesStartTime = DateTime.Now;
-            
-            for(int i = 0; i < files.Length; i++)
+
+            for (int i = 0; i < files.Length; i++)
             {
                 requestStream.Write(boundarybuffer, 0, boundarybuffer.Length);
                 string _header = string.Format(_headerTemplate, "file" + i, Path.GetFileName(files[i]));
                 byte[] _headerbytes = encoding.GetBytes(_header);
                 requestStream.Write(_headerbytes, 0, _headerbytes.Length);
-                
-                using(FileStream fileStream = new FileStream(files[i], FileMode.Open, FileAccess.Read))
+
+                using (FileStream fileStream = new FileStream(files[i], FileMode.Open, FileAccess.Read))
                 {
-                    while((_offset = fileStream.Read(_buffer, 0, _buffer.Length)) != 0)
+                    while ((_offset = fileStream.Read(_buffer, 0, _buffer.Length)) != 0)
                     {
                         _completeOffset = _completeOffset + _offset;
                         requestStream.Write(_buffer, 0, _offset);
-                        
-                        if((DateTime.Now - _uploadFilesStartTime).TotalMilliseconds >= 10 || _completeOffset == fileStream.Length)
+
+                        if ((DateTime.Now - _uploadFilesStartTime).TotalMilliseconds >= 10 || _completeOffset == fileStream.Length)
                         {
                             decimal _percent = DecimalHelper.CalcPercentage(_completeOffset, fileStream.Length);
                             completePercentFacotry(_percent);
@@ -307,10 +307,10 @@
                     }
                 }
             }
-            
+
             requestStream.Write(allRequestBuffer, 0, allRequestBuffer.Length);
         }
-        
+
         #endregion Methods
     }
 }
