@@ -68,7 +68,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache\ForeverCache.cs" />
     <Compile Include="Common\AssemblyHelper.cs" />
     <Compile Include="Common\DisplayNameHelper.cs" />
     <Compile Include="Common\GuidHelper.cs" />

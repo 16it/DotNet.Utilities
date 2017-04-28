@@ -115,9 +115,6 @@
                     }
 
                     break;
-
-                default:
-                    break;
             }
 
             //新建一个bmp图片
@@ -186,8 +183,10 @@
             EncoderParameters _encoderParams = new EncoderParameters();
             long[] _qualityArray = new long[1];
             _qualityArray[0] = quality;
-            EncoderParameter _encoderParam = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, _qualityArray);
-            _encoderParams.Param[0] = _encoderParam;
+            using (EncoderParameter _encoderParam = new EncoderParameter(Encoder.Quality, _qualityArray))
+            {
+                _encoderParams.Param[0] = _encoderParam;
+            }
             //获得包含有关内置图像编码解码器的信息的ImageCodecInfo 对象.
             ImageCodecInfo[] _arrayICI = ImageCodecInfo.GetImageEncoders();
             ImageCodecInfo _jpegICI = null;
