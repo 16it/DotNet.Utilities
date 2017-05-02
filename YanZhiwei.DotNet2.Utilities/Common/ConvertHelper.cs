@@ -18,42 +18,42 @@
         /// 转换成布尔类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
-        /// <param name="errorValue">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static bool ToBooleanOrDefault(this object data, bool errorValue)
+        public static bool ToBooleanOrDefault(this object data, bool defalut)
         {
             bool _result = false;
 
-            if(data != null)
+            if (data != null)
             {
-                if(bool.TryParse(data.ToString(), out _result))
+                if (bool.TryParse(data.ToString(), out _result))
                 {
                     return _result;
                 }
             }
 
-            return errorValue;
+            return defalut;
         }
 
         /// <summary>
         /// 转换成Byte类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
-        /// <param name="errorValue">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static byte ToByteOrDefault(this object data, byte errorValue)
+        public static byte ToByteOrDefault(this object data, byte defalut)
         {
-            if(data != null)
+            if (data != null)
             {
                 byte _result = 0;
 
-                if(byte.TryParse(data.ToString(), out _result))
+                if (byte.TryParse(data.ToString(), out _result))
                 {
                     return _result;
                 }
             }
 
-            return errorValue;
+            return defalut;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@
                 _leapMonth = _cnDate.GetLeapMonth(_year);
             string _month_cn = _months[_month];
 
-            if(_leapMonth > 0)
+            if (_leapMonth > 0)
             {
                 _month_cn = _month == _leapMonth ? string.Format("闰{0}", _months[_month - 1]) : _month_cn;
                 _month_cn = _month > _leapMonth ? _months[_month - 1] : _month_cn;
@@ -92,7 +92,7 @@
         {
             string _reulst = string.Empty;
 
-            if(!(data == 0 || data > 32))
+            if (!(data == 0 || data > 32))
             {
                 string[] _days = { "〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "廿十", "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十", "三十一" };
                 _reulst = _days[data];
@@ -111,7 +111,7 @@
         {
             string _result = string.Empty;
 
-            if(!(data == 0 || data > 12))
+            if (!(data == 0 || data > 12))
             {
                 string[] _months = { "〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二" };
                 _result = _months[data];
@@ -124,53 +124,53 @@
         /// 转换成日期
         /// </summary>
         /// <param name="data">数据</param>
-        /// <param name="errorValue">转换失败返回数据</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>日期</returns>
-        public static DateTime ToDateOrDefault(this object data, DateTime errorValue)
+        public static DateTime ToDateOrDefault(this object data, DateTime defalut)
         {
-            if(data != null)
+            if (data != null)
             {
                 DateTime _result;
-                return DateTime.TryParse(data.ToString(), out _result) ? _result : errorValue;
+                return DateTime.TryParse(data.ToString(), out _result) ? _result : defalut;
             }
 
-            return errorValue;
+            return defalut;
         }
 
         /// <summary>
         ///  转换成decimal类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
-        /// <param name="errorValue">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static decimal ToDecimalOrDefault(this object data, decimal errorValue)
+        public static decimal ToDecimalOrDefault(this object data, decimal defalut)
         {
-            if(data != null)
+            if (data != null)
             {
                 decimal _parsedecimalValue = 0;
                 bool _parseResult = decimal.TryParse(data.ToString(), out _parsedecimalValue);
-                return _parseResult == true ? _parsedecimalValue : errorValue;
+                return _parseResult == true ? _parsedecimalValue : defalut;
             }
 
-            return errorValue;
+            return defalut;
         }
 
         /// <summary>
         /// 转换成double类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
-        /// <param name="errorValue">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static double ToDoubleOrDefault(this object data, double errorValue)
+        public static double ToDoubleOrDefault(this object data, double defalut)
         {
-            if(data != null)
+            if (data != null)
             {
                 double _parseIntValue = 0;
                 bool _parseResult = double.TryParse(data.ToString(), out _parseIntValue);
-                return _parseResult == true ? _parseIntValue : errorValue;
+                return _parseResult == true ? _parseIntValue : defalut;
             }
 
-            return errorValue;
+            return defalut;
         }
 
         /// <summary>
@@ -189,7 +189,7 @@
                 int _intValue = Convert.ToInt32(data, (int)from);
                 string _targetValue = Convert.ToString(_intValue, (int)to);
 
-                if(to == HexadecimalType.Binary)
+                if (to == HexadecimalType.Binary)
                 {
                     _targetValue = StringHelper.ComplementLeftZero(_targetValue, 8);
                 }
@@ -206,18 +206,18 @@
         /// 转换成Int类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
-        /// <param name="errorData">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static int ToIntOrDefault(this object data, int errorData)
+        public static int ToIntOrDefault(this object data, int defalut)
         {
-            if(data != null)
+            if (data != null)
             {
                 int _parseIntValue = 0;
                 bool _parseResult = int.TryParse(data.ToString(), out _parseIntValue);
-                return _parseResult == true ? _parseIntValue : errorData;
+                return _parseResult == true ? _parseIntValue : defalut;
             }
 
-            return errorData;
+            return defalut;
         }
 
         /// <summary>
@@ -225,19 +225,19 @@
         /// </summary>
         /// <param name="row">DataRow</param>
         /// <param name="columnName">列名称</param>
-        /// <param name="failValue">若列等于NULL，需要返回的值</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>若列不等于NULL则返回实际值</returns>
-        public static int ToIntOrDefault(this DataRow row, string columnName, int failValue)
+        public static int ToIntOrDefault(this DataRow row, string columnName, int defalut)
         {
-            if(row != null)
+            if (row != null)
             {
-                if(row.IsNull(columnName))
+                if (row.IsNull(columnName))
                 {
-                    int.TryParse(row[columnName].ToString(), out failValue);
+                    int.TryParse(row[columnName].ToString(), out defalut);
                 }
             }
 
-            return failValue;
+            return defalut;
         }
 
         /// <summary>
@@ -245,84 +245,84 @@
         /// </summary>
         /// <param name="row">DataRow</param>
         /// <param name="columnIndex">列索引</param>
-        /// <param name="failValue">若列等于NULL，需要返回的值</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>若列不等于NULL则返回实际值</returns>
-        public static int ToIntOrDefault(this DataRow row, int columnIndex, int failValue)
+        public static int ToIntOrDefault(this DataRow row, int columnIndex, int defalut)
         {
-            if(row != null)
+            if (row != null)
             {
-                if(row.IsNull(columnIndex))
+                if (row.IsNull(columnIndex))
                 {
-                    int.TryParse(row[columnIndex].ToString(), out failValue);
+                    int.TryParse(row[columnIndex].ToString(), out defalut);
                 }
             }
 
-            return failValue;
+            return defalut;
         }
 
         /// <summary>
         /// 转换成Int32类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
-        /// <param name="errorValue">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static int ToInt32OrDefault(this object data, int errorValue)
+        public static int ToInt32OrDefault(this object data, int defalut)
         {
-            if(data != null)
+            if (data != null)
             {
                 int _parseIntValue = 0;
                 bool _parseResult = int.TryParse(data.ToString(), out _parseIntValue);
-                return _parseResult == true ? _parseIntValue : errorValue;
+                return _parseResult == true ? _parseIntValue : defalut;
             }
 
-            return errorValue;
+            return defalut;
         }
 
         /// <summary>
         /// 转换成Int64类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
-        /// <param name="errorValue">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static long ToInt64OrDefault(this object data, long errorValue)
+        public static long ToInt64OrDefault(this object data, long defalut)
         {
-            if(data != null)
+            if (data != null)
             {
                 long _parseIntValue = 0;
                 bool _parseResult = long.TryParse(data.ToString(), out _parseIntValue);
-                return _parseResult == true ? _parseIntValue : errorValue;
+                return _parseResult == true ? _parseIntValue : defalut;
             }
 
-            return errorValue;
+            return defalut;
         }
 
         /// <summary>
         /// 转换成Int16类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
-        /// <param name="errorData">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static short ToShortOrDefault(this object data, short errorData)
+        public static short ToShortOrDefault(this object data, short defalut)
         {
-            if(data != null)
+            if (data != null)
             {
                 short _parseIntValue = 0;
                 bool _parseResult = short.TryParse(data.ToString(), out _parseIntValue);
-                return _parseResult == true ? _parseIntValue : errorData;
+                return _parseResult == true ? _parseIntValue : defalut;
             }
 
-            return errorData;
+            return defalut;
         }
 
         /// <summary>
         /// 转换成string类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
-        /// <param name="errorValue">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static string ToStringOrDefault(this object data, string errorValue)
+        public static string ToStringOrDefault(this object data, string defalut)
         {
-            return data == null ? errorValue : data.ToString();
+            return data == null ? defalut : data.ToString();
         }
 
         /// <summary>
@@ -343,16 +343,16 @@
         /// </summary>
         /// <param name="data">DateTime</param>
         /// <param name="formartString">格式化字符串</param>
-        /// <param name="errorValue">处理失败返回值</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>字符串</returns>
-        public static string ToStringOrDefault(this DateTime data, string formartString, string errorValue)
+        public static string ToStringOrDefault(this DateTime data, string formartString, string defalut)
         {
-            if(data != null && data != default(DateTime))
+            if (data != default(DateTime))
             {
                 return data.ToString(formartString);
             }
 
-            return errorValue;
+            return defalut;
         }
 
         /// <summary>
@@ -360,16 +360,16 @@
         /// </summary>
         /// <param name="row">DataRow</param>
         /// <param name="columnName">列名称</param>
-        /// <param name="failValue">若列等于NULL，需要返回的值</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>若列不等于NULL则返回实际值</returns>
-        public static string ToStringOrDefault(this DataRow row, string columnName, string failValue)
+        public static string ToStringOrDefault(this DataRow row, string columnName, string defalut)
         {
-            if(row != null)
+            if (row != null)
             {
-                failValue = row.IsNull(columnName) == true ? failValue : row[columnName].ToString();
+                defalut = row.IsNull(columnName) == true ? defalut : row[columnName].ToString();
             }
 
-            return failValue;
+            return defalut;
         }
 
         /// <summary>
@@ -377,16 +377,16 @@
         /// </summary>
         /// <param name="row">DataRow</param>
         /// <param name="columnIndex">列索引</param>
-        /// <param name="failValue">若列等于NULL，需要返回的值</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>若列不等于NULL则返回实际值</returns>
-        public static string ToStringOrDefault(this DataRow row, int columnIndex, string failValue)
+        public static string ToStringOrDefault(this DataRow row, int columnIndex, string defalut)
         {
-            if(row != null)
+            if (row != null)
             {
-                failValue = row.IsNull(columnIndex) == true ? failValue : row[columnIndex].ToString().Trim();
+                defalut = row.IsNull(columnIndex) == true ? defalut : row[columnIndex].ToString().Trim();
             }
 
-            return failValue;
+            return defalut;
         }
 
         /// <summary>
@@ -399,7 +399,7 @@
         {
             T _result = default(T);
 
-            if(!string.IsNullOrEmpty(data))
+            if (!string.IsNullOrEmpty(data))
             {
                 TypeConverter _convert = TypeDescriptor.GetConverter(typeof(T));
                 _result = (T)_convert.ConvertFrom(data);
