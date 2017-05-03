@@ -21,21 +21,21 @@
         /// <returns>DataTable</returns>
         public static DataTable ToTable(DataTable table, string filePath, int startRowIndex)
         {
-            using(StreamReader reader = new StreamReader(filePath, Encoding.UTF8, false))
+            using (StreamReader reader = new StreamReader(filePath, Encoding.UTF8, false))
             {
                 int j = 0;
 
-                while(reader.Peek() > -1)
+                while (reader.Peek() > -1)
                 {
                     j = j + 1;
                     string _line = reader.ReadLine();
 
-                    if(j >= startRowIndex + 1)
+                    if (j >= startRowIndex + 1)
                     {
                         string[] _dataArray = _line.Split(',');
                         DataRow _dataRow = table.NewRow();
 
-                        for(int k = 0; k < table.Columns.Count; k++)
+                        for (int k = 0; k < table.Columns.Count; k++)
                         {
                             _dataRow[k] = _dataArray[k];
                         }
@@ -62,28 +62,29 @@
         {
             try
             {
-                if(File.Exists(filePath))
+                if (File.Exists(filePath))
                     File.Delete(filePath);
 
-                using(FileStream _stream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
                 {
-                    StreamWriter _writer = new StreamWriter(_stream, Encoding.UTF8);
-                    _writer.WriteLine(tableheader);
-                    _writer.WriteLine(columname);
-
-                    for(int i = 0; i < table.Rows.Count; i++)
+                    using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
                     {
-                        for(int j = 0; j < table.Columns.Count; j++)
+                        streamWriter.WriteLine(tableheader);
+                        streamWriter.WriteLine(columname);
+
+                        for (int i = 0; i < table.Rows.Count; i++)
                         {
-                            _writer.Write(table.Rows[i][j].ToString());
-                            _writer.Write(",");
+                            for (int j = 0; j < table.Columns.Count; j++)
+                            {
+                                streamWriter.Write(table.Rows[i][j].ToStringOrDefault(string.Empty));
+                                streamWriter.Write(",");
+                            }
+
+                            streamWriter.WriteLine();
                         }
 
-                        _writer.WriteLine();
+                        return true;
                     }
-
-                    _writer.Close();
-                    return true;
                 }
             }
             catch

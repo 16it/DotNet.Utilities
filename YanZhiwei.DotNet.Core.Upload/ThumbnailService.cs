@@ -31,7 +31,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                    _fileExt = _fileInfo.FileNameExt;
 
             foreach(var pair in UploadConfigContext.ThumbnailConfigDic
-                    .Where(t => t.Key.StartsWith(_fileInfo.Folder.ToLower() + "_") && t.Value.Timming == timming))
+                    .Where(t => t.Key.StartsWith(_fileInfo.Folder.ToLower() + "_", StringComparison.OrdinalIgnoreCase) && t.Value.Timming == timming))
             {
                 ThumbnailSize _size = pair.Value;
                 string _thumbnailFileFolder = string.Format("{0}\\upload\\{1}\\{2}\\thumb",
