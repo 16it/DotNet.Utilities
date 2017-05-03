@@ -1,18 +1,21 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
-using YanZhiwei.DotNet.Core.Model;
-using YanZhiwei.DotNet2.Utilities.Result;
-
-namespace YanZhiwei.DotNet.Core.Upload
+﻿namespace YanZhiwei.DotNet.Core.Upload
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Web;
+
+    using YanZhiwei.DotNet.Core.Model;
+    using YanZhiwei.DotNet2.Utilities.Result;
+
     /// <summary>
     /// 处理上传请求
     /// </summary>
     public abstract class UploadHandler : IHttpHandler
     {
+        #region Properties
+
         /// <summary>
         /// 允许上传文件后缀
         /// <para>txt, rar, zip, jpg, jpeg, gif, png, swf</para>
@@ -82,6 +85,10 @@ namespace YanZhiwei.DotNet.Core.Upload
             }
         }
 
+        #endregion Properties
+
+        #region Methods
+
         /// <summary>
         /// 处理上传结果抽象方法
         /// </summary>
@@ -128,7 +135,7 @@ namespace YanZhiwei.DotNet.Core.Upload
             CheckResult _checkUploadFileResult = CheckedUploadFile(_fileBuffer, _fileExt);
             _errMessage = _checkUploadFileResult.Message;
 
-            if (_checkUploadFileResult.State)
+            if(_checkUploadFileResult.State)
             {
                 _filePath = BuilderUploadFilePath(context, _fileExt);
                 ReceiveUploadFile(_fileBuffer, _filePath);
@@ -141,30 +148,9 @@ namespace YanZhiwei.DotNet.Core.Upload
             context.Response.End();
         }
 
-        /// <summary>
-        /// 处理上传文件是图片类型的时候
-        /// </summary>
-        /// <param name="filePath">路径</param>
-        /// <param name="fileExt">文件后缀</param>
-        private void HanlderUploadImageFile(string filePath, string fileExt)
+        private static string CombinePaths(params string[] paths)
         {
-            //是图片，即使生成对应尺寸
-            if (ImageExt.Contains(fileExt))
-                ThumbnailService.HandleImmediateThumbnail(filePath);
-        }
-
-        /// <summary>
-        /// 将上传文件写入服务器路径
-        /// </summary>
-        /// <param name="fileBuffer">文件流</param>
-        /// <param name="filePath">保存路径</param>
-        private void ReceiveUploadFile(byte[] fileBuffer, string filePath)
-        {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-            {
-                fileStream.Write(fileBuffer, 0, fileBuffer.Length);
-                fileStream.Flush();
-            }
+            return paths.Aggregate(Path.Combine);
         }
 
         /// <summary>
@@ -183,7 +169,7 @@ namespace YanZhiwei.DotNet.Core.Upload
             string _fileFolder = string.Empty;
 
             //根据配置里的DirType决定子文件夹的层次（月，天，扩展名）
-            switch (_dirType)
+            switch(_dirType)
             {
                 case DirType.Month:
                     _subFolder = "month_" + DateTime.Now.ToString("yyMM");
@@ -205,7 +191,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                                      string.Format("{0}{1}.{2}", DateTime.Now.ToString("yyyyMMddhhmmss"), new Random(DateTime.Now.Millisecond).Next(10000), fileExt)
                                     );
 
-            if (!Directory.Exists(_fileFolder))
+            if(!Directory.Exists(_fileFolder))
                 Directory.CreateDirectory(_fileFolder);
 
             return _filePath;
@@ -219,53 +205,22 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// <returns>是否合法</returns>
         private CheckResult CheckedUploadFile(byte[] fileBuffer, string fileExt)
         {
-            if (fileBuffer.Length == 0)
+            if(fileBuffer.Length == 0)
             {
                 return CheckResult.Fail("无数据提交");
             }
 
-            if (fileBuffer.Length > this.MaxFilesize)
+            if(fileBuffer.Length > this.MaxFilesize)
             {
                 return CheckResult.Fail("文件大小超过" + this.MaxFilesize + "字节");
             }
 
-            if (!AllowExt.Contains(fileExt))
+            if(!AllowExt.Contains(fileExt))
             {
                 return CheckResult.Fail("上传文件扩展名必需为：" + string.Join(",", AllowExt));
             }
 
             return CheckResult.Success();
-        }
-
-        /// <summary>
-        /// 普通形式文件上传
-        /// </summary>
-        /// <param name="context">HttpContext</param>
-        /// <param name="disposition">HTTP_CONTENT_DISPOSITION</param>
-        /// <param name="localFileName">原始文件名</param>
-        /// <returns>文件流</returns>
-        private byte[] HanlderNormalUploadType(HttpContext context, string disposition, out string localFileName)
-        {
-            localFileName = string.Empty;
-            byte[] _fileBuffer = null;
-
-            if (disposition == null)
-            {
-                HttpFileCollection _filecollection = context.Request.Files;
-                HttpPostedFile _postedfile = _filecollection.Get(this.FileInputName);
-                localFileName = Path.GetFileName(_postedfile.FileName);
-                _fileBuffer = new byte[_postedfile.ContentLength];
-
-                using (Stream stream = _postedfile.InputStream)
-                {
-                    stream.Read(_fileBuffer, 0, _postedfile.ContentLength);
-
-                    if (_filecollection != null)
-                        _filecollection = null;
-                }
-            }
-
-            return _fileBuffer;
         }
 
         /// <summary>
@@ -280,7 +235,7 @@ namespace YanZhiwei.DotNet.Core.Upload
             byte[] _fileBuffer = null;
             localFileName = string.Empty;
 
-            if (disposition != null)
+            if(disposition != null)
             {
                 // HTML5上传
                 _fileBuffer = context.Request.BinaryRead(context.Request.TotalBytes);
@@ -290,9 +245,63 @@ namespace YanZhiwei.DotNet.Core.Upload
             return _fileBuffer;
         }
 
-        private static string CombinePaths(params string[] paths)
+        /// <summary>
+        /// 普通形式文件上传
+        /// </summary>
+        /// <param name="context">HttpContext</param>
+        /// <param name="disposition">HTTP_CONTENT_DISPOSITION</param>
+        /// <param name="localFileName">原始文件名</param>
+        /// <returns>文件流</returns>
+        private byte[] HanlderNormalUploadType(HttpContext context, string disposition, out string localFileName)
         {
-            return paths.Aggregate(Path.Combine);
+            localFileName = string.Empty;
+            byte[] _fileBuffer = null;
+
+            if(disposition == null)
+            {
+                HttpFileCollection _filecollection = context.Request.Files;
+                HttpPostedFile _postedfile = _filecollection.Get(this.FileInputName);
+                localFileName = Path.GetFileName(_postedfile.FileName);
+                _fileBuffer = new byte[_postedfile.ContentLength];
+
+                using(Stream stream = _postedfile.InputStream)
+                {
+                    stream.Read(_fileBuffer, 0, _postedfile.ContentLength);
+
+                    if(_filecollection != null)
+                        _filecollection = null;
+                }
+            }
+
+            return _fileBuffer;
         }
+
+        /// <summary>
+        /// 处理上传文件是图片类型的时候
+        /// </summary>
+        /// <param name="filePath">路径</param>
+        /// <param name="fileExt">文件后缀</param>
+        private void HanlderUploadImageFile(string filePath, string fileExt)
+        {
+            //是图片，即使生成对应尺寸
+            if(ImageExt.Contains(fileExt))
+                ThumbnailService.HandleImmediateThumbnail(filePath);
+        }
+
+        /// <summary>
+        /// 将上传文件写入服务器路径
+        /// </summary>
+        /// <param name="fileBuffer">文件流</param>
+        /// <param name="filePath">保存路径</param>
+        private void ReceiveUploadFile(byte[] fileBuffer, string filePath)
+        {
+            using(FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                fileStream.Write(fileBuffer, 0, fileBuffer.Length);
+                fileStream.Flush();
+            }
+        }
+
+        #endregion Methods
     }
 }
