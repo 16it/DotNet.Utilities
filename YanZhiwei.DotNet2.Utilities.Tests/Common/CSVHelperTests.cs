@@ -22,7 +22,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
             }
 
             bool _expected = true;
-            bool _actual = CSVHelper.ToCSV(TestTable, @"C:\Users\YanZh_000\Downloads\person.csv", "用户信息表", "名称,年龄");
+            bool _actual = CSVHelper.ToCSV(TestTable, @"D:\person.csv", "用户信息表", "名称,年龄");
             Assert.AreEqual(_expected, _actual);
         }
 
@@ -35,7 +35,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         }
 
         [TestMethod()]
-        public void ImportToTableTest()
+        public void ToTableTest()
         {
             DataTable _personInfoView = TestTable.Clone();
             DataTable _expected = TestTable.Clone();
@@ -48,7 +48,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
                 _expected.Rows.Add(_person);
             }
 
-            DataTable _actual = CSVHelper.ToTable(_personInfoView, @"C:\Users\YanZh_000\Downloads\person.csv", 2);
+            DataTable _actual = CSVHelper.ToTable(_personInfoView, @"D:\person.csv", 2);
             Assert.IsTrue(ResultSetComparer.AreIdenticalResultSets(_expected, _actual));
         }
 

@@ -68,7 +68,6 @@
     <Compile Include="Collection\PagedTable.cs" />
     <Compile Include="Collection\WorkQueue.cs" />
     <Compile Include="Common\AttributeHelper.cs" />
-    <Compile Include="Common\EncryptorHelper.cs" />
     <Compile Include="Common\FileExtInfoHelper.cs" />
     <Compile Include="Common\FuzzyHelper.cs" />
     <Compile Include="Common\UnitTestHelper.cs" />

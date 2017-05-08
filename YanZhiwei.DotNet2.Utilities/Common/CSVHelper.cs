@@ -1,5 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using DotNet2.Utilities.Operator;
+    using System.Collections.Generic;
     using System.Data;
     using System.IO;
     using System.Text;
@@ -19,8 +21,9 @@
         /// <param name="filePath">csv文件物理路径</param>
         /// <param name="startRowIndex">数据导入起始行号</param>
         /// <returns>DataTable</returns>
-        public static DataTable ToTable(DataTable table, string filePath, int startRowIndex)
+        public static DataTable ToTable(DataTable table, string filePath, ushort startRowIndex)
         {
+            ValidateOperator.Begin().NotNull(table, "需要导出CSV文件的DataTable").IsFilePath(filePath).CheckFileExists(filePath);
             using (StreamReader reader = new StreamReader(filePath, Encoding.UTF8, false))
             {
                 int j = 0;
@@ -62,6 +65,7 @@
         {
             try
             {
+                ValidateOperator.Begin().NotNull(table, "需要导出为CSV文件的DataTable").IsFilePath(filePath).NotNull(columname, "列名称");
                 if (File.Exists(filePath))
                     File.Delete(filePath);
 
