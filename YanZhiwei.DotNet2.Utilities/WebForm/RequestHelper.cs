@@ -1,13 +1,16 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WebForm
 {
-    using Common;
-    using Model;
-    using Operator;
     using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Text;
     using System.Web;
+
+    using Common;
+
+    using Model;
+
+    using Operator;
 
     /// <summary>
     /// Request 帮助类
@@ -19,21 +22,35 @@
         #region Methods
 
         /// <summary>
-        /// 获取请求客户端信息
+        /// 检查HttpContext.Current.Request.Form是否包含指定参数
         /// </summary>
-        /// <param name="request">HttpRequest</param>
-        /// <returns>RequestClientInfo</returns>
-        /// 时间：2016/7/27 14:31
-        /// 备注：
-        public static RequestClientInfo GetClientInfo(HttpRequest request)
+        /// <param name="keys">键</param>
+        /// <returns>是否包含指定的参数键</returns>
+        public static bool CheckedRequestBody(params string[] keys)
         {
-            ValidateOperator.Begin().NotNull(request, "HttpRequest");
-            RequestClientInfo _clientInfo = new RequestClientInfo();
-            _clientInfo.OSVersion = GetOsVersion(request);
-            _clientInfo.BrowserVersion = GetBrowserVersion(request);
-            _clientInfo.ComputerName = GetComputerName(request);
-            _clientInfo.Ip4Address = GetIP4Address(request);
-            return _clientInfo;
+            bool _result = HttpContext.Current.Request != null;
+
+            if(!_result) return _result;
+
+            if(keys != null && keys.Length > 0)
+            {
+                _result = HttpContext.Current.Request.Form.AllKeys.Length >= keys.Length;
+
+                if(!_result) return _result;
+
+                foreach(string key in keys)
+                {
+                    string[] _keyValue = HttpContext.Current.Request.Form.GetValues(key);
+
+                    if(_keyValue == null || _keyValue.Length == 0)
+                    {
+                        _result = false;
+                        break;
+                    }
+                }
+            }
+
+            return _result;
         }
 
         /// <summary>
@@ -61,20 +78,20 @@
         {
             ValidateOperator.Begin().NotNull(queryParamter, "请求参数");
 
-            if (string.IsNullOrEmpty(dateTime))
+            if(string.IsNullOrEmpty(dateTime))
                 dateTime = DateTime.Now.FormatDate(12);
 
-            if (string.IsNullOrEmpty(rumdon))
+            if(string.IsNullOrEmpty(rumdon))
                 rumdon = RandomHelper.NextString(8, true);
 
             StringBuilder _builder = new StringBuilder();
 
-            foreach (var keyValue in queryParamter)
+            foreach(var keyValue in queryParamter)
             {
                 _builder.AppendFormat("{0}={1}&", keyValue.Key, keyValue.Value);
             }
 
-            if (_builder.Length > 1)
+            if(_builder.Length > 1)
             {
                 _builder.Remove(_builder.Length - 1, 1);
             }
@@ -82,6 +99,24 @@
             _builder.Append(dateTime);
             _builder.Append(rumdon);
             return _builder.ToString().ToUpper();
+        }
+
+        /// <summary>
+        /// 获取请求客户端信息
+        /// </summary>
+        /// <param name="request">HttpRequest</param>
+        /// <returns>RequestClientInfo</returns>
+        /// 时间：2016/7/27 14:31
+        /// 备注：
+        public static RequestClientInfo GetClientInfo(HttpRequest request)
+        {
+            ValidateOperator.Begin().NotNull(request, "HttpRequest");
+            RequestClientInfo _clientInfo = new RequestClientInfo();
+            _clientInfo.OSVersion = GetOsVersion(request);
+            _clientInfo.BrowserVersion = GetBrowserVersion(request);
+            _clientInfo.ComputerName = GetComputerName(request);
+            _clientInfo.Ip4Address = GetIP4Address(request);
+            return _clientInfo;
         }
 
         private static string GetBrowserVersion(HttpRequest request)
@@ -101,12 +136,12 @@
         {
             string _userHostAddress = request.UserHostAddress;
 
-            if (string.IsNullOrEmpty(_userHostAddress))
+            if(string.IsNullOrEmpty(_userHostAddress))
             {
                 _userHostAddress = request.ServerVariables["REMOTE_ADDR"];
             }
 
-            if (!string.IsNullOrEmpty(_userHostAddress) && CheckHelper.IsIp4Address(_userHostAddress))
+            if(!string.IsNullOrEmpty(_userHostAddress) && CheckHelper.IsIp4Address(_userHostAddress))
             {
                 return _userHostAddress;
             }
@@ -118,45 +153,64 @@
         {
             string _agent = request.ServerVariables["HTTP_USER_AGENT"];
 
-            if (_agent.IndexOf("NT 4.0", StringComparison.OrdinalIgnoreCase) > 0)
+            if(_agent.IndexOf("NT 4.0", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows NT ";
-            else if (_agent.IndexOf("NT 5.0", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("NT 5.0", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows 2000";
-            else if (_agent.IndexOf("NT 5.1", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("NT 5.1", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows XP";
-            else if (_agent.IndexOf("NT 5.2", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("NT 5.2", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows 2003";
-            else if (_agent.IndexOf("NT 6.0", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("NT 6.0", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows Vista";
-            else if (_agent.IndexOf("NT 6.1", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("NT 6.1", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows 7";
-            else if (_agent.IndexOf("NT 6.2", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("NT 6.2", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows 8";
-            else if (_agent.IndexOf("NT 6.3", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("NT 6.3", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows 8.1";
-            else if (_agent.IndexOf("NT 10.0", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("NT 10.0", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows 10";
-            else if (_agent.IndexOf("WindowsCE", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("WindowsCE", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows CE";
-            else if (_agent.IndexOf("NT", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("NT", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows NT ";
-            else if (_agent.IndexOf("9x", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("9x", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows ME";
-            else if (_agent.IndexOf("98", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("98", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows 98";
-            else if (_agent.IndexOf("95", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("95", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows 95";
-            else if (_agent.IndexOf("Win32", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("Win32", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Win32";
-            else if (_agent.IndexOf("Linux", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("Linux", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Linux";
-            else if (_agent.IndexOf("SunOS", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("SunOS", StringComparison.OrdinalIgnoreCase) > 0)
                 return "SunOS";
-            else if (_agent.IndexOf("Mac", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("Mac", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Mac";
-            else if (_agent.IndexOf("Linux", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("Linux", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Linux";
-            else if (_agent.IndexOf("Windows", StringComparison.OrdinalIgnoreCase) > 0)
+
+            else if(_agent.IndexOf("Windows", StringComparison.OrdinalIgnoreCase) > 0)
                 return "Windows";
 
             return _agent;

@@ -15,15 +15,15 @@
         /// 将字符串转换为Guid
         /// </summary>
         /// <param name="data">需要转换的字符串</param>
-        /// <param name="errorValue">转换失败后返回类型</param>
+        /// <param name="defalut">默认数值</param>
         /// <returns>转换返回</returns>
-        public static Guid ToGuidOrDefault(this string data, Guid errorValue)
+        public static Guid ToGuidOrDefault(this string data, Guid defalut)
         {
             Guid _result = Guid.Empty;
             if (Guid.TryParse(data, out _result))
                 return _result;
             else
-                return errorValue;
+                return defalut;
         }
 
         #endregion Methods
