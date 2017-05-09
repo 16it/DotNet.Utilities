@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="WebForm\Core\CookiesManager.cs" />
     <Compile Include="WebForm\Core\SimulateWebRequest.cs" />
+    <Compile Include="WebForm\Core\WebDownloadFile.cs" />
     <Compile Include="WebForm\Core\WebThumbnailImage.cs" />
     <Compile Include="WebForm\Core\WebUploadFile.cs" />
     <Compile Include="WebForm\Core\WebUploadImage.cs" />

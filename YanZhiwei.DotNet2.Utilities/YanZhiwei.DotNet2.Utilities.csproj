@@ -173,7 +173,6 @@
     <Compile Include="WebForm\Core\PagerHtmlScript.cs" />
     <Compile Include="WebForm\Core\SessionManager.cs" />
     <Compile Include="WebForm\DropDownListHelper.cs" />
-    <Compile Include="WebForm\FileDownHelper.cs" />
     <Compile Include="WebForm\StaticFileHelper.cs" />
     <Compile Include="WebForm\GridViewHelper.cs" />
     <Compile Include="WebForm\ClientScriptHelper.cs" />
