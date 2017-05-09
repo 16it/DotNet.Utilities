@@ -24,7 +24,8 @@
 
         public void ProcessRequest(HttpContext context)
         {
-
+            string _downloadFileName = context.Request["fileName"];
+            
         }
 
         #endregion Methods
