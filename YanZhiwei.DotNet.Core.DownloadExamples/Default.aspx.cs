@@ -7,7 +7,7 @@ namespace YanZhiwei.DotNet.Core.DownloadExamples
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string url = DownloadFileHelper.Instance.EncryptFileName("DesignPattern.chm");
+            string url = DownloadFileHelper.Instance.EncryptFileName("AnkhSvn-2.5.12582.msi");
             link.NavigateUrl = "~/download.aspx?fileName=" + url;
         }
     }
