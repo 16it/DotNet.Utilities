@@ -12,7 +12,7 @@
         {
             get
             {
-                return "DotNet.Core.Download";
+                return "yanzhiweizhuzhouhunanchina";
             }
         }
 
@@ -23,7 +23,7 @@
         {
             get
             {
-                return new byte[8] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
+                return new byte[16] { 0x01, 0x02, 0x03, 0x4, 0x05, 0x06, 0x07, 0x08, 0x01, 0x02, 0x03, 0x4, 0x05, 0x06, 0x07, 0x08 };
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿namespace YanZhiwei.DotNet.Core.Download
 {
     using System.Web;
-    using YanZhiwei.DotNet2.Utilities.DesignPattern;
     using YanZhiwei.DotNet3._5.Utilities.WebForm.Core;
 
     public class DownloadHandler : IHttpHandler
@@ -23,12 +22,16 @@
 
         #region Methods
 
+        /// <summary>
+        /// 处理文件下载入口
+        /// </summary>
+        /// <param name="context"></param>
         public void ProcessRequest(HttpContext context)
         {
-            string _downloadFileName = context.Request["fileName"];
+            string _downloadEncryptFileName = context.Request["fileName"];
+            string _downloadFileName = DownloadFileHelper.Instance.DecryptFileName(_downloadEncryptFileName);
             string _filePath = HttpContext.Current.Server.MapPath("~/") + "files/" + _downloadFileName;
-            string _downloadEncryptFileName = Singleton<DownloadFileHelper>.GetInstance().EncryptFileName(_downloadFileName);
-            WebDownloadFile.FileDownload(_downloadEncryptFileName, _filePath, 1024);
+            WebDownloadFile.FileDownload(_downloadFileName, _filePath, 10240);
         }
 
         #endregion Methods
