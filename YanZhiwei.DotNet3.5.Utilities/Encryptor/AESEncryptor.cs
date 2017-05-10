@@ -51,7 +51,7 @@
         public static Aes CreateAES(string key)
         {
             Aes _aes = new AesCryptoServiceProvider();
-            AesCryptoServiceProvider _desCrypto = (AesCryptoServiceProvider)AesCryptoServiceProvider.Create();
+            AesCryptoServiceProvider _desCrypto = (AesCryptoServiceProvider)Aes.Create();
             if (!string.IsNullOrEmpty(key))
             {
                 MD5 _md5 = new MD5CryptoServiceProvider();
@@ -80,7 +80,7 @@
         /// </summary>
         /// <param name="text">需要解密的字符串</param>
         /// <returns>解密后字符串</returns>
-        public string DecryptString(string text)
+        public string Decrypt(string text)
         {
             byte[] _decryptedData = Convert.FromBase64String(text);
 
@@ -108,7 +108,7 @@
         /// </summary>
         /// <param name="text">需要加密的字符串</param>
         /// <returns>加密后的字符串</returns>
-        public string EncryptString(string text)
+        public string Encrypt(string text)
         {
             byte[] _encryptedData = Encoding.UTF8.GetBytes(text);
 

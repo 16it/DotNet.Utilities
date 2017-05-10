@@ -18,16 +18,16 @@ namespace YanZhiwei.DotNet3._5.UtilitiesTests.Common
         }
 
         [TestMethod()]
-        public void EncryptStringTest()
+        public void EncryptTest()
         {
-            string _actual = aesHelper.EncryptString("YanZhiwei");
+            string _actual = aesHelper.Encrypt("YanZhiwei");
             Assert.AreEqual("v4M1o7AhQ4EOVLxbs4ZIzQ==", _actual);
         }
 
         [TestMethod()]
-        public void DecryptStringTest()
+        public void DecryptTest()
         {
-            string _actual = aesHelper.DecryptString("v4M1o7AhQ4EOVLxbs4ZIzQ==");
+            string _actual = aesHelper.Decrypt("v4M1o7AhQ4EOVLxbs4ZIzQ==");
             Assert.AreEqual("YanZhiwei", _actual);
         }
     }
