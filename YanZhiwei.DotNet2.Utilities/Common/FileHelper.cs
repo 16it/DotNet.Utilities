@@ -1,8 +1,5 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
-    using Microsoft.Win32;
-    using Model;
-    using Operator;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -10,6 +7,12 @@
     using System.Runtime.InteropServices;
     using System.Security.AccessControl;
     using System.Text.RegularExpressions;
+
+    using Microsoft.Win32;
+
+    using Model;
+
+    using Operator;
 
     /// <summary>
     /// 文件以及文件夹操作帮助类
@@ -41,15 +44,6 @@
         #endregion Fields
 
         #region Methods
-
-        /// <summary>
-        /// _lopens the specified lp path name.
-        /// </summary>
-        /// <param name="lpPathName">Name of the lp path.</param>
-        /// <param name="iReadWrite">The i read write.</param>
-        /// <returns>IntPtr</returns>
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr _lopen(string lpPathName, int iReadWrite);
 
         /// <summary>
         /// 修改文件路径后缀名
@@ -127,6 +121,7 @@
                         File.Copy(sourceFileName, targetFileName, overWrite);
                     }
                 }
+
                 else
                 {
                     File.Copy(sourceFileName, targetFileName, overWrite);
@@ -178,6 +173,7 @@
                         File.Copy(sourceFileName, targetFileName, overWrite);
                     }
                 }
+
                 else
                 {
                     File.Copy(sourceFileName, targetFileName, overWrite);
@@ -255,6 +251,7 @@
                     _toFile.Write(_buffer, 0, _left);
                     _toFile.Flush();
                 }
+
                 else
                 {
                     //如果每次拷贝的文件长度大于源文件的长度 则将实际文件长度直接拷贝
@@ -265,10 +262,12 @@
                     _toFile.Flush();
                 }
             }
+
             catch(Exception)
             {
                 _copyResult = false;
             }
+
             finally
             {
                 _fromFile.Close();
@@ -303,6 +302,7 @@
                 File.Delete(filePath);
                 _result = true;
             }
+
             catch(Exception)
             {
                 _result = false;
@@ -352,6 +352,7 @@
                     FileStream _fileStream = File.Create(path);
                     _fileStream.Close();
                 }
+
                 catch(Exception)
                 {
                     _result = false;
@@ -529,7 +530,7 @@
         {
             ValidateOperator.Begin().NotNullOrEmpty(filepath, "文件路径").IsFilePath(filepath).NotNullOrEmpty(regexString, "正则表达式");
             Match _uploadfolder = Regex.Match(filepath, regexString, RegexOptions.IgnoreCase);
-            
+
             if(_uploadfolder.Success)
             {
                 FileProperties _fileInfo = new FileProperties();
@@ -629,6 +630,16 @@
         }
 
         /// <summary>
+        /// 获取可用的文件名称
+        /// </summary>
+        /// <param name="fileName">文件名称</param>
+        /// <returns>返回可用的用户名称</returns>
+        public static string GetValidFileName(string fileName)
+        {
+            return Regex.Replace(fileName.Trim(), "[^A-Za-z0-9_. ]+", "").Replace(" ", string.Empty);
+        }
+
+        /// <summary>
         /// 剪切指定目录的所有文件,不包含子目录
         /// </summary>
         /// <param name="sourceDir">原始目录</param>
@@ -662,6 +673,7 @@
                         File.Move(sourceFileName, targetFileName);
                     }
                 }
+
                 else
                 {
                     File.Move(sourceFileName, targetFileName);
@@ -723,7 +735,7 @@
                 string _path = _pathQueue.Dequeue();
                 DirectorySecurity _pathSecurity = new DirectorySecurity(_path, AccessControlSections.Access);
 
-                if(!_pathSecurity.AreAccessRulesProtected)                                   //文件夹权限是否可访问
+                if(!_pathSecurity.AreAccessRulesProtected)                                    //文件夹权限是否可访问
                 {
                     DirectoryInfo _directoryInfo = new DirectoryInfo(_path);
 
@@ -769,6 +781,7 @@
                 {
                     _run.SetValue(keyName, path);
                 }
+
                 else
                 {
                     object _value = _run.GetValue(keyName);
@@ -778,6 +791,15 @@
                 }
             }
         }
+
+        /// <summary>
+        /// _lopens the specified lp path name.
+        /// </summary>
+        /// <param name="lpPathName">Name of the lp path.</param>
+        /// <param name="iReadWrite">The i read write.</param>
+        /// <returns>IntPtr</returns>
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr _lopen(string lpPathName, int iReadWrite);
 
         #endregion Methods
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using YanZhiwei.DotNet.Core.Download;
 
 namespace YanZhiwei.DotNet.Core.DownloadExamples

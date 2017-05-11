@@ -86,22 +86,23 @@
         {
             byte[] _decryptedData = Convert.FromBase64String(text);
 
-            using (MemoryStream ms = new MemoryStream())
+            using (MemoryStream stream = new MemoryStream())
             {
                 try
                 {
-                    CryptoStream _cryptoStream = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write);
+                    using (CryptoStream cryptoStream = new CryptoStream(stream, aes.CreateDecryptor(), CryptoStreamMode.Write))
+                    {
+                        cryptoStream.Write(_decryptedData, 0, _decryptedData.Length);
 
-                    _cryptoStream.Write(_decryptedData, 0, _decryptedData.Length);
-
-                    _cryptoStream.FlushFinalBlock();
+                        cryptoStream.FlushFinalBlock();
+                    }
                 }
                 catch
                 {
                     return "N/A";
                 }
 
-                return Encoding.UTF8.GetString(ms.ToArray());
+                return Encoding.UTF8.GetString(stream.ToArray());
             }
         }
 
@@ -114,13 +115,14 @@
         {
             byte[] _encryptedData = Encoding.UTF8.GetBytes(text);
 
-            using (MemoryStream ms = new MemoryStream())
+            using (MemoryStream stream = new MemoryStream())
             {
-                CryptoStream _cryptoStream = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
-
-                _cryptoStream.Write(_encryptedData, 0, _encryptedData.Length);
-                _cryptoStream.FlushFinalBlock();
-                return Convert.ToBase64String(ms.ToArray());
+                using (CryptoStream cryptoStream = new CryptoStream(stream, aes.CreateEncryptor(), CryptoStreamMode.Write))
+                {
+                    cryptoStream.Write(_encryptedData, 0, _encryptedData.Length);
+                    cryptoStream.FlushFinalBlock();
+                    return Convert.ToBase64String(stream.ToArray());
+                }
             }
         }
 

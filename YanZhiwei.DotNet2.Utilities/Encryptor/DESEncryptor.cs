@@ -82,7 +82,7 @@
         public static DES CreateDES(string key)
         {
             DES _des = new DESCryptoServiceProvider();
-            DESCryptoServiceProvider _desCrypto = (DESCryptoServiceProvider)DESCryptoServiceProvider.Create();
+            DESCryptoServiceProvider _desCrypto = (DESCryptoServiceProvider)DES.Create();
 
             if(!string.IsNullOrEmpty(key))
             {
