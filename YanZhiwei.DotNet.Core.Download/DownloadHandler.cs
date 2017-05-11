@@ -34,7 +34,7 @@
             string _downloadEncryptFileName = context.Request["fileName"];
             string _downloadFileName = DownloadFileHelper.Instance.DecryptFileName(_downloadEncryptFileName);
             string _filePath = @"D:\Software\" + _downloadFileName;//HttpContext.Current.Server.MapPath("~/") + "files/" + _downloadFileName;
-            WebDownloadFile.FileDownload(_downloadFileName, _filePath, 102400);
+            WebDownloadFile.FileDownload(_downloadFileName, _filePath, DownloadConfigContext.LimitDownloadSpeedKb * 1024);
         }
 
         #endregion Methods
