@@ -6,7 +6,7 @@ using System.Web;
 using YanZhiwei.DotNet2.Utilities.Model;
 using YanZhiwei.DotNet2.Utilities.Operator;
 using YanZhiwei.DotNet2.Utilities.Result;
-
+using YanZhiwei.DotNet2.Utilities.Common;
 namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
     /// <summary>
@@ -29,7 +29,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
         public static FileDownloadResult FileDownload(string fileName, string filePhysicsPath, ulong limitSpeed)
         {
             ValidateOperator.Begin().NotNullOrEmpty(fileName, "下载文件名").CheckFileExists(filePhysicsPath);
-
+           
             try
             {
                 using (FileStream fileStream = new FileStream(filePhysicsPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

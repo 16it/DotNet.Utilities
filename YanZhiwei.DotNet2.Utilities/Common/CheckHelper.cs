@@ -347,10 +347,7 @@
             
             if(!string.IsNullOrEmpty(ipAddress) && IsIp4Address(ipAddress))
             {
-                if(ipAddress.StartsWith("192.168.") || ipAddress.StartsWith("172.") || ipAddress.StartsWith("10."))
-                {
-                    _result = true;
-                }
+                _result |= (ipAddress.StartsWith("192.168.", StringComparison.OrdinalIgnoreCase) || ipAddress.StartsWith("172.", StringComparison.OrdinalIgnoreCase) || ipAddress.StartsWith("10.", StringComparison.OrdinalIgnoreCase));
             }
             
             return _result;
