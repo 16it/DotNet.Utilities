@@ -6,7 +6,7 @@
     public sealed class FileDownloadResult : BasicResult<string>
     {
         #region Constructors
-
+        
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -15,48 +15,48 @@
         /// <param name="state">下载状态</param>
         /// <param name="message">附加信息</param>
         public FileDownloadResult(string fileName, string filePhysicsPath, bool state, string message)
-            : base(message, null)
+        : base(message, null)
         {
             FileName = fileName;
             FilePhysicsPath = filePhysicsPath;
             State = state;
         }
-
+        
         #endregion Constructors
-
+        
         #region Properties
-
+        
         /// <summary>
         /// 文件名称
         /// </summary>
         public string FileName
         {
-            private get;
-            set;
+            get;
+            private set;
         }
-
+        
         /// <summary>
         /// 文件下载的物理路径
         /// </summary>
         public string FilePhysicsPath
         {
-            private get;
-            set;
+            get;
+            private set;
         }
-
+        
         /// <summary>
         /// 检查状态
         /// </summary>
         public bool State
         {
-            private get;
-            set;
+            get;
+            private set;
         }
-
+        
         #endregion Properties
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 返回失败结果
         /// </summary>
@@ -69,7 +69,7 @@
             FileDownloadResult _result = new FileDownloadResult(fileName, filePhysicsPath, false, message);
             return _result;
         }
-
+        
         /// <summary>
         /// 返回成功结果
         /// </summary>
@@ -82,7 +82,7 @@
             FileDownloadResult _result = new FileDownloadResult(fileName, filePhysicsPath, true, message);
             return _result;
         }
-
+        
         /// <summary>
         /// 返回成功结果
         /// </summary>
@@ -93,7 +93,7 @@
         {
             return Success(fileName, filePhysicsPath, null);
         }
-
+        
         #endregion Methods
     }
 }
