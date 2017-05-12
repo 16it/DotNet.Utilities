@@ -41,14 +41,14 @@ namespace YanZhiwei.DotNet.Core.Download
             return HttpUtility.UrlEncode(fileEncryptorHelper.Encrypt(fileName));
         }
 
-        
+
 
         /// <summary>
         /// 解密下载文件
         /// </summary>
         /// <param name="encryptFileName">加密下载文件字符串</param>
         /// <returns>原始下载文件名称</returns>
-        public string DecryptFileName(string encryptFileName)
+        internal string DecryptFileName(string encryptFileName)
         {
             return fileEncryptorHelper.Decrypt(encryptFileName);
 

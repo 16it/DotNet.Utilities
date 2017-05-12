@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Plugins", "YanZhiwei.DotNet.Plugins", "{E7041928-FF2F-44AF-AB91-7427819415C5}"
 EndProject
@@ -208,6 +208,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Download", "YanZhiwei.DotNet.Core.Download\YanZhiwei.DotNet.Core.Download.csproj", "{A1A56E7A-BF29-4CE4-88DB-4C7DB43FFD75}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.DownloadExamples", "YanZhiwei.DotNet.Core.DownloadExamples\YanZhiwei.DotNet.Core.DownloadExamples.csproj", "{6408AEA9-6B76-47E3-802D-845A22040510}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.ConfigExamples", "YanZhiwei.DotNet.Core.ConfigExamples\YanZhiwei.DotNet.Core.ConfigExamples.csproj", "{76062536-5BFF-4096-BB12-7D8BFED09EAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1567,6 +1569,22 @@ Global
 		{6408AEA9-6B76-47E3-802D-845A22040510}.Release|x64.Build.0 = Release|Any CPU
 		{6408AEA9-6B76-47E3-802D-845A22040510}.Release|x86.ActiveCfg = Release|Any CPU
 		{6408AEA9-6B76-47E3-802D-845A22040510}.Release|x86.Build.0 = Release|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Debug|ARM.Build.0 = Debug|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Debug|x64.Build.0 = Debug|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Debug|x86.Build.0 = Debug|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Release|ARM.ActiveCfg = Release|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Release|ARM.Build.0 = Release|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Release|x64.ActiveCfg = Release|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Release|x64.Build.0 = Release|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Release|x86.ActiveCfg = Release|Any CPU
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1665,5 +1683,6 @@ Global
 		{008865B5-3A7E-49C7-81B9-FE5F2010C588} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{A1A56E7A-BF29-4CE4-88DB-4C7DB43FFD75} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 		{6408AEA9-6B76-47E3-802D-845A22040510} = {2BF92C47-311B-46B2-B536-CBD597257243}
+		{76062536-5BFF-4096-BB12-7D8BFED09EAD} = {2BF92C47-311B-46B2-B536-CBD597257243}
 	EndGlobalSection
 EndGlobal

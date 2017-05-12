@@ -1,39 +1,36 @@
-﻿using System.Web.Caching;
-using YanZhiwei.DotNet.Core.Model;
-using YanZhiwei.DotNet2.Utilities.WebForm.Core;
-
-namespace YanZhiwei.DotNet.Core.Config
+﻿namespace YanZhiwei.DotNet.Core.Config
 {
+    using System.Web.Caching;
+    
+    using YanZhiwei.DotNet.Core.Model;
+    using YanZhiwei.DotNet2.Utilities.WebForm.Core;
+    
     /// <summary>
     /// CachedConfigContext
     /// </summary>
     public class CachedConfigContext : ConfigContext
     {
-        /// <summary>
-        /// 重写基类的取配置，加入缓存机制
-        /// </summary>
-        public override T Get<T>(string index = null)
-        {
-            string _fileName = this.GetConfigFileName<T>(index),
-                   _key = "ConfigFile_" + _fileName;
-            object _content = CacheManger.Get(_key);
-            
-            if(_content != null)
-            {
-                return (T)_content;
-            }
-            else
-            {
-                T _value = base.Get<T>(index);
-                CacheManger.Set(_key, _value, new CacheDependency(ConfigService.GetFilePath(_fileName)));
-                return _value;
-            }
-        }
+        #region Fields
         
         /// <summary>
         /// CachedConfigContext
         /// </summary>
         public static CachedConfigContext Current = new CachedConfigContext();
+        
+        #endregion Fields
+        
+        #region Properties
+        
+        /// <summary>
+        /// WEB API 用户令牌验证配置项
+        /// </summary>
+        public AuthWebApiConfig AuthWebApiConfig
+        {
+            get
+            {
+                return this.Get<AuthWebApiConfig>();
+            }
+        }
         
         /// <summary>
         /// 缓存配置项
@@ -43,6 +40,17 @@ namespace YanZhiwei.DotNet.Core.Config
             get
             {
                 return this.Get<CacheConfig>();
+            }
+        }
+        
+        /// <summary>
+        /// 文件下载配置项
+        /// </summary>
+        public DownloadConfig DownloadConfig
+        {
+            get
+            {
+                return this.Get<DownloadConfig>();
             }
         }
         
@@ -57,15 +65,32 @@ namespace YanZhiwei.DotNet.Core.Config
             }
         }
         
+        #endregion Properties
+        
+        #region Methods
+        
         /// <summary>
-        /// WEB API 用户令牌验证配置项
+        /// 重写基类的取配置，加入缓存机制
         /// </summary>
-        public AuthWebApiConfig AuthWebApiConfig
+        public override T Get<T>(string index = null)
         {
-            get
+            string _fileName = this.GetConfigFileName<T>(index),
+                   _key = "ConfigFile_" + _fileName;
+            object _content = CacheManger.Get(_key);
+            
+            if(_content != null)
             {
-                return this.Get<AuthWebApiConfig>();
+                return (T)_content;
+            }
+            
+            else
+            {
+                T _value = base.Get<T>(index);
+                CacheManger.Set(_key, _value, new CacheDependency(ConfigService.GetFilePath(_fileName)));
+                return _value;
             }
         }
+        
+        #endregion Methods
     }
 }
