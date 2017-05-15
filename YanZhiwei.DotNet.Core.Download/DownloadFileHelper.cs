@@ -1,7 +1,5 @@
 ﻿using System.Security.Cryptography;
-using System.Text.RegularExpressions;
 using System.Web;
-using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.DesignPattern;
 using YanZhiwei.DotNet3._5.Utilities.Encryptor;
 
@@ -38,10 +36,8 @@ namespace YanZhiwei.DotNet.Core.Download
         /// <returns>加密后的文件</returns>
         public string EncryptFileName(string fileName)
         {
-            return HttpUtility.UrlEncode(fileEncryptorHelper.Encrypt(fileName));
+            return fileEncryptorHelper.Encrypt(HttpUtility.UrlEncode(fileName));
         }
-
-
 
         /// <summary>
         /// 解密下载文件
@@ -51,7 +47,6 @@ namespace YanZhiwei.DotNet.Core.Download
         internal string DecryptFileName(string encryptFileName)
         {
             return fileEncryptorHelper.Decrypt(encryptFileName);
-
         }
     }
 }

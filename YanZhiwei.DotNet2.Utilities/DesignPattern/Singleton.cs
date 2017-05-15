@@ -2,17 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
-
+    
     /// <summary>
     /// Singleton泛型类
     /// </summary>
     /// <typeparam name="T">带默认构造函数的泛型</typeparam>
     public sealed class Singleton<T>
-        where T : new()
+        where T : class, new()
     {
         #region Fields
         static T instance = new T();
-        static object lockHelper = new object();
+        static object syncRoot = new object();
         #endregion Fields
         #region Constructors
         /// <summary>
@@ -30,7 +30,7 @@
         {
             if(instance == null)
             {
-                lock(lockHelper)
+                lock(syncRoot)
                 {
                     if(instance == null)
                     {
@@ -38,7 +38,7 @@
                     }
                 }
             }
-
+            
             return instance;
         }
         /// <summary>
@@ -51,14 +51,14 @@
         }
         #endregion Methods
     }
-
+    
     /// <summary>
     /// 提供一个字典容器，按类型装载所有<see cref="Singleton&lt;T&gt;"/>的单例实例
     /// </summary>
     public class Singleton
     {
         #region Constructors
-
+        
         static Singleton()
         {
             if(AllSingletons == null)
@@ -66,11 +66,11 @@
                 AllSingletons = new Dictionary<Type, object>();
             }
         }
-
+        
         #endregion Constructors
-
+        
         #region Properties
-
+        
         /// <summary>
         /// 获取 单例对象字典
         /// </summary>
@@ -79,7 +79,7 @@
             get;
             private set;
         }
-
+        
         #endregion Properties
     }
 }
