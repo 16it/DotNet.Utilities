@@ -14,7 +14,7 @@ namespace YanZhiwei.DotNet.Core.DownloadExamples.BackHandler
     {
         public override string GetResult(string fileName, string filePath, string err)
         {
-            return string.Empty;
+            return err;
         }
 
         public override void OnDownloaded(HttpContext context, string fileName, string filePath)
