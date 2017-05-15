@@ -113,7 +113,6 @@
       <DependentUpon>TestResource.resx</DependentUpon>
     </Compile>
     <Compile Include="ResultSetComparer.cs" />
-    <Compile Include="WebForm\WebRequestHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Interfaces\YanZhiwei.DotNet2.Interfaces.csproj">

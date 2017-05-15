@@ -135,7 +135,7 @@
         /// <returns>是否是中文</returns>
         public static bool IsChinses(string data)
         {
-            return RegexHelper.IsMatch(data, RegexPattern.IntCheck);
+            return RegexHelper.IsMatch(data, RegexPattern.ChineseCheck);
         }
         
         /// <summary>
