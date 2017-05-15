@@ -10,7 +10,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type1" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type1&ver='+Math.random()" /><br />
+<%--            <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type1" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type1&ver='+Math.random()" /><br />
             <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type2" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type2&ver='+Math.random()" /><br />
             <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type3" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type3&ver='+Math.random()" /><br />
             <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type4" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type4&ver='+Math.random()" /><br />
@@ -23,7 +23,8 @@
             <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type11" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type11&ver='+Math.random()" /><br />
             <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type12" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type12&ver='+Math.random()" /><br />
             <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type13" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type13&ver='+Math.random()" /><br />
-            <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type14" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type14&ver='+Math.random()" /><br />
+            <img alt="看不清，换一张" src="BackHanlder/VerifyCode.ashx?style=type14" onclick="this.src='BackHanlder/VerifyCode.ashx?style=type14&ver='+Math.random()" /><br />--%>
+              <img alt="看不清，换一张" src="BuilderVerifyCode.aspx" onclick="this.src='BuilderVerifyCode.aspx?style=type14&ver='+Math.random()" /><br />
         </div>
     </form>
 </body>

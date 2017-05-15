@@ -53,6 +53,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BuilderVerifyCode.aspx" />
     <Content Include="VerifyCodeHandlerDemo.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>

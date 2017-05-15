@@ -3,7 +3,7 @@
     /// <summary>
     ///  输出格式
     /// </summary>
-    public class ResponseContentType
+    public sealed class ResponseContentType
     {
         #region Fields
 
@@ -31,6 +31,11 @@
         ///image/jpeg
         /// </summary>
         public const string Jpeg = "image/jpeg";
+
+        /// <summary>
+        /// image/gif
+        /// </summary>
+        public const string Gif = "image/gif";
 
         /// <summary>
         ///application/x-javascript
