@@ -1,6 +1,21 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using YanZhiwei.DotNet2.Utilities.Common;
 
+namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+{
+    [TestClass()]
+    public class StringHelperTests
+    {
+        [TestMethod()]
+        public void LengthTest()
+        {
+            Assert.AreEqual(2, StringHelper.Length("言"));
+            Assert.AreEqual(3, StringHelper.Length("言y"));
+            Assert.AreEqual(9, StringHelper.Length("yanzhiwei"));
+        }
+    }
+}
+
 namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]

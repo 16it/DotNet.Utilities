@@ -145,5 +145,15 @@ namespace YanZhiwei.DotNet2.Utilities.Common.Tests
             Assert.IsFalse(CheckHelper.IsChinses("中国888"));
             Assert.IsFalse(CheckHelper.IsChinses("china888"));
         }
+
+        [TestMethod()]
+        public void IsChinsesOrCharacterTest()
+        {
+            Assert.IsTrue(CheckHelper.IsChinsesOrCharacter("中国"));
+            Assert.IsTrue(CheckHelper.IsChinsesOrCharacter("中国abc"));
+            Assert.IsFalse(CheckHelper.IsChinsesOrCharacter("中国abc123"));
+            Assert.IsFalse(CheckHelper.IsChinsesOrCharacter("123"));
+            Assert.IsFalse(CheckHelper.IsChinsesOrCharacter("中国,.abc"));
+        }
     }
 }

@@ -53,6 +53,7 @@
                     _result = true;
                 }
             }
+            
             else
             {
                 if((date > startTime) && (date < endTime))
@@ -72,6 +73,16 @@
         public static bool IsBase64(string data)
         {
             return (data.Length % 4) == 0 && RegexHelper.IsMatch(data, RegexPattern.Base64Check);
+        }
+        
+        /// <summary>
+        /// 是否是中文或字母
+        /// </summary>
+        /// <param name="data">验证数据</param>
+        /// <returns>是否合法</returns>
+        public static bool IsChinsesOrCharacter(string data)
+        {
+            return RegexHelper.IsMatch(data, RegexPattern.ChineseOrCharacterCheck);
         }
         
         /// <summary>
@@ -238,6 +249,7 @@
                 {
                     return true;
                 }
+                
                 else      // Jpg,Jpeg
                 {
                     byte[] _jpg = new byte[4];
@@ -251,12 +263,14 @@
                     {
                         return true;
                     }
+                    
                     else
                     {
                         return false;
                     }
                 }
             }
+            
             catch(Exception)
             {
                 return false;
@@ -296,6 +310,7 @@
                         _result = true;
                     }
                 }
+                
                 else if(_hostType == UriHostNameType.IPv4 || _hostType == UriHostNameType.IPv6)
                 {
                     _result = true;

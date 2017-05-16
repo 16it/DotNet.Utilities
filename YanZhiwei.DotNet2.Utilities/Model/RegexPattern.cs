@@ -61,7 +61,12 @@
         /// 整数检测正则表达式
         /// </summary>
         public const string IntCheck = @"^[0-9]+[0-9]*$";
-        
+
+        /// <summary>
+        /// 检查只能中文或字母
+        /// </summary>
+        public const string ChineseOrCharacterCheck = "^[\u4e00-\u9fa5a-zA-Z]+$";
+
         /// <summary>
         /// Ip检测正则表达式
         /// </summary>

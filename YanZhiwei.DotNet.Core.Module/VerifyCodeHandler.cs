@@ -35,7 +35,7 @@
         /// 生成验证码完成方法
         /// </summary>
         /// <param name="context">HttpContext</param>
-        /// <param name="code">生成的验证码</param>
+        /// <param name="validateCode">生成的验证码</param>
         public abstract void OnValidateCodeCreated(HttpContext context, string validateCode);
 
         /// <summary>
