@@ -1,13 +1,11 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
-    using System;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
-    using System.IO;
-
-    using YanZhiwei.DotNet3._5.Utilities.Enum;
     using YanZhiwei.DotNet2.Utilities.Operator;
+    using YanZhiwei.DotNet3._5.Utilities.Enum;
+
     /// <summary>
     /// 生成缩略图
     /// </summary>
@@ -32,60 +30,151 @@
         /// </summary>
         /// <param name="originalImagePath">源图路径（物理路径）</param>
         /// <param name="thumbnailPath">缩略图路径（物理路径）</param>
-        /// <param name="width">缩略图宽度</param>
-        /// <param name="height">缩略图高度</param>
+        /// <param name="specifiedwidth">缩略图宽度</param>
+        /// <param name="specifiedheight">缩略图高度</param>
         /// <param name="mode">生成缩略图的方式</param>
         /// <param name="isaddwatermark">是否添加水印</param>
         /// <param name="quality">图片品质</param>
         /// <param name="imagePosition">水印位置</param>
         /// <param name="waterImagePath">水印图片名称</param>
-        public static void CreateThumbnail(string originalImagePath, string thumbnailPath, int width, int height, string mode, bool isaddwatermark, ImagePosition imagePosition, string waterImagePath, int quality)
+        public static void CreateThumbnail(string originalImagePath, string thumbnailPath, int specifiedwidth, int specifiedheight, ThumbnailImageCutMode mode, bool isaddwatermark, ImagePosition imagePosition, string waterImagePath, int quality)
         {
             ValidateOperator.Begin().CheckFileExists(originalImagePath).IsFilePath(thumbnailPath);
             if (isaddwatermark)
                 ValidateOperator.Begin().CheckFileExists(waterImagePath);
 
+            using (Image originalImage = Image.FromFile(originalImagePath))
+            {
+                int _cutedWidth = specifiedwidth;
+                int _cutedHeight = specifiedheight;
 
-            Image _originalImage = Image.FromFile(originalImagePath);
-            int _towidth = width;
-            int _toheight = height;
-            int x = 0;
-            int y = 0;
+                int x = 0;
+                int y = 0;
+                int _originalWidth = originalImage.Width;
+                int _originalHeigh = originalImage.Height;
 
-            HanlderThumbnailSize(_originalImage, out _towidth, out _toheight, out x, out y);
+                switch (mode)
+                {
+                    case ThumbnailImageCutMode.W://指定宽，高按比例
+                        _cutedHeight = originalImage.Height * specifiedwidth / originalImage.Width;
+                        break;
 
+                    case ThumbnailImageCutMode.H://指定高，宽按比例
+                        _cutedWidth = originalImage.Width * specifiedheight / originalImage.Height;
+                        break;
 
-            //新建一个bmp图片
-            Image _bitmap = new Bitmap(_towidth, _toheight);
-            //新建一个画板
-            Graphics _graphics = Graphics.FromImage(_bitmap);
-            //设置高质量插值法
-            _graphics.InterpolationMode = InterpolationMode.High;
-            //设置高质量,低速度呈现平滑程度
-            _graphics.SmoothingMode = SmoothingMode.HighQuality;
-            _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _graphics.CompositingQuality = CompositingQuality.HighQuality;
-            //清空画布并以透明背景色填充
-            _graphics.Clear(Color.White);
-            //在指定位置并且按指定大小绘制原图片的指定部分
-            _graphics.DrawImage(_originalImage, new Rectangle(0, 0, _towidth, _toheight),
-                                new Rectangle(x, y, _ow, _oh),
-                                GraphicsUnit.Pixel);
+                    case ThumbnailImageCutMode.Cut://指定高宽裁减（不变形）
+                        if (originalImage.Width >= _cutedWidth && originalImage.Height >= _cutedHeight)
+                        {
+                            if ((double)originalImage.Width / (double)originalImage.Height > (double)_cutedWidth / (double)_cutedHeight)
+                            {
+                                _originalHeigh = originalImage.Height;
+                                _originalWidth = originalImage.Height * _cutedWidth / _cutedHeight;
+                                y = 0;
+                                x = (originalImage.Width - _originalWidth) / 2;
+                            }
+                            else
+                            {
+                                _originalWidth = originalImage.Width;
+                                _originalHeigh = originalImage.Width * specifiedheight / _cutedWidth;
+                                x = 0;
+                                y = (originalImage.Height - _originalHeigh) / 2;
+                            }
+                        }
+                        else
+                        {
+                            x = (originalImage.Width - _cutedWidth) / 2;
+                            y = (originalImage.Height - _cutedHeight) / 2;
+                            _originalWidth = _cutedWidth;
+                            _originalHeigh = _cutedHeight;
+                        }
+                        break;
 
-            //加图片水印
+                    case ThumbnailImageCutMode.Fit://不超出尺寸，比它小就不截了，不留白，大就缩小到最佳尺寸，主要为手机用
+                        if (originalImage.Width > _cutedWidth && originalImage.Height > _cutedHeight)
+                        {
+                            if ((double)originalImage.Width / (double)originalImage.Height > (double)_cutedWidth / (double)_cutedHeight)
+                                _cutedHeight = originalImage.Height * specifiedwidth / originalImage.Width;
+                            else
+                                _cutedWidth = originalImage.Width * specifiedheight / originalImage.Height;
+                        }
+                        else if (originalImage.Width > _cutedWidth)
+                        {
+                            _cutedHeight = originalImage.Height * specifiedwidth / originalImage.Width;
+                        }
+                        else if (originalImage.Height > _cutedHeight)
+                        {
+                            _cutedWidth = originalImage.Width * specifiedheight / originalImage.Height;
+                        }
+                        else
+                        {
+                            _cutedWidth = originalImage.Width;
+                            _cutedHeight = originalImage.Height;
+                            _originalWidth = _cutedWidth;
+                            _originalHeigh = _cutedHeight;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                Image _bitmap = new Bitmap(_cutedWidth, _cutedHeight);
+                Graphics _g = SetThumbnailGraphics(originalImage, _bitmap, _cutedWidth, _cutedHeight, _originalWidth, _originalHeigh, x, y);
+                SetThumbnailWaterImage(isaddwatermark, waterImagePath, imagePosition, _g, _cutedWidth, _cutedHeight);
+                EncoderParameters _encoderParams = null;
+                ImageCodecInfo _jpegICI = SetThumbnailImageQuality(quality, out _encoderParams);
+                SaveThumbnailImage(thumbnailPath, _bitmap, _jpegICI, _encoderParams);
+            }
+        }
+
+        private static void SaveThumbnailImage(string thumbnailPath, Image bitmap, ImageCodecInfo jpegICI, EncoderParameters encoderParams)
+        {
+            if (jpegICI != null)
+            {
+                bitmap.Save(thumbnailPath, jpegICI, encoderParams);
+            }
+            else
+            {
+                //以jpg格式保存缩略图
+                bitmap.Save(thumbnailPath, ImageFormat.Jpeg);
+            }
+        }
+
+        private static ImageCodecInfo SetThumbnailImageQuality(int quality, out EncoderParameters encoderParams)
+        {
+            // 以下代码为保存图片时,设置压缩质量
+            encoderParams = new EncoderParameters();
+            long[] _qualityArray = new long[1];
+            _qualityArray[0] = quality;
+            EncoderParameter _encoderParam = new EncoderParameter(Encoder.Quality, _qualityArray);
+            encoderParams.Param[0] = _encoderParam;
+            //获得包含有关内置图像编码解码器的信息的ImageCodecInfo 对象.
+            ImageCodecInfo[] _arrayICI = ImageCodecInfo.GetImageEncoders();
+            ImageCodecInfo _jpegICI = null;
+            for (int i = 0; i < _arrayICI.Length; i++)
+            {
+                if (_arrayICI[i].FormatDescription.Equals("JPEG"))
+                {
+                    _jpegICI = _arrayICI[i];
+                    //设置JPEG编码
+                    break;
+                }
+            }
+            return _jpegICI;
+        }
+
+        private static void SetThumbnailWaterImage(bool isaddwatermark, string waterImagePath, ImagePosition imagePosition, Graphics g, int cutedWidth, int cutedHeight)
+        {
             if (isaddwatermark)
             {
-                if (string.IsNullOrEmpty(waterImagePath))
-                    waterImagePath = "watermarker.png";
-
-                Image _copyImage = Image.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, waterImagePath));
+                Image _waterImage = Image.FromFile(waterImagePath);
                 int _xPosOfWm;
                 int _yPosOfWm;
-                int _wmHeight = _copyImage.Height;
-                int _wmWidth = _copyImage.Width;
-                int _phHeight = _toheight;
-                int _phWidth = _towidth;
-
+                int _wmHeight = _waterImage.Height;
+                int _wmWidth = _waterImage.Width;
+                int _phHeight = cutedHeight;
+                int _phWidth = cutedWidth;
                 switch (imagePosition)
                 {
                     case ImagePosition.LeftBottom:
@@ -113,131 +202,30 @@
                         _yPosOfWm = 0;
                         break;
                 }
-
-                _graphics.DrawImage(_copyImage, new Rectangle(_xPosOfWm, _yPosOfWm, _copyImage.Width, _copyImage.Height), 0, 0, _copyImage.Width, _copyImage.Height, GraphicsUnit.Pixel);
-            }
-
-            // 以下代码为保存图片时,设置压缩质量
-            EncoderParameters _encoderParams = new EncoderParameters();
-            long[] _qualityArray = new long[1];
-            _qualityArray[0] = quality;
-            EncoderParameter _encoderParam = new EncoderParameter(Encoder.Quality, _qualityArray);
-            _encoderParams.Param[0] = _encoderParam;
-
-            //获得包含有关内置图像编码解码器的信息的ImageCodecInfo 对象.
-            ImageCodecInfo[] _arrayICI = ImageCodecInfo.GetImageEncoders();
-            ImageCodecInfo _jpegICI = null;
-
-            for (int i = 0; i < _arrayICI.Length; i++)
-            {
-                if (_arrayICI[i].FormatDescription.Equals("JPEG"))
-                {
-                    _jpegICI = _arrayICI[i];
-                    //设置JPEG编码
-                    break;
-                }
-            }
-
-            try
-            {
-                if (_jpegICI != null)
-                {
-                    _bitmap.Save(thumbnailPath, _jpegICI, _encoderParams);
-                }
-                else
-                {
-                    //以jpg格式保存缩略图
-                    _bitmap.Save(thumbnailPath, ImageFormat.Jpeg);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                _originalImage.Dispose();
-                _bitmap.Dispose();
-                _graphics.Dispose();
+                g.DrawImage(_waterImage, new Rectangle(_xPosOfWm, _yPosOfWm, _waterImage.Width, _waterImage.Height), 0, 0, _waterImage.Width, _waterImage.Height, GraphicsUnit.Pixel);
             }
         }
 
-        private static void HanlderThumbnailSize(Image originalImage, int specifiedWidth, int specifiedHeight, string mode, out int _towidth, out int _toheight, out int x, out int y)
+        private static Graphics SetThumbnailGraphics(Image originalImage, Image bitmap, int cutedWidth, int cutedHeight, int originalWidth, int originalHeigh, int x, int y)
         {
+            Graphics _g = Graphics.FromImage(bitmap);
+            //设置高质量插值法
+            _g.InterpolationMode = InterpolationMode.High;
 
-            int _owidth = originalImage.Width;
-            int _oheight = originalImage.Height;
-            x = 0;
-            y = 0;
-            _towidth = 0;
-            _toheight = 0;
-            switch (mode)
-            {
-                case "HW"://指定高宽缩放（可能变形）
-                    break;
+            //设置高质量,低速度呈现平滑程度
+            _g.SmoothingMode = SmoothingMode.HighQuality;
 
-                case "W"://指定宽，高按比例
-                    _toheight = originalImage.Height * specifiedWidth / originalImage.Width;
-                    break;
+            _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            _g.CompositingQuality = CompositingQuality.HighQuality;
 
-                case "H"://指定高，宽按比例
-                    _towidth = originalImage.Width * specifiedHeight / originalImage.Height;
-                    break;
+            //清空画布并以透明背景色填充
+            _g.Clear(Color.White);
 
-                case "Cut"://指定高宽裁减（不变形）
-                    if (originalImage.Width >= _towidth && originalImage.Height >= _toheight)
-                    {
-                        if ((double)originalImage.Width / (double)originalImage.Height > (double)_towidth / (double)_toheight)
-                        {
-                            _oh = originalImage.Height;
-                            _ow = originalImage.Height * _towidth / _toheight;
-                            y = 0;
-                            x = (originalImage.Width - _ow) / 2;
-                        }
-                        else
-                        {
-                            _ow = originalImage.Width;
-                            _oh = originalImage.Width * height / _towidth;
-                            x = 0;
-                            y = (originalImage.Height - _oh) / 2;
-                        }
-                    }
-                    else
-                    {
-                        x = (originalImage.Width - _towidth) / 2;
-                        y = (originalImage.Height - _toheight) / 2;
-                        _ow = _towidth;
-                        _oh = _toheight;
-                    }
-
-                    break;
-
-                case "Fit"://不超出尺寸，比它小就不截了，不留白，大就缩小到最佳尺寸，主要为手机用
-                    if (originalImage.Width > _towidth && originalImage.Height > _toheight)
-                    {
-                        if ((double)originalImage.Width / (double)originalImage.Height > (double)_towidth / (double)_toheight)
-                            _toheight = originalImage.Height * specifiedWidth / originalImage.Width;
-                        else
-                            _towidth = originalImage.Width * specifiedHeight / originalImage.Height;
-                    }
-                    else if (originalImage.Width > _towidth)
-                    {
-                        _toheight = originalImage.Height * specifiedWidth / originalImage.Width;
-                    }
-                    else if (originalImage.Height > _toheight)
-                    {
-                        _towidth = originalImage.Width * specifiedHeight / originalImage.Height;
-                    }
-                    else
-                    {
-                        _towidth = originalImage.Width;
-                        _toheight = originalImage.Height;
-                        _ow = _towidth;
-                        _oh = _toheight;
-                    }
-
-                    break;
-            }
+            //在指定位置并且按指定大小绘制原图片的指定部分
+            _g.DrawImage(originalImage, new Rectangle(0, 0, cutedWidth, cutedHeight),
+                new Rectangle(x, y, originalWidth, originalHeigh),
+                GraphicsUnit.Pixel);
+            return _g;
         }
 
         #endregion Methods

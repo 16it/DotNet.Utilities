@@ -74,6 +74,7 @@
     <Compile Include="Common\IDataReaderHelper.cs" />
     <Compile Include="Common\PageHelper.cs" />
     <Compile Include="Enum\SerializationType.cs" />
+    <Compile Include="Enum\ThumbnailImageCutMode.cs" />
     <Compile Include="Lambda\RecursiveSelectLambda.cs" />
     <Compile Include="Common\TypeHelper.cs" />
     <Compile Include="Common\WcfServiceProxy.cs" />
