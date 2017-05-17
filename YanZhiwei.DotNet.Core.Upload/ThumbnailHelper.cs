@@ -20,7 +20,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         {
             try
             {
-                WebThumbnailImage.MakeThumbnail(originalImagePath, thumbnailPath,
+                WebThumbnailImage.CreateThumbnail(originalImagePath, thumbnailPath,
                                                 size.Width,
                                                 size.Height,
                                                 size.Mode,

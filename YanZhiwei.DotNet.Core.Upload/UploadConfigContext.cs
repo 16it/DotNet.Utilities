@@ -43,7 +43,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                             
                             if(HttpContext.Current != null)
                             {
-                                bool _isLocal = FetchHelper.ServerDomain.IndexOf("guozili", StringComparison.OrdinalIgnoreCase) < 0;
+                                bool _isLocal = FetchHelper.ServerDomain.IndexOf("localhost", StringComparison.OrdinalIgnoreCase) < 0;
                                 
                                 if(_isLocal || string.IsNullOrEmpty(UploadConfig.UploadPath) || !Directory.Exists(UploadConfig.UploadPath))
                                     uploadPath = HttpContext.Current.Server.MapPath("~/" + "Upload");

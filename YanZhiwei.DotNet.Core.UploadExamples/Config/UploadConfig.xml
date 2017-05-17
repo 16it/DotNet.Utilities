@@ -2,7 +2,7 @@
 <UploadConfig UploadPath="">
   <UploadFolders>
     <!--DirType="Day|Month|Ext"子文件夹按什么分组-->
-    <UploadFolder Path="test" DirType="Day">
+    <UploadFolder Path="unit" DirType="Day">
       <ThumbnailSizes>
         <!--Size使用如下：
           <ThumbnailSize Width="500" Height="300" Quality="75" Mode="Cut" Timming="OnDemand" IsReplace="false" AddWaterMarker="true" WaterMarkerPosition="Default" WaterMarkerPath="watermarker.png"/>
