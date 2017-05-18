@@ -22,7 +22,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         {
             FileProperties _fileInfo = FileHelper.GetFileInfo(imagefilePath, @"^(.*)\\upload\\(.+)\\(day_\d+)\\(\d+)(\.[A-Za-z]+)$");
 
-            if(_fileInfo == null) return;
+            if (_fileInfo == null) return;
 
             string _root = _fileInfo.Root,
                    _folder = _fileInfo.Folder,
@@ -30,19 +30,19 @@ namespace YanZhiwei.DotNet.Core.Upload
                    _fileName = _fileInfo.FileName,
                    _fileExt = _fileInfo.FileNameExt;
 
-            foreach(var pair in UploadConfigContext.ThumbnailConfigDic
+            foreach (var pair in UploadConfigContext.ThumbnailConfigDic
                     .Where(t => t.Key.StartsWith(_fileInfo.Folder.ToLower() + "_", StringComparison.OrdinalIgnoreCase) && t.Value.Timming == timming))
             {
                 ThumbnailSize _size = pair.Value;
                 string _thumbnailFileFolder = string.Format("{0}\\upload\\{1}\\{2}\\thumb",
                                               _root, _folder, _subFolder);
 
-                if(!Directory.Exists(_thumbnailFileFolder))
+                if (!Directory.Exists(_thumbnailFileFolder))
                     Directory.CreateDirectory(_thumbnailFileFolder);
 
                 string _thumbnailFilePath = string.Format("{0}\\upload\\{1}\\{2}\\thumb\\{3}_{4}_{5}{6}",
                                             _root, _folder, _subFolder, _fileName, _size.Width, _size.Height, _fileExt);
-                ThumbnailHelper.MakeThumbnail(imagefilePath, _thumbnailFilePath, _size);
+                ThumbnailHelper.BuilderThumbnail(imagefilePath, _thumbnailFilePath, _size);
             }
         }
 
@@ -69,7 +69,7 @@ namespace YanZhiwei.DotNet.Core.Upload
             };
             _watcher.EnableRaisingEvents = true;
 
-            while(true)
+            while (true)
             {
                 HandlerLazyThumbnail();
                 GC.Collect();
@@ -83,51 +83,42 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// </summary>
         public static void HandlerLazyThumbnail()
         {
-            foreach(var group in UploadConfigContext.UploadConfig.UploadFolders)
+            foreach (var group in UploadConfigContext.UploadConfig.UploadFolders)
             {
                 string _folder = Path.Combine(UploadConfigContext.UploadPath, group.Path);
 
-                if(!Directory.Exists(_folder))
+                if (!Directory.Exists(_folder))
                     continue;
 
-                foreach(string dayFolder in Directory.GetDirectories(_folder))
+                foreach (string dayFolder in Directory.GetDirectories(_folder))
                 {
-                    foreach(string filePath in Directory.GetFiles(dayFolder))
+                    foreach (string filePath in Directory.GetFiles(dayFolder))
                     {
                         FileProperties _fileInfo = FileHelper.GetFileInfo(filePath, @"^(.+\\day_\d+)\\(\d+)(\.[A-Za-z]+)$");
 
-                        if(_fileInfo == null) continue;
+                        if (_fileInfo == null) continue;
 
                         string _root = _fileInfo.Root,
                                _fileName = _fileInfo.FileName,
                                _fileExt = _fileInfo.FileNameExt,
                                _thumbnailFileFolder = Path.Combine(dayFolder, "Thumb");
 
-                        if(!Directory.Exists(_thumbnailFileFolder))
+                        if (!Directory.Exists(_thumbnailFileFolder))
                             Directory.CreateDirectory(_thumbnailFileFolder);
 
-                        //删除配置里干掉的Size对应的缩略图
-                        //先不启用，等配置添完了再启用
-                        //foreach (var thumbFilePath in Directory.GetFiles(thumbnailFileFolder))
-                        //{
-                        //    if (!group.ThumbnailSizes.Exists(s =>
-                        //        Regex.IsMatch(thumbFilePath, string.Format(@"\\\d+_{0}_{1}+\.[A-Za-z]+$", s.Width, s.Height))))
-                        //        File.Delete(thumbFilePath);
-                        //}
-
-                        foreach(var size in group.ThumbnailSizes)
+                        foreach (var size in group.ThumbnailSizes)
                         {
-                            if(size.Timming != Timming.Lazy)
+                            if (size.Timming != Timming.Lazy)
                                 continue;
 
                             string _thumbnailFilePath = string.Format("{0}\\thumb\\{1}_{2}_{3}{4}",
                                                         _root, _fileName, size.Width, size.Height, _fileExt);
 
-                            if(File.Exists(_thumbnailFilePath) && size.IsReplace)
+                            if (File.Exists(_thumbnailFilePath) && size.IsReplace)
                                 File.Delete(_thumbnailFilePath);
 
-                            if(!File.Exists(_thumbnailFilePath))
-                                ThumbnailHelper.MakeThumbnail(filePath, _thumbnailFilePath, size);
+                            if (!File.Exists(_thumbnailFilePath))
+                                ThumbnailHelper.BuilderThumbnail(filePath, _thumbnailFilePath, size);
                         }
                     }
                 }

@@ -71,7 +71,7 @@ namespace YanZhiwei.DotNet.Core.UploadExamples.BackHandler
             string fileExt = filePath.Substring(filePath.LastIndexOf('.'));
             string fileHead = filePath.Substring(0, filePath.LastIndexOf('.'));
             var thumbPath = string.Format("{0}_{1}{2}", fileHead, suffix, fileExt);
-            ThumbnailHelper.MakeThumbnail(filePath, thumbPath, width, height, mode, false, 88);
+            ThumbnailHelper.BuilderThumbnail(filePath, thumbPath, width, height, mode, false, 88);
         }
     }
 }

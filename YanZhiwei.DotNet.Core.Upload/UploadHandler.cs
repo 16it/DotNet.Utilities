@@ -123,6 +123,8 @@
             //那么由上可知具体的例子：Content - Disposition: attachment; filename =“filename.xls”
             //当然filename参数可以包含路径信息，但User - Agnet会忽略掉这些信息，只会把路径信息的最后一部分做为文件名。当你在响应类型为application / octet - stream情况下使用了这个头信息的话，那就意味着你不想直接显示内容，而是弹出一个”文件下载”的对话框，接下来就是由你来决定“打开”还是“保存”了。
             //如: Response.AppendHeader("Content-Disposition", "attachment;filename=MyExcel.xls");
+
+            //context.Request["subfolder"] ?? "default"; 
             context.Response.Charset = "UTF-8";
             byte[] _fileBuffer;
             string _localFileName = string.Empty;

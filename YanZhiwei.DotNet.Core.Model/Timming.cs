@@ -5,13 +5,19 @@ namespace YanZhiwei.DotNet.Core.Model
     [Flags]
     public enum Timming
     {
-        //延迟用工具生成
+        /// <summary>
+        /// 延时生成
+        /// </summary>
         Lazy = 1,
-        
-        //上传后即时生成
+
+        /// <summary>
+        /// 上传后即时生成
+        /// </summary>
         Immediate = 2,
-        
-        //请求图片时按需生成
+
+        /// <summary>
+        /// 请求图片时按需生成
+        /// </summary>
         OnDemand = 4
     }
 }

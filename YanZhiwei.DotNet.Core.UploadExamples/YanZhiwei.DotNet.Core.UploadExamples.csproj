@@ -100,8 +100,6 @@
     <Content Include="Upload\default\day_170518\201705181241424347_s.jpg" />
     <Content Include="Upload\default\day_170518\20170518124455676.jpg" />
     <Content Include="Upload\default\day_170518\20170518124455676_s.jpg" />
-    <Content Include="Upload\default\day_170518\thumb\20170518124455676_300_300.jpg" />
-    <Content Include="Upload\default\day_170518\thumb\20170518124455676_500_300.jpg" />
     <Content Include="Web.config" />
     <Content Include="Scripts\uploadify\uploadify.php" />
   </ItemGroup>

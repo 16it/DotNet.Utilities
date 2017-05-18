@@ -136,7 +136,7 @@
             context.Response.Cache.SetCacheability(HttpCacheability.Public);
             context.Response.Cache.SetLastModified(DateTime.UtcNow);
             context.Response.AddHeader("If-Modified-Since", DateTime.UtcNow.ToString());
-            int _maxDay = 86400 * 14; // 14 Day
+            int _maxDay = 86400 * 15; // 14 Day
             context.Response.Cache.SetExpires(DateTime.Now.AddSeconds(_maxDay));
             context.Response.Cache.SetMaxAge(new TimeSpan(0, 0, _maxDay));
             context.Response.CacheControl = "private";

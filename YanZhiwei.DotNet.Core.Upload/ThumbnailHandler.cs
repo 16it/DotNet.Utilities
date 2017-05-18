@@ -41,22 +41,23 @@ namespace YanZhiwei.DotNet.Core.Upload
         //限制为：GET, HEAD, POST, private DEBUG
         //脚本引擎打勾
 
-
         /// <summary>
-        /// Processes the request.
+        /// 请求入口
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="context">HttpContext</param>
         public void ProcessRequest(HttpContext context)
         {
             CheckResult _checkedRequestImageCache = CheckedRequestImageCache(context);
-            if (_checkedRequestImageCache.State) return;
+
+            if (_checkedRequestImageCache.State)
+                return;
 
             string _path = context.Request.CurrentExecutionFilePath;
 
             if (!_path.EndsWith(".axd", StringComparison.OrdinalIgnoreCase) && !_path.StartsWith("/Upload", StringComparison.OrdinalIgnoreCase))
                 return;
 
-            //正则从Url里匹配出上传的文件夹目录.....
+            //正则从Url里匹配出上传的文件夹目录信息
             Match _uploadfolder = Regex.Match(_path, @"upload/(.+)/(day_\d+)/thumb/(\d+)_(\d+)_(\d+)\.([A-Za-z]+)\.axd$", RegexOptions.IgnoreCase);
 
             if (!_uploadfolder.Success)
@@ -68,33 +69,18 @@ namespace YanZhiwei.DotNet.Core.Upload
                    _width = _uploadfolder.Groups[4].Value,
                    _height = _uploadfolder.Groups[5].Value,
                    _fileExt = _uploadfolder.Groups[6].Value;
-            //如果在配置找不到需要按需生成的，则返回，这样能防止任何人随便敲个尺寸就生成
-            string _key = string.Format("{0}_{1}_{2}", _folder, _width, _height).ToLower();
-            bool isOnDemandSize = UploadConfigContext.ThumbnailConfigDic.ContainsKey(_key) && UploadConfigContext.ThumbnailConfigDic[_key].Timming == Timming.OnDemand;
+            string _thumbnailKey = null;//按需生成缩略图的Key
 
-            if (!isOnDemandSize)
+            if (!CheckedOnDemandCreateThumbnail(_folder, _width, _height, out _thumbnailKey))
                 return;
 
-            string _thumbnailFilePath = string.Format(@"{0}\{1}\Thumb\{2}_{4}_{5}.{3}", _folder, _subFolder, _fileName, _fileExt, _width, _height);
-            _thumbnailFilePath = Path.Combine(UploadConfigContext.UploadPath, _thumbnailFilePath);
-            string _filePath = string.Format(@"{0}\{1}\{2}.{3}", _folder, _subFolder, _fileName, _fileExt);
-            _filePath = Path.Combine(UploadConfigContext.UploadPath, _filePath);
+            string _filePath = string.Empty;//原始图片路径
+            string _thumbnailFilePath = GetOnDemandThumbnailFile(_folder, _subFolder, _fileName, _fileExt, _width, _height, out _filePath);//缩略图存储路径
 
             if (!File.Exists(_filePath))
                 return;
 
-            //如果不存在缩略图，则生成
-            if (!File.Exists(_thumbnailFilePath))
-            {
-                string _thumbnailFileFolder = string.Format(@"{0}\{1}\Thumb", _folder, _subFolder);
-                _thumbnailFileFolder = Path.Combine(UploadConfigContext.UploadPath, _thumbnailFileFolder);
-
-                if (!Directory.Exists(_thumbnailFileFolder))
-                    Directory.CreateDirectory(_thumbnailFileFolder);
-
-                ThumbnailHelper.MakeThumbnail(_filePath, _thumbnailFilePath, UploadConfigContext.ThumbnailConfigDic[_key]);
-            }
-
+            OnDemandCreateThumbnailImage(_filePath, _thumbnailFilePath, _folder, _subFolder, _thumbnailKey);//按需生成缩略图，若缩略图不存在
             //缩略图存在了，返回图片字节，并输出304标记
             context.Response.Clear();
             context.Response.ContentType = HttpContextHelper.GetImageContentType(_fileExt);
@@ -102,6 +88,46 @@ namespace YanZhiwei.DotNet.Core.Upload
             context.Response.BinaryWrite(_responseImage);
             context.Set304Cache();
             context.Response.Flush();
+        }
+
+        /// <summary>
+        /// 按需生成缩略图
+        /// </summary>
+        private void OnDemandCreateThumbnailImage(string filePath, string thumbnailFilePath, string folder, string subFolder, string thumbnailKey)
+        {
+            //若缩略图不存在，则生成
+            if (!File.Exists(thumbnailFilePath))
+            {
+                string _thumbnailFileFolder = string.Format(@"{0}\{1}\Thumb", folder, subFolder);
+                _thumbnailFileFolder = Path.Combine(UploadConfigContext.UploadPath, _thumbnailFileFolder);
+
+                if (!Directory.Exists(_thumbnailFileFolder))
+                    Directory.CreateDirectory(_thumbnailFileFolder);
+
+                ThumbnailHelper.BuilderThumbnail(filePath, thumbnailFilePath, UploadConfigContext.ThumbnailConfigDic[thumbnailKey]);
+            }
+        }
+
+        /// <summary>
+        /// 获取新的缩略图存储路径以及原始图片的路径
+        /// </summary>
+        private string GetOnDemandThumbnailFile(string folder, string subFolder, string fileName, string fileExt, string width, string height, out string filePath)
+        {
+            filePath = string.Empty;
+            string _thumbnailFilePath = string.Format(@"{0}\{1}\Thumb\{2}_{4}_{5}.{3}", folder, subFolder, fileName, fileExt, width, height);
+            _thumbnailFilePath = Path.Combine(UploadConfigContext.UploadPath, _thumbnailFilePath);
+            filePath = string.Format(@"{0}\{1}\{2}.{3}", folder, subFolder, fileName, fileExt);
+            filePath = Path.Combine(UploadConfigContext.UploadPath, filePath);
+            return _thumbnailFilePath;
+        }
+
+        /// <summary>
+        /// 检查配置，当前尺寸是否按需请求生成缩略图
+        /// </summary>
+        private bool CheckedOnDemandCreateThumbnail(string folder, string width, string height, out string key)
+        {
+            key = string.Format("{0}_{1}_{2}", folder, width, height).ToLower();
+            return UploadConfigContext.ThumbnailConfigDic.ContainsKey(key) && UploadConfigContext.ThumbnailConfigDic[key].Timming == Timming.OnDemand;
         }
 
         /// <summary>
@@ -117,6 +143,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                 context.Response.StatusDescription = "Not Modified";
                 return CheckResult.Success();
             }
+
             return CheckResult.Fail(null);
         }
     }
