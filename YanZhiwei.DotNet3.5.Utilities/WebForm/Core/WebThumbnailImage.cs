@@ -3,6 +3,7 @@
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
+
     using YanZhiwei.DotNet2.Utilities.Operator;
     using YanZhiwei.DotNet3._5.Utilities.Enum;
 
@@ -40,15 +41,13 @@
         public static void BuilderThumbnails(string originalImagePath, string thumbnailPath, int specifiedwidth, int specifiedheight, ThumbnailImageCutMode mode, bool isaddwatermark, WatermarkImagesPosition imagePosition, string waterImagePath, int quality)
         {
             ValidateOperator.Begin().CheckFileExists(originalImagePath).IsFilePath(thumbnailPath);
+
             if (isaddwatermark)
                 ValidateOperator.Begin().CheckFileExists(waterImagePath);
 
             Image _originalImage = Image.FromFile(originalImagePath);
-
-
             int _cutedWidth = specifiedwidth;
             int _cutedHeight = specifiedheight;
-
             int x = 0;
             int y = 0;
             int _originalWidth = _originalImage.Width;
@@ -89,6 +88,7 @@
                         _originalWidth = _cutedWidth;
                         _originalHeigh = _cutedHeight;
                     }
+
                     break;
 
                 case ThumbnailImageCutMode.Fit://不超出尺寸，比它小就不截了，不留白，大就缩小到最佳尺寸，主要为手机用
@@ -114,6 +114,7 @@
                         _originalWidth = _cutedWidth;
                         _originalHeigh = _cutedHeight;
                     }
+
                     break;
 
                 default:
@@ -122,6 +123,7 @@
 
             Image _thumbnailImage = new Bitmap(_cutedWidth, _cutedHeight);
             Graphics _g = SetThumbnailGraphics(_originalImage, _thumbnailImage, _cutedWidth, _cutedHeight, _originalWidth, _originalHeigh, x, y);
+
             try
             {
                 SetThumbnailWaterImage(isaddwatermark, waterImagePath, imagePosition, _g, _cutedWidth, _cutedHeight);
@@ -135,7 +137,6 @@
                 _thumbnailImage.Dispose();
                 _g.Dispose();
             }
-
         }
 
         /// <summary>
@@ -155,6 +156,27 @@
         }
 
         /// <summary>
+        /// 设置缩略图图形
+        /// </summary>
+        private static Graphics SetThumbnailGraphics(Image originalImage, Image bitmap, int cutedWidth, int cutedHeight, int originalWidth, int originalHeigh, int x, int y)
+        {
+            Graphics _g = Graphics.FromImage(bitmap);
+            //设置高质量插值法
+            _g.InterpolationMode = InterpolationMode.High;
+            //设置高质量,低速度呈现平滑程度
+            _g.SmoothingMode = SmoothingMode.HighQuality;
+            _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            _g.CompositingQuality = CompositingQuality.HighQuality;
+            //清空画布并以透明背景色填充
+            _g.Clear(Color.White);
+            //在指定位置并且按指定大小绘制原图片的指定部分
+            _g.DrawImage(originalImage, new Rectangle(0, 0, cutedWidth, cutedHeight),
+                         new Rectangle(x, y, originalWidth, originalHeigh),
+                         GraphicsUnit.Pixel);
+            return _g;
+        }
+
+        /// <summary>
         /// 设置缩略图的压缩质量
         /// </summary>
         private static ImageCodecInfo SetThumbnailImageQuality(int quality, out EncoderParameters encoderParams)
@@ -167,6 +189,7 @@
             //获得包含有关内置图像编码解码器的信息的ImageCodecInfo 对象.
             ImageCodecInfo[] _arrayICI = ImageCodecInfo.GetImageEncoders();
             ImageCodecInfo _jpegICI = null;
+
             for (int i = 0; i < _arrayICI.Length; i++)
             {
                 if (_arrayICI[i].FormatDescription.Equals("JPEG"))
@@ -176,6 +199,7 @@
                     break;
                 }
             }
+
             return _jpegICI;
         }
 
@@ -193,6 +217,7 @@
                 int _wmWidth = _waterImage.Width;
                 int _phHeight = cutedHeight;
                 int _phWidth = cutedWidth;
+
                 switch (imagePosition)
                 {
                     case WatermarkImagesPosition.LeftBottom:
@@ -220,33 +245,9 @@
                         _yPosOfWm = 0;
                         break;
                 }
+
                 g.DrawImage(_waterImage, new Rectangle(_xPosOfWm, _yPosOfWm, _waterImage.Width, _waterImage.Height), 0, 0, _waterImage.Width, _waterImage.Height, GraphicsUnit.Pixel);
             }
-        }
-
-        /// <summary>
-        /// 设置缩略图图形
-        /// </summary>
-        private static Graphics SetThumbnailGraphics(Image originalImage, Image bitmap, int cutedWidth, int cutedHeight, int originalWidth, int originalHeigh, int x, int y)
-        {
-            Graphics _g = Graphics.FromImage(bitmap);
-            //设置高质量插值法
-            _g.InterpolationMode = InterpolationMode.High;
-
-            //设置高质量,低速度呈现平滑程度
-            _g.SmoothingMode = SmoothingMode.HighQuality;
-
-            _g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _g.CompositingQuality = CompositingQuality.HighQuality;
-
-            //清空画布并以透明背景色填充
-            _g.Clear(Color.White);
-
-            //在指定位置并且按指定大小绘制原图片的指定部分
-            _g.DrawImage(originalImage, new Rectangle(0, 0, cutedWidth, cutedHeight),
-                new Rectangle(x, y, originalWidth, originalHeigh),
-                GraphicsUnit.Pixel);
-            return _g;
         }
 
         #endregion Methods
