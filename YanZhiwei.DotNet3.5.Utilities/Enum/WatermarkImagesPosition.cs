@@ -3,7 +3,7 @@
     /// <summary>
     /// 水印位置
     /// </summary>
-    public enum ImagePosition
+    public enum WatermarkImagesPosition
     {
         /// <summary>
         /// 默认

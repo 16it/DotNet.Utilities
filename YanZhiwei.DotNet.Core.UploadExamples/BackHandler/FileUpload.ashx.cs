@@ -4,6 +4,7 @@ using System.Web;
 using YanZhiwei.DotNet.Core.Upload;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet3._5.Utilities.Common;
+using YanZhiwei.DotNet3._5.Utilities.Enum;
 
 namespace YanZhiwei.DotNet.Core.UploadExamples.BackHandler
 {
@@ -39,7 +40,7 @@ namespace YanZhiwei.DotNet.Core.UploadExamples.BackHandler
 
             if (string.IsNullOrEmpty(context.Request["thumbs"]))
             {
-                this.MakeThumbnail(filePath, "s", context.Request["thumbwidth"].ToInt32OrDefault(85), context.Request["thumbheight"].ToInt32OrDefault(85), string.IsNullOrEmpty(context.Request["mode"]) ? "H" : context.Request["mode"]);
+                this.MakeThumbnail(filePath, "s", context.Request["thumbwidth"].ToInt32OrDefault(85), context.Request["thumbheight"].ToInt32OrDefault(85), string.IsNullOrEmpty(context.Request["mode"]) ? ThumbnailImageCutMode.H : context.Request["mode"]);
             }
             else
             {
@@ -53,11 +54,11 @@ namespace YanZhiwei.DotNet.Core.UploadExamples.BackHandler
             }
         }
 
-        private void MakeThumbnail(string filePath, string suffix, int width, int height, string mode)
+        private void MakeThumbnail(string filePath, string suffix, int width, int height, ThumbnailImageCutMode mode)
         {
             string fileExt = filePath.Substring(filePath.LastIndexOf('.'));
             string fileHead = filePath.Substring(0, filePath.LastIndexOf('.'));
-            var thumbPath = string.Format("{0}_{1}{2}", fileHead, suffix, fileExt); ;
+            var thumbPath = string.Format("{0}_{1}{2}", fileHead, suffix, fileExt); 
             ThumbnailHelper.MakeThumbnail(filePath, thumbPath, width, height, mode, false, 88);
         }
     }

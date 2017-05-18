@@ -1,6 +1,7 @@
 ﻿using System;
 using YanZhiwei.DotNet.Core.Model;
 using YanZhiwei.DotNet2.Utilities.ExtendException;
+using YanZhiwei.DotNet3._5.Utilities.Enum;
 using YanZhiwei.DotNet3._5.Utilities.WebForm.Core;
 
 namespace YanZhiwei.DotNet.Core.Upload
@@ -20,7 +21,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         {
             try
             {
-                WebThumbnailImage.CreateThumbnail(originalImagePath, thumbnailPath,
+                WebThumbnailImage.BuilderThumbnails(originalImagePath, thumbnailPath,
                                                 size.Width,
                                                 size.Height,
                                                 size.Mode,
@@ -45,7 +46,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// <param name="mode">缩略图模式</param>
         /// <param name="isaddwatermark">是否添加水印</param>
         /// <param name="quality">图片质量</param>
-        public static void MakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height, string mode, bool isaddwatermark, int quality)
+        public static void MakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height, ThumbnailImageCutMode mode, bool isaddwatermark, int quality)
         {
             ThumbnailSize _size = new ThumbnailSize()
             {
@@ -67,7 +68,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// <param name="height">高度</param>
         public static void MakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height)
         {
-            MakeThumbnail(originalImagePath, thumbnailPath, width, height, "Cut", false, 88);
+            MakeThumbnail(originalImagePath, thumbnailPath, width, height, ThumbnailImageCutMode.Cut, false, 88);
         }
     }
 }

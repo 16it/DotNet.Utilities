@@ -78,7 +78,7 @@
     <Compile Include="Lambda\RecursiveSelectLambda.cs" />
     <Compile Include="Common\TypeHelper.cs" />
     <Compile Include="Common\WcfServiceProxy.cs" />
-    <Compile Include="Enum\ImagePosition.cs" />
+    <Compile Include="Enum\WatermarkImagesPosition.cs" />
     <Compile Include="Enum\UploadFileSaveType.cs" />
     <Compile Include="Lambda\ReflectLambda.cs" />
     <Compile Include="Mapper\GeneralMapper.cs" />
