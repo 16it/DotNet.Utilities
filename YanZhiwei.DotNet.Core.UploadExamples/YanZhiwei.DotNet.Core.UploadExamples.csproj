@@ -88,6 +88,20 @@
     <Content Include="Scripts\uploadify\uploadify.swf" />
     <Content Include="Upload\default\day_160825\20160825013801784.jpg" />
     <Content Include="Upload\default\day_160825\20160825013801784_s.jpg" />
+    <Content Include="Upload\default\day_170517\201705170131521000.jpg" />
+    <Content Include="Upload\default\day_170517\201705170131521000_s.jpg" />
+    <Content Include="Upload\default\day_170517\201705170132209181.jpg" />
+    <Content Include="Upload\default\day_170517\201705170140411423.jpg" />
+    <Content Include="Upload\default\day_170517\201705170140411423_s.jpg" />
+    <Content Include="Upload\default\day_170517\201705170149203192.jpg" />
+    <Content Include="Upload\default\day_170517\201705170149203192_s.jpg" />
+    <Content Include="Upload\default\day_170517\201705170152133500.jpg" />
+    <Content Include="Upload\default\day_170518\201705181241424347.jpg" />
+    <Content Include="Upload\default\day_170518\201705181241424347_s.jpg" />
+    <Content Include="Upload\default\day_170518\20170518124455676.jpg" />
+    <Content Include="Upload\default\day_170518\20170518124455676_s.jpg" />
+    <Content Include="Upload\default\day_170518\thumb\20170518124455676_300_300.jpg" />
+    <Content Include="Upload\default\day_170518\thumb\20170518124455676_500_300.jpg" />
     <Content Include="Web.config" />
     <Content Include="Scripts\uploadify\uploadify.php" />
   </ItemGroup>

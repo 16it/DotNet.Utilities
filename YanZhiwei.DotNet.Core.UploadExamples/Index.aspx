@@ -11,7 +11,7 @@
     <form id="form1" runat="server">
         <div>
             <a href="FormUploadify.aspx">FormUploadify</a><br />
-               <a href="/upload/unit/day_111121/Thumb/201705170140411423_500_300.jpg.axd">ThumbnailImage</a><br />
+               <a href="upload\default\day_170518\thumb\20170518124455676_500_300.jpg.axd">ThumbnailImage</a><br />
         </div>
     </form>
 </body>
