@@ -40,7 +40,7 @@ namespace YanZhiwei.DotNet.Core.UploadExamples.BackHandler
 
             if (string.IsNullOrEmpty(context.Request["thumbs"]))
             {
-                this.MakeThumbnail(filePath, "s", context.Request["thumbwidth"].ToInt32OrDefault(85), context.Request["thumbheight"].ToInt32OrDefault(85), string.IsNullOrEmpty(context.Request["mode"]) ? ThumbnailImageCutMode.H : context.Request["mode"]);
+                this.MakeThumbnail(filePath, "s", context.Request["thumbwidth"].ToInt32OrDefault(85), context.Request["thumbheight"].ToInt32OrDefault(85), GetThumbImageSizeMode(context.Request["mode"]));
             }
             else
             {
@@ -49,16 +49,28 @@ namespace YanZhiwei.DotNet.Core.UploadExamples.BackHandler
                 foreach (var thumb in thumbs.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     var thumbparts = thumb.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    this.MakeThumbnail(filePath, thumbparts[0], thumbparts[1].ToInt32OrDefault(0), thumbparts[2].ToInt32OrDefault(0), thumbparts[3]);
+                    this.MakeThumbnail(filePath, thumbparts[0], thumbparts[1].ToInt32OrDefault(0), thumbparts[2].ToInt32OrDefault(0), GetThumbImageSizeMode(thumbparts[3]));
                 }
             }
+        }
+
+        private ThumbnailImageCutMode GetThumbImageSizeMode(string cutMode)
+        {
+            if (!string.IsNullOrEmpty(cutMode))
+            {
+                if (EnumHelper.CheckedContainEnumName<ThumbnailImageCutMode>(cutMode))
+                {
+                    return EnumHelper.ParseEnumName<ThumbnailImageCutMode>(cutMode);
+                }
+            }
+            return ThumbnailImageCutMode.Cut;
         }
 
         private void MakeThumbnail(string filePath, string suffix, int width, int height, ThumbnailImageCutMode mode)
         {
             string fileExt = filePath.Substring(filePath.LastIndexOf('.'));
             string fileHead = filePath.Substring(0, filePath.LastIndexOf('.'));
-            var thumbPath = string.Format("{0}_{1}{2}", fileHead, suffix, fileExt); 
+            var thumbPath = string.Format("{0}_{1}{2}", fileHead, suffix, fileExt);
             ThumbnailHelper.MakeThumbnail(filePath, thumbPath, width, height, mode, false, 88);
         }
     }
