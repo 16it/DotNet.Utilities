@@ -51,11 +51,11 @@
     <Compile Include="CacheProviderItem.cs" />
     <Compile Include="ConfigFileBase.cs" />
     <Compile Include="ConfigNodeBase.cs" />
-    <Compile Include="DirType.cs" />
+    <Compile Include="UploadSaveDirType.cs" />
     <Compile Include="DownloadConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThumbnailSize.cs" />
-    <Compile Include="Timming.cs" />
+    <Compile Include="ThumbnailTimming.cs" />
     <Compile Include="UploadConfig.cs" />
     <Compile Include="UploadFolder.cs" />
   </ItemGroup>

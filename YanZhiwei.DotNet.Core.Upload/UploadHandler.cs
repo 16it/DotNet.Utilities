@@ -166,22 +166,22 @@
             string _filePath = string.Empty;
             string _folder = context.Request["subfolder"] ?? "default";
             UploadFolder _uploadFolderConfig = UploadConfigContext.UploadConfig.UploadFolders.FirstOrDefault(u => string.Equals(_folder, u.Path, StringComparison.OrdinalIgnoreCase));
-            DirType _dirType = _uploadFolderConfig == null ? DirType.Day : _uploadFolderConfig.DirType;
+            UploadSaveDirType _dirType = _uploadFolderConfig == null ? UploadSaveDirType.Day : _uploadFolderConfig.DirType;
             string _subFolder = string.Empty;
             string _fileFolder = string.Empty;
 
             //根据配置里的DirType决定子文件夹的层次（月，天，扩展名）
             switch(_dirType)
             {
-                case DirType.Month:
+                case UploadSaveDirType.Month:
                     _subFolder = "month_" + DateTime.Now.ToString("yyMM");
                     break;
 
-                case DirType.Ext:
+                case UploadSaveDirType.Ext:
                     _subFolder = "ext_" + fileExt;
                     break;
 
-                case DirType.Day:
+                case UploadSaveDirType.Day:
                     _subFolder = "day_" + DateTime.Now.ToString("yyMMdd");
                     break;
             }

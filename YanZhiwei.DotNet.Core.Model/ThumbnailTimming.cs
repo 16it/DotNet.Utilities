@@ -2,8 +2,11 @@
 
 namespace YanZhiwei.DotNet.Core.Model
 {
+    /// <summary>
+    /// 缩略图生成时序
+    /// </summary>
     [Flags]
-    public enum Timming
+    public enum ThumbnailTimming
     {
         /// <summary>
         /// 延时生成

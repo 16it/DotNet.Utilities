@@ -127,7 +127,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         private bool CheckedOnDemandCreateThumbnail(string folder, string width, string height, out string key)
         {
             key = string.Format("{0}_{1}_{2}", folder, width, height).ToLower();
-            return UploadConfigContext.ThumbnailConfigDic.ContainsKey(key) && UploadConfigContext.ThumbnailConfigDic[key].Timming == Timming.OnDemand;
+            return UploadConfigContext.ThumbnailConfigDic.ContainsKey(key) && UploadConfigContext.ThumbnailConfigDic[key].Timming == ThumbnailTimming.OnDemand;
         }
 
         /// <summary>

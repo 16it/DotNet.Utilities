@@ -18,7 +18,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// </summary>
         /// <param name="imagefilePath">图片路径</param>
         /// <param name="timming">生成方式</param>
-        public static void HandleThumbnail(string imagefilePath, Timming timming)
+        public static void HandleThumbnail(string imagefilePath, ThumbnailTimming timming)
         {
             FileProperties _fileInfo = FileHelper.GetFileInfo(imagefilePath, @"^(.*)\\upload\\(.+)\\(day_\d+)\\(\d+)(\.[A-Za-z]+)$");
 
@@ -52,7 +52,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// <param name="imagefilePath">图片路径</param>
         public static void HandleImmediateThumbnail(string imagefilePath)
         {
-            HandleThumbnail(imagefilePath, Timming.Immediate);
+            HandleThumbnail(imagefilePath, ThumbnailTimming.Immediate);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace YanZhiwei.DotNet.Core.Upload
             _watcher.IncludeSubdirectories = true;
             _watcher.Created += (s, e) =>
             {
-                HandleThumbnail(e.FullPath, Timming.Lazy);
+                HandleThumbnail(e.FullPath, ThumbnailTimming.Lazy);
             };
             _watcher.EnableRaisingEvents = true;
 
@@ -108,7 +108,7 @@ namespace YanZhiwei.DotNet.Core.Upload
 
                         foreach (var size in group.ThumbnailSizes)
                         {
-                            if (size.Timming != Timming.Lazy)
+                            if (size.Timming != ThumbnailTimming.Lazy)
                                 continue;
 
                             string _thumbnailFilePath = string.Format("{0}\\thumb\\{1}_{2}_{3}{4}",
