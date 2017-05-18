@@ -1,10 +1,12 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
+    using System;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
-
-    using YanZhiwei.DotNet2.Utilities.Operator;
+    using System.IO;
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.Result;
     using YanZhiwei.DotNet3._5.Utilities.Enum;
 
     /// <summary>
@@ -21,9 +23,9 @@
         /// <param name="thumbnailPath">缩略图路径（物理路径）</param>
         /// <param name="width">缩略图宽度</param>
         /// <param name="height">缩略图高度</param>>
-        public static void BuilderThumbnails(string originalImagePath, string thumbnailPath, int width, int height)
+        public static OperatedResult<string> BuilderThumbnails(string originalImagePath, string thumbnailPath, int width, int height)
         {
-            BuilderThumbnails(originalImagePath, thumbnailPath, width, height, ThumbnailImageCutMode.Cut, false, WatermarkImagesPosition.Default, null, 75);
+            return BuilderThumbnails(originalImagePath, thumbnailPath, width, height, ThumbnailImageCutMode.Cut, false, WatermarkImagesPosition.Default, null, 75);
         }
 
         /// <summary>
@@ -37,13 +39,12 @@
         /// <param name="isaddwatermark">是否添加水印</param>
         /// <param name="quality">图片品质</param>
         /// <param name="imagePosition">水印位置</param>
-        /// <param name="waterImagePath">水印图片名称</param>
-        public static void BuilderThumbnails(string originalImagePath, string thumbnailPath, int specifiedwidth, int specifiedheight, ThumbnailImageCutMode mode, bool isaddwatermark, WatermarkImagesPosition imagePosition, string waterImagePath, int quality)
+        /// <param name="waterImagePath">水印图片路径（物理路径）</param>
+        public static OperatedResult<string> BuilderThumbnails(string originalImagePath, string thumbnailPath, int specifiedwidth, int specifiedheight, ThumbnailImageCutMode mode, bool isaddwatermark, WatermarkImagesPosition imagePosition, string waterImagePath, int quality)
         {
-            ValidateOperator.Begin().CheckFileExists(originalImagePath).IsFilePath(thumbnailPath);
-
-            if (isaddwatermark)
-                ValidateOperator.Begin().CheckFileExists(waterImagePath);
+            CheckResult _checkedThumbnailsParamter = CheckedThumbnailsParamter(originalImagePath, thumbnailPath, isaddwatermark, waterImagePath);
+            if (!_checkedThumbnailsParamter.State)
+                return OperatedResult<string>.Fail(_checkedThumbnailsParamter.Message);
 
             Image _originalImage = Image.FromFile(originalImagePath);
             int _cutedWidth = specifiedwidth;
@@ -131,12 +132,68 @@
                 ImageCodecInfo _jpegICI = SetThumbnailImageQuality(quality, out _encoderParams);
                 SaveThumbnailImage(thumbnailPath, _thumbnailImage, _jpegICI, _encoderParams);
             }
+            catch (Exception ex)
+            {
+                OperatedResult<string>.Fail(string.Format("生成缩略图失败，原因:{0}", ex.Message));
+            }
             finally
             {
                 _originalImage.Dispose();
                 _thumbnailImage.Dispose();
                 _g.Dispose();
             }
+            return OperatedResult<string>.Success(string.Format("生成{0}的缩略图成功", originalImagePath), thumbnailPath);
+        }
+
+        /// <summary>
+        /// 检查图片参数
+        /// </summary>
+        /// <param name="originalImagePath">原始图片路径</param>
+        /// <param name="thumbnailPath">存储的缩略图</param>
+        /// <param name="isaddwatermark">是否是添加水印图片</param>
+        /// <param name="waterImagePath">水印图片的路径</param>
+        /// <returns></returns>
+        private static CheckResult CheckedThumbnailsParamter(string originalImagePath, string thumbnailPath, bool isaddwatermark, string waterImagePath)
+        {
+            CheckResult _checkedOriginalImage = CheckedImageParamter(originalImagePath, true);
+            if (!_checkedOriginalImage.State)
+                return _checkedOriginalImage;
+
+            CheckResult _checkedThumbnailPath = CheckedImageParamter(thumbnailPath, false);
+            if (!_checkedThumbnailPath.State)
+                return _checkedThumbnailPath;
+
+            if (isaddwatermark)
+            {
+                CheckResult _checkedWaterImage = CheckedImageParamter(waterImagePath, true);
+                if (!_checkedWaterImage.State)
+                    return _checkedWaterImage;
+            }
+            return CheckResult.Success();
+        }
+
+        /// <summary>
+        /// 检查图片参数，1.是否是合法路径，2.是否物理存在，3.是否是图片后缀
+        /// </summary>
+        /// <param name="imagePath">图片路径</param>
+        /// <param name="checkedFileExist">是否检查物理存在</param>
+        /// <returns>检验是否合法</returns>
+        private static CheckResult CheckedImageParamter(string imagePath, bool checkedFileExist)
+        {
+            if (!CheckHelper.IsFilePath(imagePath))
+            {
+                return CheckResult.Fail(string.Format("{0}是非法路径。", imagePath));
+            }
+            if (checkedFileExist && !File.Exists(imagePath))
+            {
+                return CheckResult.Fail(string.Format("{0}并非实际存在。", imagePath));
+            }
+            string _imageExt = FileHelper.GetFileEx(imagePath);
+            if (!FileHelper.CheckValidExt(ImageHelper.AllowExt, _imageExt))
+            {
+                return CheckResult.Fail(string.Format("{0}并非图片格式，目前支持的图片格式：{1}。", imagePath, ImageHelper.AllowExt));
+            }
+            return CheckResult.Success();
         }
 
         /// <summary>
