@@ -93,10 +93,6 @@
       <Project>{fce5db97-96ec-4e53-bc19-eee6f2aa88e0}</Project>
       <Name>YanZhiwei.DotNet3.5.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.Framework.Common\YanZhiwei.DotNet.Framework.Contract.csproj">
-      <Project>{5cd641fa-33ba-4fa3-9df4-97a0c2e53e14}</Project>
-      <Name>YanZhiwei.DotNet.Framework.Contract</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
