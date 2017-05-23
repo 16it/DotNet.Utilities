@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="ApiBaseController.cs" />
     <Compile Include="AuthApiController.cs" />
-    <Compile Include="IAuthCookie.cs" />
     <Compile Include="IAuthenticationApi.cs" />
     <Compile Include="IAuthorizationApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
