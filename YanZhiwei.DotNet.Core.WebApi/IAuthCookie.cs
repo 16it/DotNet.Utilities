@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YanZhiwei.DotNet.Core.Web
+namespace YanZhiwei.DotNet.Core.WebApi
 {
     /// <summary>
     /// 验证cookie
@@ -15,7 +15,7 @@ namespace YanZhiwei.DotNet.Core.Web
             get;
             set;
         }
-        
+
         /// <summary>
         /// 用户名称
         /// </summary>
@@ -24,7 +24,7 @@ namespace YanZhiwei.DotNet.Core.Web
             get;
             set;
         }
-        
+
         /// <summary>
         /// 用户Id
         /// </summary>
@@ -33,7 +33,7 @@ namespace YanZhiwei.DotNet.Core.Web
             get;
             set;
         }
-        
+
         /// <summary>
         /// 用户凭据
         /// </summary>
@@ -42,7 +42,7 @@ namespace YanZhiwei.DotNet.Core.Web
             get;
             set;
         }
-        
+
         /// <summary>
         /// 验证码
         /// </summary>
@@ -51,7 +51,7 @@ namespace YanZhiwei.DotNet.Core.Web
             get;
             set;
         }
-        
+
         /// <summary>
         /// 登陆错误次数
         /// </summary>
@@ -60,7 +60,7 @@ namespace YanZhiwei.DotNet.Core.Web
             get;
             set;
         }
-        
+
         /// <summary>
         /// 是否需要验证码
         /// </summary>
