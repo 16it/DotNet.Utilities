@@ -18,7 +18,7 @@ namespace YanZhiwei.DotNet.Core.Upload
         /// <summary>
         /// 文件上传配置
         /// </summary>
-        public static UploadConfig UploadConfig = CachedConfigContext.Current.UploadConfig;
+        public static UploadConfig UploadConfig = CachedConfigContext.Instance.UploadConfig;
         
         static UploadConfigContext()
         {
@@ -39,7 +39,7 @@ namespace YanZhiwei.DotNet.Core.Upload
                     {
                         if(uploadPath == null)
                         {
-                            uploadPath = CachedConfigContext.Current.UploadConfig.UploadPath ?? string.Empty;
+                            uploadPath = CachedConfigContext.Instance.UploadConfig.UploadPath ?? string.Empty;
                             
                             if(HttpContext.Current != null)
                             {

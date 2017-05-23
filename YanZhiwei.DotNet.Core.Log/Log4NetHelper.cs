@@ -18,7 +18,7 @@
         
         static Log4NetHelper()
         {
-            string _log4NetXmlConfg = CachedConfigContext.Current.ConfigService.GetConfig("Log4net");
+            string _log4NetXmlConfg = CachedConfigContext.Instance.ConfigService.GetConfig("Log4net");
             ValidateOperator.Begin().NotNullOrEmpty(_log4NetXmlConfg, "log4net配置文件");
             
             using(MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(_log4NetXmlConfg)))

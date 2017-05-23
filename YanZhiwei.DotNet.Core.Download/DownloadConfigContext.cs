@@ -14,7 +14,7 @@ namespace YanZhiwei.DotNet.Core.Download
         /// <summary>
         /// 文件下载配置
         /// </summary>
-        public static DownloadConfig downloadConfig = CachedConfigContext.Current.DownloadConfig;
+        public static DownloadConfig downloadConfig = CachedConfigContext.Instance.DownloadConfig;
 
         private static string fileNameEncryptorKey = null;
 

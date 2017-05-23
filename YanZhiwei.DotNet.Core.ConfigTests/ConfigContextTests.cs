@@ -10,7 +10,7 @@ namespace YanZhiwei.DotNet.Core.Config.Tests
         public void GetTest()
         {
             ConfigContext _configContext = new ConfigContext();
-            DaoConfig _daoConfig = CachedConfigContext.Current.Get<DaoConfig>();
+            DaoConfig _daoConfig = CachedConfigContext.Instance.Get<DaoConfig>();
             string _expect = @"Data Source=YANZHIWEI-IT-PC\SQLEXPRESS;Initial Catalog=GMSLog;Persist Security Info=True;User ID=sa;Password=sasa";
             Assert.AreEqual(_expect, _daoConfig.Log);
         }

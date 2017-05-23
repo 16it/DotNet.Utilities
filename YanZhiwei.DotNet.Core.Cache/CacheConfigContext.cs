@@ -83,7 +83,7 @@
         {
             get
             {
-                return CachedConfigContext.Current.CacheConfig;
+                return CachedConfigContext.Instance.CacheConfig;
             }
         }
 
