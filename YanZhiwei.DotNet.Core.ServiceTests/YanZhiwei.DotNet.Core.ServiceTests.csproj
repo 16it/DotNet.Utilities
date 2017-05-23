@@ -60,10 +60,6 @@
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.Core.Service\YanZhiwei.DotNet.Core.Service.csproj">
-      <Project>{BC9420F6-A104-415E-A1ED-EF4EAB593833}</Project>
-      <Name>YanZhiwei.DotNet.Core.Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.Core.Cache\YanZhiwei.DotNet.Core.Cache.csproj">
       <Project>{30104ac9-1c35-468d-8e43-8309e5b9cbe3}</Project>
       <Name>YanZhiwei.DotNet.Core.Cache</Name>
