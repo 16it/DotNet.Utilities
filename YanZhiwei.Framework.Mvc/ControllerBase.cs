@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.Framework.Mvc
+﻿namespace YanZhiwei.DotNet.Framework.Mvc
 {
     using DotNet.Framework.Contract;
     using DotNet2.Utilities.WebForm;

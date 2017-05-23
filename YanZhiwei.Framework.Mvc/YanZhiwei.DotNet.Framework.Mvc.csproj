@@ -7,8 +7,8 @@
     <ProjectGuid>{39B3F1BF-ACC2-4D6B-B405-58FC723AC1AB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.Framework.Mvc</RootNamespace>
-    <AssemblyName>Framework.Mvc</AssemblyName>
+    <RootNamespace>YanZhiwei.DotNet.Framework.Mvc</RootNamespace>
+    <AssemblyName>DotNet.Framework.Mvc</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Debug\Framework.Mvc.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\DotNet.Framework.Mvc.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
