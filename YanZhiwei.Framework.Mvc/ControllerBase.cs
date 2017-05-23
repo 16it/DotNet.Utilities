@@ -93,17 +93,17 @@
         /// <summary>
         /// 页面返回
         /// </summary>
-        /// <param name="msg">需要弹出的消息</param>
+        /// <param name="message">需要弹出的消息</param>
         /// <param name="url">需要返回连接</param>
         /// <returns>ContentResult</returns>
         /// 时间：2016-01-14 17:22
         /// 备注：
-        public ContentResult PageReturn(string msg, string url = null)
+        public ContentResult PageReturn(string message, string url = null)
         {
             StringBuilder _builder = new StringBuilder("<script type='text/javascript'>");
 
-            if(!string.IsNullOrEmpty(msg))
-                _builder.AppendFormat("alert('{0}');", msg);
+            if(!string.IsNullOrEmpty(message))
+                _builder.AppendFormat("alert('{0}');", message);
 
             if(string.IsNullOrWhiteSpace(url))
                 url = Request.Url.ToString();

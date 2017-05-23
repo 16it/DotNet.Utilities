@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet.Framework.Contract
 {
     using System;
-    
+
     /// <summary>
     /// 操作者
     /// </summary>
@@ -11,7 +11,7 @@
     public class Operater
     {
         #region Constructors
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -21,11 +21,11 @@
         {
             this.Name = "Anonymous";
         }
-        
+
         #endregion Constructors
-        
+
         #region Properties
-        
+
         /// <summary>
         /// 访问Ip
         /// </summary>
@@ -34,7 +34,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// Method
         /// </summary>
@@ -43,7 +43,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 操作者
         /// </summary>
@@ -52,7 +52,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 时间
         /// </summary>
@@ -61,7 +61,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 凭据
         /// </summary>
@@ -70,7 +70,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 用户主键
         /// </summary>
@@ -79,8 +79,7 @@
             get;
             set;
         }
-        
-        
+
         /// <summary>
         /// 用户主键GUID
         /// </summary>
@@ -91,7 +90,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 用户主键Base64字符串
         /// </summary>
@@ -100,6 +99,7 @@
             get;
             set;
         }
+
         #endregion Properties
     }
 }

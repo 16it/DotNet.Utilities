@@ -7,9 +7,9 @@
     /// </summary>
     public class AuthorizeIgnoreAttribute : Attribute
     {
-        #region Constructors
+        #region Constructors       
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthorizeIgnoreAttribute"/> class.
+        /// 构造函数
         /// </summary>
         public AuthorizeIgnoreAttribute()
         {
