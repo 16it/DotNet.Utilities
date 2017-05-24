@@ -51,6 +51,7 @@
     <Compile Include="CacheProviderItem.cs" />
     <Compile Include="ConfigFileBase.cs" />
     <Compile Include="ConfigNodeBase.cs" />
+    <Compile Include="SystemConfig.cs" />
     <Compile Include="UploadSaveDirType.cs" />
     <Compile Include="DownloadConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
