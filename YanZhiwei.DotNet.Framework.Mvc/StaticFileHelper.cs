@@ -1,12 +1,12 @@
-﻿namespace YanZhiwei.DotNet.Mvc.Utilities
+﻿using System;
+using System.Web;
+using System.Web.Mvc;
+using YanZhiwei.DotNet2.Utilities.Common;
+using YanZhiwei.DotNet2.Utilities.Enum;
+using YanZhiwei.DotNet2.Utilities.Operator;
+
+namespace YanZhiwei.DotNet.Framework.Mvc
 {
-    using System;
-    using System.Web;
-    using System.Web.Mvc;
-    
-    using DotNet2.Utilities.Enum;
-    using DotNet2.Utilities.Operator;
-    
     /// <summary>
     ///  文件服务器分离，需要得到文件服务器上文件的地址
     /// </summary>
@@ -72,7 +72,7 @@
             var _jsAndCssFileEdition = _appConfig.GetSetting("JsAndCssFileEdition");
             
             if(string.IsNullOrEmpty(_jsAndCssFileEdition))
-                _jsAndCssFileEdition = Guid.NewGuid().ToString();
+                _jsAndCssFileEdition = StringHelper.Unique();
                 
             path += string.Format("?v={0}", _jsAndCssFileEdition);
             return helper.StaticFile(path);
@@ -91,8 +91,9 @@
                 return string.Empty;
             }
             
-            if(path.StartsWith("~"))
+            if(path.StartsWith("~", StringComparison.OrdinalIgnoreCase))
                 return helper.Content(path);
+                
             else
                 return GetStaticServiceUri() + path;
         }
@@ -100,7 +101,7 @@
         /// <summary>
         /// 得到文件服务器根网址
         /// </summary>
-        /// <param name="helper"></param>
+        /// <param name="helper">UrlHelper</param>
         /// <returns>服务器根网址</returns>
         public static string StaticFile(this UrlHelper helper)
         {
