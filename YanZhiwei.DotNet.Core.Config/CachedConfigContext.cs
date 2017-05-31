@@ -78,10 +78,21 @@
                 return this.Get<SystemConfig>();
             }
         }
+
+        /// <summary>
+        /// 网站配置
+        /// </summary>
+        public SettingConfig SettingConfig
+        {
+            get
+            {
+                return this.Get<SettingConfig>();
+            }
+        }
         #endregion Properties
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 重写基类的取配置，加入缓存机制
         /// </summary>
