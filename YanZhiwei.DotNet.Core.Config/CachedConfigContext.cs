@@ -20,7 +20,7 @@
         {
             get
             {
-                return Singleton<CachedConfigContext>.GetInstance();
+                return Singleton<CachedConfigContext>.Instance();
             }
         }
         
