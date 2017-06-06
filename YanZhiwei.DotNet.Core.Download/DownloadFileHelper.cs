@@ -19,7 +19,7 @@ namespace YanZhiwei.DotNet.Core.Download
         {
             get
             {
-                return Singleton<DownloadFileHelper>.Instance();
+                return Singleton<DownloadFileHelper>.Instance;
             }
         }
 
