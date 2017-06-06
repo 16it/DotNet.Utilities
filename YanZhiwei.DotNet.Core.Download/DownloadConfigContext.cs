@@ -1,5 +1,5 @@
 ﻿using YanZhiwei.DotNet.Core.Config;
-using YanZhiwei.DotNet.Core.Model;
+using YanZhiwei.DotNet.Core.Config.Model;
 using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet.Core.Download

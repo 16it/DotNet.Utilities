@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace YanZhiwei.DotNet.Core.Model
+namespace YanZhiwei.DotNet.Core.Config.Model
 {
     [Serializable]
     public class UploadConfig : ConfigFileBase

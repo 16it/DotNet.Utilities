@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet.Core.Cache.Model
 {
-    using Core.Model;
+    using YanZhiwei.DotNet.Core.Config.Model;
 
     /// <summary>
     /// 缓存项

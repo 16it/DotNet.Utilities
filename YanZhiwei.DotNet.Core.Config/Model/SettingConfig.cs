@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YanZhiwei.DotNet.Core.Model
+namespace YanZhiwei.DotNet.Core.Config.Model
 {
     /// <summary>
     /// 网站基本信息

@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet.Core.Model
+﻿namespace YanZhiwei.DotNet.Core.Config.Model
 {
     /// <summary>
     /// 配置节点基类

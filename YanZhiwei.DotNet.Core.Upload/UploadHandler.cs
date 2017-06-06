@@ -5,8 +5,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Web;
-
-    using YanZhiwei.DotNet.Core.Model;
+    using YanZhiwei.DotNet.Core.Config.Model;
     using YanZhiwei.DotNet2.Utilities.Result;
 
     /// <summary>
@@ -124,7 +123,7 @@
             //当然filename参数可以包含路径信息，但User - Agnet会忽略掉这些信息，只会把路径信息的最后一部分做为文件名。当你在响应类型为application / octet - stream情况下使用了这个头信息的话，那就意味着你不想直接显示内容，而是弹出一个”文件下载”的对话框，接下来就是由你来决定“打开”还是“保存”了。
             //如: Response.AppendHeader("Content-Disposition", "attachment;filename=MyExcel.xls");
 
-            //context.Request["subfolder"] ?? "default"; 
+            //context.Request["subfolder"] ?? "default";
             context.Response.Charset = "UTF-8";
             byte[] _fileBuffer;
             string _localFileName = string.Empty;
@@ -137,7 +136,7 @@
             CheckResult _checkUploadFileResult = CheckedUploadFile(_fileBuffer, _fileExt);
             _errMessage = _checkUploadFileResult.Message;
 
-            if(_checkUploadFileResult.State)
+            if (_checkUploadFileResult.State)
             {
                 _filePath = BuilderUploadFilePath(context, _fileExt);
                 ReceiveUploadFile(_fileBuffer, _filePath);
@@ -171,7 +170,7 @@
             string _fileFolder = string.Empty;
 
             //根据配置里的DirType决定子文件夹的层次（月，天，扩展名）
-            switch(_dirType)
+            switch (_dirType)
             {
                 case UploadSaveDirType.Month:
                     _subFolder = "month_" + DateTime.Now.ToString("yyMM");
@@ -193,7 +192,7 @@
                                      string.Format("{0}{1}.{2}", DateTime.Now.ToString("yyyyMMddhhmmss"), new Random(DateTime.Now.Millisecond).Next(10000), fileExt)
                                     );
 
-            if(!Directory.Exists(_fileFolder))
+            if (!Directory.Exists(_fileFolder))
                 Directory.CreateDirectory(_fileFolder);
 
             return _filePath;
@@ -207,17 +206,17 @@
         /// <returns>是否合法</returns>
         private CheckResult CheckedUploadFile(byte[] fileBuffer, string fileExt)
         {
-            if(fileBuffer.Length == 0)
+            if (fileBuffer.Length == 0)
             {
                 return CheckResult.Fail("无数据提交");
             }
 
-            if(fileBuffer.Length > this.MaxFilesize)
+            if (fileBuffer.Length > this.MaxFilesize)
             {
                 return CheckResult.Fail("文件大小超过" + this.MaxFilesize + "字节");
             }
 
-            if(!AllowExt.Contains(fileExt))
+            if (!AllowExt.Contains(fileExt))
             {
                 return CheckResult.Fail("上传文件扩展名必需为：" + string.Join(",", AllowExt));
             }
@@ -237,7 +236,7 @@
             byte[] _fileBuffer = null;
             localFileName = string.Empty;
 
-            if(disposition != null)
+            if (disposition != null)
             {
                 // HTML5上传
                 _fileBuffer = context.Request.BinaryRead(context.Request.TotalBytes);
@@ -259,18 +258,18 @@
             localFileName = string.Empty;
             byte[] _fileBuffer = null;
 
-            if(disposition == null)
+            if (disposition == null)
             {
                 HttpFileCollection _filecollection = context.Request.Files;
                 HttpPostedFile _postedfile = _filecollection.Get(this.FileInputName);
                 localFileName = Path.GetFileName(_postedfile.FileName);
                 _fileBuffer = new byte[_postedfile.ContentLength];
 
-                using(Stream stream = _postedfile.InputStream)
+                using (Stream stream = _postedfile.InputStream)
                 {
                     stream.Read(_fileBuffer, 0, _postedfile.ContentLength);
 
-                    if(_filecollection != null)
+                    if (_filecollection != null)
                         _filecollection = null;
                 }
             }
@@ -286,7 +285,7 @@
         private void HanlderUploadImageFile(string filePath, string fileExt)
         {
             //是图片，即使生成对应尺寸
-            if(ImageExt.Contains(fileExt))
+            if (ImageExt.Contains(fileExt))
                 ThumbnailService.HandleImmediateThumbnail(filePath);
         }
 
@@ -297,7 +296,7 @@
         /// <param name="filePath">保存路径</param>
         private void ReceiveUploadFile(byte[] fileBuffer, string filePath)
         {
-            using(FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
                 fileStream.Write(fileBuffer, 0, fileBuffer.Length);
                 fileStream.Flush();

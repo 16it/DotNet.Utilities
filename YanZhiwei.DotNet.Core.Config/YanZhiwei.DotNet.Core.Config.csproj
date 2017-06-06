@@ -54,13 +54,23 @@
     <Compile Include="ConfigContext.cs" />
     <Compile Include="FileConfigService.cs" />
     <Compile Include="IConfigService.cs" />
+    <Compile Include="Model\AuthWebApiConfig.cs" />
+    <Compile Include="Model\CacheConfig.cs" />
+    <Compile Include="Model\CacheConfigItem.cs" />
+    <Compile Include="Model\CacheProviderItem.cs" />
+    <Compile Include="Model\ConfigFileBase.cs" />
+    <Compile Include="Model\ConfigNodeBase.cs" />
+    <Compile Include="Model\DownloadConfig.cs" />
+    <Compile Include="Model\SettingConfig.cs" />
+    <Compile Include="Model\SystemConfig.cs" />
+    <Compile Include="Model\ThumbnailSize.cs" />
+    <Compile Include="Model\ThumbnailTimming.cs" />
+    <Compile Include="Model\UploadConfig.cs" />
+    <Compile Include="Model\UploadFolder.cs" />
+    <Compile Include="Model\UploadSaveDirType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Model\YanZhiwei.DotNet.Core.Model.csproj">
-      <Project>{26fc1441-a657-4d9d-8813-a52dac3387d7}</Project>
-      <Name>YanZhiwei.DotNet.Core.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>

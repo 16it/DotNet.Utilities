@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using YanZhiwei.DotNet3._5.Utilities.Enum;
 
-namespace YanZhiwei.DotNet.Core.Model
+namespace YanZhiwei.DotNet.Core.Config.Model
 {
     /// <summary>
     /// 缩略图配置规则

@@ -50,10 +50,6 @@
       <Project>{6dabf7b8-c072-43cd-8876-3d2aaedb7a43}</Project>
       <Name>YanZhiwei.DotNet.Core.Config</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Model\YanZhiwei.DotNet.Core.Model.csproj">
-      <Project>{26fc1441-a657-4d9d-8813-a52dac3387d7}</Project>
-      <Name>YanZhiwei.DotNet.Core.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>

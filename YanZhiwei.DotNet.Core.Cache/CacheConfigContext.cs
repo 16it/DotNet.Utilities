@@ -1,7 +1,6 @@
 ﻿namespace YanZhiwei.DotNet.Core.Cache
 {
     using Config;
-    using Core.Model;
     using DotNet2.Utilities.Operator;
     using Model;
     using System;
@@ -10,6 +9,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using YanZhiwei.DotNet.Core.Config.Model;
 
     /// <summary>
     /// 缓存配置上下文
@@ -52,15 +52,15 @@
         {
             get
             {
-                if(moduleName == null)
+                if (moduleName == null)
                 {
-                    lock(syncObject)
+                    lock (syncObject)
                     {
-                        if(moduleName == null)
+                        if (moduleName == null)
                         {
                             Assembly _entryAssembly = Assembly.GetEntryAssembly();
 
-                            if(_entryAssembly != null)
+                            if (_entryAssembly != null)
                             {
                                 moduleName = _entryAssembly.FullName;
                             }
@@ -94,15 +94,15 @@
         {
             get
             {
-                if(cacheProviders == null)
+                if (cacheProviders == null)
                 {
-                    lock(syncObject)
+                    lock (syncObject)
                     {
-                        if(cacheProviders == null)
+                        if (cacheProviders == null)
                         {
                             cacheProviders = new Dictionary<string, ICacheProvider>();
 
-                            foreach(var i in CacheConfig.CacheProviderItems)
+                            foreach (var i in CacheConfig.CacheProviderItems)
                             {
                                 cacheProviders.Add(i.Name, (ICacheProvider)Activator.CreateInstance(Type.GetType(i.Type)));
                             }
@@ -121,15 +121,15 @@
         {
             get
             {
-                if(wrapCacheConfigItems == null)
+                if (wrapCacheConfigItems == null)
                 {
-                    lock(syncObject)
+                    lock (syncObject)
                     {
-                        if(wrapCacheConfigItems == null)
+                        if (wrapCacheConfigItems == null)
                         {
                             wrapCacheConfigItems = new List<WrapCacheConfigItem>();
 
-                            foreach(var i in CacheConfig.CacheConfigItems)
+                            foreach (var i in CacheConfig.CacheConfigItems)
                             {
                                 WrapCacheConfigItem _cacheWrapConfigItem = new WrapCacheConfigItem();
                                 _cacheWrapConfigItem.CacheConfigItem = i;
@@ -157,10 +157,10 @@
         /// <exception cref="System.Exception"></exception>
         public static WrapCacheConfigItem GetCurrentWrapCacheConfigItem(string key)
         {
-            if(wrapCacheConfigItemDic == null)
+            if (wrapCacheConfigItemDic == null)
                 wrapCacheConfigItemDic = new Dictionary<string, WrapCacheConfigItem>();
 
-            if(wrapCacheConfigItemDic.ContainsKey(key))
+            if (wrapCacheConfigItemDic.ContainsKey(key))
                 return wrapCacheConfigItemDic[key];
 
             WrapCacheConfigItem _currentWrapCacheConfigItem = WrapCacheConfigItems.Where(i =>
@@ -169,9 +169,9 @@
                     .OrderByDescending(i => i.CacheConfigItem.Priority).FirstOrDefault();
             ValidateOperator.Begin().NotNull(_currentWrapCacheConfigItem, string.Format("依据'{0}'获取缓存配置项异常！", key));
 
-            lock(syncObject)
+            lock (syncObject)
             {
-                if(!wrapCacheConfigItemDic.ContainsKey(key))
+                if (!wrapCacheConfigItemDic.ContainsKey(key))
                     wrapCacheConfigItemDic.Add(key, _currentWrapCacheConfigItem);
             }
 

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
-using YanZhiwei.DotNet.Core.Model;
+using YanZhiwei.DotNet.Core.Config.Model;
 using YanZhiwei.DotNet2.Utilities.Result;
 using YanZhiwei.DotNet3._5.Utilities.WebForm;
 

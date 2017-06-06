@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YanZhiwei.DotNet.Core.Model
+namespace YanZhiwei.DotNet.Core.Config.Model
 {
     /// <summary>
     /// WEB API 用户令牌验证实体类

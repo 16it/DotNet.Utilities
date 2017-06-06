@@ -1,4 +1,4 @@
-﻿using YanZhiwei.DotNet.Core.Model;
+﻿using YanZhiwei.DotNet.Core.Config.Model;
 using YanZhiwei.DotNet3._5.Utilities.Enum;
 using YanZhiwei.DotNet3._5.Utilities.WebForm.Core;
 
