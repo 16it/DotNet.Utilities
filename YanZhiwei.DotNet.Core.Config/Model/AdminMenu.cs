@@ -3,9 +3,15 @@ using System.Xml.Serialization;
 
 namespace YanZhiwei.DotNet.Core.Config.Model
 {
+    /// <summary>
+    /// 后台菜单
+    /// </summary>
     [Serializable]
     public class AdminMenu
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         [XmlAttribute("id")]
         public string Id
         {
@@ -13,6 +19,9 @@ namespace YanZhiwei.DotNet.Core.Config.Model
             set;
         }
 
+        /// <summary>
+        /// 菜单名称
+        /// </summary>
         [XmlAttribute("name")]
         public string Name
         {
@@ -20,6 +29,9 @@ namespace YanZhiwei.DotNet.Core.Config.Model
             set;
         }
 
+        /// <summary>
+        /// 链接
+        /// </summary>
         [XmlAttribute("url")]
         public string Url
         {
@@ -27,6 +39,9 @@ namespace YanZhiwei.DotNet.Core.Config.Model
             set;
         }
 
+        /// <summary>
+        /// 菜单信息
+        /// </summary>
         [XmlAttribute("info")]
         public string Info
         {
@@ -34,6 +49,9 @@ namespace YanZhiwei.DotNet.Core.Config.Model
             set;
         }
 
+        /// <summary>
+        /// 菜单权限
+        /// </summary>
         [XmlAttribute("permission")]
         public string Permission
         {
