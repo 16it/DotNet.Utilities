@@ -112,7 +112,19 @@ namespace YanZhiwei.DotNet2.Utilities.Core
         
         private static Type bmpType = typeof(System.Drawing.Bitmap);
         private static Type emfType = typeof(System.Drawing.Imaging.Metafile);
-        
+
+        /// <summary>
+        /// Froms the file.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception">
+        /// GDI+ threw a status error code.
+        /// or
+        /// GDI+ couldn't get the image type
+        /// or
+        /// Couldn't convert underlying GDI+ object to managed object
+        /// </exception>
         public static Image FromFile(string filename)
         {
             filename = Path.GetFullPath(filename);

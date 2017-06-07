@@ -4,19 +4,31 @@ using System.Xml.Serialization;
 
 namespace YanZhiwei.DotNet.Core.Config.Model
 {
+    /// <summary>
+    /// 文件上传配置
+    /// </summary>
+    /// <seealso cref="YanZhiwei.DotNet.Core.Config.Model.ConfigFileBase" />
     [Serializable]
     public class UploadConfig : ConfigFileBase
     {
+        /// <summary>
+        /// 默认构造函数
+        /// </summary>
         public UploadConfig()
         {
         }
-        
+        /// <summary>
+        /// 上传目标存储文件夹
+        /// </summary>
         public List<UploadFolder> UploadFolders
         {
             get;
             set;
         }
-        
+
+        /// <summary>
+        /// 上传路径
+        /// </summary>
         [XmlAttribute("UploadPath")]
         public string UploadPath
         {

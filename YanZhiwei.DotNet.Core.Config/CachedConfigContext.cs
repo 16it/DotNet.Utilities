@@ -4,14 +4,14 @@
     using YanZhiwei.DotNet.Core.Config.Model;
     using YanZhiwei.DotNet2.Utilities.DesignPattern;
     using YanZhiwei.DotNet2.Utilities.WebForm.Core;
-
+    
     /// <summary>
     /// CachedConfigContext
     /// </summary>
     public sealed class CachedConfigContext : ConfigContext
     {
         #region Properties
-
+        
         /// <summary>
         /// 单例对象
         /// </summary>
@@ -22,7 +22,7 @@
                 return Singleton<CachedConfigContext>.Instance;
             }
         }
-
+        
         /// <summary>
         /// WEB API 用户令牌验证配置项
         /// </summary>
@@ -33,7 +33,7 @@
                 return this.Get<AuthWebApiConfig>();
             }
         }
-
+        
         /// <summary>
         /// 缓存配置项
         /// </summary>
@@ -44,7 +44,7 @@
                 return this.Get<CacheConfig>();
             }
         }
-
+        
         /// <summary>
         /// 文件下载配置项
         /// </summary>
@@ -55,7 +55,7 @@
                 return this.Get<DownloadConfig>();
             }
         }
-
+        
         /// <summary>
         /// 文件上传配置项
         /// </summary>
@@ -66,7 +66,7 @@
                 return this.Get<UploadConfig>();
             }
         }
-
+        
         /// <summary>
         /// 系统配置
         /// </summary>
@@ -77,7 +77,7 @@
                 return this.Get<SystemConfig>();
             }
         }
-
+        
         /// <summary>
         /// 网站配置
         /// </summary>
@@ -88,11 +88,21 @@
                 return this.Get<SettingConfig>();
             }
         }
-
+        
+        /// <summary>
+        /// 后台菜单
+        /// </summary>
+        public AdminMenuConfig AdminMenuConfig
+        {
+            get
+            {
+                return this.Get<AdminMenuConfig>();
+            }
+        }
         #endregion Properties
-
+        
         #region Methods
-
+        
         /// <summary>
         /// 重写基类的取配置，加入缓存机制
         /// </summary>
@@ -101,11 +111,12 @@
             string _fileName = this.GetConfigFileName<T>(index),
                    _key = "ConfigFile_" + _fileName;
             object _content = CacheManger.Get(_key);
-
-            if (_content != null)
+            
+            if(_content != null)
             {
                 return (T)_content;
             }
+            
             else
             {
                 T _value = base.Get<T>(index);
@@ -113,7 +124,7 @@
                 return _value;
             }
         }
-
+        
         #endregion Methods
     }
 }
