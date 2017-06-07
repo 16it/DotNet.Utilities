@@ -58,5 +58,15 @@ namespace YanZhiwei.DotNet.Core.Config.Model
             get;
             set;
         }
+
+        /// <summary>
+        /// 菜单图标
+        /// </summary>
+        [XmlAttribute("icon")]
+        public string Icon
+        {
+            get;
+            set;
+        }
     }
 }
