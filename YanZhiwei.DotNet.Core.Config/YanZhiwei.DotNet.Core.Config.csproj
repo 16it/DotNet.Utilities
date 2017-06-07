@@ -54,6 +54,9 @@
     <Compile Include="ConfigContext.cs" />
     <Compile Include="FileConfigService.cs" />
     <Compile Include="IConfigService.cs" />
+    <Compile Include="Model\AdminMenu.cs" />
+    <Compile Include="Model\AdminMenuConfig.cs" />
+    <Compile Include="Model\AdminMenuGroup.cs" />
     <Compile Include="Model\AuthWebApiConfig.cs" />
     <Compile Include="Model\CacheConfig.cs" />
     <Compile Include="Model\CacheConfigItem.cs" />
