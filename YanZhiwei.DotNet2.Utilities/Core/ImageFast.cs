@@ -110,8 +110,8 @@ namespace YanZhiwei.DotNet2.Utilities.Core
 #endif
         }
         
-        private static Type bmpType = typeof(System.Drawing.Bitmap);
-        private static Type emfType = typeof(System.Drawing.Imaging.Metafile);
+        private static Type bmpType = typeof(Bitmap);
+        private static Type emfType = typeof(Metafile);
 
         /// <summary>
         /// Froms the file.
@@ -133,14 +133,14 @@ namespace YanZhiwei.DotNet2.Utilities.Core
             // We are not using ICM at all, fudge that, this should be FAAAAAST!
             if(GdipLoadImageFromFile(filename, out loadingImage) != 0)
             {
-                throw new System.Exception("GDI+ threw a status error code.");
+                throw new Exception("GDI+ threw a status error code.");
             }
             
             GdipImageTypeEnum imageType;
             
             if(GdipGetImageType(loadingImage, out imageType) != 0)
             {
-                throw new System.Exception("GDI+ couldn't get the image type");
+                throw new Exception("GDI+ couldn't get the image type");
             }
             
             switch(imageType)
@@ -152,7 +152,7 @@ namespace YanZhiwei.DotNet2.Utilities.Core
                     return (Metafile)emfType.InvokeMember("FromGDIplus", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.InvokeMethod, null, null, new object[] { loadingImage });
             }
             
-            throw new System.Exception("Couldn't convert underlying GDI+ object to managed object");
+            throw new Exception("Couldn't convert underlying GDI+ object to managed object");
         }
         
         private ImageFast()
