@@ -12,9 +12,15 @@
         /// </summary>
         public BusinessRequest()
         {
-            PageSize = 5000;
+            PageSize = 5;
         }
-        
+
+        /// <summary>
+        /// Sets the top.
+        /// </summary>
+        /// <value>
+        /// The top.
+        /// </value>
         public int Top
         {
             set
