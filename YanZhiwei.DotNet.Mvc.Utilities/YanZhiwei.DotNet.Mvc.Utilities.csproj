@@ -79,10 +79,7 @@
     <Compile Include="ControllerHelper.cs" />
     <Compile Include="Controls\CheckBoxListHelper.cs" />
     <Compile Include="Controls\HtmlPrefixScope.cs" />
-    <Compile Include="Controls\MvcPager\PagerBuilder.cs" />
-    <Compile Include="Controls\MvcPager\PagerHelper.cs" />
-    <Compile Include="Controls\MvcPager\PagerItem.cs" />
-    <Compile Include="Controls\MvcPager\PagerOptions.cs" />
+    <Compile Include="Controls\PagerHelper.cs" />
     <Compile Include="Controls\RadioBoxList.cs" />
     <Compile Include="Controls\SeoPager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
