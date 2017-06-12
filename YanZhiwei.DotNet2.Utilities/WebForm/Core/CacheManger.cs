@@ -228,8 +228,8 @@
         /// <typeparam name="TValue">泛型，数值类型</typeparam>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        /// <param name="updateHanlder">更新委托</param>
-        public static void AddOrUpdate<TValue>(string key, TValue value, Func<string, TValue, TValue> updateHanlder)
+        /// <param name="updateFactory">更新委托</param>
+        public static void AddOrUpdate<TValue>(string key, TValue value, Func<string, TValue, TValue> updateFactory)
         {
             if (!Contain(key))
             {
@@ -237,27 +237,27 @@
             }
             else
             {
-                if (updateHanlder != null)
+                if (updateFactory != null)
                 {
                     TValue _oldValue = (TValue)Get(key);
-                    Set(key, updateHanlder(key, _oldValue), 120, true, null);
+                    Set(key, updateFactory(key, _oldValue), 120, true, null);
                 }
             }
         }
 
-        /// <summary>
-        /// 缓存处理策略
-        /// </summary>
-        /// <param name="key">键</param>
-        /// <param name="value">值</param>
-        /// <param name="reason">原因</param>
-        /// 时间：2016-05-26 9:53 备注：
-        private static void ItemRemovedCallback(string key, object value, CacheItemRemovedReason reason)
-        {
-            if (CacheItemRemovedReason.Expired == reason)//缓存过期
-            {
-            }
-        }
+        ///// <summary>
+        ///// 缓存处理策略
+        ///// </summary>
+        ///// <param name="key">键</param>
+        ///// <param name="value">值</param>
+        ///// <param name="reason">原因</param>
+        ///// 时间：2016-05-26 9:53 备注：
+        //private static void ItemRemovedCallback(string key, object value, CacheItemRemovedReason reason)
+        //{
+        //    if (CacheItemRemovedReason.Expired == reason)//缓存过期
+        //    {
+        //    }
+        //}
 
         /// <summary>
         /// 如果该键尚不存在，则使用指定函数将键/值对添加到 Session；如果该键已存在，则使用该函数更新 Session 中的键/值对。
