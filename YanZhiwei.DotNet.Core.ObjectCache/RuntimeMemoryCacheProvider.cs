@@ -7,22 +7,22 @@
     using System.Linq;
     using System.Runtime.Caching;
     using System.Text.RegularExpressions;
-    
+
     using YanZhiwei.DotNet.Core.Cache;
-    
+
     /// <summary>
     /// RuntimeMemoryCache 辅助类
     /// </summary>
     public class RuntimeMemoryCacheProvider : ICacheProvider
     {
         #region Fields
-        
+
         private readonly ObjectCache objectCache;
-        
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         /// <summary>
         /// 默认构造函数
         /// </summary>
@@ -30,11 +30,11 @@
         {
             objectCache = MemoryCache.Default;
         }
-        
+
         #endregion Constructors
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 清除缓存
         /// </summary>
@@ -43,19 +43,19 @@
         {
             List<string> _keys = new List<string>();
             List<string> _cacheKeys = objectCache.Select(m => m.Key).ToList();
-            
-            foreach(string key in _cacheKeys)
+
+            foreach (string key in _cacheKeys)
             {
-                if(Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
                     _keys.Add(key);
             }
-            
-            for(int i = 0; i < _keys.Count; i++)
+
+            for (int i = 0; i < _keys.Count; i++)
             {
                 objectCache.Remove(_keys[i]);
             }
         }
-        
+
         /// <summary>
         /// 以键取值
         /// </summary>
@@ -68,22 +68,22 @@
             CheckedParamter(key);
             string _cacheKey = GetCacheKey(key);
             object _value = objectCache.Get(_cacheKey);
-            
-            if(_value == null)
+
+            if (_value == null)
             {
                 return null;
             }
-            
+
             DictionaryEntry _entry = (DictionaryEntry)_value;
-            
-            if(!key.Equals(_entry.Key))
+
+            if (!key.Equals(_entry.Key))
             {
                 return null;
             }
-            
+
             return _entry.Value;
         }
-        
+
         /// <summary>
         /// 从缓存中获取强类型数据
         /// </summary>
@@ -94,7 +94,7 @@
         {
             return (T)Get(key);
         }
-        
+
         /// <summary>
         /// 移除缓存
         /// </summary>
@@ -105,7 +105,7 @@
             string _cacheKey = GetCacheKey(key);
             objectCache.Remove(_cacheKey);
         }
-        
+
         /// <summary>
         /// 设置缓存
         /// </summary>
@@ -120,40 +120,44 @@
             string _cacheKey = GetCacheKey(key);
             DictionaryEntry _entry = new DictionaryEntry(key, value);
             CacheItemPolicy _policy = null;
-            
-            if(isAbsoluteExpiration)
+
+            if (isAbsoluteExpiration)
             {
                 _policy = new CacheItemPolicy()
                 {
-                    AbsoluteExpiration = DateTime.Now.AddMinutes(minutes)
+                    AbsoluteExpiration = DateTime.Now.AddMinutes(minutes),
+                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key,arg.CacheItem.Value,arg.RemovedReason.ToString())
                 };
             }
             else
             {
                 _policy = new CacheItemPolicy()
                 {
-                    SlidingExpiration = TimeSpan.FromMinutes(minutes)
+                    SlidingExpiration = TimeSpan.FromMinutes(minutes),
+                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
                 };
             }
-            
+
             objectCache.Set(_cacheKey, _entry, _policy);
         }
-        
+
+      
+
         private void CheckedParamter(string key, object value)
         {
             ValidateOperator.Begin().NotNullOrEmpty(key, "缓存键").NotNull(value, "缓存数据");
         }
-        
+
         private void CheckedParamter(string key)
         {
             ValidateOperator.Begin().NotNullOrEmpty(key, "缓存键");
         }
-        
+
         private string GetCacheKey(string key)
         {
             return string.Concat(string.Empty, ":", key, "@", key.GetHashCode());
         }
-        
+
         #endregion Methods
     }
 }
