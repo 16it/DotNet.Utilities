@@ -136,12 +136,12 @@ namespace YanZhiwei.DotNet.Core.WebApi.Filter
                             if (WebApiCache.Contains(_cachekey))
                             {
                                 WebApiCache.Set(_cachekey, body, DateTime.Now.AddSeconds(CacheSeconds));
-                                WebApiCache.Set(_cachekey + ":response-ct", actionExecutedContext.Response.Content.Headers.ContentType, DateTime.Now.AddSeconds(_timespan));
+                                WebApiCache.Set(_cachekey + ":response-ct", actionExecutedContext.Response.Content.Headers.ContentType, DateTime.Now.AddSeconds(CacheSeconds));
                             }
                             else
                             {
                                 WebApiCache.Add(_cachekey, body, DateTime.Now.AddSeconds(CacheSeconds));
-                                WebApiCache.Add(_cachekey + ":response-ct", actionExecutedContext.Response.Content.Headers.ContentType, DateTime.Now.AddSeconds(_timespan));
+                                WebApiCache.Add(_cachekey + ":response-ct", actionExecutedContext.Response.Content.Headers.ContentType, DateTime.Now.AddSeconds(CacheSeconds));
                             }
                         }
                     }
