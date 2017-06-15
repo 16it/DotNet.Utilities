@@ -14,46 +14,59 @@ namespace YanZhiwei.DotNet4.Utilities.Cache
     public class MemoryCacheManager
     {
         #region Fields
-        
-        private readonly ObjectCache objectCache;
-        
+
+        private static readonly ObjectCache objectCache;
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        public MemoryCacheManager()
+        static MemoryCacheManager()
         {
             objectCache = MemoryCache.Default;
         }
-        
+
         #endregion Constructors
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 清除缓存
         /// </summary>
         /// <param name="keyRegex">正则表达式</param>
-        public void Clear(string keyRegex)
+        public static void Clear(string keyRegex)
         {
             List<string> _keys = new List<string>();
             List<string> _cacheKeys = objectCache.Select(m => m.Key).ToList();
-            
-            foreach(string key in _cacheKeys)
+
+            foreach (string key in _cacheKeys)
             {
-                if(Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
                     _keys.Add(key);
             }
-            
-            for(int i = 0; i < _keys.Count; i++)
+
+            for (int i = 0; i < _keys.Count; i++)
             {
                 objectCache.Remove(_keys[i]);
             }
         }
-        
+
+        /// <summary>
+        /// 缓存是否存在
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns>
+        ///   缓存是否存在
+        /// </returns>
+        public static bool Contains(string key)
+        {
+            CheckedParamter(key);
+            string _cacheKey = GetCacheKey(key);
+            return objectCache.Contains(_cacheKey);
+        }
         /// <summary>
         /// 以键取值
         /// </summary>
@@ -61,117 +74,117 @@ namespace YanZhiwei.DotNet4.Utilities.Cache
         /// <returns>
         /// 值
         /// </returns>
-        public object Get(string key)
+        public static object Get(string key)
         {
             CheckedParamter(key);
             string _cacheKey = GetCacheKey(key);
             object _value = objectCache.Get(_cacheKey);
-            
-            if(_value == null)
+
+            if (_value == null)
             {
                 return null;
             }
-            
+
             DictionaryEntry _entry = (DictionaryEntry)_value;
-            
-            if(!key.Equals(_entry.Key))
+
+            if (!key.Equals(_entry.Key))
             {
                 return null;
             }
-            
+
             return _entry.Value;
         }
-        
+
         /// <summary>
         /// 从缓存中获取强类型数据
         /// </summary>
         /// <typeparam name="T">数据类型</typeparam>
         /// <param name="key">缓存键</param>
         /// <returns>获取的强类型数据</returns>
-        public T Get<T>(string key)
+        public static T Get<T>(string key)
         {
             return (T)Get(key);
         }
-        
+
         /// <summary>
         /// 移除缓存
         /// </summary>
         /// <param name="key">键</param>
-        public void Remove(string key)
+        public static void Remove(string key)
         {
             CheckedParamter(key);
             string _cacheKey = GetCacheKey(key);
             objectCache.Remove(_cacheKey);
         }
-        
+
         /// <summary>
         /// 设置缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        /// <param name="minutes">分钟</param>
+        /// <param name="seconds">秒</param>
         /// <param name="isAbsoluteExpiration">是否绝对时间</param>
         /// <param name="updateCallback">在即将从缓存中移除某个缓存项时将调用该方法</param>
         /// <param name="removedCallback">在从缓存中移除某个缓存项后将调用该方法</param>
-        public void Set(string key, object value, int minutes, bool isAbsoluteExpiration, CacheEntryUpdateCallback updateCallback, CacheEntryRemovedCallback removedCallback)
+        public static void Set(string key, object value, int seconds, bool isAbsoluteExpiration, CacheEntryUpdateCallback updateCallback, CacheEntryRemovedCallback removedCallback)
         {
             CheckedParamter(key, value);
             string _cacheKey = GetCacheKey(key);
             DictionaryEntry _entry = new DictionaryEntry(key, value);
             CacheItemPolicy _policy = null;
-            
-            if(isAbsoluteExpiration)
+
+            if (isAbsoluteExpiration)
             {
                 _policy = new CacheItemPolicy()
                 {
-                    AbsoluteExpiration = DateTime.Now.AddMinutes(minutes)
+                    AbsoluteExpiration = DateTime.Now.AddSeconds(seconds)
                 };
             }
-            
+
             else
             {
                 _policy = new CacheItemPolicy()
                 {
-                    SlidingExpiration = TimeSpan.FromMinutes(minutes)
+                    SlidingExpiration = TimeSpan.FromSeconds(seconds)
                 };
             }
-            
-            if(updateCallback != null)
+
+            if (updateCallback != null)
                 _policy.UpdateCallback = updateCallback;
-                
-            if(removedCallback != null)
+
+            if (removedCallback != null)
                 _policy.RemovedCallback = removedCallback;
-                
+
             objectCache.Set(_cacheKey, _entry, _policy);
         }
-        
+
         /// <summary>
         /// 设置缓存
         /// </summary>
         /// <param name="key">键</param>
         /// <param name="value">值</param>
-        /// <param name="minutes">分钟</param>
+        /// <param name="seconds">秒</param>
         /// <param name="isAbsoluteExpiration">是否绝对时间</param>
-        public void Set(string key, object value, int minutes, bool isAbsoluteExpiration)
+        public static void Set(string key, object value, int seconds, bool isAbsoluteExpiration)
         {
-            Set(key, value, minutes, isAbsoluteExpiration, null, null);
+            Set(key, value, seconds, isAbsoluteExpiration, null, null);
         }
-        
-        private void CheckedParamter(string key, object value)
+
+        private static void CheckedParamter(string key, object value)
         {
             ValidateOperator.Begin().NotNullOrEmpty(key, "缓存键").NotNull(value, "缓存数据");
         }
-        
-        private void CheckedParamter(string key)
+
+        private static void CheckedParamter(string key)
         {
             ValidateOperator.Begin().NotNullOrEmpty(key, "缓存键");
         }
-        
-        private string GetCacheKey(string key)
+
+        private static string GetCacheKey(string key)
         {
             return string.Concat(string.Empty, ":", key, "@", key.GetHashCode());
         }
-        
+
         #endregion Methods
     }
 }
