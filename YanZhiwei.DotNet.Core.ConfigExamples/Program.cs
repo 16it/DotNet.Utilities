@@ -18,6 +18,10 @@ namespace YanZhiwei.DotNet.Core.ConfigExamples
 
                 ConfigContext _configHelper = new ConfigContext();
                 _configHelper.Save<DownloadConfig>(_config);
+
+                WebApiOutputCacheConfig _apiOutputCacheConfig = new WebApiOutputCacheConfig();
+                _apiOutputCacheConfig.EnableOutputCache = true;
+                _configHelper.Save<WebApiOutputCacheConfig>(_apiOutputCacheConfig);
             }
             catch (Exception ex)
             {

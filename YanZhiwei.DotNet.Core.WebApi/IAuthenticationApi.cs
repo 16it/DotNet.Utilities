@@ -14,9 +14,7 @@ namespace YanZhiwei.DotNet.Core.WebApi
         /// </summary>
         /// <param name="token">令牌</param>
         /// <param name="appid">应用ID</param>
-        /// <param name="checkAppChannelFactory">检查APP通道合法性 委托</param>
         /// <returns>CheckResult</returns>
-        OperatedResult<string> ValidateToken(string token, Guid appid,
-                                  Func<Guid, OperatedResult<AppInfo>> checkAppChannelFactory);
+        OperatedResult<string> ValidateToken(string token, Guid appid);
     }
 }

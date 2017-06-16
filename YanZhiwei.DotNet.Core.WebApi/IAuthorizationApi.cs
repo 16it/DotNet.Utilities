@@ -12,15 +12,15 @@ namespace YanZhiwei.DotNet.Core.WebApi
         /// <summary>
         /// 注册用户获取访问令牌接口
         /// </summary>
-        /// <param name="checkUserFactory">检查用户，密码合法性</param>
-        /// <param name="checkAppChannelFactory">检查APP通道合法性</param>
+        /// <param name="userId">用户Id</param>
+        /// <param name="passWord">用户密码</param>
         /// <param name="signature">加密签名字符串</param>
         /// <param name="timestamp">时间戳</param>
         /// <param name="nonce">随机数</param>
         /// <param name="appid">应用接入ID</param>
         /// <returns>OperatedResult</returns>
-        OperatedResult<TokenInfo> GetAccessToken(Func<OperatedResult<UserInfo>> checkUserFactory,
-                Func<Guid, OperatedResult<AppInfo>> checkAppChannelFactory, string signature, string timestamp,
-                string nonce, Guid appid);
+        OperatedResult<TokenInfo> GetAccessToken(string userId, string passWord,
+              string signature, string timestamp,
+              string nonce, Guid appid);
     }
 }
