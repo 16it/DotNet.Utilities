@@ -57,7 +57,6 @@
     <Compile Include="Model\AdminMenu.cs" />
     <Compile Include="Model\AdminMenuConfig.cs" />
     <Compile Include="Model\AdminMenuGroup.cs" />
-    <Compile Include="Model\AuthWebApiConfig.cs" />
     <Compile Include="Model\CacheConfig.cs" />
     <Compile Include="Model\CacheConfigItem.cs" />
     <Compile Include="Model\CacheProviderItem.cs" />
