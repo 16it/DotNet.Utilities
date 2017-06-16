@@ -95,10 +95,9 @@
         {
             if (CheckedCacheEnable())
             {
-                string _cachekey = CreateCacheKey(actionExecutedContext.ActionContext);
-
                 if (actionExecutedContext.Response != null && actionExecutedContext.Response.Content != null)
                 {
+                    string _cachekey = CreateCacheKey(actionExecutedContext.ActionContext);
                     string _responebody = actionExecutedContext.Response.Content.ReadAsStringAsync().Result;
 
                     if (apiOutputCache.Contains(_cachekey))
