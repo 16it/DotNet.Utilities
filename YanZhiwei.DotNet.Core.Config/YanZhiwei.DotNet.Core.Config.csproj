@@ -71,6 +71,7 @@
     <Compile Include="Model\UploadConfig.cs" />
     <Compile Include="Model\UploadFolder.cs" />
     <Compile Include="Model\UploadSaveDirType.cs" />
+    <Compile Include="Model\WebApiOutputCacheConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

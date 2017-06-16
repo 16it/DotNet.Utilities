@@ -68,6 +68,10 @@
     <Compile Include="AuthenticationAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Config\YanZhiwei.DotNet.Core.Config.csproj">
+      <Project>{6DABF7B8-C072-43CD-8876-3D2AAEDB7A43}</Project>
+      <Name>YanZhiwei.DotNet.Core.Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.JWT.Utilities\YanZhiwei.DotNet.JWT.Utilities.csproj">
       <Project>{008865b5-3a7e-49c7-81b9-fe5f2010c588}</Project>
       <Name>YanZhiwei.DotNet.JWT.Utilities</Name>

@@ -99,6 +99,17 @@
                 return this.Get<AdminMenuConfig>();
             }
         }
+        
+        /// <summary>
+        /// WebApi缓存配置
+        /// </summary>
+        public WebApiOutputCacheConfig WebApiOutputCacheConfig
+        {
+            get
+            {
+                return this.Get<WebApiOutputCacheConfig>();
+            }
+        }
         #endregion Properties
         
         #region Methods
