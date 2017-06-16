@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet.Core.Config
 {
+    using System.Diagnostics;
     using System.Web.Caching;
     using YanZhiwei.DotNet.Core.Config.Model;
     using YanZhiwei.DotNet2.Utilities.DesignPattern;
@@ -120,6 +121,7 @@
             else
             {
                 T _value = base.Get<T>(index);
+                Debug.WriteLine("ConfigService:" + ConfigService.GetFilePath(_fileName));
                 CacheManger.Set(_key, _value, new CacheDependency(ConfigService.GetFilePath(_fileName)));
                 return _value;
             }
