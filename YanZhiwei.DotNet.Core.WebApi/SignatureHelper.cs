@@ -1,15 +1,18 @@
-﻿using System;
-using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet2.Utilities.Encryptor;
-using YanZhiwei.DotNet2.Utilities.Result;
-
-namespace YanZhiwei.DotNet.Core.WebApi
+﻿namespace YanZhiwei.DotNet.Core.WebApi
 {
+    using System;
+
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.Encryptor;
+    using YanZhiwei.DotNet2.Utilities.Result;
+
     /// <summary>
     /// WebApi 签名辅助类
     /// </summary>
     public sealed class SignatureHelper
     {
+        #region Methods
+
         /// <summary>
         /// 生成签名字符串
         /// </summary>
@@ -55,5 +58,7 @@ namespace YanZhiwei.DotNet.Core.WebApi
 
             return CheckResult.Success();
         }
+
+        #endregion Methods
     }
 }

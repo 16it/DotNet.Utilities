@@ -8,6 +8,7 @@
     using System.Runtime.Caching;
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
+
     using YanZhiwei.DotNet.Core.Config;
 
     /// <summary>
@@ -16,6 +17,11 @@
     public abstract class WebApiOutputCacheAttribute : ActionFilterAttribute
     {
         #region Fields
+
+        /// <summary>
+        /// 是否启用缓存
+        /// </summary>
+        public readonly bool CacheEnabled = false;
 
         /// <summary>
         /// 缓存时间【秒】
@@ -36,11 +42,6 @@
         /// 无效缓存，用于重置缓存
         /// </summary>
         private readonly bool invalidateCache;
-
-        /// <summary>
-        /// 是否启用缓存
-        /// </summary>
-        private bool cacheEnabled = true;
 
         #endregion Fields
 
@@ -73,7 +74,7 @@
             this.dependsOnIdentity = dependsOnIdentity;
             this.invalidateCache = invalidateCache;
             //读取缓存配置总开关
-            this.cacheEnabled = CachedConfigContext.Instance.WebApiOutputCacheConfig.EnableOutputCache;
+            this.CacheEnabled = CachedConfigContext.Instance.WebApiOutputCacheConfig.EnableOutputCache;
         }
 
         #endregion Constructors
@@ -163,30 +164,11 @@
         }
 
         /// <summary>
-        /// 创建用于缓存Key
-        /// </summary>
-        /// <param name="actionContext">HttpActionContext</param>
-        /// <returns>Key</returns>
-        private string CreateCacheKey(HttpActionContext actionContext)
-        {
-            string _cachekey = string.Join(":", new string[]
-            {
-                actionContext.Request.RequestUri.OriginalString,
-                actionContext.Request.Headers.Accept.FirstOrDefault().ToString(),
-            });
-
-            if (dependsOnIdentity)
-                _cachekey = _cachekey.Insert(0, GetIdentityToken(actionContext));
-
-            return _cachekey;
-        }
-
-        /// <summary>
         /// 判断是否可以缓存
         /// </summary>
         private bool CheckedCacheEnable()
         {
-            return (cacheEnabled && apiOutputCache != null);
+            return (CacheEnabled && apiOutputCache != null);
         }
 
         /// <summary>
@@ -201,6 +183,25 @@
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 创建用于缓存Key
+        /// </summary>
+        /// <param name="actionContext">HttpActionContext</param>
+        /// <returns>Key</returns>
+        private string CreateCacheKey(HttpActionContext actionContext)
+        {
+            string _cachekey = string.Join(":", new string[]
+            {
+                actionContext.Request.RequestUri.OriginalString//,
+                //actionContext.Request.Headers.Accept.FirstOrDefault().ToString(),
+            });
+
+            if (dependsOnIdentity)
+                _cachekey = _cachekey.Insert(0, GetIdentityToken(actionContext));
+
+            return _cachekey;
         }
 
         #endregion Methods

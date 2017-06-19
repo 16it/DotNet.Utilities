@@ -1,14 +1,17 @@
-﻿using System;
-using YanZhiwei.DotNet2.Utilities.Model;
-using YanZhiwei.DotNet2.Utilities.Result;
-
-namespace YanZhiwei.DotNet.Core.WebApi
+﻿namespace YanZhiwei.DotNet.Core.WebApi
 {
+    using System;
+
+    using YanZhiwei.DotNet2.Utilities.Model;
+    using YanZhiwei.DotNet2.Utilities.Result;
+
     /// <summary>
     ///Webapi 授权系统基本接口
     /// </summary>
     public interface IAuthorizationApi
     {
+        #region Methods
+
         /// <summary>
         /// 注册用户获取访问令牌接口
         /// </summary>
@@ -20,7 +23,9 @@ namespace YanZhiwei.DotNet.Core.WebApi
         /// <param name="appid">应用接入ID</param>
         /// <returns>OperatedResult</returns>
         OperatedResult<TokenInfo> GetAccessToken(string userId, string passWord,
-              string signature, string timestamp,
-              string nonce, Guid appid);
+            string signature, string timestamp,
+            string nonce, Guid appid);
+
+        #endregion Methods
     }
 }

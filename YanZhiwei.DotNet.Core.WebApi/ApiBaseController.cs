@@ -1,24 +1,27 @@
-﻿using System;
-using System.Web.Http;
-using YanZhiwei.DotNet.WebApi.Utilities;
-using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet4.Utilities.Common;
-
-namespace YanZhiwei.DotNet.Core.WebApi
+﻿namespace YanZhiwei.DotNet.Core.WebApi
 {
+    using System;
+    using System.Web.Http;
+
+    using YanZhiwei.DotNet.WebApi.Utilities;
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet4.Utilities.Common;
+
     /// <summary>
     /// WebApi 基类
     /// </summary>
     public class ApiBaseController : ApiController
     {
+        #region Properties
+
         /// <summary>
-        /// 当前用户
+        /// 当前通道ID
         /// </summary>
-        public Guid CurrentUserId
+        public Guid CurrentAppId
         {
             get
             {
-                return Request.GetUriOrHeaderValue("Access_userId").ToGuidOrDefault(Guid.Empty);
+                return Request.GetUriOrHeaderValue("Access_appId").ToGuidOrDefault(Guid.Empty);
             }
         }
 
@@ -34,14 +37,16 @@ namespace YanZhiwei.DotNet.Core.WebApi
         }
 
         /// <summary>
-        /// 当前通道ID
+        /// 当前用户
         /// </summary>
-        public Guid CurrentAppId
+        public Guid CurrentUserId
         {
             get
             {
-                return Request.GetUriOrHeaderValue("Access_appId").ToGuidOrDefault(Guid.Empty);
+                return Request.GetUriOrHeaderValue("Access_userId").ToGuidOrDefault(Guid.Empty);
             }
         }
+
+        #endregion Properties
     }
 }

@@ -1,17 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using YanZhiwei.DotNet.JWT.Utilities;
-using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet2.Utilities.Model;
-using YanZhiwei.DotNet2.Utilities.Result;
-
-namespace YanZhiwei.DotNet.Core.WebApi
+﻿namespace YanZhiwei.DotNet.Core.WebApi
 {
+    using System;
+    using System.Collections.Generic;
+
+    using YanZhiwei.DotNet.JWT.Utilities;
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.Model;
+    using YanZhiwei.DotNet2.Utilities.Result;
+
     /// <summary>
     /// WebApi 验证基类
     /// </summary>
     public abstract class AuthApiController : ApiBaseController, IAuthorizationApi
     {
+        #region Methods
+
+        /// <summary>
+        /// 检查API请求通道合法性
+        /// </summary>
+        /// <param name="appid">应用接入ID</param>
+        /// <returns>AppInfo</returns>
+        public abstract CheckResult<AppInfo> CheckedAppInfo(Guid appid);
+
+        /// <summary>
+        /// 检查用户的合法性
+        /// </summary>
+        /// <param name="userId">用户Id</param>
+        /// <param name="passWord">用户密码</param>
+        /// <returns>UserInfo</returns>
+        public abstract CheckResult<UserInfo> CheckedUser(string userId, string passWord);
+
         /// <summary>
         /// 注册用户获取访问令牌接口
         /// </summary>
@@ -23,8 +41,8 @@ namespace YanZhiwei.DotNet.Core.WebApi
         /// <param name="appid">应用接入ID</param>
         /// <returns>OperatedResult</returns>
         public OperatedResult<TokenInfo> GetAccessToken(string userId, string passWord,
-                string signature, string timestamp,
-                string nonce, Guid appid)
+            string signature, string timestamp,
+            string nonce, Guid appid)
         {
             CheckResult _checkedParamter = CheckedCreateAccessTokenParamter(userId, passWord, signature, timestamp, nonce, appid);
 
@@ -71,6 +89,21 @@ namespace YanZhiwei.DotNet.Core.WebApi
             return OperatedResult<TokenInfo>.Success(_tokenData);
         }
 
+        private TokenInfo BuilderTokenInfo(UserInfo userInfo, AppInfo appInfo)
+        {
+            Dictionary<string, object> _payload = new Dictionary<string, object>()
+            {
+                { "iss", userInfo.UserId},
+                { "iat", UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds}
+            };//负载数据
+            TokenInfo _tokenData = new TokenInfo
+            {
+                Access_token = JwtHelper.CreateTokens(appInfo.SharedKey, _payload),
+                Expires_in = appInfo.TokenExpiredDay * 24 * 3600
+            };
+            return _tokenData;
+        }
+
         private CheckResult CheckedCreateAccessTokenParamter(string userId, string passWord, string signature, string timestamp, string nonce, Guid appid)
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(passWord))
@@ -91,34 +124,6 @@ namespace YanZhiwei.DotNet.Core.WebApi
             return CheckResult.Success();
         }
 
-        private TokenInfo BuilderTokenInfo(UserInfo userInfo, AppInfo appInfo)
-        {
-            Dictionary<string, object> _payload = new Dictionary<string, object>()
-            {
-                { "iss", userInfo.UserId},
-                { "iat", UnixEpochHelper.GetCurrentUnixTimestamp().TotalSeconds}
-            };//负载数据
-            TokenInfo _tokenData = new TokenInfo
-            {
-                Access_token = JwtHelper.CreateTokens(appInfo.SharedKey, _payload),
-                Expires_in = appInfo.TokenExpiredDay * 24 * 3600
-            };
-            return _tokenData;
-        }
-
-        /// <summary>
-        /// 检查用户的合法性
-        /// </summary>
-        /// <param name="userId">用户Id</param>
-        /// <param name="passWord">用户密码</param>
-        /// <returns>UserInfo</returns>
-        public abstract CheckResult<UserInfo> CheckedUser(string userId, string passWord);
-
-        /// <summary>
-        /// 检查API请求通道合法性
-        /// </summary>
-        /// <param name="appid">应用接入ID</param>
-        /// <returns>AppInfo</returns>
-        public abstract CheckResult<AppInfo> CheckedAppInfo(Guid appid);
+        #endregion Methods
     }
 }

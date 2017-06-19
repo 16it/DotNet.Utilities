@@ -1,19 +1,31 @@
-﻿using JWT;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Web.Http.Filters;
-using YanZhiwei.DotNet.JWT.Utilities;
-using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet2.Utilities.Model;
-using YanZhiwei.DotNet2.Utilities.Result;
-
-namespace YanZhiwei.DotNet.Core.WebApi
+﻿namespace YanZhiwei.DotNet.Core.WebApi
 {
+    using System;
+    using System.Web.Http.Filters;
+
+    using JWT;
+
+    using Newtonsoft.Json.Linq;
+
+    using YanZhiwei.DotNet.JWT.Utilities;
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.Model;
+    using YanZhiwei.DotNet2.Utilities.Result;
+
     /// <summary>
     /// WebApi 授权验证实现
     /// </summary>
     public abstract class AuthenticationAttribute : AuthorizationFilterAttribute, IAuthenticationApi
     {
+        #region Methods
+
+        /// <summary>
+        /// 检查API请求通道合法性
+        /// </summary>
+        /// <param name="appid">应用接入ID</param>
+        /// <returns>AppInfo</returns>
+        public abstract CheckResult<AppInfo> CheckedAppInfo(Guid appid);
+
         /// <summary>
         /// 验证Token令牌是否合法
         /// </summary>
@@ -66,11 +78,6 @@ namespace YanZhiwei.DotNet.Core.WebApi
             return CheckResult.Success();
         }
 
-        /// <summary>
-        /// 检查API请求通道合法性
-        /// </summary>
-        /// <param name="appid">应用接入ID</param>
-        /// <returns>AppInfo</returns>
-        public abstract CheckResult<AppInfo> CheckedAppInfo(Guid appid);
+        #endregion Methods
     }
 }
