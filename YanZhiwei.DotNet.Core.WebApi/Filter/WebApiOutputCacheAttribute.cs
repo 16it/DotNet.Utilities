@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
@@ -194,13 +195,14 @@
         {
             string _cachekey = string.Join(":", new string[]
             {
-                actionContext.Request.RequestUri.OriginalString//,
-                //actionContext.Request.Headers.Accept.FirstOrDefault().ToString(),
+                actionContext.Request.RequestUri.OriginalString,
+                actionContext.Request.Headers.Contains("User-Agent") == true ? actionContext.Request.Headers.UserAgent.ToString() : string.Empty
             });
 
             if (dependsOnIdentity)
                 _cachekey = _cachekey.Insert(0, GetIdentityToken(actionContext));
 
+            Debug.WriteLine("CacheKey:" + _cachekey);
             return _cachekey;
         }
 
