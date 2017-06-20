@@ -101,16 +101,17 @@
                 {
                     string _cachekey = CreateCacheKey(actionExecutedContext.ActionContext);
                     string _responebody = actionExecutedContext.Response.Content.ReadAsStringAsync().Result;
-
+                    MediaTypeHeaderValue _contentType = actionExecutedContext.Response.Content.Headers.ContentType;
+                    DateTime _cacheExpire = DateTime.Now.AddSeconds(CacheSeconds);
                     if (apiOutputCache.Contains(_cachekey))
                     {
-                        apiOutputCache.Set(_cachekey, _responebody, DateTime.Now.AddSeconds(CacheSeconds));
-                        apiOutputCache.Set(_cachekey + ":response-ct", actionExecutedContext.Response.Content.Headers.ContentType, DateTime.Now.AddSeconds(CacheSeconds));
+                        apiOutputCache.Set(_cachekey, _responebody, _cacheExpire);
+                        apiOutputCache.Set(_cachekey + ":response-ct", _contentType, _cacheExpire);
                     }
                     else
                     {
-                        apiOutputCache.Add(_cachekey, _responebody, DateTime.Now.AddSeconds(CacheSeconds));
-                        apiOutputCache.Add(_cachekey + ":response-ct", actionExecutedContext.Response.Content.Headers.ContentType, DateTime.Now.AddSeconds(CacheSeconds));
+                        apiOutputCache.Add(_cachekey, _responebody, _cacheExpire);
+                        apiOutputCache.Add(_cachekey + ":response-ct", _contentType, _cacheExpire);
                     }
 
                     CleanCache(invalidateCache);
