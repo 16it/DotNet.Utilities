@@ -4,7 +4,7 @@ using JWT.Serializers;
 using System.Collections.Generic;
 using YanZhiwei.DotNet2.Utilities.Operator;
 
-namespace YanZhiwei.DotNet.JWT.Utilities
+namespace YanZhiwei.DotNet.Core.WebApi
 {
     /// <summary>
     /// JSON Web Token辅助类
@@ -26,7 +26,7 @@ namespace YanZhiwei.DotNet.JWT.Utilities
             IJwtEncoder _encoder = new JwtEncoder(_algorithm, _serializer, _urlEncoder);
             return _encoder.Encode(payload, secret);
         }
-        
+
         /// <summary>
         /// 转换Token
         /// </summary>

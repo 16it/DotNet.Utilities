@@ -33,10 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JWT, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\JWT.2.3.1\lib\net45\JWT.dll</HintPath>
+      <HintPath>..\packages\JWT.2.4.2\lib\net35\JWT.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -63,6 +63,7 @@
     <Compile Include="Filter\WebApiOutputCacheAttribute.cs" />
     <Compile Include="IAuthenticationApi.cs" />
     <Compile Include="IAuthorizationApi.cs" />
+    <Compile Include="JwtHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignatureHelper.cs" />
     <Compile Include="AuthenticationAttribute.cs" />
@@ -71,10 +72,6 @@
     <ProjectReference Include="..\YanZhiwei.DotNet.Core.Config\YanZhiwei.DotNet.Core.Config.csproj">
       <Project>{6DABF7B8-C072-43CD-8876-3D2AAEDB7A43}</Project>
       <Name>YanZhiwei.DotNet.Core.Config</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.DotNet.JWT.Utilities\YanZhiwei.DotNet.JWT.Utilities.csproj">
-      <Project>{008865b5-3a7e-49c7-81b9-fe5f2010c588}</Project>
-      <Name>YanZhiwei.DotNet.JWT.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.WebApi.Utilities\YanZhiwei.DotNet.WebApi.Utilities.csproj">
       <Project>{7ca43f1c-2fea-45dc-968d-d57b6162f698}</Project>
