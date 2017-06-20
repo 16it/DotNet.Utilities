@@ -119,29 +119,35 @@
             CheckedParamter(key, value);
             string _cacheKey = GetCacheKey(key);
             DictionaryEntry _entry = new DictionaryEntry(key, value);
-            CacheItemPolicy _policy = null;
+            CacheItemPolicy _cacheItemPolicy = CreateCacheItemPolicy(isAbsoluteExpiration, minutes, onRemoveFacotry);
 
+            if (objectCache.Contains(_cacheKey))
+                objectCache.Set(_cacheKey, _entry, _cacheItemPolicy);
+            else
+                objectCache.Add(_cacheKey, _entry, _cacheItemPolicy);
+        }
+
+        private CacheItemPolicy CreateCacheItemPolicy(bool isAbsoluteExpiration, int minutes, Action<string, object, string> onRemoveFacotry)
+        {
+            CacheItemPolicy _cacheItemPolicy = null;
             if (isAbsoluteExpiration)
             {
-                _policy = new CacheItemPolicy()
+                _cacheItemPolicy = new CacheItemPolicy()
                 {
                     AbsoluteExpiration = DateTime.Now.AddMinutes(minutes),
-                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key,arg.CacheItem.Value,arg.RemovedReason.ToString())
+                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
                 };
             }
             else
             {
-                _policy = new CacheItemPolicy()
+                _cacheItemPolicy = new CacheItemPolicy()
                 {
                     SlidingExpiration = TimeSpan.FromMinutes(minutes),
                     RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
                 };
             }
-
-            objectCache.Set(_cacheKey, _entry, _policy);
+            return _cacheItemPolicy;
         }
-
-      
 
         private void CheckedParamter(string key, object value)
         {
