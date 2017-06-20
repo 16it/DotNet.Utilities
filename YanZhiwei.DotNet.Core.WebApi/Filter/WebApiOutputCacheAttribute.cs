@@ -22,7 +22,13 @@
         /// <summary>
         /// 是否启用缓存
         /// </summary>
-        public readonly bool CacheEnabled = false;
+        public bool CacheEnabled
+        {
+            get
+            {
+                return CachedConfigContext.Instance.WebApiOutputCacheConfig.EnableOutputCache;
+            }
+        }
 
         /// <summary>
         /// 缓存时间【秒】
@@ -75,7 +81,7 @@
             this.dependsOnIdentity = dependsOnIdentity;
             this.invalidateCache = invalidateCache;
             //读取缓存配置总开关
-            this.CacheEnabled = CachedConfigContext.Instance.WebApiOutputCacheConfig.EnableOutputCache;
+            //this.CacheEnabled = CachedConfigContext.Instance.WebApiOutputCacheConfig.EnableOutputCache;
         }
 
         #endregion Constructors
