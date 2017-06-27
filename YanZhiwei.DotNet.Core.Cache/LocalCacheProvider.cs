@@ -23,15 +23,15 @@
             List<string> _keys = new List<string>();
             IDictionaryEnumerator _enumerator = HttpRuntime.Cache.GetEnumerator();
 
-            while(_enumerator.MoveNext())
+            while (_enumerator.MoveNext())
             {
                 var _key = _enumerator.Key.ToString();
 
-                if(Regex.IsMatch(_key, keyRegex, RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(_key, keyRegex, RegexOptions.IgnoreCase))
                     _keys.Add(_key);
             }
 
-            for(int i = 0; i < _keys.Count; i++)
+            for (int i = 0; i < _keys.Count; i++)
             {
                 HttpRuntime.Cache.Remove(_keys[i]);
             }
@@ -61,6 +61,17 @@
         }
 
         /// <summary>
+        /// 该key是否设置过缓存
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public virtual bool IsSet(string key)
+        {
+            return CacheManger.Contain(key);
+        }
+
+        /// <summary>
         /// 移除缓存
         /// </summary>
         /// <param name="key">键</param>
@@ -81,7 +92,7 @@
         {
             CacheManger.Set(key, value, minutes, isAbsoluteExpiration, (k, v, reason) =>
             {
-                if(onRemoveFacotry != null)
+                if (onRemoveFacotry != null)
                     onRemoveFacotry(k, v, reason.ToString());
             });
         }

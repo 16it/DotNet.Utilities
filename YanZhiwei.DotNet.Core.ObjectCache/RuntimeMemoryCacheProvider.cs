@@ -1,12 +1,13 @@
 ﻿namespace YanZhiwei.DotNet.Core.ObjectCache
 {
-    using DotNet2.Utilities.Operator;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.Caching;
     using System.Text.RegularExpressions;
+
+    using DotNet2.Utilities.Operator;
 
     using YanZhiwei.DotNet.Core.Cache;
 
@@ -15,23 +16,20 @@
     /// </summary>
     public class RuntimeMemoryCacheProvider : ICacheProvider
     {
-        #region Fields
-
-        private readonly ObjectCache objectCache;
-
-        #endregion Fields
-
-        #region Constructors
+        #region Properties
 
         /// <summary>
-        /// 默认构造函数
+        /// MemoryCache
         /// </summary>
-        public RuntimeMemoryCacheProvider()
+        protected ObjectCache Cache
         {
-            objectCache = MemoryCache.Default;
+            get
+            {
+                return MemoryCache.Default;
+            }
         }
 
-        #endregion Constructors
+        #endregion Properties
 
         #region Methods
 
@@ -42,17 +40,17 @@
         public virtual void Clear(string keyRegex)
         {
             List<string> _keys = new List<string>();
-            List<string> _cacheKeys = objectCache.Select(m => m.Key).ToList();
+            List<string> _cacheKeys = Cache.Select(m => m.Key).ToList();
 
-            foreach (string key in _cacheKeys)
+            foreach(string key in _cacheKeys)
             {
-                if (Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
+                if(Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
                     _keys.Add(key);
             }
 
-            for (int i = 0; i < _keys.Count; i++)
+            for(int i = 0; i < _keys.Count; i++)
             {
-                objectCache.Remove(_keys[i]);
+                Cache.Remove(_keys[i]);
             }
         }
 
@@ -67,16 +65,16 @@
         {
             CheckedParamter(key);
             string _cacheKey = GetCacheKey(key);
-            object _value = objectCache.Get(_cacheKey);
+            object _value = Cache.Get(_cacheKey);
 
-            if (_value == null)
+            if(_value == null)
             {
                 return null;
             }
 
             DictionaryEntry _entry = (DictionaryEntry)_value;
 
-            if (!key.Equals(_entry.Key))
+            if(!key.Equals(_entry.Key))
             {
                 return null;
             }
@@ -96,6 +94,17 @@
         }
 
         /// <summary>
+        /// 该key是否设置过缓存
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns></returns>
+        public bool IsSet(string key)
+        {
+            string _cacheKey = GetCacheKey(key);
+            return Cache.Contains(_cacheKey);
+        }
+
+        /// <summary>
         /// 移除缓存
         /// </summary>
         /// <param name="key">键</param>
@@ -103,7 +112,7 @@
         {
             CheckedParamter(key);
             string _cacheKey = GetCacheKey(key);
-            objectCache.Remove(_cacheKey);
+            Cache.Remove(_cacheKey);
         }
 
         /// <summary>
@@ -121,32 +130,11 @@
             DictionaryEntry _entry = new DictionaryEntry(key, value);
             CacheItemPolicy _cacheItemPolicy = CreateCacheItemPolicy(isAbsoluteExpiration, minutes, onRemoveFacotry);
 
-            if (objectCache.Contains(_cacheKey))
-                objectCache.Set(_cacheKey, _entry, _cacheItemPolicy);
-            else
-                objectCache.Add(_cacheKey, _entry, _cacheItemPolicy);
-        }
+            if(Cache.Contains(_cacheKey))
+                Cache.Set(_cacheKey, _entry, _cacheItemPolicy);
 
-        private CacheItemPolicy CreateCacheItemPolicy(bool isAbsoluteExpiration, int minutes, Action<string, object, string> onRemoveFacotry)
-        {
-            CacheItemPolicy _cacheItemPolicy = null;
-            if (isAbsoluteExpiration)
-            {
-                _cacheItemPolicy = new CacheItemPolicy()
-                {
-                    AbsoluteExpiration = DateTime.Now.AddMinutes(minutes),
-                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
-                };
-            }
             else
-            {
-                _cacheItemPolicy = new CacheItemPolicy()
-                {
-                    SlidingExpiration = TimeSpan.FromMinutes(minutes),
-                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
-                };
-            }
-            return _cacheItemPolicy;
+                Cache.Add(_cacheKey, _entry, _cacheItemPolicy);
         }
 
         private void CheckedParamter(string key, object value)
@@ -157,6 +145,31 @@
         private void CheckedParamter(string key)
         {
             ValidateOperator.Begin().NotNullOrEmpty(key, "缓存键");
+        }
+
+        private CacheItemPolicy CreateCacheItemPolicy(bool isAbsoluteExpiration, int minutes, Action<string, object, string> onRemoveFacotry)
+        {
+            CacheItemPolicy _cacheItemPolicy = null;
+
+            if(isAbsoluteExpiration)
+            {
+                _cacheItemPolicy = new CacheItemPolicy()
+                {
+                    AbsoluteExpiration = DateTime.Now.AddMinutes(minutes),
+                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
+                };
+            }
+
+            else
+            {
+                _cacheItemPolicy = new CacheItemPolicy()
+                {
+                    SlidingExpiration = TimeSpan.FromMinutes(minutes),
+                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
+                };
+            }
+
+            return _cacheItemPolicy;
         }
 
         private string GetCacheKey(string key)
