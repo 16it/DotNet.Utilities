@@ -65,7 +65,7 @@
                         }
 
                         HttpContext.Current.Response.AddHeader("Connection", "Keep-Alive");
-                        HttpContext.Current.Response.ContentType = ResponseContentType.Bin;
+                        HttpContext.Current.Response.ContentType = MimeTypes.ApplicationOctetStream;
                         HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8));
                         fileReader.BaseStream.Seek(_startIndex, SeekOrigin.Begin);
                         int _maxCount = (int)Math.Floor((double)((_fileLength - _startIndex) / _pack)) + 1;
@@ -113,7 +113,7 @@
             using(FileStream fileStream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 _dataToRead = fileStream.Length;
-                HttpContext.Current.Response.ContentType = ResponseContentType.Bin;
+                HttpContext.Current.Response.ContentType = MimeTypes.ApplicationOctetStream;
                 HttpContext.Current.Response.AddHeader("Content-Disposition", "attachement;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8));
                 HttpContext.Current.Response.AddHeader("Content-Length", _dataToRead.ToString());
 

@@ -82,6 +82,7 @@
     <Compile Include="Encryptor\SHA256Encryptor.cs" />
     <Compile Include="Enum\FileUpgradeStatus.cs" />
     <Compile Include="Hanlder\PackageDataHanlder.cs" />
+    <Compile Include="Model\MimeTypes.cs" />
     <Compile Include="Model\AppInfo.cs" />
     <Compile Include="Model\BitmapInfo.cs" />
     <Compile Include="Model\TokenInfo.cs" />
@@ -235,7 +236,6 @@
     <Compile Include="Enum\SerialPortState.cs" />
     <Compile Include="Enum\StripHtmlType.cs" />
     <Compile Include="Model\ClipboardCtrl.cs" />
-    <Compile Include="Model\ResponseContentType.cs" />
     <Compile Include="Model\ControlRect.cs" />
     <Compile Include="Enum\ExceptionType.cs" />
     <Compile Include="Model\GeoPoint.cs" />
