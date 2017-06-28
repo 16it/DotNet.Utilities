@@ -48,6 +48,9 @@
 
         #region Properties
 
+        /// <summary>
+        /// 缓存模块
+        /// </summary>
         public static string ModuleName
         {
             get

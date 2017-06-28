@@ -42,13 +42,13 @@
             List<string> _keys = new List<string>();
             List<string> _cacheKeys = Cache.Select(m => m.Key).ToList();
 
-            foreach(string key in _cacheKeys)
+            foreach (string key in _cacheKeys)
             {
-                if(Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
                     _keys.Add(key);
             }
 
-            for(int i = 0; i < _keys.Count; i++)
+            for (int i = 0; i < _keys.Count; i++)
             {
                 Cache.Remove(_keys[i]);
             }
@@ -67,14 +67,14 @@
             string _cacheKey = GetCacheKey(key);
             object _value = Cache.Get(_cacheKey);
 
-            if(_value == null)
+            if (_value == null)
             {
                 return null;
             }
 
             DictionaryEntry _entry = (DictionaryEntry)_value;
 
-            if(!key.Equals(_entry.Key))
+            if (!key.Equals(_entry.Key))
             {
                 return null;
             }
@@ -122,15 +122,14 @@
         /// <param name="value">值</param>
         /// <param name="minutes">分钟</param>
         /// <param name="isAbsoluteExpiration">是否绝对时间</param>
-        /// <param name="onRemoveFacotry">委托</param>
-        public virtual void Set(string key, object value, int minutes, bool isAbsoluteExpiration, Action<string, object, string> onRemoveFacotry)
+        public virtual void Set(string key, object value, int minutes, bool isAbsoluteExpiration)
         {
             CheckedParamter(key, value);
             string _cacheKey = GetCacheKey(key);
             DictionaryEntry _entry = new DictionaryEntry(key, value);
-            CacheItemPolicy _cacheItemPolicy = CreateCacheItemPolicy(isAbsoluteExpiration, minutes, onRemoveFacotry);
+            CacheItemPolicy _cacheItemPolicy = CreateCacheItemPolicy(isAbsoluteExpiration, minutes, null);
 
-            if(Cache.Contains(_cacheKey))
+            if (Cache.Contains(_cacheKey))
                 Cache.Set(_cacheKey, _entry, _cacheItemPolicy);
 
             else
@@ -151,12 +150,12 @@
         {
             CacheItemPolicy _cacheItemPolicy = null;
 
-            if(isAbsoluteExpiration)
+            if (isAbsoluteExpiration)
             {
                 _cacheItemPolicy = new CacheItemPolicy()
                 {
-                    AbsoluteExpiration = DateTime.Now.AddMinutes(minutes),
-                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
+                    AbsoluteExpiration = DateTime.Now.AddMinutes(minutes)
+                    //RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
                 };
             }
 
@@ -164,8 +163,8 @@
             {
                 _cacheItemPolicy = new CacheItemPolicy()
                 {
-                    SlidingExpiration = TimeSpan.FromMinutes(minutes),
-                    RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
+                    SlidingExpiration = TimeSpan.FromMinutes(minutes)
+                    //  RemovedCallback = arg => onRemoveFacotry(arg.CacheItem.Key, arg.CacheItem.Value, arg.RemovedReason.ToString())
                 };
             }
 

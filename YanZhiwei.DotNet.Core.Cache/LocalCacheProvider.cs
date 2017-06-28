@@ -87,14 +87,9 @@
         /// <param name="value">值</param>
         /// <param name="minutes">分钟</param>
         /// <param name="isAbsoluteExpiration">是否绝对时间</param>
-        /// <param name="onRemoveFacotry">委托</param>
-        public virtual void Set(string key, object value, int minutes, bool isAbsoluteExpiration, Action<string, object, string> onRemoveFacotry)
+        public virtual void Set(string key, object value, int minutes, bool isAbsoluteExpiration)
         {
-            CacheManger.Set(key, value, minutes, isAbsoluteExpiration, (k, v, reason) =>
-            {
-                if (onRemoveFacotry != null)
-                    onRemoveFacotry(k, v, reason.ToString());
-            });
+            CacheManger.Set(key, value, minutes, isAbsoluteExpiration, null);
         }
 
         #endregion Methods
