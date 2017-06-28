@@ -1,11 +1,9 @@
 ﻿namespace YanZhiwei.DotNet.Core.Cache
 {
     using DotNet2.Utilities.WebForm.Core;
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
-    using System.Web;
 
     /// <summary>
     /// 本地缓存实现
@@ -18,10 +16,10 @@
         /// 清除缓存
         /// </summary>
         /// <param name="keyRegex">正则表达式</param>
-        public virtual void Clear(string keyRegex)
+        public virtual void RemoveByPattern(string keyRegex)
         {
             List<string> _keys = new List<string>();
-            IDictionaryEnumerator _enumerator = HttpRuntime.Cache.GetEnumerator();
+            IDictionaryEnumerator _enumerator = CacheManger.Cache.GetEnumerator();
 
             while (_enumerator.MoveNext())
             {
@@ -33,7 +31,7 @@
 
             for (int i = 0; i < _keys.Count; i++)
             {
-                HttpRuntime.Cache.Remove(_keys[i]);
+                CacheManger.Remove(_keys[i]);
             }
         }
 

@@ -34,27 +34,6 @@
         #region Methods
 
         /// <summary>
-        /// 清除缓存
-        /// </summary>
-        /// <param name="keyRegex">正则表达式</param>
-        public virtual void Clear(string keyRegex)
-        {
-            List<string> _keys = new List<string>();
-            List<string> _cacheKeys = Cache.Select(m => m.Key).ToList();
-
-            foreach (string key in _cacheKeys)
-            {
-                if (Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
-                    _keys.Add(key);
-            }
-
-            for (int i = 0; i < _keys.Count; i++)
-            {
-                Cache.Remove(_keys[i]);
-            }
-        }
-
-        /// <summary>
         /// 以键取值
         /// </summary>
         /// <param name="key">键</param>
@@ -115,6 +94,26 @@
             Cache.Remove(_cacheKey);
         }
 
+        /// <summary>
+        /// 清除缓存
+        /// </summary>
+        /// <param name="keyRegex">正则表达式</param>
+        public virtual void RemoveByPattern(string keyRegex)
+        {
+            List<string> _keys = new List<string>();
+            List<string> _cacheKeys = Cache.Select(m => m.Key).ToList();
+
+            foreach (string key in _cacheKeys)
+            {
+                if (Regex.IsMatch(key, keyRegex, RegexOptions.IgnoreCase))
+                    _keys.Add(key);
+            }
+
+            for (int i = 0; i < _keys.Count; i++)
+            {
+                Cache.Remove(_keys[i]);
+            }
+        }
         /// <summary>
         /// 设置缓存
         /// </summary>

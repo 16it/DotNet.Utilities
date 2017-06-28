@@ -24,7 +24,7 @@
                 return;
 
             foreach(var cacheProviders in CacheConfigContext.CacheProviders.Values)
-                cacheProviders.Clear(keyRegex);
+                cacheProviders.RemoveByPattern(keyRegex);
         }
 
         /// <summary>
