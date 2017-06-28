@@ -3,13 +3,15 @@
     using Model;
     using System;
     using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Web;
 
     /// <summary>
     /// 缓存帮助
     /// </summary>
-    public class CacheHelper
+    public static class CacheHelper
     {
         #region Methods
 
@@ -228,6 +230,14 @@
             _cacheConfig.CacheProvider.Set(key, value, _cacheConfig.CacheConfigItem.Minitus, _cacheConfig.CacheConfigItem.IsAbsoluteExpiration);
         }
 
+
+        public static void RemoveByPattern(this ICacheProvider cacheManager, string pattern, IEnumerable<string> keys)
+        {
+            var regex = new Regex(pattern, RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            foreach (var key in keys.Where(p => regex.IsMatch(p.ToString())).ToList())
+                cacheManager.Remove(key);
+        }
         #endregion Methods
     }
 }
