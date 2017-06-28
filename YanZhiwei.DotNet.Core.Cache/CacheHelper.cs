@@ -182,7 +182,7 @@
                 Expression<Func<TEntity, TResult>> selector, string key)
         {
             string _key = string.Format("{0}{1}", key, GetKey(source, predicate, pageCondition, selector));
-            PageResult<TResult> _result = (PageResult<TResult>)CacheHelper.Get(_key);
+            PageResult<TResult> _result = (PageResult<TResult>)Get(_key);
 
             if (_result != null)
             {
@@ -190,7 +190,7 @@
             }
 
             _result = source.ToPage(predicate, pageCondition, selector);
-            CacheHelper.Set(_key, _result);
+            Set(_key, _result);
             return _result;
         }
 

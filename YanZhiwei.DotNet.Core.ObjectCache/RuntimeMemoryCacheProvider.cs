@@ -43,8 +43,7 @@
         public virtual object Get(string key)
         {
             CheckedParamter(key);
-            string _cacheKey = GetCacheKey(key);
-            object _value = Cache.Get(_cacheKey);
+            object _value = Cache.Get(key);
 
             if (_value == null)
             {
@@ -79,8 +78,7 @@
         /// <returns></returns>
         public bool IsSet(string key)
         {
-            string _cacheKey = GetCacheKey(key);
-            return Cache.Contains(_cacheKey);
+            return Cache.Contains(key);
         }
 
         /// <summary>
@@ -90,8 +88,7 @@
         public virtual void Remove(string key)
         {
             CheckedParamter(key);
-            string _cacheKey = GetCacheKey(key);
-            Cache.Remove(_cacheKey);
+            Cache.Remove(key);
         }
 
         /// <summary>
@@ -124,15 +121,14 @@
         public virtual void Set(string key, object value, int minutes, bool isAbsoluteExpiration)
         {
             CheckedParamter(key, value);
-            string _cacheKey = GetCacheKey(key);
             DictionaryEntry _entry = new DictionaryEntry(key, value);
             CacheItemPolicy _cacheItemPolicy = CreateCacheItemPolicy(isAbsoluteExpiration, minutes, null);
 
-            if (Cache.Contains(_cacheKey))
-                Cache.Set(_cacheKey, _entry, _cacheItemPolicy);
+            if (Cache.Contains(key))
+                Cache.Set(key, _entry, _cacheItemPolicy);
 
             else
-                Cache.Add(_cacheKey, _entry, _cacheItemPolicy);
+                Cache.Add(key, _entry, _cacheItemPolicy);
         }
 
         private void CheckedParamter(string key, object value)
@@ -168,11 +164,6 @@
             }
 
             return _cacheItemPolicy;
-        }
-
-        private string GetCacheKey(string key)
-        {
-            return string.Concat(string.Empty, ":", key, "@", key.GetHashCode());
         }
 
         #endregion Methods
