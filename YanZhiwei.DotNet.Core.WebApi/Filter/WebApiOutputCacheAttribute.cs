@@ -20,17 +20,6 @@
         #region Fields
 
         /// <summary>
-        /// 是否启用缓存
-        /// </summary>
-        public bool CacheEnabled
-        {
-            get
-            {
-                return CachedConfigContext.Instance.WebApiOutputCacheConfig.EnableOutputCache;
-            }
-        }
-
-        /// <summary>
         /// 缓存时间【秒】
         /// </summary>
         public int CacheSeconds;
@@ -45,11 +34,6 @@
         /// </summary>
         private readonly bool dependsOnIdentity;
 
-        /// <summary>
-        /// 无效缓存，用于重置缓存
-        /// </summary>
-        private readonly bool invalidateCache;
-
         #endregion Fields
 
         #region Constructors
@@ -58,7 +42,7 @@
         /// 构造函数
         /// </summary>
         public WebApiOutputCacheAttribute()
-            : this(false)
+        : this(false)
         {
         }
 
@@ -67,26 +51,38 @@
         /// </summary>
         /// <param name="dependsOnIdentity">缓存取决于访问令牌</param>
         public WebApiOutputCacheAttribute(bool dependsOnIdentity)
-            : this(dependsOnIdentity, false)
-        {
-        }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="dependsOnIdentity">缓存取决于访问令牌</param>
-        /// <param name="invalidateCache">无效缓存，用于重置缓存</param>
-        public WebApiOutputCacheAttribute(bool dependsOnIdentity, bool invalidateCache)
         {
             this.dependsOnIdentity = dependsOnIdentity;
-            this.invalidateCache = invalidateCache;
             //读取缓存配置总开关
             //this.CacheEnabled = CachedConfigContext.Instance.WebApiOutputCacheConfig.EnableOutputCache;
         }
 
         #endregion Constructors
 
+        #region Properties
+
+        /// <summary>
+        /// 是否启用缓存
+        /// </summary>
+        public bool CacheEnabled
+        {
+            get
+            {
+                return CachedConfigContext.Instance.WebApiOutputCacheConfig.EnableOutputCache;
+            }
+        }
+
+        #endregion Properties
+
         #region Methods
+
+        /// <summary>
+        /// 检查Response字符串是否合法，用于判断Response字符串是否可以缓存
+        /// 用于正确的响应才缓存结果
+        /// </summary>
+        /// <param name="responeString">The respone string.</param>
+        /// <returns>否可以缓存</returns>
+        public abstract bool CheckedResponseAvailable(string responeString);
 
         /// <summary>
         /// 获取身份访问令牌
@@ -103,24 +99,17 @@
         {
             if (CheckedCacheEnable())
             {
-                if (actionExecutedContext.Response != null && actionExecutedContext.Response.Content != null)
+                try
                 {
-                    string _cachekey = CreateCacheKey(actionExecutedContext.ActionContext);
-                    string _responebody = actionExecutedContext.Response.Content.ReadAsStringAsync().Result;
-                    MediaTypeHeaderValue _contentType = actionExecutedContext.Response.Content.Headers.ContentType;
-                    DateTime _cacheExpire = DateTime.Now.AddSeconds(CacheSeconds);
-                    if (apiOutputCache.Contains(_cachekey))
+                    if (actionExecutedContext.Response != null && actionExecutedContext.Response.Content != null)
                     {
-                        apiOutputCache.Set(_cachekey, _responebody, _cacheExpire);
-                        apiOutputCache.Set(_cachekey + ":response-ct", _contentType, _cacheExpire);
+                        string _cachekey = CreateCacheKey(actionExecutedContext.ActionContext);
+                        AddOrUpdateWebApiOutCache(_cachekey, actionExecutedContext);
                     }
-                    else
-                    {
-                        apiOutputCache.Add(_cachekey, _responebody, _cacheExpire);
-                        apiOutputCache.Add(_cachekey + ":response-ct", _contentType, _cacheExpire);
-                    }
-
-                    CleanCache(invalidateCache);
+                }
+                catch (Exception ex)
+                {
+                    //LogWriteHelper.Instance.Error("OnActionExecuted", "WebApiOutputCacheAttribute", ex);
                 }
             }
         }
@@ -133,40 +122,59 @@
         {
             if (CheckedCacheEnable() && CheckedCurRequestCacheEnable(actionContext))
             {
-                string _cachekey = CreateCacheKey(actionContext);
-
-                if (apiOutputCache.Contains(_cachekey))
+                try
                 {
-                    string _cacheApiOutStrinig = (string)apiOutputCache.Get(_cachekey);
+                    string _cachekey = CreateCacheKey(actionContext);
 
-                    if (_cacheApiOutStrinig != null)
+                    if (!string.IsNullOrEmpty(_cachekey) && apiOutputCache.Contains(_cachekey))
                     {
-                        actionContext.Response = actionContext.Request.CreateResponse();
-                        actionContext.Response.Content = new StringContent(_cacheApiOutStrinig);
-                        MediaTypeHeaderValue _contenttype = (MediaTypeHeaderValue)apiOutputCache.Get(_cachekey + ":response-ct");
+                        string _cacheApiOutStrinig = (string)apiOutputCache.Get(_cachekey);
 
-                        if (_contenttype == null)
-                            _contenttype = new MediaTypeHeaderValue(_cachekey.Split(':')[1]);
+                        if (_cacheApiOutStrinig != null)
+                        {
+                            actionContext.Response = actionContext.Request.CreateResponse();
+                            actionContext.Response.Content = new StringContent(_cacheApiOutStrinig);
+                            MediaTypeHeaderValue _contenttype = (MediaTypeHeaderValue)apiOutputCache.Get(_cachekey + ":response-ct");
 
-                        actionContext.Response.Content.Headers.ContentType = _contenttype;
-                        return;
+                            if (_contenttype == null)
+                                _contenttype = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
+
+                            actionContext.Response.Content.Headers.ContentType = _contenttype;
+                            // LogWriteHelper.Instance.Info(string.Format("Key:{0} 获取缓存成功。", _cachekey));
+                            return;
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    //LogWriteHelper.Instance.Error("OnActionExecuting", "WebApiOutputCacheAttribute", ex);
                 }
             }
         }
 
-        /// <summary>
-        /// 移除所有Web Api缓存
-        /// </summary>
-        private static void CleanCache(bool invalidateCache)
+        private void AddOrUpdateWebApiOutCache(string cachekey, HttpActionExecutedContext actionExecutedContext)
         {
-            if (invalidateCache && apiOutputCache != null)
+            if (!string.IsNullOrEmpty(cachekey))
             {
-                List<string> _keyList = apiOutputCache.Select(w => w.Key).ToList();
+                string _responebody = actionExecutedContext.Response.Content.ReadAsStringAsync().Result;
 
-                foreach (string key in _keyList)
+                if (CheckedResponseAvailable(_responebody))
                 {
-                    apiOutputCache.Remove(key);
+                    MediaTypeHeaderValue _contentType = actionExecutedContext.Response.Content.Headers.Contains("Content-Type") == true ? actionExecutedContext.Response.Content.Headers.ContentType : MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
+                    DateTime _cacheExpire = DateTime.Now.AddSeconds(CacheSeconds);
+
+                    if (apiOutputCache.Contains(cachekey))
+                    {
+                        apiOutputCache.Set(cachekey, _responebody, _cacheExpire);
+                        apiOutputCache.Set(cachekey + ":response-ct", _contentType, _cacheExpire);
+                    }
+                    else
+                    {
+                        apiOutputCache.Add(cachekey, _responebody, _cacheExpire);
+                        apiOutputCache.Add(cachekey + ":response-ct", _contentType, _cacheExpire);
+                    }
+
+                    //LogWriteHelper.Instance.Info(string.Format("Key:{0} 存储缓存成功。", cachekey), "WebApiOutputCacheAttribute");
                 }
             }
         }
@@ -200,17 +208,23 @@
         /// <returns>Key</returns>
         private string CreateCacheKey(HttpActionContext actionContext)
         {
-            string _cachekey = string.Join(":", new string[]
+            try
             {
-                actionContext.Request.RequestUri.OriginalString,
-                actionContext.Request.Headers.Contains("User-Agent") == true ? actionContext.Request.Headers.UserAgent.ToString() : string.Empty
-            });
+                string _cachekey = string.Join(":", new string[]
+                {
+                    actionContext.Request.RequestUri.OriginalString,
+                    actionContext.Request.Headers.Contains("User-Agent") == true ? actionContext.Request.Headers.UserAgent.ToString() : string.Empty
+                });
 
-            if (dependsOnIdentity)
-                _cachekey = _cachekey.Insert(0, GetIdentityToken(actionContext));
+                if (dependsOnIdentity)
+                    _cachekey = _cachekey.Insert(0, GetIdentityToken(actionContext));
 
-            Debug.WriteLine("CacheKey:" + _cachekey);
-            return _cachekey;
+                return _cachekey;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
 
         #endregion Methods

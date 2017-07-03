@@ -90,7 +90,7 @@
             OnValidateCodeCreated(context, _validateCode);
             //  context.Session["validateCode"] = _validateCode;
             context.Response.ClearContent();
-            context.Response.ContentType = ResponseContentType.Gif;
+            context.Response.ContentType =MimeTypes.ImageGif;
             context.Response.BinaryWrite(_buffer);
         }
 
