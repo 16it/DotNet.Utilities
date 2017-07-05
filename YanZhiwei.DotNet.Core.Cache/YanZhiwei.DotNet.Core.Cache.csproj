@@ -48,7 +48,13 @@
   <ItemGroup>
     <Compile Include="CacheConfigContext.cs" />
     <Compile Include="CacheHelper.cs" />
+    <Compile Include="EventPublisherHelper.cs" />
+    <Compile Include="Event\EntityDeleted.cs" />
+    <Compile Include="Event\EntityInserted.cs" />
+    <Compile Include="Event\EntityUpdated.cs" />
     <Compile Include="ICacheProvider.cs" />
+    <Compile Include="IConsumer.cs" />
+    <Compile Include="IEventPublisher.cs" />
     <Compile Include="LocalCacheProvider.cs" />
     <Compile Include="Model\WrapCacheConfigItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
