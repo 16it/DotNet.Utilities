@@ -11,6 +11,7 @@ namespace YanZhiwei.DotNet.Core.CacheTests
 
         public void Publish<T>(T eventMessage)
         {
+            
             //IUnityContainer container = new UnityContainer();
             //var consumers = DependencyResolver.Current.GetServices<IConsumer<T>>();
             //foreach (var consumer in consumers)
