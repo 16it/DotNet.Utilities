@@ -11,6 +11,14 @@ namespace YanZhiwei.DotNet.Core.Cache.Tests
     [TestClass()]
     public class CacheHelperTests
     {
+        [TestInitialize]
+        public void Init()
+        {
+            IUnityContainer container = new UnityContainer();
+            container.RegisterInstance<IEventPublisher>(new EventPublisher(), new ContainerControlledLifetimeManager());
+            container.RegisterType(typeof(IConsumer<>), typeof(ModelCacheEventConsumer), new ContainerControlledLifetimeManager());
+        }
+
         [TestMethod()]
         public void SetTest()
         {
@@ -23,8 +31,6 @@ namespace YanZhiwei.DotNet.Core.Cache.Tests
         [TestMethod()]
         public void ToCacheArrayTest()
         {
-            IUnityContainer container = new UnityContainer();
-            container.RegisterType(typeof(IConsumer<>), typeof(ModelCacheEventConsumer), new ContainerControlledLifetimeManager());
 
             IEventPublisher _eventPublish = new EventPublisher();
             UserService _userService = new UserService(_eventPublish);
