@@ -1,9 +1,6 @@
 ﻿namespace YanZhiwei.DotNet.Core.WebApi.Filter
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Runtime.Caching;
@@ -32,7 +29,7 @@
         /// <summary>
         /// 缓存取决于访问令牌
         /// </summary>
-        private readonly bool dependsOnIdentity;
+        protected readonly bool DependsOnIdentity;
 
         #endregion Fields
 
@@ -52,7 +49,7 @@
         /// <param name="dependsOnIdentity">缓存取决于访问令牌</param>
         public WebApiOutputCacheAttribute(bool dependsOnIdentity)
         {
-            this.dependsOnIdentity = dependsOnIdentity;
+            this.DependsOnIdentity = dependsOnIdentity;
             //读取缓存配置总开关
             //this.CacheEnabled = CachedConfigContext.Instance.WebApiOutputCacheConfig.EnableOutputCache;
         }
@@ -80,9 +77,10 @@
         /// 检查Response字符串是否合法，用于判断Response字符串是否可以缓存
         /// 用于正确的响应才缓存结果
         /// </summary>
+        /// <param name="context">HttpActionContext</param>
         /// <param name="responeString">The respone string.</param>
         /// <returns>否可以缓存</returns>
-        public abstract bool CheckedResponseAvailable(string responeString);
+        public abstract bool CheckedResponseAvailable(HttpActionContext context, string responeString);
 
         /// <summary>
         /// 获取身份访问令牌
@@ -158,7 +156,7 @@
             {
                 string _responebody = actionExecutedContext.Response.Content.ReadAsStringAsync().Result;
 
-                if (CheckedResponseAvailable(_responebody))
+                if (CheckedResponseAvailable(actionExecutedContext.ActionContext, _responebody))
                 {
                     MediaTypeHeaderValue _contentType = actionExecutedContext.Response.Content.Headers.Contains("Content-Type") == true ? actionExecutedContext.Response.Content.Headers.ContentType : MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
                     DateTime _cacheExpire = DateTime.Now.AddSeconds(CacheSeconds);
@@ -206,7 +204,7 @@
         /// </summary>
         /// <param name="actionContext">HttpActionContext</param>
         /// <returns>Key</returns>
-        private string CreateCacheKey(HttpActionContext actionContext)
+        public virtual string CreateCacheKey(HttpActionContext actionContext)
         {
             try
             {
@@ -216,7 +214,7 @@
                     actionContext.Request.Headers.Contains("User-Agent") == true ? actionContext.Request.Headers.UserAgent.ToString() : string.Empty
                 });
 
-                if (dependsOnIdentity)
+                if (DependsOnIdentity)
                     _cachekey = _cachekey.Insert(0, GetIdentityToken(actionContext));
 
                 return _cachekey;
