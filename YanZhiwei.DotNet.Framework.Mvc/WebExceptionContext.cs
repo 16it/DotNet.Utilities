@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Web.Routing;
 
-namespace YanZhiwei.DotNet.Framework.Mvc
+namespace YanZhiwei.DotNet.Core.Mvc
 {
     /// <summary>
     /// 网页异常上下文

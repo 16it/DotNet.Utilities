@@ -5,7 +5,7 @@ using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Enum;
 using YanZhiwei.DotNet2.Utilities.Operator;
 
-namespace YanZhiwei.DotNet.Framework.Mvc
+namespace YanZhiwei.DotNet.Core.Mvc
 {
     /// <summary>
     ///  文件服务器分离，需要得到文件服务器上文件的地址
