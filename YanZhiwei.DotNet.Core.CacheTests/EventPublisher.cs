@@ -1,7 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using YanZhiwei.DotNet.Core.Cache;
-using YanZhiwei.DotNet.Core.CacheTests.Model;
-using System.Linq;
+using YanZhiwei.DotNet.Unity.Utilities;
 namespace YanZhiwei.DotNet.Core.CacheTests
 {
     public class EventPublisher : IEventPublisher
@@ -17,7 +16,8 @@ namespace YanZhiwei.DotNet.Core.CacheTests
             //{
             //    this.PublishToConsumer(consumer, eventMessage);
             //}
-            var consumer = Global.ServiceLocator.Resolve<IConsumer<T>>();
+            //var consumer = Global.ServiceLocator.Resolve<IConsumer<T>>();
+            var consumer = Global.ServiceLocator.TryResolve<IConsumer<T>>();
             this.PublishToConsumer(consumer, eventMessage);
         }
 

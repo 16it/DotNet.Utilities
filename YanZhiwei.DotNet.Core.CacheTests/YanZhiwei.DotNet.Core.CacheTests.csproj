@@ -103,6 +103,10 @@
       <Project>{3E3AD6DC-66CD-4B62-9C90-DCFD6805A92C}</Project>
       <Name>YanZhiwei.DotNet.Framework.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Unity.Utilities\YanZhiwei.DotNet.Unity.Utilities.csproj">
+      <Project>{5edf0d5e-f0a2-4b31-adc8-cdbad6578d7c}</Project>
+      <Name>YanZhiwei.DotNet.Unity.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>
