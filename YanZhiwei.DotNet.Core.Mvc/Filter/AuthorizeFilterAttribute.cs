@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet.Core.Mvc
+﻿namespace YanZhiwei.DotNet.Core.Mvc.Filter
 {
     using System;
     using System.Web.Mvc;
