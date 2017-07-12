@@ -40,7 +40,7 @@ namespace YanZhiwei.DotNet.Core.WebApi.Filter
 
             if (!actionContext.ModelState.IsValid)
             {
-                ValidationFailedResult _validateFailedResult = new ValidationFailedResult(422, "无法处理的实体", actionContext.ModelState);
+                ValidationFailedResult _validateFailedResult = new ValidationFailedResult(422, "请求格式正确，但是由于含有语义错误，无法响应。", actionContext.ModelState);
                 OnParameterInvaliding(actionContext, _validateFailedResult);
                 //actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, OnParameterInvalid(_validateFailedResult));
             }
