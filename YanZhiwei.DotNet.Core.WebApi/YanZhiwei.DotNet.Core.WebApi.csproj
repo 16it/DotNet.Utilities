@@ -75,6 +75,7 @@
     <Compile Include="Filter\WebApiOutputCacheAttribute.cs" />
     <Compile Include="IAuthenticationApi.cs" />
     <Compile Include="IAuthorizationApi.cs" />
+    <Compile Include="Infrastructure\UnityHttpControllerActivator.cs" />
     <Compile Include="JwtHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolver\UnityResolver.cs" />
