@@ -1,7 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using System;
 
-namespace YanZhiwei.DotNet.UnityContainer.Utilities
+namespace YanZhiwei.DotNet.Unity.Utilities
 {
     /// <summary>
     /// Unity辅助类

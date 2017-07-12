@@ -205,7 +205,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Mvc",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.SignalR", "YanZhiwei.DotNet.Core.SignalR\YanZhiwei.DotNet.Core.SignalR.csproj", "{C1D733F8-7F5C-4D65-8569-81817F73A70E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.UnityContainer.Utilities", "YanZhiwei.DotNet.UnityContainer.Utilities\YanZhiwei.DotNet.UnityContainer.Utilities.csproj", "{5EDF0D5E-F0A2-4B31-ADC8-CDBAD6578D7C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Unity.Utilities", "YanZhiwei.DotNet.UnityContainer.Utilities\YanZhiwei.DotNet.Unity.Utilities.csproj", "{5EDF0D5E-F0A2-4B31-ADC8-CDBAD6578D7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

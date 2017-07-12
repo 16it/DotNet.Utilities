@@ -7,8 +7,8 @@
     <ProjectGuid>{5EDF0D5E-F0A2-4B31-ADC8-CDBAD6578D7C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.DotNet.UnityContainer.Utilities</RootNamespace>
-    <AssemblyName>DotNet.UnityContainer.Utilities</AssemblyName>
+    <RootNamespace>YanZhiwei.DotNet.Unity.Utilities</RootNamespace>
+    <AssemblyName>DotNet.Unity.Utilities</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\DotNet.UnityContainer.Utilities.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\DotNet.Unity.Utilities.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
