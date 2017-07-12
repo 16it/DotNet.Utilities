@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Unity;
 using YanZhiwei.DotNet.Core.Cache;
+using YanZhiwei.DotNet.Core.CacheTests.Model;
 
 namespace YanZhiwei.DotNet.Core.CacheTests
 {
@@ -11,13 +12,11 @@ namespace YanZhiwei.DotNet.Core.CacheTests
 
         public void Publish<T>(T eventMessage)
         {
-            
-            //IUnityContainer container = new UnityContainer();
-            //var consumers = DependencyResolver.Current.GetServices<IConsumer<T>>();
-            //foreach (var consumer in consumers)
-            //{
-            //    this.PublishToConsumer(consumer, eventMessage);
-            //}
+            var consumers = Global.ServiceLocator.ResolveAll<IConsumer<T>>();
+            foreach (var consumer in consumers)
+            {
+                this.PublishToConsumer(consumer, eventMessage);
+            }
         }
 
         protected virtual void PublishToConsumer<T>(IConsumer<T> consumer, T eventMessage)

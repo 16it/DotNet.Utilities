@@ -73,6 +73,7 @@
     <Compile Include="AccountDbContext.cs" />
     <Compile Include="CacheHelperTests.cs" />
     <Compile Include="EventPublisher.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="ModelCacheEventConsumer.cs" />
     <Compile Include="Model\LoginInfo.cs" />
     <Compile Include="Model\Role.cs" />

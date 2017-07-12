@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 using YanZhiwei.DotNet.Core.Cache;
 using YanZhiwei.DotNet.Core.Cache.Event;
 using YanZhiwei.DotNet.Core.CacheTests.Model;
@@ -10,20 +10,23 @@ namespace YanZhiwei.DotNet.Core.CacheTests
         IConsumer<EntityUpdated<User>>,
         IConsumer<EntityDeleted<User>>
     {
+        public ModelCacheEventConsumer() {
+
+        }
+
         public void HandleEvent(EntityInserted<User> eventMessage)
         {
-            throw new NotImplementedException();
+            Debug.WriteLine("EntityInserted<User>");
         }
-        
+
         public void HandleEvent(EntityUpdated<User> eventMessage)
         {
-            
-            throw new NotImplementedException();
+            Debug.WriteLine("EntityUpdated<User>");
         }
-        
+
         public void HandleEvent(EntityDeleted<User> eventMessage)
         {
-            throw new NotImplementedException();
+            Debug.WriteLine("EntityDeleted<User>");
         }
     }
 }

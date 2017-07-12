@@ -1,6 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using YanZhiwei.DotNet.Core.Cache.Event;
 using YanZhiwei.DotNet.Core.CacheTests;
 using YanZhiwei.DotNet.Core.CacheTests.Model;
 using YanZhiwei.DotNet.Core.CacheTests.Service;
@@ -14,9 +15,8 @@ namespace YanZhiwei.DotNet.Core.Cache.Tests
         [TestInitialize]
         public void Init()
         {
-            IUnityContainer container = new UnityContainer();
-            container.RegisterInstance<IEventPublisher>(new EventPublisher(), new ContainerControlledLifetimeManager());
-            container.RegisterType(typeof(IConsumer<>), typeof(ModelCacheEventConsumer), new ContainerControlledLifetimeManager());
+            Global.ServiceLocator.RegisterInstance<IEventPublisher>(new EventPublisher(), new ContainerControlledLifetimeManager());
+            Global.ServiceLocator.RegisterType(typeof(IConsumer<>), typeof(ModelCacheEventConsumer), new ContainerControlledLifetimeManager());
         }
 
         [TestMethod()]
@@ -31,9 +31,7 @@ namespace YanZhiwei.DotNet.Core.Cache.Tests
         [TestMethod()]
         public void ToCacheArrayTest()
         {
-
-            IEventPublisher _eventPublish = new EventPublisher();
-            UserService _userService = new UserService(_eventPublish);
+            UserService _userService = Global.ServiceLocator.Resolve<UserService>();
             User _insertUser = new User();
             _insertUser.CreateTime = DateTime.Now;
             _insertUser.Email = "churenyouzi@gmail.com";
