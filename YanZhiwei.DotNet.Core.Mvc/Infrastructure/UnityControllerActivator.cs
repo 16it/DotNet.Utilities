@@ -8,6 +8,10 @@ namespace YanZhiwei.DotNet.Core.Mvc.Infrastructure
     /// <summary>
     /// UnityControllerActivator
     /// </summary>
+    /// <example>
+    /// var controllerActivator = new UnityControllerActivator(container);
+    /// ControllerBuilder.Current.SetControllerFactory(new DefaultControllerFactory(controllerActivator));
+    /// </example>
     /// <seealso cref="System.Web.Mvc.IControllerActivator" />
     public sealed class UnityControllerActivator : IControllerActivator
     {

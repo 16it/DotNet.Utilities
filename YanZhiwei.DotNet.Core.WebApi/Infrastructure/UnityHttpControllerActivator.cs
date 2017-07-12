@@ -9,6 +9,11 @@ namespace YanZhiwei.DotNet.Core.WebApi.Infrastructure
     /// <summary>
     /// 以将IoC与ASP.NET Web API的HttpController激活系统进行集成最为直接的方式为自定义一个HttpControllerActivator。
     /// </summary>
+    ///<example>
+    ///  WebApiConfig添加：
+    ///  var httpControllerActivator = new UnityHttpControllerActivator(container);
+    ///  GlobalConfiguration.Configuration.Services.Replace(typeof (IHttpControllerActivator), httpControllerActivator);
+    /// </example>
     /// <seealso cref="System.Web.Http.Dispatcher.IHttpControllerActivator" />
     public class UnityHttpControllerActivator : IHttpControllerActivator
 

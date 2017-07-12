@@ -6,6 +6,10 @@ namespace YanZhiwei.DotNet.Core.SignalR.Infrastructure
     /// <summary>
     /// UnityHubActivator
     /// </summary>
+    ///<example>
+    ///var hubActivator = new UnityHubActivator(container);
+    ///GlobalHost.DependencyResolver.Register(typeof (IHubActivator), () => hubActivator);
+    /// </example>
     /// <seealso cref="Microsoft.AspNet.SignalR.Hubs.IHubActivator" />
     public sealed class UnityHubActivator : IHubActivator
     {
