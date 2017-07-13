@@ -1,8 +1,11 @@
 ﻿namespace YanZhiwei.DotNet4._5.Utilities.WebForm
 {
     using System;
-    using System.IO;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Net.Http;
+    using System.Net.Http.Headers;
+    using YanZhiwei.DotNet4._5.Utilities.Model;
 
     /// <summary>
     /// HttpRequest辅助类
@@ -16,25 +19,23 @@
         /// </summary>
         /// <param name="request">HttpRequestMessage</param>
         /// <returns>HttpRequest原始信息</returns>
-        public static string ToRaw(this HttpRequestMessage request)
+        public static HttpRequestRaw ToRaw(this HttpRequestMessage request)
         {
-            using (StringWriter writer = new StringWriter())
-            {
-                WriteBasic(request, writer);
-                WriteHeaders(request, writer);
-                WriteBody(request, writer);
-                return writer.ToString();
-            }
+            HttpRequestRaw _requestRaw = new HttpRequestRaw();
+            HttpRequestBasic(request, _requestRaw);
+            HttpRequestHeaders(request, _requestRaw);
+            HttpRequestBody(request, _requestRaw);
+            return _requestRaw;
         }
 
-        private static void WriteBasic(HttpRequestMessage request, StringWriter writer)
+        private static void HttpRequestBasic(HttpRequestMessage request, HttpRequestRaw requestRaw)
         {
-            writer.WriteLine(request.Method);
-            writer.WriteLine(request.RequestUri);
-            writer.WriteLine("HTTP/" + request.Version);
+            requestRaw.RequestMethod = request.Method.ToString();
+            requestRaw.RequestUri = request.RequestUri.ToString();
+            requestRaw.RequestVersion = string.Format("HTTP/{0}", request.Version);
         }
 
-        private static void WriteBody(HttpRequestMessage request, StringWriter writer)
+        private static void HttpRequestBody(HttpRequestMessage request, HttpRequestRaw requestRaw)
         {
             try
             {
@@ -49,19 +50,29 @@
 
                     _bodyString = request.Content.ReadAsStringAsync().Result;
                 }
-                if (!string.IsNullOrEmpty(_bodyString))
-                    writer.WriteLine(_bodyString);
+                requestRaw.Body = _bodyString;
             }
             catch (Exception)
             {
             }
         }
 
-        private static void WriteHeaders(HttpRequestMessage request, StringWriter writer)
+        private static void HttpRequestHeaders(HttpRequestMessage request, HttpRequestRaw requestRaw)
         {
-            writer.Write(request.Headers.ToString());
-            writer.Write(request.Content.Headers.ToString());
-            writer.WriteLine();
+            requestRaw.Headers = new List<string>();
+            BuilderRequestHeaderKeyValue(request.Headers, requestRaw);
+            BuilderRequestHeaderKeyValue(request.Content.Headers, requestRaw);
+        }
+
+        private static void BuilderRequestHeaderKeyValue(HttpHeaders headers, HttpRequestRaw requestRaw)
+        {
+            if (headers != null)
+            {
+                foreach (var item in headers)
+                {
+                    requestRaw.Headers.Add(string.Format("{0}:{1}", item.Key, headers.GetValues(item.Key).FirstOrDefault()));
+                }
+            }
         }
 
         #endregion Methods

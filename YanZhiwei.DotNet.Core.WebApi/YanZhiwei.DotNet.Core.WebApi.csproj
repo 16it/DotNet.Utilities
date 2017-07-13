@@ -74,7 +74,7 @@
   <ItemGroup>
     <Compile Include="ApiBaseController.cs" />
     <Compile Include="AuthApiController.cs" />
-    <Compile Include="Filter\ControllerExceptionFilterAttribute.cs" />
+    <Compile Include="Filter\ControllerExceptionAttribute.cs" />
     <Compile Include="Filter\ValidateModelAttribute.cs" />
     <Compile Include="Filter\WebApiOutputCacheAttribute.cs" />
     <Compile Include="IAuthenticationApi.cs" />
