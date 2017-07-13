@@ -29,10 +29,9 @@
 
         private static void WriteBasic(HttpRequestMessage request, StringWriter writer)
         {
-            string _space = " ";
-            writer.Write(request.Method);
-            writer.Write(_space + request.RequestUri);
-            writer.WriteLine(_space + "HTTP/" + request.Version);
+            writer.WriteLine(request.Method);
+            writer.WriteLine(request.RequestUri);
+            writer.WriteLine("HTTP/" + request.Version);
         }
 
         private static void WriteBody(HttpRequestMessage request, StringWriter writer)
@@ -53,7 +52,6 @@
                 if (!string.IsNullOrEmpty(_bodyString))
                     writer.WriteLine(_bodyString);
             }
-
             catch (Exception)
             {
             }

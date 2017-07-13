@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="ApiBaseController.cs" />
     <Compile Include="AuthApiController.cs" />
+    <Compile Include="Filter\ControllerExceptionFilterAttribute.cs" />
     <Compile Include="Filter\ValidateModelAttribute.cs" />
     <Compile Include="Filter\WebApiOutputCacheAttribute.cs" />
     <Compile Include="IAuthenticationApi.cs" />
@@ -103,6 +104,10 @@
     <ProjectReference Include="..\YanZhiwei.DotNet3.5.Utilities\YanZhiwei.DotNet3.5.Utilities.csproj">
       <Project>{fce5db97-96ec-4e53-bc19-eee6f2aa88e0}</Project>
       <Name>YanZhiwei.DotNet3.5.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet4.5.Utilities\YanZhiwei.DotNet4.5.Utilities.csproj">
+      <Project>{63A554D3-CD2D-471E-8EE7-E743459E896D}</Project>
+      <Name>YanZhiwei.DotNet4.5.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet4.Utilities\YanZhiwei.DotNet4.Utilities.csproj">
       <Project>{f28c6057-ba11-4b01-89f0-471ac92683df}</Project>
