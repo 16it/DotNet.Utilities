@@ -52,7 +52,7 @@
                 }
                 requestRaw.Body = _bodyString;
             }
-            catch (Exception)
+            catch
             {
             }
         }
