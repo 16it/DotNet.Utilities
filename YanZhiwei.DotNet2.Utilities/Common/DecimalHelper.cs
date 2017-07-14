@@ -12,8 +12,8 @@
         /// <summary>
         /// 计算百分比(保持两位小数)
         /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="total">The total.</param>
+        /// <param name="value">分子</param>
+        /// <param name="total">分母</param>
         /// <returns>百分比</returns>
         public static decimal CalcPercentage(decimal value, decimal total)
         {
@@ -23,11 +23,28 @@
         /// <summary>
         /// 转换成钱表示形式（保持两位小数）
         /// </summary>
-        /// <param name="data">The data.</param>
+        /// <param name="data">需要处理的decimal</param>
         /// <returns>保持两位小数</returns>
         public static decimal ToMoney(this decimal data)
         {
             return Math.Round(data, 2);
+        }
+
+        /// 处理decimal，规则如下：
+        /// 1.55.55==>55.55
+        /// 2.55.00==>55
+        /// <param name="value">需要处理的decimal</param>
+        /// <returns>处理后的decimal</returns>
+        public static decimal CustomizedDecimal(decimal value)
+        {
+            try
+            {
+                return decimal.Parse(string.Format("{0:0.00}", value).Replace(".00", ""));
+            }
+            catch (Exception)
+            {
+                return value;
+            }
         }
 
         #endregion Methods
