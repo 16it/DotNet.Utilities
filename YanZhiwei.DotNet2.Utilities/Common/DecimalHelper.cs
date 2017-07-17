@@ -30,6 +30,7 @@
             return Math.Round(data, 2);
         }
 
+        /// <summary>
         /// 处理decimal，规则如下：
         /// 1.55.55==>55.55
         /// 2.55.00==>55
@@ -37,14 +38,7 @@
         /// <returns>处理后的decimal</returns>
         public static decimal CustomizedDecimal(decimal value)
         {
-            try
-            {
-                return decimal.Parse(string.Format("{0:0.00}", value).Replace(".00", ""));
-            }
-            catch (Exception)
-            {
-                return value;
-            }
+            return decimal.Parse(string.Format("{0:0.00}", value).Replace(".00", "")).ToDecimalOrDefault(value);
         }
 
         #endregion Methods
