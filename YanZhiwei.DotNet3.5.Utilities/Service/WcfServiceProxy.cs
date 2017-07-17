@@ -1,18 +1,17 @@
-﻿using Castle.DynamicProxy;
-using System;
-using System.ServiceModel;
-using System.ServiceModel.Description;
-using System.Xml;
-
-namespace YanZhiwei.DotNet.Core.Service
+﻿namespace YanZhiwei.DotNet3._5.Utilities.Service
 {
+    using System;
+    using System.ServiceModel;
+    using System.ServiceModel.Description;
+    using System.Xml;
+
     /// <summary>
-    /// 通过Wcf提供服务
+    /// Wcf 服务代理抽象类
     /// </summary>
-    public abstract class WcfService : IServiceBase
+    public abstract class WcfServiceProxy
     {
         #region Fields
-        
+
         /// <summary>
         /// 获取或设置配置了此绑定的通道上可以接收的消息的最大大小。
         /// </summary>
@@ -21,7 +20,7 @@ namespace YanZhiwei.DotNet.Core.Service
             get;    //= 2147483647;
             set;
         }
-        
+
         /// <summary>
         /// 超时时间
         /// </summary>
@@ -30,7 +29,7 @@ namespace YanZhiwei.DotNet.Core.Service
             get;    // TimeSpan.FromMinutes(10);
             set;
         }
-        
+
         /// <summary>
         /// 标识终结点的 URI
         /// </summary>
@@ -39,22 +38,20 @@ namespace YanZhiwei.DotNet.Core.Service
             get;
             set;
         }
-        
+
         #endregion Fields
-        
+
         /// <summary>
         /// 创建服务
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <typeparam name="F">泛型</typeparam>
         /// <returns>
         /// 类型
         /// </returns>
         /// 时间：2016/9/6 16:54
         /// 备注：
-        public virtual T CreateService<T, F>()
+        public virtual T CreateService<T>()
         where T : class
-            where F : IInterceptor, new()
         {
             BasicHttpBinding _binding = new BasicHttpBinding();
             _binding.MaxReceivedMessageSize = MaxReceivedMessageSize;
@@ -66,15 +63,15 @@ namespace YanZhiwei.DotNet.Core.Service
             _binding.ReceiveTimeout = Timeout;
             _binding.SendTimeout = Timeout;
             ChannelFactory<T> _chan = new ChannelFactory<T>(_binding, new EndpointAddress(Url));
-            
-            foreach(OperationDescription op in _chan.Endpoint.Contract.Operations)
+
+            foreach (OperationDescription op in _chan.Endpoint.Contract.Operations)
             {
                 var dataContractBehavior = op.Behaviors.Find<DataContractSerializerOperationBehavior>();
-                
-                if(dataContractBehavior != null)
+
+                if (dataContractBehavior != null)
                     dataContractBehavior.MaxItemsInObjectGraph = int.MaxValue;
             }
-            
+
             _chan.Open();
             var service = _chan.CreateChannel();
             return service;

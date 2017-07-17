@@ -77,7 +77,8 @@
     <Compile Include="Enum\ThumbnailImageCutMode.cs" />
     <Compile Include="Lambda\RecursiveSelectLambda.cs" />
     <Compile Include="Common\TypeHelper.cs" />
-    <Compile Include="Common\WcfServiceProxy.cs" />
+    <Compile Include="Service\RefService.cs" />
+    <Compile Include="Service\WcfServiceProxy.cs" />
     <Compile Include="Enum\WatermarkImagesPosition.cs" />
     <Compile Include="Enum\UploadFileSaveType.cs" />
     <Compile Include="Lambda\ReflectLambda.cs" />

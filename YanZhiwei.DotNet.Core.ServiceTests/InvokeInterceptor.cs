@@ -1,7 +1,8 @@
 ﻿using Castle.DynamicProxy;
 using System;
+using System.Diagnostics;
 using YanZhiwei.DotNet2.Utilities.ExtendException;
-
+using YanZhiwei.DotNet2.Utilities.Common;
 namespace YanZhiwei.DotNet.Core.ServiceTests
 {
     internal class InvokeInterceptor : IInterceptor
@@ -9,7 +10,7 @@ namespace YanZhiwei.DotNet.Core.ServiceTests
         public InvokeInterceptor()
         {
         }
-        
+
         /// <summary>
         /// 拦截方法
         /// </summary>
@@ -19,12 +20,13 @@ namespace YanZhiwei.DotNet.Core.ServiceTests
             try
             {
                 invocation.Proceed();
+                Debug.WriteLine(DateTime.Now.FormatDate(1) + " Proceed");
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                if(exception is BusinessException)
+                if (exception is BusinessException)
                     throw;
-                    
+
                 var message = new
                 {
                     exception = exception.Message,
