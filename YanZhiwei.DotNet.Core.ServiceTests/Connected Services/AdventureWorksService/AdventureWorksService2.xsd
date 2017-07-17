@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/YanZhiwei.DotNet.WCFBasicServerExample" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/YanZhiwei.DotNet.WCFBasicServerExample" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8092/AdventureWorksService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="Product">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Class" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Color" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DaysToManufacture" type="xs:int" />
+      <xs:element minOccurs="0" name="DiscontinuedDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="FinishedGoodsFlag" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ListPrice" type="xs:decimal" />
+      <xs:element minOccurs="0" name="MakeFlag" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ModifiedDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProductID" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductLine" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProductModelID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ProductNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ProductSubcategoryID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ReorderPoint" type="xs:short" />
+      <xs:element minOccurs="0" name="SafetyStockLevel" type="xs:short" />
+      <xs:element minOccurs="0" name="SellEndDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SellStartDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Size" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SizeUnitMeasureCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StandardCost" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Style" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Weight" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="WeightUnitMeasureCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="rowguid" type="ser:guid" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Product" nillable="true" type="tns:Product" />
+</xs:schema>

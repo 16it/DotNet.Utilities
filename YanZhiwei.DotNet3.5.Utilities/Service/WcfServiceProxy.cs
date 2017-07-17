@@ -18,7 +18,6 @@
         protected abstract int MaxReceivedMessageSize
         {
             get;    //= 2147483647;
-            set;
         }
 
         /// <summary>
@@ -27,7 +26,6 @@
         protected abstract TimeSpan Timeout
         {
             get;    // TimeSpan.FromMinutes(10);
-            set;
         }
 
         /// <summary>
@@ -36,7 +34,6 @@
         protected abstract string Url
         {
             get;
-            set;
         }
 
         #endregion Fields
@@ -53,7 +50,8 @@
         public virtual T CreateService<T>()
         where T : class
         {
-            BasicHttpBinding _binding = new BasicHttpBinding();
+            WSHttpBinding _binding = new WSHttpBinding();
+            _binding.Security.Mode = SecurityMode.None;
             _binding.MaxReceivedMessageSize = MaxReceivedMessageSize;
             _binding.ReaderQuotas = new XmlDictionaryReaderQuotas();
             _binding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;

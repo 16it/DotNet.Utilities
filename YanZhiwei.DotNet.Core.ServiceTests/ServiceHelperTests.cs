@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using YanZhiwei.DotNet.Core.ServiceTests;
+using YanZhiwei.DotNet.Core.ServiceTests.AdventureWorksService;
 
 namespace YanZhiwei.DotNet.Core.Service.Tests
 {
@@ -14,6 +15,11 @@ namespace YanZhiwei.DotNet.Core.Service.Tests
             Assert.AreEqual("Hello World.", _acutal);
             _acutal = _serverHelper.CreateService<ISqlHelper, InvokeInterceptor>().HelloWorld();
             Assert.AreEqual("Hello World.", _acutal);
+
+            ServiceHelper _wcfServerHelper = new ServiceHelper(new AdventureWorksServiceProxy());
+            int[] _finded = _wcfServerHelper.CreateService<IProductsService, InvokeInterceptor>().GetProductIDList();
+
+            Assert.AreEqual(_finded.Length, 6);
         }
 
         [TestMethod()]
