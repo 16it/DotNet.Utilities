@@ -13,19 +13,16 @@ namespace YanZhiwei.DotNet.Core.Service.Tests
             ServiceHelper _serverHelper = new ServiceHelper(new SqlDataAccessRefService());
             string _acutal = _serverHelper.CreateService<ISqlHelper, InvokeInterceptor>().HelloWorld();
             Assert.AreEqual("Hello World.", _acutal);
+
             _acutal = _serverHelper.CreateService<ISqlHelper, InvokeInterceptor>().HelloWorld();
             Assert.AreEqual("Hello World.", _acutal);
 
             ServiceHelper _wcfServerHelper = new ServiceHelper(new AdventureWorksServiceProxy());
-            int[] _finded = _wcfServerHelper.CreateService<IProductsService, InvokeInterceptor>().GetProductIDList();
+            int[] _productIDList = _wcfServerHelper.CreateService<IProductsService, InvokeInterceptor>().GetProductIDList();
+            Assert.IsTrue(_productIDList.Length > 0);
 
-            Assert.AreEqual(_finded.Length, 6);
-        }
-
-        [TestMethod()]
-        public void CreateServiceTest1()
-        {
-            Assert.Fail();
+            Product _findedProduct = _wcfServerHelper.CreateService<IProductsService, InvokeInterceptor>().GetProduct(1);
+            Assert.AreEqual(_findedProduct.Name, "Adjustable Race");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using System;
+using YanZhiwei.DotNet.Core.Cache;
 using YanZhiwei.DotNet.Core.Service;
 using YanZhiwei.DotNet3._5.Utilities.Service;
 
@@ -17,7 +18,11 @@ namespace YanZhiwei.DotNet.Core.ServiceTests
             where T : class
             where F : IInterceptor, new()
         {
-            return base.CreateService<T>();
+            var key = string.Format("{0}-{1}", typeof(T), Url);
+            return CacheHelper.Get<T>(key, () =>
+            {
+                return base.CreateService<T>();
+            });
         }
     }
 }
