@@ -9,9 +9,17 @@ namespace YanZhiwei.DotNet.Core.Service.Tests
         [TestMethod()]
         public void CreateServiceTest()
         {
-            ServiceHelper _serviceHelper = new ServiceHelper();
-            string _acutal = _serviceHelper.CreateService<ISqlHelper, InvokeInterceptor>().HelloWorld();
+            ServiceHelper _serverHelper = new ServiceHelper(new SqlDataAccessRefService());
+            string _acutal = _serverHelper.CreateService<ISqlHelper, InvokeInterceptor>().HelloWorld();
             Assert.AreEqual("Hello World.", _acutal);
+            _acutal = _serverHelper.CreateService<ISqlHelper, InvokeInterceptor>().HelloWorld();
+            Assert.AreEqual("Hello World.", _acutal);
+        }
+
+        [TestMethod()]
+        public void CreateServiceTest1()
+        {
+            Assert.Fail();
         }
     }
 }

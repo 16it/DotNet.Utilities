@@ -7,26 +7,26 @@ namespace YanZhiwei.DotNet.Core.Service
     /// </summary>
     public class ServiceHelper
     {
-        /// <summary>
-        /// 默认引用服务方式
-        /// </summary>
-        public ServiceHelper() : this(new RefServiceFactory())
-        {
-        }
+        ///// <summary>
+        ///// 默认引用服务方式
+        ///// </summary>
+        //public ServiceHelper() : this(new RefService())
+        //{
+        //}
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="service">ServiceFactory</param>
-        public ServiceHelper(ServiceFactory service)
+        public ServiceHelper(IServiceBase service)
         {
-            serviceFactory = service;
+            serviceBase = service;
         }
 
         /// <summary>
         /// 暂时使用引用服务方式，可以改造成注入，或使用WCF服务方式
         /// </summary>
-        private ServiceFactory serviceFactory
+        private IServiceBase serviceBase
         {
             get;
             set;
@@ -39,7 +39,7 @@ namespace YanZhiwei.DotNet.Core.Service
         where T : class
             where F : IInterceptor, new()
         {
-            var _service = serviceFactory.CreateService<T, F>();
+            var _service = serviceBase.CreateService<T, F>();
             ProxyGenerator _generator = new ProxyGenerator();
             T _dynamicProxy = _generator.CreateInterfaceProxyWithTargetInterface<T>(
                                   _service, new F());
