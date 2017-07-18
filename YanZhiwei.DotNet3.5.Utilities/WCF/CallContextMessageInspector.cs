@@ -21,7 +21,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WCF
         //在Client端对 IClientMessageInspector 进行实现
         //在service端对IDispatchMessageInspector进行实现
 
-        #region IClientMessageInspector            
+        #region IClientMessageInspector                          
         /// <summary>
         /// Afters the receive reply.
         /// </summary>

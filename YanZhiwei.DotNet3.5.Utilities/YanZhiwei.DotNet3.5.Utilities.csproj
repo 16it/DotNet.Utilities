@@ -93,6 +93,10 @@
     <Compile Include="Model\UploadImageInfo.cs" />
     <Compile Include="WCF\CallContextInspectorBehavior.cs" />
     <Compile Include="WCF\CallContextMessageInspector.cs" />
+    <Compile Include="WCF\ContextAttachingMessageInspector.cs" />
+    <Compile Include="WCF\ContextPropagationBehavior.cs" />
+    <Compile Include="WCF\ContextPropagationBehaviorElement.cs" />
+    <Compile Include="WCF\ContextReceivalCallContextInitializer.cs" />
     <Compile Include="WebClient\CNNWebClient.cs">
       <SubType>Component</SubType>
     </Compile>

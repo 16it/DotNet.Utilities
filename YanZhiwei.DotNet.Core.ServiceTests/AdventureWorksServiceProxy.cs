@@ -30,7 +30,7 @@ namespace YanZhiwei.DotNet.Core.ServiceTests
 
         public override void AddBehaviors(KeyedByTypeCollection<IEndpointBehavior> behaviors)
         {
-            behaviors.Add(new CallContextInspectorBehavior());
+            behaviors.Add(new ContextPropagationBehavior());
             //throw new NotImplementedException();
         }
     }
