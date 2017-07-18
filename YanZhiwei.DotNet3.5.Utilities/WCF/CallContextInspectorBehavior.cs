@@ -11,7 +11,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.WCF
     /// </summary>
     /// <seealso cref="System.ServiceModel.Configuration.BehaviorExtensionElement" />
     /// <seealso cref="System.ServiceModel.Description.IEndpointBehavior" />
-    internal sealed class CallContextInspectorBehavior : BehaviorExtensionElement, IEndpointBehavior
+    public sealed class CallContextInspectorBehavior : BehaviorExtensionElement, IEndpointBehavior
     {
         /// <summary>
         /// Gets the type of the behavior.

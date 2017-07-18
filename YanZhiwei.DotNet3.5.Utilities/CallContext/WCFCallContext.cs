@@ -15,7 +15,7 @@
         #region Fields
 
         internal const string ContextHeaderLocalName = "__WCFCallContext";
-        internal const string ContextHeaderNamespace = "urn:YanZhiwei.DotNet.Utilities";
+        internal const string ContextHeaderNamespace = "urn:DotNet.Utilities";
 
         private const string callContextKey = "__CommonCallContext";
 
