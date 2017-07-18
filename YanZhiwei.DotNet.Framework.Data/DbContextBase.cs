@@ -11,7 +11,8 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    
+    using YanZhiwei.DotNet3._5.Utilities.CallContext;
+
     /// <summary>
     /// DAL基类，实现Repository通用泛型数据访问模式
     /// </summary>
@@ -182,7 +183,7 @@
                 if(_auditableAttr == null)
                     continue;
                     
-                string _operaterName = ServiceCallContext.Current.Operater.Name;
+                string _operaterName = CommonCallContext.Current.Operater.Name;
                 Task.Factory.StartNew(() =>
                 {
                     TableAttribute _tableAttr = dbEntry.Entity.GetType().GetCustomAttributes(typeof(TableAttribute), false).SingleOrDefault() as TableAttribute;

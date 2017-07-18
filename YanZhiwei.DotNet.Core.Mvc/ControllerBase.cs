@@ -7,6 +7,8 @@
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
+    using YanZhiwei.DotNet2.Utilities.Model;
+    using YanZhiwei.DotNet3._5.Utilities.CallContext;
 
     /// <summary>
     /// MVC Controller 基类
@@ -66,7 +68,7 @@
         {
             StringBuilder _builder = new StringBuilder("<script>");
 
-            if(!string.IsNullOrEmpty(notice))
+            if (!string.IsNullOrEmpty(notice))
                 _builder.AppendFormat("alert('{0}');", notice);
 
             _builder.Append("history.go(-1)</script>");
@@ -102,10 +104,10 @@
         {
             StringBuilder _builder = new StringBuilder("<script type='text/javascript'>");
 
-            if(!string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(message))
                 _builder.AppendFormat("alert('{0}');", message);
 
-            if(string.IsNullOrWhiteSpace(url))
+            if (string.IsNullOrWhiteSpace(url))
                 url = Request.Url.ToString();
 
             _builder.Append("window.location.href='" + url + "'</script>");
@@ -146,7 +148,7 @@
         {
             string _content = "<meta http-equiv='refresh' content='1;url=" + redirect + "' /><body style='margin-top:0px;color:red;font-size:24px;'>" + notice + "</body>";
 
-            if(isAlert)
+            if (isAlert)
                 _content = string.Format("<script>alert('{0}'); window.location.href='{1}'</script>", notice, redirect);
 
             return this.Content(_content);
@@ -158,10 +160,10 @@
         /// <param name="filterContext"></param>
         public virtual void UpdateOperater(ActionExecutingContext filterContext)
         {
-            if(this.Operater == null)
+            if (this.Operater == null)
                 return;
 
-            ServiceCallContext.Current.Operater = this.Operater;
+            CommonCallContext.Current.Operater = this.Operater;
         }
 
         /// <summary>
@@ -194,7 +196,7 @@
         {
             base.OnActionExecuted(filterContext);
 
-            if(!filterContext.RequestContext.HttpContext.Request.IsAjaxRequest() && !filterContext.IsChildAction)
+            if (!filterContext.RequestContext.HttpContext.Request.IsAjaxRequest() && !filterContext.IsChildAction)
                 RenderViewData();
 
             this.ClearOperater();

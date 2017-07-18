@@ -51,10 +51,8 @@
     <Compile Include="AuditableAttribute.cs" />
     <Compile Include="BusinessRequest.cs" />
     <Compile Include="ISqlAuditable.cs" />
-    <Compile Include="ServiceCallContext.cs" />
     <Compile Include="IAuditable.cs" />
     <Compile Include="ModelBase.cs" />
-    <Compile Include="Operater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

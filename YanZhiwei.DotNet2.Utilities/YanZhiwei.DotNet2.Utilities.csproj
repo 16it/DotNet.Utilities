@@ -85,6 +85,7 @@
     <Compile Include="Model\MimeTypes.cs" />
     <Compile Include="Model\AppInfo.cs" />
     <Compile Include="Model\BitmapInfo.cs" />
+    <Compile Include="Model\Operater.cs" />
     <Compile Include="Model\TokenInfo.cs" />
     <Compile Include="Model\UserInfo.cs" />
     <Compile Include="Operator\BinaryFileOperator.cs" />

@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet.Framework.Contract
+﻿namespace YanZhiwei.DotNet2.Utilities.Model
 {
     using System;
 
@@ -65,7 +65,7 @@
         /// <summary>
         /// 凭据
         /// </summary>
-        public Guid Token
+        public string Token
         {
             get;
             set;
@@ -74,27 +74,7 @@
         /// <summary>
         /// 用户主键
         /// </summary>
-        public int UserId
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// 用户主键GUID
-        /// </summary>
-        /// 时间：2016/11/8 15:13
-        /// 备注：
-        public Guid UserGuid
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// 用户主键Base64字符串
-        /// </summary>
-        public string UserBase64
+        public Guid UserId
         {
             get;
             set;
