@@ -50,16 +50,16 @@
         /// <summary>
         /// ServiceCallContext 数据槽
         /// </summary>
-        public static CommonCallContext Current
+        public static WCFCallContext Current
         {
             get
             {
                 if(System.Runtime.Remoting.Messaging.CallContext.GetData(callContextKey) == null)
                 {
-                    System.Runtime.Remoting.Messaging.CallContext.SetData(callContextKey, new CommonCallContext());
+                    System.Runtime.Remoting.Messaging.CallContext.SetData(callContextKey, new WCFCallContext());
                 }
 
-                return System.Runtime.Remoting.Messaging.CallContext.GetData(callContextKey) as CommonCallContext;
+                return System.Runtime.Remoting.Messaging.CallContext.GetData(callContextKey) as WCFCallContext;
             }
 
             set

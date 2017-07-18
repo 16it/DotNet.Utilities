@@ -1,7 +1,7 @@
-﻿using System;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
+using YanZhiwei.DotNet3._5.Utilities.CallContext;
 
 namespace YanZhiwei.DotNet3._5.Utilities.WCF
 {
@@ -21,39 +21,14 @@ namespace YanZhiwei.DotNet3._5.Utilities.WCF
         //在Client端对 IClientMessageInspector 进行实现
         //在service端对IDispatchMessageInspector进行实现
 
+        #region IClientMessageInspector            
         /// <summary>
         /// Afters the receive reply.
         /// </summary>
         /// <param name="reply">The reply.</param>
         /// <param name="correlationState">State of the correlation.</param>
-        /// <exception cref="NotImplementedException"></exception>
         public void AfterReceiveReply(ref Message reply, object correlationState)
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Afters the receive request.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <param name="channel">The channel.</param>
-        /// <param name="instanceContext">The instance context.</param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Befores the send reply.
-        /// </summary>
-        /// <param name="reply">The reply.</param>
-        /// <param name="correlationState">State of the correlation.</param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void BeforeSendReply(ref Message reply, object correlationState)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -62,10 +37,42 @@ namespace YanZhiwei.DotNet3._5.Utilities.WCF
         /// <param name="request">The request.</param>
         /// <param name="channel">The channel.</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
-            throw new NotImplementedException();
+            var _contextHeader = new MessageHeader<WCFCallContext>(WCFCallContext.Current);
+            request.Headers.Add(_contextHeader.GetUntypedHeader(WCFCallContext.ContextHeaderLocalName, WCFCallContext.ContextHeaderNamespace));
+            return null;
         }
+
+        #endregion IClientMessageInspector
+
+
+
+        #region IDispatchMessageInspector
+
+        /// <summary>
+        /// Afters the receive request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="channel">The channel.</param>
+        /// <param name="instanceContext">The instance context.</param>
+        /// <returns></returns>
+        public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
+        {
+            var _context = request.Headers.GetHeader<WCFCallContext>(WCFCallContext.ContextHeaderLocalName, WCFCallContext.ContextHeaderNamespace);
+            WCFCallContext.Current = _context;
+            return null;
+        }
+
+        /// <summary>
+        /// Befores the send reply.
+        /// </summary>
+        /// <param name="reply">The reply.</param>
+        /// <param name="correlationState">State of the correlation.</param>
+        public void BeforeSendReply(ref Message reply, object correlationState)
+        {
+        }
+
+        #endregion IDispatchMessageInspector
     }
 }

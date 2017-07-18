@@ -3,6 +3,8 @@ using System;
 using YanZhiwei.DotNet.Core.Cache;
 using YanZhiwei.DotNet.Core.Service;
 using YanZhiwei.DotNet3._5.Utilities.Service;
+using System.Collections.Generic;
+using System.ServiceModel.Description;
 
 namespace YanZhiwei.DotNet.Core.ServiceTests
 {
@@ -21,8 +23,13 @@ namespace YanZhiwei.DotNet.Core.ServiceTests
             var key = string.Format("{0}-{1}", typeof(T), Url);
             return CacheHelper.Get<T>(key, () =>
             {
-                return base.CreateService<T>();
+                return base.CreateBasicHttpService<T>();
             });
+        }
+
+        public override void AddBehaviors(KeyedByTypeCollection<IEndpointBehavior> behaviors)
+        {
+            throw new NotImplementedException();
         }
     }
 }
