@@ -6,7 +6,7 @@ using YanZhiwei.DotNet.Framework.Contract;
 [Table("Person.Address")]
 [Auditable]
 [Serializable]
-public class Address : ModelBase
+public class Address : ModelBase<int>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -73,6 +73,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet.Framework.Contract\YanZhiwei.DotNet.Framework.Contract.csproj">
+      <Project>{5cd641fa-33ba-4fa3-9df4-97a0c2e53e14}</Project>
+      <Name>YanZhiwei.DotNet.Framework.Contract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.Framework.Data\YanZhiwei.DotNet.Framework.Data.csproj">
       <Project>{3E3AD6DC-66CD-4B62-9C90-DCFD6805A92C}</Project>
       <Name>YanZhiwei.DotNet.Framework.Data</Name>

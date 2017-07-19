@@ -8,7 +8,7 @@ namespace YanZhiwei.DotNet.Framework.DataTests
 {
     public class LogDbContext : DbContextBase<int>, IAuditable
     {
-        public LogDbContext() : base(@"Data Source=DESKTOP-N3GTH4E\SQLEXPRESS;Initial Catalog=AdventureWorks2014;Persist Security Info=True;User ID=sa;Password=sasa")
+        public LogDbContext() : base(@"Data Source=KEDE-YANZHIWEI\SQLEXPRESS;Initial Catalog=AdventureWorks2008R2;Persist Security Info=True;User ID=sa;Password=sasa")
         {
         }
         
