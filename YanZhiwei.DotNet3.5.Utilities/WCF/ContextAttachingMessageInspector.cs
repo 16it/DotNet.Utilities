@@ -41,6 +41,10 @@ namespace YanZhiwei.DotNet3._5.Utilities.WCF
         /// </returns>
         public object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
+            //通过MessageInspector将AppContext置于SOAP header中
+            //SOAP 即 Simple Object AccessProtocol 也就是简单对象访问协议。
+            //SOAP 是用于在应用程序之间进行通信的一种通信协议。
+            //因为是基于 XML 和HTTP 的，所以其独立于语言，独立于平台，并且因为 XML 的扩展性很好，
             var _contextHeader = new MessageHeader<WCFCallContext>(WCFCallContext.Current);
             request.Headers.Add(_contextHeader.GetUntypedHeader(WCFCallContext.ContextHeaderLocalName, WCFCallContext.ContextHeaderNamespace));
             return null;
@@ -53,7 +57,8 @@ namespace YanZhiwei.DotNet3._5.Utilities.WCF
         #region IDispatchMessageInspector
 
         /// <summary>
-        /// Afters the receive request.
+        /// 接收请求后触发， 此方法的返回值将作为BeforeSendReply的第二个参数correlcationState传入
+        ///  AfterReceiveRequest  ->  wcf操作 ->  BeforeSendReply
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="channel">The channel.</param>
@@ -61,13 +66,14 @@ namespace YanZhiwei.DotNet3._5.Utilities.WCF
         /// <returns></returns>
         public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
         {
+            //通过local name和namespace提取context对应的message header，并设置当前的ApplicationContext
             var _context = request.Headers.GetHeader<WCFCallContext>(WCFCallContext.ContextHeaderLocalName, WCFCallContext.ContextHeaderNamespace);
             WCFCallContext.Current = _context;
             return null;
         }
 
         /// <summary>
-        /// Befores the send reply.
+        /// 在输出相应触发
         /// </summary>
         /// <param name="reply">The reply.</param>
         /// <param name="correlationState">State of the correlation.</param>
