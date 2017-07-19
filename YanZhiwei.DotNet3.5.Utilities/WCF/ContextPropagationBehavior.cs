@@ -1,34 +1,77 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ServiceModel.Description;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Configuration;
+using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
 namespace YanZhiwei.DotNet3._5.Utilities.WCF
 {
-    public class ContextPropagationBehavior : IEndpointBehavior
+    /// <summary>
+    /// WCF调用上下文 InspectorBehavior
+    /// </summary>
+    /// <seealso cref="System.ServiceModel.Configuration.BehaviorExtensionElement" />
+    /// <seealso cref="System.ServiceModel.Description.IEndpointBehavior" />
+    public sealed class ContextPropagationBehavior : BehaviorExtensionElement, IEndpointBehavior
     {
-
-        public bool IsBidirectional { get; set; }
-        public ContextPropagationBehavior() : this(false) { }
-        public ContextPropagationBehavior(bool isBidirectional)
+        /// <summary>
+        /// Gets the type of the behavior.
+        /// </summary>
+        /// <value>
+        /// The type of the behavior.
+        /// </value>
+        public override Type BehaviorType
         {
-            this.IsBidirectional = isBidirectional;
+            get { return typeof(ContextPropagationBehavior); }
         }
-        public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters) { }
+
+        /// <summary>
+        /// Creates the behavior.
+        /// </summary>
+        /// <returns></returns>
+        protected override object CreateBehavior()
+        {
+            return new ContextPropagationBehavior();
+        }
+
+        #region IEndpointBehavior
+
+        /// <summary>
+        /// Adds the binding parameters.
+        /// </summary>
+        /// <param name="endpoint">The endpoint.</param>
+        /// <param name="bindingParameters">The binding parameters.</param>
+        public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters)
+        {
+        }
+
+        /// <summary>
+        /// Applies the client behavior.
+        /// </summary>
+        /// <param name="endpoint">The endpoint.</param>
+        /// <param name="clientRuntime">The client runtime.</param>
         public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
         {
-            clientRuntime.MessageInspectors.Add(new ContextAttachingMessageInspector(this.IsBidirectional));
+            clientRuntime.MessageInspectors.Add(new ContextAttachingMessageInspector());
         }
+
+        /// <summary>
+        /// Applies the dispatch behavior.
+        /// </summary>
+        /// <param name="endpoint">The endpoint.</param>
+        /// <param name="endpointDispatcher">The endpoint dispatcher.</param>
         public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher)
         {
-            foreach (var operation in endpointDispatcher.DispatchRuntime.Operations)
-            {
-                operation.CallContextInitializers.Add(new ContextReceivalCallContextInitializer(this.IsBidirectional));
-            }
+            endpointDispatcher.DispatchRuntime.MessageInspectors.Add(new ContextAttachingMessageInspector());
         }
-        public void Validate(ServiceEndpoint endpoint) { }
+
+        /// <summary>
+        /// Validates the specified endpoint.
+        /// </summary>
+        /// <param name="endpoint">The endpoint.</param>
+        public void Validate(ServiceEndpoint endpoint)
+        {
+        }
+
+        #endregion IEndpointBehavior
     }
 }
