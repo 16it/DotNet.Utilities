@@ -10,6 +10,7 @@
     using System.Data.Entity;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading;
     using System.Threading.Tasks;
     using YanZhiwei.DotNet3._5.Utilities.CallContext;
 
@@ -32,7 +33,7 @@
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
         }
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -43,7 +44,7 @@
         {
             AuditLogger = auditLogger;
         }
-        
+
         /// <summary>
         /// 日志接口
         /// </summary>
@@ -52,7 +53,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 删除
         /// </summary>
@@ -64,7 +65,7 @@
             this.Entry<T>(entity).State = EntityState.Deleted;
             this.SaveChanges();
         }
-        
+
         /// <summary>
         /// 查找
         /// </summary>
@@ -78,7 +79,7 @@
         {
             return this.Set<T>().Find(keyValues);
         }
-        
+
         /// <summary>
         /// 查找全部
         /// </summary>
@@ -90,12 +91,12 @@
         public List<T> FindAll<T>(Expression<Func<T, bool>> conditions = null)
         where T : ModelBase<F>
         {
-            if(conditions == null)
+            if (conditions == null)
                 return this.Set<T>().ToList();
             else
                 return this.Set<T>().Where(conditions).ToList();
         }
-        
+
         /// <summary>
         /// 分页查找
         /// </summary>
@@ -112,7 +113,7 @@
             var queryList = conditions == null ? this.Set<T>() : this.Set<T>().Where(conditions) as IQueryable<T>;
             return queryList.OrderByDescending(orderBy).ToPagedList(pageIndex, pageSize);
         }
-        
+
         /// <summary>
         /// 添加
         /// </summary>
@@ -128,7 +129,7 @@
             this.SaveChanges();
             return entity;
         }
-        
+
         /// <summary>
         /// 将在此上下文中所做的所有更改保存到基础数据库。
         /// </summary>
@@ -140,7 +141,20 @@
             this.WriteAuditLog();
             return base.SaveChanges();
         }
-        
+
+        /// <summary>
+        /// 将在此上下文中所做的所有更改异步保存到基础数据库。
+        /// </summary>
+        /// <param name="cancellationToken">等待任务完成期间要观察的 <see cref="T:System.Threading.CancellationToken" />。</param>
+        /// <returns>
+        /// 表示异步保存操作的任务。任务结果包含已写入基础数据库的对象数目。
+        /// </returns>
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            this.WriteAuditLog();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
         /// <summary>
         /// Sql语句查询
         /// </summary>
@@ -152,7 +166,7 @@
         {
             return this.Database.SqlQuery<T>(sql, parameters);
         }
-        
+
         /// <summary>
         /// 更新
         /// </summary>
@@ -170,22 +184,22 @@
             this.SaveChanges();
             return entity;
         }
-        
+
         /// <summary>
         /// 日志拦截写入
         /// </summary>
         internal void WriteAuditLog()
         {
-            if(this.AuditLogger == null)
+            if (this.AuditLogger == null)
                 return;
-                
-            foreach(var dbEntry in this.ChangeTracker.Entries<ModelBase>().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified))
+
+            foreach (var dbEntry in this.ChangeTracker.Entries<ModelBase>().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified))
             {
                 AuditableAttribute _auditableAttr = dbEntry.Entity.GetType().GetCustomAttributes(typeof(AuditableAttribute), false).SingleOrDefault() as AuditableAttribute;
-                
-                if(_auditableAttr == null)
+
+                if (_auditableAttr == null)
                     continue;
-                    
+
                 string _operaterName = CommonCallContext.Current.Operater.Name;
                 Task.Factory.StartNew(() =>
                 {
