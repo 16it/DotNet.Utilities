@@ -5,12 +5,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    
+
     /// <summary>
-    /// 仓储接口
+    /// 实现Repository通用泛型数据访问模式
     /// </summary>
-    /// 时间：2016-01-06 17:09
-    /// 备注：
+    /// <typeparam name="F">仓储主键</typeparam>
     public interface IDataRepository<F>
     {
         #region Methods

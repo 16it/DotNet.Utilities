@@ -14,8 +14,12 @@
     using YanZhiwei.DotNet3._5.Utilities.CallContext;
 
     /// <summary>
-    /// DAL基类，实现Repository通用泛型数据访问模式
+    /// 实现Repository通用泛型数据访问模式
     /// </summary>
+    /// <typeparam name="F">仓储主键类型</typeparam>
+    /// <seealso cref="System.Data.Entity.DbContext" />
+    /// <seealso cref="YanZhiwei.DotNet.Framework.Data.IDataRepository{F}" />
+    /// <seealso cref="System.IDisposable" />
     public class DbContextBase<F> : DbContext, IDataRepository<F>, IDisposable
     {
         /// <summary>
@@ -153,7 +157,6 @@
         /// 更新
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
-        /// <typeparam name="F">主键泛型</typeparam>
         /// <param name="entity">实体类</param>
         /// <returns>
         /// 实体类
