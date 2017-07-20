@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Plugins", "YanZhiwei.DotNet.Plugins", "{E7041928-FF2F-44AF-AB91-7427819415C5}"
 EndProject
@@ -206,6 +206,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.SignalR", "YanZhiwei.DotNet.Core.SignalR\YanZhiwei.DotNet.Core.SignalR.csproj", "{C1D733F8-7F5C-4D65-8569-81817F73A70E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Unity.Utilities", "YanZhiwei.DotNet.Unity.Utilities\YanZhiwei.DotNet.Unity.Utilities.csproj", "{5EDF0D5E-F0A2-4B31-ADC8-CDBAD6578D7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.EntityFramework.Utilities", "YanZhiwei.DotNet.EntityFramework.Utilities\YanZhiwei.DotNet.EntityFramework.Utilities.csproj", "{58838FAC-CD4D-46CE-9732-69B7F1DC230D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1581,6 +1583,22 @@ Global
 		{5EDF0D5E-F0A2-4B31-ADC8-CDBAD6578D7C}.Release|x64.Build.0 = Release|Any CPU
 		{5EDF0D5E-F0A2-4B31-ADC8-CDBAD6578D7C}.Release|x86.ActiveCfg = Release|Any CPU
 		{5EDF0D5E-F0A2-4B31-ADC8-CDBAD6578D7C}.Release|x86.Build.0 = Release|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Debug|ARM.Build.0 = Debug|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Debug|x64.Build.0 = Debug|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Debug|x86.Build.0 = Debug|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|ARM.ActiveCfg = Release|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|ARM.Build.0 = Release|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|x64.ActiveCfg = Release|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|x64.Build.0 = Release|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|x86.ActiveCfg = Release|Any CPU
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1678,6 +1696,7 @@ Global
 		{39B3F1BF-ACC2-4D6B-B405-58FC723AC1AB} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 		{C1D733F8-7F5C-4D65-8569-81817F73A70E} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 		{5EDF0D5E-F0A2-4B31-ADC8-CDBAD6578D7C} = {E7041928-FF2F-44AF-AB91-7427819415C5}
+		{58838FAC-CD4D-46CE-9732-69B7F1DC230D} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45

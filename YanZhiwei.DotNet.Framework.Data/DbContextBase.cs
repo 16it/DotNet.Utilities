@@ -8,12 +8,16 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data;
     using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.ExtendException;
     using YanZhiwei.DotNet3._5.Utilities.CallContext;
-
+    using YanZhiwei.DotNet.EntityFramework.Utilities;
     /// <summary>
     /// 实现Repository通用泛型数据访问模式
     /// </summary>
@@ -21,7 +25,7 @@
     /// <seealso cref="System.Data.Entity.DbContext" />
     /// <seealso cref="YanZhiwei.DotNet.Framework.Data.IDataRepository{F}" />
     /// <seealso cref="System.IDisposable" />
-    public class DbContextBase<F> : DbContext, IDataRepository<F>, IDisposable
+    public abstract class DbContextBase<F> : DbContext, IDataRepository<F>, IDisposable, IUnitOfWork
     {
         /// <summary>
         /// 构造函数
@@ -52,6 +56,51 @@
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// 获取 是否开启事务提交
+        /// </summary>
+        public bool TransactionEnabled
+        {
+            get { return Database.CurrentTransaction != null; }
+        }
+
+        /// <summary>
+        /// 显式开启数据上下文事务
+        /// </summary>
+        /// <param name="isolationLevel">指定连接的事务锁定行为</param>
+        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
+        {
+            if (Database.CurrentTransaction == null)
+            {
+                Database.BeginTransaction(isolationLevel);
+            }
+        }
+
+        /// <summary>
+        /// 提交当前上下文的事务更改
+        /// </summary>
+        public void Commit()
+        {
+            DbContextTransaction transaction = Database.CurrentTransaction;
+            if (transaction != null)
+            {
+                try
+                {
+                    transaction.Commit();
+                }
+                catch (DbUpdateException ex)
+                {
+                    if (ex.InnerException != null && ex.InnerException.InnerException is SqlException)
+                    {
+                        SqlException sqlEx = ex.InnerException.InnerException as SqlException;
+                        string msg = DataBaseHelper.GetSqlExceptionMessage(sqlEx.Number);
+                        throw new DataAccessException("提交数据更新时发生异常：" + msg, sqlEx);
+                    }
+                    throw;
+                }
+            }
         }
 
         /// <summary>
@@ -131,6 +180,17 @@
         }
 
         /// <summary>
+        /// 显式回滚事务，仅在显式开启事务后有用
+        /// </summary>
+        public void Rollback()
+        {
+            if (Database.CurrentTransaction != null)
+            {
+                Database.CurrentTransaction.Rollback();
+            }
+        }
+
+        /// <summary>
         /// 将在此上下文中所做的所有更改保存到基础数据库。
         /// </summary>
         /// <returns>
@@ -142,6 +202,29 @@
             return base.SaveChanges();
         }
 
+
+        /// <summary>
+        /// 保存更改
+        /// </summary>
+        /// <param name="validateOnSaveEnabled">保存时验证实体有效性，涉及到按需更新</param>
+        /// <returns>影响行数</returns>
+        public int SaveChanges(bool validateOnSaveEnabled)
+        {
+            bool _originalValidateOnSaveEnabled = Configuration.ValidateOnSaveEnabled != validateOnSaveEnabled;
+            try
+            {
+
+                Configuration.ValidateOnSaveEnabled = validateOnSaveEnabled;
+                return this.SaveChanges();
+            }
+            finally
+            {
+                if (_originalValidateOnSaveEnabled)
+                {
+                    Configuration.ValidateOnSaveEnabled = !validateOnSaveEnabled;
+                }
+            }
+        }
         /// <summary>
         /// 将在此上下文中所做的所有更改异步保存到基础数据库。
         /// </summary>

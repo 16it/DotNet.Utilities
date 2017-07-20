@@ -81,6 +81,7 @@
     <Compile Include="DataOperator\AccessDataOperator.cs" />
     <Compile Include="Encryptor\SHA256Encryptor.cs" />
     <Compile Include="Enum\FileUpgradeStatus.cs" />
+    <Compile Include="ExtendException\DataAccessException.cs" />
     <Compile Include="Hanlder\PackageDataHanlder.cs" />
     <Compile Include="Model\MimeTypes.cs" />
     <Compile Include="Model\AppInfo.cs" />
