@@ -126,6 +126,82 @@
         }
 
         /// <summary>
+        /// 适合执行创建、更新、删除操作
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="doNotEnsureTransaction">如果存在事物，则使用；否则启用新事物操作</param>
+        /// <param name="timeout">超时时间</param>
+        /// <param name="parameters">参数</param>
+        /// <returns>影响行数</returns>
+        public int ExecuteSqlCommand(string sql, bool doNotEnsureTransaction = false, int? timeout = null, params object[] parameters)
+        {
+            int? _previousTimeout = null;
+            if (timeout.HasValue)
+            {
+                _previousTimeout = ((IObjectContextAdapter)this).ObjectContext.CommandTimeout;
+                ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = timeout;
+            }
+
+            var _transactionalBehavior = doNotEnsureTransaction
+                ? TransactionalBehavior.DoNotEnsureTransaction
+                : TransactionalBehavior.EnsureTransaction;
+            var _result = this.Database.ExecuteSqlCommand(_transactionalBehavior, sql, parameters);
+
+            if (timeout.HasValue)
+            {
+                ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = _previousTimeout;
+            }
+
+            return _result;
+        }
+
+        /// <summary>
+        /// 存储过程
+        /// </summary>
+        /// <typeparam name="T">实体类类型</typeparam>
+        /// <param name="commandText">存储过程名称</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>集合</returns>
+        /// <exception cref="System.Exception">不支持的参数类型。</exception>
+        public IList<T> ExecuteStoredProcedureList<T>(string commandText, params object[] parameters) where T : ModelBase<F>
+        {
+            if (parameters != null && parameters.Length > 0)
+            {
+                for (int i = 0; i <= parameters.Length - 1; i++)
+                {
+                    var _paramter = parameters[i] as DbParameter;
+                    if (_paramter == null)
+                        throw new Exception("不支持的参数类型。");
+
+                    commandText += i == 0 ? " " : ", ";
+
+                    commandText += "@" + _paramter.ParameterName;
+                    if (_paramter.Direction == ParameterDirection.InputOutput || _paramter.Direction == ParameterDirection.Output)
+                    {
+                        commandText += " output";
+                    }
+                }
+            }
+
+            var _result = this.Database.SqlQuery<T>(commandText, parameters).ToList();
+
+            bool _acd = this.Configuration.AutoDetectChangesEnabled;
+            try
+            {
+                this.Configuration.AutoDetectChangesEnabled = false;
+
+                for (int i = 0; i < _result.Count; i++)
+                    _result[i] = AttachEntityToContext(_result[i]);
+            }
+            finally
+            {
+                this.Configuration.AutoDetectChangesEnabled = _acd;
+            }
+
+            return _result;
+        }
+
+        /// <summary>
         /// 查找
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
@@ -255,7 +331,7 @@
         }
 
         /// <summary>
-        /// Sql语句查询
+        /// Sql语句执行，并将结果保存在数据实体中，适合执行查询操作
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="sql">sql语句</param>
@@ -264,69 +340,6 @@
         public virtual IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters)
         {
             return this.Database.SqlQuery<T>(sql, parameters);
-        }
-
-        /// <summary>
-        /// 存储过程
-        /// </summary>
-        /// <typeparam name="T">实体类类型</typeparam>
-        /// <param name="commandText">存储过程名称</param>
-        /// <param name="parameters">存储过程参数</param>
-        /// <returns>集合</returns>
-        /// <exception cref="System.Exception">不支持的参数类型。</exception>
-        public IList<T> ExecuteStoredProcedureList<T>(string commandText, params object[] parameters) where T : ModelBase<F>
-        {
-            if (parameters != null && parameters.Length > 0)
-            {
-                for (int i = 0; i <= parameters.Length - 1; i++)
-                {
-                    var _paramter = parameters[i] as DbParameter;
-                    if (_paramter == null)
-                        throw new Exception("不支持的参数类型。");
-
-                    commandText += i == 0 ? " " : ", ";
-
-                    commandText += "@" + _paramter.ParameterName;
-                    if (_paramter.Direction == ParameterDirection.InputOutput || _paramter.Direction == ParameterDirection.Output)
-                    {
-                        commandText += " output";
-                    }
-                }
-            }
-
-            var _result = this.Database.SqlQuery<T>(commandText, parameters).ToList();
-
-            bool _acd = this.Configuration.AutoDetectChangesEnabled;
-            try
-            {
-                this.Configuration.AutoDetectChangesEnabled = false;
-
-                for (int i = 0; i < _result.Count; i++)
-                    _result[i] = AttachEntityToContext(_result[i]);
-            }
-            finally
-            {
-                this.Configuration.AutoDetectChangesEnabled = _acd;
-            }
-
-            return _result;
-        }
-
-        /// <summary>
-        /// 将实体类附加上上下文.
-        /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <param name="entity">实体类</param>
-        /// <returns>实体类</returns>
-        protected virtual T AttachEntityToContext<T>(T entity) where T : ModelBase<F>
-        {
-            var _alreadyAttached = Set<T>().Local.FirstOrDefault(x => x.ID.Equals(entity.ID));
-            if (_alreadyAttached == null)
-            {
-                Set<T>().Attach(entity);
-                return entity;
-            }
-            return _alreadyAttached;
         }
 
         /// <summary>
@@ -378,6 +391,23 @@
                     this.AuditLogger.WriteLog(dbEntry.Entity.ID, _operaterName, _moduleName, _tableName, dbEntry.State.ToString(), dbEntry.Entity);
                 });
             }
+        }
+
+        /// <summary>
+        /// 将实体类附加上上下文.
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="entity">实体类</param>
+        /// <returns>实体类</returns>
+        protected virtual T AttachEntityToContext<T>(T entity) where T : ModelBase<F>
+        {
+            var _alreadyAttached = Set<T>().Local.FirstOrDefault(x => x.ID.Equals(entity.ID));
+            if (_alreadyAttached == null)
+            {
+                Set<T>().Attach(entity);
+                return entity;
+            }
+            return _alreadyAttached;
         }
     }
 }
