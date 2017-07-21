@@ -7,17 +7,20 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data;
+    using System.Data.Common;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Validation;
     using System.Data.SqlClient;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading;
     using System.Threading.Tasks;
+    using YanZhiwei.DotNet.EntityFramework.Utilities;
     using YanZhiwei.DotNet2.Utilities.Common;
     using YanZhiwei.DotNet2.Utilities.ExtendException;
     using YanZhiwei.DotNet3._5.Utilities.CallContext;
-    using YanZhiwei.DotNet.EntityFramework.Utilities;
+
     /// <summary>
     /// 实现Repository通用泛型数据访问模式
     /// </summary>
@@ -61,7 +64,7 @@
         /// <summary>
         /// 获取 是否开启事务提交
         /// </summary>
-        public bool TransactionEnabled
+        public virtual bool TransactionEnabled
         {
             get { return Database.CurrentTransaction != null; }
         }
@@ -70,7 +73,7 @@
         /// 显式开启数据上下文事务
         /// </summary>
         /// <param name="isolationLevel">指定连接的事务锁定行为</param>
-        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
+        public virtual void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
         {
             if (Database.CurrentTransaction == null)
             {
@@ -81,7 +84,7 @@
         /// <summary>
         /// 提交当前上下文的事务更改
         /// </summary>
-        public void Commit()
+        public virtual void Commit()
         {
             DbContextTransaction transaction = Database.CurrentTransaction;
             if (transaction != null)
@@ -108,11 +111,18 @@
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
         /// <param name="entity">实体类</param>
-        public void Delete<T>(T entity)
+        public virtual void Delete<T>(T entity)
         where T : ModelBase<F>
         {
-            this.Entry<T>(entity).State = EntityState.Deleted;
-            this.SaveChanges();
+            try
+            {
+                this.Entry<T>(entity).State = EntityState.Deleted;
+                this.SaveChanges();
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                throw new Exception(dbEx.GetFullErrorText(), dbEx);
+            }
         }
 
         /// <summary>
@@ -123,7 +133,7 @@
         /// <returns>
         /// 实体类
         /// </returns>
-        public T Find<T>(params object[] keyValues)
+        public virtual T Find<T>(params object[] keyValues)
         where T : ModelBase<F>
         {
             return this.Set<T>().Find(keyValues);
@@ -137,7 +147,7 @@
         /// <returns>
         /// 集合
         /// </returns>
-        public List<T> FindAll<T>(Expression<Func<T, bool>> conditions = null)
+        public virtual List<T> FindAll<T>(Expression<Func<T, bool>> conditions = null)
         where T : ModelBase<F>
         {
             if (conditions == null)
@@ -156,7 +166,7 @@
         /// <param name="pageSize">分页大小</param>
         /// <param name="pageIndex">分页集合</param>
         /// <returns>PagedList</returns>
-        public PagedList<T> FindAllByPage<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex)
+        public virtual PagedList<T> FindAllByPage<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex)
         where T : ModelBase<F>
         {
             var queryList = conditions == null ? this.Set<T>() : this.Set<T>().Where(conditions) as IQueryable<T>;
@@ -171,18 +181,25 @@
         /// <returns>
         /// 实体类
         /// </returns>
-        public T Insert<T>(T entity)
+        public virtual T Insert<T>(T entity)
         where T : ModelBase<F>
         {
-            this.Set<T>().Add(entity);
-            this.SaveChanges();
-            return entity;
+            try
+            {
+                this.Set<T>().Add(entity);
+                this.SaveChanges();
+                return entity;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                throw new Exception(dbEx.GetFullErrorText(), dbEx);
+            }
         }
 
         /// <summary>
         /// 显式回滚事务，仅在显式开启事务后有用
         /// </summary>
-        public void Rollback()
+        public virtual void Rollback()
         {
             if (Database.CurrentTransaction != null)
             {
@@ -202,7 +219,6 @@
             return base.SaveChanges();
         }
 
-
         /// <summary>
         /// 保存更改
         /// </summary>
@@ -213,7 +229,6 @@
             bool _originalValidateOnSaveEnabled = Configuration.ValidateOnSaveEnabled != validateOnSaveEnabled;
             try
             {
-
                 Configuration.ValidateOnSaveEnabled = validateOnSaveEnabled;
                 return this.SaveChanges();
             }
@@ -225,6 +240,7 @@
                 }
             }
         }
+
         /// <summary>
         /// 将在此上下文中所做的所有更改异步保存到基础数据库。
         /// </summary>
@@ -245,9 +261,72 @@
         /// <param name="sql">sql语句</param>
         /// <param name="parameters">参数</param>
         /// <returns>IEnumerable</returns>
-        public IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters)
+        public virtual IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters)
         {
             return this.Database.SqlQuery<T>(sql, parameters);
+        }
+
+        /// <summary>
+        /// 存储过程
+        /// </summary>
+        /// <typeparam name="T">实体类类型</typeparam>
+        /// <param name="commandText">存储过程名称</param>
+        /// <param name="parameters">存储过程参数</param>
+        /// <returns>集合</returns>
+        /// <exception cref="System.Exception">不支持的参数类型。</exception>
+        public IList<T> ExecuteStoredProcedureList<T>(string commandText, params object[] parameters) where T : ModelBase<F>
+        {
+            if (parameters != null && parameters.Length > 0)
+            {
+                for (int i = 0; i <= parameters.Length - 1; i++)
+                {
+                    var _paramter = parameters[i] as DbParameter;
+                    if (_paramter == null)
+                        throw new Exception("不支持的参数类型。");
+
+                    commandText += i == 0 ? " " : ", ";
+
+                    commandText += "@" + _paramter.ParameterName;
+                    if (_paramter.Direction == ParameterDirection.InputOutput || _paramter.Direction == ParameterDirection.Output)
+                    {
+                        commandText += " output";
+                    }
+                }
+            }
+
+            var _result = this.Database.SqlQuery<T>(commandText, parameters).ToList();
+
+            bool _acd = this.Configuration.AutoDetectChangesEnabled;
+            try
+            {
+                this.Configuration.AutoDetectChangesEnabled = false;
+
+                for (int i = 0; i < _result.Count; i++)
+                    _result[i] = AttachEntityToContext(_result[i]);
+            }
+            finally
+            {
+                this.Configuration.AutoDetectChangesEnabled = _acd;
+            }
+
+            return _result;
+        }
+
+        /// <summary>
+        /// 将实体类附加上上下文.
+        /// </summary>
+        /// <typeparam name="T">泛型</typeparam>
+        /// <param name="entity">实体类</param>
+        /// <returns>实体类</returns>
+        protected virtual T AttachEntityToContext<T>(T entity) where T : ModelBase<F>
+        {
+            var _alreadyAttached = Set<T>().Local.FirstOrDefault(x => x.ID.Equals(entity.ID));
+            if (_alreadyAttached == null)
+            {
+                Set<T>().Attach(entity);
+                return entity;
+            }
+            return _alreadyAttached;
         }
 
         /// <summary>
@@ -258,14 +337,21 @@
         /// <returns>
         /// 实体类
         /// </returns>
-        public T Update<T>(T entity)
+        public virtual T Update<T>(T entity)
         where T : ModelBase<F>
         {
-            var set = this.Set<T>();
-            set.Attach(entity);
-            this.Entry<T>(entity).State = EntityState.Modified;
-            this.SaveChanges();
-            return entity;
+            try
+            {
+                var set = this.Set<T>();
+                set.Attach(entity);
+                this.Entry<T>(entity).State = EntityState.Modified;
+                this.SaveChanges();
+                return entity;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                throw new Exception(dbEx.GetFullErrorText(), dbEx);
+            }
         }
 
         /// <summary>

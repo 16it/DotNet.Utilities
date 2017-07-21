@@ -13,7 +13,7 @@
     public interface IDataRepository<F>
     {
         #region Methods
-        
+
         /// <summary>
         /// 删除
         /// </summary>
@@ -23,7 +23,7 @@
         /// 备注：
         void Delete<T>(T entity)
         where T : ModelBase<F>;
-        
+
         /// <summary>
         /// 查找
         /// </summary>
@@ -34,7 +34,7 @@
         /// 备注：
         T Find<T>(params object[] keyValues)
         where T : ModelBase<F>;
-        
+
         /// <summary>
         /// 查找全部
         /// </summary>
@@ -45,7 +45,7 @@
         /// 备注：
         List<T> FindAll<T>(Expression<Func<T, bool>> conditions = null)
         where T : ModelBase<F>;
-        
+
         /// <summary>
         /// 分页查找
         /// </summary>
@@ -60,7 +60,7 @@
         /// 备注：
         PagedList<T> FindAllByPage<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex)
         where T : ModelBase<F>;
-        
+
         /// <summary>
         /// 添加
         /// </summary>
@@ -71,7 +71,7 @@
         /// 备注：
         T Insert<T>(T entity)
         where T : ModelBase<F>;
-        
+
         /// <summary>
         /// 更新
         /// </summary>
@@ -82,7 +82,7 @@
         /// 备注：
         T Update<T>(T entity)
         where T : ModelBase<F>;
-        
+
         #endregion Methods
     }
 }

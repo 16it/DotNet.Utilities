@@ -1,4 +1,9 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Core.EntityClient;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
+using System.Text;
 
 namespace YanZhiwei.DotNet.EntityFramework.Utilities
 {
@@ -7,6 +12,38 @@ namespace YanZhiwei.DotNet.EntityFramework.Utilities
     /// </summary>
     public static class DbContextHelper
     {
+        /// <summary>
+        /// 获取数据库名称
+        /// </summary>
+        /// <param name="context">DbContext</param>
+        /// <returns>数据库名称</returns>
+        public static string DbName(this DbContext context)
+        {
+            var _connection = ((IObjectContextAdapter)context).ObjectContext.Connection as EntityConnection;
+            if (_connection == null)
+                return string.Empty;
+
+            return _connection.StoreConnection.Database;
+        }
+
+        /// <summary>
+        /// 获取DbEntityValidationException详细异常信息
+        /// </summary>
+        /// <param name="exc">DbEntityValidationException</param>
+        /// <returns>DbEntityValidationException详细异常信息</returns>
+        public static string GetFullErrorText(this DbEntityValidationException exc)
+        {
+            StringBuilder _fullError = new StringBuilder();
+            foreach (var validationErrors in exc.EntityValidationErrors)
+            {
+                foreach (var error in validationErrors.ValidationErrors)
+                {
+                    _fullError.AppendFormat("Property: {0} Error: {1}{2}", error.PropertyName, error.ErrorMessage, Environment.NewLine);
+                }
+            }
+            return _fullError.ToString();
+        }
+
         /// <summary>
         /// 保存更改
         /// </summary>
