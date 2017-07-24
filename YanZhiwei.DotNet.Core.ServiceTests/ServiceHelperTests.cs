@@ -3,7 +3,6 @@ using System;
 using YanZhiwei.DotNet.Core.ServiceTests;
 using YanZhiwei.DotNet.Core.ServiceTests.AdventureWorksService;
 using YanZhiwei.DotNet2.Utilities.Model;
-using YanZhiwei.DotNet2.Utilities.WebForm;
 using YanZhiwei.DotNet3._5.Utilities.CallContext;
 
 namespace YanZhiwei.DotNet.Core.Service.Tests

@@ -30,5 +30,7 @@ namespace YanZhiwei.DotNet.Unity.Utilities
             }
             return _isRegistered ? container.Resolve<T>() : default(T);
         }
+
+
     }
 }
