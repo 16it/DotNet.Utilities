@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
 using System;
+using System.Reflection;
 using System.Web.Http;
 using YanZhiwei.DotNet.Core.Infrastructure.DependencyManagement;
 using YanZhiwei.DotNet.Core.Infrastructure.WebApi.DependencyManagement;
@@ -89,13 +90,18 @@ namespace YanZhiwei.DotNet.Core.Infrastructure.WebApi
         protected virtual void RegisterDependencies(HttpConfiguration config)
         {
             var _builder = new ContainerBuilder();
+            // Register your Web API controllers.
+            _builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            // OPTIONAL: Register the Autofac filter provider.
+            _builder.RegisterWebApiFilterProvider(config);
             //依赖注入
             var _typeFinder = new WebAppTypeFinder();
             base.RegisterDependencies(_builder, _typeFinder);
 
             var _container = _builder.Build();
             this._containerManager = new WebApiContainerManager(_container);
-
+          
             var _webApiResolver = new AutofacWebApiDependencyResolver(_container);
             config.DependencyResolver = _webApiResolver;
         }
