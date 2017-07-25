@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using Autofac.Core.Lifetime;
 using Autofac.Integration.Mvc;
+using System;
 using System.Web;
 using YanZhiwei.DotNet.Core.Infrastructure.DependencyManagement;
 
@@ -27,9 +29,16 @@ namespace YanZhiwei.DotNet.Core.Infrastructure.Mvc
         /// </returns>
         public override ILifetimeScope Scope()
         {
-            if (HttpContext.Current != null) //mvc情况
-                return AutofacDependencyResolver.Current.RequestLifetimeScope;
-            return base.Scope();
+            try
+            {
+                if (HttpContext.Current != null)
+                    return AutofacDependencyResolver.Current.RequestLifetimeScope;
+                return base.Scope();
+            }
+            catch (Exception)
+            {
+                return Container.BeginLifetimeScope(MatchingScopeLifetimeTags.RequestLifetimeScopeTag);
+            }
         }
     }
 }
