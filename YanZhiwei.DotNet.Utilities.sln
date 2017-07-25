@@ -213,6 +213,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Infra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Infrastructure.Mvc", "YanZhiwei.DotNet.Core.Infrastructure.Mvc\YanZhiwei.DotNet.Core.Infrastructure.Mvc.csproj", "{BDAA7A0D-59C5-43E1-9B52-C81F70EE2346}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Infrastructure.WebApi", "YanZhiwei.DotNet.Core.Infrastructure.WebApi\YanZhiwei.DotNet.Core.Infrastructure.WebApi.csproj", "{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1635,6 +1637,22 @@ Global
 		{BDAA7A0D-59C5-43E1-9B52-C81F70EE2346}.Release|x64.Build.0 = Release|Any CPU
 		{BDAA7A0D-59C5-43E1-9B52-C81F70EE2346}.Release|x86.ActiveCfg = Release|Any CPU
 		{BDAA7A0D-59C5-43E1-9B52-C81F70EE2346}.Release|x86.Build.0 = Release|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Debug|ARM.Build.0 = Debug|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Debug|x64.Build.0 = Debug|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Debug|x86.Build.0 = Debug|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Release|ARM.ActiveCfg = Release|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Release|ARM.Build.0 = Release|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Release|x64.ActiveCfg = Release|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Release|x64.Build.0 = Release|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Release|x86.ActiveCfg = Release|Any CPU
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1735,6 +1753,7 @@ Global
 		{58838FAC-CD4D-46CE-9732-69B7F1DC230D} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 		{BDAA7A0D-59C5-43E1-9B52-C81F70EE2346} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
+		{83A5A484-CFC5-42CA-87A9-0FDEB585B5AB} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
