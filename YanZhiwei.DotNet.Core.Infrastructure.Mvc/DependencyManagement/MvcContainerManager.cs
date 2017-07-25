@@ -5,7 +5,7 @@ using System;
 using System.Web;
 using YanZhiwei.DotNet.Core.Infrastructure.DependencyManagement;
 
-namespace YanZhiwei.DotNet.Core.Infrastructure.Mvc
+namespace YanZhiwei.DotNet.Core.Infrastructure.Mvc.DependencyManagement
 {
     /// <summary>
     /// Mvc ContainerManager

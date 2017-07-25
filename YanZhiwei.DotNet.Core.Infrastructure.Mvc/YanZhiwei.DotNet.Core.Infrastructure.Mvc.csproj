@@ -73,7 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MvcContainerManager.cs" />
+    <Compile Include="DependencyManagement\MvcContainerManager.cs" />
     <Compile Include="MvcEngineBase.cs" />
     <Compile Include="WebAppTypeFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
