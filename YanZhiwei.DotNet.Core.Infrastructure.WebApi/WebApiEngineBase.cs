@@ -1,12 +1,8 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
-using AutoMapper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 using YanZhiwei.DotNet.Core.Infrastructure.DependencyManagement;
-using YanZhiwei.DotNet.Core.Infrastructure.Mapper;
 using YanZhiwei.DotNet.Core.Infrastructure.WebApi.DependencyManagement;
 
 namespace YanZhiwei.DotNet.Core.Infrastructure.WebApi
@@ -54,7 +50,6 @@ namespace YanZhiwei.DotNet.Core.Infrastructure.WebApi
         /// </summary>
         public void Initialize()
         {
-
         }
 
         /// <summary>
