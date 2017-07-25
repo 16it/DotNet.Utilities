@@ -10,9 +10,8 @@ namespace YanZhiwei.DotNet.Core.Infrastructure.DependencyManagement
         /// <summary>
         /// 注入服务和接口
         /// </summary>
-        /// <param name="builder">Container builder</param>
-        /// <param name="typeFinder">Type finder</param>
-        /// <param name="config">Config</param>
+        /// <param name="builder">ContainerBuilder</param>
+        /// <param name="typeFinder">ITypeFinder</param>
         void Register(ContainerBuilder builder, ITypeFinder typeFinder);
 
         /// <summary>
