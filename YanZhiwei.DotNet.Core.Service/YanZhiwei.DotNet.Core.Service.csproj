@@ -64,11 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IEngine.cs" />
-    <Compile Include="Infrastructure\DependencyManagement\ContainerManager.cs" />
-    <Compile Include="Infrastructure\DependencyManagement\IDependencyRegistrar.cs" />
     <Compile Include="IServiceBase.cs" />
-    <Compile Include="ITypeFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceHelper.cs" />
   </ItemGroup>
