@@ -50,6 +50,7 @@
     <Compile Include="AppDomainTypeFinder.cs" />
     <Compile Include="DependencyManagement\ContainerManager.cs" />
     <Compile Include="DependencyManagement\IDependencyRegistrar.cs" />
+    <Compile Include="EngineBase.cs" />
     <Compile Include="EngineContext.cs" />
     <Compile Include="IEngine.cs" />
     <Compile Include="IStartupTask.cs" />
