@@ -2,111 +2,103 @@
 {
     using System;
     using System.Collections.Generic;
-
+    
     /// <summary>
-    /// Singleton泛型类
+    /// 泛型单列
     /// </summary>
-    /// <typeparam name="T">带默认构造函数的泛型</typeparam>
-    public sealed class Singleton<T>
-        where T : class, new()
+    /// <typeparam name="T">泛型</typeparam>
+    /// <seealso cref="YanZhiwei.DotNet2.Utilities.DesignPattern.Singleton" />
+    public class Singleton<T> : Singleton
     {
-        #region Fields
-
-        private static T instance = null;
-
+        static T instance;
+        
         /// <summary>
-        /// The synchronize root
-        /// </summary>
-        private static readonly object syncRoot = new object();
-
-        #endregion Fields
-
-        #region Constructors
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        private Singleton()
-        {
-        }
-
-        #endregion Constructors
-
-        #region Methods
-
-        /// <summary>
-        /// 获取实例
+        /// 泛型实例
         /// </summary>
         public static T Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    lock (syncRoot)
-                    {
-                        if (instance == null)
-                        {
-                            instance = new T();
-                        }
-                    }
-                }
-
                 return instance;
             }
-        }
-
-        /// <summary>
-        /// 设置实例
-        /// </summary>
-        /// <param name="value">泛型实例</param>
-        public static T SetInstance(T value)
-        {
-            if (instance == null)
+            
+            set
             {
-                lock (syncRoot)
-                {
-                    if (instance == null)
-                    {
-                        instance = value;
-                    }
-                }
+                instance = value;
+                AllSingletons[typeof(T)] = value;
             }
-
-            return Instance;
         }
-
-        #endregion Methods
     }
-
+    
     /// <summary>
-    /// 提供一个字典容器，按类型装载所有<see cref="Singleton&lt;T&gt;"/>的单例实例
+    /// 单例列表
     /// </summary>
+    /// <typeparam name="T">泛型</typeparam>
+    public class SingletonList<T> : Singleton<IList<T>>
+    {
+        static SingletonList()
+        {
+            Singleton<IList<T>>.Instance = new List<T>();
+        }
+        
+        /// <summary>
+        /// 泛型实例
+        /// </summary>
+        public new static IList<T> Instance
+        {
+            get
+            {
+                return Singleton<IList<T>>.Instance;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 单例字典
+    /// </summary>
+    /// <typeparam name="TKey">字典Key类型</typeparam>
+    /// <typeparam name="TValue">字典Value类型.</typeparam>
+    public class SingletonDictionary<TKey, TValue> : Singleton<IDictionary<TKey, TValue>>
+    {
+        static SingletonDictionary()
+        {
+            Singleton<Dictionary<TKey, TValue>>.Instance = new Dictionary<TKey, TValue>();
+        }
+        
+        /// <summary>
+        /// 泛型实例
+        /// </summary>
+        public new static IDictionary<TKey, TValue> Instance
+        {
+            get
+            {
+                return Singleton<Dictionary<TKey, TValue>>.Instance;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 单例字典
+    /// </summary>
+    /// <seealso cref="YanZhiwei.DotNet2.Utilities.DesignPattern.Singleton" />
     public class Singleton
     {
-        #region Constructors
-
         static Singleton()
         {
-            if (AllSingletons == null)
-            {
-                AllSingletons = new Dictionary<Type, object>();
-            }
+            allSingletons = new Dictionary<Type, object>();
         }
-
-        #endregion Constructors
-
-        #region Properties
-
+        
+        static readonly IDictionary<Type, object> allSingletons;
+        
         /// <summary>
-        /// 获取 单例对象字典
+        /// 所有字典单例
         /// </summary>
         public static IDictionary<Type, object> AllSingletons
         {
-            get;
-            private set;
+            get
+            {
+                return allSingletons;
+            }
         }
-
-        #endregion Properties
     }
 }

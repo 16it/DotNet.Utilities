@@ -209,6 +209,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Unity.Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.EntityFramework.Utilities", "YanZhiwei.DotNet.EntityFramework.Utilities\YanZhiwei.DotNet.EntityFramework.Utilities.csproj", "{58838FAC-CD4D-46CE-9732-69B7F1DC230D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.Infrastructure", "YanZhiwei.DotNet.Core.Infrastructure\YanZhiwei.DotNet.Core.Infrastructure.csproj", "{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1599,6 +1601,22 @@ Global
 		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|x64.Build.0 = Release|Any CPU
 		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|x86.ActiveCfg = Release|Any CPU
 		{58838FAC-CD4D-46CE-9732-69B7F1DC230D}.Release|x86.Build.0 = Release|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Debug|x64.Build.0 = Debug|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Debug|x86.Build.0 = Debug|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Release|ARM.Build.0 = Release|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Release|x64.ActiveCfg = Release|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Release|x64.Build.0 = Release|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Release|x86.ActiveCfg = Release|Any CPU
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1697,6 +1715,7 @@ Global
 		{C1D733F8-7F5C-4D65-8569-81817F73A70E} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 		{5EDF0D5E-F0A2-4B31-ADC8-CDBAD6578D7C} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{58838FAC-CD4D-46CE-9732-69B7F1DC230D} = {E7041928-FF2F-44AF-AB91-7427819415C5}
+		{ED3573DE-607C-4B2A-99D8-2C21A2CDB13F} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
