@@ -91,32 +91,32 @@
         /// </summary>
         protected virtual void RegisterDependencies()
         {
-            var builder = new ContainerBuilder();
+            var _builder = new ContainerBuilder();
             //依赖注入
-            var typeFinder = new WebAppTypeFinder();
-            builder.RegisterInstance(this).As<IEngine>().SingleInstance();
-            builder.RegisterInstance(typeFinder).As<ITypeFinder>().SingleInstance();
+            var _typeFinder = new WebAppTypeFinder();
+            _builder.RegisterInstance(this).As<IEngine>().SingleInstance();
+            _builder.RegisterInstance(_typeFinder).As<ITypeFinder>().SingleInstance();
             //根据程序集依赖注入
-            var drTypes = typeFinder.FindClassesOfType<IDependencyRegistrar>();
-            var drInstances = new List<IDependencyRegistrar>();
+            var _drTypes = _typeFinder.FindClassesOfType<IDependencyRegistrar>();
+            var _drInstances = new List<IDependencyRegistrar>();
             
-            foreach(var drType in drTypes)
+            foreach(var drType in _drTypes)
             {
-                drInstances.Add((IDependencyRegistrar)Activator.CreateInstance(drType));
+                _drInstances.Add((IDependencyRegistrar)Activator.CreateInstance(drType));
             }
             
             //排序
-            drInstances = drInstances.AsQueryable().OrderBy(t => t.Order).ToList();
+            _drInstances = _drInstances.AsQueryable().OrderBy(t => t.Order).ToList();
             
-            foreach(var dependencyRegistrar in drInstances)
+            foreach(var dependencyRegistrar in _drInstances)
             {
-                dependencyRegistrar.Register(builder, typeFinder);
+                dependencyRegistrar.Register(_builder, _typeFinder);
             }
             
-            var container = builder.Build();
-            this._containerManager = new MvcContainerManager(container);
+            var _container = _builder.Build();
+            this._containerManager = new MvcContainerManager(_container);
             //用AutofacDependencyResolver替换MVC默认的DependencyResolver
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(_container));
         }
         
         /// <summary>
@@ -125,28 +125,28 @@
         protected virtual void RegisterMapperConfiguration()
         {
             //Mvc TypeFinder
-            var typeFinder = new WebAppTypeFinder();
-            //查询映射类型
-            var mcTypes = typeFinder.FindClassesOfType<IMapperConfiguration>();
-            var mcInstances = new List<IMapperConfiguration>();
+            WebAppTypeFinder _webTypeFinder = new WebAppTypeFinder();
+            //查询映射类型AutoMapper
+            var _mcTypes = _webTypeFinder.FindClassesOfType<IMapperConfiguration>();
+            var _mcInstances = new List<IMapperConfiguration>();
             
-            foreach(var mcType in mcTypes)
+            foreach(var mcType in _mcTypes)
             {
-                mcInstances.Add((IMapperConfiguration)Activator.CreateInstance(mcType));
+                _mcInstances.Add((IMapperConfiguration)Activator.CreateInstance(mcType));
             }
             
             //排序
-            mcInstances = mcInstances.AsQueryable().OrderBy(t => t.Order).ToList();
+            _mcInstances = _mcInstances.AsQueryable().OrderBy(t => t.Order).ToList();
             //获取AutoMapper映射配置表达式
-            var configurationActions = new List<Action<IMapperConfigurationExpression>>();
+            var _configurationActions = new List<Action<IMapperConfigurationExpression>>();
             
-            foreach(var mc in mcInstances)
+            foreach(var mc in _mcInstances)
             {
-                configurationActions.Add(mc.GetConfiguration());
+                _configurationActions.Add(mc.GetConfiguration());
             }
             
             //依赖注入
-            AutoMapperConfiguration.Init(configurationActions);
+            AutoMapperConfiguration.Init(_configurationActions);
         }
         
         /// <summary>
@@ -154,19 +154,19 @@
         /// </summary>
         protected virtual void RunStartupTasks()
         {
-            var typeFinder = _containerManager.Resolve<ITypeFinder>();
-            var startUpTaskTypes = typeFinder.FindClassesOfType<IStartupTask>();
-            var startUpTasks = new List<IStartupTask>();
+            var _typeFinder = _containerManager.Resolve<ITypeFinder>();
+            var _startUpTaskTypes = _typeFinder.FindClassesOfType<IStartupTask>();
+            var _startUpTasks = new List<IStartupTask>();
             
-            foreach(var startUpTaskType in startUpTaskTypes)
+            foreach(var startUpTaskType in _startUpTaskTypes)
             {
-                startUpTasks.Add((IStartupTask)Activator.CreateInstance(startUpTaskType));
+                _startUpTasks.Add((IStartupTask)Activator.CreateInstance(startUpTaskType));
             }
             
             //排序
-            startUpTasks = startUpTasks.AsQueryable().OrderBy(st => st.Order).ToList();
+            _startUpTasks = _startUpTasks.AsQueryable().OrderBy(st => st.Order).ToList();
             
-            foreach(var startUpTask in startUpTasks)
+            foreach(var startUpTask in _startUpTasks)
             {
                 startUpTask.Execute();
             }
