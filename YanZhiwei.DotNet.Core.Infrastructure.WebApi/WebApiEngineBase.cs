@@ -101,9 +101,10 @@ namespace YanZhiwei.DotNet.Core.Infrastructure.WebApi
 
             var _container = _builder.Build();
             this._containerManager = new WebApiContainerManager(_container);
-          
+
             var _webApiResolver = new AutofacWebApiDependencyResolver(_container);
             config.DependencyResolver = _webApiResolver;
+            GlobalConfiguration.Configuration.DependencyResolver = _webApiResolver;
         }
 
         /// <summary>
