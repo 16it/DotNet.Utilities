@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
 using System;
-using System.Reflection;
 using System.Web.Http;
 using YanZhiwei.DotNet.Core.Infrastructure.DependencyManagement;
 using YanZhiwei.DotNet.Core.Infrastructure.WebApi.DependencyManagement;
@@ -84,31 +83,39 @@ namespace YanZhiwei.DotNet.Core.Infrastructure.WebApi
         }
 
         /// <summary>
+        /// 自定义依赖注入
+        /// </summary>
+        /// <param name="builder">ContainerBuilder</param>
+        /// <param name="typeFinder">WebAppTypeFinder</param>
+        protected virtual void RegisterCustomizeDependencies(ContainerBuilder builder, WebAppTypeFinder typeFinder)
+        {
+        }
+
+        /// <summary>
         /// 依赖注入
         /// </summary>
         protected void RegisterDependencies(HttpConfiguration config)
         {
             var _builder = new ContainerBuilder();
-            _builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).AsSelf().PropertiesAutowired();
+
+            WebAppTypeFinder _webTypeFinder = new WebAppTypeFinder();
             _builder.RegisterWebApiFilterProvider(config);
             _builder.RegisterWebApiModelBinderProvider();
-            //依赖注入
-            var _typeFinder = new WebAppTypeFinder();
-            base.RegisterDependencies(_builder, _typeFinder);
+            base.RegisterDependencies(_builder, _webTypeFinder);
+            RegisterCustomizeDependencies(_builder, _webTypeFinder);
             var _container = _builder.Build();
             this._containerManager = new WebApiContainerManager(_container);
             config.DependencyResolver = new AutofacWebApiDependencyResolver(_container);
+            //GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(_container);
         }
 
-        
         /// <summary>
         /// 映射注入依赖
         /// </summary>
         protected virtual void RegisterMapperConfiguration(HttpConfiguration config)
         {
-            //Mvc TypeFinder
-            WebAppTypeFinder _webTypeFinder = new WebAppTypeFinder();
-            base.RegisterMapperConfiguration(_webTypeFinder);
+            WebAppTypeFinder typeFinder = new WebAppTypeFinder();
+            base.RegisterMapperConfiguration(typeFinder);
         }
 
         /// <summary>

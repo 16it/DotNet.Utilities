@@ -18,7 +18,7 @@
         {
             get
             {
-                if(Singleton<IEngine>.Instance == null)
+                if (Singleton<IEngine>.Instance == null)
                 {
                     Initialize(false);
                 }
@@ -38,7 +38,7 @@
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static IEngine Initialize(bool forceRecreate)
         {
-            if(Singleton<IEngine>.Instance == null || forceRecreate)
+            if (Singleton<IEngine>.Instance == null || Singleton<IEngine>.Instance.ContainerManager == null || forceRecreate)
             {
                 Singleton<IEngine>.Instance.Initialize();
             }

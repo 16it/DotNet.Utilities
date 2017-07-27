@@ -16,7 +16,7 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
         /// <summary>
         /// 依赖注入
         /// </summary>
-        protected virtual void RegisterDependencies(ContainerBuilder builder, ITypeFinder typeFinder)
+        protected void RegisterDependencies(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             //依赖注入
             builder.RegisterInstance(this).As<IEngine>().SingleInstance();
@@ -42,7 +42,7 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
         /// <summary>
         /// 映射注入依赖
         /// </summary>
-        protected virtual void RegisterMapperConfiguration(ContainerBuilder builder, ITypeFinder typeFinder)
+        protected void RegisterMapperConfiguration(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             //查询映射类型AutoMapper
             var _mcTypes = typeFinder.FindClassesOfType<IMapperConfiguration>();
@@ -67,7 +67,7 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
         /// <summary>
         /// 映射注入依赖
         /// </summary>
-        protected virtual void RegisterMapperConfiguration(ITypeFinder _webTypeFinder)
+        protected void RegisterMapperConfiguration(ITypeFinder _webTypeFinder)
         {
             //查询映射类型AutoMapper
             var _mcTypes = _webTypeFinder.FindClassesOfType<IMapperConfiguration>();
@@ -94,7 +94,7 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
         /// <summary>
         /// 运行启动任务
         /// </summary>
-        protected virtual void RunStartupTasks(ContainerManager containerManager)
+        protected void RunStartupTasks(ContainerManager containerManager)
         {
             var _typeFinder = containerManager.Resolve<ITypeFinder>();
             var _startUpTaskTypes = _typeFinder.FindClassesOfType<IStartupTask>();
