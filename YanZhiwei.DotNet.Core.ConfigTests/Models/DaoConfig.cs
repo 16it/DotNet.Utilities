@@ -1,5 +1,5 @@
 ﻿using System;
-using YanZhiwei.DotNet.Core.Model;
+using YanZhiwei.DotNet.Core.Config.Model;
 
 namespace YanZhiwei.DotNet.Core.Config.Tests.Models
 {
@@ -12,15 +12,15 @@ namespace YanZhiwei.DotNet.Core.Config.Tests.Models
         public DaoConfig()
         {
         }
-        
+
         #region 序列化属性
-        
+
         public string Log
         {
             get;
             set;
         }
-        
+
         #endregion 序列化属性
     }
 }

@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    
+
     /// <summary>
     /// 泛型单列
     /// </summary>
@@ -10,8 +10,8 @@
     /// <seealso cref="YanZhiwei.DotNet2.Utilities.DesignPattern.Singleton" />
     public class Singleton<T> : Singleton
     {
-        static T instance;
-        
+        private static T instance;
+
         /// <summary>
         /// 泛型实例
         /// </summary>
@@ -21,26 +21,50 @@
             {
                 return instance;
             }
-            
+
             set
             {
                 instance = value;
                 AllSingletons[typeof(T)] = value;
             }
         }
+
+        private static object syncRoot = new object();
+
+        /// <summary>
+        /// 若对象为NULL，则会自动创建
+        /// </summary>
+        /// <returns></returns>
+        public static T CreateInstance()
+        {
+            if (instance == null)
+            {
+                lock (syncRoot)
+                {
+                    if (instance == null)
+                    {
+                        instance = Activator.CreateInstance<T>();
+                        AllSingletons[typeof(T)] = instance;
+                    }
+                }
+            }
+
+            return instance;
+        }
     }
-    
+
     /// <summary>
     /// 单例列表
     /// </summary>
     /// <typeparam name="T">泛型</typeparam>
     public class SingletonList<T> : Singleton<IList<T>>
+         where T : class, new()
     {
         static SingletonList()
         {
             Singleton<IList<T>>.Instance = new List<T>();
         }
-        
+
         /// <summary>
         /// 泛型实例
         /// </summary>
@@ -52,7 +76,7 @@
             }
         }
     }
-    
+
     /// <summary>
     /// 单例字典
     /// </summary>
@@ -64,7 +88,7 @@
         {
             Singleton<Dictionary<TKey, TValue>>.Instance = new Dictionary<TKey, TValue>();
         }
-        
+
         /// <summary>
         /// 泛型实例
         /// </summary>
@@ -76,7 +100,7 @@
             }
         }
     }
-    
+
     /// <summary>
     /// 单例字典
     /// </summary>
@@ -87,9 +111,9 @@
         {
             allSingletons = new Dictionary<Type, object>();
         }
-        
-        static readonly IDictionary<Type, object> allSingletons;
-        
+
+        private static readonly IDictionary<Type, object> allSingletons;
+
         /// <summary>
         /// 所有字典单例
         /// </summary>

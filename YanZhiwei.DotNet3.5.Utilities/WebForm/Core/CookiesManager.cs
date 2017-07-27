@@ -27,7 +27,7 @@
         {
             get
             {
-                return Singleton<CookiesManager<T>>.Instance;
+                return Singleton<CookiesManager<T>>.CreateInstance();
             }
         }
 

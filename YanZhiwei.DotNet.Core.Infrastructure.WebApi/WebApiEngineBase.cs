@@ -8,6 +8,11 @@ using YanZhiwei.DotNet.Core.Infrastructure.WebApi.DependencyManagement;
 
 namespace YanZhiwei.DotNet.Core.Infrastructure.WebApi
 {
+    /// <summary>
+    /// WebApiEngine 抽象类
+    /// </summary>
+    /// <seealso cref="YanZhiwei.DotNet.Core.Infrastructure.EngineBase" />
+    /// <seealso cref="YanZhiwei.DotNet.Core.Infrastructure.IEngine" />
     public class WebApiEngineBase : EngineBase, IEngine
     {
         #region Fields
@@ -34,23 +39,17 @@ namespace YanZhiwei.DotNet.Core.Infrastructure.WebApi
         #region Methods
 
         /// <summary>
-        /// 在WebApi环境中初始化组件和插件
+        /// 初始化
         /// </summary>
-        public void Initialize(HttpConfiguration config)
+        public void Initialize()
         {
+            var config = GlobalConfiguration.Configuration;
             //依赖注入
             RegisterDependencies(config);
             //依赖注入映射配置
             RegisterMapperConfiguration(config);
             //运行初始化任务
             RunStartupTasks(config);
-        }
-
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public void Initialize()
-        {
         }
 
         /// <summary>
@@ -87,26 +86,21 @@ namespace YanZhiwei.DotNet.Core.Infrastructure.WebApi
         /// <summary>
         /// 依赖注入
         /// </summary>
-        protected virtual void RegisterDependencies(HttpConfiguration config)
+        protected void RegisterDependencies(HttpConfiguration config)
         {
             var _builder = new ContainerBuilder();
-            // Register your Web API controllers.
-            _builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-
-            // OPTIONAL: Register the Autofac filter provider.
+            _builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).AsSelf().PropertiesAutowired();
             _builder.RegisterWebApiFilterProvider(config);
+            _builder.RegisterWebApiModelBinderProvider();
             //依赖注入
             var _typeFinder = new WebAppTypeFinder();
             base.RegisterDependencies(_builder, _typeFinder);
-
             var _container = _builder.Build();
             this._containerManager = new WebApiContainerManager(_container);
-
-            var _webApiResolver = new AutofacWebApiDependencyResolver(_container);
-            config.DependencyResolver = _webApiResolver;
-            GlobalConfiguration.Configuration.DependencyResolver = _webApiResolver;
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(_container);
         }
 
+        
         /// <summary>
         /// 映射注入依赖
         /// </summary>
