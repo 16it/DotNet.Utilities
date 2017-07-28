@@ -2,16 +2,18 @@
 {
     using Common;
     using System;
+    using System.IO;
     using System.Text.RegularExpressions;
     using System.Web;
-    
+    using System.Web.Hosting;
+
     /// <summary>
     /// URL 帮助类
     /// </summary>
     public static class FetchHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 获取当前页面的Url
         /// </summary>
@@ -22,9 +24,9 @@
                 return HttpContext.Current.Request.Url.ToString();
             }
         }
-        
+
         /// <summary>
-        /// 获取当前页面的主域，如www.GMS.com主域是GMS.com
+        /// 获取当前页面的主域
         /// </summary>
         public static string ServerDomain
         {
@@ -32,23 +34,23 @@
             {
                 string _urlHost = HttpContext.Current.Request.Url.Host.ToLower();
                 string[] _urlHostArray = _urlHost.Split(new char[] { '.' });
-                
-                if((_urlHostArray.Length < 3) || CheckHelper.IsIp4Address(_urlHost))
+
+                if ((_urlHostArray.Length < 3) || CheckHelper.IsIp4Address(_urlHost))
                 {
                     return _urlHost;
                 }
-                
+
                 string _urlHost2 = _urlHost.Remove(0, _urlHost.IndexOf(".") + 1);
-                
-                if((_urlHost2.StartsWith("com.") || _urlHost2.StartsWith("net.")) || (_urlHost2.StartsWith("org.") || _urlHost2.StartsWith("gov.")))
+
+                if ((_urlHost2.StartsWith("com.") || _urlHost2.StartsWith("net.")) || (_urlHost2.StartsWith("org.") || _urlHost2.StartsWith("gov.")))
                 {
                     return _urlHost;
                 }
-                
+
                 return _urlHost2;
             }
         }
-        
+
         /// <summary>
         /// 获取访问用户的IP
         /// </summary>
@@ -56,29 +58,33 @@
         {
             get
             {
-                string _result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-                
-                switch(_result)
+                if (HttpContext.Current != null)
                 {
-                    case null:
-                    case "":
-                        _result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
-                        break;
+                    string _result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+                    switch (_result)
+                    {
+                        case null:
+                        case "":
+                            _result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                            break;
+                    }
+
+                    if (_result == "::1")
+                    {
+                        _result = "127.0.0.1";
+                    }
+                    else if (!CheckHelper.IsIp4Address(_result))
+                    {
+                        return "Unknown";
+                    }
+
+                    return _result;
                 }
-                
-                if(_result == "::1")
-                {
-                    _result = "127.0.0.1";
-                }
-                else if(!CheckHelper.IsIp4Address(_result))
-                {
-                    return "Unknown";
-                }
-                
-                return _result;
+                return "Unknown";
             }
         }
-        
+
         /// <summary>
         /// 取得网站根目录的物理路径
         /// </summary>
@@ -87,24 +93,24 @@
         {
             string _appPath = string.Empty;
             HttpContext _httpCurrent = HttpContext.Current;
-            
-            if(_httpCurrent != null)
+
+            if (_httpCurrent != null)
             {
                 _appPath = _httpCurrent.Server.MapPath("~");
             }
             else
             {
                 _appPath = AppDomain.CurrentDomain.BaseDirectory;
-                
-                if(Regex.Match(_appPath, @"\\$", RegexOptions.Compiled).Success)
+
+                if (Regex.Match(_appPath, @"\\$", RegexOptions.Compiled).Success)
                 {
                     _appPath = _appPath.Substring(0, _appPath.Length - 1);
                 }
             }
-            
+
             return _appPath;
         }
-        
+
         /// <summary>
         /// 取得网站的根目录的URL
         /// </summary>
@@ -114,13 +120,13 @@
             string _appPath = string.Empty;
             HttpContext _httpCurrent = HttpContext.Current;
             HttpRequest _req;
-            
-            if(_httpCurrent != null)
+
+            if (_httpCurrent != null)
             {
                 _req = _httpCurrent.Request;
                 string _urlAuthority = _req.Url.GetLeftPart(UriPartial.Authority);
-                
-                if(_req.ApplicationPath == null || _req.ApplicationPath == "/")
+
+                if (_req.ApplicationPath == null || _req.ApplicationPath == "/")
                 {
                     _appPath = _urlAuthority;
                 }
@@ -129,10 +135,10 @@
                     _appPath = _urlAuthority + _req.ApplicationPath;
                 }
             }
-            
+
             return _appPath;
         }
-        
+
         /// <summary>
         /// 取得网站的根目录的URL
         /// </summary>
@@ -141,12 +147,12 @@
         public static string GetRootURI(HttpRequest reguest)
         {
             string _appPath = string.Empty;
-            
-            if(reguest != null)
+
+            if (reguest != null)
             {
                 string _urlAuthority = reguest.Url.GetLeftPart(UriPartial.Authority);
-                
-                if(reguest.ApplicationPath == null || reguest.ApplicationPath == "/")
+
+                if (reguest.ApplicationPath == null || reguest.ApplicationPath == "/")
                 {
                     _appPath = _urlAuthority;
                 }
@@ -155,10 +161,30 @@
                     _appPath = _urlAuthority + reguest.ApplicationPath;
                 }
             }
-            
+
             return _appPath;
         }
-        
+
+        /// <summary>
+        /// 将虚拟路径映射到物理磁盘路径。
+        /// <code>
+        ///  ~/bin==>c:\inetpub\wwwroot\bin
+        /// </code>
+        /// </summary>
+        /// <param name="path">虚拟路径</param>
+        /// <returns>物理磁盘路径</returns>
+        public static string MapPath(string path)
+        {
+            if (HostingEnvironment.IsHosted)
+            {
+                return HostingEnvironment.MapPath(path);
+            }
+
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            path = path.Replace("~/", "").TrimStart('/').Replace('/', '\\');
+            return Path.Combine(baseDirectory, path);
+        }
+
         /// <summary>
         /// 获取表单Post过来的值
         /// </summary>
@@ -169,7 +195,7 @@
             string _value = HttpContext.Current.Request.Form[name];
             return ((_value == null) ? string.Empty : _value.Trim());
         }
-        
+
         #endregion Methods
     }
 }
