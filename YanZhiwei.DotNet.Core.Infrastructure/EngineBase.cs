@@ -16,6 +16,8 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
         /// <summary>
         /// 依赖注入
         /// </summary>
+        /// <param name="builder">ContainerBuilder</param>
+        /// <param name="typeFinder">ITypeFinder</param>
         protected void RegisterDependencies(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             //依赖注入
@@ -42,6 +44,8 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
         /// <summary>
         /// 映射注入依赖
         /// </summary>
+        /// <param name="builder">ContainerBuilder</param>
+        /// <param name="typeFinder">ITypeFinder</param>
         protected void RegisterMapperConfiguration(ContainerBuilder builder, ITypeFinder typeFinder)
         {
             //查询映射类型AutoMapper
@@ -67,6 +71,7 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
         /// <summary>
         /// 映射注入依赖
         /// </summary>
+        /// <param name="_webTypeFinder">ITypeFinder</param>
         protected void RegisterMapperConfiguration(ITypeFinder _webTypeFinder)
         {
             //查询映射类型AutoMapper
@@ -94,6 +99,7 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
         /// <summary>
         /// 运行启动任务
         /// </summary>
+        /// <param name="containerManager">ContainerManager</param>
         protected void RunStartupTasks(ContainerManager containerManager)
         {
             var _typeFinder = containerManager.Resolve<ITypeFinder>();

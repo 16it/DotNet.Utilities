@@ -67,6 +67,7 @@
     <Compile Include="Model\ValueMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\PeriodicTaskFactory.cs" />
+    <Compile Include="WebForm\RequestHelper.cs" />
     <Compile Include="WinForm\BackgroundWorkerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
