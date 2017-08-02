@@ -91,6 +91,8 @@
     <Compile Include="Model\UploadFileInfo.cs" />
     <Compile Include="Model\UploadFileConfig.cs" />
     <Compile Include="Model\UploadImageInfo.cs" />
+    <Compile Include="TypeConverter\GenericDictionaryTypeConverter.cs" />
+    <Compile Include="TypeConverter\GenericListTypeConverter.cs" />
     <Compile Include="WCF\ContextPropagationBehavior.cs" />
     <Compile Include="WCF\ContextAttachingMessageInspector.cs" />
     <Compile Include="WebClient\CNNWebClient.cs">
