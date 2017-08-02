@@ -74,6 +74,7 @@
     <Compile Include="Model\NodeData.cs" />
     <Compile Include="Model\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeConverter\GenericListTypeConverterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
