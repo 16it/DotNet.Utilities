@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet.Core.Web
+﻿namespace YanZhiwei.DotNet.Core.Mvc
 {
     using System;
     using System.Configuration;

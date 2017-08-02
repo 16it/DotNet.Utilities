@@ -46,6 +46,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -84,9 +85,11 @@
     <Compile Include="Filter\AuthorizeIgnoreAttribute.cs" />
     <Compile Include="ControllerBase.cs" />
     <Compile Include="IAuthCookie.cs" />
+    <Compile Include="IWebHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticFileHelper.cs" />
     <Compile Include="WebExceptionContext.cs" />
+    <Compile Include="WebHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

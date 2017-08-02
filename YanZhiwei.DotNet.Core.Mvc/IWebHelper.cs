@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace YanZhiwei.DotNet.Core.Web
+namespace YanZhiwei.DotNet.Core.Mvc
 {
     /// <summary>
     /// Web请求通用接口
