@@ -7,13 +7,14 @@ namespace YanZhiwei.DotNet3._5.Utilities.TypeConverter.Tests
     [TestClass()]
     public class GenericListTypeConverterTests
     {
-        [TestInitialize]
-        public void Init()
+        [TestMethod()]
+        public void CanConvertFromTest()
         {
-            TypeDescriptor.AddAttributes(typeof(List<int>),
-              new TypeConverterAttribute(typeof(GenericListTypeConverter<int>)));
-            TypeDescriptor.AddAttributes(typeof(List<string>),
-                new TypeConverterAttribute(typeof(GenericListTypeConverter<string>)));
+            var converterInt = TypeDescriptor.GetConverter(typeof(List<int>));
+            Assert.AreEqual(converterInt.GetType(), typeof(GenericListTypeConverter<int>));
+
+            var converterString = TypeDescriptor.GetConverter(typeof(List<string>));
+            Assert.AreEqual(converterString.GetType(), typeof(GenericListTypeConverter<string>));
         }
 
         [TestMethod()]
@@ -46,6 +47,15 @@ namespace YanZhiwei.DotNet3._5.Utilities.TypeConverter.Tests
             var _stringConvertActual = converterString.ConvertTo(itemsString, typeof(string)) as string;
             Assert.IsNotNull(_stringConvertActual);
             Assert.AreEqual(_stringConvertActual, "foo,bar,day");
+        }
+
+        [TestInitialize]
+        public void Init()
+        {
+            TypeDescriptor.AddAttributes(typeof(List<int>),
+              new TypeConverterAttribute(typeof(GenericListTypeConverter<int>)));
+            TypeDescriptor.AddAttributes(typeof(List<string>),
+                new TypeConverterAttribute(typeof(GenericListTypeConverter<string>)));
         }
     }
 }
