@@ -3,14 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Threading;
-
+    
     /// <summary>
     /// 重试机制
     /// </summary>
     public class Retry
     {
         #region Methods
-
+        
         /// <summary>
         /// 重试机制
         /// </summary>
@@ -30,42 +30,45 @@
             TResult expectedResult,
             bool isExpectedResultEqual = true,
             bool isSuppressException = true
-            )
+        )
         {
             TResult result = default(TResult);
             bool succeeded = false;
             var exceptions = new List<Exception>();
-
-            for (int retry = 0; retry < retryCount; retry++)
+            
+            for(int retry = 0; retry < retryCount; retry++)
             {
                 try
                 {
-                    if (retry > 0)
+                    if(retry > 0)
                         Thread.Sleep(retryInterval);
-
+                        
                     // Execute method
                     result = action();
-
-                    if (isExpectedResultEqual)
+                    
+                    if(isExpectedResultEqual)
                         succeeded = result.Equals(expectedResult);
+                        
                     else
                         succeeded = !result.Equals(expectedResult);
                 }
-                catch (Exception ex)
+                
+                catch(Exception ex)
                 {
                     exceptions.Add(ex);
                 }
-
-                if (succeeded)
+                
+                if(succeeded)
                     return result;
             }
-
-            if (!isSuppressException)
+            
+            if(!isSuppressException)
                 throw new AggregateException(exceptions);
+                
             else
                 return result;
         }
-
+        
         #endregion Methods
     }
 }
