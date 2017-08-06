@@ -59,6 +59,7 @@
     <Compile Include="Common\EnumerableHelper.cs" />
     <Compile Include="Common\QueryableHelper.cs" />
     <Compile Include="Core\CollectionPropertySorter.cs" />
+    <Compile Include="Core\Retry.cs" />
     <Compile Include="EventHandle\CustomizeEventPublisher.cs" />
     <Compile Include="EventHandle\Events\CustomizeEvent.cs" />
     <Compile Include="EventHandle\Events\ICustomizeEvent.cs" />
