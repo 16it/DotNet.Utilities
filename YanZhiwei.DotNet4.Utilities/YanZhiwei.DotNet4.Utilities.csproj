@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\ChineseAttribute.cs" />
     <Compile Include="Attribute\EnumTitleAttribute.cs" />
     <Compile Include="Builder\BillNumberBuilder.cs" />
     <Compile Include="Cache\MemoryCacheManager.cs" />
