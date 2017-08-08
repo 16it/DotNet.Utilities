@@ -52,7 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute\ChineseAttribute.cs" />
+    <Compile Include="Attribute\EmailAttribute.cs" />
     <Compile Include="Attribute\EnumTitleAttribute.cs" />
+    <Compile Include="Attribute\IdCardAttribute.cs" />
+    <Compile Include="Attribute\PhoneAttribute.cs" />
     <Compile Include="Builder\BillNumberBuilder.cs" />
     <Compile Include="Cache\MemoryCacheManager.cs" />
     <Compile Include="Common\ConvertHelper.cs" />

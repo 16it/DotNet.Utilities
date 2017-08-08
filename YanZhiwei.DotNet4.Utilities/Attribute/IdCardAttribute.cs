@@ -4,17 +4,16 @@ using YanZhiwei.DotNet2.Utilities.Model;
 namespace YanZhiwei.DotNet4.Utilities.Attribute
 {
     ///<summary>
-    /// 中文格式特性
+    /// 身份证格式特性
     /// </summary>
-    public class ChineseAttribute : RegularExpressionAttribute
+    public class IdCardAttribute : RegularExpressionAttribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
-        public ChineseAttribute()
-            : base(RegexPattern.ChineseCheck)
+        public IdCardAttribute() : base(RegexPattern.IdCardCheck)
         {
-            ErrorMessage = "请输入中文";
+            ErrorMessage = "身份证格式不正确";
         }
     }
 }
