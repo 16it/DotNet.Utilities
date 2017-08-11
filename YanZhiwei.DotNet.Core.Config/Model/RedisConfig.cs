@@ -23,7 +23,7 @@ namespace YanZhiwei.DotNet.Core.Config.Model
         /// <summary>
         /// 可读的Redis链接地址
         /// </summary>
-        [XmlAttribute("WriteServerList")]
+        [XmlAttribute("ReadServerList")]
         public string ReadServerList
         {
             get;
@@ -33,7 +33,7 @@ namespace YanZhiwei.DotNet.Core.Config.Model
         /// <summary>
         /// 最大写链接数
         /// </summary>
-        [XmlAttribute("WriteServerList")]
+        [XmlAttribute("MaxWritePoolSize")]
         public int MaxWritePoolSize
         {
             get;
@@ -43,7 +43,7 @@ namespace YanZhiwei.DotNet.Core.Config.Model
         /// <summary>
         /// 最大读链接数
         /// </summary>
-        [XmlAttribute("WriteServerList")]
+        [XmlAttribute("MaxReadPoolSize")]
         public int MaxReadPoolSize
         {
             get;
@@ -53,7 +53,7 @@ namespace YanZhiwei.DotNet.Core.Config.Model
         /// <summary>
         /// 自动重启
         /// </summary>
-        [XmlAttribute("WriteServerList")]
+        [XmlAttribute("AutoStart")]
         public bool AutoStart
         {
             get;
@@ -63,7 +63,7 @@ namespace YanZhiwei.DotNet.Core.Config.Model
         /// <summary>
         /// 本地缓存到期时间，单位:秒
         /// </summary>
-        [XmlAttribute("WriteServerList")]
+        [XmlAttribute("LocalCacheTime")]
         public int LocalCacheTime
         {
             get;
@@ -73,7 +73,7 @@ namespace YanZhiwei.DotNet.Core.Config.Model
         /// <summary>
         /// 是否记录日志,该设置仅用于排查redis运行时出现的问题,如redis工作正常,请关闭该项
         /// </summary>
-        [XmlAttribute("WriteServerList")]
+        [XmlAttribute("RecordeLog")]
         public bool RecordeLog
         {
             get;
