@@ -101,6 +101,17 @@
             }
         }
 
+        /// <summary>
+        /// Redis配置
+        /// </summary>
+        public RedisConfig RedisConfig
+        {
+            get
+            {
+                return this.Get<RedisConfig>();
+            }
+        }
+
         #endregion Properties
 
         #region Methods

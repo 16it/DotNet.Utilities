@@ -63,6 +63,7 @@
     <Compile Include="Model\ConfigFileBase.cs" />
     <Compile Include="Model\ConfigNodeBase.cs" />
     <Compile Include="Model\DownloadConfig.cs" />
+    <Compile Include="Model\RedisConfig.cs" />
     <Compile Include="Model\SettingConfig.cs" />
     <Compile Include="Model\SystemConfig.cs" />
     <Compile Include="Model\ThumbnailSize.cs" />
