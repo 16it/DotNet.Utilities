@@ -84,6 +84,7 @@
     <Compile Include="Filter\AuthorizeFilterAttribute.cs" />
     <Compile Include="Filter\AuthorizeIgnoreAttribute.cs" />
     <Compile Include="ControllerBase.cs" />
+    <Compile Include="Filter\ControllerExceptionAttribute.cs" />
     <Compile Include="IAuthCookie.cs" />
     <Compile Include="IWebHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
