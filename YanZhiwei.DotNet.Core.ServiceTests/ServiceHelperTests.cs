@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using YanZhiwei.DotNet.Core.Infrastructure;
 using YanZhiwei.DotNet.Core.ServiceTests;
 using YanZhiwei.DotNet.Core.ServiceTests.AdventureWorksService;
+using YanZhiwei.DotNet.Core.ServiceTests.Events;
 using YanZhiwei.DotNet2.Utilities.Model;
 using YanZhiwei.DotNet3._5.Utilities.CallContext;
 
@@ -10,6 +12,19 @@ namespace YanZhiwei.DotNet.Core.Service.Tests
     [TestClass()]
     public class ServiceHelperTests
     {
+        [TestInitialize]
+        public void Init()
+        {
+            EngineContext.Replace(new DefaultEngine());
+            EngineContext.Initialize(false);
+        }
+
+        [TestMethod]
+        public void DeleteUserTest()
+        {
+            var services = EngineContext.Current.Resolve<UserService>();
+        }
+
         [TestMethod()]
         public void CreateServiceTest()
         {

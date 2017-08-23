@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDomainTypeFinder.cs" />
+    <Compile Include="DefaultEngine.cs" />
     <Compile Include="DependencyManagement\ContainerManager.cs" />
     <Compile Include="DependencyManagement\IDependencyRegistrar.cs" />
     <Compile Include="EngineBase.cs" />
