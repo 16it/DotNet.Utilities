@@ -4,6 +4,9 @@ using YanZhiwei.DotNet.Core.Infrastructure.DependencyManagement;
 
 namespace YanZhiwei.DotNet.Core.Infrastructure
 {
+    /// <summary>
+    /// 默认
+    /// </summary>
     public class DefaultEngine : EngineBase, IEngine
     {
         #region Fields
@@ -25,6 +28,9 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
             }
         }
 
+        /// <summary>
+        /// 初始化
+        /// </summary>
         public void Initialize()
         {
             var _builder = new ContainerBuilder();
@@ -42,16 +48,31 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
 
         #endregion Properties
 
+        /// <summary>
+        /// Resolve
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T Resolve<T>() where T : class
         {
             return ContainerManager.Resolve<T>();
         }
 
+        /// <summary>
+        /// Resolve
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public object Resolve(Type type)
         {
             return ContainerManager.Resolve(type);
         }
 
+        /// <summary>
+        /// ResolveAll
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T[] ResolveAll<T>()
         {
             return ContainerManager.ResolveAll<T>();

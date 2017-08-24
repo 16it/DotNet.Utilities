@@ -29,7 +29,9 @@ namespace YanZhiwei.DotNet.Core.ServiceTests.Events
             }
             builder.RegisterType<EventPublisher>().As<IEventPublisher>().SingleInstance();
             builder.RegisterType<SubscriptionService>().As<ISubscriptionService>().SingleInstance();
-            builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+            builder.RegisterInstance(new UserService()).As<IUserService>();
+            //builder.RegisterType<UserService>().As<IUserService>();
+
         }
     }
 }

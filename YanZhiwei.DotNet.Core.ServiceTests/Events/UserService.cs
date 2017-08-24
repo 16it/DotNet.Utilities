@@ -14,6 +14,9 @@ namespace YanZhiwei.DotNet.Core.ServiceTests.Events
             _eventPublisher = eventPublisher;
         }
 
+        public UserService() {
+
+        }
         public void Delete(User item)
         {
             _eventPublisher.EntityDeleted<User>(item);

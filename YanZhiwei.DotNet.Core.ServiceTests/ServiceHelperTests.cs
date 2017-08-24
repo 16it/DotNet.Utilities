@@ -4,6 +4,7 @@ using YanZhiwei.DotNet.Core.Infrastructure;
 using YanZhiwei.DotNet.Core.ServiceTests;
 using YanZhiwei.DotNet.Core.ServiceTests.AdventureWorksService;
 using YanZhiwei.DotNet.Core.ServiceTests.Events;
+using YanZhiwei.DotNet.Core.ServiceTests.Model;
 using YanZhiwei.DotNet2.Utilities.Model;
 using YanZhiwei.DotNet3._5.Utilities.CallContext;
 
@@ -22,7 +23,8 @@ namespace YanZhiwei.DotNet.Core.Service.Tests
         [TestMethod]
         public void DeleteUserTest()
         {
-            var services = EngineContext.Current.Resolve<UserService>();
+            var services = EngineContext.Current.Resolve<IUserService>();
+            services.Delete(new User());
         }
 
         [TestMethod()]
