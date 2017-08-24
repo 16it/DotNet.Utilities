@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using YanZhiwei.DotNet.Core.Infrastructure.DependencyManagement;
 
 namespace YanZhiwei.DotNet.Core.Infrastructure
@@ -26,6 +27,17 @@ namespace YanZhiwei.DotNet.Core.Infrastructure
 
         public void Initialize()
         {
+            var _builder = new ContainerBuilder();
+
+            AppDomainTypeFinder _webTypeFinder = new AppDomainTypeFinder();
+            base.RegisterDependencies(_builder, _webTypeFinder);
+            base.RegisterMapperConfiguration(_builder, _webTypeFinder);
+           
+            var _container = _builder.Build();
+            this._containerManager = new ContainerManager(_container);
+            base.RunStartupTasks(_containerManager);
+
+
         }
 
         #endregion Properties
