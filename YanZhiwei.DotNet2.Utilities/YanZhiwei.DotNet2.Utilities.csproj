@@ -141,7 +141,7 @@
     <Compile Include="Enum\SerialPortBaudRates.cs" />
     <Compile Include="Enum\SerialPortDatabits.cs" />
     <Compile Include="Enum\SetWaterPosition.cs" />
-    <Compile Include="Enum\TCPIPType.cs" />
+    <Compile Include="Enum\SocketProtocol.cs" />
     <Compile Include="Model\ExifMetadata.cs" />
     <Compile Include="Model\ExifMetadataDetail.cs" />
     <Compile Include="Model\FileProperties.cs" />

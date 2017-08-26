@@ -5,7 +5,7 @@
     /// </summary>
     /// 时间：2016/6/7 13:24
     /// 备注：
-    public enum TCPIPType
+    public enum SocketProtocol
     {
         /// <summary>
         /// 无

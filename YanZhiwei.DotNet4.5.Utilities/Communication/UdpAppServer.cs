@@ -35,6 +35,17 @@
             AppUpdClient = new UdpClient(appUdpServer);
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="host">ip地址</param>
+        /// <param name="port">端口</param>
+        public UdpAppServer(string host, ushort port)
+        {
+            appUdpServer = new IPEndPoint(IPAddress.Parse(host), port);
+            AppUpdClient = new UdpClient(appUdpServer);
+        }
+
         #endregion Constructors
 
         #region Methods
@@ -46,7 +57,17 @@
         /// <param name="endpoint">终端信息</param>
         public void Reply(string message, IPEndPoint endpoint)
         {
-            var datagram = Encoding.ASCII.GetBytes(message);
+            byte[] _datagram = Encoding.UTF8.GetBytes(message);
+            AppUpdClient.Send(_datagram, _datagram.Length, endpoint);
+        }
+
+        /// <summary>
+        /// 回复终端数据报文
+        /// </summary>
+        /// <param name="datagram">数据报文</param>
+        /// <param name="endpoint">终端信息</param>
+        public void Reply(byte[] datagram, IPEndPoint endpoint)
+        {
             AppUpdClient.Send(datagram, datagram.Length, endpoint);
         }
 

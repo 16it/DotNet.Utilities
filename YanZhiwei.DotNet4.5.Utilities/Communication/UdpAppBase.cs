@@ -32,7 +32,7 @@ namespace YanZhiwei.DotNet4._5.Utilities.Communication
             var _result = await AppUpdClient.ReceiveAsync();
             return new UdpAppReceived()
             {
-                Message = Encoding.ASCII.GetString(_result.Buffer, 0, _result.Buffer.Length),
+                Message = Encoding.UTF8.GetString(_result.Buffer, 0, _result.Buffer.Length),
                 Sender = _result.RemoteEndPoint
             };
         }

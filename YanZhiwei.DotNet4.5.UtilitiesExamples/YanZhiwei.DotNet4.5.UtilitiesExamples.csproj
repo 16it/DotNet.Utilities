@@ -1,20 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4A36069F-06B0-44D7-9C26-61D547AA159B}</ProjectGuid>
+    <ProjectGuid>{DD9D81CC-6F25-4503-A385-0E36BAD65133}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YanZhiwei.DotNet2.UtilitiesExamples</RootNamespace>
-    <AssemblyName>DotNet2.Utilities.Examples</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>YanZhiwei.DotNet4._5.UtilitiesExamples</RootNamespace>
+    <AssemblyName>YanZhiwei.DotNet4.5.UtilitiesExamples</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -22,8 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -41,34 +36,35 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventHandlerDemo.cs" />
-    <Compile Include="FileHelperExample.cs" />
-    <Compile Include="HighPerformanceServerExample.cs" />
-    <Compile Include="LoggerDemo.cs" />
-    <Compile Include="MapOffsetHelperExample.cs" />
-    <Compile Include="ProcessHelperExample.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProjectTraceListenerDemo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SocketDemo.cs" />
-    <Compile Include="WorkQueueExample.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet3.5.Utilities\YanZhiwei.DotNet3.5.Utilities.csproj">
+      <Project>{fce5db97-96ec-4e53-bc19-eee6f2aa88e0}</Project>
+      <Name>YanZhiwei.DotNet3.5.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet4.5.Utilities\YanZhiwei.DotNet4.5.Utilities.csproj">
+      <Project>{63a554d3-cd2d-471e-8ee7-e743459e896d}</Project>
+      <Name>YanZhiwei.DotNet4.5.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet4.Utilities\YanZhiwei.DotNet4.Utilities.csproj">
+      <Project>{f28c6057-ba11-4b01-89f0-471ac92683df}</Project>
+      <Name>YanZhiwei.DotNet4.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

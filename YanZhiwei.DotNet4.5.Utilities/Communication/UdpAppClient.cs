@@ -10,7 +10,7 @@ namespace YanZhiwei.DotNet4._5.Utilities.Communication
         private UdpAppClient()
         {
         }
-
+        
         /// <summary>
         /// 连接Upd Server
         /// </summary>
@@ -19,18 +19,27 @@ namespace YanZhiwei.DotNet4._5.Utilities.Communication
         /// <returns>UdpAppClient</returns>
         public static UdpAppClient ConnectTo(string hostname, int port)
         {
-            var connection = new UdpAppClient();
-            connection.AppUpdClient.Connect(hostname, port);
-            return connection;
+            var _newUdpClient = new UdpAppClient();
+            _newUdpClient.AppUpdClient.Connect(hostname, port);
+            return _newUdpClient;
         }
-
+        
         /// <summary>
         /// 发送数据报文
         /// </summary>
         /// <param name="message">数据报文</param>
         public void Send(string message)
         {
-            var datagram = Encoding.ASCII.GetBytes(message);
+            byte[] _datagram = Encoding.UTF8.GetBytes(message);
+            AppUpdClient.Send(_datagram, _datagram.Length);
+        }
+        
+        /// <summary>
+        /// 发送数据报文
+        /// </summary>
+        /// <param name="datagram">数据报文</param>
+        public void Send(byte[] datagram)
+        {
             AppUpdClient.Send(datagram, datagram.Length);
         }
     }
