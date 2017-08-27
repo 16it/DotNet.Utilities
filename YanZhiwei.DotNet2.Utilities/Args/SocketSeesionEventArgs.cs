@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Sockets;
 
 namespace YanZhiwei.DotNet2.Utilities.Args
 {
@@ -11,16 +12,36 @@ namespace YanZhiwei.DotNet2.Utilities.Args
         /// <summary>
         /// 终端信息
         /// </summary>
-        public IPEndPoint TerminalInfo
+        public IPEndPoint DeviceInfo
         {
             get;
             set;
         }
 
         /// <summary>
+        /// 终端Key
+        /// </summary>
+        public string DeviceKey
+        {
+            get
+            {
+                return DeviceInfo.ToString();
+            }
+        }
+
+        /// <summary>
         /// 数据报文
         /// </summary>
-        public byte[] DataBuffer
+        public byte[] Buffer
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        ///Socket对象
+        /// </summary>
+        public Socket Socket
         {
             get;
             set;

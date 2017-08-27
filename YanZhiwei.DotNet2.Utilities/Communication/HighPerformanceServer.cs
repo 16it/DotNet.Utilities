@@ -60,21 +60,21 @@
         /// </summary>
         /// 时间：2016/6/7 22:47
         /// 备注：
-        public event EventHandler<EventArgs> OnClientConnected;
+        public event EventHandler<SocketSeesionEventArgs> OnClientConnected;
 
         /// <summary>
         /// 终端已经断开连接事件
         /// </summary>
         /// 时间：2016/6/7 22:48
         /// 备注：
-        public event EventHandler<EventArgs> OnClientDisconnected;
+        public event EventHandler<SocketSeesionEventArgs> OnClientDisconnected;
 
         /// <summary>
         /// 终端正在断开连接事件
         /// </summary>
         /// 时间：2016/6/7 22:48
         /// 备注：
-        public event EventHandler<EventArgs> OnClientDisconnecting;
+        public event EventHandler<SocketSeesionEventArgs> OnClientDisconnecting;
 
         /// <summary>
         /// 数据接收事件
@@ -246,7 +246,7 @@
 
             if (OnClientConnected != null)
             {
-                OnClientConnected(this, null);
+                OnClientConnected(null, CreateSocketSeesion(_connection, null));
             }
 
             if (this.Protocol == SocketProtocol.TCP)
@@ -263,13 +263,12 @@
 
         internal void ClientDisconnected(IAsyncResult asyncResult)
         {
-            SocketConnectionInfo _sci = (SocketConnectionInfo)asyncResult;
-            _sci.Socket.EndDisconnect(asyncResult);
-
+            SocketConnectionInfo _connection = (SocketConnectionInfo)asyncResult;
             if (OnClientDisconnected != null)
             {
-                OnClientDisconnected(this, null);
+                OnClientDisconnected(null, CreateSocketSeesion(_connection, null));
             }
+            _connection.Socket.EndDisconnect(asyncResult);
         }
 
         /// <summary>
@@ -284,16 +283,13 @@
             {
                 SocketConnectionInfo _connection = (SocketConnectionInfo)asyncResult.AsyncState;
                 int _bytesRead;
-                SocketSeesionEventArgs _arg = new SocketSeesionEventArgs();
                 if (this.Protocol == SocketProtocol.UDP)
                 {
                     _bytesRead = _connection.Socket.EndReceiveFrom(asyncResult, ref ipeSender);
-                    _arg.TerminalInfo = (IPEndPoint)ipeSender;
                 }
                 else if (this.Protocol == SocketProtocol.TCP)
                 {
                     _bytesRead = _connection.Socket.EndReceive(asyncResult);
-                    _arg.TerminalInfo = (IPEndPoint)_connection.Socket.RemoteEndPoint;
                 }
                 else
                 {
@@ -328,8 +324,7 @@
 
                         if (OnDataReceived != null)
                         {
-                            _arg.DataBuffer = _buffer;
-                            OnDataReceived(_connection, _arg);
+                            OnDataReceived(null, CreateSocketSeesion(_connection, _buffer));
                         }
 
                         _buffer = null;
@@ -354,8 +349,14 @@
 
                     if (OnDataReceived != null)
                     {
-                        _arg.DataBuffer = _connection.Buffer;
-                        OnDataReceived(_connection, _arg);
+                        OnDataReceived(null, CreateSocketSeesion(_connection, _connection.Buffer));
+                    }
+                }
+                else
+                {
+                    if (OnClientDisconnected != null)
+                    {
+                        DisconnectClient(_connection);
                     }
                 }
             }
@@ -365,11 +366,30 @@
             }
         }
 
+        private SocketSeesionEventArgs CreateSocketSeesion(SocketConnectionInfo connect, byte[] buffer)
+        {
+            SocketSeesionEventArgs _arg = new SocketSeesionEventArgs();
+            _arg.Socket = connect.Socket;
+            _arg.Buffer = buffer;
+            switch (this.Protocol)
+            {
+                case SocketProtocol.TCP:
+                    _arg.DeviceInfo = (IPEndPoint)connect.Socket.RemoteEndPoint;
+                    break;
+
+                case SocketProtocol.UDP:
+                    _arg.DeviceInfo = (IPEndPoint)ipeSender;
+                    break;
+            }
+
+            return _arg;
+        }
+
         internal void DisconnectClient(SocketConnectionInfo connection)
         {
             if (OnClientDisconnecting != null)
             {
-                OnClientDisconnecting(this, null);
+                OnClientDisconnecting(CreateSocketSeesion(connection, null), null);
             }
 
             connection.Socket.BeginDisconnect(true, new AsyncCallback(ClientDisconnected), connection);

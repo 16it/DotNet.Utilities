@@ -4,6 +4,7 @@ using YanZhiwei.DotNet2.Utilities.Args;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Communication;
 using YanZhiwei.DotNet2.Utilities.Enum;
+using YanZhiwei.DotNet2.Utilities.Model;
 
 namespace YanZhiwei.DotNet2.UtilitiesExamples
 {
@@ -19,6 +20,8 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                 Server.OnDataReceived += Server_OnDataReceived;
                 Server.OnServerStart += _server_OnServerStart;
                 Server.OnClientConnected += _server_OnClientConnected;
+                Server.OnClientDisconnected += Server_OnClientDisconnected;
+                Server.OnClientDisconnecting += Server_OnClientDisconnecting;
                 Server.Start();
             }
             catch (Exception ex)
@@ -31,20 +34,29 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
             }
         }
 
-        private static void Server_OnDataReceived(object sender, SocketSeesionEventArgs e)
+        private static void Server_OnClientDisconnecting(object sender, SocketSeesionEventArgs e)
         {
-            if (sender != null)
-            {
-                byte[] msg = Encoding.ASCII.GetBytes("This is a test");
-
-                //Server.Reply(msg, e.TerminalInfo);
-                Console.WriteLine(DateTime.Now.FormatDate(1) + " " + e.TerminalInfo.ToString() + " " + ByteHelper.ToHexStringWithBlank(e.DataBuffer));
-            }
+            Console.WriteLine(e.DeviceKey + "OnClientDisconnecting");
         }
 
-        private static void _server_OnClientConnected(object sender, EventArgs e)
+        private static void Server_OnClientDisconnected(object sender, SocketSeesionEventArgs e)
         {
-            Console.WriteLine("终端链接");
+            Console.WriteLine(e.DeviceKey + "OnClientDisconnected");
+        }
+
+        private static void Server_OnDataReceived(object sender, SocketSeesionEventArgs e)
+        {
+            byte[] msg = Encoding.ASCII.GetBytes("This is a test");
+            Console.WriteLine(e.DeviceKey);
+            //  _connect.Socket.Send(msg);
+            //Server.Reply(msg, e.TerminalInfo);
+            Console.WriteLine(DateTime.Now.FormatDate(1) + " " + e.DeviceKey + " " + ByteHelper.ToHexStringWithBlank(e.Buffer));
+
+        }
+
+        private static void _server_OnClientConnected(object sender, SocketSeesionEventArgs e)
+        {
+            Console.WriteLine(e.DeviceKey+ "OnClientConnected");
         }
 
         private static void _server_OnServerStart(object sender, EventArgs e)
