@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using YanZhiwei.DotNet2.Utilities.Args;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Communication;
 using YanZhiwei.DotNet2.Utilities.Enum;
@@ -7,15 +9,17 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
 {
     public class HighPerformanceServerExample
     {
+        private static HighPerformanceServer Server = null;
+
         public static void Main(string[] args)
         {
             try
             {
-                HighPerformanceServer _server = new HighPerformanceServer(SocketProtocol.UDP, "127.0.0.1", 9887);
-                _server.OnDataReceived += Server_OnDataReceived;
-                _server.OnServerStart += _server_OnServerStart;
-                _server.OnClientConnected += _server_OnClientConnected;
-                _server.Start();
+                Server = new HighPerformanceServer(SocketProtocol.TCP, "127.0.0.1", 9887);
+                Server.OnDataReceived += Server_OnDataReceived;
+                Server.OnServerStart += _server_OnServerStart;
+                Server.OnClientConnected += _server_OnClientConnected;
+                Server.Start();
             }
             catch (Exception ex)
             {
@@ -27,12 +31,14 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
             }
         }
 
-        private static void Server_OnDataReceived(object sender, EventArgs e)
+        private static void Server_OnDataReceived(object sender, SocketSeesionEventArgs e)
         {
             if (sender != null)
             {
-                byte[] _buffer = (byte[])sender;
-                Console.WriteLine(ByteHelper.ToHexStringWithBlank(_buffer));
+                byte[] msg = Encoding.ASCII.GetBytes("This is a test");
+
+                //Server.Reply(msg, e.TerminalInfo);
+                Console.WriteLine(DateTime.Now.FormatDate(1) + " " + e.TerminalInfo.ToString() + " " + ByteHelper.ToHexStringWithBlank(e.DataBuffer));
             }
         }
 

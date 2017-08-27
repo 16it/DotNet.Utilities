@@ -7,6 +7,7 @@
     using System.Net;
     using System.Net.Sockets;
     using System.Threading;
+    using YanZhiwei.DotNet2.Utilities.Args;
 
     /// <summary>
     /// Socket 服务
@@ -80,7 +81,7 @@
         /// </summary>
         /// 时间：2016/6/7 22:48
         /// 备注：
-        public event EventHandler<EventArgs> OnDataReceived;
+        public event EventHandler<SocketSeesionEventArgs> OnDataReceived;
 
         /// <summary>
         /// 服务启动事件
@@ -236,6 +237,7 @@
         internal void ClientConnected(IAsyncResult asyncResult)
         {
             Interlocked.Increment(ref currentConnections);
+
             SocketConnectionInfo _connection = new SocketConnectionInfo();
             _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
             Socket _asyncListener = (Socket)asyncResult.AsyncState;
@@ -282,14 +284,16 @@
             {
                 SocketConnectionInfo _connection = (SocketConnectionInfo)asyncResult.AsyncState;
                 int _bytesRead;
-
+                SocketSeesionEventArgs _arg = new SocketSeesionEventArgs();
                 if (this.Protocol == SocketProtocol.UDP)
                 {
                     _bytesRead = _connection.Socket.EndReceiveFrom(asyncResult, ref ipeSender);
+                    _arg.TerminalInfo = (IPEndPoint)ipeSender;
                 }
                 else if (this.Protocol == SocketProtocol.TCP)
                 {
                     _bytesRead = _connection.Socket.EndReceive(asyncResult);
+                    _arg.TerminalInfo = (IPEndPoint)_connection.Socket.RemoteEndPoint;
                 }
                 else
                 {
@@ -324,7 +328,8 @@
 
                         if (OnDataReceived != null)
                         {
-                            OnDataReceived(_buffer, null);
+                            _arg.DataBuffer = _buffer;
+                            OnDataReceived(_connection, _arg);
                         }
 
                         _buffer = null;
@@ -349,7 +354,8 @@
 
                     if (OnDataReceived != null)
                     {
-                        OnDataReceived(_connection.Buffer, null);
+                        _arg.DataBuffer = _connection.Buffer;
+                        OnDataReceived(_connection, _arg);
                     }
                 }
             }
@@ -373,7 +379,7 @@
         {
             if (this.Protocol == SocketProtocol.TCP)
             {
-                return new Socket(this.Endpoint.AddressFamily,SocketType.Stream, ProtocolType.Tcp);
+                return new Socket(this.Endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             }
             else if (this.Protocol == SocketProtocol.UDP)
             {
@@ -415,6 +421,23 @@
 
             this.Protocol = server;
             this.Port = port;
+        }
+
+        /// <summary>
+        /// 回复终端数据报文
+        /// </summary>
+        /// <param name="datagram">数据报文</param>
+        /// <param name="endpoint">终端信息</param>
+        public void Reply(byte[] datagram, IPEndPoint endpoint)
+        {
+            if (this.Protocol == SocketProtocol.UDP)
+            {
+                listener.SendTo(datagram, endpoint);
+            }
+            else if (this.Protocol == SocketProtocol.TCP)
+            {
+                listener.Send(datagram);
+            }
         }
 
         #endregion Methods

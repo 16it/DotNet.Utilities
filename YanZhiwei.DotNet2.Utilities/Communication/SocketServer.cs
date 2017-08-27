@@ -133,7 +133,7 @@
         /// <param name="sockets">The sockets.</param>
         public void OnPushServerMsgHanlderEvent(SocketData sockets)
         {
-            if(PushServerMsgHanlderEvent != null && sockets != null)
+            if (PushServerMsgHanlderEvent != null && sockets != null)
             {
                 PushServerMsgHanlderEvent(sockets);
             }
@@ -145,7 +145,7 @@
         /// <param name="sendData">发送的文本</param>
         public void SendToAll(string sendData)
         {
-            for(int i = 0; i < ClientList.Count; i++)
+            for (int i = 0; i < ClientList.Count; i++)
             {
                 SendToClient(ClientList[i].Ip, sendData);
             }
@@ -157,7 +157,7 @@
         /// <param name="sendDataBuffer">发送的文本</param>
         public void SendToAll(byte[] sendDataBuffer)
         {
-            for(int i = 0; i < ClientList.Count; i++)
+            for (int i = 0; i < ClientList.Count; i++)
             {
                 SendToClient(ClientList[i].Ip, sendDataBuffer);
             }
@@ -177,13 +177,13 @@
                     return o.Ip == ip;
                 });
 
-                if(_sks != null)
+                if (_sks != null)
                 {
-                    if(_sks.Client.Connected)
+                    if (_sks.Client.Connected)
                     {
                         NetworkStream _stream = _sks.SkStream;
 
-                        if(_stream.CanWrite)
+                        if (_stream.CanWrite)
                         {
                             byte[] _buffer = sendDataBuffer;
                             _stream.Write(_buffer, 0, _buffer.Length);
@@ -192,7 +192,7 @@
                         {
                             _stream = _sks.Client.GetStream();
 
-                            if(_stream.CanWrite)
+                            if (_stream.CanWrite)
                             {
                                 byte[] _buffer = sendDataBuffer;
                                 _stream.Write(_buffer, 0, _buffer.Length);
@@ -210,7 +210,7 @@
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 PusbServerMessage(SocketCode.SendDataError, null, ex, ip, null);
             }
@@ -230,13 +230,13 @@
                     return o.Ip == ip;
                 });
 
-                if(_sks != null)
+                if (_sks != null)
                 {
-                    if(_sks.Client.Connected)
+                    if (_sks.Client.Connected)
                     {
                         NetworkStream _netStream = _sks.SkStream;
 
-                        if(_netStream.CanWrite)
+                        if (_netStream.CanWrite)
                         {
                             byte[] _buffer = Encoding.UTF8.GetBytes(sendData);
                             _netStream.Write(_buffer, 0, _buffer.Length);
@@ -245,7 +245,7 @@
                         {
                             _netStream = _sks.Client.GetStream();
 
-                            if(_netStream.CanWrite)
+                            if (_netStream.CanWrite)
                             {
                                 byte[] _buffer = Encoding.UTF8.GetBytes(sendData);
                                 _netStream.Write(_buffer, 0, _buffer.Length);
@@ -262,7 +262,7 @@
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 PusbServerMessage(SocketCode.SendDataError, null, ex, ip, null);
             }
@@ -278,9 +278,9 @@
                 listener.Start();
                 Thread _task = new Thread(new ThreadStart(delegate
                 {
-                    while(true)
+                    while (true)
                     {
-                        if(isStop != false)
+                        if (isStop != false)
                         {
                             break;
                         }
@@ -292,7 +292,7 @@
                 _task.Start();
                 PusbServerMessage(SocketCode.StartSucceed, null, null, ipEndPoint, null);
             }
-            catch(SocketException ex)
+            catch (SocketException ex)
             {
                 PusbServerMessage(SocketCode.StartError, null, ex, ipEndPoint, null);
             }
@@ -303,7 +303,7 @@
         /// </summary>
         public void Stop()
         {
-            if(listener != null)
+            if (listener != null)
             {
                 SendToAll("ServerOff");
                 listener.Stop();
@@ -324,7 +324,7 @@
                 return o.Ip == sk.Ip;
             });
 
-            if(_sockets == null)
+            if (_sockets == null)
             {
                 ClientList.Add(sk);
             }
@@ -345,16 +345,16 @@
         {
             SocketObj _sks = ir.AsyncState as SocketObj;
 
-            if(_sks != null && listener != null)
+            if (_sks != null && listener != null)
             {
                 try
                 {
-                    if(_sks.NewClientFlag || _sks.Offset != 0)
+                    if (_sks.NewClientFlag || _sks.Offset != 0)
                     {
                         _sks.NewClientFlag = false;
                         _sks.Offset = _sks.SkStream.EndRead(ir);
 
-                        if(_sks.Offset != 0)
+                        if (_sks.Offset != 0)
                         {
                             byte[] _buffer = new byte[_sks.Offset];
                             Array.Copy(recBuffer, _buffer, _sks.Offset);
@@ -369,9 +369,9 @@
                         _sks.SkStream.BeginRead(recBuffer, 0, recBuffer.Length, new AsyncCallback(EndReader), _sks);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    lock(syncRoot)
+                    lock (syncRoot)
                     {
                         ClientList.Remove(_sks);
                         PusbServerMessage(SocketCode.DataReceivedError, null, ex, _sks.Ip, null);
@@ -396,13 +396,13 @@
                 AddClientList(_sks);
                 _sks.SkStream.BeginRead(recBuffer, 0, recBuffer.Length, new AsyncCallback(EndReader), _sks);
 
-                if(_stream.CanWrite)
+                if (_stream.CanWrite)
                 {
                 }
 
                 semap.Release();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 semap.Release();
                 PusbServerMessage(SocketCode.NewClientConnectError, null, ex, null, null);
@@ -435,9 +435,9 @@
         /// 备注：
         public void ClearAllClients()
         {
-            if(ClientList != null)
+            if (ClientList != null)
             {
-                for(int i = 0; i < ClientList.Count; i++)
+                for (int i = 0; i < ClientList.Count; i++)
                 {
                     SocketObj _socketClient = ClientList[i];
                     ClientList.Remove(_socketClient);
@@ -454,14 +454,14 @@
         /// 备注：
         public void ClearClient(IPEndPoint ip)
         {
-            if(ClientList != null)
+            if (ClientList != null)
             {
                 SocketObj _sockets = ClientList.Find(o =>
                 {
                     return o.Ip == ip;
                 });
 
-                if(_sockets != null)
+                if (_sockets != null)
                 {
                     ClientList.Remove(_sockets);
                 }
