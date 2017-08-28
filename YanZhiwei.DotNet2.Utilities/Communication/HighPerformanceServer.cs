@@ -169,20 +169,23 @@
         #region Methods
 
         /// <summary>
-        /// 回复终端数据报文
+        /// 适用于tcp回复
         /// </summary>
         /// <param name="datagram">数据报文</param>
-        /// <param name="endpoint">终端信息</param>
-        public void Reply(byte[] datagram, IPEndPoint endpoint)
+        /// <param name="clientSocket">tcp终端</param>
+        public void Reply(byte[] datagram, Socket clientSocket)
         {
-            if (this.Protocol == SocketProtocol.UDP)
-            {
-                listener.SendTo(datagram, endpoint);
-            }
-            else if (this.Protocol == SocketProtocol.TCP)
-            {
-                listener.Send(datagram);
-            }
+            clientSocket.Send(datagram);
+        }
+
+        /// <summary>
+        /// 适用于UDP回复
+        /// </summary>
+        /// <param name="datagram">数据报文</param>
+        /// <param name="retmoteEndpoint">upd终端信息</param>
+        public void Reply(byte[] datagram, IPEndPoint retmoteEndpoint)
+        {
+            listener.SendTo(datagram, retmoteEndpoint);
         }
 
         /// <summary>
