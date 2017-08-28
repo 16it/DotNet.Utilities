@@ -402,6 +402,7 @@
             SocketSeesionEventArgs _arg = new SocketSeesionEventArgs();
             _arg.Socket = connect.Socket;
             _arg.Buffer = buffer;
+            _arg.Protocol = this.Protocol;
             switch (this.Protocol)
             {
                 case SocketProtocol.TCP:

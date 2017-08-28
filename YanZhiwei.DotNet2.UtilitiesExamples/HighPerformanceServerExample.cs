@@ -15,7 +15,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
         {
             try
             {
-                Server = new HighPerformanceServer(SocketProtocol.UDP, "127.0.0.1", 9887, 10);
+                Server = new HighPerformanceServer(SocketProtocol.TCP, "127.0.0.1", 9887, 10);
                 Server.OnDataReceived += Server_OnDataReceived;
                 Server.OnServerStarted += _server_OnServerStart;
                 Server.OnClientConnected += _server_OnClientConnected;
@@ -46,9 +46,10 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
         private static void Server_OnDataReceived(object sender, SocketSeesionEventArgs e)
         {
             byte[] msg = Encoding.ASCII.GetBytes("This is a test");
-
-            Server.Reply(msg, e.DeviceInfo);
-            //  _connect.Socket.Send(msg);
+            if (e.Protocol == SocketProtocol.UDP)
+                Server.Reply(msg, e.DeviceInfo);
+            else
+                e.Socket.Send(msg);
             //Server.Reply(msg, e.TerminalInfo);
             Console.WriteLine(DateTime.Now.FormatDate(1) + " [" + e.DeviceKey + "] " + ByteHelper.ToHexStringWithBlank(e.Buffer));
         }

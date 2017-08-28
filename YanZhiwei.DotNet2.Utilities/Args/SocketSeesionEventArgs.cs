@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using YanZhiwei.DotNet2.Utilities.Enum;
 
 namespace YanZhiwei.DotNet2.Utilities.Args
 {
@@ -42,6 +43,15 @@ namespace YanZhiwei.DotNet2.Utilities.Args
         ///Socket对象
         /// </summary>
         public Socket Socket
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 协议类型
+        /// </summary>
+        public SocketProtocol Protocol
         {
             get;
             set;
