@@ -302,82 +302,20 @@
             try
             {
                 SocketConnectionInfo _connection = (SocketConnectionInfo)asyncResult.AsyncState;
-                int _bytesRead;
-                if (this.Protocol == SocketProtocol.UDP)
-                {
-                    _bytesRead = _connection.Socket.EndReceiveFrom(asyncResult, ref ipeSender);
-                }
-                else if (this.Protocol == SocketProtocol.TCP)
-                {
-                    _bytesRead = _connection.Socket.EndReceive(asyncResult);
-                }
-                else
-                {
-                    _bytesRead = 0;
-                }
-
+                int _bytesRead = CaluDataReceivedReadLength(_connection, asyncResult);
                 _connection.BytesRead += _bytesRead;
 
                 if (IsSocketConnected(_connection.Socket))
                 {
-                    if (_bytesRead == 0 || (_bytesRead > 0 && _bytesRead < SocketConnectionInfo.BufferSize))
-                    {
-                        byte[] _buffer = _connection.Buffer;
-                        int _totalBytesRead = _connection.BytesRead;
-                        _connection = new SocketConnectionInfo();
-                        _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
-                        _connection.Socket = ((SocketConnectionInfo)asyncResult.AsyncState).Socket;
-
-                        if (this.Protocol == SocketProtocol.UDP)
-                        {
-                            _connection.Socket.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
-                        }
-                        else if (this.Protocol == SocketProtocol.TCP)
-                        {
-                            _connection.Socket.BeginReceive(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), _connection);
-                        }
-
-                        if (_totalBytesRead < _buffer.Length)
-                        {
-                            Array.Resize<byte>(ref _buffer, _totalBytesRead);
-                        }
-
-                        if (OnDataReceived != null)
-                        {
-                            OnDataReceived(null, CreateSocketSeesion(_connection, _buffer));
-                        }
-
-                        _buffer = null;
-                    }
-                    else
-                    {
-                        Array.Resize<Byte>(ref _connection.Buffer, _connection.Buffer.Length + SocketConnectionInfo.BufferSize);
-
-                        if (this.Protocol == SocketProtocol.UDP)
-                        {
-                            _connection.Socket.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
-                        }
-                        else if (this.Protocol == SocketProtocol.TCP)
-                        {
-                            _connection.Socket.BeginReceive(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), _connection);
-                        }
-                    }
+                    HanlderIsSocketConnectedDataReceived(_connection, _bytesRead, asyncResult);
                 }
                 else if (_connection.BytesRead > 0)
                 {
-                    Array.Resize<byte>(ref _connection.Buffer, _connection.BytesRead);
-
-                    if (OnDataReceived != null)
-                    {
-                        OnDataReceived(null, CreateSocketSeesion(_connection, _connection.Buffer));
-                    }
+                    HanlderSpecialDataReceived(_connection, _bytesRead, asyncResult);
                 }
                 else
                 {
-                    if (OnClientDisconnected != null)
-                    {
-                        DisconnectClient(_connection);
-                    }
+                    HanlderTcpClientDisconnected(_connection, _bytesRead, asyncResult);
                 }
             }
             catch (Exception ex)
@@ -386,6 +324,10 @@
             }
         }
 
+        /// <summary>
+        /// 处理tcp client断开事件
+        /// </summary>
+        /// <param name="connection">SocketConnectionInfo</param>
         internal void DisconnectClient(SocketConnectionInfo connection)
         {
             if (OnClientDisconnecting != null)
@@ -396,6 +338,10 @@
                 connection.Socket.BeginDisconnect(true, new AsyncCallback(ClientDisconnected), connection);
         }
 
+        /// <summary>
+        /// 获取socket
+        /// </summary>
+        /// <returns>Socket</returns>
         internal Socket GetCorrectSocket()
         {
             if (this.Protocol == SocketProtocol.TCP)
@@ -422,6 +368,35 @@
             return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0);
         }
 
+        /// <summary>
+        /// 计算DataReceived读取长度
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="asyncResult"></param>
+        /// <returns></returns>
+        private int CaluDataReceivedReadLength(SocketConnectionInfo connection, IAsyncResult asyncResult)
+        {
+            int _bytesRead;
+            switch (this.Protocol)
+            {
+                case SocketProtocol.UDP:
+                    _bytesRead = connection.Socket.EndReceiveFrom(asyncResult, ref ipeSender);
+                    break;
+
+                case SocketProtocol.TCP:
+                    _bytesRead = connection.Socket.EndReceive(asyncResult);
+                    break;
+
+                default:
+                    _bytesRead = 0;
+                    break;
+            }
+            return _bytesRead;
+        }
+
+        /// <summary>
+        /// 创建SocketSeesionEventArgs 参数
+        /// </summary>
         private SocketSeesionEventArgs CreateSocketSeesion(SocketConnectionInfo connect, byte[] buffer)
         {
             SocketSeesionEventArgs _arg = new SocketSeesionEventArgs();
@@ -439,6 +414,79 @@
             }
 
             return _arg;
+        }
+
+        /// <summary>
+        /// 处理有效的socket数据接收
+        /// </summary>
+        private void HanlderIsSocketConnectedDataReceived(SocketConnectionInfo connection, int bytesRead, IAsyncResult asyncResult)
+        {
+            if (bytesRead == 0 || (bytesRead > 0 && bytesRead < SocketConnectionInfo.BufferSize))
+            {
+                byte[] _buffer = connection.Buffer;
+                int _totalBytesRead = connection.BytesRead;
+                connection = new SocketConnectionInfo();
+                connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
+                connection.Socket = ((SocketConnectionInfo)asyncResult.AsyncState).Socket;
+
+                if (this.Protocol == SocketProtocol.UDP)
+                {
+                    connection.Socket.BeginReceiveFrom(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), connection);
+                }
+                else if (this.Protocol == SocketProtocol.TCP)
+                {
+                    connection.Socket.BeginReceive(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), connection);
+                }
+
+                if (_totalBytesRead < _buffer.Length)
+                {
+                    Array.Resize<byte>(ref _buffer, _totalBytesRead);
+                }
+
+                if (OnDataReceived != null)
+                {
+                    OnDataReceived(null, CreateSocketSeesion(connection, _buffer));
+                }
+
+                _buffer = null;
+            }
+            else
+            {
+                Array.Resize<Byte>(ref connection.Buffer, connection.Buffer.Length + SocketConnectionInfo.BufferSize);
+
+                if (this.Protocol == SocketProtocol.UDP)
+                {
+                    connection.Socket.BeginReceiveFrom(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), connection);
+                }
+                else if (this.Protocol == SocketProtocol.TCP)
+                {
+                    connection.Socket.BeginReceive(connection.Buffer, 0, connection.Buffer.Length, SocketFlags.None, new AsyncCallback(DataReceived), connection);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 处理特殊的数据接受，buffer大于零的情况
+        /// </summary>
+        private void HanlderSpecialDataReceived(SocketConnectionInfo connection, int bytesRead, IAsyncResult asyncResult)
+        {
+            Array.Resize<byte>(ref connection.Buffer, connection.BytesRead);
+
+            if (OnDataReceived != null)
+            {
+                OnDataReceived(null, CreateSocketSeesion(connection, connection.Buffer));
+            }
+        }
+
+        /// <summary>
+        /// 处理tcp 终端连接断开
+        /// </summary>
+        private void HanlderTcpClientDisconnected(SocketConnectionInfo connection, int bytesRead, IAsyncResult asyncResult)
+        {
+            if (OnClientDisconnected != null)
+            {
+                DisconnectClient(connection);
+            }
         }
 
         #endregion Methods
