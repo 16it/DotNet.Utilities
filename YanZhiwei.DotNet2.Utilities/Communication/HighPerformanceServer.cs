@@ -34,7 +34,7 @@
         /// 时间：2016/6/7 11:35
         /// 备注：
         public HighPerformanceServer(SocketProtocol protocol, string ipAddress)
-        : this(protocol, ipAddress, 9888)
+            : this(protocol, ipAddress, 9888, 1024)
         {
         }
 
@@ -44,11 +44,26 @@
         /// <param name="protocol">类型</param>
         /// <param name="ipAddress">ip地址</param>
         /// <param name="port">端口</param>
+        /// <param name="maxQueuedConnections">Socket最多可容纳的等待接受的传入连接数</param>
         /// 时间：2016/6/7 11:35
         /// 备注：
-        public HighPerformanceServer(SocketProtocol protocol, string ipAddress, ushort port)
+        public HighPerformanceServer(SocketProtocol protocol, string ipAddress, ushort port, int maxQueuedConnections)
         {
-            Init(protocol, ipAddress, port);
+            ValidateOperator.Begin().NotNullOrEmpty(ipAddress, "Ip地址").IsIp(ipAddress, "Ip地址");
+            IPAddress _ipAddress;
+
+            if (IPAddress.TryParse(ipAddress, out _ipAddress))
+            {
+                this.Endpoint = new IPEndPoint(_ipAddress, port);
+            }
+            else
+            {
+                throw new ArgumentException("未能识别的Ip地址。");
+            }
+
+            this.Protocol = protocol;
+            this.Port = port;
+            this.MaxQueuedConnections = maxQueuedConnections;
         }
 
         #endregion Constructors
@@ -84,32 +99,18 @@
         public event EventHandler<SocketSeesionEventArgs> OnDataReceived;
 
         /// <summary>
-        /// 服务启动事件
-        /// </summary>
-        /// 时间：2016/6/7 22:46
-        /// 备注：
-        public event EventHandler<EventArgs> OnServerStart;
-
-        /// <summary>
         /// 服务启动完成事件
         /// </summary>
         /// 时间：2016/6/7 22:46
         /// 备注：
-        public event EventHandler<EventArgs> OnServerStarted;
+        public event EventHandler<SocketServerStartedEventArgs> OnServerStarted;
 
         /// <summary>
         /// 服务已经停止事件
         /// </summary>
         /// 时间：2016/6/7 22:47
         /// 备注：
-        public event EventHandler<EventArgs> OnServerStoped;
-
-        /// <summary>
-        /// 服务正在停止事件
-        /// </summary>
-        /// 时间：2016/6/7 22:46
-        /// 备注：
-        public event EventHandler<EventArgs> OnServerStopping;
+        public event EventHandler<SocketServerStopedEventArgs> OnServerStoped;
 
         #endregion Events
 
@@ -136,7 +137,8 @@
         }
 
         /// <summary>
-        /// 最大连接数
+        /// Socket最多可容纳的等待接受的传入连接数
+        /// 这个数不包含那些已经建立连接的数量。
         /// </summary>
         public int MaxQueuedConnections
         {
@@ -167,6 +169,23 @@
         #region Methods
 
         /// <summary>
+        /// 回复终端数据报文
+        /// </summary>
+        /// <param name="datagram">数据报文</param>
+        /// <param name="endpoint">终端信息</param>
+        public void Reply(byte[] datagram, IPEndPoint endpoint)
+        {
+            if (this.Protocol == SocketProtocol.UDP)
+            {
+                listener.SendTo(datagram, endpoint);
+            }
+            else if (this.Protocol == SocketProtocol.TCP)
+            {
+                listener.Send(datagram);
+            }
+        }
+
+        /// <summary>
         /// 启动服务
         /// </summary>
         /// 时间：2016/6/7 22:54
@@ -174,11 +193,6 @@
         /// <exception cref="System.InvalidOperationException">未能成功创建Socket服务类型。</exception>
         public void Start()
         {
-            if (OnServerStart != null)
-            {
-                OnServerStart(this, null);
-            }
-
             listener = GetCorrectSocket();
 
             if (listener != null)
@@ -201,7 +215,11 @@
 
                 if (OnServerStarted != null)
                 {
-                    OnServerStarted(this, null);
+                    SocketServerStartedEventArgs _arg = new SocketServerStartedEventArgs();
+                    _arg.Protocol = this.Protocol;
+                    _arg.SocketServer = this.Endpoint;
+                    _arg.StartedTime = DateTime.Now;
+                    OnServerStarted(this, _arg);
                 }
             }
             else
@@ -217,14 +235,13 @@
         /// 备注：
         public void Stop()
         {
-            if (OnServerStopping != null)
-            {
-                OnServerStopping(this, null);
-            }
-
             if (OnServerStoped != null)
             {
-                OnServerStoped(this, null);
+                SocketServerStopedEventArgs _arg = new SocketServerStopedEventArgs();
+                _arg.Protocol = this.Protocol;
+                _arg.SocketServer = this.Endpoint;
+                _arg.StopedTime = DateTime.Now;
+                OnServerStoped(this, _arg);
             }
         }
 
@@ -258,12 +275,12 @@
                 _asyncClient.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
             }
 
-            listener.BeginAccept(new AsyncCallback(ClientConnected), listener);
+            listener.BeginAccept(new AsyncCallback(ClientConnected), _connection);
         }
 
         internal void ClientDisconnected(IAsyncResult asyncResult)
         {
-            SocketConnectionInfo _connection = (SocketConnectionInfo)asyncResult;
+            SocketConnectionInfo _connection = (SocketConnectionInfo)asyncResult.AsyncState;
             if (OnClientDisconnected != null)
             {
                 OnClientDisconnected(null, CreateSocketSeesion(_connection, null));
@@ -366,33 +383,14 @@
             }
         }
 
-        private SocketSeesionEventArgs CreateSocketSeesion(SocketConnectionInfo connect, byte[] buffer)
-        {
-            SocketSeesionEventArgs _arg = new SocketSeesionEventArgs();
-            _arg.Socket = connect.Socket;
-            _arg.Buffer = buffer;
-            switch (this.Protocol)
-            {
-                case SocketProtocol.TCP:
-                    _arg.DeviceInfo = (IPEndPoint)connect.Socket.RemoteEndPoint;
-                    break;
-
-                case SocketProtocol.UDP:
-                    _arg.DeviceInfo = (IPEndPoint)ipeSender;
-                    break;
-            }
-
-            return _arg;
-        }
-
         internal void DisconnectClient(SocketConnectionInfo connection)
         {
             if (OnClientDisconnecting != null)
             {
-                OnClientDisconnecting(CreateSocketSeesion(connection, null), null);
+                OnClientDisconnecting(null, CreateSocketSeesion(connection, null));
             }
-
-            connection.Socket.BeginDisconnect(true, new AsyncCallback(ClientDisconnected), connection);
+            if (connection.Socket != null)
+                connection.Socket.BeginDisconnect(true, new AsyncCallback(ClientDisconnected), connection);
         }
 
         internal Socket GetCorrectSocket()
@@ -411,53 +409,33 @@
             }
         }
 
+        /// <summary>
+        /// 判断是否终端是否断开链接
+        /// </summary>
+        /// <param name="socket">Socket</param>
+        /// <returns>是否断开链接</returns>
         internal bool IsSocketConnected(Socket socket)
         {
             return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0);
         }
 
-        /// <summary>
-        /// 参数初始化
-        /// </summary>
-        /// <param name="server">ServerType</param>
-        /// <param name="ipAddress">Ip地址</param>
-        /// <param name="port">端口</param>
-        /// 时间：2016/6/7 22:45
-        /// 备注：
-        /// <exception cref="System.ArgumentException">未能识别的Ip地址。</exception>
-        private void Init(SocketProtocol server, string ipAddress, ushort port)
+        private SocketSeesionEventArgs CreateSocketSeesion(SocketConnectionInfo connect, byte[] buffer)
         {
-            ValidateOperator.Begin().NotNullOrEmpty(ipAddress, "Ip地址").IsIp(ipAddress, "Ip地址");
-            IPAddress _ipAddress;
+            SocketSeesionEventArgs _arg = new SocketSeesionEventArgs();
+            _arg.Socket = connect.Socket;
+            _arg.Buffer = buffer;
+            switch (this.Protocol)
+            {
+                case SocketProtocol.TCP:
+                    _arg.DeviceInfo = (IPEndPoint)connect.Socket.RemoteEndPoint;
+                    break;
 
-            if (IPAddress.TryParse(ipAddress, out _ipAddress))
-            {
-                this.Endpoint = new IPEndPoint(_ipAddress, port);
-            }
-            else
-            {
-                throw new ArgumentException("未能识别的Ip地址。");
+                case SocketProtocol.UDP:
+                    _arg.DeviceInfo = (IPEndPoint)ipeSender;
+                    break;
             }
 
-            this.Protocol = server;
-            this.Port = port;
-        }
-
-        /// <summary>
-        /// 回复终端数据报文
-        /// </summary>
-        /// <param name="datagram">数据报文</param>
-        /// <param name="endpoint">终端信息</param>
-        public void Reply(byte[] datagram, IPEndPoint endpoint)
-        {
-            if (this.Protocol == SocketProtocol.UDP)
-            {
-                listener.SendTo(datagram, endpoint);
-            }
-            else if (this.Protocol == SocketProtocol.TCP)
-            {
-                listener.Send(datagram);
-            }
+            return _arg;
         }
 
         #endregion Methods

@@ -4,7 +4,6 @@ using YanZhiwei.DotNet2.Utilities.Args;
 using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Communication;
 using YanZhiwei.DotNet2.Utilities.Enum;
-using YanZhiwei.DotNet2.Utilities.Model;
 
 namespace YanZhiwei.DotNet2.UtilitiesExamples
 {
@@ -16,9 +15,9 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
         {
             try
             {
-                Server = new HighPerformanceServer(SocketProtocol.TCP, "127.0.0.1", 9887);
+                Server = new HighPerformanceServer(SocketProtocol.TCP, "127.0.0.1", 9887, 10);
                 Server.OnDataReceived += Server_OnDataReceived;
-                Server.OnServerStart += _server_OnServerStart;
+                Server.OnServerStarted += _server_OnServerStart;
                 Server.OnClientConnected += _server_OnClientConnected;
                 Server.OnClientDisconnected += Server_OnClientDisconnected;
                 Server.OnClientDisconnecting += Server_OnClientDisconnecting;
@@ -51,17 +50,16 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
             //  _connect.Socket.Send(msg);
             //Server.Reply(msg, e.TerminalInfo);
             Console.WriteLine(DateTime.Now.FormatDate(1) + " " + e.DeviceKey + " " + ByteHelper.ToHexStringWithBlank(e.Buffer));
-
         }
 
         private static void _server_OnClientConnected(object sender, SocketSeesionEventArgs e)
         {
-            Console.WriteLine(e.DeviceKey+ "OnClientConnected");
+            Console.WriteLine(e.DeviceKey + "OnClientConnected");
         }
 
-        private static void _server_OnServerStart(object sender, EventArgs e)
+        private static void _server_OnServerStart(object sender, SocketServerStartedEventArgs e)
         {
-            Console.WriteLine("启动成功。");
+            Console.WriteLine(e.SocketServer + " " + "启动成功。");
         }
     }
 }

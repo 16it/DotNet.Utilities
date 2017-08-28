@@ -63,6 +63,8 @@
   <ItemGroup>
     <Compile Include="Args\EnqueueEventArgs.cs" />
     <Compile Include="Args\SocketSeesionEventArgs.cs" />
+    <Compile Include="Args\SocketServerStartedEventArgs.cs" />
+    <Compile Include="Args\SocketServerStopedEventArgs.cs" />
     <Compile Include="Builder\CRCBuilder.cs" />
     <Compile Include="Builder\SqlScriptBuilder.cs" />
     <Compile Include="Collection\JsonPagedList.cs" />
