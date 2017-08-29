@@ -1,8 +1,8 @@
 ﻿namespace YanZhiwei.DotNet.EntLib6.Utilities
 {
-    using DotNet4.Interfaces.Validations;
     using Microsoft.Practices.EnterpriseLibrary.Validation;
     using System.Collections.Generic;
+    using YanZhiwei.DotNet.EntLib6.Utilities.Validations;
 
     /// <summary>
     /// 企业库验证操作

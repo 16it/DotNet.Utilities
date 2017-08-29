@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using YanZhiwei.DotNet.EntLib6.Utilities.Validations;
 using YanZhiwei.DotNet.EntLib6.UtilitiesTests.Model;
-using YanZhiwei.DotNet4.Interfaces.Validations;
 
 namespace YanZhiwei.DotNet.EntLib6.Utilities.Tests
 {
@@ -12,12 +12,12 @@ namespace YanZhiwei.DotNet.EntLib6.Utilities.Tests
         /// 测试
         /// </summary>
         private Person _person;
-        
+
         /// <summary>
         /// 验证操作
         /// </summary>
         private IValidation _validation;
-        
+
         /// <summary>
         /// 测试初始化
         /// </summary>
@@ -27,7 +27,7 @@ namespace YanZhiwei.DotNet.EntLib6.Utilities.Tests
             _person = new Person();
             _validation = new EntLibValidateOperator();
         }
-        
+
         /// <summary>
         /// 验证姓名为必填项
         /// </summary>
@@ -37,7 +37,7 @@ namespace YanZhiwei.DotNet.EntLib6.Utilities.Tests
             var result = _validation.Validate(_person);
             Assert.AreEqual("姓名不能为空", result.First().ErrorMessage);
         }
-        
+
         /// <summary>
         /// 验证姓名为必填项及描述过长
         /// </summary>

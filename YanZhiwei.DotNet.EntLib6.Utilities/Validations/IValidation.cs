@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace YanZhiwei.DotNet.EntLib6.Utilities.Validations
+﻿namespace YanZhiwei.DotNet.EntLib6.Utilities.Validations
 {
     /// <summary>
     /// 验证操作
