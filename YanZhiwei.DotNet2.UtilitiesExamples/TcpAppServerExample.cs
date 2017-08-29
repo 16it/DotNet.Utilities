@@ -1,4 +1,5 @@
 ﻿using System;
+using YanZhiwei.DotNet2.Utilities.Common;
 using YanZhiwei.DotNet2.Utilities.Communication;
 using YanZhiwei.DotNet2.Utilities.Enum;
 
@@ -22,8 +23,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                             break;
 
                         case TcpOperateEvent.DataReceived:
-                            byte[] _cc = connectedSession.DataBuffer;
-                            Console.WriteLine("Server DataReceived:" + _cc.Length + connectedSession.Ip.ToString());
+                            Console.WriteLine("Server DataReceived:" + ByteHelper.ToHexStringWithBlank(connectedSession.DataBuffer) + connectedSession.Ip.ToString());
                             break;
 
                         case TcpOperateEvent.NewClientConnect:
@@ -37,7 +37,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                 };
                 _server.Start();
 
-                TcpAppClient _client = new TcpAppClient("192.168.1.223", 9883);
+                TcpAppClient _client = new TcpAppClient("192.168.51.223", 9882);
                 _client.OnDataReceived += (sender, _connectedSession) =>
                 {
                     switch (_connectedSession.Code)
@@ -62,7 +62,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                 };
                 _client.Connect();
 
-                TcpAppClient _client2 = new TcpAppClient("192.168.1.223", 9883);
+                TcpAppClient _client2 = new TcpAppClient("192.168.51.223", 9882);
                 _client2.OnDataReceived += (sender, _connectedSession) =>
                 {
                     switch (_connectedSession.Code)
