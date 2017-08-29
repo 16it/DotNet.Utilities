@@ -77,8 +77,10 @@
     <Compile Include="Common\GuidHelper.cs" />
     <Compile Include="Common\IDataReaderHelper.cs" />
     <Compile Include="Common\PageHelper.cs" />
+    <Compile Include="Core\HttpStorageObjectBase.cs" />
     <Compile Include="Enum\SerializationType.cs" />
     <Compile Include="Enum\ThumbnailImageCutMode.cs" />
+    <Compile Include="Interfaces\ISchedule.cs" />
     <Compile Include="Lambda\RecursiveSelectLambda.cs" />
     <Compile Include="Common\TypeHelper.cs" />
     <Compile Include="Service\RefService.cs" />
@@ -131,17 +133,9 @@
     <Compile Include="XAML\NotificationObject.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.DotNet2.Interfaces\YanZhiwei.DotNet2.Interfaces.csproj">
-      <Project>{cd749b3d-29d3-4ae3-8acd-21210bc6e069}</Project>
-      <Name>YanZhiwei.DotNet2.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.DotNet3.5.Interfaces\YanZhiwei.DotNet3.5.Interfaces.csproj">
-      <Project>{6c759c77-94da-43e2-8351-175e3ecbaf14}</Project>
-      <Name>YanZhiwei.DotNet3.5.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

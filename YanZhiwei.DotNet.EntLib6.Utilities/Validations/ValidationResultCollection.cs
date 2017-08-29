@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace YanZhiwei.DotNet4.Interfaces.Validations
+namespace YanZhiwei.DotNet.EntLib6.Utilities.Validations
 {
     /// <summary>
     /// 验证结果集合

@@ -64,10 +64,6 @@
       <Project>{3d81334e-f5e7-4c16-a0f0-978684d42402}</Project>
       <Name>YanZhiwei.DotNet.EntLib6.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.DotNet4.Interfaces\YanZhiwei.DotNet4.Interfaces.csproj">
-      <Project>{514ed19c-c736-4372-86cc-8ba260bdec20}</Project>
-      <Name>YanZhiwei.DotNet4.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

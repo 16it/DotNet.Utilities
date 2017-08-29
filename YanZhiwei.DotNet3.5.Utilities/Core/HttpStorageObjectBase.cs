@@ -1,14 +1,14 @@
-﻿namespace YanZhiwei.DotNet3._5.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Web;
 
+namespace YanZhiwei.DotNet3._5.Utilities.Core
+{
     /// <summary>
     /// http 存储抽象对象
     /// </summary>
     /// <typeparam name="T">泛型</typeparam>
-    public abstract class IHttpStorageObject<T>
+    public abstract class HttpStorageObjectBase<T>
     {
         #region Fields
 

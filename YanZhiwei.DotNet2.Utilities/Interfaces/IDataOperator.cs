@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.Common;
 
-namespace YanZhiwei.DotNet2.Interfaces
+namespace YanZhiwei.DotNet2.Utilities.Interfaces
 {
     /// <summary>
     /// SQL操作接口

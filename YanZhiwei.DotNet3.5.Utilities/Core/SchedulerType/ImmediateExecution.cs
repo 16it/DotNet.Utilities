@@ -3,7 +3,7 @@
     using System;
     using System.Threading;
 
-    using YanZhiwei.DotNet3._5.Interfaces;
+    using YanZhiwei.DotNet3._5.Utilities.Interfaces;
 
     /// <summary>
     /// 计划立即执行任务

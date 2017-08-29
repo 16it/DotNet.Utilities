@@ -3,7 +3,7 @@
     using System;
     using System.Threading;
 
-    using YanZhiwei.DotNet3._5.Interfaces;
+    using YanZhiwei.DotNet3._5.Utilities.Interfaces;
 
     /// <summary>
     /// 计划在某一未来的时间执行一个操作一次，如果这个时间比现在的时间小，就变成了立即执行的方式

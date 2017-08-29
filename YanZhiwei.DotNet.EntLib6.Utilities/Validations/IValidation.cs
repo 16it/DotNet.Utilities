@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace YanZhiwei.DotNet4.Interfaces.Validations
+namespace YanZhiwei.DotNet.EntLib6.Utilities.Validations
 {
     /// <summary>
     /// 验证操作

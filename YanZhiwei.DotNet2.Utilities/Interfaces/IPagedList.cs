@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet2.Interfaces
+﻿namespace YanZhiwei.DotNet2.Utilities.Interfaces
 {
     /// <summary>
     /// 分页集合接口

@@ -53,10 +53,6 @@
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.DotNet3.5.Interfaces\YanZhiwei.DotNet3.5.Interfaces.csproj">
-      <Project>{6c759c77-94da-43e2-8351-175e3ecbaf14}</Project>
-      <Name>YanZhiwei.DotNet3.5.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet3.5.Utilities\YanZhiwei.DotNet3.5.Utilities.csproj">
       <Project>{fce5db97-96ec-4e53-bc19-eee6f2aa88e0}</Project>
       <Name>YanZhiwei.DotNet3.5.Utilities</Name>

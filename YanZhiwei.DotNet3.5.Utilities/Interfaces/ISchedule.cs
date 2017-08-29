@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet3._5.Interfaces
+﻿namespace YanZhiwei.DotNet3._5.Utilities.Interfaces
 {
     using System;
 

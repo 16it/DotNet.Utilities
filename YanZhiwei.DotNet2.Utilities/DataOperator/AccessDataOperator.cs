@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
-using YanZhiwei.DotNet2.Interfaces;
+using YanZhiwei.DotNet2.Utilities.Interfaces;
 using YanZhiwei.DotNet2.Utilities.Operator;
 
 namespace YanZhiwei.DotNet2.Utilities.DataOperator

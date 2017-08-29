@@ -1,21 +1,19 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.WebForm.Core
 {
+    using Common;
+    using DotNet2.Utilities.DesignPattern;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
-
-    using Common;
-
-    using DotNet2.Utilities.DesignPattern;
-    using DotNet3._5.Interfaces;
+    using YanZhiwei.DotNet3._5.Utilities.Core;
 
     /// <summary>
     /// cookie 辅助类
     /// </summary>
     /// 时间：2015-12-18 11:33
     /// 备注：
-    public class CookiesManager<T> : IHttpStorageObject<T>
+    public class CookiesManager<T> : HttpStorageObjectBase<T>
     {
         #region Properties
 
@@ -192,7 +190,7 @@
         /// <param name="cookie">HttpCookie</param>
         /// <param name="setValue">值</param>
         /// <param name="response">HttpResponse</param>
-        void Add(string key, int cookiesDurationInSeconds, HttpCookie cookie, string setValue, HttpResponse response)
+        private void Add(string key, int cookiesDurationInSeconds, HttpCookie cookie, string setValue, HttpResponse response)
         {
             if (!string.IsNullOrEmpty(key) && cookie.HasKeys)
                 cookie.Values.Set(key, setValue);

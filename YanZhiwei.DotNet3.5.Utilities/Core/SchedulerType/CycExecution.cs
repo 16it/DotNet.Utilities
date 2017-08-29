@@ -2,7 +2,7 @@
 {
     using System;
 
-    using YanZhiwei.DotNet3._5.Interfaces;
+    using YanZhiwei.DotNet3._5.Utilities.Interfaces;
 
     /// <summary>
     /// 周期性的执行计划

@@ -56,15 +56,11 @@
   <ItemGroup>
     <Compile Include="EntLibValidateOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validations\IValidation.cs" />
+    <Compile Include="Validations\ValidationResultCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="说明.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.DotNet4.Interfaces\YanZhiwei.DotNet4.Interfaces.csproj">
-      <Project>{514ed19c-c736-4372-86cc-8ba260bdec20}</Project>
-      <Name>YanZhiwei.DotNet4.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
