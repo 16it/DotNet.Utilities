@@ -5,14 +5,12 @@ namespace YanZhiwei.DotNet.Core.ServiceTests.Events
 {
     public interface IUserService
     {
-        User GetById(object id);
+        string GetUserName(string Name);
 
-        void Insert(User item);
+        string InsertUser(string Name);
 
-        void Update(User item);
+        string UpdateUser(string Name);
 
-        void Delete(User item);
-
-        IList<User> GetAll();
+        string DeleteUser(string Name);
     }
 }

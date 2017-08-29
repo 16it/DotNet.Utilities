@@ -1,27 +1,27 @@
-﻿using System;
-using System.Diagnostics;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using YanZhiwei.DotNet.Core.Service.Events;
 using YanZhiwei.DotNet.Core.ServiceTests.Model;
 
 namespace YanZhiwei.DotNet.Core.ServiceTests.Events
 {
+    [TestClass()]
     public class ModelCacheEventConsumer : IConsumer<EntityInserted<User>>,
         IConsumer<EntityUpdated<User>>,
         IConsumer<EntityDeleted<User>>
     {
         public void HandleEvent(EntityInserted<User> eventMessage)
         {
-            Debug.WriteLine("用户数据插入");
+            Assert.AreEqual("YanZhiwei1", eventMessage.Entity.LoginName);
         }
 
         public void HandleEvent(EntityUpdated<User> eventMessage)
         {
-            Debug.WriteLine("用户更新");
+            Assert.AreEqual("YanZhiwei3", eventMessage.Entity.LoginName);
         }
 
         public void HandleEvent(EntityDeleted<User> eventMessage)
         {
-            Debug.WriteLine("用户删除");
+            Assert.AreEqual("YanZhiwei2", eventMessage.Entity.LoginName);
         }
     }
 }

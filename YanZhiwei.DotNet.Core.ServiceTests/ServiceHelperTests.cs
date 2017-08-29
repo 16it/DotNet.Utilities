@@ -4,7 +4,6 @@ using YanZhiwei.DotNet.Core.Infrastructure;
 using YanZhiwei.DotNet.Core.ServiceTests;
 using YanZhiwei.DotNet.Core.ServiceTests.AdventureWorksService;
 using YanZhiwei.DotNet.Core.ServiceTests.Events;
-using YanZhiwei.DotNet.Core.ServiceTests.Model;
 using YanZhiwei.DotNet2.Utilities.Model;
 using YanZhiwei.DotNet3._5.Utilities.CallContext;
 
@@ -21,10 +20,39 @@ namespace YanZhiwei.DotNet.Core.Service.Tests
         }
 
         [TestMethod]
-        public void DeleteUserTest()
+        public void ModelCacheEventConsumer_InsertTest()
         {
-            var services = EngineContext.Current.Resolve<IUserService>();
-            services.Delete(new User());
+            var _userService = EngineContext.Current.Resolve<IUserService>();
+            string _actual = _userService.GetUserName("YanZhiwei");
+            Assert.AreEqual("YanZhiwei", _actual);
+
+            _actual = _userService.InsertUser("YanZhiwei1");
+            Assert.AreEqual("YanZhiwei1", _actual);
+        }
+
+        [TestMethod]
+        public void ModelCacheEventConsumer_DeleteTest()
+        {
+            var _userService = EngineContext.Current.Resolve<IUserService>();
+            string _actual = _userService.GetUserName("YanZhiwei");
+            Assert.AreEqual("YanZhiwei", _actual);
+
+            _actual = _userService.DeleteUser("YanZhiwei2");
+            Assert.AreEqual("YanZhiwei2", _actual);
+
+            _actual = _userService.UpdateUser("YanZhiwei3");
+            Assert.AreEqual("YanZhiwei3", _actual);
+        }
+
+        [TestMethod]
+        public void ModelCacheEventConsumer_UpdateTest()
+        {
+            var _userService = EngineContext.Current.Resolve<IUserService>();
+            string _actual = _userService.GetUserName("YanZhiwei");
+            Assert.AreEqual("YanZhiwei", _actual);
+
+            _actual = _userService.UpdateUser("YanZhiwei3");
+            Assert.AreEqual("YanZhiwei3", _actual);
         }
 
         [TestMethod()]

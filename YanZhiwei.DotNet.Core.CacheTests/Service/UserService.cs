@@ -6,13 +6,7 @@ namespace YanZhiwei.DotNet.Core.CacheTests.Service
 {
     public class UserService : IUserService
     {
-        private IEventPublisher _eventPublisher;
         private const string CacheKey = "UserServer";
-
-        public UserService(IEventPublisher eventPublisher)
-        {
-            _eventPublisher = eventPublisher;
-        }
 
         public void Delete(User item)
         {
@@ -20,7 +14,6 @@ namespace YanZhiwei.DotNet.Core.CacheTests.Service
             {
                 dbContext.Delete<User>(item);
             }
-            _eventPublisher.EntityDeleted<User>(item);
         }
 
         public IList<User> GetAll()
@@ -44,11 +37,10 @@ namespace YanZhiwei.DotNet.Core.CacheTests.Service
 
         public void Insert(User item)
         {
-            //using (var dbContext = new AccountDbContext())
-            //{
-            //    dbContext.Insert<User>(item);
-            //}
-            _eventPublisher.EntityInserted<User>(item);
+            using (var dbContext = new AccountDbContext())
+            {
+                dbContext.Insert<User>(item);
+            }
         }
 
         public void Update(User item)
@@ -57,7 +49,6 @@ namespace YanZhiwei.DotNet.Core.CacheTests.Service
             {
                 dbContext.Update<User>(item);
             }
-            _eventPublisher.EntityUpdated<User>(item);
         }
     }
 }
