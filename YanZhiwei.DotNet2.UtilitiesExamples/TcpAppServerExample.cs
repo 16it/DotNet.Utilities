@@ -12,7 +12,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
         {
             try
             {
-                TcpAppServer _server = new TcpAppServer("192.168.51.218", 9882);
+                TcpAppServer _server = new TcpAppServer("192.168.51.223", 9882);
                 _server.OnDataReceived += (sender, connectedSession) =>
                 {
                     switch (connectedSession.Code)
@@ -37,7 +37,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                 };
                 _server.Start();
 
-                TcpAppClient _client = new TcpAppClient("192.168.1.240", 9882);
+                TcpAppClient _client = new TcpAppClient("192.168.1.223", 9883);
                 _client.OnDataReceived += (sender, _connectedSession) =>
                 {
                     switch (_connectedSession.Code)
@@ -62,7 +62,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                 };
                 _client.Connect();
 
-                TcpAppClient _client2 = new TcpAppClient("192.168.1.240", 9882);
+                TcpAppClient _client2 = new TcpAppClient("192.168.1.223", 9883);
                 _client2.OnDataReceived += (sender, _connectedSession) =>
                 {
                     switch (_connectedSession.Code)

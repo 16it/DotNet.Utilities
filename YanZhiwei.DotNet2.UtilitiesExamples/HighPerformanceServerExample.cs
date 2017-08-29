@@ -11,27 +11,27 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
     {
         private static HighPerformanceServer Server = null;
 
-        public static void Main(string[] args)
-        {
-            try
-            {
-                Server = new HighPerformanceServer(SocketProtocol.TCP, "127.0.0.1", 9887, 10);
-                Server.OnDataReceived += Server_OnDataReceived;
-                Server.OnServerStarted += _server_OnServerStart;
-                Server.OnClientConnected += _server_OnClientConnected;
-                Server.OnClientDisconnected += Server_OnClientDisconnected;
-                Server.OnClientDisconnecting += Server_OnClientDisconnecting;
-                Server.Start();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                Console.ReadLine();
-            }
-        }
+        //public static void Main(string[] args)
+        //{
+        //    try
+        //    {
+        //        Server = new HighPerformanceServer(SocketProtocol.TCP, "127.0.0.1", 9887, 10);
+        //        Server.OnDataReceived += Server_OnDataReceived;
+        //        Server.OnServerStarted += _server_OnServerStart;
+        //        Server.OnClientConnected += _server_OnClientConnected;
+        //        Server.OnClientDisconnected += Server_OnClientDisconnected;
+        //        Server.OnClientDisconnecting += Server_OnClientDisconnecting;
+        //        Server.Start();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        Console.ReadLine();
+        //    }
+        //}
 
         private static void Server_OnClientDisconnecting(object sender, SocketSeesionEventArgs e)
         {

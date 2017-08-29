@@ -8,6 +8,7 @@
     using System.Net.Sockets;
     using System.Threading;
     using YanZhiwei.DotNet2.Utilities.Args;
+    using YanZhiwei.DotNet2.Utilities.Common;
 
     /// <summary>
     /// Socket 服务
@@ -34,7 +35,7 @@
         /// 时间：2016/6/7 11:35
         /// 备注：
         public HighPerformanceServer(SocketProtocol protocol, string ipAddress)
-            : this(protocol, ipAddress, 9888, 1024)
+        : this(protocol, ipAddress, 9888, 1024)
         {
         }
 
@@ -216,14 +217,11 @@
                     listener.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
                 }
 
-                if (OnServerStarted != null)
-                {
-                    SocketServerStartedEventArgs _arg = new SocketServerStartedEventArgs();
-                    _arg.Protocol = this.Protocol;
-                    _arg.SocketServer = this.Endpoint;
-                    _arg.StartedTime = DateTime.Now;
-                    OnServerStarted(this, _arg);
-                }
+                SocketServerStartedEventArgs _arg = new SocketServerStartedEventArgs();
+                _arg.Protocol = this.Protocol;
+                _arg.SocketServer = this.Endpoint;
+                _arg.StartedTime = DateTime.Now;
+                OnServerStarted.RaiseEvent(this, _arg);
             }
             else
             {
@@ -238,14 +236,11 @@
         /// 备注：
         public void Stop()
         {
-            if (OnServerStoped != null)
-            {
-                SocketServerStopedEventArgs _arg = new SocketServerStopedEventArgs();
-                _arg.Protocol = this.Protocol;
-                _arg.SocketServer = this.Endpoint;
-                _arg.StopedTime = DateTime.Now;
-                OnServerStoped(this, _arg);
-            }
+            SocketServerStopedEventArgs _arg = new SocketServerStopedEventArgs();
+            _arg.Protocol = this.Protocol;
+            _arg.SocketServer = this.Endpoint;
+            _arg.StopedTime = DateTime.Now;
+            OnServerStoped.RaiseEvent(this, _arg);
         }
 
         /// <summary>
@@ -257,17 +252,12 @@
         internal void ClientConnected(IAsyncResult asyncResult)
         {
             Interlocked.Increment(ref currentConnections);
-
             SocketConnectionInfo _connection = new SocketConnectionInfo();
             _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
             Socket _asyncListener = (Socket)asyncResult.AsyncState;
             Socket _asyncClient = _asyncListener.EndAccept(asyncResult);
             _connection.Socket = _asyncClient;
-
-            if (OnClientConnected != null)
-            {
-                OnClientConnected(null, CreateSocketSeesion(_connection, null));
-            }
+            OnClientConnected.RaiseEvent(null, CreateSocketSeesion(_connection, null));
 
             if (this.Protocol == SocketProtocol.TCP)
             {
@@ -284,10 +274,7 @@
         internal void ClientDisconnected(IAsyncResult asyncResult)
         {
             SocketConnectionInfo _connection = (SocketConnectionInfo)asyncResult.AsyncState;
-            if (OnClientDisconnected != null)
-            {
-                OnClientDisconnected(null, CreateSocketSeesion(_connection, null));
-            }
+            OnClientDisconnected.RaiseEvent(null, CreateSocketSeesion(_connection, null));
             _connection.Socket.EndDisconnect(asyncResult);
         }
 
@@ -330,10 +317,8 @@
         /// <param name="connection">SocketConnectionInfo</param>
         internal void DisconnectClient(SocketConnectionInfo connection)
         {
-            if (OnClientDisconnecting != null)
-            {
-                OnClientDisconnecting(null, CreateSocketSeesion(connection, null));
-            }
+            OnClientDisconnecting.RaiseEvent(null, CreateSocketSeesion(connection, null));
+
             if (connection.Socket != null)
                 connection.Socket.BeginDisconnect(true, new AsyncCallback(ClientDisconnected), connection);
         }
@@ -377,6 +362,7 @@
         private int CaluDataReceivedReadLength(SocketConnectionInfo connection, IAsyncResult asyncResult)
         {
             int _bytesRead;
+
             switch (this.Protocol)
             {
                 case SocketProtocol.UDP:
@@ -391,6 +377,7 @@
                     _bytesRead = 0;
                     break;
             }
+
             return _bytesRead;
         }
 
@@ -403,6 +390,7 @@
             _arg.Socket = connect.Socket;
             _arg.Buffer = buffer;
             _arg.Protocol = this.Protocol;
+
             switch (this.Protocol)
             {
                 case SocketProtocol.TCP:
@@ -444,10 +432,7 @@
                     Array.Resize<byte>(ref _buffer, _totalBytesRead);
                 }
 
-                if (OnDataReceived != null)
-                {
-                    OnDataReceived(null, CreateSocketSeesion(connection, _buffer));
-                }
+                OnDataReceived.RaiseEvent(null, CreateSocketSeesion(connection, _buffer));
 
                 _buffer = null;
             }
@@ -473,10 +458,7 @@
         {
             Array.Resize<byte>(ref connection.Buffer, connection.BytesRead);
 
-            if (OnDataReceived != null)
-            {
-                OnDataReceived(null, CreateSocketSeesion(connection, connection.Buffer));
-            }
+            OnDataReceived.RaiseEvent(null, CreateSocketSeesion(connection, connection.Buffer));
         }
 
         /// <summary>

@@ -9,13 +9,19 @@
     using YanZhiwei.DotNet2.Utilities.Args;
     using YanZhiwei.DotNet2.Utilities.Common;
     using YanZhiwei.DotNet2.Utilities.Enum;
+    using YanZhiwei.DotNet2.Utilities.Operator;
 
     /// <summary>
-    /// Socket Clinet
+    /// Socket TCP协议终端客户端
     /// </summary>
     public class TcpAppClient
     {
         #region Fields
+
+        /// <summary>
+        /// 当前连接服务端地址
+        /// </summary>
+        public readonly IPAddress TcpClientIpAddress;
 
         /// <summary>
         /// 数据接收事件
@@ -23,29 +29,9 @@
         public EventHandler<TcpSeesionEventArgs> OnDataReceived;
 
         /// <summary>
-        /// 客户端
-        /// </summary>
-        private TcpClient client;
-
-        /// <summary>
-        /// 当前连接服务端地址
-        /// </summary>
-        private IPAddress ipAddress;
-
-        /// <summary>
-        /// 服务端IP+端口
-        /// </summary>
-        private IPEndPoint ipEndPoint;
-
-        /// <summary>
         /// 是否关闭.(窗体关闭时关闭代码)
         /// </summary>
         private bool isClose = false;
-
-        /// <summary>
-        /// 当前连接服务端端口号
-        /// </summary>
-        private int portNumber;
 
         /// <summary>
         /// 接收缓冲区
@@ -58,14 +44,19 @@
         private byte[] sendBuffer = new byte[1 * 1024 * 1024];
 
         /// <summary>
-        /// 发送与接收使用的流
-        /// </summary>
-        private NetworkStream stream;
-
-        /// <summary>
         /// 当前管理对象
         /// </summary>
         private TcpClientConnectSession TcpClientConnectedSeesion;
+
+        /// <summary>
+        /// 当前连接服务端端口号
+        /// </summary>
+        private ushort TcpClientPort;
+
+        /// <summary>
+        /// 发送与接收使用的流
+        /// </summary>
+        private NetworkStream tcpClientStream;
 
         #endregion Fields
 
@@ -74,30 +65,40 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="ip">The ipaddress.</param>
-        /// <param name="port">The port.</param>
-        public TcpAppClient(string ip, int port)
+        /// <param name="ip">TcpClient Ip地址.</param>
+        /// <param name="port">TcpClient 端口.</param>
+        public TcpAppClient(string ip, ushort port)
         {
-            ipAddress = IPAddress.Parse(ip);
-            portNumber = port;
-            ipEndPoint = new IPEndPoint(ipAddress, portNumber);
-            client = new TcpClient();
-        }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="ip">The ipaddress.</param>
-        /// <param name="port">The port.</param>
-        public TcpAppClient(IPAddress ip, int port)
-        {
-            ipAddress = ip;
-            portNumber = port;
-            ipEndPoint = new IPEndPoint(ipAddress, portNumber);
-            client = new TcpClient();
+            ValidateOperator.Begin().IsIp(ip, "TcpClient Ip地址");
+            TcpClientIpAddress = IPAddress.Parse(ip);
+            TcpClientPort = port;
+            TcpClientIpEndPoint = new IPEndPoint(TcpClientIpAddress, TcpClientPort);
+            ConnectTcpClient = new TcpClient();
         }
 
         #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// 客户端
+        /// </summary>
+        public TcpClient ConnectTcpClient
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// 服务端IP+端口
+        /// </summary>
+        public IPEndPoint TcpClientIpEndPoint
+        {
+            get;
+            private set;
+        }
+
+        #endregion Properties
 
         #region Methods
 
@@ -108,15 +109,15 @@
         {
             try
             {
-                client.Connect(ipEndPoint);
-                stream = new NetworkStream(client.Client, true);
-                TcpClientConnectedSeesion = new TcpClientConnectSession(ipEndPoint, client, stream);
+                ConnectTcpClient.Connect(TcpClientIpEndPoint);
+                tcpClientStream = new NetworkStream(ConnectTcpClient.Client, true);
+                TcpClientConnectedSeesion = new TcpClientConnectSession(TcpClientIpEndPoint, ConnectTcpClient, tcpClientStream);
                 TcpClientConnectedSeesion.SkStream.BeginRead(recBuffer, 0, recBuffer.Length, new AsyncCallback(EndReader), TcpClientConnectedSeesion);
-                RaiseDataReceivedEvent(TcpOperateEvent.ConnectSuccess, null, null, ipEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEvent.ConnectSuccess, null, null, TcpClientIpEndPoint, null);
             }
             catch (Exception ex)
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.ConnectError, null, ex, ipEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEvent.ConnectError, null, ex, TcpClientIpEndPoint, null);
             }
         }
 
@@ -127,18 +128,18 @@
         {
             TcpClientConnectSession _connectedSession = new TcpClientConnectSession();
 
-            if (client != null)
+            if (ConnectTcpClient != null)
             {
-                client.Client.Shutdown(SocketShutdown.Both);
+                ConnectTcpClient.Client.Shutdown(SocketShutdown.Both);
                 Thread.Sleep(10);
-                client.Close();
+                ConnectTcpClient.Close();
                 isClose = true;
-                client = null;
-                RaiseDataReceivedEvent(TcpOperateEvent.Disconnect, null, null, ipEndPoint, null);
+                ConnectTcpClient = null;
+                RaiseDataReceivedEvent(TcpOperateEvent.Disconnect, null, null, TcpClientIpEndPoint, null);
             }
             else
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.Uninitialized, null, null, ipEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEvent.Uninitialized, null, null, TcpClientIpEndPoint, null);
             }
         }
 
@@ -147,20 +148,20 @@
         /// </summary>
         public void RestartConnect()
         {
-            ipEndPoint = new IPEndPoint(ipAddress, portNumber);
-            client = new TcpClient();
+            TcpClientIpEndPoint = new IPEndPoint(TcpClientIpAddress, TcpClientPort);
+            ConnectTcpClient = new TcpClient();
             Connect();
         }
 
         /// <summary>
         /// 发送消息
         /// </summary>
-        /// <param name="sendData">The send data.</param>
+        /// <param name="sendData">消息</param>
         public void SendData(string sendData)
         {
             try
             {
-                if (client != null)
+                if (ConnectTcpClient != null)
                 {
                     SendDataSucceed(sendData);
                     SendDataFailed_UnConnect();
@@ -179,12 +180,12 @@
         /// <summary>
         /// 发送消息
         /// </summary>
-        /// <param name="sendData">The send data.</param>
+        /// <param name="sendData">消息</param>
         public void SendData(byte[] sendData)
         {
             try
             {
-                if (client != null)
+                if (ConnectTcpClient != null)
                 {
                     SendDataSucceed(sendData);
                     SendDataFailed_UnConnect();
@@ -201,9 +202,9 @@
         }
 
         /// <summary>
-        /// Ends the reader.
+        /// EndReader
         /// </summary>
-        /// <param name="ir">The ir.</param>
+        /// <param name="ir">IAsyncResult</param>
         private void EndReader(IAsyncResult ir)
         {
             TcpClientConnectSession _connectedSession = ir.AsyncState as TcpClientConnectSession;
@@ -212,7 +213,7 @@
             {
                 if (_connectedSession != null)
                 {
-                    if (isClose && client == null)
+                    if (isClose && ConnectTcpClient == null)
                     {
                         TcpClientConnectedSeesion.SkStream.Close();
                         TcpClientConnectedSeesion.SkStream.Dispose();
@@ -242,18 +243,18 @@
             }
             catch (Exception ex)
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.DataReceivedError, null, ex, ipEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEvent.DataReceivedError, null, ex, TcpClientIpEndPoint, null);
             }
         }
 
         /// <summary>
-        /// Pusbs the client message.
+        /// 触发相关事件
         /// </summary>
-        /// <param name="code">The code.</param>
-        /// <param name="buffer">The buffer.</param>
-        /// <param name="exception">The exception.</param>
-        /// <param name="ipaddress">The ipaddress.</param>
-        /// <param name="tag">The tag.</param>
+        /// <param name="code">TcpOperateEvent</param>
+        /// <param name="buffer">数据流</param>
+        /// <param name="exception">异常信息</param>
+        /// <param name="ipaddress">ip地址</param>
+        /// <param name="tag">附加信息</param>
         private void RaiseDataReceivedEvent(TcpOperateEvent code, byte[] buffer, Exception exception, IPEndPoint ipaddress, object tag)
         {
             TcpSeesionEventArgs _args = new TcpSeesionEventArgs();
@@ -266,12 +267,12 @@
         }
 
         /// <summary>
-        /// Sends the data failed_ exception.
+        /// 触发发送消息失败异常事件
         /// </summary>
-        /// <param name="ex">The ex.</param>
+        /// <param name="ex">Exception</param>
         private void SendDataFailed_Exception(Exception ex)
         {
-            RaiseDataReceivedEvent(TcpOperateEvent.SendDataError, null, ex, ipEndPoint, null);
+            RaiseDataReceivedEvent(TcpOperateEvent.SendDataError, null, ex, TcpClientIpEndPoint, null);
             RestartConnect();
         }
 
@@ -280,7 +281,7 @@
         /// </summary>
         private void SendDataFailed_NullServer()
         {
-            RaiseDataReceivedEvent(TcpOperateEvent.ObjectNull, null, null, ipEndPoint, null);
+            RaiseDataReceivedEvent(TcpOperateEvent.ObjectNull, null, null, TcpClientIpEndPoint, null);
             RestartConnect();
         }
 
@@ -289,9 +290,9 @@
         /// </summary>
         private void SendDataFailed_UnConnect()
         {
-            if (!client.Connected)
+            if (!ConnectTcpClient.Connected)
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.UnConnect, null, null, ipEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEvent.UnConnect, null, null, TcpClientIpEndPoint, null);
                 RestartConnect();
             }
         }
@@ -302,15 +303,15 @@
         /// <param name="sendData">The send data.</param>
         private void SendDataSucceed(string sendData)
         {
-            if (client.Connected)
+            if (ConnectTcpClient.Connected)
             {
-                if (stream == null)
+                if (tcpClientStream == null)
                 {
-                    stream = client.GetStream();
+                    tcpClientStream = ConnectTcpClient.GetStream();
                 }
 
                 byte[] _buffer = Encoding.UTF8.GetBytes(sendData);
-                stream.Write(_buffer, 0, _buffer.Length);
+                tcpClientStream.Write(_buffer, 0, _buffer.Length);
             }
         }
 
@@ -320,15 +321,15 @@
         /// <param name="sendData">The send data.</param>
         private void SendDataSucceed(byte[] sendData)
         {
-            if (client.Connected)
+            if (ConnectTcpClient.Connected)
             {
-                if (stream == null)
+                if (tcpClientStream == null)
                 {
-                    stream = client.GetStream();
+                    tcpClientStream = ConnectTcpClient.GetStream();
                 }
 
                 byte[] _buffer = sendData;
-                stream.Write(_buffer, 0, _buffer.Length);
+                tcpClientStream.Write(_buffer, 0, _buffer.Length);
             }
         }
 
