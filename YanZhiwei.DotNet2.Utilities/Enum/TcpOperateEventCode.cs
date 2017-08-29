@@ -5,7 +5,7 @@
     /// <summary>
     /// 具体错误类型
     /// </summary>
-    public enum TcpOperateEvent
+    public enum TcpOperateEventCode
     {
         /// <summary>
         /// 对象为null
@@ -30,17 +30,17 @@
         /// <summary>
         /// 服务启动成功
         /// </summary>
-        StartSucceed,
+        ServerrStartSucceed,
 
         /// <summary>
         /// 服务启动失败
         /// </summary>
-        StartError,
+        ServerStartError,
 
         /// <summary>
         /// 服务停止
         /// </summary>
-        Stop,
+        ServerStop,
 
         /// <summary>
         /// 发送消息失败
@@ -50,7 +50,7 @@
         /// <summary>
         /// 新的客户端连接
         /// </summary>
-        NewClientConnect,
+        NewClientConnected,
 
         /// <summary>
         /// 新的客户端连接错误
@@ -63,9 +63,9 @@
         RemoveClientConnect,
 
         /// <summary>
-        /// 未连接上Server
+        ///未连接上Server
         /// </summary>
-        UnConnect,
+        UnConnectServer,
 
         /// <summary>
         ///数据接收
@@ -80,12 +80,12 @@
         /// <summary>
         ///Client尚未初始化
         /// </summary>
-        Uninitialized,
+        ClientUninitialized,
 
         /// <summary>
         ///Client断开连接
         /// </summary>
-        Disconnect,
+        CliendDisconnected,
 
         /// <summary>
         /// 客户端下线

@@ -195,19 +195,19 @@
                             else
                             {
                                 TcpClientConnectList.Remove(_connectedSession);
-                                RaiseDataReceivedEvent(TcpOperateEvent.RemoveClientConnect, null, null, _connectedSession.Ip, null);
+                                RaiseDataReceivedEvent(TcpOperateEventCode.RemoveClientConnect, null, null, _connectedSession.Ip, null);
                             }
                         }
                     }
                     else
                     {
-                        RaiseDataReceivedEvent(TcpOperateEvent.NoClinets, null, null, _connectedSession.Ip, null);
+                        RaiseDataReceivedEvent(TcpOperateEventCode.NoClinets, null, null, _connectedSession.Ip, null);
                     }
                 }
             }
             catch (Exception ex)
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.SendDataError, null, ex, ip, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.SendDataError, null, ex, ip, null);
             }
         }
 
@@ -253,13 +253,13 @@
                     }
                     else
                     {
-                        RaiseDataReceivedEvent(TcpOperateEvent.NoClinets, null, null, ip, null);
+                        RaiseDataReceivedEvent(TcpOperateEventCode.NoClinets, null, null, ip, null);
                     }
                 }
             }
             catch (Exception ex)
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.SendDataError, null, ex, ip, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.SendDataError, null, ex, ip, null);
             }
         }
 
@@ -285,11 +285,11 @@
                     }
                 }));
                 _task.Start();
-                RaiseDataReceivedEvent(TcpOperateEvent.StartSucceed, null, null, TcpServerEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.ServerrStartSucceed, null, null, TcpServerEndPoint, null);
             }
             catch (SocketException ex)
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.StartError, null, ex, TcpServerEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.ServerStartError, null, ex, TcpServerEndPoint, null);
             }
         }
 
@@ -304,7 +304,7 @@
                 TcpServer.Stop();
                 TcpServer = null;
                 isStop = true;
-                RaiseDataReceivedEvent(TcpOperateEvent.Stop, null, null, TcpServerEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.ServerStop, null, null, TcpServerEndPoint, null);
             }
         }
 
@@ -326,7 +326,7 @@
                 TcpClientConnectList.Add(connectedSession);
             }
 
-            RaiseDataReceivedEvent(TcpOperateEvent.NewClientConnect, null, null, connectedSession.Ip, null);
+            RaiseDataReceivedEvent(TcpOperateEventCode.NewClientConnected, null, null, connectedSession.Ip, null);
         }
 
         /// <summary>
@@ -350,12 +350,12 @@
                         {
                             byte[] _buffer = new byte[_connectedSession.Offset];
                             Array.Copy(recBuffer, _buffer, _connectedSession.Offset);
-                            RaiseDataReceivedEvent(TcpOperateEvent.DataReceived, _buffer, null, _connectedSession.Ip, null);
+                            RaiseDataReceivedEvent(TcpOperateEventCode.DataReceived, _buffer, null, _connectedSession.Ip, null);
                         }
                         else
                         {
                             TcpClientConnectList.Remove(_connectedSession);//移除连接终端
-                            RaiseDataReceivedEvent(TcpOperateEvent.ClientOffline, null, null, _connectedSession.Ip, null);
+                            RaiseDataReceivedEvent(TcpOperateEventCode.ClientOffline, null, null, _connectedSession.Ip, null);
                         }
 
                         _connectedSession.SkStream.BeginRead(recBuffer, 0, recBuffer.Length, new AsyncCallback(EndReader), _connectedSession);
@@ -366,7 +366,7 @@
                     lock (syncRoot)
                     {
                         TcpClientConnectList.Remove(_connectedSession);
-                        RaiseDataReceivedEvent(TcpOperateEvent.DataReceivedError, null, ex, _connectedSession.Ip, null);
+                        RaiseDataReceivedEvent(TcpOperateEventCode.DataReceivedError, null, ex, _connectedSession.Ip, null);
                     }
                 }
             }
@@ -397,7 +397,7 @@
             catch (Exception ex)
             {
                 semap.Release();
-                RaiseDataReceivedEvent(TcpOperateEvent.NewClientConnectError, null, ex, null, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.NewClientConnectError, null, ex, null, null);
             }
         }
 
@@ -409,7 +409,7 @@
         /// <param name="exception">异常辛星</param>
         /// <param name="ipaddress">ip地址</param>
         /// <param name="tag">附加信息</param>
-        private void RaiseDataReceivedEvent(TcpOperateEvent code, byte[] buffer, Exception exception, IPEndPoint ipaddress, object tag)
+        private void RaiseDataReceivedEvent(TcpOperateEventCode code, byte[] buffer, Exception exception, IPEndPoint ipaddress, object tag)
         {
             TcpSeesionEventArgs _args = new TcpSeesionEventArgs();
             _args.Code = code;

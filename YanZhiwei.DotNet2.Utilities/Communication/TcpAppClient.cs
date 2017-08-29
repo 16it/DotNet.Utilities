@@ -113,11 +113,11 @@
                 tcpClientStream = new NetworkStream(ConnectTcpClient.Client, true);
                 TcpClientConnectedSeesion = new TcpClientConnectSession(TcpClientIpEndPoint, ConnectTcpClient, tcpClientStream);
                 TcpClientConnectedSeesion.SkStream.BeginRead(recBuffer, 0, recBuffer.Length, new AsyncCallback(EndReader), TcpClientConnectedSeesion);
-                RaiseDataReceivedEvent(TcpOperateEvent.ConnectSuccess, null, null, TcpClientIpEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.ConnectSuccess, null, null, TcpClientIpEndPoint, null);
             }
             catch (Exception ex)
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.ConnectError, null, ex, TcpClientIpEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.ConnectError, null, ex, TcpClientIpEndPoint, null);
             }
         }
 
@@ -135,11 +135,11 @@
                 ConnectTcpClient.Close();
                 isClose = true;
                 ConnectTcpClient = null;
-                RaiseDataReceivedEvent(TcpOperateEvent.Disconnect, null, null, TcpClientIpEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.CliendDisconnected, null, null, TcpClientIpEndPoint, null);
             }
             else
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.Uninitialized, null, null, TcpClientIpEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.ClientUninitialized, null, null, TcpClientIpEndPoint, null);
             }
         }
 
@@ -230,11 +230,11 @@
 
                         if (string.Compare(_readString, "ServerOff", StringComparison.OrdinalIgnoreCase) == 0)
                         {
-                            RaiseDataReceivedEvent(TcpOperateEvent.ServerClose, null, null, _connectedSession.Ip, null);
+                            RaiseDataReceivedEvent(TcpOperateEventCode.ServerClose, null, null, _connectedSession.Ip, null);
                         }
                         else
                         {
-                            RaiseDataReceivedEvent(TcpOperateEvent.DataReceived, _buffer, null, _connectedSession.Ip, null);
+                            RaiseDataReceivedEvent(TcpOperateEventCode.DataReceived, _buffer, null, _connectedSession.Ip, null);
                         }
                     }
 
@@ -243,7 +243,7 @@
             }
             catch (Exception ex)
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.DataReceivedError, null, ex, TcpClientIpEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.DataReceivedError, null, ex, TcpClientIpEndPoint, null);
             }
         }
 
@@ -255,7 +255,7 @@
         /// <param name="exception">异常信息</param>
         /// <param name="ipaddress">ip地址</param>
         /// <param name="tag">附加信息</param>
-        private void RaiseDataReceivedEvent(TcpOperateEvent code, byte[] buffer, Exception exception, IPEndPoint ipaddress, object tag)
+        private void RaiseDataReceivedEvent(TcpOperateEventCode code, byte[] buffer, Exception exception, IPEndPoint ipaddress, object tag)
         {
             TcpSeesionEventArgs _args = new TcpSeesionEventArgs();
             _args.Code = code;
@@ -272,7 +272,7 @@
         /// <param name="ex">Exception</param>
         private void SendDataFailed_Exception(Exception ex)
         {
-            RaiseDataReceivedEvent(TcpOperateEvent.SendDataError, null, ex, TcpClientIpEndPoint, null);
+            RaiseDataReceivedEvent(TcpOperateEventCode.SendDataError, null, ex, TcpClientIpEndPoint, null);
             RestartConnect();
         }
 
@@ -281,7 +281,7 @@
         /// </summary>
         private void SendDataFailed_NullServer()
         {
-            RaiseDataReceivedEvent(TcpOperateEvent.ObjectNull, null, null, TcpClientIpEndPoint, null);
+            RaiseDataReceivedEvent(TcpOperateEventCode.ObjectNull, null, null, TcpClientIpEndPoint, null);
             RestartConnect();
         }
 
@@ -292,7 +292,7 @@
         {
             if (!ConnectTcpClient.Connected)
             {
-                RaiseDataReceivedEvent(TcpOperateEvent.UnConnect, null, null, TcpClientIpEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEventCode.UnConnectServer, null, null, TcpClientIpEndPoint, null);
                 RestartConnect();
             }
         }

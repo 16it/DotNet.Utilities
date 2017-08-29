@@ -56,7 +56,7 @@
         /// <summary>
         /// 异常枚举
         /// </summary>
-        public TcpOperateEvent Code
+        public TcpOperateEventCode Code
         {
             get; set;
         }

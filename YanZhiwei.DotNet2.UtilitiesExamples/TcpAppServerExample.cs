@@ -18,19 +18,19 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                 {
                     switch (connectedSession.Code)
                     {
-                        case TcpOperateEvent.StartSucceed:
+                        case TcpOperateEventCode.ServerrStartSucceed:
                             Console.WriteLine("StartSucceed." + connectedSession.Ip.ToString());
                             break;
 
-                        case TcpOperateEvent.DataReceived:
+                        case TcpOperateEventCode.DataReceived:
                             Console.WriteLine("Server DataReceived:" + ByteHelper.ToHexStringWithBlank(connectedSession.DataBuffer) + connectedSession.Ip.ToString());
                             break;
 
-                        case TcpOperateEvent.NewClientConnect:
+                        case TcpOperateEventCode.NewClientConnected:
                             Console.WriteLine("NewClientConnect" + connectedSession.Ip.ToString());
                             break;
 
-                        case TcpOperateEvent.ClientOffline:
+                        case TcpOperateEventCode.ClientOffline:
                             Console.WriteLine("ClientOffline" + connectedSession.Ip.ToString());
                             break;
                     }
@@ -42,20 +42,20 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                 {
                     switch (_connectedSession.Code)
                     {
-                        case TcpOperateEvent.ConnectSuccess:
+                        case TcpOperateEventCode.ConnectSuccess:
                             Console.WriteLine("ConnectSuccess." + _connectedSession.Ip.ToString());
                             break;
 
-                        case TcpOperateEvent.DataReceived:
+                        case TcpOperateEventCode.DataReceived:
                             byte[] _cc = _connectedSession.DataBuffer;
                             Console.WriteLine("Client DataReceived:" + _cc.Length + _connectedSession.Ip.ToString());
                             break;
 
-                        case TcpOperateEvent.Disconnect:
+                        case TcpOperateEventCode.CliendDisconnected:
                             Console.WriteLine("Disconnect" + _connectedSession.Ip.ToString());
                             break;
 
-                        case TcpOperateEvent.ServerClose:
+                        case TcpOperateEventCode.ServerClose:
                             Console.WriteLine("ServerClose" + _connectedSession.Ip.ToString());
                             break;
                     }
@@ -67,20 +67,20 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
                 {
                     switch (_connectedSession.Code)
                     {
-                        case TcpOperateEvent.ConnectSuccess:
+                        case TcpOperateEventCode.ConnectSuccess:
                             Console.WriteLine("ConnectSuccess." + _connectedSession.Ip.ToString());
                             break;
 
-                        case TcpOperateEvent.DataReceived:
+                        case TcpOperateEventCode.DataReceived:
                             byte[] _cc = _connectedSession.DataBuffer;
                             Console.WriteLine("Client DataReceived:" + _cc.Length + _connectedSession.Ip.ToString());
                             break;
 
-                        case TcpOperateEvent.Disconnect:
+                        case TcpOperateEventCode.CliendDisconnected:
                             Console.WriteLine("Disconnect" + _connectedSession.Ip.ToString());
                             break;
 
-                        case TcpOperateEvent.ServerClose:
+                        case TcpOperateEventCode.ServerClose:
                             Console.WriteLine("ServerClose" + _connectedSession.Ip.ToString());
                             break;
                     }

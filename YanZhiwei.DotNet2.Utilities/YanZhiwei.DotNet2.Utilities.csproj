@@ -260,7 +260,7 @@
     <Compile Include="Enum\LogLevel.cs" />
     <Compile Include="ExtensionHelper.cs" />
     <Compile Include="Model\MenuStripItem.cs" />
-    <Compile Include="Enum\TcpOperateEvent.cs" />
+    <Compile Include="Enum\TcpOperateEventCode.cs" />
     <Compile Include="Args\TcpSeesionEventArgs.cs" />
     <Compile Include="Model\TcpClientConnectSession.cs" />
     <Compile Include="Model\TipMessage.cs" />
