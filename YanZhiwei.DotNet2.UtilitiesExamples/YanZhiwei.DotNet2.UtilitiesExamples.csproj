@@ -54,7 +54,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ProjectTraceListenerDemo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SocketDemo.cs" />
+    <Compile Include="TcpAppServerExample.cs" />
     <Compile Include="WorkQueueExample.cs" />
   </ItemGroup>
   <ItemGroup>

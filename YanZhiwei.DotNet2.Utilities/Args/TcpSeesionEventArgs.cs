@@ -1,19 +1,20 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Model
+﻿namespace YanZhiwei.DotNet2.Utilities.Args
 {
     using System;
     using System.Net;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// Socket 数据
     /// </summary>
-    public class SocketData
+    public class TcpSeesionEventArgs : EventArgs
     {
         #region Properties
 
         /// <summary>
         /// 异常枚举
         /// </summary>
-        public SocketCode Code
+        public TcpOperateEvent Code
         {
             get; set;
         }

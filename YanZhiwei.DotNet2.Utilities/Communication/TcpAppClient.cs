@@ -6,13 +6,21 @@
     using System.Net.Sockets;
     using System.Text;
     using System.Threading;
+    using YanZhiwei.DotNet2.Utilities.Args;
+    using YanZhiwei.DotNet2.Utilities.Common;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// Socket Clinet
     /// </summary>
-    public class SocketClient
+    public class TcpAppClient
     {
         #region Fields
+
+        /// <summary>
+        /// 数据接收事件
+        /// </summary>
+        public EventHandler<TcpSeesionEventArgs> OnDataReceived;
 
         /// <summary>
         /// 客户端
@@ -50,14 +58,14 @@
         private byte[] sendBuffer = new byte[1 * 1024 * 1024];
 
         /// <summary>
-        /// 当前管理对象
-        /// </summary>
-        private SocketObj sk;
-
-        /// <summary>
         /// 发送与接收使用的流
         /// </summary>
         private NetworkStream stream;
+
+        /// <summary>
+        /// 当前管理对象
+        /// </summary>
+        private TcpClientConnectSession TcpClientConnectedSeesion;
 
         #endregion Fields
 
@@ -68,7 +76,7 @@
         /// </summary>
         /// <param name="ip">The ipaddress.</param>
         /// <param name="port">The port.</param>
-        public SocketClient(string ip, int port)
+        public TcpAppClient(string ip, int port)
         {
             ipAddress = IPAddress.Parse(ip);
             portNumber = port;
@@ -81,7 +89,7 @@
         /// </summary>
         /// <param name="ip">The ipaddress.</param>
         /// <param name="port">The port.</param>
-        public SocketClient(IPAddress ip, int port)
+        public TcpAppClient(IPAddress ip, int port)
         {
             ipAddress = ip;
             portNumber = port;
@@ -90,25 +98,6 @@
         }
 
         #endregion Constructors
-
-        #region Delegates
-
-        /// <summary>
-        /// 消息推送委托
-        /// </summary>
-        /// <param name="sockets">The sockets.</param>
-        public delegate void PushClientMsgHanlder(SocketData sockets);
-
-        #endregion Delegates
-
-        #region Events
-
-        /// <summary>
-        /// 消息推送事件
-        /// </summary>
-        public event PushClientMsgHanlder PushClientMsgHanlderEvent;
-
-        #endregion Events
 
         #region Methods
 
@@ -121,13 +110,13 @@
             {
                 client.Connect(ipEndPoint);
                 stream = new NetworkStream(client.Client, true);
-                sk = new SocketObj(ipEndPoint, client, stream);
-                sk.SkStream.BeginRead(recBuffer, 0, recBuffer.Length, new AsyncCallback(EndReader), sk);
-                PusbClientMessage(SocketCode.ConnectSuccess, null, null, ipEndPoint, null);
+                TcpClientConnectedSeesion = new TcpClientConnectSession(ipEndPoint, client, stream);
+                TcpClientConnectedSeesion.SkStream.BeginRead(recBuffer, 0, recBuffer.Length, new AsyncCallback(EndReader), TcpClientConnectedSeesion);
+                RaiseDataReceivedEvent(TcpOperateEvent.ConnectSuccess, null, null, ipEndPoint, null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                PusbClientMessage(SocketCode.ConnectError, null, ex, ipEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEvent.ConnectError, null, ex, ipEndPoint, null);
             }
         }
 
@@ -136,20 +125,20 @@
         /// </summary>
         public void Disconnect()
         {
-            SocketObj _sks = new SocketObj();
+            TcpClientConnectSession _connectedSession = new TcpClientConnectSession();
 
-            if(client != null)
+            if (client != null)
             {
                 client.Client.Shutdown(SocketShutdown.Both);
                 Thread.Sleep(10);
                 client.Close();
                 isClose = true;
                 client = null;
-                PusbClientMessage(SocketCode.Disconnect, null, null, ipEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEvent.Disconnect, null, null, ipEndPoint, null);
             }
             else
             {
-                PusbClientMessage(SocketCode.Uninitialized, null, null, ipEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEvent.Uninitialized, null, null, ipEndPoint, null);
             }
         }
 
@@ -171,7 +160,7 @@
         {
             try
             {
-                if(client != null)
+                if (client != null)
                 {
                     SendDataSucceed(sendData);
                     SendDataFailed_UnConnect();
@@ -181,7 +170,7 @@
                     SendDataFailed_NullServer();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SendDataFailed_Exception(ex);
             }
@@ -195,7 +184,7 @@
         {
             try
             {
-                if(client != null)
+                if (client != null)
                 {
                     SendDataSucceed(sendData);
                     SendDataFailed_UnConnect();
@@ -205,7 +194,7 @@
                     SendDataFailed_NullServer();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SendDataFailed_Exception(ex);
             }
@@ -217,55 +206,43 @@
         /// <param name="ir">The ir.</param>
         private void EndReader(IAsyncResult ir)
         {
-            SocketObj _sks = ir.AsyncState as SocketObj;
+            TcpClientConnectSession _connectedSession = ir.AsyncState as TcpClientConnectSession;
 
             try
             {
-                if(_sks != null)
+                if (_connectedSession != null)
                 {
-                    if(isClose && client == null)
+                    if (isClose && client == null)
                     {
-                        sk.SkStream.Close();
-                        sk.SkStream.Dispose();
+                        TcpClientConnectedSeesion.SkStream.Close();
+                        TcpClientConnectedSeesion.SkStream.Dispose();
                         return;
                     }
 
-                    _sks.Offset = _sks.SkStream.EndRead(ir);
-                    byte[] _buffer = new byte[_sks.Offset];
-                    Array.Copy(recBuffer, _buffer, _sks.Offset);
+                    _connectedSession.Offset = _connectedSession.SkStream.EndRead(ir);
+                    byte[] _buffer = new byte[_connectedSession.Offset];
+                    Array.Copy(recBuffer, _buffer, _connectedSession.Offset);
 
-                    if(_buffer != null)
+                    if (_buffer != null)
                     {
                         string _readString = Encoding.UTF8.GetString(_buffer);
 
-                        if(string.Compare(_readString, "ServerOff", true) == 0)
+                        if (string.Compare(_readString, "ServerOff", StringComparison.OrdinalIgnoreCase) == 0)
                         {
-                            PusbClientMessage(SocketCode.ServerClose, null, null, _sks.Ip, null);
+                            RaiseDataReceivedEvent(TcpOperateEvent.ServerClose, null, null, _connectedSession.Ip, null);
                         }
                         else
                         {
-                            PusbClientMessage(SocketCode.DataReceived, _buffer, null, _sks.Ip, null);
+                            RaiseDataReceivedEvent(TcpOperateEvent.DataReceived, _buffer, null, _connectedSession.Ip, null);
                         }
                     }
 
-                    sk.SkStream.BeginRead(recBuffer, 0, recBuffer.Length, new AsyncCallback(EndReader), sk);
+                    TcpClientConnectedSeesion.SkStream.BeginRead(recBuffer, 0, recBuffer.Length, new AsyncCallback(EndReader), TcpClientConnectedSeesion);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                PusbClientMessage(SocketCode.DataReceivedError, null, ex, ipEndPoint, null);
-            }
-        }
-
-        /// <summary>
-        /// Called when [push client MSG hanlder event].
-        /// </summary>
-        /// <param name="sockets">The sockets.</param>
-        private void OnPushClientMsgHanlderEvent(SocketData sockets)
-        {
-            if(PushClientMsgHanlderEvent != null && sockets != null)
-            {
-                PushClientMsgHanlderEvent(sockets);
+                RaiseDataReceivedEvent(TcpOperateEvent.DataReceivedError, null, ex, ipEndPoint, null);
             }
         }
 
@@ -277,15 +254,15 @@
         /// <param name="exception">The exception.</param>
         /// <param name="ipaddress">The ipaddress.</param>
         /// <param name="tag">The tag.</param>
-        private void PusbClientMessage(SocketCode code, byte[] buffer, Exception exception, IPEndPoint ipaddress, object tag)
+        private void RaiseDataReceivedEvent(TcpOperateEvent code, byte[] buffer, Exception exception, IPEndPoint ipaddress, object tag)
         {
-            SocketData _sksData = new SocketData();
-            _sksData.Code = code;
-            _sksData.DataBuffer = buffer;
-            _sksData.Ex = exception;
-            _sksData.Ip = ipaddress;
-            _sksData.Tag = tag;
-            OnPushClientMsgHanlderEvent(_sksData);
+            TcpSeesionEventArgs _args = new TcpSeesionEventArgs();
+            _args.Code = code;
+            _args.DataBuffer = buffer;
+            _args.Ex = exception;
+            _args.Ip = ipaddress;
+            _args.Tag = tag;
+            OnDataReceived.RaiseEvent(this, _args);
         }
 
         /// <summary>
@@ -294,7 +271,7 @@
         /// <param name="ex">The ex.</param>
         private void SendDataFailed_Exception(Exception ex)
         {
-            PusbClientMessage(SocketCode.SendDataError, null, ex, ipEndPoint, null);
+            RaiseDataReceivedEvent(TcpOperateEvent.SendDataError, null, ex, ipEndPoint, null);
             RestartConnect();
         }
 
@@ -303,7 +280,7 @@
         /// </summary>
         private void SendDataFailed_NullServer()
         {
-            PusbClientMessage(SocketCode.ObjectNull, null, null, ipEndPoint, null);
+            RaiseDataReceivedEvent(TcpOperateEvent.ObjectNull, null, null, ipEndPoint, null);
             RestartConnect();
         }
 
@@ -312,9 +289,9 @@
         /// </summary>
         private void SendDataFailed_UnConnect()
         {
-            if(!client.Connected)
+            if (!client.Connected)
             {
-                PusbClientMessage(SocketCode.UnConnect, null, null, ipEndPoint, null);
+                RaiseDataReceivedEvent(TcpOperateEvent.UnConnect, null, null, ipEndPoint, null);
                 RestartConnect();
             }
         }
@@ -325,9 +302,9 @@
         /// <param name="sendData">The send data.</param>
         private void SendDataSucceed(string sendData)
         {
-            if(client.Connected)
+            if (client.Connected)
             {
-                if(stream == null)
+                if (stream == null)
                 {
                     stream = client.GetStream();
                 }
@@ -343,9 +320,9 @@
         /// <param name="sendData">The send data.</param>
         private void SendDataSucceed(byte[] sendData)
         {
-            if(client.Connected)
+            if (client.Connected)
             {
-                if(stream == null)
+                if (stream == null)
                 {
                     stream = client.GetStream();
                 }

@@ -190,8 +190,8 @@
     <Compile Include="WebForm\WebFormHelper.cs" />
     <Compile Include="WebForm\FetchHelper.cs" />
     <Compile Include="DataBase\SqlServerPageScript.cs" />
-    <Compile Include="Communication\SocketClient.cs" />
-    <Compile Include="Communication\SocketServer.cs" />
+    <Compile Include="Communication\TcpAppClient.cs" />
+    <Compile Include="Communication\TcpAppServer.cs" />
     <Compile Include="Common\ASCIIHelper.cs" />
     <Compile Include="Operator\AssemblyOperator.cs" />
     <Compile Include="Common\Base64Helper.cs" />
@@ -260,9 +260,9 @@
     <Compile Include="Enum\LogLevel.cs" />
     <Compile Include="ExtensionHelper.cs" />
     <Compile Include="Model\MenuStripItem.cs" />
-    <Compile Include="Model\SocketCode.cs" />
-    <Compile Include="Model\SocketData.cs" />
-    <Compile Include="Model\SocketObj.cs" />
+    <Compile Include="Enum\TcpOperateEvent.cs" />
+    <Compile Include="Args\TcpSeesionEventArgs.cs" />
+    <Compile Include="Model\TcpClientConnectSession.cs" />
     <Compile Include="Model\TipMessage.cs" />
     <Compile Include="Model\Validation.cs" />
     <Compile Include="DataOperator\SqlServerDataOperator.cs" />

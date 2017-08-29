@@ -3,18 +3,19 @@
     using System;
     using System.Net;
     using System.Net.Sockets;
+    using YanZhiwei.DotNet2.Utilities.Enum;
 
     /// <summary>
     /// 自定义Socket对象
     /// </summary>
-    public class SocketObj
+    public class TcpClientConnectSession
     {
         #region Constructors
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public SocketObj()
+        public TcpClientConnectSession()
         {
         }
 
@@ -24,7 +25,7 @@
         /// <param name="ip">Ip地址</param>
         /// <param name="client">TcpClient</param>
         /// <param name="ns">承载客户端Socket的网络流</param>
-        public SocketObj(IPEndPoint ip, TcpClient client, NetworkStream ns)
+        public TcpClientConnectSession(IPEndPoint ip, TcpClient client, NetworkStream ns)
         {
             Ip = ip;
             Client = client;
@@ -55,7 +56,7 @@
         /// <summary>
         /// 异常枚举
         /// </summary>
-        public SocketCode Code
+        public TcpOperateEvent Code
         {
             get; set;
         }

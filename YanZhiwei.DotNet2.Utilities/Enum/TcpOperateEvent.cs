@@ -1,11 +1,11 @@
-﻿namespace YanZhiwei.DotNet2.Utilities.Model
+﻿namespace YanZhiwei.DotNet2.Utilities.Enum
 {
     #region Enumerations
 
     /// <summary>
     /// 具体错误类型
     /// </summary>
-    public enum SocketCode
+    public enum TcpOperateEvent
     {
         /// <summary>
         /// 对象为null
