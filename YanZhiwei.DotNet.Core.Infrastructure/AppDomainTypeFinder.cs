@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Reflection;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -155,31 +156,29 @@
         /// </returns>
         public IEnumerable<Type> FindClassesOfType(Type assignTypeFrom, IEnumerable<Assembly> assemblies, bool onlyConcreteClasses = true)
         {
-            var result = new List<Type>();
+            var _findedClasses = new List<Type>();
 
             try
             {
-                foreach (var a in assemblies)
+                foreach (var item in assemblies)
                 {
-                    Type[] types = null;
+                    Type[] _types = null;
 
                     try
                     {
-                        types = a.GetTypes();
+                        _types = item.GetTypes();
                     }
-
                     catch
                     {
-                        //Entity Framework 6 doesn't allow getting types (throws an exception)
                         if (!ignoreReflectionErrors)
                         {
                             throw;
                         }
                     }
 
-                    if (types != null)
+                    if (_types != null)
                     {
-                        foreach (var t in types)
+                        foreach (var t in _types)
                         {
                             if (assignTypeFrom.IsAssignableFrom(t) || (assignTypeFrom.IsGenericTypeDefinition && DoesTypeImplementOpenGeneric(t, assignTypeFrom)))
                             {
@@ -189,13 +188,12 @@
                                     {
                                         if (t.IsClass && !t.IsAbstract)
                                         {
-                                            result.Add(t);
+                                            _findedClasses.Add(t);
                                         }
                                     }
-
                                     else
                                     {
-                                        result.Add(t);
+                                        _findedClasses.Add(t);
                                     }
                                 }
                             }
@@ -205,17 +203,13 @@
             }
             catch (ReflectionTypeLoadException ex)
             {
-                var msg = string.Empty;
-
+                StringBuilder _exBuilder = new StringBuilder();
                 foreach (var e in ex.LoaderExceptions)
-                    msg += e.Message + Environment.NewLine;
-
-                var fail = new Exception(msg, ex);
-                Debug.WriteLine(fail.Message, fail);
-                throw fail;
+                    _exBuilder.AppendFormat("{0}{1}", e.Message, Environment.NewLine);
+                throw new Exception(_exBuilder.ToString(), ex);
             }
 
-            return result;
+            return _findedClasses;
         }
 
         /// <summary>
@@ -226,14 +220,14 @@
         /// </returns>
         public virtual IList<Assembly> GetAssemblies()
         {
-            var addedAssemblyNames = new List<string>();
-            var assemblies = new List<Assembly>();
+            var _addedAssemblyNames = new List<string>();
+            var _assemblies = new List<Assembly>();
 
             if (LoadAppDomainAssemblies)
-                AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
+                AddAssembliesInAppDomain(_addedAssemblyNames, _assemblies);
 
-            AddConfiguredAssemblies(addedAssemblyNames, assemblies);
-            return assemblies;
+            AddConfiguredAssemblies(_addedAssemblyNames, _assemblies);
+            return _assemblies;
         }
 
         /// <summary>
@@ -256,12 +250,12 @@
         {
             foreach (string assemblyName in AssemblyNames)
             {
-                Assembly assembly = Assembly.Load(assemblyName);
+                Assembly _assembly = Assembly.Load(assemblyName);
 
-                if (!addedAssemblyNames.Contains(assembly.FullName))
+                if (!addedAssemblyNames.Contains(_assembly.FullName))
                 {
-                    assemblies.Add(assembly);
-                    addedAssemblyNames.Add(assembly.FullName);
+                    assemblies.Add(_assembly);
+                    addedAssemblyNames.Add(_assembly.FullName);
                 }
             }
         }
@@ -276,20 +270,19 @@
         {
             try
             {
-                var genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
+                var _genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
 
                 foreach (var implementedInterface in type.FindInterfaces((objType, objCriteria) => true, null))
                 {
                     if (!implementedInterface.IsGenericType)
                         continue;
 
-                    var isMatch = genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());
+                    var isMatch = _genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());
                     return isMatch;
                 }
 
                 return false;
             }
-
             catch
             {
                 return false;
@@ -302,11 +295,11 @@
         /// <param name="directoryPath">特定的目录</param>
         protected virtual void LoadMatchingAssemblies(string directoryPath)
         {
-            var loadedAssemblyNames = new List<string>();
+            var _loadedAssemblyNames = new List<string>();
 
             foreach (Assembly a in GetAssemblies())
             {
-                loadedAssemblyNames.Add(a.FullName);
+                _loadedAssemblyNames.Add(a.FullName);
             }
 
             if (!Directory.Exists(directoryPath))
@@ -318,14 +311,13 @@
             {
                 try
                 {
-                    var an = AssemblyName.GetAssemblyName(dllPath);
+                    var _an = AssemblyName.GetAssemblyName(dllPath);
 
-                    if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
+                    if (Matches(_an.FullName) && !_loadedAssemblyNames.Contains(_an.FullName))
                     {
-                        App.Load(an);
+                        App.Load(_an);
                     }
                 }
-
                 catch (BadImageFormatException ex)
                 {
                     Trace.TraceError(ex.ToString());
