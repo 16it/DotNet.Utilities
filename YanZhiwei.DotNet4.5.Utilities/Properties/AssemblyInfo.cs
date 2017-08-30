@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 
-[assembly: AssemblyTitle("DotNet4.Utilities")]
-[assembly: AssemblyDescription("基于.NET Framework 4.0的C#开发辅助类库")]
+[assembly: AssemblyTitle("DotNet4.5.Utilities")]
+[assembly: AssemblyDescription("基于.NET Framework 4.5的C#开发辅助类库")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCopyright("Copyright © YanZhiwei 2015-2017")]
-[assembly: AssemblyProduct("DotNet4.Utilities")]
+[assembly: AssemblyProduct("DotNet4.5.Utilities")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("zh-cn")]
 
