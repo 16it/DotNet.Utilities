@@ -217,10 +217,12 @@
                     listener.BeginReceiveFrom(_connection.Buffer, 0, _connection.Buffer.Length, SocketFlags.None, ref ipeSender, new AsyncCallback(DataReceived), _connection);
                 }
 
-                SocketServerStartedEventArgs _arg = new SocketServerStartedEventArgs();
-                _arg.Protocol = this.Protocol;
-                _arg.SocketServer = this.Endpoint;
-                _arg.StartedTime = DateTime.Now;
+                SocketServerStartedEventArgs _arg = new SocketServerStartedEventArgs
+                {
+                    Protocol = this.Protocol,
+                    SocketServer = this.Endpoint,
+                    StartedTime = DateTime.Now
+                };
                 OnServerStarted.RaiseEvent(this, _arg);
             }
             else
@@ -236,10 +238,12 @@
         /// 备注：
         public void Stop()
         {
-            SocketServerStopedEventArgs _arg = new SocketServerStopedEventArgs();
-            _arg.Protocol = this.Protocol;
-            _arg.SocketServer = this.Endpoint;
-            _arg.StopedTime = DateTime.Now;
+            SocketServerStopedEventArgs _arg = new SocketServerStopedEventArgs
+            {
+                Protocol = this.Protocol,
+                SocketServer = this.Endpoint,
+                StopedTime = DateTime.Now
+            };
             OnServerStoped.RaiseEvent(this, _arg);
         }
 
@@ -252,8 +256,10 @@
         internal void ClientConnected(IAsyncResult asyncResult)
         {
             Interlocked.Increment(ref currentConnections);
-            SocketConnectionInfo _connection = new SocketConnectionInfo();
-            _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
+            SocketConnectionInfo _connection = new SocketConnectionInfo
+            {
+                Buffer = new byte[SocketConnectionInfo.BufferSize]
+            };
             Socket _asyncListener = (Socket)asyncResult.AsyncState;
             Socket _asyncClient = _asyncListener.EndAccept(asyncResult);
             _connection.Socket = _asyncClient;
