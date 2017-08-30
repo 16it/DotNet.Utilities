@@ -1,23 +1,18 @@
-﻿#region Header
-
-//[assembly: AssemblyVersion("1.0.0.0")]
-//[assembly: AssemblyFileVersion("1.0.0.0")]
-
-#endregion Header
-
+﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("YanZhiwei.DotNet2.Utilities")]
-[assembly: AssemblyDescription("")]
+
+[assembly: AssemblyTitle("DotNet2.Utilities")]
+[assembly: AssemblyDescription("基于.NET Framework 2.0的C#开发辅助类库")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCopyright("Copyright © YanZhiwei 2015")]
-[assembly: AssemblyProduct("YanZhiwei.DotNet2.Utilities")]
+[assembly: AssemblyCopyright("Copyright © YanZhiwei 2015-2017")]
+[assembly: AssemblyProduct("DotNet2.Utilities")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyCulture("zh-cn")]
 
 // 将 ComVisible 设置为 false 使此程序集中的类型
 // 对 COM 组件不可见。  如果需要从 COM 访问此程序集中的类型，
@@ -25,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("4c1a92b1-a248-425f-b38f-935ad3efb618")]
+[assembly: Guid("4c1a92b1-a248-425f-b38f-935ad3efb611")]
 
 // 程序集的版本信息由下面四个值组成:
 //
