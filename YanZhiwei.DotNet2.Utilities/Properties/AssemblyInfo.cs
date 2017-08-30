@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © YanZhiwei 2015-2017")]
 [assembly: AssemblyProduct("DotNet2.Utilities")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("zh-cn")]
+[assembly: AssemblyCulture("")]
 
 // 将 ComVisible 设置为 false 使此程序集中的类型
 // 对 COM 组件不可见。  如果需要从 COM 访问此程序集中的类型，
