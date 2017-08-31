@@ -9,7 +9,7 @@ namespace YanZhiwei.DotNet2.UtilitiesExamples
 {
     public class HighPerformanceServerExample
     {
-        private static HighPerformanceServer Server = null;
+        private static ScoketAppServer Server = null;
 
         //public static void Main(string[] args)
         //{

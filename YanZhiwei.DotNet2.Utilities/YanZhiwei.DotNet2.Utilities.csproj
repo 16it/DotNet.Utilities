@@ -110,7 +110,7 @@
     <Compile Include="Core\Disposable.cs" />
     <Compile Include="Builder\DynamicBuilder.cs" />
     <Compile Include="ExtendException\FrameworkException.cs" />
-    <Compile Include="Communication\HighPerformanceServer.cs" />
+    <Compile Include="Communication\ScoketAppServer.cs" />
     <Compile Include="Collection\PagedList.cs" />
     <Compile Include="Operator\FileUpgradeOperator.cs" />
     <Compile Include="Result\BasicResult.cs" />

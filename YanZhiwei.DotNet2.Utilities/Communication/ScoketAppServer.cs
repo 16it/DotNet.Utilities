@@ -15,7 +15,7 @@
     /// </summary>
     /// 时间：2016/6/7 22:38
     /// 备注：
-    public sealed class HighPerformanceServer
+    public sealed class ScoketAppServer
     {
         #region Fields
 
@@ -34,7 +34,7 @@
         /// <param name="ipAddress">ip地址</param>
         /// 时间：2016/6/7 11:35
         /// 备注：
-        public HighPerformanceServer(SocketProtocol protocol, string ipAddress)
+        public ScoketAppServer(SocketProtocol protocol, string ipAddress)
         : this(protocol, ipAddress, 9888, 1024)
         {
         }
@@ -48,7 +48,7 @@
         /// <param name="maxQueuedConnections">Socket最多可容纳的等待接受的传入连接数</param>
         /// 时间：2016/6/7 11:35
         /// 备注：
-        public HighPerformanceServer(SocketProtocol protocol, string ipAddress, ushort port, int maxQueuedConnections)
+        public ScoketAppServer(SocketProtocol protocol, string ipAddress, ushort port, int maxQueuedConnections)
         {
             ValidateOperator.Begin().NotNullOrEmpty(ipAddress, "Ip地址").IsIp(ipAddress, "Ip地址");
             IPAddress _ipAddress;
