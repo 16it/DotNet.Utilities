@@ -9,6 +9,7 @@
     /// <typeparam name="T">泛型</typeparam>
     /// <seealso cref="YanZhiwei.DotNet2.Utilities.DesignPattern.Singleton" />
     public class Singleton<T> : Singleton
+        where T : class
     {
         private static T instance;
 
@@ -29,7 +30,7 @@
             }
         }
 
-        private static object syncRoot = new object();
+        private static readonly object syncRoot = new object();
 
         /// <summary>
         /// 若对象为NULL，则会自动创建

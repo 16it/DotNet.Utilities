@@ -28,7 +28,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         {
             DateTime _start = new DateTime(2014, 12, 12);
             DateTime _end = new DateTime(2014, 12, 24);
-            int _actual = DateHelper.GetDateDiff(_start, _end, DateType.day);
+            int _actual = DateHelper.GetDateDiff(_start, _end, DateTimePart.day);
             Assert.AreEqual(12, _actual);
         }
         

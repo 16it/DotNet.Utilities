@@ -1,5 +1,6 @@
 ﻿using System;
 using YanZhiwei.DotNet.Log4Net.Utilities;
+using YanZhiwei.DotNet2.Utilities.DesignPattern;
 
 namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
 {
@@ -11,11 +12,12 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
             {
                 Console.WriteLine("开始：" + DateTime.Now.ToLongTimeString());
                 //  Log4NetHelper.SetLogger("AdoNetLogger");
-                Log4NetHelper.WriteDebug("Debug 你好");
-                Log4NetHelper.WriteError("ERROR");
-                Log4NetHelper.WriteFatal("Fatal");
-                Log4NetHelper.WriteWarn("Warn");
-                Log4NetHelper.WriteInfo("Info");
+
+                Singleton<FileLogService>.CreateInstance().Debug("Debug 你好");
+                Singleton<FileLogService>.CreateInstance().Error("ERROR");
+                Singleton<FileLogService>.CreateInstance().Fatal("Fatal");
+                Singleton<FileLogService>.CreateInstance().Warn("Warn");
+                Singleton<FileLogService>.CreateInstance().Info("Info");
                 Console.WriteLine("end....");
             }
             catch (Exception ex)

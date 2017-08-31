@@ -9,12 +9,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>YanZhiwei.DotNet.Log4Net.UtilitiesExamples</RootNamespace>
     <AssemblyName>DotNet.Log4Net.Utilities.Examples</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="log4net.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -58,6 +60,10 @@
     <ProjectReference Include="..\YanZhiwei.DotNet.Log4Net.Utilities\YanZhiwei.DotNet.Log4Net.Utilities.csproj">
       <Project>{b062fff2-2bc8-49d1-b6d6-bfe84ec388f5}</Project>
       <Name>YanZhiwei.DotNet.Log4Net.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
+      <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
+      <Name>YanZhiwei.DotNet2.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

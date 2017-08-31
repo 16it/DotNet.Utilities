@@ -238,7 +238,7 @@
     <Compile Include="Common\WGSMercatorLatLonHelper.cs" />
     <Compile Include="Common\WGSGCJLatLonHelper.cs" />
     <Compile Include="Common\XMLHelper.cs" />
-    <Compile Include="Enum\DateType.cs" />
+    <Compile Include="Enum\DateTimePart.cs" />
     <Compile Include="Enum\SerialPortState.cs" />
     <Compile Include="Enum\StripHtmlType.cs" />
     <Compile Include="Model\ClipboardCtrl.cs" />

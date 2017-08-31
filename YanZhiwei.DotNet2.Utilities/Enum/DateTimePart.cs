@@ -5,7 +5,7 @@
     /// <summary>
     /// 时间差枚举
     /// </summary>
-    public enum DateType
+    public enum DateTimePart
     {
         /// <summary>
         /// 年
