@@ -168,7 +168,7 @@
         public void Warn(string message)
         {
             if (WARNLogger.IsWarnEnabled)
-                WARNLogger.Info(message);
+                WARNLogger.Warn(message);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@
         public void Warn(string message, Exception ex)
         {
             if (WARNLogger.IsWarnEnabled)
-                WARNLogger.Info(message, ex);
+                WARNLogger.Warn(message, ex);
         }
 
         #endregion Methods

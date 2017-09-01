@@ -53,8 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Log4NetHelper.cs" />
-    <Compile Include="LoggerType.cs" />
+    <Compile Include="FileLogService.cs" />
+    <Compile Include="ILogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
