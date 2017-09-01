@@ -1,17 +1,18 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using YanZhiwei.DotNet.Core.Log;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace YanZhiwei.DotNet.Core.Log.Tests
 {
+    public class Person
+    {
+        public string Name { get; set; }
+        public ushort Age { get; set; }
+    }
+
     [TestClass()]
     public class SQLServerLogServiceTests
     {
-        ILogService LogHelper = null;
+        private ILogService LogHelper = null;
+
         [TestInitialize]
         public void Init()
         {
@@ -22,24 +23,11 @@ namespace YanZhiwei.DotNet.Core.Log.Tests
         public void DebugTest()
         {
             LogHelper.Debug("ms sqlserver ado.net test.");
-        }
+            Person _logData = new Person();
+            _logData.Age = 1;
+            _logData.Name = "hell world.";
+            LogHelper.Debug<Person>(_logData);
 
-        [TestMethod()]
-        public void DebugTest1()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void DebugTest2()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void DebugTest3()
-        {
-            Assert.Fail();
         }
 
         [TestMethod()]
