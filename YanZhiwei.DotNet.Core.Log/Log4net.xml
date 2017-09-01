@@ -21,7 +21,10 @@
       <level value="ALL" />
       <appender-ref ref="DEBUG_FileAppender" />
     </logger>
-    
+    <logger name="MsSqlServerLogger">
+      <level value="ALL" />
+      <appender-ref ref="AdoNetAppender" />
+    </logger>
   <!--使用Rolling方式记录日志按照日来记录日志-->
     <appender name="FATAL_FileAppender" type="log4net.Appender.RollingFileAppender">
       <!--文件名,可以相对路径,也可以绝对路径,这里只给定了文件夹-->
@@ -128,7 +131,7 @@
   <appender name="AdoNetAppender" type="log4net.Appender.AdoNetAppender">
     <bufferSize value="1" />
     <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-    <connectionString value="DATABASE=Sample;SERVER=.\SQLEXPRESS;UID=sa;PWD=sasa;Connect Timeout=15;" />
+    <connectionString value="DATABASE=Sample;SERVER=SHJD-YANZHIWEI;UID=sa;PWD=sasa;Connect Timeout=15;" />
     <commandText value="INSERT INTO [Log4Net] ([Date],[Host],[Thread],[Level],[Logger],[Message],[Exception]) VALUES (@log_date, @host, @thread, @log_level, @logger, @message, @exception)" />
     <parameter>
       <parameterName value="@log_date" />

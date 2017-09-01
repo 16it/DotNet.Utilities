@@ -55,7 +55,9 @@
   <ItemGroup>
     <Compile Include="FileLogService.cs" />
     <Compile Include="ILogService.cs" />
+    <Compile Include="LogServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLServerLogService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

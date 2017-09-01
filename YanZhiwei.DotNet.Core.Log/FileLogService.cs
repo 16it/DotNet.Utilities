@@ -1,21 +1,14 @@
 ﻿namespace YanZhiwei.DotNet.Core.Log
 {
-    using System;
-    using System.IO;
-    using System.Text;
-
     using log4net;
-    using log4net.Config;
-
-    using YanZhiwei.DotNet.Core.Config;
+    using System;
     using YanZhiwei.DotNet.Newtonsoft.Json.Utilities;
-    using YanZhiwei.DotNet2.Utilities.Operator;
 
     /// <summary>
     /// 基于Log4Net的文件日志记录
     /// </summary>
     /// <seealso cref="YanZhiwei.DotNet.Core.Log.ILogService" />
-    public sealed class FileLogService : ILogService
+    public sealed class FileLogService : LogServiceBase, ILogService
     {
         #region Fields
 
@@ -78,14 +71,6 @@
         /// </summary>
         static FileLogService()
         {
-            string _log4NetXmlConfg = CachedConfigContext.Instance.ConfigService.GetConfig("Log4net");
-            ValidateOperator.Begin().NotNullOrEmpty(_log4NetXmlConfg, "log4net配置文件");
-
-            using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(_log4NetXmlConfg)))
-            {
-                XmlConfigurator.Configure(ms);
-            }
-
             DebugLogger = LogManager.GetLogger(DEBUGLoggerName);
             INFOLogger = LogManager.GetLogger(INFOLoggerName);
             WARNLogger = LogManager.GetLogger(WARNLoggerName);
@@ -105,7 +90,7 @@
         public void Debug<T>(T logData)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Debug(_logDataJsonString);
         }
 
@@ -118,7 +103,7 @@
         public void Debug<T>(T logData, Exception ex)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Debug(_logDataJsonString, ex);
         }
 
@@ -151,7 +136,7 @@
         public void Error<T>(T logData)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Error(_logDataJsonString);
         }
 
@@ -164,7 +149,7 @@
         public void Error<T>(T logData, Exception ex)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Error(_logDataJsonString, ex);
         }
 
@@ -207,7 +192,7 @@
         public void Fatal<T>(T logData)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Fatal(_logDataJsonString);
         }
 
@@ -220,7 +205,7 @@
         public void Fatal<T>(T logData, Exception ex)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Fatal(_logDataJsonString, ex);
         }
 
@@ -243,7 +228,7 @@
         public void Info<T>(T logData)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Info(_logDataJsonString);
         }
 
@@ -256,7 +241,7 @@
         public void Info<T>(T logData, Exception ex)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Info(_logDataJsonString, ex);
         }
 
@@ -289,7 +274,7 @@
         public void Warn<T>(T logData)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Warn(_logDataJsonString);
         }
 
@@ -302,7 +287,7 @@
         public void Warn<T>(T logData, Exception ex)
             where T : class
         {
-            string _logDataJsonString = GettLogDataJson(logData);
+            string _logDataJsonString = GetLogDataJson(logData);
             Warn(_logDataJsonString, ex);
         }
 
@@ -327,24 +312,7 @@
                 WARNLogger.Warn(message, ex);
         }
 
-        private string GettLogDataJson<T>(T logData)
-            where T : class
-        {
-            string _jsonString = string.Empty;
-
-            try
-            {
-                if (logData != null)
-                    _jsonString = JsonHelper.Serialize(logData);
-            }
-            catch (Exception ex)
-            {
-                Error(string.Format("处理日志的时候，对象:【{0}】序列化发生错误.", typeof(T).FullName), ex);
-                _jsonString = string.Empty;
-            }
-
-            return _jsonString;
-        }
+       
 
         #endregion Methods
     }
