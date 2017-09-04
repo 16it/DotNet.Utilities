@@ -77,6 +77,8 @@
     <Compile Include="DapperDataOperatorTests.cs" />
     <Compile Include="DapperSQLiteOperatorTests.cs" />
     <Compile Include="DapperSqlServerOperatorTests.cs" />
+    <Compile Include="EventModel.cs" />
+    <Compile Include="ModelBase.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
