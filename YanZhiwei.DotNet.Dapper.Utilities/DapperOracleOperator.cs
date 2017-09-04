@@ -7,7 +7,7 @@ namespace YanZhiwei.DotNet.Dapper.Utilities
     /// 基于Dapper的Oracle数据库操作类
     /// </summary>
     /// <seealso cref="YanZhiwei.DotNet.Dapper.Utilities.DapperDataOperator" />
-    public class DapperOracleOperator : DapperDataOperator
+    public sealed class DapperOracleOperator : DapperDataOperator
     {
         /// <summary>
         /// 构造函数

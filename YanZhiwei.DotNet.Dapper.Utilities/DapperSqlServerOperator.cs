@@ -8,7 +8,7 @@ namespace YanZhiwei.DotNet.Dapper.Utilities
     /// </summary>
     /// 时间：2016-01-19 16:33
     /// 备注：
-    public class DapperSqlServerOperator : DapperDataOperator
+    public sealed class DapperSqlServerOperator : DapperDataOperator
     {
         /// <summary>
         /// 构造函数
