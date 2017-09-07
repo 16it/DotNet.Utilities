@@ -52,68 +52,66 @@
         /// 创建WCF服务
         /// 用于把WCF服务当作ASMX Web 服务。用于兼容旧的Web ASMX 服务
         /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <returns>
-        /// 类型
-        /// </returns>
         /// 时间：2016/9/6 16:54
         /// 备注：
         public virtual T CreateBasicHttpService<T>()
             where T : class
         {
             Binding _binding = CreateBasicHttpBinding();
-            return InitWCFService<T>(_binding);
+            return CreateChannel<T>(_binding);
         }
 
         /// <summary>
         /// 创建WCF服务
         /// 使用 TCP 协议，用于在局域网(Intranet)内跨机器通信。有几个特点：可靠性、事务支持和安全，优化了 WCF 到 WCF 的通信。限制是服务端和客户端都必须使用 WCF 来实现。
         /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <returns>
-        /// 类型
-        /// </returns>
         /// 时间：2016/9/6 16:54
         /// 备注：
         public virtual T CreateNetTcpService<T>()
             where T : class
         {
             Binding _binding = CreateNetTcpBinding();
-            return InitWCFService<T>(_binding);
+            return CreateChannel<T>(_binding);
+        }
+
+        /// <summary>
+        /// 创建WCF服务
+        /// 使用 TCP 协议，用于在局域网(Intranet)内跨机器通信。有几个特点：可靠性、事务支持和安全，优化了 WCF 到 WCF 的通信。限制是服务端和客户端都必须使用 WCF 来实现。
+        /// </summary>
+        /// 时间：2016/9/6 16:54
+        /// 备注：
+        public virtual T CreateNetTcpService<T, DataContractCallBack>()
+       where T : class
+              where DataContractCallBack : class, new()
+        {
+            Binding _binding = CreateNetTcpBinding();
+            return CreateDuplexChannelFactory<T, DataContractCallBack>(_binding);
         }
 
         /// <summary>
         /// 创建WCF服务
         /// 和 WSHttpBinding 相比，它支持 duplex 类型的服务。
         /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <returns>
-        /// 类型
-        /// </returns>
         /// 时间：2016/9/6 16:54
         /// 备注：
         public virtual T CreateWSDualHttpService<T>()
             where T : class
         {
             Binding _binding = CreateWSDualHttpBinding();
-            return InitWCFService<T>(_binding);
+            return CreateChannel<T>(_binding);
         }
 
         /// <summary>
         /// 创建WCF服务
         /// 比 BasicHttpBinding 更加安全，通常用于 non-duplex 服务通讯
         /// </summary>
-        /// <typeparam name="T">泛型</typeparam>
-        /// <returns>
-        /// 类型
-        /// </returns>
         /// 时间：2016/9/6 16:54
         /// 备注：
         public virtual T CreateWSHttpService<T>()
             where T : class
         {
             Binding _binding = CreateWSHttpBinding();
-            return InitWCFService<T>(_binding);
+            return CreateChannel<T>(_binding);
         }
 
         private BasicHttpBinding CreateBasicHttpBinding()
@@ -176,23 +174,44 @@
             return _wsHttpBinding;
         }
 
-        private T InitWCFService<T>(Binding binding)
+        private T CreateChannel<T>(Binding binding)
             where T : class
         {
             ChannelFactory<T> _chan = new ChannelFactory<T>(binding, new EndpointAddress(Url));
             AddBehaviors(_chan.Endpoint.Behaviors);
 
-            foreach(OperationDescription op in _chan.Endpoint.Contract.Operations)
+            foreach (OperationDescription op in _chan.Endpoint.Contract.Operations)
             {
                 var dataContractBehavior = op.Behaviors.Find<DataContractSerializerOperationBehavior>();
 
-                if(dataContractBehavior != null)
+                if (dataContractBehavior != null)
                     dataContractBehavior.MaxItemsInObjectGraph = int.MaxValue;
             }
 
             _chan.Open();
-            var service = _chan.CreateChannel();
-            return service;
+            return _chan.CreateChannel();
+        }
+
+        private T CreateDuplexChannelFactory<T, DataContractCallBack>(Binding binding)
+          where T : class
+            where DataContractCallBack : class, new()
+        {
+            DataContractCallBack _contractCall = new DataContractCallBack();
+            InstanceContext _context = new InstanceContext(_contractCall);
+
+            DuplexChannelFactory<T> _chan = new DuplexChannelFactory<T>(_context, binding);
+            AddBehaviors(_chan.Endpoint.Behaviors);
+
+            foreach (OperationDescription op in _chan.Endpoint.Contract.Operations)
+            {
+                var dataContractBehavior = op.Behaviors.Find<DataContractSerializerOperationBehavior>();
+
+                if (dataContractBehavior != null)
+                    dataContractBehavior.MaxItemsInObjectGraph = int.MaxValue;
+            }
+
+            _chan.Open();
+            return _chan.CreateChannel(new EndpointAddress(Url));
         }
 
         #endregion Methods
