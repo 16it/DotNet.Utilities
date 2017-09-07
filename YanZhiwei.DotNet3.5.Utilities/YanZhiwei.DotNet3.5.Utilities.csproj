@@ -80,10 +80,12 @@
     <Compile Include="Core\HttpStorageObjectBase.cs" />
     <Compile Include="Enum\SerializationType.cs" />
     <Compile Include="Enum\ThumbnailImageCutMode.cs" />
+    <Compile Include="Interfaces\IContractService.cs" />
     <Compile Include="Interfaces\ISchedule.cs" />
     <Compile Include="Lambda\RecursiveSelectLambda.cs" />
     <Compile Include="Common\TypeHelper.cs" />
     <Compile Include="Service\RefService.cs" />
+    <Compile Include="Service\WcfServiceHostFactory.cs" />
     <Compile Include="Service\WcfServiceProxy.cs" />
     <Compile Include="Enum\WatermarkImagesPosition.cs" />
     <Compile Include="Enum\UploadFileSaveType.cs" />
