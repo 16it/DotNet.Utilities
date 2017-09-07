@@ -3,9 +3,9 @@
 namespace YanZhiwei.DotNet.Core.Service
 {
     /// <summary>
-    /// ServiceHelper
+    /// ServiceFactory
     /// </summary>
-    public class ServiceHelper
+    public class ServiceFactory
     {
         ///// <summary>
         ///// 默认引用服务方式
@@ -18,7 +18,7 @@ namespace YanZhiwei.DotNet.Core.Service
         /// 构造函数
         /// </summary>
         /// <param name="service">ServiceFactory</param>
-        public ServiceHelper(IServiceBase service)
+        public ServiceFactory(IServiceBase service)
         {
             serviceBase = service;
         }

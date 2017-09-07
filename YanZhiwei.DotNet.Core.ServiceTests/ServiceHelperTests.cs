@@ -58,7 +58,7 @@ namespace YanZhiwei.DotNet.Core.Service.Tests
         [TestMethod()]
         public void CreateServiceTest()
         {
-            ServiceHelper _serverHelper = new ServiceHelper(new SqlDataAccessRefService());
+            ServiceFactory _serverHelper = new ServiceFactory(new SqlDataAccessRefService());
             string _acutal = _serverHelper.CreateService<ISqlHelper, InvokeInterceptor>().HelloWorld();
             Assert.AreEqual("Hello World.", _acutal);
 
@@ -73,7 +73,7 @@ namespace YanZhiwei.DotNet.Core.Service.Tests
                 Token = Guid.NewGuid().ToString(),
                 Method = "Test"
             };
-            ServiceHelper _wcfServerHelper = new ServiceHelper(new AdventureWorksServiceProxy());
+            ServiceFactory _wcfServerHelper = new ServiceFactory(new AdventureWorksServiceProxy());
             int[] _productIDList = _wcfServerHelper.CreateService<IProductsService, InvokeInterceptor>().GetProductIDList();
             Assert.IsTrue(_productIDList.Length > 0);
             Assert.AreEqual(WCFCallContext.Current.Operater.Name, "churenyouzi");
