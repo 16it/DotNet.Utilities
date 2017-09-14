@@ -165,20 +165,19 @@
 
             if (wrapCacheConfigItemDic.ContainsKey(key))
                 return wrapCacheConfigItemDic[key];
-
-            WrapCacheConfigItem _currentWrapCacheConfigItem = WrapCacheConfigItems.Where(i =>
+            lock (syncObject)
+            {
+                WrapCacheConfigItem _currentWrapCacheConfigItem = WrapCacheConfigItems.Where(i =>
                     Regex.IsMatch(ModuleName, i.CacheConfigItem.ModuleRegex, RegexOptions.IgnoreCase) &&
                     Regex.IsMatch(key, i.CacheConfigItem.KeyRegex, RegexOptions.IgnoreCase))
                     .OrderByDescending(i => i.CacheConfigItem.Priority).FirstOrDefault();
-            ValidateOperator.Begin().NotNull(_currentWrapCacheConfigItem, string.Format("依据'{0}'获取缓存配置项异常！", key));
+                ValidateOperator.Begin().NotNull(_currentWrapCacheConfigItem, string.Format("依据'{0}'获取缓存配置项异常！", key));
 
-            lock (syncObject)
-            {
                 if (!wrapCacheConfigItemDic.ContainsKey(key))
                     wrapCacheConfigItemDic.Add(key, _currentWrapCacheConfigItem);
-            }
 
-            return _currentWrapCacheConfigItem;
+                return _currentWrapCacheConfigItem;
+            }
         }
 
         #endregion Methods
