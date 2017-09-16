@@ -47,6 +47,14 @@ namespace YanZhiwei.DotNet3._5.Utilities.Service
 
         #region Methods
 
+        //Behaviors（行为）  定义WCF 客户端与服务端运行时的特性或配置，behaviors 不仅影响WCF 运行时，还会影响客户端与服务端之间的数据通信。
+        //Behaviors 主要分为三类：
+        //Service behaviors（服务行为）：运行于服务级别，适用于所有端点，负责内容如：实例化、事务、授权、审计 等；
+        //Endpoint behaviors（端点行为）：适用于服务端点，负责对进出服务的消息进行审查和处理；
+        //Operation behaviors（操作行为）：适用于操作级别，负责如 序列化、事务流、参数处理等；
+        //其他behaviors：
+        //Callback behaviors 控制客户端创建端点，用于双工通信；
+
         /// <summary>
         /// 自定义Behaviors
         /// 运行于服务级别，适用于所有端点，负责内容如：实例化、事务、授权、审计 等；
