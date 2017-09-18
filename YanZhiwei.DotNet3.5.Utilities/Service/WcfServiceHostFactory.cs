@@ -11,8 +11,8 @@ namespace YanZhiwei.DotNet3._5.Utilities.Service
     /// <summary>
     /// WCF服务寄宿抽象基类
     /// </summary>
-    /// <typeparam name="ServerType">The type of the erver type.</typeparam>
-    /// <typeparam name="ContractType">The type of the ontract type.</typeparam>
+    /// <typeparam name="ServerType">wcf服务类型</typeparam>
+    /// <typeparam name="ContractType">wcf服务回调类型</typeparam>
     public abstract class WcfServiceHostFactory<ServerType, ContractType>
           where ServerType : class
           where ContractType : IContractService
@@ -28,9 +28,9 @@ namespace YanZhiwei.DotNet3._5.Utilities.Service
         }
 
         /// <summary>
-        /// 终结点的基址
+        /// 服务地址
         /// </summary>
-        public abstract string ServiceAddr
+        public abstract string ServiceURL
         {
             get;
         }
@@ -43,23 +43,24 @@ namespace YanZhiwei.DotNet3._5.Utilities.Service
             get;    // TimeSpan.FromMinutes(10);
         }
 
-        /// <summary>
-        /// 承载服务的基址
-        /// </summary>
-        public abstract Uri BaseURI
-        {
-            get;
-        }
-
         #endregion Properties
 
         #region Methods
 
+        //Behaviors（行为）  定义WCF 客户端与服务端运行时的特性或配置，behaviors 不仅影响WCF 运行时，还会影响客户端与服务端之间的数据通信。
+        //Behaviors 主要分为三类：
+        //Service behaviors（服务行为）：运行于服务级别，适用于所有端点，负责内容如：实例化、事务、授权、审计 等；
+        //Endpoint behaviors（端点行为）：适用于服务端点，负责对进出服务的消息进行审查和处理；
+        //Operation behaviors（操作行为）：适用于操作级别，负责如 序列化、事务流、参数处理等；
+        //其他behaviors：
+        //Callback behaviors 控制客户端创建端点，用于双工通信；
+
         /// <summary>
         /// 自定义Behaviors
+        /// 运行于服务级别，适用于所有端点，负责内容如：实例化、事务、授权、审计 等；
         /// </summary>
-        /// <param name="behaviors">KeyedByTypeCollection</param>
-        public abstract void AddBehaviors(KeyedByTypeCollection<IEndpointBehavior> behaviors);
+        /// <param name="description">ServiceDescription</param>
+        public abstract void AddServiceBehaviors(ServiceDescription description);
 
         /// <summary>
         /// 创建WCF服务
@@ -136,6 +137,7 @@ namespace YanZhiwei.DotNet3._5.Utilities.Service
         {
             NetTcpBinding _netTcpBinding = new NetTcpBinding();
             _netTcpBinding.Security.Mode = SecurityMode.None;
+            _netTcpBinding.MaxConnections = 1000;
             _netTcpBinding.MaxReceivedMessageSize = MaxReceivedMessageSize;
             _netTcpBinding.ReaderQuotas = new XmlDictionaryReaderQuotas();
             _netTcpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
@@ -144,14 +146,15 @@ namespace YanZhiwei.DotNet3._5.Utilities.Service
             _netTcpBinding.OpenTimeout = Timeout;
             _netTcpBinding.ReceiveTimeout = Timeout;
             _netTcpBinding.SendTimeout = Timeout;
+            _netTcpBinding.TransferMode = TransferMode.Buffered;
             return _netTcpBinding;
         }
 
         private ServiceHost CreateServiceHost(Binding binding)
         {
-            ServiceHost _host = new ServiceHost(typeof(ServerType), BaseURI);
-            ServiceEndpoint _endpoint = _host.AddServiceEndpoint(typeof(ContractType), binding, ServiceAddr);
-            AddBehaviors(_endpoint.Behaviors);
+            ServiceHost _host = new ServiceHost(typeof(ServerType));
+            ServiceEndpoint _endpoint = _host.AddServiceEndpoint(typeof(ContractType), binding, new Uri(ServiceURL));
+            AddServiceBehaviors(_host.Description);
             return _host;
         }
 

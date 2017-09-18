@@ -1,7 +1,6 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.Service
 {
     using System;
-    using System.Collections.Generic;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
@@ -10,7 +9,7 @@
     /// <summary>
     /// Wcf 服务代理抽象类
     /// </summary>
-    public abstract class WcfServiceProxy
+    public abstract class WcfServiceProxy<T> where T : class
     {
         #region Properties
 
@@ -31,9 +30,9 @@
         }
 
         /// <summary>
-        /// 标识终结点的 URI
+        /// 服务端 URI
         /// </summary>
-        protected abstract string Url
+        protected abstract string ServiceURL
         {
             get;
         }
@@ -45,60 +44,62 @@
         /// <summary>
         /// 自定义Behaviors
         /// </summary>
-        /// <param name="behaviors">KeyedByTypeCollection</param>
-        public abstract void AddBehaviors(KeyedByTypeCollection<IEndpointBehavior> behaviors);
+        /// <param name="endpoint">ServiceEndpoint</param>
+        public abstract void AddEndpointBehaviors(ServiceEndpoint endpoint);
 
         /// <summary>
-        /// 创建WCF服务
+        /// 获得通信状态
+        /// </summary>
+        public ICommunicationObject CommunicationObject
+        {
+            get; private set;
+        }
+
+        /// <summary>
+        /// 创建WCF信道
         /// 用于把WCF服务当作ASMX Web 服务。用于兼容旧的Web ASMX 服务
         /// </summary>
         /// 时间：2016/9/6 16:54
         /// 备注：
-        public virtual T CreateBasicHttpService<T>()
-            where T : class
+        public virtual T CreateBasicHttpChannel()
         {
             Binding _binding = CreateBasicHttpBinding();
-            return CreateChannel<T>(_binding);
+            return CreateChannel(_binding);
         }
 
         /// <summary>
-        /// 创建WCF服务
+        /// 创建WCF信道
         /// 使用 TCP 协议，用于在局域网(Intranet)内跨机器通信。有几个特点：可靠性、事务支持和安全，优化了 WCF 到 WCF 的通信。限制是服务端和客户端都必须使用 WCF 来实现。
         /// </summary>
         /// 时间：2016/9/6 16:54
         /// 备注：
-        public virtual T CreateNetTcpService<T>()
-            where T : class
+        public virtual T CreateNetTcpChannel()
         {
             Binding _binding = CreateNetTcpBinding();
-            return CreateChannel<T>(_binding);
+            return CreateChannel(_binding);
         }
 
         /// <summary>
-        /// 创建WCF服务
+        /// 创建WCF信道
         /// 使用 TCP 协议，用于在局域网(Intranet)内跨机器通信。有几个特点：可靠性、事务支持和安全，优化了 WCF 到 WCF 的通信。限制是服务端和客户端都必须使用 WCF 来实现。
         /// </summary>
-        /// 时间：2016/9/6 16:54
-        /// 备注：
-        public virtual T CreateNetTcpService<T, DataContractCallBack>()
-       where T : class
+        public virtual T CreateNetTcpChannel<DataContractCallBack>()
               where DataContractCallBack : class, new()
         {
             Binding _binding = CreateNetTcpBinding();
-            return CreateDuplexChannelFactory<T, DataContractCallBack>(_binding);
+            return CreateDuplexChannelFactory<DataContractCallBack>(_binding);
         }
 
         /// <summary>
-        /// 创建WCF服务
+        /// 创建WCF信道
         /// 和 WSHttpBinding 相比，它支持 duplex 类型的服务。
         /// </summary>
         /// 时间：2016/9/6 16:54
         /// 备注：
-        public virtual T CreateWSDualHttpService<T>()
-            where T : class
+        public virtual T CreateWSDualHttpChannel()
         {
             Binding _binding = CreateWSDualHttpBinding();
-            return CreateChannel<T>(_binding);
+            return CreateChannel(_binding);
         }
 
         /// <summary>
@@ -107,11 +108,10 @@
         /// </summary>
         /// 时间：2016/9/6 16:54
         /// 备注：
-        public virtual T CreateWSHttpService<T>()
-            where T : class
+        public virtual T CreateWSHttpChannel()
         {
             Binding _binding = CreateWSHttpBinding();
-            return CreateChannel<T>(_binding);
+            return CreateChannel(_binding);
         }
 
         private BasicHttpBinding CreateBasicHttpBinding()
@@ -141,6 +141,9 @@
             _netTcpBinding.OpenTimeout = Timeout;
             _netTcpBinding.ReceiveTimeout = Timeout;
             _netTcpBinding.SendTimeout = Timeout;
+            _netTcpBinding.ListenBacklog = 1000;
+            _netTcpBinding.MaxConnections = 1000;
+            _netTcpBinding.TransferMode = TransferMode.Buffered;
             return _netTcpBinding;
         }
 
@@ -156,6 +159,7 @@
             _basicHttpBinding.OpenTimeout = Timeout;
             _basicHttpBinding.ReceiveTimeout = Timeout;
             _basicHttpBinding.SendTimeout = Timeout;
+
             return _basicHttpBinding;
         }
 
@@ -174,13 +178,12 @@
             return _wsHttpBinding;
         }
 
-        private T CreateChannel<T>(Binding binding)
-            where T : class
+        private T CreateChannel(Binding binding)
         {
-            ChannelFactory<T> _chan = new ChannelFactory<T>(binding, new EndpointAddress(Url));
-            AddBehaviors(_chan.Endpoint.Behaviors);
+            ChannelFactory<T> _channelFactory = new ChannelFactory<T>(binding, new EndpointAddress(ServiceURL));
+            AddEndpointBehaviors(_channelFactory.Endpoint);
 
-            foreach (OperationDescription op in _chan.Endpoint.Contract.Operations)
+            foreach (OperationDescription op in _channelFactory.Endpoint.Contract.Operations)
             {
                 var dataContractBehavior = op.Behaviors.Find<DataContractSerializerOperationBehavior>();
 
@@ -188,21 +191,20 @@
                     dataContractBehavior.MaxItemsInObjectGraph = int.MaxValue;
             }
 
-            _chan.Open();
-            return _chan.CreateChannel();
+            _channelFactory.Open();
+            return _channelFactory.CreateChannel();
         }
 
-        private T CreateDuplexChannelFactory<T, DataContractCallBack>(Binding binding)
-          where T : class
+        private T CreateDuplexChannelFactory<DataContractCallBack>(Binding binding)
             where DataContractCallBack : class, new()
         {
             DataContractCallBack _contractCall = new DataContractCallBack();
             InstanceContext _context = new InstanceContext(_contractCall);
+            CommunicationObject = _context;
+            DuplexChannelFactory<T> _channelFacotry = new DuplexChannelFactory<T>(_context, binding);
+            AddEndpointBehaviors(_channelFacotry.Endpoint);
 
-            DuplexChannelFactory<T> _chan = new DuplexChannelFactory<T>(_context, binding);
-            AddBehaviors(_chan.Endpoint.Behaviors);
-
-            foreach (OperationDescription op in _chan.Endpoint.Contract.Operations)
+            foreach (OperationDescription op in _channelFacotry.Endpoint.Contract.Operations)
             {
                 var dataContractBehavior = op.Behaviors.Find<DataContractSerializerOperationBehavior>();
 
@@ -210,8 +212,8 @@
                     dataContractBehavior.MaxItemsInObjectGraph = int.MaxValue;
             }
 
-            _chan.Open();
-            return _chan.CreateChannel(new EndpointAddress(Url));
+            _channelFacotry.Open();
+            return _channelFacotry.CreateChannel(new EndpointAddress(ServiceURL));
         }
 
         #endregion Methods

@@ -7,31 +7,31 @@ using YanZhiwei.DotNet2.Utilities.Enum;
 
 namespace YanZhiwei.DotNet2.UtilitiesExamples
 {
-    public class HighPerformanceServerExample
+    public class ScoketAppServerExample
     {
         private static ScoketAppServer Server = null;
 
-        //public static void Main(string[] args)
-        //{
-        //    try
-        //    {
-        //        Server = new HighPerformanceServer(SocketProtocol.TCP, "127.0.0.1", 9887, 10);
-        //        Server.OnDataReceived += Server_OnDataReceived;
-        //        Server.OnServerStarted += _server_OnServerStart;
-        //        Server.OnClientConnected += _server_OnClientConnected;
-        //        Server.OnClientDisconnected += Server_OnClientDisconnected;
-        //        Server.OnClientDisconnecting += Server_OnClientDisconnecting;
-        //        Server.Start();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //    }
-        //    finally
-        //    {
-        //        Console.ReadLine();
-        //    }
-        //}
+        public static void Main(string[] args)
+        {
+            try
+            {
+                Server = new ScoketAppServer(SocketProtocol.UDP, "192.168.1.7", 8090,1024);
+                Server.OnDataReceived += Server_OnDataReceived;
+                Server.OnServerStarted += _server_OnServerStart;
+                Server.OnClientConnected += _server_OnClientConnected;
+                Server.OnClientDisconnected += Server_OnClientDisconnected;
+                Server.OnClientDisconnecting += Server_OnClientDisconnecting;
+                Server.Start();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.ReadLine();
+            }
+        }
 
         private static void Server_OnClientDisconnecting(object sender, SocketSeesionEventArgs e)
         {

@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="EventHandlerDemo.cs" />
     <Compile Include="FileHelperExample.cs" />
-    <Compile Include="HighPerformanceServerExample.cs" />
+    <Compile Include="ScoketAppServerExample.cs" />
     <Compile Include="LoggerDemo.cs" />
     <Compile Include="MapOffsetHelperExample.cs" />
     <Compile Include="ProcessHelperExample.cs" />
