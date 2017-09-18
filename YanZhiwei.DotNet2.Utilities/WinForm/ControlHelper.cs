@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinForm
 {
+    using System;
     using System.ComponentModel;
     using System.Reflection;
     using System.Windows.Forms;
@@ -66,7 +67,7 @@
             {
                 foreach (Control ctrl in parentControl.Controls)
                 {
-                    if ((ctrl is T) && string.Compare(ctrl.Name, findCtrlName) == 0)
+                    if ((ctrl is T) && string.Compare(ctrl.Name, findCtrlName, StringComparison.InvariantCultureIgnoreCase) == 0)
                     {
                         _findedControl = ctrl;
                         break;

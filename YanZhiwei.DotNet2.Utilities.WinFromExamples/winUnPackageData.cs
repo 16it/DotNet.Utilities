@@ -114,7 +114,7 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
         
         public byte[] GetCaluCrcValue(byte[] buffer)
         {
-            ushort _crcValue = CRCBuilder.Create16MODBUS(buffer);
+            ushort _crcValue = CRCBuilder.Calu16MODBUS(buffer);
             return ByteHelper.ToBytes(_crcValue, false);
         }
         

@@ -198,7 +198,7 @@
         public void Start()
         {
             listener = GetCorrectSocket();
-
+            listener.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
             if (listener != null)
             {
                 listener.Bind(this.Endpoint);
