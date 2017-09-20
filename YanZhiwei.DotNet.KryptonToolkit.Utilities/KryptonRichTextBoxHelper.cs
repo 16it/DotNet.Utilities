@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet.Krypton.Utilities
+﻿namespace YanZhiwei.DotNet.KryptonToolkit.Utilities
 {
     using ComponentFactory.Krypton.Toolkit;
     

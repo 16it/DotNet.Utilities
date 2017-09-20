@@ -1,7 +1,7 @@
 ﻿using ComponentFactory.Krypton.Toolkit;
 using System.Windows.Forms;
 
-namespace YanZhiwei.DotNet.Krypton.Utilities
+namespace YanZhiwei.DotNet.KryptonToolkit.Utilities
 {
     /// <summary>
     /// KryptonMessageBox 辅助类
