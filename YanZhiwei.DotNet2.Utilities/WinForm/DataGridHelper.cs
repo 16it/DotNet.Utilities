@@ -32,7 +32,7 @@
             };
             dataGrid.CellClick += (sender, e) =>
             {
-                if(e.ColumnIndex == columnIndex)
+                if (e.ColumnIndex == columnIndex)
                 {
                     DataGridView _dataGrid = sender as DataGridView;
                     Rectangle _cellRectangle = _dataGrid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
@@ -69,7 +69,7 @@
             {
                 int _count = dataGrid.Rows.Count;
 
-                for(int i = 0; i < _count; i++)
+                for (int i = 0; i < _count; i++)
                 {
                     DataGridViewCheckBoxCell checkCell = (DataGridViewCheckBoxCell)dataGrid.Rows[i].Cells[columnIndex];
                     checkCell.Value = state;
@@ -85,7 +85,7 @@
         {
             int _columnSumWidth = 0;
 
-            for(int i = 0; i < girdview.Columns.Count; i++)
+            for (int i = 0; i < girdview.Columns.Count; i++)
             {
                 girdview.AutoResizeColumn(i, DataGridViewAutoSizeColumnMode.AllCells);
                 _columnSumWidth += girdview.Columns[i].Width;
@@ -121,23 +121,49 @@
         public static void DynamicBind<T>(this DataGridView dataGrid, IList<T> source)
         where T : class
         {
-            BindingSource _source = null;
+            BindingSource _bindingSource = null;
 
-            if(dataGrid.DataSource is BindingSource)
+            if (dataGrid.DataSource is BindingSource)
             {
-                _source = (BindingSource)dataGrid.DataSource;
-                _source.AllowNew = true;
+                _bindingSource = (BindingSource)dataGrid.DataSource;
+                _bindingSource.AllowNew = true;
 
-                foreach(T entity in source)
+                foreach (T entity in source)
                 {
-                    _source.Add(entity);
+                    _bindingSource.Add(entity);
                 }
             }
             else
             {
                 BindingList<T> _bindinglist = new BindingList<T>(source);
-                _source = new BindingSource(_bindinglist, null);
-                dataGrid.DataSource = _source;
+                _bindingSource = new BindingSource(_bindinglist, null);
+                dataGrid.DataSource = _bindingSource;
+            }
+        }
+
+        /// <summary>
+        /// DataGridView绑定
+        /// </summary>
+        /// <typeparam name="T">实体类</typeparam>
+        /// <param name="dataGrid">DataGridView对象</param>
+        /// <param name="item">数据源</param>
+        public static void DynamicBind<T>(this DataGridView dataGrid, T item)
+        where T : class
+        {
+            BindingSource _bindingSource = null;
+
+            if (dataGrid.DataSource is BindingSource)
+            {
+                _bindingSource = (BindingSource)dataGrid.DataSource;
+                _bindingSource.AllowNew = true;
+                _bindingSource.Add(item);
+            }
+            else
+            {
+                List<T> _dataSource = new List<T>(1) { item };
+                BindingList<T> _bindinglist = new BindingList<T>(_dataSource);
+                _bindingSource = new BindingSource(_bindinglist, null);
+                dataGrid.DataSource = _bindingSource;
             }
         }
 
@@ -152,12 +178,24 @@
         {
             DataGridViewSelectedRowCollection _selectedRows = dataGrid.SelectedRows;
 
-            if(_selectedRows != null && _selectedRows.Count > 0)
+            if (_selectedRows != null && _selectedRows.Count > 0)
             {
                 return _selectedRows[0];
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// 选中最后一行
+        /// </summary>
+        /// <param name="dataGrid">DataGridView</param>
+        public static void SelectedLastRow(this DataGridView dataGrid)
+        {
+            int _lastRowIndex = dataGrid.Rows.Count - 1;
+            dataGrid.ClearSelection();
+            dataGrid.Rows[_lastRowIndex].Selected = true;
+            dataGrid.FirstDisplayedScrollingRowIndex = _lastRowIndex;
         }
 
         #endregion Methods
