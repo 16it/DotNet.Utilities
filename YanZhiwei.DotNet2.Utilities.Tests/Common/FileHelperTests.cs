@@ -64,7 +64,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         {
             string _outputFilePath = @"D:\DB.sql";
             byte[] _bytes = FileHelper.ReadBuffer(TestFilePath);
-            FileHelper.ExportToFile(_bytes, _outputFilePath);
+            FileHelper.SaveFile(_bytes, _outputFilePath);
             bool _actual = File.Exists(_outputFilePath);
             Assert.IsTrue(_actual);
         }

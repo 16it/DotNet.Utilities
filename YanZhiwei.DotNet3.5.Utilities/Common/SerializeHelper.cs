@@ -64,6 +64,19 @@
         }
 
         /// <summary>
+        /// 将对象序列化成二进制文件保存
+        /// </summary>
+        /// <param name="serializeData">需要序列化的对象</param>
+        /// <param name="saveFilePath">保存文件</param>
+        public static void BinarySerialize<T>(T serializeData, string saveFilePath)
+        {
+            CheckedSerializeData(serializeData);
+            ValidateOperator.Begin().IsFilePath(saveFilePath);
+            byte[] _buffer = BinarySerialize<T>(serializeData);
+            FileHelper.SaveFile(_buffer, saveFilePath);
+        }
+
+        /// <summary>
         /// 利用DataContractSerializer反序列化
         /// </summary>
         /// <param name="deserializeString">需要反序列化字符串</param>

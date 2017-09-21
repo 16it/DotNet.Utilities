@@ -441,11 +441,11 @@
 
         /// <summary>
         /// 将byte[]导出到文件
-        /// <para>eg: FileHelper.ExportToFile(_bytes, _outputFilePath); </para>
+        /// <para>eg: FileHelper.SaveFile(_bytes, _outputFilePath); </para>
         /// </summary>
         /// <param name="bytes"></param>
         /// <param name="filePath"></param>
-        public static void ExportToFile(byte[] bytes, string filePath)
+        public static void SaveFile(byte[] bytes, string filePath)
         {
             File.WriteAllBytes(filePath, bytes);
         }
@@ -625,7 +625,7 @@
         /// <returns>文件大小</returns>
         public static long GetSize(string filePath)
         {
-            byte[] _buffer = ReadBuffer(filePath);
+            byte[] _buffer = ReadFile(filePath);
             return _buffer == null ? 0 : _buffer.Length;
         }
 
