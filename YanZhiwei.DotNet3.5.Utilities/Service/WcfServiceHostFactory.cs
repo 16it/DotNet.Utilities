@@ -1,59 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.ServiceModel.Description;
-using System.Xml;
-using YanZhiwei.DotNet3._5.Utilities.Interfaces;
-
-namespace YanZhiwei.DotNet3._5.Utilities.Service
+﻿namespace YanZhiwei.DotNet3._5.Utilities.Service
 {
+    using System;
+    using System.ServiceModel;
+    using System.ServiceModel.Channels;
+    using System.ServiceModel.Description;
+    using System.Xml;
+
+    using YanZhiwei.DotNet3._5.Utilities.Interfaces;
+
     /// <summary>
     /// WCF服务寄宿抽象基类
     /// </summary>
     /// <typeparam name="ServerType">wcf服务类型</typeparam>
     /// <typeparam name="ContractType">wcf服务回调类型</typeparam>
     public abstract class WcfServiceHostFactory<ServerType, ContractType>
-          where ServerType : class
-          where ContractType : IContractService
+        where ServerType : class
+        where ContractType : IContractService
     {
+        #region Constructors
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serviceURL">WCF服务地址</param>
+        /// <param name="maxReceivedMessageSize">获取或设置配置了此绑定的通道上可以接收的消息的最大大小</param>
+        /// <param name="timeout">超时时间</param>
+        public WcfServiceHostFactory(string serviceURL, int maxReceivedMessageSize, TimeSpan timeout)
+        {
+            ServiceURL = serviceURL;
+            MaxReceivedMessageSize = maxReceivedMessageSize;
+            Timeout = timeout;
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serviceURL">WCF服务地址</param>
+        public WcfServiceHostFactory(string serviceURL)
+            : this(serviceURL, 2147483647, TimeSpan.FromMinutes(10))
+        {
+        }
+
+        #endregion Constructors
+
         #region Properties
 
         /// <summary>
         /// 获取或设置配置了此绑定的通道上可以接收的消息的最大大小。
         /// </summary>
-        public abstract int MaxReceivedMessageSize
+        public int MaxReceivedMessageSize
         {
             get;    //= 2147483647;
+            protected set;
         }
 
         /// <summary>
         /// 服务地址
         /// </summary>
-        public abstract string ServiceURL
+        public string ServiceURL
         {
             get;
+            protected set;
         }
 
         /// <summary>
         /// 超时时间
         /// </summary>
-        public abstract TimeSpan Timeout
+        public TimeSpan Timeout
         {
             get;    // TimeSpan.FromMinutes(10);
+            protected set;
         }
 
         #endregion Properties
 
         #region Methods
-
-        //Behaviors（行为）  定义WCF 客户端与服务端运行时的特性或配置，behaviors 不仅影响WCF 运行时，还会影响客户端与服务端之间的数据通信。
-        //Behaviors 主要分为三类：
-        //Service behaviors（服务行为）：运行于服务级别，适用于所有端点，负责内容如：实例化、事务、授权、审计 等；
-        //Endpoint behaviors（端点行为）：适用于服务端点，负责对进出服务的消息进行审查和处理；
-        //Operation behaviors（操作行为）：适用于操作级别，负责如 序列化、事务流、参数处理等；
-        //其他behaviors：
-        //Callback behaviors 控制客户端创建端点，用于双工通信；
 
         /// <summary>
         /// 自定义Behaviors

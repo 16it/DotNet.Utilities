@@ -9,32 +9,71 @@
     /// <summary>
     /// Wcf 服务代理抽象类
     /// </summary>
-    public abstract class WcfServiceProxy<T> where T : class
+    public abstract class WcfServiceProxy<T>
+        where T : class
     {
+        #region Constructors
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serviceURL">WCF服务地址</param>
+        /// <param name="maxReceivedMessageSize">获取或设置配置了此绑定的通道上可以接收的消息的最大大小</param>
+        /// <param name="timeout">超时时间</param>
+        public WcfServiceProxy(string serviceURL, int maxReceivedMessageSize, TimeSpan timeout)
+        {
+            ServiceURL = serviceURL;
+            MaxReceivedMessageSize = maxReceivedMessageSize;
+            Timeout = timeout;
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serviceURL">WCF服务地址</param>
+        public WcfServiceProxy(string serviceURL)
+            : this(serviceURL, 2147483647, TimeSpan.FromMinutes(10))
+        {
+        }
+
+        #endregion Constructors
+
         #region Properties
+
+        /// <summary>
+        /// 获得通信状态
+        /// </summary>
+        public ICommunicationObject CommunicationObject
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// 获取或设置配置了此绑定的通道上可以接收的消息的最大大小。
         /// </summary>
-        protected abstract int MaxReceivedMessageSize
+        public int MaxReceivedMessageSize
         {
             get;    //= 2147483647;
-        }
-
-        /// <summary>
-        /// 超时时间
-        /// </summary>
-        protected abstract TimeSpan Timeout
-        {
-            get;    // TimeSpan.FromMinutes(10);
+            protected set;
         }
 
         /// <summary>
         /// 服务端 URI
         /// </summary>
-        protected abstract string ServiceURL
+        public string ServiceURL
         {
             get;
+            protected set;
+        }
+
+        /// <summary>
+        /// 超时时间
+        /// </summary>
+        public TimeSpan Timeout
+        {
+            get;    // TimeSpan.FromMinutes(10);
+            protected set;
         }
 
         #endregion Properties
@@ -46,14 +85,6 @@
         /// </summary>
         /// <param name="endpoint">ServiceEndpoint</param>
         public abstract void AddEndpointBehaviors(ServiceEndpoint endpoint);
-
-        /// <summary>
-        /// 获得通信状态
-        /// </summary>
-        public ICommunicationObject CommunicationObject
-        {
-            get; private set;
-        }
 
         /// <summary>
         /// 创建WCF信道
@@ -84,7 +115,7 @@
         /// 使用 TCP 协议，用于在局域网(Intranet)内跨机器通信。有几个特点：可靠性、事务支持和安全，优化了 WCF 到 WCF 的通信。限制是服务端和客户端都必须使用 WCF 来实现。
         /// </summary>
         public virtual T CreateNetTcpChannel<DataContractCallBack>()
-              where DataContractCallBack : class, new()
+            where DataContractCallBack : class, new()
         {
             Binding _binding = CreateNetTcpBinding();
             return CreateDuplexChannelFactory<DataContractCallBack>(_binding);
@@ -129,55 +160,6 @@
             return _basicHttpBinding;
         }
 
-        private Binding CreateNetTcpBinding()
-        {
-            NetTcpBinding _netTcpBinding = new NetTcpBinding();
-            _netTcpBinding.Security.Mode = SecurityMode.None;
-            _netTcpBinding.MaxReceivedMessageSize = MaxReceivedMessageSize;
-            _netTcpBinding.ReaderQuotas = new XmlDictionaryReaderQuotas();
-            _netTcpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
-            _netTcpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
-            _netTcpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
-            _netTcpBinding.OpenTimeout = Timeout;
-            _netTcpBinding.ReceiveTimeout = Timeout;
-            _netTcpBinding.SendTimeout = Timeout;
-            _netTcpBinding.ListenBacklog = 1000;
-            _netTcpBinding.MaxConnections = 1000;
-            _netTcpBinding.TransferMode = TransferMode.Buffered;
-            return _netTcpBinding;
-        }
-
-        private WSDualHttpBinding CreateWSDualHttpBinding()
-        {
-            WSDualHttpBinding _basicHttpBinding = new WSDualHttpBinding();
-            _basicHttpBinding.Security.Mode = WSDualHttpSecurityMode.None;
-            _basicHttpBinding.MaxReceivedMessageSize = MaxReceivedMessageSize;
-            _basicHttpBinding.ReaderQuotas = new XmlDictionaryReaderQuotas();
-            _basicHttpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
-            _basicHttpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
-            _basicHttpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
-            _basicHttpBinding.OpenTimeout = Timeout;
-            _basicHttpBinding.ReceiveTimeout = Timeout;
-            _basicHttpBinding.SendTimeout = Timeout;
-
-            return _basicHttpBinding;
-        }
-
-        private WSHttpBinding CreateWSHttpBinding()
-        {
-            WSHttpBinding _wsHttpBinding = new WSHttpBinding();
-            _wsHttpBinding.Security.Mode = SecurityMode.None;
-            _wsHttpBinding.MaxReceivedMessageSize = MaxReceivedMessageSize;
-            _wsHttpBinding.ReaderQuotas = new XmlDictionaryReaderQuotas();
-            _wsHttpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
-            _wsHttpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
-            _wsHttpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
-            _wsHttpBinding.OpenTimeout = Timeout;
-            _wsHttpBinding.ReceiveTimeout = Timeout;
-            _wsHttpBinding.SendTimeout = Timeout;
-            return _wsHttpBinding;
-        }
-
         private T CreateChannel(Binding binding)
         {
             ChannelFactory<T> _channelFactory = new ChannelFactory<T>(binding, new EndpointAddress(ServiceURL));
@@ -214,6 +196,54 @@
 
             _channelFacotry.Open();
             return _channelFacotry.CreateChannel(new EndpointAddress(ServiceURL));
+        }
+
+        private Binding CreateNetTcpBinding()
+        {
+            NetTcpBinding _netTcpBinding = new NetTcpBinding();
+            _netTcpBinding.Security.Mode = SecurityMode.None;
+            _netTcpBinding.MaxReceivedMessageSize = MaxReceivedMessageSize;
+            _netTcpBinding.ReaderQuotas = new XmlDictionaryReaderQuotas();
+            _netTcpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
+            _netTcpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
+            _netTcpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
+            _netTcpBinding.OpenTimeout = Timeout;
+            _netTcpBinding.ReceiveTimeout = Timeout;
+            _netTcpBinding.SendTimeout = Timeout;
+            _netTcpBinding.ListenBacklog = 1000;
+            _netTcpBinding.MaxConnections = 1000;
+            _netTcpBinding.TransferMode = TransferMode.Buffered;
+            return _netTcpBinding;
+        }
+
+        private WSDualHttpBinding CreateWSDualHttpBinding()
+        {
+            WSDualHttpBinding _basicHttpBinding = new WSDualHttpBinding();
+            _basicHttpBinding.Security.Mode = WSDualHttpSecurityMode.None;
+            _basicHttpBinding.MaxReceivedMessageSize = MaxReceivedMessageSize;
+            _basicHttpBinding.ReaderQuotas = new XmlDictionaryReaderQuotas();
+            _basicHttpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
+            _basicHttpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
+            _basicHttpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
+            _basicHttpBinding.OpenTimeout = Timeout;
+            _basicHttpBinding.ReceiveTimeout = Timeout;
+            _basicHttpBinding.SendTimeout = Timeout;
+            return _basicHttpBinding;
+        }
+
+        private WSHttpBinding CreateWSHttpBinding()
+        {
+            WSHttpBinding _wsHttpBinding = new WSHttpBinding();
+            _wsHttpBinding.Security.Mode = SecurityMode.None;
+            _wsHttpBinding.MaxReceivedMessageSize = MaxReceivedMessageSize;
+            _wsHttpBinding.ReaderQuotas = new XmlDictionaryReaderQuotas();
+            _wsHttpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
+            _wsHttpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
+            _wsHttpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
+            _wsHttpBinding.OpenTimeout = Timeout;
+            _wsHttpBinding.ReceiveTimeout = Timeout;
+            _wsHttpBinding.SendTimeout = Timeout;
+            return _wsHttpBinding;
         }
 
         #endregion Methods
