@@ -706,11 +706,11 @@
 
         /// <summary>
         /// 将文件转换成二进制流
-        /// <para>eg:FileHelper.ReadBuffer(@"C:\demo.txt");</para>
+        /// <para>eg:FileHelper.ReadFile(@"C:\demo.txt");</para>
         /// </summary>
         /// <param name="filePath">文件路径</param>
         /// <returns>二进制数组</returns>
-        public static byte[] ReadBuffer(string filePath)
+        public static byte[] ReadFile(string filePath)
         {
             using(FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
