@@ -203,6 +203,42 @@
         }
 
         /// <summary>
+        /// 转换成Int32类型
+        /// </summary>
+        /// <param name="data">需要转换的object</param>
+        /// <param name="defalut">默认数值</param>
+        /// <returns>转换返回</returns>
+        public static int ToInt32OrDefault(this object data, int defalut)
+        {
+            if (data != null)
+            {
+                int _parseIntValue = 0;
+                bool _parseResult = int.TryParse(data.ToString(), out _parseIntValue);
+                return _parseResult == true ? _parseIntValue : defalut;
+            }
+
+            return defalut;
+        }
+
+        /// <summary>
+        /// 转换成Int64类型
+        /// </summary>
+        /// <param name="data">需要转换的object</param>
+        /// <param name="defalut">默认数值</param>
+        /// <returns>转换返回</returns>
+        public static long ToInt64OrDefault(this object data, long defalut)
+        {
+            if (data != null)
+            {
+                long _parseIntValue = 0;
+                bool _parseResult = long.TryParse(data.ToString(), out _parseIntValue);
+                return _parseResult == true ? _parseIntValue : defalut;
+            }
+
+            return defalut;
+        }
+
+        /// <summary>
         /// 转换成Int类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
@@ -261,42 +297,6 @@
         }
 
         /// <summary>
-        /// 转换成Int32类型
-        /// </summary>
-        /// <param name="data">需要转换的object</param>
-        /// <param name="defalut">默认数值</param>
-        /// <returns>转换返回</returns>
-        public static int ToInt32OrDefault(this object data, int defalut)
-        {
-            if (data != null)
-            {
-                int _parseIntValue = 0;
-                bool _parseResult = int.TryParse(data.ToString(), out _parseIntValue);
-                return _parseResult == true ? _parseIntValue : defalut;
-            }
-
-            return defalut;
-        }
-
-        /// <summary>
-        /// 转换成Int64类型
-        /// </summary>
-        /// <param name="data">需要转换的object</param>
-        /// <param name="defalut">默认数值</param>
-        /// <returns>转换返回</returns>
-        public static long ToInt64OrDefault(this object data, long defalut)
-        {
-            if (data != null)
-            {
-                long _parseIntValue = 0;
-                bool _parseResult = long.TryParse(data.ToString(), out _parseIntValue);
-                return _parseResult == true ? _parseIntValue : defalut;
-            }
-
-            return defalut;
-        }
-
-        /// <summary>
         /// 转换成Int16类型
         /// </summary>
         /// <param name="data">需要转换的object</param>
@@ -315,17 +315,6 @@
         }
 
         /// <summary>
-        /// 转换成string类型
-        /// </summary>
-        /// <param name="data">需要转换的object</param>
-        /// <param name="defalut">默认数值</param>
-        /// <returns>转换返回</returns>
-        public static string ToStringOrDefault(this object data, string defalut)
-        {
-            return data == null ? defalut : data.ToString();
-        }
-
-        /// <summary>
         /// 泛型数组转换为字符串
         /// </summary>
         /// <typeparam name="T">泛型</typeparam>
@@ -336,6 +325,36 @@
         {
             string[] _array = Array.ConvertAll<T, string>(array, n => n.ToString());
             return string.Join(delimiter, _array);
+        }
+
+        /// <summary>
+        /// 字符串类型转换
+        /// </summary>
+        /// <typeparam name="T">目标类型</typeparam>
+        /// <param name="data">需要转换的字符串</param>
+        /// <returns>转换类型</returns>
+        public static T ToStringBase<T>(this string data)
+        {
+            T _result = default(T);
+
+            if (!string.IsNullOrEmpty(data))
+            {
+                TypeConverter _convert = TypeDescriptor.GetConverter(typeof(T));
+                _result = (T)_convert.ConvertFrom(data);
+            }
+
+            return _result;
+        }
+
+        /// <summary>
+        /// 转换成string类型
+        /// </summary>
+        /// <param name="data">需要转换的object</param>
+        /// <param name="defalut">默认数值</param>
+        /// <returns>转换返回</returns>
+        public static string ToStringOrDefault(this object data, string defalut)
+        {
+            return data == null ? defalut : data.ToString();
         }
 
         /// <summary>
@@ -390,22 +409,21 @@
         }
 
         /// <summary>
-        /// 字符串类型转换
+        /// 转换成ushort类型
         /// </summary>
-        /// <typeparam name="T">目标类型</typeparam>
-        /// <param name="data">需要转换的字符串</param>
-        /// <returns>转换类型</returns>
-        public static T ToStringBase<T>(this string data)
+        /// <param name="data">需要转换的object</param>
+        /// <param name="defalut">默认数值</param>
+        /// <returns>转换返回</returns>
+        public static ushort ToUShortOrDefault(this object data, ushort defalut)
         {
-            T _result = default(T);
-
-            if (!string.IsNullOrEmpty(data))
+            if (data != null)
             {
-                TypeConverter _convert = TypeDescriptor.GetConverter(typeof(T));
-                _result = (T)_convert.ConvertFrom(data);
+                ushort _parseUShortValue = 0;
+                bool _parseResult = ushort.TryParse(data.ToString(), out _parseUShortValue);
+                return _parseResult == true ? _parseUShortValue : defalut;
             }
 
-            return _result;
+            return defalut;
         }
 
         #endregion Methods
