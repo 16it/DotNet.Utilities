@@ -238,6 +238,7 @@
         /// 备注：
         public void Stop()
         {
+            listener.Close();
             SocketServerStopedEventArgs _arg = new SocketServerStopedEventArgs
             {
                 Protocol = this.Protocol,
