@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YanZhiwei.DotNet.HIKvisionSDK</RootNamespace>
+    <AssemblyName>DotNet.HIKvisionSDK</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\DotNet.HIKvisionSDK.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CHCNetSDK.cs" />
+    <Compile Include="HIKvisionVideo.cs" />
+    <Compile Include="CaptureImageType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SDK\AudioRender.dll" />
+    <Content Include="SDK\calib.dll" />
+    <Content Include="SDK\d3dx9_43.dll" />
+    <Content Include="SDK\GdiPlus.dll" />
+    <Content Include="SDK\HCCore.dll" />
+    <Content Include="SDK\HCNetSDK.dll" />
+    <Content Include="SDK\HCNetSDKCom\AnalyzeData.dll" />
+    <Content Include="SDK\HCNetSDKCom\AudioIntercom.dll" />
+    <Content Include="SDK\HCNetSDKCom\HCAlarm.dll" />
+    <Content Include="SDK\HCNetSDKCom\HCCoreDevCfg.dll" />
+    <Content Include="SDK\HCNetSDKCom\HCDisplay.dll" />
+    <Content Include="SDK\HCNetSDKCom\HCGeneralCfgMgr.dll" />
+    <Content Include="SDK\HCNetSDKCom\HCIndustry.dll" />
+    <Content Include="SDK\HCNetSDKCom\HCPlayBack.dll" />
+    <Content Include="SDK\HCNetSDKCom\HCPreview.dll" />
+    <Content Include="SDK\HCNetSDKCom\HCVoiceTalk.dll" />
+    <Content Include="SDK\HCNetSDKCom\libiconv2.dll" />
+    <Content Include="SDK\HCNetSDKCom\OpenAL32.dll" />
+    <Content Include="SDK\HCNetSDKCom\StreamTransClient.dll" />
+    <Content Include="SDK\HCNetSDKCom\SystemTransform.dll" />
+    <Content Include="SDK\HWDecode.dll" />
+    <Content Include="SDK\iconv.dll" />
+    <Content Include="SDK\libxml2.dll" />
+    <Content Include="SDK\MP_Render.dll" />
+    <Content Include="SDK\OpenAL32.dll" />
+    <Content Include="SDK\PlayCtrl.dll" />
+    <Content Include="SDK\SuperRender.dll" />
+    <Content Include="SDK\zlib1.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SDK\calib.lib" />
+    <None Include="SDK\GdiPlus.lib" />
+    <None Include="SDK\HCCore.lib" />
+    <None Include="SDK\HCNetSDK.lib" />
+    <None Include="SDK\HCNetSDKCom\HCAlarm.lib" />
+    <None Include="SDK\HCNetSDKCom\HCGeneralCfgMgr.lib" />
+    <None Include="SDK\HCNetSDKCom\HCPreview.lib" />
+    <None Include="SDK\iconv.lib" />
+    <None Include="SDK\libxml2.lib" />
+    <None Include="SDK\LocalXml.zip" />
+    <None Include="SDK\PlayCtrl.lib" />
+    <None Include="SDK\zlib.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
+      <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
+      <Name>YanZhiwei.DotNet2.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

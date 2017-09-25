@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Plugins", "YanZhiwei.DotNet.Plugins", "{E7041928-FF2F-44AF-AB91-7427819415C5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{E7041928-FF2F-44AF-AB91-7427819415C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet2.Utilities", "YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj", "{2868748D-6FEC-4423-8254-BC366507C589}"
 EndProject
@@ -17,9 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.NPOI2.Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Office11.Utilities", "YanZhiwei.DotNet.Office11.Utilities\YanZhiwei.DotNet.Office11.Utilities.csproj", "{0B3CAEC1-7AAB-4571-AA6A-0A09F551E002}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Tests", "YanZhiwei.DotNet.Tests", "{0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Examples", "YanZhiwei.DotNet.Examples", "{2BF92C47-311B-46B2-B536-CBD597257243}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{2BF92C47-311B-46B2-B536-CBD597257243}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Newtonsoft.Json.Utilities", "YanZhiwei.DotNet.Newtonsoft.Json.Utilities\YanZhiwei.DotNet.Newtonsoft.Json.Utilities.csproj", "{17020B01-DDDB-4060-9B17-E4439CDC8C9A}"
 EndProject
@@ -69,7 +69,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.SharpZipLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.iTextSharp.Utilities", "YanZhiwei.DotNet.iTextSharp.Utilities\YanZhiwei.DotNet.iTextSharp.Utilities.csproj", "{A7719F17-BF21-406E-99C2-0B82068D80CC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Core", "YanZhiwei.DotNet.Core", "{01873B87-2AAC-4C13-B86F-9AB8C9A18445}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{01873B87-2AAC-4C13-B86F-9AB8C9A18445}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cache", "Cache", "{4C0D26EF-F570-46C9-B30C-9776A1F8936A}"
 EndProject
@@ -77,7 +77,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Log", "Log", "{9F9016F0-DC3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{0FE0CB83-8F4A-420E-94A6-F7EB6F364112}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YanZhiwei.DotNet.Framework", "YanZhiwei.DotNet.Framework", "{E800C592-BEBC-4DC8-B717-89E008924956}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{E800C592-BEBC-4DC8-B717-89E008924956}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.RestSharp.Utilities", "YanZhiwei.DotNet.RestSharp.Utilities\YanZhiwei.DotNet.RestSharp.Utilities.csproj", "{34332BCA-3FF3-4D3A-A8E4-61980CE8D1E7}"
 EndProject
@@ -212,6 +212,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.InfrastructureTests", "YanZhiwei.DotNet.Core.InfrastructureTests\YanZhiwei.DotNet.Core.InfrastructureTests.csproj", "{C7788D72-4F5F-49C2-B11F-C7DB311479B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.KryptonToolkit.Utilities", "YanZhiwei.DotNet.KryptonToolkit.Utilities\YanZhiwei.DotNet.KryptonToolkit.Utilities.csproj", "{B3ACEF1C-196C-4EED-BF6C-542CC342536D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{54E4224C-283E-4F2E-BE41-FD1626D8E72C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.HIKvisionSDK", "YanZhiwei.DotNet.HIKvisionSDK\YanZhiwei.DotNet.HIKvisionSDK.csproj", "{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1669,6 +1673,22 @@ Global
 		{B3ACEF1C-196C-4EED-BF6C-542CC342536D}.Release|x64.Build.0 = Release|Any CPU
 		{B3ACEF1C-196C-4EED-BF6C-542CC342536D}.Release|x86.ActiveCfg = Release|Any CPU
 		{B3ACEF1C-196C-4EED-BF6C-542CC342536D}.Release|x86.Build.0 = Release|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Debug|ARM.Build.0 = Debug|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Debug|x64.Build.0 = Debug|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Debug|x86.Build.0 = Debug|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Release|ARM.ActiveCfg = Release|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Release|ARM.Build.0 = Release|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Release|x64.ActiveCfg = Release|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Release|x64.Build.0 = Release|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Release|x86.ActiveCfg = Release|Any CPU
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1770,9 +1790,10 @@ Global
 		{DD9D81CC-6F25-4503-A385-0E36BAD65133} = {2BF92C47-311B-46B2-B536-CBD597257243}
 		{C7788D72-4F5F-49C2-B11F-C7DB311479B2} = {0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}
 		{B3ACEF1C-196C-4EED-BF6C-542CC342536D} = {E7041928-FF2F-44AF-AB91-7427819415C5}
+		{68E1A6AE-3E6C-4E7D-96E8-12F5F81D2D77} = {54E4224C-283E-4F2E-BE41-FD1626D8E72C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3C77B6A4-A666-4D9D-8B43-95B85D4DE00E}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
+		SolutionGuid = {3C77B6A4-A666-4D9D-8B43-95B85D4DE00E}
 	EndGlobalSection
 EndGlobal
