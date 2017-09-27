@@ -1,6 +1,7 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinForm
 {
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Reflection;
     using System.Threading;
