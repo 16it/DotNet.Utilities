@@ -120,6 +120,17 @@
             form.Bounds = Screen.AllScreens[screen].Bounds;
         }
 
+        /// <summary>
+        /// 该方法只是暂时的将应用程序占用的内存移至虚拟内存，一旦应用程序被激活或者有操作请求时，这些内存又会被重新占用
+        /// </summary>
+        /// <param name="maxSize">最大虚拟内存，单位字节</param>
+        /// <param name="minSize">最小虚拟内存，单位字节</param>
+        public static void SetWorkingSet(int maxSize, int minSize)
+        {
+            Process _process = Process.GetCurrentProcess();
+            _process.MaxWorkingSet = (IntPtr)maxSize;
+            _process.MinWorkingSet = (IntPtr)minSize;
+        }
         #endregion Methods
     }
 }

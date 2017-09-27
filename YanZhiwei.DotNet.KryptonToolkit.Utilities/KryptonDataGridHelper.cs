@@ -16,6 +16,32 @@ namespace YanZhiwei.DotNet.KryptonToolkit.Utilities
         #region Methods
 
         /// <summary>
+        /// 清除绑定
+        /// </summary>
+        /// <param name="dataGrid">KryptonDataGridView</param>
+        public static void ClearDynamicBind(this KryptonDataGridView dataGrid)
+        {
+            BindingSource _bindingSource = new BindingSource();
+            _bindingSource.DataSource = null;
+            dataGrid.DataSource = _bindingSource;
+        }
+
+        /// <summary>
+        /// 获取行数
+        /// </summary>
+        /// <param name="dataGrid">KryptonDataGridView</param>
+        /// <returns>行数</returns>
+        public static int GetDynamicBindRowCount(this KryptonDataGridView dataGrid)
+        {
+            if (dataGrid.DataSource is BindingSource)
+            {
+                BindingSource _source = (BindingSource)dataGrid.DataSource;
+                return _source.Count;
+            }
+            return 0;
+        }
+
+        /// <summary>
         ///  将DateTimePicker应用到列编辑时候
         /// </summary>
         /// <param name="dataGrid">DataGridView</param>
