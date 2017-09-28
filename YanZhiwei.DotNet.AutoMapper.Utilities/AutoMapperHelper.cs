@@ -16,7 +16,7 @@
     {
         #region Fields
 
-        private static ConcurrentBag<string> customizedProfileList = null;
+        private static readonly ConcurrentBag<string> customizedProfileList = null;
 
         #endregion Fields
 
