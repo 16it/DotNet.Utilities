@@ -11,6 +11,7 @@ namespace YanZhiwei.DotNet2.Utilities.Builder
     {
         /// <summary>
         /// CRC-16 MODBUS实现
+        /// 冗余循环校验码含2个字节
         /// </summary>
         /// <param name="data">需要计算得数组</param>
         /// <returns>CRC数值</returns>
