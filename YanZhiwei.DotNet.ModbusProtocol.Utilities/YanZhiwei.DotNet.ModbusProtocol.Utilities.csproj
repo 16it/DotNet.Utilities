@@ -40,9 +40,15 @@
   <ItemGroup>
     <Compile Include="Enum\ModbusOrderCmd.cs" />
     <Compile Include="ModbusRTUBase.cs" />
+    <Compile Include="Model\MasterReadDataBase.cs" />
+    <Compile Include="Model\ReadCoilsData.cs" />
+    <Compile Include="Model\ReadDiscreteInputData.cs" />
+    <Compile Include="Model\ReadHoldingRegistersData.cs" />
+    <Compile Include="Model\ReadInputRegisters.cs" />
     <Compile Include="Model\WriteMultipleCoilsData.cs" />
+    <Compile Include="Model\WriteMultipleRegisterData.cs" />
     <Compile Include="Model\WriteSingleCoilData.cs" />
-    <Compile Include="Model\ModbusMasterDataBase.cs" />
+    <Compile Include="Model\MasterWriteDataBase.cs" />
     <Compile Include="Model\WriteSingleRegisterData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

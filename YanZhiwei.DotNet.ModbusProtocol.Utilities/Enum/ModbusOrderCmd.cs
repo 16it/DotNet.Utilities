@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet.ModbusProtocol.Utilities.Enum
 {
     /// <summary>
-    /// Modbus主要功能码
+    /// Modbus通用功能码
     /// </summary>
     public enum ModbusOrderCmd : byte
     {
