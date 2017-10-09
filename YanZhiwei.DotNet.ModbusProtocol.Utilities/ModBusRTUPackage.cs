@@ -1,4 +1,5 @@
-﻿using YanZhiwei.DotNet.ModbusProtocol.Utilities.Enum;
+﻿using System;
+using YanZhiwei.DotNet.ModbusProtocol.Utilities.Enum;
 using YanZhiwei.DotNet.ModbusProtocol.Utilities.Model;
 using YanZhiwei.DotNet2.Utilities.Builder;
 using YanZhiwei.DotNet2.Utilities.Common;
@@ -165,6 +166,32 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
         /// <param name="masterReadData">Modubs Master 读取数据</param>
         public ModBusRTUPackage(MasterReadDataBase masterReadData)
         {
+            HanlderModbusBaseRead(masterReadData);
+
+        }
+
+        private void HanlderModbusBaseRead(MasterReadDataBase masterReadData)
+        {
+            byte _readOrderCmd = 0x00;
+            if (masterReadData is ReadCoilsData)
+                _readOrderCmd = (byte)ModbusBaseOrderCmd.ReadCoilStatus;
+            else if (masterReadData is ReadDiscreteInputData)
+                _readOrderCmd = (byte)ModbusBaseOrderCmd.ReadInputStatus;
+            else if (masterReadData is ReadHoldingRegistersData)
+                _readOrderCmd = (byte)ModbusBaseOrderCmd.ReadHoldingRegister;
+            else if (masterReadData is ReadInputRegisters)
+                _readOrderCmd = (byte)ModbusBaseOrderCmd.ReadInputRegister;
+            if (_readOrderCmd != 0x00)
+            {
+                using (ByteArrayBuilder builder = new ByteArrayBuilder())
+                {
+                    builder.Append(masterReadData.SlaveID);//高位在前
+                    builder.Append(_readOrderCmd);//功能码
+                    builder.Append(ByteHelper.ToBytes(masterReadData.Address, true));//高位在前
+                    builder.Append(ByteHelper.ToBytes(masterReadData.Quantity, true));//数量
+                    CRCCaluData = builder.ToArray();
+                }
+            }
         }
     }
 }
