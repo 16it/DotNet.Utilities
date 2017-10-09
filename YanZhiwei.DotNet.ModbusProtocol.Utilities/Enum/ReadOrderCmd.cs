@@ -3,7 +3,7 @@
     /// <summary>
     /// Modbus通用功能码
     /// </summary>
-    public enum ModbusOrderCmd : byte
+    public enum ReadOrderCmd : byte
     {
         /// <summary>
         ///读线圈
@@ -23,26 +23,6 @@
         /// <summary>
         /// 读输入寄存器
         /// </summary>
-        ReadInputRegister = 0x04,
-
-        /// <summary>
-        /// 写单个线圈
-        /// </summary>
-        WriteSingleCoil = 0x05,
-
-        /// <summary>
-        ///写单个寄存器
-        /// </summary>
-        WriteSingleRegister = 0x06,
-
-        /// <summary>
-        /// 写多个线圈
-        /// </summary>
-        WriteMultipleCoils = 0x0F,
-
-        /// <summary>
-        /// 写多个寄存器
-        /// </summary>
-        WriteMultipleRegister = 0x10
+        ReadInputRegister = 0x04
     }
 }

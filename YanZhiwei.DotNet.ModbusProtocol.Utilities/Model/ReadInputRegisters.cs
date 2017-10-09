@@ -3,7 +3,7 @@
     /// <summary>
     /// 读输入寄存器
     /// </summary>
-    public sealed class ReadInputRegisters
+    public sealed class ReadInputRegisters : MasterReadDataBase
     {
         /// <summary>
         /// 构造函数
