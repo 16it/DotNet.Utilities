@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using YanZhiwei.DotNet2.Utilities.Common;
 namespace YanZhiwei.DotNet.ModbusProtocol.Utilities.Model
 {
     /// <summary>
@@ -19,7 +21,7 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities.Model
         /// <summary>
         /// 写入线圈状态
         /// </summary>
-        public bool[] ColisStatus
+        public BitArray ColisStatus
         {
             get;
             private set;
@@ -31,7 +33,7 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities.Model
         /// <param name="slaveID">从机地址</param>
         /// <param name="address">线圈/寄存器地址</param>
         /// <param name="colisStatus">写入线圈状态</param>
-        public WriteMultipleCoilsData(byte slaveID, ushort address, bool[] colisStatus)
+        public WriteMultipleCoilsData(byte slaveID, ushort address, BitArray colisStatus)
         : base(slaveID, address)
         {
             if (colisStatus == null)
@@ -42,6 +44,8 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities.Model
 
             Quantity = (ushort)colisStatus.Length;
             ColisStatus = colisStatus;
+            
+            
         }
     }
 }

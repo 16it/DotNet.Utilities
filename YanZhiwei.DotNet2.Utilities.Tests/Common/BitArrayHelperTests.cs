@@ -2,6 +2,20 @@
 using System.Collections;
 using YanZhiwei.DotNet2.Utilities.Common;
 
+namespace YanZhiwei.DotNet2.Utilities.Common.Tests
+{
+    [TestClass()]
+    public class BitArrayHelperTests
+    {
+        [TestMethod()]
+        public void ToBytesTest()
+        {
+            BitArray _coilsValue = new BitArray(new bool[10] { true, true, true, true, true, true, true, true, true, false });
+
+        }
+    }
+}
+
 namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
 {
     [TestClass()]

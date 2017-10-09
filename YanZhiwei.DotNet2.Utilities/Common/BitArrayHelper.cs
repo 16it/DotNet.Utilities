@@ -20,7 +20,7 @@
             int _length = bits.Length;
             int _mid = _length / 2;
 
-            for(int i = 0; i < _mid; i++)
+            for (int i = 0; i < _mid; i++)
             {
                 bool _bit = bits[i];
                 bits[i] = bits[_length - i - 1];
@@ -41,9 +41,9 @@
         {
             StringBuilder _builder = new StringBuilder();
 
-            for(int i = 0; i < bits.Length; i++)
+            for (int i = 0; i < bits.Length; i++)
             {
-                if(bits[i])
+                if (bits[i])
                 {
                     _builder.Append(trueValue);
                 }
@@ -85,33 +85,9 @@
         /// <returns>byte数组</returns>
         public static byte[] ToBytes(this BitArray bits)
         {
-            int _length = bits.Count / 8;
-
-            if(bits.Count % 8 != 0)
-            {
-                _length++;
-            }
-
-            byte[] _bytes = new byte[_length];
-            int _byteIndex = 0, _bitIndex = 0;
-
-            for(int i = 0; i < bits.Count; i++)
-            {
-                if(bits[i])
-                {
-                    _bytes[_byteIndex] |= (byte)(1 << (7 - _bitIndex));
-                }
-
-                _bitIndex++;
-
-                if(_bitIndex == 8)
-                {
-                    _bitIndex = 0;
-                    _byteIndex++;
-                }
-            }
-
-            return _bytes;
+            byte[] _array = new byte[(bits.Length - 1) / 8 + 1];
+            bits.CopyTo(_array, 0);
+            return _array;
         }
 
         #endregion Methods

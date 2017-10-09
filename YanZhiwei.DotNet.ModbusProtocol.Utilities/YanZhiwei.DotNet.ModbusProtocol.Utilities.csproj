@@ -32,14 +32,14 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enum\ReadOrderCmd.cs" />
-    <Compile Include="Enum\WriteOrderCmd.cs" />
+    <Compile Include="Enum\ModbusBaseOrderCmd.cs" />
     <Compile Include="ModBusRTUPackage.cs" />
     <Compile Include="Model\MasterReadDataBase.cs" />
     <Compile Include="Model\ReadCoilsData.cs" />
