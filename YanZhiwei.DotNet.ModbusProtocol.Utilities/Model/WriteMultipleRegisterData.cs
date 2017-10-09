@@ -11,7 +11,7 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities.Model
         /// <summary>
         /// 写入多个寄存器数组
         /// </summary>
-        public ushort[] Value
+        public short[] Value
         {
             get;
             private set;
@@ -32,7 +32,7 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities.Model
         /// <param name="slaveID">从机地址</param>
         /// <param name="address">线圈/寄存器地址</param>
         /// <param name="value">线圈数量</param>
-        public WriteMultipleRegisterData(byte slaveID, ushort address, ushort[] value)
+        public WriteMultipleRegisterData(byte slaveID, ushort address, short[] value)
             : base(slaveID, address)
         {
             if (value == null)

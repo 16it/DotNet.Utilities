@@ -208,7 +208,24 @@
             
             return _data;
         }
-        
+
+        /// <summary>
+        ///把short(2个字节)类型转化为字节数组（可高低位反转）
+        /// </summary>
+        /// <param name="value">Short类型</param>
+        /// <param name="reverse">是不是需要把得到的字节数组反转</param>
+        /// <returns>Byte数组</returns>
+        public static byte[] ToBytes(this short value, bool reverse)
+        {
+            byte[] _data = BitConverter.GetBytes(value);
+
+            if (reverse)
+            {
+                Array.Reverse(_data);
+            }
+
+            return _data;
+        }
         /// <summary>
         /// 把uint转换成字节数组
         /// <para>uint _data = 255;</para>

@@ -29,11 +29,20 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities.Tests
 
             #region 多个线圈写入
             byte[] _expectWriteMultipleCoil = { 0x02, 0x0F, 0x00, 0x01, 0x00, 0x0A, 0x02, 0xFF, 0x01, 0x70, 0x29 };
-            BitArray _coilsValue = new BitArray(new bool[10] { true, true, true, true, true, true, true, true, true, false });            
+            BitArray _coilsValue = new BitArray(new bool[10] { true, true, true, true, true, true, true, true, true, false });
             WriteMultipleCoilsData _writeMultipleCoilData = new WriteMultipleCoilsData(0x02, 1, _coilsValue);
             ModBusRTUPackage _writeMultipleCoil = new ModBusRTUPackage(_writeMultipleCoilData);
             byte[] _actualWriteMultipleCoil = _writeMultipleCoil.ToArray();
             CollectionAssert.AreEqual(_expectWriteMultipleCoil, _actualWriteMultipleCoil);
+            #endregion
+
+            #region 多个寄存器写入
+            byte[] _expectWriteMultipleRegister = { 0x02,0x10,0x00,0x01,0x00,0x01,0x02,0xFF,0x01,0x33,0x41 };
+            short[] _registersValue = { -255 };
+            WriteMultipleRegisterData _writeWriteMultipleRegisterData = new WriteMultipleRegisterData(0x02, 1, _registersValue);
+            ModBusRTUPackage _writeMultipleRegister = new ModBusRTUPackage(_writeWriteMultipleRegisterData);
+            byte[] _actualWriteMultipleRegister = _writeMultipleRegister.ToArray();
+            CollectionAssert.AreEqual(_expectWriteMultipleRegister, _actualWriteMultipleRegister);
             #endregion
         }
     }

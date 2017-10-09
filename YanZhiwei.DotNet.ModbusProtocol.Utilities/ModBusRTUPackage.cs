@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using YanZhiwei.DotNet.ModbusProtocol.Utilities.Enum;
+﻿using YanZhiwei.DotNet.ModbusProtocol.Utilities.Enum;
 using YanZhiwei.DotNet.ModbusProtocol.Utilities.Model;
 using YanZhiwei.DotNet2.Utilities.Builder;
 using YanZhiwei.DotNet2.Utilities.Common;
@@ -26,6 +24,40 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
             HanlderWriteSingleCoilData(masterWriteData);
             HanlderWriteSingleRegisterData(masterWriteData);
             HanlderWriteMultipleCoilsData(masterWriteData);
+            HanlderWriteMultipleRegisterData(masterWriteData);
+        }
+
+        private void HanlderWriteMultipleRegisterData(MasterWriteDataBase masterWriteData)
+        {
+            if (masterWriteData is WriteMultipleRegisterData)
+            {
+                //02 10 00 01 00 01 02 FF 01 33 41
+                //02--从机地址
+                //10--功能码
+                //00 01--寄存器地址
+                //00 01--寄存器数量
+                //02--数据长度
+                //FF 01--数据 -255
+                //33 41--CRC
+                WriteMultipleRegisterData _data = (WriteMultipleRegisterData)masterWriteData;
+                using (ByteArrayBuilder builder = new ByteArrayBuilder())
+                {
+                    builder.Append(_data.SlaveID);//高位在前
+                    builder.Append((byte)ModbusBaseOrderCmd.WriteMultipleRegister);//功能码
+                    builder.Append(ByteHelper.ToBytes(_data.Address, true));//高位在前
+                    builder.Append(ByteHelper.ToBytes(_data.Quantity, true));//数量
+
+                    byte _coilsCount = (byte)(_data.Value.Length * 2);
+                    builder.Append(_coilsCount);
+                    foreach (short item in _data.Value)
+                    {
+                        byte[] _registerValue = item.ToBytes(true);
+                        builder.Append(_registerValue);
+                    }
+
+                    CRCCaluData = builder.ToArray();
+                }
+            }
         }
 
         /// <summary>
@@ -50,7 +82,7 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
                     builder.Append(_data.SlaveID);//高位在前
                     builder.Append((byte)ModbusBaseOrderCmd.WriteMultipleCoils);//功能码
                     builder.Append(ByteHelper.ToBytes(_data.Address, true));//高位在前
-                    builder.Append(ByteHelper.ToBytes(_data.Quantity,true));//数量
+                    builder.Append(ByteHelper.ToBytes(_data.Quantity, true));//数量
                     byte[] _coilsValue = _data.ColisStatus.ToBytes();
                     byte _coilsCount = (byte)_coilsValue.Length;
                     builder.Append(_coilsCount);
