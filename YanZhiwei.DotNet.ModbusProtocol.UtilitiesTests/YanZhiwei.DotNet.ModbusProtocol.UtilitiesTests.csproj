@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="ModBusRTUPackageTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RTUModBusUnPackageTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YanZhiwei.DotNet.ModbusProtocol.Utilities\YanZhiwei.DotNet.ModbusProtocol.Utilities.csproj">
