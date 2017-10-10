@@ -1,7 +1,6 @@
 ﻿namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
 {
     using System;
-    using System.Linq;
     using YanZhiwei.DotNet2.Utilities.Builder;
     using YanZhiwei.DotNet2.Utilities.Common;
 
@@ -126,25 +125,25 @@
         /// </summary>
         /// <param name="data">数据报文</param>
         /// <returns>返回结果;1.是否拆包成功；2.拆包成功后对象</returns>
-        public Tuple<bool, UnPackageError> BuilderObjFromBytes(byte[] data)
+        public bool BuilderObjFromBytes(byte[] data, out UnPackageError unpackageError)
         {
             try
             {
-                bool _analyzeResult = AnalyzePackageData(data);
-                UnPackageError _unpackgeErrorCode = CheckedPackageData(data, _analyzeResult);
+                unpackageError = UnPackageError.Normal;
+                bool _analyzeResult = AnalyzePackageData(data, out unpackageError);
+                if (unpackageError == UnPackageError.Normal)
+                    unpackageError = CheckedPackageData(data);
 
-                if (_unpackgeErrorCode != UnPackageError.Normal)
-                    return CreateBuileObjFromBytesError(_unpackgeErrorCode);
-
-                return new Tuple<bool, UnPackageError>(true, _unpackgeErrorCode);
+                return unpackageError == UnPackageError.Normal;
             }
             catch (UnPackageException)
             {
-                return CreateBuileObjFromBytesError(UnPackageError.ExceptionError);
+                unpackageError = UnPackageError.ExceptionError;
+                return false;
             }
         }
 
-        private bool AnalyzePackageData(byte[] data)
+        private bool AnalyzePackageData(byte[] data, out UnPackageError unPackageError)
         {
             bool _result = false;
 
@@ -153,19 +152,24 @@
                 FullPackageData = ByteHelper.ToHexStringWithBlank(data);
                 SlaveID = data[0];//从设备地址
                 OrderCmd = data[1];//功能码
-
-                if (CheckedErrorPackageData(data))
+                unPackageError = UnPackageError.Normal;
+                if (data.Length == 5)
                 {
-                    //02 01 01 01 90 0C
+                    byte _errorCode = data[2];//错误代码
+                    if (_errorCode == 0x01 || _errorCode == 0x02 || _errorCode == 0x03 || _errorCode == 0x04)
+                        unPackageError = (UnPackageError)_errorCode;
+                }
+                else
+                {
                     //02--从机地址
                     //01--功能码
                     //01--数据长度
                     //01--数据
                     //90 0C--CRC
                     int _packageLength = data.Length;
-                    DataLength = data[2];//数据长度
+                    DataLength = data[3];//数据长度
                     CrcCaluData = ArrayHelper.Copy(data, 0, _packageLength - 2);
-                    Data = ArrayHelper.Copy(data, 3, _packageLength - 2);
+                    Data = ArrayHelper.Copy(data, 3, 3 + DataLength);//实际数据
                     CRC = ArrayHelper.Copy(data, _packageLength - 2, _packageLength);
                     _result = true;
                 }
@@ -178,30 +182,11 @@
             return _result;
         }
 
-        private bool CheckedErrorPackageData(byte[] data)
-        {
-            bool _result = true;
-
-            if (data.Count() == 5)
-            {
-                byte _orderCmd = data[1];//功能码
-                byte _errorCode = data[2];//错误代码
-                _result = _errorCode == 0x01 || _errorCode == 0x02 || _errorCode == 0x03 || _errorCode == 0x04;
-
-                if (_result)
-                    ErrorType = (UnPackageError)_errorCode;
-            }
-
-            return _result;
-        }
-
-        private UnPackageError CheckedPackageData(byte[] data, bool analyzeResult)
+        private UnPackageError CheckedPackageData(byte[] data)
         {
             try
             {
-                if (!analyzeResult)
-                    return ErrorType;
-                byte[] _expectCrc = ByteHelper.ToBytes(CRCBuilder.Calu16MODBUS(CrcCaluData), false);
+                byte[] _expectCrc = ByteHelper.ToBytes(CRCBuilder.Calu16MODBUS(CrcCaluData));
                 if (!ArrayHelper.CompletelyEqual(_expectCrc, CRC))
                     return UnPackageError.CRCError;
 
@@ -211,11 +196,6 @@
             {
                 throw CreateUnPackageException("CheckedPackageData", ex, data);
             }
-        }
-
-        private Tuple<bool, UnPackageError> CreateBuileObjFromBytesError(UnPackageError unpackgeErrorCode)
-        {
-            return new Tuple<bool, UnPackageError>(false, unpackgeErrorCode);
         }
 
         /// <summary>
