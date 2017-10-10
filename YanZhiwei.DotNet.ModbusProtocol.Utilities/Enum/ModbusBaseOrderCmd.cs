@@ -43,6 +43,11 @@
         /// <summary>
         /// 写多个寄存器
         /// </summary>
-        WriteMultipleRegister = 0x10
+        WriteMultipleRegister = 0x10,
+
+        /// <summary>
+        /// 未知协议
+        /// </summary>
+        Unknown = 0xFF
     }
 }

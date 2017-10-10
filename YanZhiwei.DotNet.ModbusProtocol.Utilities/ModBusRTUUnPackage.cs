@@ -1,6 +1,8 @@
 ﻿namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
 {
     using System;
+    using YanZhiwei.DotNet.ModbusProtocol.Utilities.Enum;
+    using YanZhiwei.DotNet.ModbusProtocol.Utilities.Model;
     using YanZhiwei.DotNet2.Utilities.Builder;
     using YanZhiwei.DotNet2.Utilities.Common;
 
@@ -125,22 +127,23 @@
         /// </summary>
         /// <param name="data">数据报文</param>
         /// <returns>返回结果;1.是否拆包成功；2.拆包成功后对象</returns>
-        public bool BuilderObjFromBytes(byte[] data, out UnPackageError unpackageError)
+        public UnPackageError BuilderObjFromBytes(byte[] data, out SlaveReplyDataBase slaveReplyData)
         {
+            slaveReplyData = null;
+            UnPackageError _unpackageError = UnPackageError.Normal;
             try
             {
-                unpackageError = UnPackageError.Normal;
-                bool _analyzeResult = AnalyzePackageData(data, out unpackageError);
-                if (unpackageError == UnPackageError.Normal)
-                    unpackageError = CheckedPackageData(data);
+                bool _analyzeResult = AnalyzePackageData(data, out _unpackageError);
+                if (_unpackageError == UnPackageError.Normal)
+                    _unpackageError = CheckedPackageData(data, out slaveReplyData);
 
-                return unpackageError == UnPackageError.Normal;
+                return _unpackageError;
             }
             catch (UnPackageException)
             {
-                unpackageError = UnPackageError.ExceptionError;
-                return false;
+                _unpackageError = UnPackageError.ExceptionError;
             }
+            return _unpackageError;
         }
 
         private bool AnalyzePackageData(byte[] data, out UnPackageError unPackageError)
@@ -161,13 +164,14 @@
                 }
                 else
                 {
+                    //02 01 02 1F 00 F5 CC --Read Coils
                     //02--从机地址
                     //01--功能码
-                    //01--数据长度
-                    //01--数据
-                    //90 0C--CRC
+                    //02--数据长度
+                    //1F 00--数据
+                    //F5 CC--CRC
                     int _packageLength = data.Length;
-                    DataLength = data[3];//数据长度
+                    DataLength = data[2];//数据长度
                     CrcCaluData = ArrayHelper.Copy(data, 0, _packageLength - 2);
                     Data = ArrayHelper.Copy(data, 3, 3 + DataLength);//实际数据
                     CRC = ArrayHelper.Copy(data, _packageLength - 2, _packageLength);
@@ -182,14 +186,21 @@
             return _result;
         }
 
-        private UnPackageError CheckedPackageData(byte[] data)
+        private UnPackageError CheckedPackageData(byte[] data, out SlaveReplyDataBase replyDataBase)
         {
             try
             {
-                byte[] _expectCrc = ByteHelper.ToBytes(CRCBuilder.Calu16MODBUS(CrcCaluData));
+                replyDataBase = null;
+                byte[] _expectCrc = ByteHelper.ToBytes(CRCBuilder.Calu16MODBUS(CrcCaluData),false);
                 if (!ArrayHelper.CompletelyEqual(_expectCrc, CRC))
                     return UnPackageError.CRCError;
 
+                switch (OrderCmd)
+                {
+                    case 0x01:
+                        replyDataBase = new SlaveReadCoilsReplyData(SlaveID, OrderCmd, ModbusBaseOrderCmd.ReadCoilStatus, Data);
+                        break;
+                }
                 return UnPackageError.Normal;
             }
             catch (Exception ex)
