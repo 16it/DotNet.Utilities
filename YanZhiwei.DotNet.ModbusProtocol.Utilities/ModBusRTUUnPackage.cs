@@ -1,7 +1,7 @@
 ﻿namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
 {
     using System;
-    using YanZhiwei.DotNet.ModbusProtocol.Utilities.Enum;
+
     using YanZhiwei.DotNet.ModbusProtocol.Utilities.Model;
     using YanZhiwei.DotNet2.Utilities.Builder;
     using YanZhiwei.DotNet2.Utilities.Common;
@@ -13,10 +13,7 @@
     {
         #region Properties
 
-        /// <summary>
-        /// 数据长度
-        /// </summary>
-        public byte DataLength
+        public string FullPackageData
         {
             get;
             private set;
@@ -25,97 +22,55 @@
         /// <summary>
         /// CRC
         /// </summary>
-        public byte[] CRC
+        private byte[] CRC
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>
         /// CRC计算部分
         /// </summary>
-        public byte[] CrcCaluData
+        private byte[] CrcCaluData
         {
             get;
-            private set;
-        }
-
-        /// <summary>
-        /// 当前寄存器个数
-        /// </summary>
-        public ushort CurRegisterCount
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// 当前单个寄存器地址
-        /// </summary>
-        public ushort CurSingleRegisterAddr
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// 当前单个寄存器地址写入值
-        /// </summary>
-        public ushort CurSingleRegisterValue
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// 当前起始寄存器地址
-        /// </summary>
-        public ushort CurStartRegisterAddr
-        {
-            get;
-            private set;
+            set;
         }
 
         /// <summary>
         /// 应用数据部分
         /// </summary>
-        public byte[] Data
+        private byte[] Data
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>
-        /// 拆包错误枚举
+        /// 数据长度
         /// </summary>
-        public UnPackageError ErrorType
+        private byte DataLength
         {
             get;
-            private set;
-        }
-
-        public string FullPackageData
-        {
-            get;
-            private set;
+            set;
         }
 
         /// <summary>
         /// 功能码
         /// </summary>
-        public byte OrderCmd
+        private byte OrderCmd
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>
         /// 从机地址
         /// </summary>
-        public byte SlaveID
+        private byte SlaveID
         {
             get;
-            private set;
+            set;
         }
 
         #endregion Properties
@@ -170,6 +125,28 @@
                     //02--数据长度
                     //1F 00--数据
                     //F5 CC--CRC
+
+                    //02 02 02 1F 00 F5 88 --Read Discrete Inputs
+                    //02--从机地址
+                    //02--功能码
+                    //02--数据长度
+                    //1F 00--数据
+                    //F8 88--CRC
+
+                    //02 03 14 00 01 00 02 00 03 00 04 00 05 00 00 00 00 00 00 00 00 00 00 37 57
+                    //02--从机地址
+                    //03--功能码
+                    //14--数据长度
+                    //00 01 00 02 00 03 00 04 00 05 00 00 00 00 00 00 00 00 00 00--数据
+                    //37 57--CRC
+
+                    //02 04 14 00 01 00 02 00 03 00 04 00 05 00 00 00 00 00 00 00 00 00 00 01 B1
+                    //02--从机地址
+                    //04--功能码
+                    //14--数据长度
+                    //00 01 00 02 00 03 00 04 00 05 00 00 00 00 00 00 00 00 00 00--数据
+                    //01 B1--CRC
+
                     int _packageLength = data.Length;
                     DataLength = data[2];//数据长度
                     CrcCaluData = ArrayHelper.Copy(data, 0, _packageLength - 2);
@@ -191,14 +168,30 @@
             try
             {
                 replyDataBase = null;
-                byte[] _expectCrc = ByteHelper.ToBytes(CRCBuilder.Calu16MODBUS(CrcCaluData),false);
+                byte[] _expectCrc = ByteHelper.ToBytes(CRCBuilder.Calu16MODBUS(CrcCaluData), false);
                 if (!ArrayHelper.CompletelyEqual(_expectCrc, CRC))
                     return UnPackageError.CRCError;
 
                 switch (OrderCmd)
                 {
                     case 0x01:
-                        replyDataBase = new SlaveReadCoilsReplyData(SlaveID, OrderCmd, ModbusBaseOrderCmd.ReadCoilStatus, Data);
+                        replyDataBase = new SlaveReadCoilsReplyData(SlaveID, OrderCmd, Data);
+                        break;
+
+                    case 0x02:
+                        replyDataBase = new SlaveReadDiscreteInputsReplyData(SlaveID, OrderCmd, Data);
+                        break;
+
+                    case 0x03:
+                        replyDataBase = new SlaveReadHoldingRegisterReplyData(SlaveID, OrderCmd, Data);
+                        break;
+
+                    case 0x04:
+                        replyDataBase = new SlaveReadInputRegistersReplyData(SlaveID, OrderCmd, Data);
+                        break;
+
+                    default:
+                        replyDataBase = new SlaveUnknownReplyData(SlaveID, OrderCmd, Data);
                         break;
                 }
                 return UnPackageError.Normal;

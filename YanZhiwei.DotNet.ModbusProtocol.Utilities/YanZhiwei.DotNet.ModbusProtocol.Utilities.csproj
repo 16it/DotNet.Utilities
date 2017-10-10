@@ -49,7 +49,11 @@
     <Compile Include="Model\ReadHoldingRegistersData.cs" />
     <Compile Include="Model\ReadInputRegisters.cs" />
     <Compile Include="Model\SlaveReadCoilsReplyData.cs" />
+    <Compile Include="Model\SlaveReadDiscreteInputsReplyData.cs" />
+    <Compile Include="Model\SlaveReadHoldingRegisterReplyData.cs" />
+    <Compile Include="Model\SlaveReadInputRegistersReplyData.cs" />
     <Compile Include="Model\SlaveReplyDataBase.cs" />
+    <Compile Include="Model\SlaveUnknownReplyData.cs" />
     <Compile Include="Model\WriteMultipleCoilsData.cs" />
     <Compile Include="Model\WriteMultipleRegisterData.cs" />
     <Compile Include="Model\WriteSingleCoilData.cs" />

@@ -453,7 +453,17 @@
             ValidateOperator.Begin().NotNull(data, "需要转换得数据").CheckLessThan(data.Length, "需要转换的数据", 2, true);
             return BitConverter.ToUInt16(data, 0);
         }
-        
+
+        /// <summary>
+        ///将Byte数组转换Int16
+        /// </summary>
+        /// <param name="data">byte数组</param>
+        /// <returns>UInt16</returns>
+        public static short ToInt16(byte[] data)
+        {
+            ValidateOperator.Begin().NotNull(data, "需要转换得数据").CheckLessThan(data.Length, "需要转换的数据", 2, true);
+            return BitConverter.ToInt16(data, 0);
+        }
         private static string ToHexStringByBitConverter(byte[] bytes)
         {
             string _toHexString = BitConverter.ToString(bytes);
