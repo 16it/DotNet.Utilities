@@ -1,19 +1,23 @@
-﻿namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
+﻿using System;
+using YanZhiwei.DotNet.ModbusProtocol.Utilities.Model;
+using YanZhiwei.DotNet2.Utilities.Common;
+
+namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
 {
-    using System;
-
-    using YanZhiwei.DotNet.ModbusProtocol.Utilities.Model;
-    using YanZhiwei.DotNet2.Utilities.Builder;
-    using YanZhiwei.DotNet2.Utilities.Common;
-
-    /// <summary>
-    ///  Modbus Rtu模式拆包组包
-    /// </summary>
-    public sealed class ModBusRTUUnPackage
+    public sealed class ModBusTCPUnPackage
     {
         #region Properties
 
         public string FullPackageData
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// 事务标识符
+        /// </summary>
+        public byte[] TransactionIdentifier
         {
             get;
             private set;
@@ -26,6 +30,15 @@
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// 协议标识符
+        /// </summary>
+        public byte[] ProtocolIdentifier
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -47,13 +60,18 @@
         }
 
         /// <summary>
-        /// 数据长度
+        /// 长度
         /// </summary>
-        private byte DataLength
+        private byte[] Length
         {
             get;
             set;
         }
+
+        /// <summary>
+        /// 数据长度
+        /// </summary>
+        private byte DataLength { get; set; }
 
         /// <summary>
         /// 功能码
@@ -108,50 +126,32 @@
             try
             {
                 FullPackageData = ByteHelper.ToHexStringWithBlank(data);
-                SlaveID = data[0];//从设备地址
-                OrderCmd = data[1];//功能码
+                TransactionIdentifier = ArrayHelper.Copy(data, 0, 2);//事物标识符
+                ProtocolIdentifier = ArrayHelper.Copy(data, 2, 4);//协议标识符
+                Length = ArrayHelper.Copy(data, 4, 6);//长度
+                SlaveID = data[6];//从设备地址
+                OrderCmd = data[7];//功能码
                 unPackageError = UnPackageError.Normal;
-                if (data.Length == 5)
+                if (data.Length == 9)
                 {
-                    byte _errorCode = data[2];//错误代码
+                    byte _errorCode = data[8];//错误代码
                     if (_errorCode == 0x01 || _errorCode == 0x02 || _errorCode == 0x03 || _errorCode == 0x04)
                         unPackageError = (UnPackageError)_errorCode;
                 }
                 else
                 {
-                    //02 01 02 1F 00 F5 CC --Read Coils
+                    //00 77 00 00 00 05 02 01 02 1F 00--Read Coils
+                    //00 74 --事物标识符
+                    //00 00 --协议标识符
+                    //00 05 --长度
                     //02--从机地址
                     //01--功能码
-                    //02--数据长度
+                    //02 --数据长度
                     //1F 00--数据
-                    //F5 CC--CRC
 
-                    //02 02 02 1F 00 F5 88 --Read Discrete Inputs
-                    //02--从机地址
-                    //02--功能码
-                    //02--数据长度
-                    //1F 00--数据
-                    //F8 88--CRC
+                    DataLength = data[8];//数据长度
+                    Data = ArrayHelper.Copy(data, 9, 9 + DataLength);//实际数据
 
-                    //02 03 14 00 01 00 02 00 03 00 04 00 05 00 00 00 00 00 00 00 00 00 00 37 57
-                    //02--从机地址
-                    //03--功能码
-                    //14--数据长度
-                    //00 01 00 02 00 03 00 04 00 05 00 00 00 00 00 00 00 00 00 00--数据
-                    //37 57--CRC
-
-                    //02 04 14 00 01 00 02 00 03 00 04 00 05 00 00 00 00 00 00 00 00 00 00 01 B1
-                    //02--从机地址
-                    //04--功能码
-                    //14--数据长度
-                    //00 01 00 02 00 03 00 04 00 05 00 00 00 00 00 00 00 00 00 00--数据
-                    //01 B1--CRC
-
-                    int _packageLength = data.Length;
-                    DataLength = data[2];//数据长度
-                    CrcCaluData = ArrayHelper.Copy(data, 0, _packageLength - 2);
-                    Data = ArrayHelper.Copy(data, 3, 3 + DataLength);//实际数据
-                    CRC = ArrayHelper.Copy(data, _packageLength - 2, _packageLength);
                     _result = true;
                 }
             }
@@ -168,9 +168,6 @@
             try
             {
                 replyDataBase = null;
-                byte[] _expectCrc = ByteHelper.ToBytes(CRCBuilder.Calu16MODBUS(CrcCaluData), false);
-                if (!ArrayHelper.CompletelyEqual(_expectCrc, CRC))
-                    return UnPackageError.CRCError;
 
                 switch (OrderCmd)
                 {

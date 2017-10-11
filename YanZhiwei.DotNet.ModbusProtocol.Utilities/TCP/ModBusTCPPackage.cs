@@ -1,5 +1,4 @@
-﻿using YanZhiwei.DotNet.ModbusProtocol.Utilities;
-using YanZhiwei.DotNet.ModbusProtocol.Utilities.Enum;
+﻿using YanZhiwei.DotNet.ModbusProtocol.Utilities.Enum;
 using YanZhiwei.DotNet.ModbusProtocol.Utilities.Model;
 using YanZhiwei.DotNet2.Utilities.Builder;
 using YanZhiwei.DotNet2.Utilities.Common;
@@ -27,6 +26,74 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
         {
             ModbusHeader = mbapHeader;
             HanlderWriteSingleCoilData(masterWriteData);
+            HanlderWriteSingleRegisterData(masterWriteData);
+            HanlderWriteMultipleCoilsData(masterWriteData);
+            HanlderWriteMultipleRegisterData(masterWriteData);
+        }
+
+        private void HanlderWriteMultipleRegisterData(MasterWriteDataBase masterWriteData)
+        {
+            if (masterWriteData is WriteMultipleRegisterData)
+            {
+                //02 10 00 01 00 01 02 FF 01 33 41
+                //02--从机地址
+                //10--功能码
+                //00 01--寄存器地址
+                //00 01--寄存器数量
+                //02--数据长度
+                //FF 01--数据 -255
+                //33 41--CRC
+                WriteMultipleRegisterData _data = (WriteMultipleRegisterData)masterWriteData;
+                using (ByteArrayBuilder builder = new ByteArrayBuilder())
+                {
+                    builder.Append(_data.SlaveID);//高位在前
+                    builder.Append((byte)ModbusBaseOrderCmd.WriteMultipleRegister);//功能码
+                    builder.Append(ByteHelper.ToBytes(_data.Address, true));//高位在前
+                    builder.Append(ByteHelper.ToBytes(_data.Quantity, true));//数量
+
+                    byte _coilsCount = (byte)(_data.Value.Length * 2);
+                    builder.Append(_coilsCount);
+                    foreach (short item in _data.Value)
+                    {
+                        byte[] _registerValue = item.ToBytes(true);
+                        builder.Append(_registerValue);
+                    }
+
+                    ModBusAppData = builder.ToArray();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 处理多个线圈写入
+        /// </summary>
+        /// <param name="masterWriteData">Modubs Master 写入数据</param>
+        private void HanlderWriteMultipleCoilsData(MasterWriteDataBase masterWriteData)
+        {
+            if (masterWriteData is WriteMultipleCoilsData)
+            {
+                //02 0F 00 01 00 0A 02 FF 03 F1 E8
+                //02--从机地址
+                //0F--功能码
+                //00 01--寄存器地址
+                //00 0A--寄存器数量
+                //02--数据长度
+                //FF 03--数据
+                //F1 E8--CRC
+                WriteMultipleCoilsData _data = (WriteMultipleCoilsData)masterWriteData;
+                using (ByteArrayBuilder builder = new ByteArrayBuilder())
+                {
+                    builder.Append(_data.SlaveID);//高位在前
+                    builder.Append((byte)ModbusBaseOrderCmd.WriteMultipleCoils);//功能码
+                    builder.Append(ByteHelper.ToBytes(_data.Address, true));//高位在前
+                    builder.Append(ByteHelper.ToBytes(_data.Quantity, true));//数量
+                    byte[] _coilsValue = _data.ColisStatus.ToBytes();
+                    byte _coilsCount = (byte)_coilsValue.Length;
+                    builder.Append(_coilsCount);
+                    builder.Append(_coilsValue);
+                    ModBusAppData = builder.ToArray();
+                }
+            }
         }
 
         /// <summary>
@@ -35,7 +102,6 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
         /// <param name="masterWriteData">Modubs Master 写入数据</param>
         public ModBusTCPPackage(MasterWriteDataBase masterWriteData) : this(new StandardMBAPHeader(), masterWriteData)
         {
-            HanlderWriteSingleCoilData(masterWriteData);
         }
 
         /// <summary>
@@ -62,6 +128,66 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
                     builder.Append(ByteHelper.ToBytes(_data.Address, true));//高位在前
                     builder.Append(_data.OnOff == true ? _on : _off);//数值
                     builder.Append(_off);
+                    ModBusAppData = builder.ToArray();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 处理单个寄存器写入
+        /// </summary>
+        /// <param name="masterWriteData">Modubs Master 写入数据</param>
+        private void HanlderWriteSingleRegisterData(MasterWriteDataBase masterWriteData)
+        {
+            if (masterWriteData is WriteSingleRegisterData)
+            {
+                //02 06 00 01 00 03 98 38
+                //02 --从设备地址
+                //06 --功能码
+                //00 01 --寄存器起始地址
+                //03 --寄存器写入值
+                //98 38 --CRC
+                WriteSingleRegisterData _data = (WriteSingleRegisterData)masterWriteData;
+
+                using (ByteArrayBuilder builder = new ByteArrayBuilder())
+                {
+                    builder.Append(_data.SlaveID);//高位在前
+                    builder.Append((byte)ModbusBaseOrderCmd.WriteSingleRegister);//功能码
+                    builder.Append(ByteHelper.ToBytes(_data.Address, true));//高位在前
+                    builder.Append(ByteHelper.ToBytes(_data.Value, true));
+                    ModBusAppData = builder.ToArray();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 读取线圈/寄存器组包 构造函数
+        /// </summary>
+        /// <param name="masterReadData">Modubs Master 读取数据</param>
+        public ModBusTCPPackage(MasterReadDataBase masterReadData)
+        {
+            HanlderModbusBaseRead(masterReadData);
+        }
+
+        private void HanlderModbusBaseRead(MasterReadDataBase masterReadData)
+        {
+            byte _readOrderCmd = 0x00;
+            if (masterReadData is ReadCoilsData)
+                _readOrderCmd = (byte)ModbusBaseOrderCmd.ReadCoilStatus;
+            else if (masterReadData is ReadDiscreteInputData)
+                _readOrderCmd = (byte)ModbusBaseOrderCmd.ReadInputStatus;
+            else if (masterReadData is ReadHoldingRegistersData)
+                _readOrderCmd = (byte)ModbusBaseOrderCmd.ReadHoldingRegister;
+            else if (masterReadData is ReadInputRegisters)
+                _readOrderCmd = (byte)ModbusBaseOrderCmd.ReadInputRegister;
+            if (_readOrderCmd != 0x00)
+            {
+                using (ByteArrayBuilder builder = new ByteArrayBuilder())
+                {
+                    builder.Append(masterReadData.SlaveID);//高位在前
+                    builder.Append(_readOrderCmd);//功能码
+                    builder.Append(ByteHelper.ToBytes(masterReadData.Address, true));//高位在前
+                    builder.Append(ByteHelper.ToBytes(masterReadData.Quantity, true));//数量
                     ModBusAppData = builder.ToArray();
                 }
             }

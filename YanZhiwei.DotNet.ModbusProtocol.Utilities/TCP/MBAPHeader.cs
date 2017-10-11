@@ -9,6 +9,9 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
     {
         private static readonly object syncRoot = new object();
 
+        /// <summary>
+        /// 事务标识符递增
+        /// </summary>
         public void IncreaseTranIdentifier()
         {
             lock (syncRoot)
@@ -20,7 +23,7 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
             }
         }
 
-        private ushort transactionId
+        private static ushort transactionId
         {
             get; set;
         }
@@ -60,8 +63,8 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
         /// <param name="data">计算长度的数据部分</param>
         public MBAPHeader(ushort transactionIdentifier, ushort protocolIdentifier, byte[] data)
         {
-            transactionId = transactionIdentifier;
-            TransactionIdentifier = ByteHelper.ToBytes(transactionIdentifier, false);
+            transactionId = transactionIdentifier == ushort.MinValue ? transactionId : transactionIdentifier;
+            TransactionIdentifier = ByteHelper.ToBytes(transactionId, false);
             ProtocolIdentifier = ByteHelper.ToBytes(protocolIdentifier, false);
             Length = data == null ? new byte[2] { 0x00, 0x00 } : ByteHelper.ToBytes((ushort)data.Length, false);
         }
