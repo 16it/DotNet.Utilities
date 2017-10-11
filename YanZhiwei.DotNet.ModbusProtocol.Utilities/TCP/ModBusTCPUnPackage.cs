@@ -1,9 +1,10 @@
-﻿using System;
-using YanZhiwei.DotNet.ModbusProtocol.Utilities.Model;
-using YanZhiwei.DotNet2.Utilities.Common;
-
-namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
+﻿namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
 {
+    using System;
+
+    using YanZhiwei.DotNet.ModbusProtocol.Utilities.Model;
+    using YanZhiwei.DotNet2.Utilities.Common;
+
     /// <summary>
     /// Modbus Tcp模式拆包组包
     /// </summary>
@@ -12,6 +13,15 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
         #region Properties
 
         public string FullPackageData
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// 协议标识符
+        /// </summary>
+        public byte[] ProtocolIdentifier
         {
             get;
             private set;
@@ -36,15 +46,6 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
         }
 
         /// <summary>
-        /// 协议标识符
-        /// </summary>
-        public byte[] ProtocolIdentifier
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// CRC计算部分
         /// </summary>
         private byte[] CrcCaluData
@@ -63,6 +64,14 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
         }
 
         /// <summary>
+        /// 数据长度
+        /// </summary>
+        private byte DataLength
+        {
+            get; set;
+        }
+
+        /// <summary>
         /// 长度
         /// </summary>
         private byte[] Length
@@ -70,11 +79,6 @@ namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
             get;
             set;
         }
-
-        /// <summary>
-        /// 数据长度
-        /// </summary>
-        private byte DataLength { get; set; }
 
         /// <summary>
         /// 功能码
