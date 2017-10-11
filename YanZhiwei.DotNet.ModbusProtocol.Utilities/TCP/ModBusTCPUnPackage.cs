@@ -4,6 +4,9 @@ using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet.ModbusProtocol.Utilities
 {
+    /// <summary>
+    /// Modbus Tcp模式拆包组包
+    /// </summary>
     public sealed class ModBusTCPUnPackage
     {
         #region Properties
