@@ -54,39 +54,39 @@
         {
             get
             {
-                long cacheSize = 0;
+                long _cacheSize = 0;
 
-                foreach (var v in CacheStore)
+                foreach (var item in CacheStore)
                 {
                     using (Stream s = new MemoryStream())
                     {
-                        if (v.Value is IQueryable)
+                        if (item.Value is IQueryable)
                         {
                             long _listSize = 0;
 
-                            foreach (var q in (IQueryable)v.Value)
+                            foreach (var q in (IQueryable)item.Value)
                             {
                                 BinaryFormatter _binaryFormatter = new BinaryFormatter();
                                 _binaryFormatter.Serialize(s, q);
                                 _listSize += s.Length;
                             }
 
-                            cacheSize += _listSize;
+                            _cacheSize += _listSize;
                             continue;
                         }
 
                         BinaryFormatter _formatter = new BinaryFormatter();
-                        _formatter.Serialize(s, v.Value);
-                        cacheSize += s.Length;
+                        _formatter.Serialize(s, item.Value);
+                        _cacheSize += s.Length;
                     }
                 }
 
-                return cacheSize;
+                return _cacheSize;
             }
         }
 
         /// <summary>
-        /// Returns the default expiration time for a memory
+        /// 默认过期时间
         /// </summary>
         public static DateTimeOffset DefaultExpirationTime
         {
@@ -97,9 +97,11 @@
         }
 
         /// <summary>
-        /// Gets the maximum amount cache available to the server.
+        /// 获取计算机缓存可使用的内存量
         /// </summary>
-        /// <returns>The amount of memory that can be used for cache.</returns>
+        /// <value>
+        /// 可使用的内存量
+        /// </value>
         public static long MaximumCacheSize
         {
             get
@@ -109,9 +111,11 @@
         }
 
         /// <summary>
-        /// Gets the amount of memory the cache can use.
+        /// 可以使用的总的物理计算机内存的百分比
         /// </summary>
-        /// <returns>The amount of memory that can be used for cache.</returns>
+        /// <value>
+        /// 物理计算机内存的百分比
+        /// </value>
         public static long PhysicalMemoryLimit
         {
             get
@@ -125,13 +129,12 @@
         #region Methods
 
         /// <summary>
-        /// Add an object to the cache.
+        /// 添加缓存
         /// </summary>
-        /// <param name="key">The key of the object to add.</param>
-        /// <param name="objectToCache">The object to add to the cache.</param>
+        /// <param name="key">缓存Key</param>
+        /// <param name="objectToCache">缓存对象</param>
         public static void Add(string key, object objectToCache)
         {
-            //default expiration time is 30 minutes
             Add(key, objectToCache, new CacheItemPolicy()
             {
                 AbsoluteExpiration = DefaultExpirationTime
@@ -139,232 +142,142 @@
         }
 
         /// <summary>
-        /// Add an object to the cache.
+        /// 添加缓存
         /// </summary>
-        /// <param name="key">The key of the object to add.</param>
-        /// <param name="objectToCache">The object to add to the cache.</param>
-        /// <param name="policy">The policies for the cached object.</param>
+        /// <param name="key">缓存Key</param>
+        /// <param name="objectToCache">缓存对象</param>
+        /// <param name="policy">缓存策略</param>
         public static void Add(string key, object objectToCache, CacheItemPolicy policy)
         {
             CacheStore.Add(key, objectToCache, policy);
         }
 
-        /// <summmary>
-        /// Retrieves an object from cache or adds it if it does not exist.
-        /// </summmary>
-        /// <param name="key">The key of the object to add.</param>
-        /// <param name="objectToCache">The object to add to the cache.</param>
-        /// <typeparam name="T">The type of object that is expected to retrieve from the function.</typeparam>
-        /// <returns>A type of object T.</returns>
-        public static T AddOrGetFromCache<T>(string key, object objectToCache)
+        /// <summary>
+        /// 若缓存存在则获取，若缓存不存在则增加
+        /// </summary>
+        /// <param name="key">缓存Key</param>
+        /// <param name="objectToCache">缓存对象</param>
+        /// <returns>缓存对象</returns>
+        public static T AddOrGet<T>(string key, object objectToCache)
             where T : class
         {
-            return AddOrGetFromCache<T>(key, objectToCache, new CacheItemPolicy()
+            return AddOrGet<T>(key, objectToCache, new CacheItemPolicy()
 
             {
                 AbsoluteExpiration = DefaultExpirationTime
             });
-        }
-
-        /// <summmary>
-        /// Retrieves an object from cache or adds it if it does not exist.
-        /// </summmary>
-        /// <param name="key">The key of the object to add.</param>
-        /// <param name="objectToCache">The object to add to the cache.</param>
-        /// <param name="policy">A set of eviction and expiration details for a specific cache entry. </param>
-        /// <typeparam name="T">The type of object that is expected to retrieve from the function.</typeparam>
-        /// <returns>A type of object T.</returns>
-        public static T AddOrGetFromCache<T>(string key, object objectToCache, CacheItemPolicy policy)
-            where T : class
-        {
-            object cachedObject = GetFromCache<T>(key);
-
-            if (cachedObject == null)
-
-            {
-                Add(key, objectToCache, policy);
-                cachedObject = objectToCache;
-            }
-
-            return (T)cachedObject;
-        }
-
-        /// <summmary>
-        /// Retrieves an object from cache or adds it if it does not exist.
-        /// </summmary>
-        /// <typeparam name="T">The type of object that is expected to retrieve from the function.</typeparam>
-        /// <param name="key">The key of the object to add.</param>
-        /// <param name="func">A lambda expression that will be used to retrieve the object if not cached.</param>
-        /// <returns>A type of object T.</returns>
-        public static T AddOrGetFromCache<T>(string key, Func<T> func)
-            where T : class
-        {
-            //default expiration time is 30 minutes
-
-            return AddOrGetFromCache<T>(key, func, new CacheItemPolicy()
-
-            {
-                AbsoluteExpiration = DefaultExpirationTime
-            });
-        }
-
-        /// <summmary>
-        /// Retrieves an object from cache or adds it if it does not exist.
-        /// </summmary>
-        /// <typeparam name="T">The type of object that is expected to retrieve from the function.</typeparam>
-        /// <param name="key">The key of the object to add.</param>
-        /// <param name="func">A lambda expression that will be used to retrieve the object if not cached.</param>
-        /// <param name="policy">The policies for the cached object.</param>
-        /// <returns>A type of object T.</returns>
-        public static T AddOrGetFromCache<T>(string key, Func<T> func, CacheItemPolicy policy)
-            where T : class
-        {
-            object cachedObject = GetFromCache<T>(key);
-
-            if (cachedObject == null)
-
-            {
-                var objectToCache = func();
-                Add(key, objectToCache, policy);
-                cachedObject = objectToCache;
-            }
-
-            return (T)cachedObject;
         }
 
         /// <summary>
-        /// Clears the cache of all objects.
+        /// 若缓存存在则获取，若缓存不存在则增加
+        /// </summary>
+        /// <param name="key">缓存Key</param>
+        /// <param name="objectToCache">缓存对象</param>
+        /// <param name="policy">缓存策略</param>
+        /// <returns>缓存对象</returns>
+        public static T AddOrGet<T>(string key, object objectToCache, CacheItemPolicy policy)
+            where T : class
+        {
+            object _cachedObject = Get<T>(key);
+
+            if (_cachedObject == null)
+
+            {
+                Add(key, objectToCache, policy);
+                _cachedObject = objectToCache;
+            }
+
+            return (T)_cachedObject;
+        }
+
+        /// <summary>
+        ///  若缓存存在则获取，若缓存不存在则增加
+        /// </summary>
+        /// <param name="key">缓存Key</param>
+        /// <param name="cacheFactory">缓存委托</param>
+        /// <returns>缓存对象</returns>
+        public static T AddOrGet<T>(string key, Func<T> cacheFactory)
+            where T : class
+        {
+            return AddOrGet<T>(key, cacheFactory, new CacheItemPolicy()
+
+            {
+                AbsoluteExpiration = DefaultExpirationTime
+            });
+        }
+
+        /// <summary>
+        ///  若缓存存在则获取，若缓存不存在则增加
+        /// </summary>
+        /// <param name="key">缓存Key</param>
+        /// <param name="cacheFactory">缓存委托</param>
+        /// <param name="policy">缓存策略</param>
+        /// <returns>缓存对象</returns>
+        public static T AddOrGet<T>(string key, Func<T> cacheFactory, CacheItemPolicy policy)
+            where T : class
+        {
+            object _cachedObject = Get<T>(key);
+
+            if (_cachedObject == null)
+
+            {
+                var _objectToCache = cacheFactory();
+                Add(key, _objectToCache, policy);
+                _cachedObject = _objectToCache;
+            }
+
+            return (T)_cachedObject;
+        }
+
+        /// <summary>
+        /// 清楚所有缓存
         /// </summary>
         public static void ClearCache()
         {
-            foreach (var v in CacheStore)
+            foreach (var item in CacheStore)
             {
-                CacheStore.Remove(v.Key);
+                CacheStore.Remove(item.Key);
             }
         }
 
         /// <summary>
-        /// Deletes an object from the cache.
+        /// 删除缓存
         /// </summary>
-        /// <param name="key">The key for the object to remove.</param>
-        /// <returns>The object that was removed, or null if not removed.</returns>
-        public static object DeleteCacheEntry(string key)
+        /// <param name="key">缓存Key</param>
+        /// <returns>缓存对象</returns>
+        public static object Delete(string key)
         {
             return CacheStore.Remove(key);
         }
 
         /// <summary>
-        /// Deletes an object from the cache that starts with the specified key.
+        /// 删除key开头匹配缓存
         /// </summary>
-        /// <param name="key">The key for the object to remove.</param>
-        /// <returns>The object that was removed, or null if not removed.</returns>
-        public static IEnumerable<object> DeleteCacheEntryStartsWith(string key)
+        /// <param name="key">缓存Key</param>
+        /// <returns>缓存对象</returns>
+        public static IEnumerable<object> DeleteStartsWith(string key)
         {
             if (string.IsNullOrEmpty(key)) return null;
 
-            var objects = new List<object>();
+            var _cacheList = new List<object>();
 
-            foreach (var entry in CacheStore)
+            foreach (var item in CacheStore)
             {
-                if (entry.Key.StartsWith(key))
+                if (item.Key.StartsWith(key, StringComparison.OrdinalIgnoreCase))
                 {
-                    objects.Add(CacheStore.Remove(entry.Key));
+                    _cacheList.Add(CacheStore.Remove(item.Key));
                 }
             }
 
-            return objects;
+            return _cacheList;
         }
 
         /// <summary>
-        /// Gets a list of key value pairs containing the key and value for the cache.
+        /// 获取缓存
         /// </summary>
-        /// <returns>A dictionary of strins containing key and value pairs for the cache.</returns>
-        public static Dictionary<string, string> GetAllCacheInfo()
-        {
-            var list = new Dictionary<string, string>();
-
-            foreach (var v in CacheStore)
-            {
-                list.Add(v.Key, GetEntryInfo(v.Key));
-            }
-
-            return list;
-        }
-
-        /// <summary>
-        /// Gets all keys in the Cache.
-        /// </summary>
-        /// <returns>A list containing all keys found in the cache.</returns>
-        public static List<string> GetAllCacheKeys()
-        {
-            var list = new List<string>();
-
-            foreach (var v in CacheStore)
-            {
-                list.Add(v.Key);
-            }
-
-            return list;
-        }
-
-        /// <summary>
-        /// Gets a serialized form of the object in cache.
-        /// </summary>
-        /// <param name="key">The key of the cached object.</param>
-        /// <returns>A serialized string of the cached object.</returns>
-        public static string GetEntryInfo(string key)
-        {
-            var value = CacheStore.Get(key);
-            var infoString = new StringBuilder("");
-
-            if (value != null)
-            {
-                if (value is IQueryable)
-                {
-                    foreach (var q in (IQueryable)value)
-                    {
-                        XmlSerializer srl = new XmlSerializer(q.GetType());
-
-                        using (StringWriter writer = new StringWriter())
-                        {
-                            using (XmlTextWriter tw = new XmlTextWriter(writer))
-                            {
-                                tw.Formatting = Formatting.Indented;
-                                tw.Indentation = 4;
-                                srl.Serialize(tw, q);
-                                infoString.AppendLine(writer.ToString());
-                                infoString.AppendLine();
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    XmlSerializer serializer = new XmlSerializer(value.GetType());
-
-                    using (StringWriter writer = new StringWriter())
-                    {
-                        using (XmlTextWriter tw = new XmlTextWriter(writer))
-                        {
-                            tw.Formatting = Formatting.Indented;
-                            tw.Indentation = 4;
-                            serializer.Serialize(tw, value);
-                            infoString.AppendLine(writer.ToString());
-                        }
-                    }
-                }
-            }
-
-            return infoString.ToString();
-        }
-
-        /// <summary>
-        /// Get an object from cache.
-        /// </summary>
-        /// <typeparam name="T">The type of the object to get.</typeparam>
-        /// <param name="key">The key of the object to retrieve.</param>
-        /// <returns>A type of </returns>
-        public static T GetFromCache<T>(string key)
+        /// <param name="key">缓存Key</param>
+        /// <returns>缓存对象</returns>
+        public static T Get<T>(string key)
             where T : class
         {
             try
@@ -376,6 +289,94 @@
 
             {
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// 获取所有缓存集合信息
+        /// </summary>
+        /// <returns>缓存集合信息</returns>
+        public static Dictionary<string, string> GetAllCacheInfo()
+        {
+            var _allCaches = new Dictionary<string, string>();
+
+            foreach (var item in CacheStore)
+            {
+                _allCaches.Add(item.Key, GetInfo(item.Key));
+            }
+
+            return _allCaches;
+        }
+
+        /// <summary>
+        /// 获取所有缓存key
+        /// </summary>
+        /// <returns>缓存key集合</returns>
+        public static List<string> GetAllCacheKeys()
+        {
+            var _allCacheKeys = new List<string>();
+
+            foreach (var item in CacheStore)
+            {
+                _allCacheKeys.Add(item.Key);
+            }
+
+            return _allCacheKeys;
+        }
+
+        /// <summary>
+        /// 获取缓存对象信息
+        /// </summary>
+        /// <param name="key">缓存Key</param>
+        /// <returns>缓存对象信息</returns>
+        public static string GetInfo(string key)
+        {
+            var _cacheObject = CacheStore.Get(key);
+            StringBuilder _builder = new StringBuilder();
+
+            if (_cacheObject != null)
+            {
+                HanlderXmlCacheObject(_cacheObject, _builder);
+            }
+
+            return _builder.ToString();
+        }
+
+        private static void HanlderXmlCacheObject(object cacheObject, StringBuilder builder)
+        {
+            if (cacheObject is IQueryable)
+            {
+                foreach (var item in (IQueryable)cacheObject)
+                {
+                    XmlSerializer _xmlSerializer = new XmlSerializer(item.GetType());
+
+                    using (StringWriter writer = new StringWriter())
+                    {
+                        using (XmlTextWriter tw = new XmlTextWriter(writer))
+                        {
+                            tw.Formatting = Formatting.Indented;
+                            tw.Indentation = 4;
+                            _xmlSerializer.Serialize(tw, item);
+                            builder.AppendLine(writer.ToString());
+                            builder.AppendLine();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                XmlSerializer _xmlSerializer = new XmlSerializer(cacheObject.GetType());
+
+                using (StringWriter writer = new StringWriter())
+                {
+                    using (XmlTextWriter tw = new XmlTextWriter(writer))
+                    {
+                        tw.Formatting = Formatting.Indented;
+                        tw.Indentation = 4;
+                        _xmlSerializer.Serialize(tw, cacheObject);
+                        builder.AppendLine(writer.ToString());
+                    }
+                }
             }
         }
 
