@@ -225,6 +225,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ModbusProt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.ModbusProtocol.UtilitiesTests", "YanZhiwei.DotNet.ModbusProtocol.UtilitiesTests\YanZhiwei.DotNet.ModbusProtocol.UtilitiesTests.csproj", "{3A4C7477-1CFF-4A20-B1D5-5BA67183E252}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.MQ", "YanZhiwei.DotNet.Core.MQ\YanZhiwei.DotNet.Core.MQ.csproj", "{192A6A78-F126-41BE-8D8E-189898606FB9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MQ", "MQ", "{EB010C36-B2FB-4E45-B9DD-3109770CE74D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.ActiveMQ", "YanZhiwei.DotNet.Core.ActiveMQ\YanZhiwei.DotNet.Core.ActiveMQ.csproj", "{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1745,6 +1751,38 @@ Global
 		{3A4C7477-1CFF-4A20-B1D5-5BA67183E252}.Release|x64.Build.0 = Release|Any CPU
 		{3A4C7477-1CFF-4A20-B1D5-5BA67183E252}.Release|x86.ActiveCfg = Release|Any CPU
 		{3A4C7477-1CFF-4A20-B1D5-5BA67183E252}.Release|x86.Build.0 = Release|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Debug|ARM.Build.0 = Debug|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Debug|x64.Build.0 = Debug|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Debug|x86.Build.0 = Debug|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Release|ARM.ActiveCfg = Release|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Release|ARM.Build.0 = Release|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Release|x64.ActiveCfg = Release|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Release|x64.Build.0 = Release|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Release|x86.ActiveCfg = Release|Any CPU
+		{192A6A78-F126-41BE-8D8E-189898606FB9}.Release|x86.Build.0 = Release|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Debug|ARM.Build.0 = Debug|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Debug|x64.Build.0 = Debug|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Debug|x86.Build.0 = Debug|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Release|ARM.ActiveCfg = Release|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Release|ARM.Build.0 = Release|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Release|x64.ActiveCfg = Release|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Release|x64.Build.0 = Release|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Release|x86.ActiveCfg = Release|Any CPU
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1850,9 +1888,12 @@ Global
 		{0D3C4D86-27EC-4E99-A75A-2AEB7EDA3250} = {0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}
 		{184760F1-3DB0-49E6-803C-D5AB31474939} = {0F57D6EA-25D0-41AD-B39C-48507DD64F13}
 		{3A4C7477-1CFF-4A20-B1D5-5BA67183E252} = {0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}
+		{192A6A78-F126-41BE-8D8E-189898606FB9} = {EB010C36-B2FB-4E45-B9DD-3109770CE74D}
+		{EB010C36-B2FB-4E45-B9DD-3109770CE74D} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
+		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310} = {EB010C36-B2FB-4E45-B9DD-3109770CE74D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 		SolutionGuid = {3C77B6A4-A666-4D9D-8B43-95B85D4DE00E}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 	EndGlobalSection
 EndGlobal
