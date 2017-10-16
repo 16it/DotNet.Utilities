@@ -17,7 +17,6 @@
         /// <param name="data">Array</param>
         /// <returns>List对象集合</returns>
         public static List<T> ToList<T>(this Array data)
-            where T : class, new()
         {
             return data.Cast<T>().ToList<T>();
         }

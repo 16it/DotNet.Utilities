@@ -11,10 +11,10 @@
     /// <summary>
     /// WCF服务寄宿抽象基类
     /// </summary>
-    /// <typeparam name="ServerType">wcf服务类型</typeparam>
-    /// <typeparam name="ContractType">wcf服务回调类型</typeparam>
+    /// <typeparam name="ServerType">The type of the erver type.</typeparam>
+    /// <typeparam name="ContractType">The type of the ontract type.</typeparam>
     public abstract class WcfServiceHostFactory<ServerType, ContractType>
-        where ServerType : class
+        where ServerType : ContractType
         where ContractType : IContractService
     {
         #region Constructors
