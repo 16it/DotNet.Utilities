@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="CallContext\CommonCallContext.cs" />
     <Compile Include="CallContext\WCFCallContext.cs" />
+    <Compile Include="Common\ArrayHelper.cs" />
     <Compile Include="Common\AssemblyHelper.cs" />
     <Compile Include="Common\DisplayNameHelper.cs" />
     <Compile Include="Common\GuidHelper.cs" />
