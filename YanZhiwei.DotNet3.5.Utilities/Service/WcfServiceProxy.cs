@@ -9,7 +9,7 @@
     /// <summary>
     /// Wcf 服务代理抽象类
     /// </summary>
-    public abstract class WcfServiceProxy<T>
+    public abstract class WCFServiceProxy<T>
         where T : class
     {
         #region Constructors
@@ -20,7 +20,7 @@
         /// <param name="serviceURL">WCF服务地址</param>
         /// <param name="maxReceivedMessageSize">获取或设置配置了此绑定的通道上可以接收的消息的最大大小</param>
         /// <param name="timeout">超时时间</param>
-        public WcfServiceProxy(string serviceURL, int maxReceivedMessageSize, TimeSpan timeout)
+        public WCFServiceProxy(string serviceURL, int maxReceivedMessageSize, TimeSpan timeout)
         {
             ServiceURL = serviceURL;
             MaxReceivedMessageSize = maxReceivedMessageSize;
@@ -31,7 +31,7 @@
         /// 构造函数
         /// </summary>
         /// <param name="serviceURL">WCF服务地址</param>
-        public WcfServiceProxy(string serviceURL)
+        public WCFServiceProxy(string serviceURL)
             : this(serviceURL, 2147483647, TimeSpan.FromMinutes(10))
         {
         }

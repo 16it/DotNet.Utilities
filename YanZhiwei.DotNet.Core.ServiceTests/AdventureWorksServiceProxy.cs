@@ -9,7 +9,7 @@ using YanZhiwei.DotNet3._5.Utilities.WCF;
 
 namespace YanZhiwei.DotNet.Core.ServiceTests
 {
-    public class AdventureWorksServiceProxy : WcfServiceProxy, IServiceBase
+    public class AdventureWorksServiceProxy : WCFServiceProxy, IServiceBase
     {
         protected override int MaxReceivedMessageSize => 2147483647;
 

@@ -13,7 +13,7 @@
     /// </summary>
     /// <typeparam name="ServerType">The type of the erver type.</typeparam>
     /// <typeparam name="ContractType">The type of the ontract type.</typeparam>
-    public abstract class WcfServiceHostFactory<ServerType, ContractType>
+    public abstract class WCFServiceHostFactory<ServerType, ContractType>
         where ServerType : ContractType
         where ContractType : IContractService
     {
@@ -25,7 +25,7 @@
         /// <param name="serviceURL">WCF服务地址</param>
         /// <param name="maxReceivedMessageSize">获取或设置配置了此绑定的通道上可以接收的消息的最大大小</param>
         /// <param name="timeout">超时时间</param>
-        public WcfServiceHostFactory(string serviceURL, int maxReceivedMessageSize, TimeSpan timeout)
+        public WCFServiceHostFactory(string serviceURL, int maxReceivedMessageSize, TimeSpan timeout)
         {
             ServiceURL = serviceURL;
             MaxReceivedMessageSize = maxReceivedMessageSize;
@@ -36,7 +36,7 @@
         /// 构造函数
         /// </summary>
         /// <param name="serviceURL">WCF服务地址</param>
-        public WcfServiceHostFactory(string serviceURL)
+        public WCFServiceHostFactory(string serviceURL)
             : this(serviceURL, 2147483647, TimeSpan.FromMinutes(10))
         {
         }
