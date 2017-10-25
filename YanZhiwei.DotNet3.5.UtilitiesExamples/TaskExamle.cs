@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using YanZhiwei.DotNet2.Utilities.Common;
-using YanZhiwei.DotNet3._5.Interfaces;
 using YanZhiwei.DotNet3._5.Utilities.Core;
 using YanZhiwei.DotNet3._5.Utilities.Core.SchedulerType;
+using YanZhiwei.DotNet3._5.Utilities.Interfaces;
 
 namespace YanZhiwei.DotNet3._5.Utilities.Examples
 {
@@ -34,12 +34,12 @@ namespace YanZhiwei.DotNet3._5.Utilities.Examples
                 "YanZhiwei");
                 _task1.Start(DateTime.Now.FormatDate(1));
 
-                while(JobScheduler.Count > 0)
+                while (JobScheduler.Count > 0)
                 {
                     Thread.Sleep(1000);
                     Job cc = JobScheduler.Find("YanZhiwei");
 
-                    if(cc != null)
+                    if (cc != null)
                         Console.WriteLine("NextExecuteTime:" + cc.NextExecuteTime);
                 }
             }
