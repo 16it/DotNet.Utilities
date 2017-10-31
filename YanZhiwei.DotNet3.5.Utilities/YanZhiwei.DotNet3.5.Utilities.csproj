@@ -81,6 +81,7 @@
     <Compile Include="Core\HttpStorageObjectBase.cs" />
     <Compile Include="Enum\SerializationType.cs" />
     <Compile Include="Enum\ThumbnailImageCutMode.cs" />
+    <Compile Include="Interfaces\IContractCallback.cs" />
     <Compile Include="Interfaces\IContractService.cs" />
     <Compile Include="Interfaces\ISchedule.cs" />
     <Compile Include="Lambda\RecursiveSelectLambda.cs" />

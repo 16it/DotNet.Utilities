@@ -5,6 +5,7 @@
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
     using System.Xml;
+    using YanZhiwei.DotNet3._5.Utilities.Interfaces;
 
     /// <summary>
     /// Wcf 服务代理抽象类
@@ -19,12 +20,14 @@
         /// </summary>
         /// <param name="serviceURL">WCF服务地址</param>
         /// <param name="maxReceivedMessageSize">获取或设置配置了此绑定的通道上可以接收的消息的最大大小</param>
-        /// <param name="timeout">超时时间</param>
-        public WCFServiceProxy(string serviceURL, int maxReceivedMessageSize, TimeSpan timeout)
+        /// <param name="openTimeout">超时时间</param>
+        public WCFServiceProxy(string serviceURL, int maxReceivedMessageSize, TimeSpan openTimeout, TimeSpan receiveTimeout, TimeSpan sendTimeout)
         {
             ServiceURL = serviceURL;
             MaxReceivedMessageSize = maxReceivedMessageSize;
-            Timeout = timeout;
+            OpenTimeout = openTimeout;
+            ReceiveTimeout = receiveTimeout;
+            SendTimeout = sendTimeout;
         }
 
         /// <summary>
@@ -32,7 +35,7 @@
         /// </summary>
         /// <param name="serviceURL">WCF服务地址</param>
         public WCFServiceProxy(string serviceURL)
-            : this(serviceURL, 2147483647, TimeSpan.FromMinutes(10))
+            : this(serviceURL, 6553600, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(30))
         {
         }
 
@@ -68,9 +71,27 @@
         }
 
         /// <summary>
-        /// 超时时间
+        /// 设置在传输引发异常之前可用于打开连接的时间间隔
         /// </summary>
-        public TimeSpan Timeout
+        public TimeSpan OpenTimeout
+        {
+            get;    // TimeSpan.FromMinutes(10);
+            protected set;
+        }
+
+        /// <summary>
+        /// 设置在传输引发异常之前可用于完成写入操作的时间间隔
+        /// </summary>
+        public TimeSpan ReceiveTimeout
+        {
+            get;    // TimeSpan.FromMinutes(10);
+            protected set;
+        }
+
+        /// <summary>
+        /// 设置连接在撤消之前保持非活动状态的最大时间间隔，在此时间间隔内未接收任何应用程序消息
+        /// </summary>
+        public TimeSpan SendTimeout
         {
             get;    // TimeSpan.FromMinutes(10);
             protected set;
@@ -115,7 +136,7 @@
         /// 使用 TCP 协议，用于在局域网(Intranet)内跨机器通信。有几个特点：可靠性、事务支持和安全，优化了 WCF 到 WCF 的通信。限制是服务端和客户端都必须使用 WCF 来实现。
         /// </summary>
         public virtual T CreateNetTcpChannel<DataContractCallBack>()
-            where DataContractCallBack : class, new()
+            where DataContractCallBack : IContractCallback, new()
         {
             Binding _binding = CreateNetTcpBinding();
             return CreateDuplexChannelFactory<DataContractCallBack>(_binding);
@@ -154,9 +175,9 @@
             _basicHttpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
             _basicHttpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
             _basicHttpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
-            _basicHttpBinding.OpenTimeout = Timeout;
-            _basicHttpBinding.ReceiveTimeout = Timeout;
-            _basicHttpBinding.SendTimeout = Timeout;
+            _basicHttpBinding.OpenTimeout = OpenTimeout;
+            _basicHttpBinding.ReceiveTimeout = ReceiveTimeout;
+            _basicHttpBinding.SendTimeout = SendTimeout;
             return _basicHttpBinding;
         }
 
@@ -178,7 +199,7 @@
         }
 
         private T CreateDuplexChannelFactory<DataContractCallBack>(Binding binding)
-            where DataContractCallBack : class, new()
+            where DataContractCallBack : IContractCallback, new()
         {
             DataContractCallBack _contractCall = new DataContractCallBack();
             InstanceContext _context = new InstanceContext(_contractCall);
@@ -207,11 +228,11 @@
             _netTcpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
             _netTcpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
             _netTcpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
-            _netTcpBinding.OpenTimeout = Timeout;
-            _netTcpBinding.ReceiveTimeout = Timeout;
-            _netTcpBinding.SendTimeout = Timeout;
-            _netTcpBinding.ListenBacklog = 1000;
-            _netTcpBinding.MaxConnections = 1000;
+            _netTcpBinding.OpenTimeout = OpenTimeout;
+            _netTcpBinding.ReceiveTimeout = ReceiveTimeout;
+            _netTcpBinding.SendTimeout = SendTimeout;
+            _netTcpBinding.ListenBacklog = 1024;
+            _netTcpBinding.MaxConnections = 1024;
             _netTcpBinding.TransferMode = TransferMode.Buffered;
             return _netTcpBinding;
         }
@@ -225,9 +246,9 @@
             _basicHttpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
             _basicHttpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
             _basicHttpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
-            _basicHttpBinding.OpenTimeout = Timeout;
-            _basicHttpBinding.ReceiveTimeout = Timeout;
-            _basicHttpBinding.SendTimeout = Timeout;
+            _basicHttpBinding.OpenTimeout = OpenTimeout;
+            _basicHttpBinding.ReceiveTimeout = ReceiveTimeout;
+            _basicHttpBinding.SendTimeout = SendTimeout;
             return _basicHttpBinding;
         }
 
@@ -240,9 +261,9 @@
             _wsHttpBinding.ReaderQuotas.MaxStringContentLength = MaxReceivedMessageSize;
             _wsHttpBinding.ReaderQuotas.MaxArrayLength = MaxReceivedMessageSize;
             _wsHttpBinding.ReaderQuotas.MaxBytesPerRead = MaxReceivedMessageSize;
-            _wsHttpBinding.OpenTimeout = Timeout;
-            _wsHttpBinding.ReceiveTimeout = Timeout;
-            _wsHttpBinding.SendTimeout = Timeout;
+            _wsHttpBinding.OpenTimeout = OpenTimeout;
+            _wsHttpBinding.ReceiveTimeout = ReceiveTimeout;
+            _wsHttpBinding.SendTimeout = SendTimeout;
             return _wsHttpBinding;
         }
 
