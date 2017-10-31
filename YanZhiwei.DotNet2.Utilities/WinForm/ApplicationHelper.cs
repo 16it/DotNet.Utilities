@@ -14,15 +14,6 @@
     /// </summary>
     public static class ApplicationHelper
     {
-        #region Fields
-
-        /// <summary>
-        /// Mutex 对象
-        /// </summary>
-        private static Mutex singleton;
-
-        #endregion Fields
-
         #region Methods
 
         /// <summary>
@@ -32,7 +23,7 @@
         public static void ApplyOnlyOneInstance(Action<bool> oneInstanceHanlder)
         {
             bool _onlyRun = false;
-            singleton = new Mutex(false, Assembly.GetExecutingAssembly().FullName, out _onlyRun);
+            Mutex _singleton = new Mutex(false, Assembly.GetCallingAssembly().FullName, out _onlyRun);
             oneInstanceHanlder(_onlyRun);
         }
 
@@ -56,7 +47,7 @@
                     capturedHanlder(_ex, ExceptionType.Unhandled);
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 capturedHanlder(ex, ExceptionType.Unhandled);
             }
@@ -73,7 +64,7 @@
         {
             mainForm.FormClosing += (sender, e) =>
             {
-                if(closingHanlder != null)
+                if (closingHanlder != null)
                 {
                     e.Cancel = !closingHanlder();
                 }
@@ -132,6 +123,7 @@
             _process.MaxWorkingSet = (IntPtr)maxSize;
             _process.MinWorkingSet = (IntPtr)minSize;
         }
+
         #endregion Methods
     }
 }
