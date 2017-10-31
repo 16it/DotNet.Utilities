@@ -11,18 +11,35 @@
     /// </summary>
     public abstract class WCFServiceContextBase<IWCFService>
         where IWCFService : IContractService
+
     {
+        /// <summary>
+        /// 服务是否打开
+        /// </summary>
+        public bool ServiceIsOpended
+        {
+            get;
+            private set;
+        }
+
+        private static readonly object syncRoot = new object();
+
         #region Fields
 
         /// <summary>
-        /// 通讯心跳检测间隔
+        /// WCF服务
         /// </summary>
-        public readonly uint MonitorClientChanelSec = 0;
+        public IWCFService Service { get; protected set; }
 
         /// <summary>
         /// 服务地址
         /// </summary>
         public readonly string ServiceUrl;
+
+        /// <summary>
+        /// 通讯心跳检测间隔
+        /// </summary>
+        public readonly uint MonitorClientChanelSec = 0;
 
         #endregion Fields
 
@@ -53,12 +70,10 @@
         }
 
         /// <summary>
-        /// WCF服务
+        /// 创建WCF服务
         /// </summary>
-        public IWCFService Service
-        {
-            get; protected set;
-        }
+        /// <returns>IWCFService</returns>
+        protected abstract IWCFService CreateService();
 
         #endregion Properties
 
@@ -90,6 +105,10 @@
                                 if (failedFactory != null)
                                     failedFactory(Service);
                             }
+                            lock (syncRoot)
+                            {
+                                ServiceIsOpended = _communicatObject.State == CommunicationState.Opened;
+                            }
                         }
                         catch
                         {
@@ -111,12 +130,6 @@
             if (_communicatObject.State == CommunicationState.Opened)
                 _communicatObject.Abort();
         }
-
-        /// <summary>
-        /// 创建WCF服务
-        /// </summary>
-        /// <returns>IWCFService</returns>
-        protected abstract IWCFService CreateService();
 
         #endregion Methods
     }
