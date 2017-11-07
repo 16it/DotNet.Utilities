@@ -59,6 +59,7 @@
     <Compile Include="Builder\BillNumberBuilder.cs" />
     <Compile Include="Cache\MemoryCacheManager.cs" />
     <Compile Include="Collection\QueueManager.cs" />
+    <Compile Include="Collection\ScheduleExecQueueManager.cs" />
     <Compile Include="Common\ConvertHelper.cs" />
     <Compile Include="Common\EnumTitleAttributeHelper.cs" />
     <Compile Include="Common\EnumerableHelper.cs" />
