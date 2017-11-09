@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{E7041928-FF2F-44AF-AB91-7427819415C5}"
 EndProject
@@ -232,6 +232,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.ActiveMQ", "YanZhiwei.DotNet.Core.ActiveMQ\YanZhiwei.DotNet.Core.ActiveMQ.csproj", "{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Core.ActiveMQTests", "YanZhiwei.DotNet.Core.ActiveMQTests\YanZhiwei.DotNet.Core.ActiveMQTests.csproj", "{69EB1F12-1203-4C3A-BC82-49B10F041D9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.KafkaLog4Net", "YanZhiwei.DotNet.KafkaLog4Net\YanZhiwei.DotNet.KafkaLog4Net.csproj", "{0D306B49-D74C-404E-8019-DCA344C10BA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1801,6 +1803,22 @@ Global
 		{69EB1F12-1203-4C3A-BC82-49B10F041D9C}.Release|x64.Build.0 = Release|Any CPU
 		{69EB1F12-1203-4C3A-BC82-49B10F041D9C}.Release|x86.ActiveCfg = Release|Any CPU
 		{69EB1F12-1203-4C3A-BC82-49B10F041D9C}.Release|x86.Build.0 = Release|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Debug|ARM.Build.0 = Debug|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Debug|x64.Build.0 = Debug|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Debug|x86.Build.0 = Debug|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Release|ARM.ActiveCfg = Release|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Release|ARM.Build.0 = Release|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Release|x64.ActiveCfg = Release|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Release|x64.Build.0 = Release|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Release|x86.ActiveCfg = Release|Any CPU
+		{0D306B49-D74C-404E-8019-DCA344C10BA7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1910,9 +1928,10 @@ Global
 		{EB010C36-B2FB-4E45-B9DD-3109770CE74D} = {01873B87-2AAC-4C13-B86F-9AB8C9A18445}
 		{62E7D3BC-2F8A-4309-81C4-9B2EA63BA310} = {EB010C36-B2FB-4E45-B9DD-3109770CE74D}
 		{69EB1F12-1203-4C3A-BC82-49B10F041D9C} = {0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}
+		{0D306B49-D74C-404E-8019-DCA344C10BA7} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 		SolutionGuid = {3C77B6A4-A666-4D9D-8B43-95B85D4DE00E}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 	EndGlobalSection
 EndGlobal
