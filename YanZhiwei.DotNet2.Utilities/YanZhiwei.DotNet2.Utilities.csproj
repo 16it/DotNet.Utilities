@@ -87,6 +87,7 @@
     <Compile Include="Hanlder\PackageDataHanlder.cs" />
     <Compile Include="Interfaces\IDataOperator.cs" />
     <Compile Include="Interfaces\IPagedList.cs" />
+    <Compile Include="Model\CsvRow.cs" />
     <Compile Include="Model\MimeTypes.cs" />
     <Compile Include="Model\AppInfo.cs" />
     <Compile Include="Model\BitmapInfo.cs" />

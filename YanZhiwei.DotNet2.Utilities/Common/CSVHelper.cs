@@ -1,10 +1,12 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
-    using DotNet2.Utilities.Operator;
-    using System.Collections.Generic;
     using System.Data;
     using System.IO;
     using System.Text;
+
+    using DotNet2.Utilities.Operator;
+
+    using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
     /// CSV 帮助类
@@ -12,44 +14,6 @@
     public static class CSVHelper
     {
         #region Methods
-
-        /// <summary>
-        /// 将CSV文件导入到DataTable
-        /// eg:CSVHelper.ImportToTable(_personInfoView, @"C:\Users\YanZh_000\Downloads\person.csv", 2);
-        /// </summary>
-        /// <param name="table">DataTable</param>
-        /// <param name="filePath">csv文件物理路径</param>
-        /// <param name="startRowIndex">数据导入起始行号</param>
-        /// <returns>DataTable</returns>
-        public static DataTable ToTable(DataTable table, string filePath, ushort startRowIndex)
-        {
-            ValidateOperator.Begin().NotNull(table, "需要导出CSV文件的DataTable").IsFilePath(filePath).CheckFileExists(filePath);
-            using (StreamReader reader = new StreamReader(filePath, Encoding.UTF8, false))
-            {
-                int j = 0;
-
-                while (reader.Peek() > -1)
-                {
-                    j = j + 1;
-                    string _line = reader.ReadLine();
-
-                    if (j >= startRowIndex + 1)
-                    {
-                        string[] _dataArray = _line.Split(',');
-                        DataRow _dataRow = table.NewRow();
-
-                        for (int k = 0; k < table.Columns.Count; k++)
-                        {
-                            _dataRow[k] = _dataArray[k];
-                        }
-
-                        table.Rows.Add(_dataRow);
-                    }
-                }
-
-                return table;
-            }
-        }
 
         /// <summary>
         /// 导出到csv文件
@@ -95,6 +59,116 @@
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 将CSV文件导出为DataTable
+        /// </summary>
+        /// <param name="filePath">CSV文件</param>
+        /// <param name="encoding">Encoding</param>
+        /// <param name="startRowIndex">起始行索引</param>
+        /// <returns>DataTable</returns>
+        public static DataTable ToTable(string filePath, Encoding encoding, ushort startRowIndex)
+        {
+            DataTable _table = new DataTable();
+            using (StreamReader stream = new StreamReader(filePath, encoding))
+            {
+                int _rowIndex = 0;
+                CsvRow _csvRow = new CsvRow();
+                _csvRow.RowText = stream.ReadLine();
+                while (CheckCSVRowText(_csvRow))
+                {
+                    if (startRowIndex == _rowIndex)
+                    {
+                        foreach (string item in _csvRow)
+                        {
+                            _table.Columns.Add(item.Replace("\"", ""));
+                        }
+                    }
+                    else
+                    {
+                        int _index = 0;
+                        DataRow _row = _table.NewRow();
+                        foreach (string item in _csvRow)
+                        {
+                            _row[_index] = item.Replace("\"", "");
+                            _index++;
+                        }
+                        _table.Rows.Add(_row);
+                    }
+                    _rowIndex++;
+                }
+            }
+
+            return _table;
+        }
+
+        private static bool CheckCSVRowText(CsvRow row)
+        {
+            if (string.IsNullOrEmpty(row.RowText))
+                return false;
+
+            int _offset = 0;
+            int _rowCount = 0;
+
+            while (_offset < row.RowText.Length)
+            {
+                string _tmpText;
+
+                if (row.RowText[_offset] == '"')
+                {
+                    _offset++;
+
+                    int _start = _offset;
+                    while (_offset < row.RowText.Length)
+                    {
+                        if (row.RowText[_offset] == '"')
+                        {
+                            _offset++;
+
+                            if (_offset >= row.RowText.Length || row.RowText[_offset] != '"')
+                            {
+                                _offset--;
+                                break;
+                            }
+                        }
+                        _offset++;
+                    }
+                    _tmpText = row.RowText.Substring(_start, _offset - _start);
+                    _tmpText = _tmpText.Replace("\"\"", "\"");
+                }
+                else
+                {
+                    int start = _offset;
+                    while (_offset < row.RowText.Length && row.RowText[_offset] != ',')
+                        _offset++;
+                    _tmpText = row.RowText.Substring(start, _offset - start);
+                }
+                if (_rowCount < row.Count)
+                {
+                    row[_rowCount] = _tmpText;
+                }
+                else
+                {
+                    row.Add(_tmpText);
+                }
+                _rowCount++;
+
+                while (_offset < row.RowText.Length && row.RowText[_offset] != ',')
+                {
+                    _offset++;
+                }
+                if (_offset < row.RowText.Length)
+                {
+                    _offset++;
+                }
+            }
+
+            while (row.Count > _rowCount)
+            {
+                row.RemoveAt(_rowCount);
+            }
+            return row.Count > 0;
         }
 
         #endregion Methods

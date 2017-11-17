@@ -55,7 +55,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         [TestMethod()]
         public void ToBytesTest()
         {
-            byte[] _actual = FileHelper.ReadBuffer(TestFilePath);
+            byte[] _actual = FileHelper.ReadFile(TestFilePath);
             Assert.IsNotNull(_actual);
         }
 
@@ -63,7 +63,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         public void ToFileTest()
         {
             string _outputFilePath = @"D:\DB.sql";
-            byte[] _bytes = FileHelper.ReadBuffer(TestFilePath);
+            byte[] _bytes = FileHelper.ReadFile(TestFilePath);
             FileHelper.SaveFile(_bytes, _outputFilePath);
             bool _actual = File.Exists(_outputFilePath);
             Assert.IsTrue(_actual);

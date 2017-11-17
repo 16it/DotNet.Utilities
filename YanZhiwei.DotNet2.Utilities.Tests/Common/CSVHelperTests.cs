@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Data;
+using System.Text;
 using YanZhiwei.DotNet2.Utilities.Common;
 
 namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
@@ -13,7 +14,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
         [TestMethod()]
         public void ToCSVTest()
         {
-            for(Int16 i = 18; i < 28; i++)
+            for (Int16 i = 18; i < 28; i++)
             {
                 DataRow _person = TestTable.NewRow();
                 _person["Name"] = "YanZhiwei" + i;
@@ -40,7 +41,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
             DataTable _personInfoView = TestTable.Clone();
             DataTable _expected = TestTable.Clone();
 
-            for(Int16 i = 18; i < 28; i++)
+            for (Int16 i = 18; i < 28; i++)
             {
                 DataRow _person = _expected.NewRow();
                 _person["Name"] = "YanZhiwei" + i;
@@ -48,7 +49,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
                 _expected.Rows.Add(_person);
             }
 
-            DataTable _actual = CSVHelper.ToTable(_personInfoView, @"D:\person.csv", 2);
+            DataTable _actual = CSVHelper.ToTable(@"D:\person.csv", Encoding.Default, 2);
             Assert.IsTrue(ResultSetComparer.AreIdenticalResultSets(_expected, _actual));
         }
 
