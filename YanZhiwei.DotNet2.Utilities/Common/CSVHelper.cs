@@ -1,11 +1,9 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
+    using DotNet2.Utilities.Operator;
     using System.Data;
     using System.IO;
     using System.Text;
-
-    using DotNet2.Utilities.Operator;
-
     using YanZhiwei.DotNet2.Utilities.Model;
 
     /// <summary>
@@ -78,14 +76,14 @@
                 _csvRow.RowText = stream.ReadLine();
                 while (CheckCSVRowText(_csvRow))
                 {
-                    if (startRowIndex == _rowIndex)
+                    if (_rowIndex == startRowIndex)
                     {
                         foreach (string item in _csvRow)
                         {
                             _table.Columns.Add(item.Replace("\"", ""));
                         }
                     }
-                    else
+                    else if (_rowIndex > startRowIndex)
                     {
                         int _index = 0;
                         DataRow _row = _table.NewRow();
@@ -97,6 +95,8 @@
                         _table.Rows.Add(_row);
                     }
                     _rowIndex++;
+                    _csvRow = new CsvRow();
+                    _csvRow.RowText = stream.ReadLine();
                 }
             }
 

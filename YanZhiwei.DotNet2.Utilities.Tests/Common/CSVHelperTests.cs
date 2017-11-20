@@ -49,7 +49,7 @@ namespace YanZhiwei.DotNet2.Utilities.DataOperator.Tests
                 _expected.Rows.Add(_person);
             }
 
-            DataTable _actual = CSVHelper.ToTable(@"D:\person.csv", Encoding.Default, 2);
+            DataTable _actual = CSVHelper.ToTable(@"D:\person.csv", Encoding.Default, 1);
             Assert.IsTrue(ResultSetComparer.AreIdenticalResultSets(_expected, _actual));
         }
 
