@@ -5,6 +5,8 @@
     using System.Reflection;
     using System.Windows.Forms;
 
+    using YanZhiwei.DotNet2.Utilities.Common;
+
     /// <summary>
     /// ComboBox 帮助类
     /// </summary>
@@ -29,6 +31,25 @@
             combox.DisplayMember = displayMember;
             if (!string.IsNullOrEmpty(valueMember))
                 combox.ValueMember = valueMember;
+        }
+
+        /// <summary>
+        /// 设置需要选中的文本
+        /// </summary>
+        /// <param name="comboBox">ComboBox</param>
+        /// <param name="selectedText">需要选中的文本</param>
+        public static void SetSelectText(this ComboBox comboBox, string selectedText)
+        {
+            int i = 0;
+            foreach (var item in comboBox.Items)
+            {
+                if (item.ToString().CompareIgnoreCase(selectedText))
+                {
+                    comboBox.SelectedIndex = i;
+                    break;
+                }
+                i++;
+            }
         }
 
         private static void AddItem<T>(IList<T> list, string displayMember, string displayText)

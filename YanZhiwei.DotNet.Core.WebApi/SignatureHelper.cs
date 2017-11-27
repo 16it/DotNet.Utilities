@@ -44,7 +44,7 @@
             string _signatureString = string.Join("", _arrayParamter);
             _signatureString = MD5Encryptor.Encrypt(_signatureString);
 
-            if (signature.CompareIgnoreCase(signature) && CheckHelper.IsNumber(timestamp))
+            if (signature.CompareIgnoreCase(_signatureString) && CheckHelper.IsNumber(timestamp))
             {
                 DateTime _timestampMillis =
                     UnixEpochHelper.DateTimeFromUnixTimestampMillis(timestamp.ToDoubleOrDefault(0f));
