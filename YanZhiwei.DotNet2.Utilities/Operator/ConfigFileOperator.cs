@@ -30,7 +30,7 @@
         /// <param name="mode">程序模式</param>
         public ConfigFileOperator(ProgramMode mode)
         {
-            switch(mode)
+            switch (mode)
             {
                 case ProgramMode.WebForm:
                     config = WebConfigurationManager.OpenWebConfiguration("~/");
@@ -51,13 +51,13 @@
         /// <param name="filePath">config文件路径</param>
         public ConfigFileOperator(ProgramMode mode, string filePath)
         {
-            switch(mode)
+            switch (mode)
             {
                 case ProgramMode.WinForm:
                     ExeConfigurationFileMap _configFileMap = new ExeConfigurationFileMap();
                     _configFileMap.ExeConfigFilename = filePath;
 
-                    if(File.Exists(filePath))
+                    if (File.Exists(filePath))
                     {
                         config = ConfigurationManager.OpenMappedExeConfiguration(_configFileMap, ConfigurationUserLevel.None);
                     }
@@ -85,7 +85,7 @@
         {
             KeyValueConfigurationElement _key = config.AppSettings.Settings[key];
 
-            if(_key == null)
+            if (_key == null)
             {
                 config.AppSettings.Settings.Add(key, value);
             }
@@ -94,7 +94,8 @@
                 config.AppSettings.Settings[key].Value = value;
             }
 
-            config.Save(ConfigurationSaveMode.Modified);
+            config.Save(ConfigurationSaveMode.Modified, true);
+            ConfigurationManager.RefreshSection("appSettings");
         }
 
         /// <summary>
