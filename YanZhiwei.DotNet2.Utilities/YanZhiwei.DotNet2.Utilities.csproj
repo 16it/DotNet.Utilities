@@ -151,7 +151,7 @@
     <Compile Include="Model\ExifMetadataDetail.cs" />
     <Compile Include="Model\FileProperties.cs" />
     <Compile Include="Model\PageCondition.cs" />
-    <Compile Include="Model\PageResult.cs" />
+    <Compile Include="Model\PageList.cs" />
     <Compile Include="Model\PerformanceParams.cs" />
     <Compile Include="Model\RequestClientInfo.cs" />
     <Compile Include="Model\SmtpServer.cs" />

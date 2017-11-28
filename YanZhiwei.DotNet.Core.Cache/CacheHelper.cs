@@ -175,13 +175,13 @@
         /// <param name="selector">数据筛选表达式</param>
         /// <param name="key">键</param>
         /// <returns>查询的分页结果</returns>
-        public static PageResult<TResult> ToPageCache<TEntity, TResult>(this IQueryable<TEntity> source,
+        public static PageList<TResult> ToPageCache<TEntity, TResult>(this IQueryable<TEntity> source,
                 Expression<Func<TEntity, bool>> predicate,
                 PageCondition pageCondition,
                 Expression<Func<TEntity, TResult>> selector, string key)
         {
             string _key = string.Format("{0}{1}", key, GetKey(source, predicate, pageCondition, selector));
-            PageResult<TResult> _result = (PageResult<TResult>)Get(_key);
+            PageList<TResult> _result = (PageList<TResult>)Get(_key);
             
             if(_result != null)
             {

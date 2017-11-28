@@ -3,7 +3,7 @@
     /// <summary>
     /// 数据分页信息
     /// </summary>
-    public class PageResult<T>
+    public class PageList<T>
     {
         /// <summary>
         /// 获取或设置 分页数据

@@ -25,7 +25,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="pageCondition">分页查询条件</param>
         /// <param name="selector">数据筛选表达式</param>
         /// <returns>分页结果信息</returns>
-        public static PageResult<TResult> ToPage<TEntity, TResult>(this IQueryable<TEntity> source,
+        public static PageList<TResult> ToPage<TEntity, TResult>(this IQueryable<TEntity> source,
                 Expression<Func<TEntity, bool>> predicate,
                 PageCondition pageCondition,
                 Expression<Func<TEntity, TResult>> selector)
@@ -51,7 +51,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         /// <param name="sortConditions">排序条件集合</param>
         /// <param name="selector">数据筛选表达式</param>
         /// <returns>分页结果信息</returns>
-        public static PageResult<TResult> ToPage<TEntity, TResult>(this IQueryable<TEntity> source,
+        public static PageList<TResult> ToPage<TEntity, TResult>(this IQueryable<TEntity> source,
                 Expression<Func<TEntity, bool>> predicate,
                 string primaryKeyField,
                 int pageIndex,
@@ -61,7 +61,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
         {
             int _total;
             TResult[] _data = source.Where(predicate, primaryKeyField, pageIndex, pageSize, out _total, sortConditions).Select(selector).ToArray();
-            return new PageResult<TResult>()
+            return new PageList<TResult>()
             {
                 Total = _total,
                 Data = _data

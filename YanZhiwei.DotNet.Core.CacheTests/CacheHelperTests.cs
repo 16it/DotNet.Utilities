@@ -42,7 +42,7 @@ namespace YanZhiwei.DotNet.Core.Cache.Tests
         {
             using (var dbContext = new AccountDbContext())
             {
-                PageResult<User> _finded = dbContext.Users.ToPageCache(u => u.IsActive == true, new PageCondition(1, 10) { PrimaryKeyField = "ID" }, ent => ent, "word");
+                PageList<User> _finded = dbContext.Users.ToPageCache(u => u.IsActive == true, new PageCondition(1, 10) { PrimaryKeyField = "ID" }, ent => ent, "word");
                 _finded = dbContext.Users.ToPageCache(u => u.IsActive == true, new PageCondition(1, 10) { PrimaryKeyField = "ID" }, ent => ent, "word");
                 CollectionAssert.AllItemsAreNotNull(_finded.Data);
             }
