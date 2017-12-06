@@ -1,4 +1,4 @@
-﻿namespace YanZhiwei.DotNet3._5.Utilities.XAML
+﻿namespace YanZhiwei.DotNet3._5.Utilities.WPF
 {
     using System.Windows;
     using System.Windows.Controls;
