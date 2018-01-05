@@ -94,9 +94,9 @@ namespace YanZhiwei.DotNet.Zookeeper.Utilities
 
                     default:
 
-                        var nodeData = ZooKeeper.GetData(watchedEvent.Path, this, null);
+                        var _nodeData = ZooKeeper.GetData(watchedEvent.Path, this, null);
                         if (OnNodeChangeEvent != null)
-                            OnNodeChangeEvent(watchedEvent, nodeData);
+                            OnNodeChangeEvent(watchedEvent, _nodeData);
                         break;
                 }
             }
