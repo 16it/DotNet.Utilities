@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
@@ -14,6 +9,24 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
         public FormPropertyGrid()
         {
             InitializeComponent();
+        }
+        private string ConfigFilename = string.Empty;
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog _openFileDialog = new OpenFileDialog();
+            _openFileDialog.Filter = "Configuration Files (*.config)| *.config";
+            if (_openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ConfigFilename = _openFileDialog.FileName;
+                propertyGrid1.LoadConfiguration(ConfigFilename);
+                txtConfigurationFile.Text = ConfigFilename;
+                this.propertyGrid1.Focus();
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            propertyGrid1.SaveConfiguration(ConfigFilename);
         }
     }
 }

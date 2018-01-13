@@ -159,6 +159,12 @@
     <EmbeddedResource Include="FormUnPackageData.resx">
       <DependentUpon>FormUnPackageData.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Config\DotBits.Configuration.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\JDSmart.iGrid.LinkerForm.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

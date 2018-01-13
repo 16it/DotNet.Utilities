@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="System.Runtime" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-2.6.10.0" newVersion="2.6.10.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Threading.Tasks" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-2.6.10.0" newVersion="2.6.10.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+  <appSettings>
+    <add key="ServiceUrl" value="net.tcp://192.168.51.198:8033/JDService" />
+    <!--协议网关标识Id-->
+    <add key="FDAMKeyId" value="2501" />
+    <!--前置程序标识Id-->
+    <add key="LinkerKeyID" value="250" />
+    <!--是否启动调试模式-->
+    <add key="DebugMode" value="true" />
+  </appSettings>
+  <connectionStrings>
+    <!--主库-->
+    <add name="iGridMonitorDevDb" connectionString="Data Source=292.268.52.64;Initial Catalog=iGridMonitorDevDb;Integrated Security=False;User ID=jindundb;Pwd=jindun1234" />
+    <!--分库-->
+    <add name="iGridMonitorDevBranchDb" connectionString="Data Source=191.161.51.61;Initial Catalog=iGridMonitorDevSubDb;Integrated Security=False;User ID=jindundb;Pwd=jindun1234" />
+  </connectionStrings>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.2" />
+  </startup>
+</configuration>
