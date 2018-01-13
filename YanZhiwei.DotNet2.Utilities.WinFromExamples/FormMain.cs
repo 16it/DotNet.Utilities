@@ -115,7 +115,12 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 
         private void button13_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowDialogForm<FormPropertyGrid>();
+            FormHelper.ShowDialogForm<FormXmlSectionWrapper>();
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            FormHelper.ShowDialogForm<FormXmlNodeWrapper>();
         }
     }
 }

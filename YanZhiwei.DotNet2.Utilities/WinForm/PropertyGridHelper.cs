@@ -1,26 +1,38 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Xml;
-
-namespace YanZhiwei.DotNet2.Utilities.WinForm
+﻿namespace YanZhiwei.DotNet2.Utilities.WinForm
 {
+    using System;
+    using System.ComponentModel;
+    using System.Windows.Forms;
+    using System.Xml;
+
     /// <summary>
     /// PropertyGrid 辅助类
     /// </summary>
     public static class PropertyGridHelper
     {
+        #region Methods
+
         /// <summary>
-        /// 加载显示配置文件
+        /// 加载Xml Node节点
         /// </summary>
         /// <param name="propertyGrid">PropertyGrid</param>
-        /// <param name="configurationFile">config文件路径</param>
-        public static void LoadConfiguration(this PropertyGrid propertyGrid, string configurationFile)
+        /// <param name="configureFile">xml文件路径</param>
+        public static void LoadNodeConfigure(this PropertyGrid propertyGrid, string configureFile)
         {
-            PropertyGridSource _ppgSource = new PropertyGridSource();
+            XmlDocument _xmlDoc = LoadXmlFile(configureFile);
+            propertyGrid.SelectedObject = new XmlNodeWrapper(_xmlDoc.DocumentElement);
+        }
 
-            XmlDocument _xmlDoc = new XmlDocument();
-            _xmlDoc.Load(configurationFile);
+        /// <summary>
+        /// 加载Config Section节点
+        /// </summary>
+        /// <param name="propertyGrid">PropertyGrid</param>
+        /// <param name="configureFile">config文件路径</param>
+        public static void LoadSectionConfigure(this PropertyGrid propertyGrid, string configureFile)
+        {
+            XmlSectionWrapper _xmlWrapper = new XmlSectionWrapper();
+
+            XmlDocument _xmlDoc = LoadXmlFile(configureFile);
             XmlNode _configuration = _xmlDoc.SelectSingleNode("configuration");
 
             XmlNodeList _sectionList = _configuration.ChildNodes;
@@ -53,36 +65,66 @@ namespace YanZhiwei.DotNet2.Utilities.WinForm
                     bool _isBoolType = (string.Compare(_atrrValue.Value, "true", true) == 0 || string.Compare(_atrrValue.Value, "false", true) == 0);
                     Type _propType = _isBoolType == true ? typeof(Boolean) : typeof(String);
 
-                    _ppgSource.AddProperty(_atrrKey.Value.Trim(), _atrrValue.Value.Trim(),
+                    _xmlWrapper.AddProperty(_atrrKey.Value.Trim(), _atrrValue.Value.Trim(),
                         _atrrDesText, _sectionList[j].Name, _propType, false, false);
                 }
             }
 
-            propertyGrid.SelectedObject = _ppgSource;
+            propertyGrid.SelectedObject = _xmlWrapper;
         }
 
         /// <summary>
         /// 保存配置文件
         /// </summary>
         /// <param name="propertyGrid">PropertyGrid</param>
-        /// <param name="configurationFile">config文件路径</param>
-        public static void SaveConfiguration(this PropertyGrid propertyGrid, string configurationFile)
+        /// <param name="configureFile">config文件路径</param>
+        public static void SaveConfigure(this PropertyGrid propertyGrid, string configureFile)
         {
-            if (!(propertyGrid.SelectedObject is PropertyGridSource))
-                return;
+            SaveSectionConfigure(propertyGrid, configureFile);
+            SaveNodeConfigure(propertyGrid, configureFile);
+        }
 
-            PropertyGridSource _ppgSource = (PropertyGridSource)propertyGrid.SelectedObject;
-
+        private static XmlDocument LoadXmlFile(string configureFile)
+        {
             XmlDocument _xmlDoc = new XmlDocument();
-            _xmlDoc.Load(configurationFile);
-            _xmlDoc.Save(configurationFile + "_bak");
-            PropertyDescriptorCollection _props = _ppgSource.GetProperties();
-            SaveSection("ApplicationConfiguration", _xmlDoc, _props);
-            SaveSection("CommonConfiguration", _xmlDoc, _props);
-            SaveSection("appSettings", _xmlDoc, _props);
-            SaveConnectionSection(_xmlDoc, _props);
+            _xmlDoc.Load(configureFile);
+            return _xmlDoc;
+        }
 
-            _xmlDoc.Save(configurationFile);
+        private static void SaveConnectionSection(XmlDocument xmlDoc, PropertyDescriptorCollection props)
+        {
+            XmlNodeList _xmlNodes = xmlDoc.SelectNodes("configuration/connectionStrings/add");
+
+            for (int i = 0; i < _xmlNodes.Count; i++)
+            {
+                DynamicProperty _property = (DynamicProperty)props[_xmlNodes[i].Attributes["name"].Value];
+
+                if (_property != null)
+                {
+                    _xmlNodes[i].Attributes["connectionString"].Value = _property.GetValue(null).ToString();
+
+                    if (_property.Description != _property.Name)
+                    {
+                        if (_xmlNodes[i].Attributes["description"] != null)
+                        {
+                            _xmlNodes[i].Attributes["description"].Value = _property.Description;
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void SaveNodeConfigure(PropertyGrid propertyGrid, string configureFile)
+        {
+            if (propertyGrid.SelectedObject is XmlNodeWrapper)
+            {
+                XmlDocument _xmlDoc = new XmlDocument();
+                XmlNodeWrapper _nodeWrapper = (XmlNodeWrapper)propertyGrid.SelectedObject;
+
+                _xmlDoc.LoadXml(_nodeWrapper.GetXmlNode().OuterXml);
+                _xmlDoc.Save(configureFile);
+                _xmlDoc.Save(configureFile + "_bak");
+            }
         }
 
         private static void SaveSection(string sectionName, XmlDocument xmlDoc, PropertyDescriptorCollection props)
@@ -108,27 +150,25 @@ namespace YanZhiwei.DotNet2.Utilities.WinForm
             }
         }
 
-        private static void SaveConnectionSection(XmlDocument xmlDoc, PropertyDescriptorCollection props)
+        private static void SaveSectionConfigure(PropertyGrid propertyGrid, string configureFile)
         {
-            XmlNodeList _xmlNodes = xmlDoc.SelectNodes("configuration/connectionStrings/add");
-
-            for (int i = 0; i < _xmlNodes.Count; i++)
+            if (propertyGrid.SelectedObject is XmlSectionWrapper)
             {
-                DynamicProperty _property = (DynamicProperty)props[_xmlNodes[i].Attributes["name"].Value];
+                XmlSectionWrapper _xmlWrapper = (XmlSectionWrapper)propertyGrid.SelectedObject;
 
-                if (_property != null)
-                {
-                    _xmlNodes[i].Attributes["connectionString"].Value = _property.GetValue(null).ToString();
+                XmlDocument _xmlDoc = new XmlDocument();
+                _xmlDoc.Load(configureFile);
+                _xmlDoc.Save(configureFile + "_bak");
+                PropertyDescriptorCollection _props = _xmlWrapper.GetProperties();
+                SaveSection("ApplicationConfiguration", _xmlDoc, _props);
+                SaveSection("CommonConfiguration", _xmlDoc, _props);
+                SaveSection("appSettings", _xmlDoc, _props);
+                SaveConnectionSection(_xmlDoc, _props);
 
-                    if (_property.Description != _property.Name)
-                    {
-                        if (_xmlNodes[i].Attributes["description"] != null)
-                        {
-                            _xmlNodes[i].Attributes["description"].Value = _property.Description;
-                        }
-                    }
-                }
+                _xmlDoc.Save(configureFile);
             }
         }
+
+        #endregion Methods
     }
 }

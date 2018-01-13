@@ -333,7 +333,8 @@
     <Compile Include="WinForm\NumericUpDownHelper.cs" />
     <Compile Include="WinForm\OpenFileDialogHelper.cs" />
     <Compile Include="WinForm\ProgressBarHelper.cs" />
-    <Compile Include="WinForm\PropertyGrid\PropertyGridSource.cs">
+    <Compile Include="WinForm\PropertyGrid\XmlNodeWrapper.cs" />
+    <Compile Include="WinForm\PropertyGrid\XmlSectionWrapper.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WinForm\RichTextBoxHelper.cs" />

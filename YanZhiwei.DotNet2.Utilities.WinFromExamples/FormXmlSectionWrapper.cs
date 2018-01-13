@@ -4,9 +4,9 @@ using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    public partial class FormPropertyGrid : Form
+    public partial class FormXmlSectionWrapper : Form
     {
-        public FormPropertyGrid()
+        public FormXmlSectionWrapper()
         {
             InitializeComponent();
         }
@@ -18,7 +18,7 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 ConfigFilename = _openFileDialog.FileName;
-                propertyGrid1.LoadConfiguration(ConfigFilename);
+                propertyGrid1.LoadSectionConfigure(ConfigFilename);
                 txtConfigurationFile.Text = ConfigFilename;
                 this.propertyGrid1.Focus();
             }
@@ -26,7 +26,7 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            propertyGrid1.SaveConfiguration(ConfigFilename);
+            propertyGrid1.SaveConfigure(ConfigFilename);
         }
     }
 }

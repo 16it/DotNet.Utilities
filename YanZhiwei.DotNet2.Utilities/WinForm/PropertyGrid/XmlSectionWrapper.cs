@@ -4,12 +4,12 @@ using System.ComponentModel;
 namespace YanZhiwei.DotNet2.Utilities.WinForm
 {
     /// <summary>
-    /// 定制PropertyGrid 数据源
+    /// PropertyGrid 读取配置Section节点包装器
     /// </summary>
     /// <seealso cref="System.ComponentModel.Component" />
     /// <seealso cref="System.ComponentModel.ICustomTypeDescriptor" />
     [TypeConverter(typeof(ExpandableObjectConverter))]
-    class PropertyGridSource : Component, ICustomTypeDescriptor
+    class XmlSectionWrapper : Component, ICustomTypeDescriptor
     {
         private PropertyDescriptorCollection propertyCollection;
 
@@ -29,9 +29,9 @@ namespace YanZhiwei.DotNet2.Utilities.WinForm
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyGridSource"/> class.
+        /// Initializes a new instance of the <see cref="XmlSectionWrapper"/> class.
         /// </summary>
-        public PropertyGridSource()
+        public XmlSectionWrapper()
         {
             propertyCollection = new PropertyDescriptorCollection(new PropertyDescriptor[] { });
         }

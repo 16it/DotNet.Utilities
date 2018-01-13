@@ -51,11 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormPropertyGrid.cs">
+    <Compile Include="FormXmlNodeWrapper.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPropertyGrid.Designer.cs">
-      <DependentUpon>FormPropertyGrid.cs</DependentUpon>
+    <Compile Include="FormXmlNodeWrapper.Designer.cs">
+      <DependentUpon>FormXmlNodeWrapper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormXmlSectionWrapper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormXmlSectionWrapper.Designer.cs">
+      <DependentUpon>FormXmlSectionWrapper.cs</DependentUpon>
     </Compile>
     <Compile Include="FormLanguageExample.cs">
       <SubType>Form</SubType>
@@ -113,8 +119,11 @@
     <Compile Include="FormUnPackageData.Designer.cs">
       <DependentUpon>FormUnPackageData.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="FormPropertyGrid.resx">
-      <DependentUpon>FormPropertyGrid.cs</DependentUpon>
+    <EmbeddedResource Include="FormXmlNodeWrapper.resx">
+      <DependentUpon>FormXmlNodeWrapper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormXmlSectionWrapper.resx">
+      <DependentUpon>FormXmlSectionWrapper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLanguageExample.en-Us.resx">
       <DependentUpon>FormLanguageExample.cs</DependentUpon>
@@ -159,10 +168,13 @@
     <EmbeddedResource Include="FormUnPackageData.resx">
       <DependentUpon>FormUnPackageData.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Config\DotBits.Configuration.exe.config">
+    <None Include="Config\demo1.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Config\JDSmart.iGrid.LinkerForm.exe.config">
+    <None Include="Config\demo2.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\demo3.Config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Properties\Settings.settings">
