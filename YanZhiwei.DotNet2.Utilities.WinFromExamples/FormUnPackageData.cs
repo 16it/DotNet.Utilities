@@ -8,9 +8,9 @@ using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    public partial class winUnPackageData : Form
+    public partial class FormUnPackageData : Form
     {
-        public winUnPackageData()
+        public FormUnPackageData()
         {
             InitializeComponent();
         }

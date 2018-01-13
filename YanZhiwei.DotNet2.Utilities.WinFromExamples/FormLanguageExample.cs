@@ -4,9 +4,9 @@ using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    public partial class winLanguageExample : Form
+    public partial class FormLanguageExample : Form
     {
-        public winLanguageExample()
+        public FormLanguageExample()
         {
             InitializeComponent();
         }

@@ -5,9 +5,9 @@ using YanZhiwei.DotNet2.Utilities.Enum;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    public partial class winSerialPortExamle : Form
+    public partial class FormSerialPortExamle : Form
     {
-        public winSerialPortExamle()
+        public FormSerialPortExamle()
         {
             InitializeComponent();
         }

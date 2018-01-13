@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    partial class winMain
+    partial class FormMain
     {
         /// <summary>
         /// 必需的设计器变量。

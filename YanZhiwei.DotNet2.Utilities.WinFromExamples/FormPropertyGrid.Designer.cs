@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    partial class winLogin
+    partial class FormPropertyGrid
     {
         /// <summary>
         /// Required designer variable.
@@ -28,33 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // FormPropertyGrid
             // 
-            this.button1.Location = new System.Drawing.Point(133, 46);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Login";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // winLogin
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(345, 115);
-            this.Controls.Add(this.button1);
-            this.Name = "winLogin";
-            this.Text = "winLogin";
+            this.ClientSize = new System.Drawing.Size(679, 380);
+            this.Name = "FormPropertyGrid";
+            this.Text = "FormPropertyGrid";
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button1;
     }
 }

@@ -32,7 +32,7 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
             {
                 if(t)
                 {
-                    FormHelper.ShowLoginForm<winLogin, winMain>();
+                    FormHelper.ShowLoginForm<FormLogin, FormMain>();
                 }
                 //Application.Run(new winMain());
                 else

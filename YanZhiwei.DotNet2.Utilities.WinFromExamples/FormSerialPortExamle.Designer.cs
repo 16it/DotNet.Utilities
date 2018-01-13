@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    partial class winSerialPortExamle
+    partial class FormSerialPortExamle
     {
         /// <summary>
         /// Required designer variable.

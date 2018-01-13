@@ -9,9 +9,9 @@ using System.Windows.Forms;
 using YanZhiwei.DotNet2.Utilities.WinForm;
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    public partial class winProgressBarExample : Form
+    public partial class FormProgressBarExample : Form
     {
-        public winProgressBarExample()
+        public FormProgressBarExample()
         {
             InitializeComponent();
         }

@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    partial class winCheckedListBox
+    partial class FormCheckedListBox
     {
         /// <summary>
         /// Required designer variable.

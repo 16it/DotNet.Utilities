@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    partial class winLanguageExample
+    partial class FormLanguageExample
     {
         /// <summary>
         /// Required designer variable.
