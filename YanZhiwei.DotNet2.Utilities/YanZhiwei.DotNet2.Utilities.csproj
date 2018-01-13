@@ -309,6 +309,8 @@
     <Compile Include="WinForm\DataGridCRUDHelper.cs" />
     <Compile Include="WinForm\DataGridHelper.cs" />
     <Compile Include="WinForm\Core\DatagridViewCheckBoxHeaderCell.cs" />
+    <Compile Include="WinForm\PropertyGridHelper.cs" />
+    <Compile Include="WinForm\PropertyGrid\DynamicProperty.cs" />
     <Compile Include="WinForm\ExtendedForm\ExtendedResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -331,6 +333,9 @@
     <Compile Include="WinForm\NumericUpDownHelper.cs" />
     <Compile Include="WinForm\OpenFileDialogHelper.cs" />
     <Compile Include="WinForm\ProgressBarHelper.cs" />
+    <Compile Include="WinForm\PropertyGrid\PropertyGridSource.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WinForm\RichTextBoxHelper.cs" />
     <Compile Include="WinForm\TabControlHelper.cs" />
     <Compile Include="WinForm\TabPageHelper.cs" />
