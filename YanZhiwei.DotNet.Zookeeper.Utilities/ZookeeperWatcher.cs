@@ -65,6 +65,7 @@ namespace YanZhiwei.DotNet.Zookeeper.Utilities
         {
             try
             {
+                byte[] _nodeData = null;
                 switch (watchedEvent.Type)
                 {
                     case EventType.None:
@@ -72,7 +73,7 @@ namespace YanZhiwei.DotNet.Zookeeper.Utilities
 
                     case EventType.NodeCreated:
                         ZooKeeper.GetChildren(watchedEvent.Path, this, null);
-                        var _nodeData = ZooKeeper.GetData(watchedEvent.Path, this, null);
+                        _nodeData = ZooKeeper.GetData(watchedEvent.Path, this, null);
 
                         if (OnNodeChangeEvent != null)
                             OnNodeChangeEvent(watchedEvent, _nodeData);
@@ -94,7 +95,7 @@ namespace YanZhiwei.DotNet.Zookeeper.Utilities
 
                     default:
 
-                        var _nodeData = ZooKeeper.GetData(watchedEvent.Path, this, null);
+                        _nodeData = ZooKeeper.GetData(watchedEvent.Path, this, null);
                         if (OnNodeChangeEvent != null)
                             OnNodeChangeEvent(watchedEvent, _nodeData);
                         break;

@@ -5,7 +5,6 @@
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
     using System.Xml;
-
     using YanZhiwei.DotNet3._5.Utilities.Interfaces;
 
     /// <summary>
@@ -57,15 +56,6 @@
         }
 
         /// <summary>
-        /// 服务地址
-        /// </summary>
-        public string ServiceURL
-        {
-            get;
-            protected set;
-        }
-
-        /// <summary>
         /// 设置在传输引发异常之前可用于打开连接的时间间隔
         /// </summary>
         public TimeSpan OpenTimeout
@@ -89,6 +79,15 @@
         public TimeSpan SendTimeout
         {
             get;    // TimeSpan.FromMinutes(10);
+            protected set;
+        }
+
+        /// <summary>
+        /// 服务地址
+        /// </summary>
+        public string ServiceURL
+        {
+            get;
             protected set;
         }
 

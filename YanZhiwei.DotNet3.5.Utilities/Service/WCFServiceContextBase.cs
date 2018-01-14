@@ -3,7 +3,6 @@
     using System;
     using System.ServiceModel;
     using System.Threading;
-
     using YanZhiwei.DotNet3._5.Utilities.Interfaces;
 
     /// <summary>
@@ -11,35 +10,20 @@
     /// </summary>
     public abstract class WCFServiceContextBase<IWCFService>
         where IWCFService : IContractService
-
     {
-        /// <summary>
-        /// 服务是否打开
-        /// </summary>
-        public bool ServiceIsOpended
-        {
-            get;
-            private set;
-        }
-
-        private static readonly object syncRoot = new object();
-
         #region Fields
 
         /// <summary>
-        /// WCF服务
+        /// 通讯心跳检测间隔
         /// </summary>
-        public IWCFService Service { get; protected set; }
+        public readonly uint MonitorClientChanelSec = 0;
 
         /// <summary>
         /// 服务地址
         /// </summary>
         public readonly string ServiceUrl;
 
-        /// <summary>
-        /// 通讯心跳检测间隔
-        /// </summary>
-        public readonly uint MonitorClientChanelSec = 0;
+        private static readonly object syncRoot = new object();
 
         #endregion Fields
 
@@ -70,10 +54,21 @@
         }
 
         /// <summary>
-        /// 创建WCF服务
+        /// WCF服务
         /// </summary>
-        /// <returns>IWCFService</returns>
-        protected abstract IWCFService CreateService();
+        public IWCFService Service
+        {
+            get; protected set;
+        }
+
+        /// <summary>
+        /// 服务是否打开
+        /// </summary>
+        public bool ServiceIsOpended
+        {
+            get;
+            private set;
+        }
 
         #endregion Properties
 
@@ -130,6 +125,12 @@
             if (_communicatObject.State == CommunicationState.Opened)
                 _communicatObject.Abort();
         }
+
+        /// <summary>
+        /// 创建WCF服务
+        /// </summary>
+        /// <returns>IWCFService</returns>
+        protected abstract IWCFService CreateService();
 
         #endregion Methods
     }
