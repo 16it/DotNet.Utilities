@@ -9,29 +9,29 @@ using YanZhiwei.DotNet3._5.Utilities.WCF;
 
 namespace YanZhiwei.DotNet.Core.ServiceTests
 {
-    public class AdventureWorksServiceProxy : WCFServiceProxy, IServiceBase
-    {
-        protected override int MaxReceivedMessageSize => 2147483647;
+    //public class AdventureWorksServiceProxy : WCFServiceProxy, IServiceBase
+    //{
+    //    protected override int MaxReceivedMessageSize => 2147483647;
 
-        protected override TimeSpan Timeout => TimeSpan.FromMinutes(10);
+    //    protected override TimeSpan Timeout => TimeSpan.FromMinutes(10);
 
-        protected override string Url => "http://localhost:8092/AdventureWorksService/AdventureWorks";
+    //    protected override string Url => "http://localhost:8092/AdventureWorksService/AdventureWorks";
 
-        public T CreateService<T, F>()
-            where T : class
-            where F : IInterceptor, new()
-        {
-            var key = string.Format("{0}-{1}", typeof(T), Url);
-            return CacheHelper.Get<T>(key, () =>
-            {
-                return base.CreateWSHttpService<T>();
-            });
-        }
+    //    public T CreateService<T, F>()
+    //        where T : class
+    //        where F : IInterceptor, new()
+    //    {
+    //        var key = string.Format("{0}-{1}", typeof(T), Url);
+    //        return CacheHelper.Get<T>(key, () =>
+    //        {
+    //            return base.CreateWSHttpService<T>();
+    //        });
+    //    }
 
-        public override void AddBehaviors(KeyedByTypeCollection<IEndpointBehavior> behaviors)
-        {
-            behaviors.Add(new ContextPropagationBehavior());
-            //throw new NotImplementedException();
-        }
-    }
+    //    public override void AddBehaviors(KeyedByTypeCollection<IEndpointBehavior> behaviors)
+    //    {
+    //        behaviors.Add(new ContextPropagationBehavior());
+    //        //throw new NotImplementedException();
+    //    }
+    //}
 }
