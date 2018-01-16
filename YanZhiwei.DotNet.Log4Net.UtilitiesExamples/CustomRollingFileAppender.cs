@@ -10,9 +10,13 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
     {
         protected override void AdjustFileBeforeAppend()
         {
+            var currentFile = File;
 
             var aa = this;
+          //  var aaa = this.m_nextCheck;
             base.AdjustFileBeforeAppend();
         }
+
+        
     }
 }
