@@ -73,6 +73,7 @@
     <Compile Include="Common\FileExtInfoHelper.cs" />
     <Compile Include="Common\FuzzyHelper.cs" />
     <Compile Include="Common\UnitTestHelper.cs" />
+    <Compile Include="Core\Counter.cs" />
     <Compile Include="Core\ImageFast.cs" />
     <Compile Include="Core\InteractRetry.cs" />
     <Compile Include="Core\NonInteractRetry.cs" />
