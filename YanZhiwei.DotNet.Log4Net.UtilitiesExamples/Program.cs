@@ -1,5 +1,7 @@
 ﻿using log4net.Config;
 using System;
+using YanZhiwei.DotNet.Log4Net.Utilities;
+using YanZhiwei.DotNet2.Utilities.DesignPattern;
 
 namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
 {
@@ -9,15 +11,15 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
         {
             try
             {
-                XmlConfigurator.Configure();
-                var date = DateTime.Now.AddDays(-10);
-                var task = new LogFileCleanupTask();
-                task.CleanUp(date);
-                Console.WriteLine("开始：" + DateTime.Now.ToLongTimeString());
+                //XmlConfigurator.Configure();
+                //var date = DateTime.Now.AddDays(-10);
+                //var task = new LogFileCleanupTask();
+                //task.CleanUp(date);
+                //Console.WriteLine("开始：" + DateTime.Now.ToLongTimeString());
                 //  Log4NetHelper.SetLogger("AdoNetLogger");
 
                 //Singleton<FileLogService>.CreateInstance().Debug("Debug 你好");
-                //Singleton<FileLogService>.CreateInstance().Error("ERROR");
+                Singleton<FileLogService>.CreateInstance().Error("ERROR");
                 //Singleton<FileLogService>.CreateInstance().Fatal("Fatal");
                 //Singleton<FileLogService>.CreateInstance().Warn("Warn");
                 //Singleton<FileLogService>.CreateInstance().Info("Info");

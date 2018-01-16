@@ -5,11 +5,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
 {
     public class LogFileCleanupTask
     {
+        public static T GetPrivateField<T>(object instance, string fieldname)
+        {
+            BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic;
+            Type type = instance.GetType();
+            FieldInfo field = type.GetField(fieldname, flag);
+            return (T)field.GetValue(instance);
+        }
         #region - Constructor -
 
         public LogFileCleanupTask()
@@ -37,13 +45,15 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
             {
                 foreach (var app in appList)
                 {
-                    var appender = app as RollingFileAppender;
+                    RollingFileAppender appender = app as RollingFileAppender;
+            
+                    var aaaa = appender.DatePattern;
+                    var aa = GetPrivateField<string>(appender, "m_baseFileName");
+                    // var aa = appender.m_baseFileName;
+                    directory = GetPrivateField<string>(appender, "m_baseFileName"); // Path.GetDirectoryName(appender.File);
+                    filePrefix = Path.GetFileName(appender.File);
 
-                    CleanupLogs(appender, 5);
-                    //directory = Path.GetDirectoryName(appender.File);
-                    //filePrefix = Path.GetFileName(appender.File);
-
-                    //   CleanUp(directory, filePrefix, date);
+                    CleanUp(directory, filePrefix, date);
                 }
             }
         }
