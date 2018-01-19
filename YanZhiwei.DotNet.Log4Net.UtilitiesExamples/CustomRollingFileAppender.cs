@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
 {
@@ -14,18 +15,6 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
         #region Public Instance Properties
 
         /// <summary>
-        /// Gets or sets the maximum number of backups.
-        /// </summary>
-        /// <value>
-        /// The maximum number of backups.
-        /// </value>
-        public int MaxNumberOfBackups
-        {
-            get { return m_maxNumberOfBackups; }
-            set { m_maxNumberOfBackups = value; }
-        }
-
-        /// <summary>
         /// Gets or sets the maximum number of days.
         /// </summary>
         /// <value>
@@ -33,25 +22,38 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
         /// </value>
         public int MaxNumberOfDays
         {
-            get { return m_maxNumberOfDays; }
-            set { m_maxNumberOfDays = value; }
+            get; set;
         }
+
+        private string baseDirectory = string.Empty;
 
         #endregion Public Instance Properties
 
+        public static T GetPrivateField<T>(object instance, string fieldname)
+        {
+            BindingFlags flag = BindingFlags.Instance | BindingFlags.NonPublic;
+            Type type = instance.GetType();
+            FieldInfo field = type.GetField(fieldname, flag);
+            return (T)field.GetValue(instance);
+        }
+
+        protected override void OpenFile(string fileName, bool append)
+        {
+            baseDirectory = Path.GetDirectoryName(fileName);
+            string fileNameOnly = Path.GetFileName(fileName);
+
+            base.OpenFile(fileName, append);
+        }
+
         protected override void AdjustFileBeforeAppend()
         {
-            LogLog.Debug(declaringType, declaringType.ToString());
-
-            base.AdjustFileBeforeAppend();
-
-            //Now clean out old files
             if (m_maxNumberOfBackups > 0 || m_maxNumberOfDays > 0)
             {
-                LogLog.Debug(declaringType,
-                                            string.Format("Removing older files Max Backups: [{0}] Age limit [{1}] ", m_maxNumberOfBackups, m_maxNumberOfDays));
+                LogLog.Debug(declaringType, string.Format("Removing older files Max Backups: [{0}] Age limit [{1}] ", m_maxNumberOfBackups, m_maxNumberOfDays));
                 RemoveOldLogFiles();
             }
+
+            base.AdjustFileBeforeAppend();
         }
 
         protected void RemoveOldLogFiles()
@@ -64,7 +66,7 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
                 defaultSearch = GetWildcardPatternForFile(base.File);
 
                 LogLog.Debug(declaringType, string.Format("Delete files search string: [{0}]", defaultSearch));
-                string[] files = Directory.GetFiles(fiBase.DirectoryName);
+                string[] files = Directory.GetFiles(baseDirectory, "*.log", SearchOption.AllDirectories);
                 //We need to load this into a list of FileInfos.
                 List<FileInfo> fiList = new List<FileInfo>();
                 //This will perform badly in large directories - TEST!
@@ -82,7 +84,7 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
                     //Now, sort by date/time and loop through to add old files
                     foreach (var item in fiList.OrderBy(itm => itm.CreationTime))
                     {
-                        if (item.CreationTime < DateTime.Now.AddDays(this.m_maxNumberOfDays * -1))
+                        if (item.LastWriteTime < DateTime.Now.AddDays(this.m_maxNumberOfDays * -1))
                         {
                             fiToDelete.Add(item);
                         }
@@ -105,8 +107,9 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
         {
             for (int i = 0; i < files.Count(); i++)
             {
-                LogLog.Debug(declaringType, "Deleting file: [" + files[i].FullName + "]");
-                System.IO.File.Delete(files[i].FullName);
+                base.DeleteFile(files[i].FullName);
+                //LogLog.Debug(declaringType, "Deleting file: [" + files[i].FullName + "]");
+                //System.IO.File.Delete();
             }
         }
 

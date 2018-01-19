@@ -11,6 +11,8 @@ namespace YanZhiwei.DotNet.Log4Net.UtilitiesExamples
         {
             try
             {
+               
+
                 //XmlConfigurator.Configure();
                 //var date = DateTime.Now.AddDays(-10);
                 //var task = new LogFileCleanupTask();
