@@ -40,9 +40,9 @@
                     return _urlHost;
                 }
 
-                string _urlHost2 = _urlHost.Remove(0, _urlHost.IndexOf(".") + 1);
+                string _urlHost2 = _urlHost.Remove(0, _urlHost.IndexOf(".", StringComparison.OrdinalIgnoreCase) + 1);
 
-                if ((_urlHost2.StartsWith("com.") || _urlHost2.StartsWith("net.")) || (_urlHost2.StartsWith("org.") || _urlHost2.StartsWith("gov.")))
+                if ((_urlHost2.StartsWith("com.", StringComparison.OrdinalIgnoreCase) || _urlHost2.StartsWith("net.", StringComparison.OrdinalIgnoreCase)) || (_urlHost2.StartsWith("org.", StringComparison.OrdinalIgnoreCase) || _urlHost2.StartsWith("gov.", StringComparison.OrdinalIgnoreCase)))
                 {
                     return _urlHost;
                 }
