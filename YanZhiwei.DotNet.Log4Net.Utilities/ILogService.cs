@@ -1,24 +1,26 @@
-﻿using System;
-
-namespace YanZhiwei.DotNet.Log4Net.Utilities
+﻿namespace YanZhiwei.DotNet.Log4Net.Utilities
 {
+    using System;
+
     /// <summary>
     /// 日志记录接口
     /// </summary>
     public interface ILogService
     {
-        /// <summary>
-        /// Fatal记录
-        /// </summary>
-        /// <param name="message">日志信息</param>
-        void Fatal(string message);
+        #region Methods
 
         /// <summary>
-        /// Fatal记录
+        /// Debug记录
+        /// </summary>
+        /// <param name="message">日志信息</param>
+        void Debug(string message);
+
+        /// <summary>
+        /// Debug记录
         /// </summary>
         /// <param name="message">日志信息</param>
         /// <param name="ex">异常信息</param>
-        void Fatal(string message, Exception ex);
+        void Debug(string message, Exception ex);
 
         /// <summary>
         /// Error记录
@@ -34,17 +36,17 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
         void Error(string message, Exception ex);
 
         /// <summary>
-        /// Warn记录
+        /// Fatal记录
         /// </summary>
         /// <param name="message">日志信息</param>
-        void Warn(string message);
+        void Fatal(string message);
 
         /// <summary>
-        /// Warn记录
+        /// Fatal记录
         /// </summary>
         /// <param name="message">日志信息</param>
         /// <param name="ex">异常信息</param>
-        void Warn(string message, Exception ex);
+        void Fatal(string message, Exception ex);
 
         /// <summary>
         /// Info记录
@@ -60,16 +62,18 @@ namespace YanZhiwei.DotNet.Log4Net.Utilities
         void Info(string message, Exception ex);
 
         /// <summary>
-        /// Debug记录
+        /// Warn记录
         /// </summary>
         /// <param name="message">日志信息</param>
-        void Debug(string message);
+        void Warn(string message);
 
         /// <summary>
-        /// Debug记录
+        /// Warn记录
         /// </summary>
         /// <param name="message">日志信息</param>
         /// <param name="ex">异常信息</param>
-        void Debug(string message, Exception ex);
+        void Warn(string message, Exception ex);
+
+        #endregion Methods
     }
 }

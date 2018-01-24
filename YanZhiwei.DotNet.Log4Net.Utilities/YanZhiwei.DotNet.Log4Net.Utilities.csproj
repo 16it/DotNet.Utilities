@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoDeleteFileAppender.cs" />
     <Compile Include="ILogService.cs" />
     <Compile Include="FileLogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
