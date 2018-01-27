@@ -6,9 +6,9 @@ using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    public partial class winGridExamle : Form
+    public partial class FormGridExamle : Form
     {
-        public winGridExamle()
+        public FormGridExamle()
         {
             InitializeComponent();
         }

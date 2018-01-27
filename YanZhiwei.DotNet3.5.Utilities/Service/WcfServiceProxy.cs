@@ -62,15 +62,6 @@
         }
 
         /// <summary>
-        /// 服务端 URI
-        /// </summary>
-        public string ServiceURL
-        {
-            get;
-            protected set;
-        }
-
-        /// <summary>
         /// 设置在传输引发异常之前可用于打开连接的时间间隔
         /// </summary>
         public TimeSpan OpenTimeout
@@ -94,6 +85,15 @@
         public TimeSpan SendTimeout
         {
             get;    // TimeSpan.FromMinutes(10);
+            protected set;
+        }
+
+        /// <summary>
+        /// 服务端 URI
+        /// </summary>
+        public string ServiceURL
+        {
+            get;
             protected set;
         }
 

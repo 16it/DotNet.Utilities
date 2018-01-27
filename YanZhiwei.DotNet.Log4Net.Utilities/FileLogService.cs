@@ -1,7 +1,8 @@
 ﻿namespace YanZhiwei.DotNet.Log4Net.Utilities
 {
-    using log4net;
     using System;
+
+    using log4net;
 
     /// <summary>
     /// 基于Log4Net的文件日志记录

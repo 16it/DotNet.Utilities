@@ -5,9 +5,9 @@ using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    public partial class winTreeView : Form
+    public partial class FormTreeView : Form
     {
-        public winTreeView()
+        public FormTreeView()
         {
             InitializeComponent();
         }

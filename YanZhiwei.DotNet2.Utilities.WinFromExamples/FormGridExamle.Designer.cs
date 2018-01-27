@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    partial class winGridExamle
+    partial class FormGridExamle
     {
         /// <summary>
         /// Required designer variable.

@@ -8,9 +8,9 @@ using YanZhiwei.DotNet2.Utilities.WinForm.Core;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    public partial class winMain : Form
+    public partial class FormMain : Form
     {
-        public winMain()
+        public FormMain()
         {
             InitializeComponent();
         }
@@ -19,12 +19,12 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
         {
             //winGridExamle _winExample = new winGridExamle();
             //_winExample.ShowDialog();
-            FormHelper.ShowDialogForm<winGridExamle>();
+            FormHelper.ShowDialogForm<FormGridExamle>();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            ApplicationHelper.CapturedExit<winMain>(this, () =>
+            ApplicationHelper.CapturedExit<FormMain>(this, () =>
             {
                 if (MessageBox.Show("确认退出？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     return true;
@@ -35,14 +35,14 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 
         private void button2_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowDialogForm<winCheckedListBox>();
+            FormHelper.ShowDialogForm<FormCheckedListBox>();
             //winCheckedListBox _winExample = new winCheckedListBox();
             //_winExample.ShowDialog();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowDialogForm<winTreeView>();
+            FormHelper.ShowDialogForm<FormTreeView>();
             //winTreeView _winExample = new winTreeView();
             //_winExample.ShowDialog();
         }
@@ -64,21 +64,21 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 
         private void button7_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowDialogForm<winSerialPortExamle>();
+            FormHelper.ShowDialogForm<FormSerialPortExamle>();
             //winSerialPortExamle _winExample = new winSerialPortExamle();
             //_winExample.ShowDialog();
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowDialogForm<winProgressBarExample>();
+            FormHelper.ShowDialogForm<FormProgressBarExample>();
             //winProgressBarExample _winExample = new winProgressBarExample();
             //_winExample.ShowDialog();
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowDialogForm<winLanguageExample>();
+            FormHelper.ShowDialogForm<FormLanguageExample>();
             //winLanguageExample _winExample = new winLanguageExample();
             //_winExample.ShowDialog();
         }
@@ -110,7 +110,17 @@ namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 
         private void button12_Click(object sender, EventArgs e)
         {
-            FormHelper.ShowDialogForm<winUnPackageData>();
+            FormHelper.ShowDialogForm<FormUnPackageData>();
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            FormHelper.ShowDialogForm<FormXmlSectionWrapper>();
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            FormHelper.ShowDialogForm<FormXmlNodeWrapper>();
         }
     }
 }

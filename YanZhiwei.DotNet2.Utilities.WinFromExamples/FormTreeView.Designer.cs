@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    partial class winTreeView
+    partial class FormTreeView
     {
         /// <summary>
         /// Required designer variable.

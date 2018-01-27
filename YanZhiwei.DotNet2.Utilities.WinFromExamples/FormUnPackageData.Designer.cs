@@ -1,6 +1,6 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    partial class winUnPackageData
+    partial class FormUnPackageData
     {
         /// <summary>
         /// Required designer variable.

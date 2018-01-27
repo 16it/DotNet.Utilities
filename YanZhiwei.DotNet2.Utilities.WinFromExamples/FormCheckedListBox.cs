@@ -6,9 +6,9 @@ using YanZhiwei.DotNet2.Utilities.WinForm;
 
 namespace YanZhiwei.DotNet2.Utilities.WinFromExamples
 {
-    public partial class winCheckedListBox : Form
+    public partial class FormCheckedListBox : Form
     {
-        public winCheckedListBox()
+        public FormCheckedListBox()
         {
             InitializeComponent();
         }
