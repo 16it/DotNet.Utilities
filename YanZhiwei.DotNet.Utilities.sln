@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{E7041928-FF2F-44AF-AB91-7427819415C5}"
 EndProject
@@ -236,6 +236,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.KafkaLog4Net", "YanZhiwei.DotNet.KafkaLog4Net\YanZhiwei.DotNet.KafkaLog4Net.csproj", "{0D306B49-D74C-404E-8019-DCA344C10BA7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Zookeeper.Utilities", "YanZhiwei.DotNet.Zookeeper.Utilities\YanZhiwei.DotNet.Zookeeper.Utilities.csproj", "{E4C3494B-186E-4A3B-9534-014155899EAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YanZhiwei.DotNet.Topshelf.UtilitiesExamples", "YanZhiwei.DotNet.Topshelf.UtilitiesExamples\YanZhiwei.DotNet.Topshelf.UtilitiesExamples.csproj", "{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1837,6 +1839,22 @@ Global
 		{E4C3494B-186E-4A3B-9534-014155899EAF}.Release|x64.Build.0 = Release|Any CPU
 		{E4C3494B-186E-4A3B-9534-014155899EAF}.Release|x86.ActiveCfg = Release|Any CPU
 		{E4C3494B-186E-4A3B-9534-014155899EAF}.Release|x86.Build.0 = Release|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Debug|x64.Build.0 = Debug|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Debug|x86.Build.0 = Debug|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Release|ARM.Build.0 = Release|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Release|x64.ActiveCfg = Release|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Release|x64.Build.0 = Release|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Release|x86.ActiveCfg = Release|Any CPU
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1948,9 +1966,10 @@ Global
 		{69EB1F12-1203-4C3A-BC82-49B10F041D9C} = {0AB0C2C1-1D2C-4C43-94B8-DDE8280721E6}
 		{0D306B49-D74C-404E-8019-DCA344C10BA7} = {E7041928-FF2F-44AF-AB91-7427819415C5}
 		{E4C3494B-186E-4A3B-9534-014155899EAF} = {E7041928-FF2F-44AF-AB91-7427819415C5}
+		{3A18EBF1-0A6D-4BD7-A3DD-9D59DE201BBC} = {2BF92C47-311B-46B2-B536-CBD597257243}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 		SolutionGuid = {3C77B6A4-A666-4D9D-8B43-95B85D4DE00E}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Validation.6.0.1304.0\lib\NET45
 	EndGlobalSection
 EndGlobal

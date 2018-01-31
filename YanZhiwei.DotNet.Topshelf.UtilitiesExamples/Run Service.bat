@@ -1,0 +1,1 @@
+YanZhiwei.DotNet.Topshelf.UtilitiesExamples.exe install
