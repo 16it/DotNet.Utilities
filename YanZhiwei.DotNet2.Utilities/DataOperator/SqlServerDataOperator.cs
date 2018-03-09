@@ -266,7 +266,7 @@
         {
             totalPage = 0;
             totalCount = 0;
-            string _sql = SqlServerPageScript.JoinPageSQLByRowNumber(tableName, fields, orderField, sqlWhere, orderBy, pageSize, pageIndex);
+            string _sql = SqlServerPageScript.TablePageSQLByRowNumber(tableName, fields, orderField, sqlWhere, orderBy, pageSize, pageIndex);
             
             try
             {
@@ -315,7 +315,7 @@
         /// <exception cref="FrameworkException">SQL异常</exception>
         public PagedList<T> ExecutePageQuery<T>(string tableName, string fields, string orderField, OrderType orderBy, string sqlWhere, int pageSize, int pageIndex) where T : class
         {
-            string _sql = SqlServerPageScript.JoinPageSQLByRowNumber(tableName, fields, orderField, sqlWhere, orderBy, pageSize, pageIndex);
+            string _sql = SqlServerPageScript.TablePageSQLByRowNumber(tableName, fields, orderField, sqlWhere, orderBy, pageSize, pageIndex);
             
             try
             {
