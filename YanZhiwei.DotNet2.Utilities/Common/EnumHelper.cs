@@ -1,16 +1,17 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reflection;
-    
+
     /// <summary>
     /// 枚举帮助类
     /// </summary>
     public static class EnumHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 判断枚举是否包括枚举常数名称
         /// </summary>
@@ -21,16 +22,16 @@
         where T : struct, IConvertible
         {
             bool _result = false;
-            
-            if(typeof(T).IsEnum)
+
+            if (typeof(T).IsEnum)
             {
                 string[] _enumnName = Enum.GetNames(typeof(T));
-                
-                if(_enumnName != null)
+
+                if (_enumnName != null)
                 {
-                    for(int i = 0; i < _enumnName.Length; i++)
+                    for (int i = 0; i < _enumnName.Length; i++)
                     {
-                        if(string.Compare(_enumnName[i], enumName, true) == 0)
+                        if (string.Compare(_enumnName[i], enumName, true) == 0)
                         {
                             _result = true;
                             break;
@@ -38,10 +39,10 @@
                     }
                 }
             }
-            
+
             return _result;
         }
-        
+
         /// <summary>
         /// 从枚举中获取Description
         /// </summary>
@@ -52,8 +53,8 @@
             string _description = string.Empty;
             FieldInfo _fieldInfo = targetEnum.GetType().GetField(targetEnum.ToString());
             DescriptionAttribute[] _attributes = _fieldInfo.GetDescriptAttr();
-            
-            if(_attributes != null && _attributes.Length > 0)
+
+            if (_attributes != null && _attributes.Length > 0)
             {
                 _description = _attributes[0].Description;
             }
@@ -61,10 +62,10 @@
             {
                 _description = targetEnum.ToString();
             }
-            
+
             return _description;
         }
-        
+
         /// <summary>
         /// 获取枚举常数名称
         /// </summary>
@@ -76,7 +77,7 @@
         {
             return Enum.GetName(typeof(T), targetEnum);
         }
-        
+
         /// <summary>
         /// 根据枚举数值获取枚举常数名称
         /// </summary>
@@ -88,7 +89,7 @@
         {
             return Enum.GetName(typeof(T), enumNumber);
         }
-        
+
         /// <summary>
         /// 将枚举数值转换成数组
         /// <code>
@@ -104,23 +105,23 @@
         /// 备注：
         public static T[] GetValues<T>(this Type enumType)
         {
-            if(enumType.IsEnum)
+            if (enumType.IsEnum)
             {
                 Array _array = Enum.GetValues(enumType);
                 int _count = _array.Length;
                 T[] _valueArray = new T[_count];
-                
-                for(int i = 0; i < _count; i++)
+
+                for (int i = 0; i < _count; i++)
                 {
                     _valueArray[i] = (T)_array.GetValue(i);
                 }
-                
+
                 return _valueArray;
             }
-            
+
             return null;
         }
-        
+
         /// <summary>
         /// 检查枚举是否包含
         /// <para>
@@ -134,7 +135,7 @@
         {
             return Array.IndexOf(values, data) != -1;
         }
-        
+
         /// <summary>
         /// 检查枚举是否不包含
         /// <para>
@@ -148,7 +149,7 @@
         {
             return Array.IndexOf(values, data) == -1;
         }
-        
+
         /// <summary>
         /// 根据Description获取枚举
         /// </summary>
@@ -159,17 +160,17 @@
         public static T ParseEnumDescription<T>(this string description, T defaultValue)
         where T : struct, IConvertible
         {
-            if(typeof(T).IsEnum)
+            if (typeof(T).IsEnum)
             {
                 Type _type = typeof(T);
-                
-                foreach(FieldInfo field in _type.GetFields())
+
+                foreach (FieldInfo field in _type.GetFields())
                 {
                     DescriptionAttribute[] _description = field.GetDescriptAttr();
-                    
-                    if(_description != null && _description.Length > 0)
+
+                    if (_description != null && _description.Length > 0)
                     {
-                        if(string.Compare(_description[0].Description, description, true) == 0)
+                        if (string.Compare(_description[0].Description, description, true) == 0)
                         {
                             defaultValue = (T)field.GetValue(null);
                             break;
@@ -177,7 +178,7 @@
                     }
                     else
                     {
-                        if(string.Compare(field.Name, description, true) == 0)
+                        if (string.Compare(field.Name, description, true) == 0)
                         {
                             defaultValue = (T)field.GetValue(null);
                             break;
@@ -185,10 +186,10 @@
                     }
                 }
             }
-            
+
             return defaultValue;
         }
-        
+
         /// <summary>
         /// 将枚举常数名称转换成枚举
         /// </summary>
@@ -200,12 +201,32 @@
         {
             return (T)Enum.Parse(typeof(T), enumName, true);
         }
-        
+
+        /// <summary>
+        /// 转换KeyValuePair
+        /// </summary>
+        /// <typeparam name="T">枚举</typeparam>
+        /// <returns>KeyValuePair</returns>
+        /// 时间：2018/3/14 9:43
+        /// 备注：
+        public static List<KeyValuePair<int, string>> ToKeyValuePair<T>()
+                  where T : struct, IConvertible
+        {
+            var _kvs = new List<KeyValuePair<int, string>>();
+            if (typeof(T).IsEnum)
+            {
+                foreach (var name in Enum.GetNames(typeof(T)))
+                {
+                    _kvs.Add(new KeyValuePair<int, string>((int)Enum.Parse(typeof(T), name), name));
+                }
+            }
+            return _kvs;
+        }
         private static DescriptionAttribute[] GetDescriptAttr(this FieldInfo fieldInfo)
         {
             return (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
         }
-        
+
         #endregion Methods
     }
 }
