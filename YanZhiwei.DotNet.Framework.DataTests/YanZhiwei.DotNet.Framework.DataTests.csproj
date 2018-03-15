@@ -82,10 +82,6 @@
       <Project>{3E3AD6DC-66CD-4B62-9C90-DCFD6805A92C}</Project>
       <Name>YanZhiwei.DotNet.Framework.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.DotNet.Newtonsoft.Json.Utilities\YanZhiwei.DotNet.Newtonsoft.Json.Utilities.csproj">
-      <Project>{17020b01-dddb-4060-9b17-e4439cdc8c9a}</Project>
-      <Name>YanZhiwei.DotNet.Newtonsoft.Json.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>

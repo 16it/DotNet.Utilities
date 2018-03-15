@@ -59,12 +59,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.DotNet.Newtonsoft.Json.Utilities\YanZhiwei.DotNet.Newtonsoft.Json.Utilities.csproj">
-      <Project>{17020B01-DDDB-4060-9B17-E4439CDC8C9A}</Project>
-      <Name>YanZhiwei.DotNet.Newtonsoft.Json.Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

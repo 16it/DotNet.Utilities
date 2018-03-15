@@ -54,10 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YanZhiwei.DotNet.Newtonsoft.Json.Utilities\YanZhiwei.DotNet.Newtonsoft.Json.Utilities.csproj">
-      <Project>{17020b01-dddb-4060-9b17-e4439cdc8c9a}</Project>
-      <Name>YanZhiwei.DotNet.Newtonsoft.Json.Utilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet.RestSharp.Utilities\YanZhiwei.DotNet.RestSharp.Utilities.csproj">
       <Project>{34332bca-3ff3-4d3a-a8e4-61980ce8d1e7}</Project>
       <Name>YanZhiwei.DotNet.RestSharp.Utilities</Name>
