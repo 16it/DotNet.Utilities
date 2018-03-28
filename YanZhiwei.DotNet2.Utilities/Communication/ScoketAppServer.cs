@@ -217,7 +217,7 @@
                     listener.Listen(this.MaxQueuedConnections);
                     listener.BeginAccept(new AsyncCallback(ClientConnected), listener);
                 }
-                else if (this.Protocol == SocketProtocol.UDP)
+                else if (Protocol == SocketProtocol.UDP)
                 {
                     SocketConnectionInfo _connection = new SocketConnectionInfo();
                     _connection.Buffer = new byte[SocketConnectionInfo.BufferSize];
