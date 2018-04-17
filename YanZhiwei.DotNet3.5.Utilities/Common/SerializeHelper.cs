@@ -1,5 +1,6 @@
 ﻿namespace YanZhiwei.DotNet3._5.Utilities.Common
 {
+    using DotNet2.Utilities.Operator;
     using System;
     using System.IO;
     using System.Runtime.Serialization;
@@ -7,10 +8,8 @@
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Web.Script.Serialization;
+    using System.Xml;
     using System.Xml.Serialization;
-
-    using DotNet2.Utilities.Operator;
-
     using YanZhiwei.DotNet2.Utilities.Common;
 
     /// <summary>
@@ -189,13 +188,19 @@
         /// <summary>
         /// 利用XmlSerializer来反序列化
         /// </summary>
-        /// <param name="deserializeString">需要反序列化的字符串</param>
+        /// <param name="deserializeStringOrPath">需要反序列化的字符串或者路径</param>
         /// <returns>对象</returns>
-        public static T XmlDeserialize<T>(string deserializeString)
+        public static T XmlDeserialize<T>(string deserializeStringOrPath)
         {
-            CheckedDeserializeString(deserializeString);
+            CheckedDeserializeString(deserializeStringOrPath);
+            if (File.Exists(deserializeStringOrPath))
+            {
+                XmlDocument _xmlDoc = new XmlDocument();
+                _xmlDoc.Load(deserializeStringOrPath);
+                deserializeStringOrPath = _xmlDoc.InnerXml.Trim();
+            }
             XmlSerializer _xmlSerializer = new XmlSerializer(typeof(T));
-            StringReader _writer = new StringReader(deserializeString);
+            StringReader _writer = new StringReader(deserializeStringOrPath);
             return (T)_xmlSerializer.Deserialize(_writer);
         }
 
