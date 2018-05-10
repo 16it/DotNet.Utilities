@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    internal class NotificationObject : INotifyPropertyChanged
+    public class NotificationObject : INotifyPropertyChanged
     {
         #region Events
 
