@@ -135,6 +135,7 @@
     <Compile Include="WebForm\Core\SimulateWebClientRequest.cs" />
     <Compile Include="WPF\ControlHelper.cs" />
     <Compile Include="WPF\DispatcherHelper.cs" />
+    <Compile Include="WPF\NotificationHelper.cs" />
     <Compile Include="WPF\NotificationObject.cs" />
   </ItemGroup>
   <ItemGroup>
