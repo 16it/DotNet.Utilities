@@ -3,7 +3,7 @@
     using System;
     using System.Linq.Expressions;
 
-    internal static class NotificationHelper
+    public static class NotificationHelper
     {
         #region Methods
 
