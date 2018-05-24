@@ -32,8 +32,9 @@
 
         /// <summary>
         /// 处理decimal，规则如下：
-        /// 1.55.55==>55.55
-        /// 2.55.00==>55
+        /// 1.55.55 output 55.55
+        /// 2.55.00 output 55
+        /// </summary>
         /// <param name="value">需要处理的decimal</param>
         /// <returns>处理后的decimal</returns>
         public static decimal CustomizedDecimal(decimal value)
