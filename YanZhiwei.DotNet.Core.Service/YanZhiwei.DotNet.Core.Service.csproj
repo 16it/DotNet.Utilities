@@ -81,10 +81,6 @@
       <Project>{ed3573de-607c-4b2a-99d8-2c21a2cdb13f}</Project>
       <Name>YanZhiwei.DotNet.Core.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\YanZhiwei.DotNet.Core.Log\YanZhiwei.DotNet.Core.Log.csproj">
-      <Project>{0acae8bb-a16c-41ae-bef1-09cca7b79eac}</Project>
-      <Name>YanZhiwei.DotNet.Core.Log</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YanZhiwei.DotNet2.Utilities\YanZhiwei.DotNet2.Utilities.csproj">
       <Project>{2868748d-6fec-4423-8254-bc366507c589}</Project>
       <Name>YanZhiwei.DotNet2.Utilities</Name>
