@@ -63,7 +63,7 @@ namespace YanZhiwei.DotNet4.Utilities.Common
             TResult[] _data = source.Where(predicate, primaryKeyField, pageIndex, pageSize, out _total, sortConditions).Select(selector).ToArray();
             return new PageList<TResult>()
             {
-                Total = _total,
+                TotalCount = _total,
                 Data = _data
             };
         }
