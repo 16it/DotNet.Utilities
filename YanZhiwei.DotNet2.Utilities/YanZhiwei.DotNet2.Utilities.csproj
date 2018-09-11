@@ -69,6 +69,7 @@
     <Compile Include="Common\AttributeHelper.cs" />
     <Compile Include="Common\FileExtInfoHelper.cs" />
     <Compile Include="Common\FuzzyHelper.cs" />
+    <Compile Include="Common\IntHelper.cs" />
     <Compile Include="Common\UnitTestHelper.cs" />
     <Compile Include="Core\Counter.cs" />
     <Compile Include="Core\ImageFast.cs" />
