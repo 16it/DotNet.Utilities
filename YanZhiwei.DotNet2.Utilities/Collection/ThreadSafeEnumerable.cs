@@ -19,12 +19,12 @@
         /// <summary>
         /// 泛型IEnumerable对象
         /// </summary>
-        private readonly IEnumerable<T> innerEnumerable;
+        private readonly IEnumerable<T> _storeEnumerable;
 
         /// <summary>
         /// 锁对象
         /// </summary>
-        private readonly object syncObject;
+        private readonly object _syncObject;
 
         #endregion Fields
 
@@ -37,8 +37,8 @@
         /// <param name="syncObj">The synchronize object.</param>
         public ThreadSafeEnumerableHelper(IEnumerable<T> inner, object syncObj)
         {
-            syncObject = syncObj;
-            innerEnumerable = inner;
+            _syncObject = syncObj;
+            _storeEnumerable = inner;
         }
 
         #endregion Constructors
@@ -51,7 +51,7 @@
         /// <returns>IEnumerator</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return new ThreadSafeEnumerator<T>(innerEnumerable.GetEnumerator(), syncObject);
+            return new ThreadSafeEnumerator<T>(_storeEnumerable.GetEnumerator(), _syncObject);
         }
 
         /// <summary>

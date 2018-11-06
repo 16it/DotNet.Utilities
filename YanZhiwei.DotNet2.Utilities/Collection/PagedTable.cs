@@ -1,10 +1,9 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Collection
 {
+    using Interfaces;
     using System;
     using System.Data;
-    
-    using Interfaces;
-    
+
     /// <summary>
     /// 分页的DataTable
     /// </summary>
@@ -13,18 +12,23 @@
     public class PagedTable : IPagedList
     {
         #region Fields
-        
+
         /// <summary>
         /// 已经分页的DataTable
         /// </summary>
         /// 时间：2016/10/27 11:33
         /// 备注：
         public readonly DataTable PagedDataTable = null;
-        
+
+        /// <summary>
+        /// 页总数
+        /// </summary>
+        public int TotalPageCount => (int)Math.Ceiling(TotalItemCount / (double)PageSize);
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -41,11 +45,11 @@
             CurrentPageIndex = pageIndex;
             PageSize = pageSize;
         }
-        
+
         #endregion Constructors
-        
+
         #region Properties
-        
+
         /// <summary>
         /// 当前页索引
         /// </summary>
@@ -56,7 +60,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 分页大小
         /// </summary>
@@ -67,7 +71,7 @@
             get;
             set;
         }
-        
+
         /// <summary>
         /// 记录总数
         /// </summary>
@@ -78,18 +82,7 @@
             get;
             set;
         }
-        
-        /// <summary>
-        /// 页总数
-        /// </summary>
-        public int TotalPageCount
-        {
-            get
-            {
-                return (int)Math.Ceiling(TotalItemCount / (double)PageSize);
-            }
-        }
-        
+
         #endregion Properties
     }
 }

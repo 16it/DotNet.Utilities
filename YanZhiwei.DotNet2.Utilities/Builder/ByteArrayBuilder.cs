@@ -7,82 +7,57 @@
     /// <summary>
     /// Byte数组构建器
     /// </summary>
-    /// 时间：2016/6/15 14:01
-    /// 备注：
     public class ByteArrayBuilder : IDisposable
     {
-        #region Fields
-
         /// <summary>
         /// False
         /// </summary>
-        private const byte streamFalse = (byte)0;
+        private const byte streamFalse = 0;
 
         /// <summary>
         /// True
         /// </summary>
-        private const byte streamTrue = (byte)1;
+        private const byte streamTrue = 1;
 
         /// <summary>
         /// MemoryStream
         /// </summary>
-        private MemoryStream store = new MemoryStream();
-
-        #endregion Fields
-
-        #region Constructors
+        private MemoryStream _store = new MemoryStream();
 
         /// <summary>
-        /// 默认构造函数
+        /// Initializes a new instance of the <see cref="ByteArrayBuilder"/> class.
         /// </summary>
-        /// 时间：2016/6/15 14:02
-        /// 备注：
         public ByteArrayBuilder()
         {
         }
 
         /// <summary>
-        /// 构造函数
+        /// Initializes a new instance of the <see cref="ByteArrayBuilder"/> class.
         /// </summary>
         /// <param name="data">初始化byte数组</param>
         public ByteArrayBuilder(byte[] data)
         {
-            store.Close();
-            store.Dispose();
-            store = new MemoryStream(data);
+            _store.Close();
+            _store.Dispose();
+            _store = new MemoryStream(data);
         }
 
         /// <summary>
-        /// 构造函数
+        /// Initializes a new instance of the <see cref="ByteArrayBuilder"/> class.
         /// </summary>
         /// <param name="base64">base64字符串</param>
-        /// 时间：2016/6/15 14:03
-        /// 备注：
         public ByteArrayBuilder(string base64)
         {
-            store.Close();
-            store.Dispose();
-            store = new MemoryStream(Convert.FromBase64String(base64));
+            _store.Close();
+            _store.Dispose();
+            _store = new MemoryStream(Convert.FromBase64String(base64));
         }
-
-        #endregion Constructors
-
-        #region Properties
 
         /// <summary>
+        /// Gets the Length
         /// 当前Byte数组长度
         /// </summary>
-        public int Length
-        {
-            get
-            {
-                return (int)store.Length;
-            }
-        }
-
-        #endregion Properties
-
-        #region Methods
+        public int Length => (int)_store.Length;
 
         /// <summary>
         /// 附加byte数组类型数值
@@ -90,18 +65,16 @@
         /// <param name="b">byte数组类型数值</param>
         public void Append(byte[] b)
         {
-            store.Write(b, 0, b.Length);
+            _store.Write(b, 0, b.Length);
         }
 
         /// <summary>
         /// 附加一个bool数值
         /// </summary>
         /// <param name="b">bool数值</param>
-        /// 时间：2016/6/15 14:03
-        /// 备注：
         public void Append(bool b)
         {
-            store.WriteByte(b ? streamTrue : streamFalse);
+            _store.WriteByte(b ? streamTrue : streamFalse);
         }
 
         /// <summary>
@@ -110,7 +83,7 @@
         /// <param name="b">byte类型数值</param>
         public void Append(byte b)
         {
-            store.WriteByte(b);
+            _store.WriteByte(b);
         }
 
         /// <summary>
@@ -172,48 +145,38 @@
         /// </summary>
         public void Clear()
         {
-            store.Close();
-            store.Dispose();
-            store = new MemoryStream();
+            _store.Close();
+            _store.Dispose();
+            _store = new MemoryStream();
         }
 
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// 时间：2016/6/20 15:01
-        /// 备注：
         public void Dispose()
         {
-            store.Close();
-            store.Dispose();
+            _store.Close();
+            _store.Dispose();
         }
 
         /// <summary>
         /// 转换为数组
         /// </summary>
         /// <returns>数组</returns>
-        /// 时间：2016/6/20 15:01
-        /// 备注：
         public byte[] ToArray()
         {
             byte[] data = new byte[Length];
-            Array.Copy(store.GetBuffer(), data, Length);
+            Array.Copy(_store.GetBuffer(), data, Length);
             return data;
         }
 
         /// <summary>
         /// 返回带空格的十六进制字符串
         /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
-        /// 时间：2016/6/20 14:59
-        /// 备注：
+        /// <returns>The <see cref="string"/></returns>
         public override string ToString()
         {
             return ByteHelper.ToHexStringWithBlank(ToArray());
         }
-
-        #endregion Methods
     }
 }

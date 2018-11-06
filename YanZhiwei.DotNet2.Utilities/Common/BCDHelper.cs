@@ -56,11 +56,11 @@
         /// <returns>Byte描述</returns>
         public static byte Parse8421BCDNumber(this int bcdNumber)
         {
-            byte _bcd = (byte)(bcdNumber % 10);
+            byte bcd = (byte)(bcdNumber % 10);
             bcdNumber /= 10;
-            _bcd |= (byte)((bcdNumber % 10) << 4);
+            bcd |= (byte)((bcdNumber % 10) << 4);
             bcdNumber /= 10;
-            return _bcd;
+            return bcd;
         }
 
         /// <summary>
@@ -71,14 +71,14 @@
         /// <returns>Byte数组</returns>
         public static byte[] Parse8421BCDNumber(this int bcdNumber, bool isLittleEndian)
         {
-            string _bcdString = bcdNumber.ToString();
+            string bcdString = bcdNumber.ToString();
 
-            if(!CheckHelper.IsBinaryCodedDecimal(_bcdString))
+            if (!CheckHelper.IsBinaryCodedDecimal(bcdString))
             {
-                _bcdString = _bcdString.PadLeft(_bcdString.Length + 1, '0');
+                bcdString = bcdString.PadLeft(bcdString.Length + 1, '0');
             }
 
-            return Parse8421BCDString(_bcdString, isLittleEndian);
+            return Parse8421BCDString(bcdString, isLittleEndian);
         }
 
         /// <summary>
@@ -91,35 +91,35 @@
         /// <returns>Byte数组</returns>
         public static byte[] Parse8421BCDString(this string bcdString, bool isLittleEndian)
         {
-            byte[] _bytes = null;
+            byte[] data = null;
 
-            if(CheckHelper.IsBinaryCodedDecimal(bcdString))
+            if (CheckHelper.IsBinaryCodedDecimal(bcdString))
             {
-                char[] _chars = bcdString.ToCharArray();
-                int _len = _chars.Length / 2;
-                _bytes = new byte[_len];
+                char[] bcdArray = bcdString.ToCharArray();
+                int count = bcdArray.Length / 2;
+                data = new byte[count];
 
-                if(isLittleEndian)
+                if (isLittleEndian)
                 {
-                    for(int i = 0; i < _len; i++)
+                    for (int i = 0; i < count; i++)
                     {
-                        byte _highNibble = byte.Parse(_chars[2 * (_len - 1) - 2 * i].ToString());
-                        byte _lowNibble = byte.Parse(_chars[2 * (_len - 1) - 2 * i + 1].ToString());
-                        _bytes[i] = (byte)((byte)(_highNibble << 4) | _lowNibble);
+                        byte highNibble = byte.Parse(bcdArray[2 * (count - 1) - 2 * i].ToString());
+                        byte lowNibble = byte.Parse(bcdArray[2 * (count - 1) - 2 * i + 1].ToString());
+                        data[i] = (byte)((byte)(highNibble << 4) | lowNibble);
                     }
                 }
                 else
                 {
-                    for(int i = 0; i < _len; i++)
+                    for (int i = 0; i < count; i++)
                     {
-                        byte _highNibble = byte.Parse(_chars[2 * i].ToString());
-                        byte _lowNibble = byte.Parse(_chars[2 * i + 1].ToString());
-                        _bytes[i] = (byte)((byte)(_highNibble << 4) | _lowNibble);
+                        byte highNibble = byte.Parse(bcdArray[2 * i].ToString());
+                        byte lowNibble = byte.Parse(bcdArray[2 * i + 1].ToString());
+                        data[i] = (byte)((byte)(highNibble << 4) | lowNibble);
                     }
                 }
             }
 
-            return _bytes;
+            return data;
         }
 
         /// <summary>
@@ -132,30 +132,30 @@
         /// <returns>BCD描述</returns>
         public static string To8421BCDString(this byte[] data, bool isLittleEndian)
         {
-            StringBuilder _builder = new StringBuilder(data.Length * 2);
+            StringBuilder builder = new StringBuilder(data.Length * 2);
 
-            if(isLittleEndian)
+            if (isLittleEndian)
             {
-                for(int i = data.Length - 1; i >= 0; i--)
+                for (int i = data.Length - 1; i >= 0; i--)
                 {
-                    byte _bcdByte = data[i];
-                    int _idHigh = _bcdByte >> 4;
-                    int _idLow = _bcdByte & 0x0F;
-                    _builder.Append(string.Format("{0}{1}", _idHigh, _idLow));
+                    byte bcdByte = data[i];
+                    int idHigh = bcdByte >> 4;
+                    int idLow = bcdByte & 0x0F;
+                    builder.Append(string.Format("{0}{1}", idHigh, idLow));
                 }
             }
             else
             {
-                for(int i = 0; i < data.Length; i++)
+                for (int i = 0; i < data.Length; i++)
                 {
-                    byte _bcdByte = data[i];
-                    int _idHigh = _bcdByte >> 4;
-                    int _idLow = _bcdByte & 0x0F;
-                    _builder.Append(string.Format("{0}{1}", _idHigh, _idLow));
+                    byte bcdByte = data[i];
+                    int idHigh = bcdByte >> 4;
+                    int idLow = bcdByte & 0x0F;
+                    builder.Append(string.Format("{0}{1}", idHigh, idLow));
                 }
             }
 
-            return _builder.ToString();
+            return builder.ToString();
         }
 
         /// <summary>
@@ -170,8 +170,8 @@
         /// 备注：
         public static string To8421BCDString(this byte[] data, int startIndex, int endIndex, bool isLittleEndian)
         {
-            byte[] _array = ArrayHelper.Copy(data, startIndex, endIndex);
-            return To8421BCDString(_array, isLittleEndian);
+            byte[] array = ArrayHelper.Copy(data, startIndex, endIndex);
+            return To8421BCDString(array, isLittleEndian);
         }
 
         #endregion Methods

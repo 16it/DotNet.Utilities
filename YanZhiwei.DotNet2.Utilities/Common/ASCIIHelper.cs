@@ -29,9 +29,9 @@
         /// <returns>ascii码</returns>
         public static char ParseASCII(this byte asciiCode)
         {
-            ASCIIEncoding _asciiEncoding = new ASCIIEncoding();
-            byte[] _array = new byte[] { asciiCode };
-            return _asciiEncoding.GetString(_array)[0];
+            ASCIIEncoding asciiEncoding = new ASCIIEncoding();
+            byte[] data = { asciiCode };
+            return asciiEncoding.GetString(data)[0];
         }
 
         /// <summary>
@@ -41,9 +41,9 @@
         /// <returns>Int</returns>
         public static int ToASCII(this char data)
         {
-            ASCIIEncoding _asciiEncoding = new ASCIIEncoding();
-            char[] _array = new char[1] { data };
-            return (int)_asciiEncoding.GetBytes(_array)[0];
+            ASCIIEncoding asciiEncoding = new ASCIIEncoding();
+            char[] array = { data };
+            return asciiEncoding.GetBytes(array)[0];
         }
 
         /// <summary>

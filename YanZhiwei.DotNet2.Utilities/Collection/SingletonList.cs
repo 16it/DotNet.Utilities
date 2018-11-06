@@ -23,13 +23,7 @@
         /// <summary>
         /// 获取指定类型的列表的单例实例
         /// </summary>
-        public static new IList<T> Instance
-        {
-            get
-            {
-                return SingletonType<IList<T>>.Instance;
-            }
-        }
+        public new static IList<T> Instance => SingletonType<IList<T>>.Instance;
 
         #endregion Properties
     }

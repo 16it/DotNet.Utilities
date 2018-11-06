@@ -1,6 +1,5 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Collection
 {
-    using Common;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -14,6 +13,11 @@
     {
         #region Fields
 
+        /// <summary>
+        /// 是否只读
+        /// </summary>
+        public bool IsReadOnly => false;
+
         /*
          * 参考：
          * 1. http://www.codeproject.com/KB/cs/safe_enumerable.aspx
@@ -22,12 +26,12 @@
         /// <summary>
         /// 集合
         /// </summary>
-        private readonly List<T> innerList;
+        private readonly List<T> _storeList;
 
         /// <summary>
         /// 锁对象
         /// </summary>
-        private readonly object syncRoot = new object();
+        private readonly object _syncRoot = new object();
 
         #endregion Fields
 
@@ -38,7 +42,7 @@
         /// </summary>
         public ThreadSafeList()
         {
-            innerList = new List<T>();
+            _storeList = new List<T>();
         }
 
         /// <summary>
@@ -47,7 +51,7 @@
         /// <param name="data">IEnumerable</param>
         public ThreadSafeList(IEnumerable<T> data)
         {
-            innerList = new List<T>(data);
+            _storeList = new List<T>(data);
         }
 
         #endregion Constructors
@@ -61,21 +65,10 @@
         {
             get
             {
-                lock(syncRoot)
+                lock (_syncRoot)
                 {
-                    return innerList.Count;
+                    return _storeList.Count;
                 }
-            }
-        }
-
-        /// <summary>
-        /// 是否只读
-        /// </summary>
-        public bool IsReadOnly
-        {
-            get
-            {
-                return false;
             }
         }
 
@@ -92,16 +85,16 @@
         {
             get
             {
-                lock(syncRoot)
+                lock (_syncRoot)
                 {
-                    return innerList[index];
+                    return _storeList[index];
                 }
             }
             set
             {
-                lock(syncRoot)
+                lock (_syncRoot)
                 {
-                    innerList[index] = value;
+                    _storeList[index] = value;
                 }
             }
         }
@@ -116,9 +109,9 @@
         /// <param name="item">数据项</param>
         public void Add(T item)
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                innerList.Add(item);
+                _storeList.Add(item);
             }
         }
 
@@ -130,11 +123,11 @@
         /// <param name="match">委托</param>
         public void Add(T t, Predicate<T> match)
         {
-            if(match != null)
+            if (match != null)
             {
                 T _finded = Find(match);
 
-                if(_finded != null)
+                if (_finded != null)
                 {
                     Remove(_finded);
                 }
@@ -150,17 +143,17 @@
         /// <param name="comparaer">IComparer</param>
         public void AddUniqueTF(IEnumerable<T> items, IComparer<T> comparaer)
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                innerList.Sort(comparaer);
+                _storeList.Sort(comparaer);
 
-                foreach(T item in items)
+                foreach (T item in items)
                 {
-                    int _result = innerList.BinarySearch(item, comparaer);
+                    int _result = _storeList.BinarySearch(item, comparaer);
 
-                    if(_result < 0)
+                    if (_result < 0)
                     {
-                        innerList.Add(item);
+                        _storeList.Add(item);
                     }
                 }
             }
@@ -172,7 +165,7 @@
         /// <returns>ReadOnlyCollection</returns>
         public ReadOnlyCollection<T> AsReadOnly()
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
                 return new ReadOnlyCollection<T>(this);
             }
@@ -183,9 +176,9 @@
         /// </summary>
         public void Clear()
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                innerList.Clear();
+                _storeList.Clear();
             }
         }
 
@@ -196,9 +189,9 @@
         /// <returns>是否包含</returns>
         public bool Contains(T item)
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                return innerList.Contains(item);
+                return _storeList.Contains(item);
             }
         }
 
@@ -209,9 +202,9 @@
         /// <param name="arrayIndex">开始位置</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                innerList.CopyTo(array, arrayIndex);
+                _storeList.CopyTo(array, arrayIndex);
             }
         }
 
@@ -222,13 +215,13 @@
         /// <returns>是否存在</returns>
         public bool Exists(Predicate<T> match)
         {
-            if(match != null)
+            if (match != null)
             {
-                lock(syncRoot)
+                lock (_syncRoot)
                 {
-                    foreach(var item in innerList)
+                    foreach (T item in _storeList)
                     {
-                        if(match(item))
+                        if (match(item))
                         {
                             return true;
                         }
@@ -246,11 +239,11 @@
         /// <returns>查找到项</returns>
         public T Find(Predicate<T> match)
         {
-            if(match != null)
+            if (match != null)
             {
-                lock(syncRoot)
+                lock (_syncRoot)
                 {
-                    return innerList.Find(match);
+                    return _storeList.Find(match);
                 }
             }
 
@@ -264,11 +257,11 @@
         /// <returns>查找到的集合</returns>
         public List<T> FindAll(Predicate<T> match)
         {
-            if(match != null)
+            if (match != null)
             {
-                lock(syncRoot)
+                lock (_syncRoot)
                 {
-                    return innerList.FindAll(match);
+                    return _storeList.FindAll(match);
                 }
             }
 
@@ -281,11 +274,11 @@
         /// <param name="action">委托</param>
         public void ForEach(Action<T> action)
         {
-            if(action != null)
+            if (action != null)
             {
-                lock(syncRoot)
+                lock (_syncRoot)
                 {
-                    foreach(var item in innerList)
+                    foreach (T item in _storeList)
                     {
                         action(item);
                     }
@@ -301,9 +294,9 @@
         /// </returns>
         public IEnumerator GetEnumerator()
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                return new ThreadSafeEnumerator<T>(innerList.GetEnumerator(), syncRoot);
+                return new ThreadSafeEnumerator<T>(_storeList.GetEnumerator(), _syncRoot);
             }
         }
 
@@ -315,9 +308,9 @@
         /// </returns>
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                return new ThreadSafeEnumerator<T>(innerList.GetEnumerator(), syncRoot);
+                return new ThreadSafeEnumerator<T>(_storeList.GetEnumerator(), _syncRoot);
             }
         }
 
@@ -328,9 +321,9 @@
         /// <returns>索引位置</returns>
         public int IndexOf(T item)
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                return innerList.IndexOf(item);
+                return _storeList.IndexOf(item);
             }
         }
 
@@ -341,9 +334,9 @@
         /// <param name="item">插入项</param>
         public void Insert(int index, T item)
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                innerList.Insert(index, item);
+                _storeList.Insert(index, item);
             }
         }
 
@@ -354,9 +347,9 @@
         /// <returns>是否移除成功</returns>
         public bool Remove(T item)
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                return innerList.Remove(item);
+                return _storeList.Remove(item);
             }
         }
 
@@ -366,11 +359,11 @@
         /// <param name="match">Predicate委托</param>
         public void RemoveAll(Predicate<T> match)
         {
-            if(match != null)
+            if (match != null)
             {
-                lock(syncRoot)
+                lock (_syncRoot)
                 {
-                    innerList.RemoveAll(match);
+                    _storeList.RemoveAll(match);
                 }
             }
         }
@@ -381,9 +374,9 @@
         /// <param name="index">index</param>
         public void RemoveAt(int index)
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                innerList.RemoveAt(index);
+                _storeList.RemoveAt(index);
             }
         }
 
@@ -392,9 +385,9 @@
         /// </summary>
         public void TrimExcess()
         {
-            lock(syncRoot)
+            lock (_syncRoot)
             {
-                innerList.TrimExcess();
+                _storeList.TrimExcess();
             }
         }
 

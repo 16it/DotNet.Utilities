@@ -12,6 +12,11 @@
     {
         #region Fields
 
+        /// <summary>
+        /// 返回当前类型
+        /// </summary>
+        public T Current => _storeEnumerator.Current;
+
         /*
          * 参考：
          * 1.http://www.codeproject.com/KB/cs/safe_enumerable.aspx
@@ -21,12 +26,20 @@
         /// <summary>
         /// 泛型IEnumerator对象
         /// </summary>
-        private readonly IEnumerator<T> innerEnumerator;
+        private readonly IEnumerator<T> _storeEnumerator;
 
         /// <summary>
         /// 锁对象
         /// </summary>
-        private readonly object syncObject;
+        private readonly object _syncObject;
+
+        /// <summary>
+        /// Gets the current.
+        /// </summary>
+        /// <value>
+        /// The current.
+        /// </value>
+        object IEnumerator.Current => Current;
 
         #endregion Fields
 
@@ -39,41 +52,12 @@
         /// <param name="syncObj">object</param>
         public ThreadSafeEnumerator(IEnumerator<T> inner, object syncObj)
         {
-            innerEnumerator = inner;
-            syncObject = syncObj;
-            Monitor.Enter(syncObject);
+            _storeEnumerator = inner;
+            _syncObject = syncObj;
+            Monitor.Enter(_syncObject);
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        /// <summary>
-        /// 返回当前类型
-        /// </summary>
-        public T Current
-        {
-            get
-            {
-                return innerEnumerator.Current;
-            }
-        }
-
-        /// <summary>
-        /// Gets the current.
-        /// </summary>
-        /// <value>
-        /// The current.
-        /// </value>
-        object IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
-        }
-
-        #endregion Properties
 
         #region Methods
 
@@ -82,7 +66,7 @@
         /// </summary>
         public void Dispose()
         {
-            Monitor.Exit(syncObject);
+            Monitor.Exit(_syncObject);
         }
 
         /// <summary>
@@ -93,7 +77,7 @@
         /// </returns>
         public bool MoveNext()
         {
-            return innerEnumerator.MoveNext();
+            return _storeEnumerator.MoveNext();
         }
 
         /// <summary>
@@ -101,7 +85,7 @@
         /// </summary>
         public void Reset()
         {
-            innerEnumerator.Reset();
+            _storeEnumerator.Reset();
         }
 
         #endregion Methods

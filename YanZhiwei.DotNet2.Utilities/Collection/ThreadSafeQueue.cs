@@ -14,16 +14,6 @@
     {
         #region Fields
 
-        /// <summary>
-        /// 泛型Queue对象
-        /// </summary>
-        private readonly Queue<T> queueTF;
-
-        /// <summary>
-        /// ReaderWriterLock 对象
-        /// </summary>
-        private readonly ReaderWriterLock rwlock = new ReaderWriterLock();
-
         /* 参考资料
          * 参考：
          * 1. http://www.codeproject.com/Articles/38908/Thread-Safe-Generic-Queue-Class
@@ -34,12 +24,22 @@
         /// <summary>
         /// 默认读锁超时1000毫秒
         /// </summary>
-        private static int readerTimeout = 1000;
+        private readonly int _readerTimeout = 1000;
+
+        /// <summary>
+        /// ReaderWriterLock 对象
+        /// </summary>
+        private readonly ReaderWriterLock _rwlock = new ReaderWriterLock();
+
+        /// <summary>
+        /// 泛型Queue对象
+        /// </summary>
+        private readonly Queue<T> _storeQueue;
 
         /// <summary>
         /// 默认写锁超时1000毫秒
         /// </summary>
-        private static int writerTimeout = 1000;
+        private readonly int _writerTimeout = 1000;
 
         #endregion Fields
 
@@ -50,7 +50,7 @@
         /// </summary>
         public ThreadSafeQueue()
         {
-            queueTF = new Queue<T>();
+            _storeQueue = new Queue<T>();
         }
 
         /// <summary>
@@ -59,7 +59,7 @@
         /// <param name="capacity">初始容量</param>
         public ThreadSafeQueue(int capacity)
         {
-            queueTF = new Queue<T>(capacity);
+            _storeQueue = new Queue<T>(capacity);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@
         /// <param name="collection">IEnumerable</param>
         public ThreadSafeQueue(IEnumerable<T> collection)
         {
-            queueTF = new Queue<T>(collection);
+            _storeQueue = new Queue<T>(collection);
         }
 
         #endregion Constructors
@@ -81,15 +81,15 @@
         /// <returns>queue 数量</returns>
         public int Count()
         {
-            rwlock.AcquireReaderLock(readerTimeout);
+            _rwlock.AcquireReaderLock(_readerTimeout);
 
             try
             {
-                return queueTF.Count;
+                return _storeQueue.Count;
             }
             finally
             {
-                rwlock.ReleaseReaderLock();
+                _rwlock.ReleaseReaderLock();
             }
         }
 
@@ -99,15 +99,15 @@
         /// <returns>泛型</returns>
         public T Dequeue()
         {
-            rwlock.AcquireReaderLock(readerTimeout);
+            _rwlock.AcquireReaderLock(_readerTimeout);
 
             try
             {
-                return queueTF.Dequeue();
+                return _storeQueue.Dequeue();
             }
             finally
             {
-                rwlock.ReleaseReaderLock();
+                _rwlock.ReleaseReaderLock();
             }
         }
 
@@ -117,22 +117,22 @@
         /// <returns>IList</returns>
         public IList<T> DequeueAll()
         {
-            rwlock.AcquireReaderLock(readerTimeout);
+            _rwlock.AcquireReaderLock(_readerTimeout);
 
             try
             {
                 IList<T> _list = new List<T>();
 
-                while(queueTF.Count > 0)
+                while (_storeQueue.Count > 0)
                 {
-                    _list.Add(queueTF.Dequeue());
+                    _list.Add(_storeQueue.Dequeue());
                 }
 
                 return _list;
             }
             finally
             {
-                rwlock.ReleaseReaderLock();
+                _rwlock.ReleaseReaderLock();
             }
         }
 
@@ -142,15 +142,15 @@
         /// <param name="item">泛型</param>
         public void Enqueue(T item)
         {
-            rwlock.UpgradeToWriterLock(writerTimeout);
+            _rwlock.UpgradeToWriterLock(_writerTimeout);
 
             try
             {
-                queueTF.Enqueue(item);
+                _storeQueue.Enqueue(item);
             }
             finally
             {
-                rwlock.ReleaseWriterLock();
+                _rwlock.ReleaseWriterLock();
             }
         }
 
@@ -160,18 +160,18 @@
         /// <param name="itemsToQueue">IEnumerable</param>
         public void EnqueueAll(IEnumerable<T> itemsToQueue)
         {
-            rwlock.UpgradeToWriterLock(writerTimeout);
+            _rwlock.UpgradeToWriterLock(_writerTimeout);
 
             try
             {
-                foreach(T item in itemsToQueue)
+                foreach (T item in itemsToQueue)
                 {
-                    queueTF.Enqueue(item);
+                    _storeQueue.Enqueue(item);
                 }
             }
             finally
             {
-                rwlock.ReleaseWriterLock();
+                _rwlock.ReleaseWriterLock();
             }
         }
 
@@ -181,18 +181,18 @@
         /// <param name="itemsToQueue">IList</param>
         public void EnqueueAll(IList<T> itemsToQueue)
         {
-            rwlock.UpgradeToWriterLock(writerTimeout);
+            _rwlock.UpgradeToWriterLock(_writerTimeout);
 
             try
             {
-                foreach(T item in itemsToQueue)
+                foreach (T item in itemsToQueue)
                 {
-                    queueTF.Enqueue(item);
+                    _storeQueue.Enqueue(item);
                 }
             }
             finally
             {
-                rwlock.ReleaseWriterLock();
+                _rwlock.ReleaseWriterLock();
             }
         }
 
@@ -203,18 +203,18 @@
         public IEnumerator<T> GetEnumerator()
         {
             Queue<T> _tmpQueue;
-            rwlock.AcquireReaderLock(readerTimeout);
+            _rwlock.AcquireReaderLock(_readerTimeout);
 
             try
             {
-                _tmpQueue = new Queue<T>(queueTF);
+                _tmpQueue = new Queue<T>(_storeQueue);
             }
             finally
             {
-                rwlock.ReleaseReaderLock();
+                _rwlock.ReleaseReaderLock();
             }
 
-            foreach(T item in _tmpQueue)
+            foreach (T item in _tmpQueue)
             {
                 yield return item;
             }

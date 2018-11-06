@@ -24,13 +24,7 @@
         /// <summary>
         /// 获取指定类型的字典的单例实例
         /// </summary>
-        public static new IDictionary<TKey, TValue> Instance
-        {
-            get
-            {
-                return SingletonType<IDictionary<TKey, TValue>>.Instance;
-            }
-        }
+        public new static IDictionary<TKey, TValue> Instance => SingletonType<IDictionary<TKey, TValue>>.Instance;
 
         #endregion Properties
     }

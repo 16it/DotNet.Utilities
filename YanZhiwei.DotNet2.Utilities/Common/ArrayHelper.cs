@@ -1,16 +1,15 @@
 ﻿namespace YanZhiwei.DotNet2.Utilities.Common
 {
-    using System;
-    
     using Operator;
-    
+    using System;
+
     /// <summary>
     /// Array 帮助类
     /// </summary>
     public static class ArrayHelper
     {
         #region Methods
-        
+
         /// <summary>
         /// 向数组中中添加新元素
         /// <para>eg: CollectionAssert.AreEqual(new int[6] { 1, 2, 3, 4, 5, 6 }, ArrayHelper.Add(new int[5] { 1, 2, 3, 4, 5 }, 6));</para>
@@ -22,12 +21,12 @@
         public static T[] Add<T>(T[] sourceArray, T item)
         {
             ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(item, "需要添加数组项");
-            int _count = sourceArray.Length;
-            Array.Resize<T>(ref sourceArray, _count + 1);
-            sourceArray[_count] = item;
+            int count = sourceArray.Length;
+            Array.Resize<T>(ref sourceArray, count + 1);
+            sourceArray[count] = item;
             return sourceArray;
         }
-        
+
         /// <summary>
         /// 向数组中添加新数组；
         /// <para>
@@ -42,13 +41,13 @@
         public static T[] AddRange<T>(T[] sourceArray, T[] addArray)
         {
             ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(addArray, "被添加的数组");
-            int _count = sourceArray.Length;
-            int _addCount = addArray.Length;
-            Array.Resize<T>(ref sourceArray, _count + _addCount);
-            addArray.CopyTo(sourceArray, _count);
+            int count = sourceArray.Length;
+            int addCount = addArray.Length;
+            Array.Resize<T>(ref sourceArray, count + addCount);
+            addArray.CopyTo(sourceArray, count);
             return sourceArray;
         }
-        
+
         /// <summary>
         /// 清空数组
         /// <para>
@@ -64,7 +63,7 @@
             ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组");
             Array.Clear(sourceArray, 0, sourceArray.Length);
         }
-        
+
         /// <summary>
         /// 判断数组的值是否相等
         /// <para> eg: Assert.IsTrue(ArrayHelper.CompletelyEqual(new int[5] { 1, 2, 3, 4, 5 }, new int[5] { 1, 2, 3, 4, 5 }));
@@ -77,28 +76,28 @@
         public static bool CompletelyEqual<T>(this T[] sourceArray, T[] compareArray)
         {
             ValidateOperator.Begin().NotNull(sourceArray, "需要操作的数组").NotNull(compareArray, "被比较的数组");
-            
-            if(sourceArray == null || compareArray == null)
+
+            if (sourceArray == null || compareArray == null)
             {
                 return false;
             }
-            
-            if(sourceArray.Length != compareArray.Length)
+
+            if (sourceArray.Length != compareArray.Length)
             {
                 return false;
             }
-            
-            for(int i = 0; i < sourceArray.Length; i++)
+
+            for (int i = 0; i < sourceArray.Length; i++)
             {
-                if(!sourceArray[i].Equals(compareArray[i]))
+                if (!sourceArray[i].Equals(compareArray[i]))
                 {
                     return false;
                 }
             }
-            
+
             return true;
         }
-        
+
         /// <summary>
         /// 字符串数值忽略大小写包含判断
         /// </summary>
@@ -107,20 +106,20 @@
         /// <returns>是否包含在内</returns>
         public static bool ContainIgnoreCase(this string[] sourceArray, string compareStringItem)
         {
-            bool _result = false;
-            
-            foreach(string item in sourceArray)
+            bool result = false;
+
+            foreach (string item in sourceArray)
             {
-                if(item.CompareIgnoreCase(compareStringItem))
+                if (item.CompareIgnoreCase(compareStringItem))
                 {
-                    _result = true;
+                    result = true;
                     break;
                 }
             }
-            
-            return _result;
+
+            return result;
         }
-        
+
         /// <summary>
         /// 复制数组
         /// <para>
@@ -139,12 +138,12 @@
             .CheckGreaterThan<int>(startIndex, "复制起始索引", 0, true)
             .CheckGreaterThan<int>(endIndex, "复制结束索引", startIndex, false)
             .CheckLessThan<int>(endIndex, "复制结束索引", sourceArray.Length, true);
-            int _len = endIndex - startIndex;
-            T[] _destination = new T[_len];
-            Array.Copy(sourceArray, startIndex, _destination, 0, _len);
-            return _destination;
+            int len = endIndex - startIndex;
+            T[] destination = new T[len];
+            Array.Copy(sourceArray, startIndex, destination, 0, len);
+            return destination;
         }
-        
+
         /// <summary>
         /// 判断数组是否是空还是NULL
         /// <para>eg:Assert.IsTrue(ArrayHelper.IsEmpty(new int[0]));</para>
@@ -153,14 +152,14 @@
         /// <returns>是否是空或者NULL</returns>
         public static bool IsEmpty(this Array data)
         {
-            if(data == null || data.Length == 0)
+            if (data == null || data.Length == 0)
             {
                 return true;
             }
-            
+
             return false;
         }
-        
+
         /// <summary>
         /// 扩大或者缩小数组
         /// </summary>
@@ -174,7 +173,7 @@
             Array.Resize<T>(ref array, newSizes);
             return array;
         }
-        
+
         #endregion Methods
     }
 }

@@ -113,36 +113,33 @@
         /// </exception>
         public string Filter
         {
-            get
-            {
-                return filterValue;
-            }
+            get => filterValue;
             set
             {
-                if(filterValue != value)
+                if (filterValue != value)
                 {
                     RaiseListChangedEvents = false;
 
-                    if(value == null)
+                    if (value == null)
                     {
-                        this.ClearItems();
+                        ClearItems();
 
-                        foreach(T t in unfilteredListValue)
+                        foreach (T t in unfilteredListValue)
                         {
-                            this.Items.Add(t);
+                            Items.Add(t);
                         }
 
                         filterValue = value;
                     }
-                    else if(Regex.Matches(value, "[?[\\w ]+]? ?[=] ?'?[\\w|/: ]+'?", RegexOptions.Singleline).Count == 1)
+                    else if (Regex.Matches(value, "[?[\\w ]+]? ?[=] ?'?[\\w|/: ]+'?", RegexOptions.Singleline).Count == 1)
                     {
                         unfilteredListValue.Clear();
-                        unfilteredListValue.AddRange(this.Items);
+                        unfilteredListValue.AddRange(Items);
                         filterValue = value;
                         GetFilterParts();
                         ApplyFilter();
                     }
-                    else if(Regex.Matches(value, "[?[\\w ]+]? ?[=] ?'?[\\w|/: ]+'?", RegexOptions.Singleline).Count > 1)
+                    else if (Regex.Matches(value, "[?[\\w ]+]? ?[=] ?'?[\\w|/: ]+'?", RegexOptions.Singleline).Count > 1)
                     {
                         throw new ArgumentException("Multi-column" + "filtering is not implemented.");
                     }
@@ -160,68 +157,32 @@
         /// <summary>
         /// FilterCompare
         /// </summary>
-        public object FilterCompare
-        {
-            get
-            {
-                return filterCompareValue;
-            }
-        }
+        public object FilterCompare => filterCompareValue;
 
         /// <summary>
         /// 属性筛选
         /// </summary>
-        public string FilterPropertyName
-        {
-            get
-            {
-                return filterPropertyNameValue;
-            }
-        }
+        public string FilterPropertyName => filterPropertyNameValue;
 
         /// <summary>
         /// 获取当前应用于数据源的排序说明的集合。
         /// </summary>
-        public ListSortDescriptionCollection SortDescriptions
-        {
-            get
-            {
-                return listSortDescription;
-            }
-        }
+        public ListSortDescriptionCollection SortDescriptions => listSortDescription;
 
         /// <summary>
         /// 获取一个值，指示数据源是否支持高级排序。
         /// </summary>
-        public bool SupportsAdvancedSorting
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool SupportsAdvancedSorting => true;
 
         /// <summary>
         /// 获取一个值，该值指示数据源是否支持筛选。
         /// </summary>
-        public bool SupportsFiltering
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool SupportsFiltering => true;
 
         /// <summary>
         /// 未筛选集合
         /// </summary>
-        public List<T> UnfilteredList
-        {
-            get
-            {
-                return unfilteredListValue;
-            }
-        }
+        public List<T> UnfilteredList => unfilteredListValue;
 
         /// <summary>
         /// Gets a value indicating whether this instance is sorted core.
@@ -229,13 +190,7 @@
         /// <value>
         /// <c>true</c> if this instance is sorted core; otherwise, <c>false</c>.
         /// </value>
-        protected override bool IsSortedCore
-        {
-            get
-            {
-                return true;
-            }
-        }
+        protected override bool IsSortedCore => true;
 
         #endregion Properties
 
@@ -248,15 +203,15 @@
         public void ApplySort(ListSortDescriptionCollection sorts)
         {
             //获取未排序集合
-            List<T> _items = this.Items as List<T>;
+            List<T> _items = Items as List<T>;
 
             //若集合不等于NULL，则应用排序
-            if(_items != null)
+            if (_items != null)
             {
                 listSortDescription = sorts;
                 propertyComparer = new List<PropertyComparer<T>>();
 
-                foreach(ListSortDescription sort in sorts)
+                foreach (ListSortDescription sort in sorts)
                 {
                     propertyComparer.Add(new PropertyComparer<T>(sort.PropertyDescriptor, sort.SortDirection));
                 }
@@ -264,7 +219,7 @@
                 _items.Sort(CompareValuesByProperties);
             }
 
-            this.OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
         /// <summary>
@@ -276,11 +231,11 @@
         {
             T _finded = default(T);
 
-            for(int i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 T t = Items[i];
 
-                if(match(t))
+                if (match(t))
                 {
                     _finded = t;
                     break;
@@ -302,11 +257,11 @@
             PropertyDescriptorCollection _properties = TypeDescriptor.GetProperties(typeof(T));
             PropertyDescriptor _prop = _properties.Find(property, true);
 
-            if(_prop == null)
+            if (_prop == null)
             {
                 return -1;
             }
-            else if(startIndex <= 0)
+            else if (startIndex <= 0)
             {
                 return FindCore(_prop, key);
             }
@@ -325,16 +280,16 @@
         {
             IList<T> _findedList = null;
 
-            if(Count > 0)
+            if (Count > 0)
             {
                 _findedList = new List<T>();
             }
 
-            for(int i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 T t = Items[i];
 
-                if(match(t))
+                if (match(t))
                 {
                     _findedList.Add(t);
                 }
@@ -352,11 +307,11 @@
         {
             int _result = 0;
 
-            for(int i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 T t = Items[i];
 
-                if(match(t))
+                if (match(t))
                 {
                     RemoveItem(i);
                     i--;
@@ -372,7 +327,7 @@
         /// </summary>
         public void RemoveFilter()
         {
-            if(Filter != null)
+            if (Filter != null)
             {
                 Filter = null;
             }
@@ -385,21 +340,20 @@
         /// <param name="sortDirection">The sort direction.</param>
         protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection sortDirection)
         {
-            List<T> _list = (List<T>)this.Items;
+            List<T> _list = (List<T>)Items;
             string _name = property.Name;
-            PropertyComparer<T> _comparer;
 
-            if(!this.comparerList.TryGetValue(_name, out _comparer))
+            if (!comparerList.TryGetValue(_name, out PropertyComparer<T> _comparer))
             {
                 _comparer = new PropertyComparer<T>(property, sortDirection);
-                this.comparerList.Add(_name, _comparer);
+                comparerList.Add(_name, _comparer);
             }
 
             _comparer.SetDirection(sortDirection);
             _list.Sort(_comparer);
-            this.propertyDesc = property;
+            propertyDesc = property;
             this.sortDirection = sortDirection;
-            this.OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
         /// <summary>
@@ -413,13 +367,13 @@
             PropertyInfo _propInfo = typeof(T).GetProperty(prop.Name);
             T _item;
 
-            if(key != null)
+            if (key != null)
             {
-                for(int i = 0; i < Count; ++i)
+                for (int i = 0; i < Count; ++i)
                 {
-                    _item = (T)Items[i];
+                    _item = Items[i];
 
-                    if(_propInfo.GetValue(_item, null).Equals(key))
+                    if (_propInfo.GetValue(_item, null).Equals(key))
                     {
                         return i;
                     }
@@ -442,13 +396,13 @@
             PropertyInfo propInfo = typeof(T).GetProperty(prop.Name);
             T item;
 
-            if(key != null)
+            if (key != null)
             {
-                for(int i = startIndex; i < Count; ++i)
+                for (int i = startIndex; i < Count; ++i)
                 {
-                    item = (T)Items[i];
+                    item = Items[i];
 
-                    if(propInfo.GetValue(item, null).Equals(key))
+                    if (propInfo.GetValue(item, null).Equals(key))
                     {
                         return i;
                     }
@@ -464,11 +418,11 @@
         private void ApplyFilter()
         {
             unfilteredListValue.Clear();
-            unfilteredListValue.AddRange(this.Items);
+            unfilteredListValue.AddRange(Items);
             List<T> results = new List<T>();
             PropertyDescriptor propDesc = TypeDescriptor.GetProperties(typeof(T))[FilterPropertyName];
 
-            if(propDesc != null)
+            if (propDesc != null)
             {
                 int tempResults = -1;
 
@@ -476,21 +430,21 @@
                 {
                     tempResults = FindCore(tempResults + 1, propDesc, FilterCompare);
 
-                    if(tempResults != -1)
+                    if (tempResults != -1)
                     {
                         results.Add(this[tempResults]);
                     }
                 }
-                while(tempResults != -1);
+                while (tempResults != -1);
             }
 
-            this.ClearItems();
+            ClearItems();
 
-            if(results != null && results.Count > 0)
+            if (results != null && results.Count > 0)
             {
-                foreach(T itemFound in results)
+                foreach (T itemFound in results)
                 {
-                    this.Add(itemFound);
+                    Add(itemFound);
                 }
             }
         }
@@ -503,23 +457,23 @@
         /// <returns>比较数值</returns>
         private int CompareValuesByProperties(T x, T y)
         {
-            if(x == null)
+            if (x == null)
             {
                 return (y == null) ? 0 : -1;
             }
             else
             {
-                if(y == null)
+                if (y == null)
                 {
                     return 1;
                 }
                 else
                 {
-                    foreach(PropertyComparer<T> comparer in propertyComparer)
+                    foreach (PropertyComparer<T> comparer in propertyComparer)
                     {
                         int retval = comparer.Compare(x, y);
 
-                        if(retval != 0)
+                        if (retval != 0)
                         {
                             return retval;
                         }
@@ -544,14 +498,14 @@
             filterPropertyNameValue = _filterParts[0].Replace("[", string.Empty).Replace("]", string.Empty).Trim();
             PropertyDescriptor propDesc = TypeDescriptor.GetProperties(typeof(T))[filterPropertyNameValue.ToString()];
 
-            if(propDesc != null)
+            if (propDesc != null)
             {
                 try
                 {
                     TypeConverter converter = TypeDescriptor.GetConverter(propDesc.PropertyType);
                     filterCompareValue = converter.ConvertFromString(_filterParts[1].Replace("'", string.Empty).Trim());
                 }
-                catch(NotSupportedException)
+                catch (NotSupportedException)
                 {
                     throw new ArgumentException("Specified filter value " + FilterCompare + " can not be converted from string." + "..Implement a type converter for " + propDesc.PropertyType.ToString());
                 }

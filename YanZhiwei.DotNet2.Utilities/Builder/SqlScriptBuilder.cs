@@ -19,8 +19,8 @@
         /// 备注：
         public static string JoinQueryTotalSql(string sql, string tableName)
         {
-            string _sqltotalCount = string.Format("select count(*) from {0}", tableName);
-            return string.Format("{0};{1}", sql, _sqltotalCount);
+            string sqltotalCount = string.Format("select count(*) from {0}", tableName);
+            return string.Format("{0};{1}", sql, sqltotalCount);
         }
 
         /// <summary>
@@ -34,7 +34,9 @@
         public static string JoinQueryWhereSql(string sql, string sqlWhere)
         {
             if (!string.IsNullOrEmpty(sqlWhere))
+            {
                 sql = string.Format("{0} and ( {1} )", sql, sqlWhere);
+            }
 
             return sql;
         }
@@ -49,7 +51,10 @@
         public static string JoinQueryWhereSql(string sqlWhere)
         {
             if (!string.IsNullOrEmpty(sqlWhere))
+            {
                 return string.Format("where ( {0} )", sqlWhere);
+            }
+
             return string.Empty;
         }
 

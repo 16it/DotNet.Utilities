@@ -4,7 +4,7 @@
     using Operator;
     using System.Collections;
     using System.Text;
-    
+
     /// <summary>
     /// Sql Server 脚本创建
     /// </summary>
@@ -13,25 +13,25 @@
     public class SqlServerScriptBuilder
     {
         #region Fields
-        
+
         /// <summary>
         /// 主键
         /// </summary>
         /// 时间：2016-01-07 10:14
         /// 备注：
         public readonly string PrimaryKey;
-        
+
         /// <summary>
         /// 表名
         /// </summary>
         /// 时间：2016-01-07 10:14
         /// 备注：
         public readonly string TableName;
-        
+
         #endregion Fields
-        
+
         #region Constructors
-        
+
         ///// <summary>
         ///// 查询时候需要显示的字段
         ///// </summary>
@@ -48,14 +48,14 @@
         public SqlServerScriptBuilder(string tableName, string primaryKey)
         {
             ValidateOperator.Begin().NotNullOrEmpty(tableName, "表名").NotNullOrEmpty(primaryKey, "主键");
-            this.TableName = tableName;
-            this.PrimaryKey = primaryKey;
+            TableName = tableName;
+            PrimaryKey = primaryKey;
         }
-        
+
         #endregion Constructors
-        
+
         #region Methods
-        
+
         /// <summary>
         /// 删除语句
         /// </summary>
@@ -64,10 +64,10 @@
         /// 备注：
         public string Delete()
         {
-            string _sql = string.Format("DELETE FROM {0} WHERE {1}=@{1}", TableName, PrimaryKey.ToLower());
-            return _sql.Trim();
+            string sql = string.Format("DELETE FROM {0} WHERE {1}=@{1}", TableName, PrimaryKey.ToLower());
+            return sql.Trim();
         }
-        
+
         /// <summary>
         /// 删除语句
         /// </summary>
@@ -77,10 +77,10 @@
         /// 备注：
         public string Delete(Hashtable sqlWhere)
         {
-            string _sql = string.Format("DELETE FROM {0} WHERE {1}", TableName, CreateWhereSql(sqlWhere));
-            return _sql.Trim();
+            string sql = string.Format("DELETE FROM {0} WHERE {1}", TableName, CreateWhereSql(sqlWhere));
+            return sql.Trim();
         }
-        
+
         /// <summary>
         /// 插入语句
         /// </summary>
@@ -90,10 +90,10 @@
         /// 备注：
         public string Insert(Hashtable insertFields)
         {
-            string _sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", TableName, CreateInsertNameSql(insertFields), CreateInsertValueSql(insertFields));
-            return _sql.Trim();
+            string sql = string.Format("INSERT INTO {0} ({1}) VALUES ({2})", TableName, CreateInsertNameSql(insertFields), CreateInsertValueSql(insertFields));
+            return sql.Trim();
         }
-        
+
         /// <summary>
         /// 查询
         /// </summary>
@@ -103,10 +103,10 @@
         /// 备注：
         public string Select(string columns)
         {
-            string _sql = string.Format("select {0} from {1}", columns, TableName);
-            return _sql.Trim();
+            string sql = string.Format("select {0} from {1}", columns, TableName);
+            return sql.Trim();
         }
-        
+
         /// <summary>
         /// 查询所有列
         /// </summary>
@@ -115,10 +115,10 @@
         /// 备注：
         public string SelectAllColumns()
         {
-            string _sql = string.Format("select * from {0}", TableName);
-            return _sql.Trim();
+            string sql = string.Format("select * from {0}", TableName);
+            return sql.Trim();
         }
-        
+
         /// <summary>
         /// 查询所有列
         /// </summary>
@@ -128,10 +128,10 @@
         /// 备注：
         public string SelectAllColumns(Hashtable sqlWhere)
         {
-            string _sql = SelectAllColumns();
-            return string.Format("{0} where ({1})", _sql, CreateWhereSql(sqlWhere)).Trim();
+            string sql = SelectAllColumns();
+            return string.Format("{0} where ({1})", sql, CreateWhereSql(sqlWhere)).Trim();
         }
-        
+
         /// <summary>
         /// 带条件查询
         /// </summary>
@@ -142,10 +142,10 @@
         /// 备注：
         public string SelectWhere(string columns, Hashtable sqlWhere)
         {
-            string _sql = string.Format("select {0} from {1} where ({2})", columns, TableName, CreateWhereSql(sqlWhere));
-            return _sql.Trim();
+            string sql = string.Format("select {0} from {1} where ({2})", columns, TableName, CreateWhereSql(sqlWhere));
+            return sql.Trim();
         }
-        
+
         /// <summary>
         /// 更新语句
         /// </summary>
@@ -156,66 +156,66 @@
         /// 备注：
         public string Update(Hashtable updateFields, Hashtable sqlWhere)
         {
-            string _sql = string.Format("UPDATE {0} SET {1} WHERE {2}", TableName, CreateUpdateSql(updateFields), CreateWhereSql(sqlWhere));
-            return _sql.Trim();
+            string sql = string.Format("UPDATE {0} SET {1} WHERE {2}", TableName, CreateUpdateSql(updateFields), CreateWhereSql(sqlWhere));
+            return sql.Trim();
         }
-        
+
         private static StringBuilder CreateInsertNameSql(Hashtable sqlWhere)
         {
-            StringBuilder _builder = new StringBuilder();
-            
-            foreach(DictionaryEntry de in sqlWhere)
+            StringBuilder builder = new StringBuilder();
+
+            foreach (DictionaryEntry de in sqlWhere)
             {
-                string _key = de.Key.ToString().ToLower();
-                _builder.AppendFormat("{0},", _key);
+                string key = de.Key.ToString().ToLower();
+                builder.AppendFormat("{0},", key);
             }
-            
-            _builder = _builder.RemoveLast(",");
-            return _builder;
+
+            builder = builder.RemoveLast(",");
+            return builder;
         }
-        
+
         private static StringBuilder CreateInsertValueSql(Hashtable sqlWhere)
         {
-            StringBuilder _builder = new StringBuilder();
-            
-            foreach(DictionaryEntry de in sqlWhere)
+            StringBuilder builder = new StringBuilder();
+
+            foreach (DictionaryEntry de in sqlWhere)
             {
-                string _key = de.Key.ToString().ToLower();
-                _builder.AppendFormat("@{0},", _key);
+                string key = de.Key.ToString().ToLower();
+                builder.AppendFormat("@{0},", key);
             }
-            
-            _builder = _builder.RemoveLast(",");
-            return _builder;
+
+            builder = builder.RemoveLast(",");
+            return builder;
         }
-        
+
         private static StringBuilder CreateUpdateSql(Hashtable sqlWhere)
         {
-            StringBuilder _builder = new StringBuilder();
-            
-            foreach(DictionaryEntry de in sqlWhere)
+            StringBuilder builder = new StringBuilder();
+
+            foreach (DictionaryEntry de in sqlWhere)
             {
-                string _key = de.Key.ToString().ToLower();
-                _builder.AppendFormat("{0}=@{1}, ", _key, _key);
+                string key = de.Key.ToString().ToLower();
+                builder.AppendFormat("{0}=@{1}, ", key, key);
             }
-            
-            _builder = _builder.RemoveLast(",");
-            return _builder;
+
+            builder = builder.RemoveLast(",");
+            return builder;
         }
-        
+
         private static StringBuilder CreateWhereSql(Hashtable sqlWhere)
         {
-            StringBuilder _builder = new StringBuilder();
-            
-            foreach(DictionaryEntry de in sqlWhere)
+            StringBuilder builder = new StringBuilder();
+
+            foreach (DictionaryEntry de in sqlWhere)
             {
-                string _key = de.Key.ToString().ToLower();
-                _builder.AppendFormat("{0}=@{1} and ", _key, _key);
+                string key = de.Key.ToString().ToLower();
+                builder.AppendFormat("{0}=@{1} and ", key, key);
             }
-            
-            _builder = _builder.RemoveLast("and");
-            return _builder;
+
+            builder = builder.RemoveLast("and");
+            return builder;
         }
-        
+
         #endregion Methods
     }
 }

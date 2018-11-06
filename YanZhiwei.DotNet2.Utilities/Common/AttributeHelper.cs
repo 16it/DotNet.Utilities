@@ -23,14 +23,14 @@
         where TModel : class
             where TAttribute : Attribute
         {
-            Type _type = typeof(TModel);
+            Type type = typeof(TModel);
 
-            object[] _customAttribute = _type.GetCustomAttributes(typeof(TAttribute), true);
+            object[] cAttribute = type.GetCustomAttributes(typeof(TAttribute), true);
 
-            if(_customAttribute != null && _customAttribute.Length > 0)
+            if (cAttribute != null && cAttribute.Length > 0)
             {
-                TAttribute _tAttribute = _customAttribute[0] as TAttribute;
-                return _tAttribute;
+                TAttribute tAttribute = cAttribute[0] as TAttribute;
+                return tAttribute;
             }
 
             return null;

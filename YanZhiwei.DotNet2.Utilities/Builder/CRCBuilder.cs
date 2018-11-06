@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace YanZhiwei.DotNet2.Utilities.Builder
+﻿namespace YanZhiwei.DotNet2.Utilities.Builder
 {
+    using System;
+
     /// <summary>
     /// CRC 辅助类
     /// </summary>
@@ -9,6 +9,8 @@ namespace YanZhiwei.DotNet2.Utilities.Builder
     /// 备注：
     public static class CRCBuilder
     {
+        #region Methods
+
         /// <summary>
         /// CRC-16 MODBUS实现
         /// 冗余循环校验码含2个字节
@@ -19,24 +21,26 @@ namespace YanZhiwei.DotNet2.Utilities.Builder
         /// 备注：
         public static ushort Calu16MODBUS(byte[] data)
         {
-            ushort _ax = 0xFFFF;
-            ushort _lsb = 0;
+            ushort ax = 0xFFFF;
+            ushort lsb = 0;
 
             for (int i = 0; i < data.Length; i++)
             {
-                _ax ^= data[i];
+                ax ^= data[i];
 
                 for (int j = 0; j < 8; j++)
                 {
-                    _lsb = Convert.ToUInt16(_ax & 0x0001);
-                    _ax = Convert.ToUInt16(_ax >> 1);
+                    lsb = Convert.ToUInt16(ax & 0x0001);
+                    ax = Convert.ToUInt16(ax >> 1);
 
-                    if (_lsb != 0)
-                        _ax ^= 0xA001;
+                    if (lsb != 0)
+                    {
+                        ax ^= 0xA001;
+                    }
                 }
             }
 
-            return _ax;
+            return ax;
         }
 
         /// <summary>
@@ -44,21 +48,23 @@ namespace YanZhiwei.DotNet2.Utilities.Builder
         /// </summary>
         /// <param name="data">需要计算得数组</param>
         /// <returns>CRC数值</returns>
-        public static byte CaluSum(Byte[] data)
+        public static byte CaluSum(byte[] data)
         {
-            byte _cal = 0x00;
-            uint _totol = 0;
-            foreach (Byte item in data)
+            byte cal = 0x00;
+            uint totol = 0;
+            foreach (byte item in data)
             {
-                _totol += item;
+                totol += item;
             }
 
             unchecked
             {
-                _cal = (byte)_totol;
+                cal = (byte)totol;
             }
 
-            return _cal;
+            return cal;
         }
+
+        #endregion Methods
     }
 }

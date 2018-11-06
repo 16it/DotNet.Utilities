@@ -20,7 +20,7 @@
         /// Initializes a new instance of the <see cref="SerializableDictionary{TKey, TValue}"/> class.
         /// </summary>
         public SerializableDictionary()
-        : base()
+            : base()
         {
         }
 
@@ -29,7 +29,7 @@
         /// </summary>
         /// <param name="dictionary">The dictionary.</param>
         public SerializableDictionary(IDictionary<TKey, TValue> dictionary)
-        : base(dictionary)
+            : base(dictionary)
         {
         }
 
@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="comparer">The comparer.</param>
         public SerializableDictionary(IEqualityComparer<TKey> comparer)
-        : base(comparer)
+            : base(comparer)
         {
         }
 
@@ -47,7 +47,7 @@
         /// </summary>
         /// <param name="capacity">The capacity.</param>
         public SerializableDictionary(int capacity)
-        : base(capacity)
+            : base(capacity)
         {
         }
 
@@ -57,7 +57,7 @@
         /// <param name="capacity">The capacity.</param>
         /// <param name="comparer">The comparer.</param>
         public SerializableDictionary(int capacity, IEqualityComparer<TKey> comparer)
-        : base(capacity, comparer)
+            : base(capacity, comparer)
         {
         }
 
@@ -67,7 +67,7 @@
         /// <param name="info">The information.</param>
         /// <param name="context">The context.</param>
         protected SerializableDictionary(SerializationInfo info, StreamingContext context)
-        : base(info, context)
+            : base(info, context)
         {
         }
 
@@ -97,12 +97,12 @@
             bool _wasEmpty = reader.IsEmptyElement;
             reader.Read();
 
-            if(_wasEmpty)
+            if (_wasEmpty)
             {
                 return;
             }
 
-            while(reader.NodeType != XmlNodeType.EndElement)
+            while (reader.NodeType != XmlNodeType.EndElement)
             {
                 reader.ReadStartElement("item");
                 reader.ReadStartElement("key");
@@ -111,7 +111,7 @@
                 reader.ReadStartElement("value");
                 TValue _value = (TValue)_valueSerializer.Deserialize(reader);
                 reader.ReadEndElement();
-                this.Add(_key, _value);
+                Add(_key, _value);
                 reader.ReadEndElement();
                 reader.MoveToContent();
             }
@@ -128,7 +128,7 @@
             XmlSerializer _keySerializer = new XmlSerializer(typeof(TKey));
             XmlSerializer _valueSerializer = new XmlSerializer(typeof(TValue));
 
-            foreach(TKey key in this.Keys)
+            foreach (TKey key in Keys)
             {
                 writer.WriteStartElement("item");
                 writer.WriteStartElement("key");

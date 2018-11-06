@@ -10,6 +10,31 @@
     /// <typeparam name="T">泛型</typeparam>
     public class PagedList<T> : List<T>, IPagedList
     {
+        #region Fields
+
+        /// <summary>
+        /// 记录结束索引
+        /// </summary>
+        /// 时间：2016-01-05 11:06
+        /// 备注：
+        public int EndRecordIndex => TotalItemCount > CurrentPageIndex * PageSize ? CurrentPageIndex * PageSize : TotalItemCount;
+
+        /// <summary>
+        /// 数据开始索引
+        /// </summary>
+        /// 时间：2016-01-05 11:05
+        /// 备注：
+        public int StartRecordIndex => (CurrentPageIndex - 1) * PageSize + 1;
+
+        /// <summary>
+        /// 页总数
+        /// </summary>
+        /// 时间：2016-01-05 11:05
+        /// 备注：
+        public int TotalPageCount => (int)Math.Ceiling(TotalItemCount / (double)PageSize);
+
+        #endregion Fields
+
         #region Constructors
 
         /// <summary>
@@ -26,7 +51,7 @@
             TotalItemCount = items.Count;
             CurrentPageIndex = pageIndex;
 
-            for(int i = StartRecordIndex - 1; i < EndRecordIndex; i++)
+            for (int i = StartRecordIndex - 1; i < EndRecordIndex; i++)
             {
                 Add(items[i]);
             }
@@ -65,19 +90,6 @@
         }
 
         /// <summary>
-        /// 记录结束索引
-        /// </summary>
-        /// 时间：2016-01-05 11:06
-        /// 备注：
-        public int EndRecordIndex
-        {
-            get
-            {
-                return TotalItemCount > CurrentPageIndex * PageSize ? CurrentPageIndex * PageSize : TotalItemCount;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the extra count.
         /// </summary>
         /// 时间：2016-01-05 11:06
@@ -100,19 +112,6 @@
         }
 
         /// <summary>
-        /// 数据开始索引
-        /// </summary>
-        /// 时间：2016-01-05 11:05
-        /// 备注：
-        public int StartRecordIndex
-        {
-            get
-            {
-                return (CurrentPageIndex - 1) * PageSize + 1;
-            }
-        }
-
-        /// <summary>
         /// 记录总数
         /// </summary>
         /// 时间：2016-01-05 11:05
@@ -121,19 +120,6 @@
         {
             get;
             set;
-        }
-
-        /// <summary>
-        /// 页总数
-        /// </summary>
-        /// 时间：2016-01-05 11:05
-        /// 备注：
-        public int TotalPageCount
-        {
-            get
-            {
-                return (int)Math.Ceiling(TotalItemCount / (double)PageSize);
-            }
         }
 
         #endregion Properties

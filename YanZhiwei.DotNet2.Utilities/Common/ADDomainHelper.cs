@@ -39,9 +39,9 @@
         /// <param name="userPassword">用户密码</param>
         public ADDomainHelper(string domain, string userName, string userPassword)
         {
-            this.UserName = userName;
-            this.UserPassword = userPassword;
-            this.ADDomian = domain;
+            UserName = userName;
+            UserPassword = userPassword;
+            ADDomian = domain;
         }
 
         #endregion Constructors
@@ -54,35 +54,34 @@
         /// <returns>集合</returns>
         public List<string> GetGroups()
         {
-            List<string> _groups = new List<string>();
+            List<string> groups = new List<string>();
 
             try
             {
-                DirectoryEntry _directoryEntity = new DirectoryEntry(string.Format("LDAP://{0}", this.ADDomian), this.UserName, this.UserPassword);
-                _directoryEntity.RefreshCache();
-                DirectorySearcher _searcher = new DirectorySearcher(_directoryEntity);
-                _searcher.PropertiesToLoad.Add("memberof");
-                _searcher.Filter = string.Format("sAMAccountName={0}", this.UserName);
-                SearchResult _seachResult = _searcher.FindOne();
+                DirectoryEntry dEntity = new DirectoryEntry(string.Format("LDAP://{0}", ADDomian), UserName, UserPassword);
+                dEntity.RefreshCache();
+                DirectorySearcher dSearcher = new DirectorySearcher(dEntity);
+                dSearcher.PropertiesToLoad.Add("memberof");
+                dSearcher.Filter = string.Format("sAMAccountName={0}", UserName);
+                SearchResult seachResult = dSearcher.FindOne();
 
-                if(_seachResult != null)
+                if (seachResult != null)
                 {
-                    ResultPropertyValueCollection _valueCollect = _seachResult.Properties["memberof"];
+                    ResultPropertyValueCollection valueCollect = seachResult.Properties["memberof"];
 
-                    foreach(object group in _valueCollect)
+                    foreach (object group in valueCollect)
                     {
-                        string _group = group.ToString();
-                        Match _match = Regex.Match(_group, @"CN=\s*(?<g>\w*)\s*.");
-                        _groups.Add(_match.Groups["g"].Value);
+                        Match match = Regex.Match(group.ToString().Trim(), @"CN=\s*(?<g>\w*)\s*.");
+                        groups.Add(match.Groups["g"].Value);
                     }
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
-                _groups = null;
+                groups = null;
             }
 
-            return _groups;
+            return groups;
         }
 
         /// <summary>
@@ -91,20 +90,20 @@
         /// <returns>登陆是否成功</returns>
         public bool Login()
         {
-            bool _result = false;
+            bool result = false;
 
             try
             {
-                DirectoryEntry _directoryEntity = new DirectoryEntry(string.Format("LDAP://{0}", this.ADDomian), this.UserName, this.UserPassword);
-                _directoryEntity.RefreshCache();
-                _result = true;
+                DirectoryEntry dEntity = new DirectoryEntry(string.Format("LDAP://{0}", ADDomian), UserName, UserPassword);
+                dEntity.RefreshCache();
+                result = true;
             }
             catch
             {
-                _result = false;
+                result = false;
             }
 
-            return _result;
+            return result;
         }
 
         #endregion Methods

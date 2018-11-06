@@ -44,23 +44,23 @@
         /// <summary>
         /// 默认读锁超时1000毫秒
         /// </summary>
-        private static int readerTimeout = 1000;
+        private readonly int _readerTimeout = 1000;
 
         /// <summary>
         /// 默认写锁超时1000毫秒
         /// </summary>
-        private static int writerTimeout = 1000;
+        private readonly int _writerTimeout = 1000;
 
         /// <summary>
         /// Dictionary 对象
         /// </summary>
-        private Dictionary<string, T> dic = new Dictionary<string, T>();
+        private Dictionary<string, T> _storeDic = new Dictionary<string, T>();
 
         /// <summary>
         /// ReaderWriterLock对象
         /// .NET 3.5+ 推荐用ReaderWriterLockSlim
         /// </summary>
-        private ReaderWriterLock rwlock = new ReaderWriterLock();
+        private ReaderWriterLock _rwlock = new ReaderWriterLock();
 
         #endregion Fields
 
@@ -71,8 +71,8 @@
         /// </summary>
         public ThreadSafeDictionary()
         {
-            readerTimeout = 1000;
-            writerTimeout = 1000;
+            _readerTimeout = 1000;
+            _writerTimeout = 1000;
         }
 
         /// <summary>
@@ -82,8 +82,8 @@
         /// <param name="writerTimeout">写锁超时设置【单位毫秒】</param>
         public ThreadSafeDictionary(int readerTimeout, int writerTimeout)
         {
-            ThreadSafeDictionary<T>.readerTimeout = readerTimeout;
-            ThreadSafeDictionary<T>.writerTimeout = writerTimeout;
+            _readerTimeout = readerTimeout;
+            _writerTimeout = writerTimeout;
         }
 
         #endregion Constructors
@@ -99,28 +99,28 @@
         {
             get
             {
-                rwlock.AcquireReaderLock(readerTimeout);
+                _rwlock.AcquireReaderLock(_readerTimeout);
 
                 try
                 {
-                    return dic[key];
+                    return _storeDic[key];
                 }
                 finally
                 {
-                    rwlock.ReleaseReaderLock();
+                    _rwlock.ReleaseReaderLock();
                 }
             }
             set
             {
-                rwlock.AcquireWriterLock(writerTimeout);
+                _rwlock.AcquireWriterLock(_writerTimeout);
 
                 try
                 {
-                    dic[key] = value;
+                    _storeDic[key] = value;
                 }
                 finally
                 {
-                    rwlock.ReleaseWriterLock();
+                    _rwlock.ReleaseWriterLock();
                 }
             }
         }
@@ -136,7 +136,7 @@
         /// <param name="val">值</param>
         public void Add(string key, T val)
         {
-            Add(key, val, writerTimeout);
+            Add(key, val, _writerTimeout);
         }
 
         /// <summary>
@@ -147,15 +147,15 @@
         /// <param name="timeout">超时设置【毫秒】</param>
         public void Add(string key, T val, int timeout)
         {
-            rwlock.AcquireWriterLock(timeout);
+            _rwlock.AcquireWriterLock(timeout);
 
             try
             {
-                dic[key] = val;
+                _storeDic[key] = val;
             }
             finally
             {
-                rwlock.ReleaseWriterLock();
+                _rwlock.ReleaseWriterLock();
             }
         }
 
@@ -164,7 +164,7 @@
         /// </summary>
         public void Clear()
         {
-            Clear(writerTimeout);
+            Clear(_writerTimeout);
         }
 
         /// <summary>
@@ -173,15 +173,15 @@
         /// <param name="timeout">超时设置【毫秒】</param>
         public void Clear(int timeout)
         {
-            rwlock.AcquireWriterLock(timeout);
+            _rwlock.AcquireWriterLock(timeout);
 
             try
             {
-                dic.Clear();
+                _storeDic.Clear();
             }
             finally
             {
-                rwlock.ReleaseWriterLock();
+                _rwlock.ReleaseWriterLock();
             }
         }
 
@@ -192,7 +192,7 @@
         /// <returns>是否包含</returns>
         public bool ContainsKey(string key)
         {
-            return ContainsKey(key, readerTimeout);
+            return ContainsKey(key, _readerTimeout);
         }
 
         /// <summary>
@@ -203,15 +203,15 @@
         /// <returns>是否包含</returns>
         public bool ContainsKey(string key, int timeout)
         {
-            rwlock.AcquireReaderLock(timeout);
+            _rwlock.AcquireReaderLock(timeout);
 
             try
             {
-                return dic.ContainsKey(key);
+                return _storeDic.ContainsKey(key);
             }
             finally
             {
-                rwlock.ReleaseReaderLock();
+                _rwlock.ReleaseReaderLock();
             }
         }
 
@@ -221,7 +221,7 @@
         /// <returns>数量</returns>
         public int Count()
         {
-            return Count(readerTimeout);
+            return Count(_readerTimeout);
         }
 
         /// <summary>
@@ -231,15 +231,15 @@
         /// <returns>Count</returns>
         public int Count(int timeout)
         {
-            rwlock.AcquireReaderLock(timeout);
+            _rwlock.AcquireReaderLock(timeout);
 
             try
             {
-                return dic.Count;
+                return _storeDic.Count;
             }
             finally
             {
-                rwlock.ReleaseReaderLock();
+                _rwlock.ReleaseReaderLock();
             }
         }
 
@@ -250,7 +250,7 @@
         /// <returns>值</returns>
         public T Get(string key)
         {
-            return Get(key, readerTimeout);
+            return Get(key, _readerTimeout);
         }
 
         /// <summary>
@@ -261,17 +261,16 @@
         /// <returns>值</returns>
         public T Get(string key, int timeout)
         {
-            rwlock.AcquireReaderLock(timeout);
+            _rwlock.AcquireReaderLock(timeout);
 
             try
             {
-                T val;
-                dic.TryGetValue(key, out val);
+                _storeDic.TryGetValue(key, out T val);
                 return val;
             }
             finally
             {
-                rwlock.ReleaseReaderLock();
+                _rwlock.ReleaseReaderLock();
             }
         }
 
@@ -281,7 +280,7 @@
         /// <param name="key">键</param>
         public void Remove(string key)
         {
-            Remove(key, writerTimeout);
+            Remove(key, _writerTimeout);
         }
 
         /// <summary>
@@ -291,15 +290,15 @@
         /// <param name="timeout">超时设置【毫秒】</param>
         public void Remove(string key, int timeout)
         {
-            rwlock.AcquireWriterLock(timeout);
+            _rwlock.AcquireWriterLock(timeout);
 
             try
             {
-                dic.Remove(key);
+                _storeDic.Remove(key);
             }
             finally
             {
-                rwlock.ReleaseWriterLock();
+                _rwlock.ReleaseWriterLock();
             }
         }
 
