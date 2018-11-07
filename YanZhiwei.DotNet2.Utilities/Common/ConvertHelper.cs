@@ -22,13 +22,13 @@
         /// <returns>转换返回</returns>
         public static bool ToBooleanOrDefault(this object data, bool defalut)
         {
-            bool _result = false;
+            bool result = false;
 
             if (data != null)
             {
-                if (bool.TryParse(data.ToString(), out _result))
+                if (bool.TryParse(data.ToString(), out result))
                 {
-                    return _result;
+                    return result;
                 }
             }
 
@@ -45,11 +45,9 @@
         {
             if (data != null)
             {
-                byte _result = 0;
-
-                if (byte.TryParse(data.ToString(), out _result))
+                if (byte.TryParse(data.ToString(), out byte result))
                 {
-                    return _result;
+                    return result;
                 }
             }
 
@@ -63,24 +61,24 @@
         /// <returns>农历年</returns>
         public static string ToChineseDate(this DateTime date)
         {
-            var _cnDate = new ChineseLunisolarCalendar();
-            string[] _months = { string.Empty, "正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月" };
-            string[] _days = { string.Empty, "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十" };
-            string[] _years = { string.Empty, "甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉", "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛己", "壬午", "癸未", "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳", "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸丑", "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑", "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥" };
-            int _year = _cnDate.GetYear(date);
-            string year_cn = _years[_cnDate.GetSexagenaryYear(date)];
-            int _month = _cnDate.GetMonth(date),
-                _day = _cnDate.GetDayOfMonth(date),
-                _leapMonth = _cnDate.GetLeapMonth(_year);
-            string _month_cn = _months[_month];
+            ChineseLunisolarCalendar cnDate = new ChineseLunisolarCalendar();
+            string[] months = { string.Empty, "正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月" };
+            string[] days = { string.Empty, "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十" };
+            string[] years = { string.Empty, "甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉", "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛己", "壬午", "癸未", "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳", "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸丑", "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑", "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥" };
+            int year = cnDate.GetYear(date);
+            string year_cn = years[cnDate.GetSexagenaryYear(date)];
+            int month = cnDate.GetMonth(date),
+                day = cnDate.GetDayOfMonth(date),
+                leapMonth = cnDate.GetLeapMonth(year);
+            string month_cn = months[month];
 
-            if (_leapMonth > 0)
+            if (leapMonth > 0)
             {
-                _month_cn = _month == _leapMonth ? string.Format("闰{0}", _months[_month - 1]) : _month_cn;
-                _month_cn = _month > _leapMonth ? _months[_month - 1] : _month_cn;
+                month_cn = month == leapMonth ? string.Format("闰{0}", months[month - 1]) : month_cn;
+                month_cn = month > leapMonth ? months[month - 1] : month_cn;
             }
 
-            return string.Format("{0}年{1}{2}", year_cn, _month_cn, _days[_day]);
+            return string.Format("{0}年{1}{2}", year_cn, month_cn, days[day]);
         }
 
         /// <summary>
@@ -130,8 +128,7 @@
         {
             if (data != null)
             {
-                DateTime _result;
-                return DateTime.TryParse(data.ToString(), out _result) ? _result : defalut;
+                return DateTime.TryParse(data.ToString(), out DateTime _result) ? _result : defalut;
             }
 
             return defalut;
@@ -147,8 +144,7 @@
         {
             if (data != null)
             {
-                decimal _parsedecimalValue = 0;
-                bool _parseResult = decimal.TryParse(data.ToString(), out _parsedecimalValue);
+                bool _parseResult = decimal.TryParse(data.ToString(), out decimal _parsedecimalValue);
                 return _parseResult == true ? _parsedecimalValue : defalut;
             }
 
@@ -165,8 +161,7 @@
         {
             if (data != null)
             {
-                double _parseIntValue = 0;
-                bool _parseResult = double.TryParse(data.ToString(), out _parseIntValue);
+                bool _parseResult = double.TryParse(data.ToString(), out double _parseIntValue);
                 return _parseResult == true ? _parseIntValue : defalut;
             }
 
@@ -212,8 +207,7 @@
         {
             if (data != null)
             {
-                int _parseIntValue = 0;
-                bool _parseResult = int.TryParse(data.ToString(), out _parseIntValue);
+                bool _parseResult = int.TryParse(data.ToString(), out int _parseIntValue);
                 return _parseResult == true ? _parseIntValue : defalut;
             }
 
@@ -230,8 +224,7 @@
         {
             if (data != null)
             {
-                long _parseIntValue = 0;
-                bool _parseResult = long.TryParse(data.ToString(), out _parseIntValue);
+                bool _parseResult = long.TryParse(data.ToString(), out long _parseIntValue);
                 return _parseResult == true ? _parseIntValue : defalut;
             }
 
@@ -248,8 +241,7 @@
         {
             if (data != null)
             {
-                int _parseIntValue = 0;
-                bool _parseResult = int.TryParse(data.ToString(), out _parseIntValue);
+                bool _parseResult = int.TryParse(data.ToString(), out int _parseIntValue);
                 return _parseResult == true ? _parseIntValue : defalut;
             }
 
@@ -306,8 +298,7 @@
         {
             if (data != null)
             {
-                short _parseIntValue = 0;
-                bool _parseResult = short.TryParse(data.ToString(), out _parseIntValue);
+                bool _parseResult = short.TryParse(data.ToString(), out short _parseIntValue);
                 return _parseResult == true ? _parseIntValue : defalut;
             }
 
@@ -418,8 +409,7 @@
         {
             if (data != null)
             {
-                ushort _parseUShortValue = 0;
-                bool _parseResult = ushort.TryParse(data.ToString(), out _parseUShortValue);
+                bool _parseResult = ushort.TryParse(data.ToString(), out ushort _parseUShortValue);
                 return _parseResult == true ? _parseUShortValue : defalut;
             }
 
